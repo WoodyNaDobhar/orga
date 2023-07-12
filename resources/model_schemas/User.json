@@ -1,0 +1,650 @@
+[
+    {
+        "name": "id",
+        "dbType": "bigInteger,true,true",
+        "htmlType": "number",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "park_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "pronoun_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "name",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "persona",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "heraldry",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "image",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "email",
+        "dbType": "string",
+        "htmlType": "email",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "email_verified_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "password",
+        "dbType": "string",
+        "htmlType": "password",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "remember_token",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:100",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "restricted",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "waivered",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "waiver_ext",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|max:8|string|max:8|string|max:8",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "penalty_box",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "is_active",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "reeve_qualified_expires",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "corpora_qualified_expires",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "joined_park_at",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "created_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "updated_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "deleted_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Account,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Account,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Account,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Archetype,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Archetype,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Archetype,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Attendance,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Attendance,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Attendance,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Attendance,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Award,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Award,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Award,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Configuration,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Configuration,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Configuration,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Due,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Due,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Due,revoked_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Due,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Due,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Event,autocrat_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Event,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Event,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Event,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,issuer_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,revoked_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KingdomOffice,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KingdomOffice,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KingdomOffice,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KingdomTitle,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KingdomTitle,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KingdomTitle,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Kingdom,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Kingdom,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Kingdom,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Location,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Location,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Location,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Meetup,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Meetup,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Meetup,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Member,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Member,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Member,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Member,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,authorized_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Office,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Office,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Office,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Parkrank,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Parkrank,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Parkrank,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Park,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Park,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Park,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Pronoun,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Pronoun,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Pronoun,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Recommendation,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Recommendation,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Recommendation,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Recommendation,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reconciliation,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reconciliation,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reconciliation,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reconciliation,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Split,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Split,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Split,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Split,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,suspended_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Title,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Title,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Title,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Tournament,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Tournament,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Tournament,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Transaction,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Transaction,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Transaction,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Unit,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Unit,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Unit,updated_by"
+    }
+]
