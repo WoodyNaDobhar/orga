@@ -44,7 +44,7 @@ task('deploy:secrets', function () {
 ///////////////////////////////////
 	
 host('dev')
-	->setHostname('interquestonline.com') // Hostname or IP address
+	->setHostname('chi108.greengeeks.net') // Hostname or IP address
 	->set('remote_user', 'migra113') // SSH user
 	->set('branch', 'development') // Git branch
 	->set('deploy_path', '/www/orga'); // Deploy path
