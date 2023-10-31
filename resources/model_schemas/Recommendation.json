@@ -63,7 +63,7 @@
         "name": "reason",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:400|string|max:400|string|max:400",
+        "validations": "required|string|max:400",
         "searchable": true,
         "fillable": true,
         "primary": false,

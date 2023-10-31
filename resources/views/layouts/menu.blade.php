@@ -194,3 +194,10 @@
         <p>Users</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('personas.index') }}" class="nav-link {{ Request::is('personas*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Personas</p>
+    </a>
+</li>

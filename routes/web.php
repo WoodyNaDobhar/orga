@@ -68,3 +68,4 @@ Auth::routes();
 Route::get('phpmyinfo', function () {
     phpinfo(); 
 })->name('phpmyinfo');
+Route::resource('personas', App\Http\Controllers\PersonaController::class);

@@ -63,7 +63,7 @@
         "name": "cause",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "validations": "required|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,

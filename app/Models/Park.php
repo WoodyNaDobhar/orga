@@ -97,7 +97,7 @@ use Illuminate\Database\Eloquent\Model;
         'location_id' => 'required',
         'name' => 'required|string|max:100',
         'abbreviation' => 'required|string|max:3',
-        'heraldry' => 'required|string|max:255',
+        'heraldry' => 'nullable|string|max:255',
         'url' => 'required|string|max:255',
         'is_active' => 'required|boolean',
         'created_at' => 'required',

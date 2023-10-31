@@ -12,19 +12,7 @@
         "inView": false
     },
     {
-        "name": "kingdom_id",
-        "dbType": "integer,false,true",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "parkrank_id",
+        "name": "park_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -36,10 +24,10 @@
         "inView": true
     },
     {
-        "name": "location_id",
+        "name": "user_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -48,10 +36,10 @@
         "inView": true
     },
     {
-        "name": "name",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|max:100",
+        "name": "pronoun_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -60,10 +48,22 @@
         "inView": true
     },
     {
-        "name": "abbreviation",
+        "name": "mundane",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:3",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "persona",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -75,7 +75,7 @@
         "name": "heraldry",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -84,10 +84,58 @@
         "inView": true
     },
     {
-        "name": "url",
+        "name": "image",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:255",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "restricted",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "waivered",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "waiver_ext",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|max:8|string|max:8|string|max:8",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "penalty_box",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -100,6 +148,42 @@
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "reeve_qualified_expires",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "corpora_qualified_expires",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "joined_park_at",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -123,7 +207,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -135,7 +219,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -153,14 +237,18 @@
     },
     {
         "type": "relation",
+        "relation": "mt1,Park,park_id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Pronoun,pronoun_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,User,updated_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Due,park_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Meetup,park_id"
+        "relation": "mt1,User,user_id"
     }
 ]

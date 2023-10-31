@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 // use OwenIt\Auditing\Contracts\Auditable;
 // use OwenIt\Auditing\Models\Audit;
-// use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasRoles;
 use Wildside\Userstamps\Userstamps;
 
 /**
  * @OA\Schema(
  *      schema="User",
- *      required={"park_id","name","persona","email","password","restricted","waivered","waiver_ext","penalty_box","is_active","created_at"},
+ *      required={"park_id","email","password","restricted","waivered","waiver_ext","penalty_box","is_active","created_at"},
  *      @OA\Property(
  *          property="name",
  *          description="",
@@ -187,6 +187,8 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public $table = 'users';
 
+    protected $guard_name = 'api';
+
     public $fillable = [
         'park_id',
         'pronoun_id',
@@ -230,8 +232,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public static array $rules = [
         'park_id' => 'required',
         'pronoun_id' => 'nullable',
-        'name' => 'required|string|max:255',
-        'persona' => 'required|string|max:255',
+        'name' => 'nullable|string|max:255',
+        'persona' => 'nullable|string|max:255',
         'heraldry' => 'nullable|string|max:255',
         'image' => 'nullable|string|max:255',
         'email' => 'required|string|max:255',

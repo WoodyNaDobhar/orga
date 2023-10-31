@@ -99,3 +99,6 @@ Route::resource('units', App\Http\Controllers\API\UnitAPIController::class)
 
 Route::resource('users', App\Http\Controllers\API\UserAPIController::class)
     ->except(['create', 'edit']);
+
+Route::resource('personas', App\Http\Controllers\API\PersonaAPIController::class)
+    ->except(['create', 'edit']);

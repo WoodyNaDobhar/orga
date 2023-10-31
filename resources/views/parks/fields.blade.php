@@ -31,7 +31,7 @@
 <!-- Heraldry Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('heraldry', 'Heraldry:') !!}
-    {!! Form::text('heraldry', null, ['class' => 'form-control', 'required', 'maxlength' => 255]) !!}
+    {!! Form::text('heraldry', null, ['class' => 'form-control', 'maxlength' => 255]) !!}
 </div>
 
 <!-- Url Field -->

@@ -43,12 +43,12 @@ return new class extends Migration
 
         Schema::create('attendances', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->unsignedBigInteger('archetype_id')->nullable()->index('archetype_id');
-            $table->enum('attendable_type', ['Park', 'Kingdom', 'Event']);
+            $table->enum('attendable_type', ['Meetup', 'Event']);
             $table->unsignedBigInteger('attendable_id')->index('attendable_id');
             $table->date('attended_at');
-            $table->double('credits', 4, 2);
+            $table->double('credits', 4, 2)->default(1);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -70,35 +70,27 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
             $table->softDeletes();
         });
-
-        Schema::create('configurations', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->enum('configurable_type', ['Service', 'Application', 'Kingdom', 'Park', 'Event', 'Tournament', 'Unit'])->default('Service');
-            $table->unsignedBigInteger('configurable_id')->default(0)->index('configurable_id');
-            $table->string('key', 50);
-            $table->mediumText('value');
-            $table->boolean('is_user_setting')->default(true);
-            $table->mediumText('allowed_values');
-            $table->timestamp('modified')->useCurrentOnUpdate()->useCurrent();
-            $table->enum('var_type', ['string', 'fixed', 'mixed', 'number', 'date', 'color']);
-            $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
-            $table->timestamp('created_at')->useCurrent();
-            $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
-            $table->timestamp('updated_at')->nullable();
-            $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
-            $table->softDeletes();
-        });
+        	
+       	Schema::create('crats', function (Blueprint $table) {
+       		$table->bigIncrements('id');
+       		$table->unsignedBigInteger('event_id')->index('event_id');
+       		$table->unsignedBigInteger('persona_id')->index('persona_id');
+       		$table->string('role', 50);
+       		$table->boolean('is_autocrat')->default(false);
+       		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+       		$table->timestamp('created_at')->useCurrent();
+       		$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
+       		$table->timestamp('updated_at')->nullable();
+       		$table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
+       		$table->softDeletes();
+       	});
 
         Schema::create('dues', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
-            $table->unsignedBigInteger('park_id')->index('park_id');
-            $table->unsignedBigInteger('transaction_id')->nullable()->index('transaction_id');
-            $table->boolean('is_for_life')->default(false);
-            $table->date('dues_at');
-            $table->integer('intervals')->default(1);
-            $table->date('revoked_on')->nullable();
-            $table->unsignedBigInteger('revoked_by')->nullable()->index('revoked_by');
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
+            $table->unsignedBigInteger('transaction_id')->index('transaction_id');
+            $table->date('dues_on');
+            $table->integer('intervals')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -109,17 +101,17 @@ return new class extends Migration
 
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('eventable_type', ['Kingdom', 'Park', 'Unit', 'User']);
+            $table->enum('eventable_type', ['Kingdom', 'Park', 'Unit', 'Persona']);
             $table->unsignedBigInteger('eventable_id')->index('eventable_id');
-            $table->unsignedBigInteger('autocrat_id')->default(0)->index('autocrat_id');
-            $table->unsignedBigInteger('location_id')->index('at_park_id');
+            $table->unsignedBigInteger('location_id')->nullable()->index('at_park_id');
             $table->string('name');
             $table->mediumText('description');
+            $table->string('image', 255)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamp('event_start');
             $table->timestamp('event_end');
             $table->float('price', 6)->nullable();
             $table->string('url')->nullable();
-            $table->string('url_name', 40)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -132,45 +124,20 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->enum('issuable_type', ['Award', 'Title']);
             $table->unsignedBigInteger('issuable_id')->index('issuable_id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->enum('authority_type', ['Park', 'Kingdom', 'Event', 'Unit']);
+            $table->unsignedBigInteger('authority_id')->index('authority_id');
             $table->unsignedBigInteger('issuer_id')->index('issuer_id');
-            $table->enum('issuedable_type', ['Park', 'Kingdom', 'Event']);
-            $table->unsignedBigInteger('issuedable_id')->index('issuedable_id');
+            $table->enum('recipient_type', ['Persona', 'Unit']);
+            $table->unsignedBigInteger('recipient_id')->index('recipient_id');
             $table->string('custom_name', 64)->nullable();
             $table->unsignedInteger('rank')->nullable();
             $table->date('issued_at');
             $table->string('note', 400)->nullable();
             $table->string('image', 255)->nullable();
-            $table->string('revocation', 50)->nullable();
             $table->unsignedBigInteger('revoked_by')->nullable()->index('revoked_by');
             $table->date('revoked_at')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
-            $table->timestamp('created_at')->useCurrent();
-            $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
-            $table->timestamp('updated_at')->nullable();
-            $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
-            $table->softDeletes();
-        });
-
-        Schema::create('kingdom_office', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('kingdom_id')->index('kingdom_office_kingdom_id');
-            $table->unsignedBigInteger('office_id')->index('kingdom_office_office_id');
-            $table->string('custom_name', 100)->nullable();
-            $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
-            $table->timestamp('created_at')->useCurrent();
-            $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
-            $table->timestamp('updated_at')->nullable();
-            $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
-            $table->softDeletes();
-        });
-
-        Schema::create('kingdom_title', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
-            $table->unsignedBigInteger('title_id')->index('title_id');
-            $table->string('custom_name', 100)->nullable();
-            $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+            $table->string('revocation', 50)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
             $table->timestamp('updated_at')->nullable();
@@ -182,9 +149,20 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
             $table->string('name', 100);
-            $table->string('abbreviation', 3);
+            $table->string('abbreviation', 4);
+            $table->string('color', 6)->default('FACADE');
             $table->string('heraldry')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->unsignedSmallInteger('credit_minimum', 3)->default(0);
+            $table->unsignedSmallInteger('credit_maximum', 3)->nullable();
+            $table->unsignedSmallInteger('daily_minimum', 3)->default(0);
+            $table->unsignedSmallInteger('weekly_minimum', 3)->default(0);
+            $table->enum('average_period_type', ['Week','Month'])->default('Month');
+            $table->unsignedSmallInteger('average_period', 3)->default(6);
+            $table->unsignedSmallInteger('dues_amount', 3)->default(12);
+            $table->enum('dues_intervals_type', ['Week','Month'])->default('Month');
+            $table->unsignedSmallInteger('dues_intervals', 3)->default(6);
+            $table->unsignedSmallInteger('dues_take', 3)->default(0);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -199,6 +177,7 @@ return new class extends Migration
             $table->string('city', 50)->nullable();
             $table->string('province', 35)->nullable();
             $table->string('postal_code', 10)->nullable();
+            $table->string('country', 2)->default('US');
             $table->mediumText('google_geocode')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
@@ -217,15 +196,16 @@ return new class extends Migration
         Schema::create('meetups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('park_id')->index('park_id');
-            $table->unsignedBigInteger('location_id')->index('location_id');
+            $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
             $table->unsignedBigInteger('alt_location_id')->nullable()->index('alt_location_id');
+            $table->string('url')->nullable();
             $table->enum('recurrence', ['Weekly', 'Monthly', 'Week-of-Month']);
             $table->smallInteger('week_of_month')->nullable();
             $table->enum('week_day', ['None', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
             $table->smallInteger('month_day')->nullable();
             $table->time('occurs_at');
             $table->enum('purpose', ['Park Day', 'Fighter Practice', 'A&S Gathering', 'Other']);
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -237,9 +217,9 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('unit_id')->index('unit_id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->enum('role', ['Captain', 'Lord', 'Member']);
-            $table->string('title', 100);
+            $table->string('title', 100)->nullable();
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -250,13 +230,14 @@ return new class extends Migration
         });
 
         Schema::create('officers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('office_id')->default(0)->index('office_id');
-            $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
-            $table->unsignedBigInteger('authorized_by')->default(0)->index('authorized_by');
-            $table->enum('officerable_type', ['Kingdom', 'Park']);
-            $table->unsignedBigInteger('officerable_id')->default(0)->index('officerable_id');
-            $table->enum('scope', ['Kingdom', 'Park', 'Principality', 'BoD', 'Other', 'None'])->default('None');
+        	$table->bigIncrements('id');
+        	$table->enum('officerable_type', ['Reign', 'Unit']);
+        	$table->unsignedBigInteger('officerable_id')->index('officerable_id');
+            $table->unsignedBigInteger('office_id')->index('office_id');
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
+            $table->string('label', 50)->nullable();
+            $table->date('starts_on')->nullable();
+            $table->date('ends_on')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -266,10 +247,11 @@ return new class extends Migration
         });
 
         Schema::create('offices', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 100);
-            $table->integer('crown_points')->default(0);
-            $table->integer('crown_limit')->default(0);
+        	$table->bigIncrements('id');
+        	$table->enum('officeable_type', ['Kingdom', 'Parkrank', 'Unit']);
+        	$table->unsignedBigInteger('officeable_id')->nullable()->index('officeable_id');
+        	$table->string('name', 100);
+        	$table->integer('duration')->nullable()->default(6);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -285,8 +267,6 @@ return new class extends Migration
             $table->integer('rank')->default(0);
             $table->integer('minimumattendance')->default(5);
             $table->integer('minimumcutoff')->default(1);
-            $table->enum('period', ['Month', 'Week'])->default('Month');
-            $table->integer('period_length')->default(6);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -302,9 +282,30 @@ return new class extends Migration
             $table->unsignedBigInteger('location_id')->index('location_id');
             $table->string('name', 100);
             $table->string('abbreviation', 3);
-            $table->string('heraldry')->default('0');
+            $table->string('heraldry')->nullable();
             $table->string('url');
             $table->boolean('is_active')->default(true);
+            $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+            $table->timestamp('created_at')->useCurrent();
+            $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
+            $table->timestamp('updated_at')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
+            $table->softDeletes();
+        });
+
+        Schema::create('personas', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('park_id')->index('park_id');
+            $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
+            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
+            $table->string('mundane');
+            $table->string('name');
+            $table->string('heraldry')->nullable();
+            $table->string('image')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->date('reeve_qualified_expires_at')->nullable();
+            $table->date('corpora_qualified_expires_at')->nullable();
+            $table->date('joined_park_at')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -327,10 +328,25 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
             $table->softDeletes();
         });
+        	
+       	Schema::create('reigns', function (Blueprint $table) {
+       		$table->bigIncrements('id');
+       		$table->enum('reignable_type', ['Kingdom', 'Park']);
+       		$table->unsignedBigInteger('reignable_id')->nullable()->index('reignable_id');
+       		$table->string('name', 100)->nullable();
+       		$table->date('starts_on');
+       		$table->date('ends_on');
+       		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+       		$table->timestamp('created_at')->useCurrent();
+       		$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
+       		$table->timestamp('updated_at')->nullable();
+       		$table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
+       		$table->softDeletes();
+       	});
 
         Schema::create('recommendations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->index('mundane_id');
+            $table->unsignedBigInteger('persona_id')->index('mundane_id');
             $table->unsignedBigInteger('award_id')->index('award_id');
             $table->integer('rank');
             $table->boolean('is_anonymous')->default(false);
@@ -346,8 +362,8 @@ return new class extends Migration
         Schema::create('reconciliations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('archetype_id')->index('archetype_id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
-            $table->boolean('is_reconciled')->default(false);
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
+            $table->double('credits', 4, 2)->default(1);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -358,9 +374,9 @@ return new class extends Migration
 
         Schema::create('splits', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('account_id')->index('account_id');
+            $table->unsignedBigInteger('account_id')->index('account_id')->nullable();
             $table->unsignedBigInteger('transaction_id')->index('transaction_id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->double('amount', 10, 4);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -371,12 +387,14 @@ return new class extends Migration
         });
 
         Schema::create('suspensions', function (Blueprint $table) {
-            $table->unsignedBigInteger('id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('persona_id')->index('persona_id');
+            $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
             $table->unsignedBigInteger('suspended_by')->index('suspended_by');
             $table->date('suspended_at')->nullable();
-            $table->date('suspended_expires');
+            $table->date('expires_at')->nullable();
             $table->string('cause');
+            $table->boolean('is_propogating')->default(false);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -386,10 +404,14 @@ return new class extends Migration
         });
 
         Schema::create('titles', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 50);
+        	$table->bigIncrements('id');
+        	$table->enum('titleable_type', ['Kingdom', 'Park', 'Unit']);
+        	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id');
+            $table->string('name', 100);
             $table->unsignedSmallInteger('rank')->default(0);
-            $table->enum('peerage', ['Knight', 'Squire', 'Person-At-Arms', 'Page', 'Lords Page', 'None', 'Master', 'Paragon', 'Apprentice', 'Kingdom Level Award'])->default('None');
+            $table->enum('peerage', ['Gentry', 'Knight', 'Master', 'Nobility', 'None', 'Retainer', 'Paragon', 'Squire'])->default('None');
+            $table->boolean('is_roaming')->default(0);
+            $table->boolean('is_active')->default(1);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -402,7 +424,6 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->enum('tournamentable_type', ['Kingdom', 'Park', 'Event']);
             $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
-            $table->unsignedBigInteger('event_id')->index('event_id');
             $table->string('name', 50);
             $table->mediumText('description');
             $table->string('url');
@@ -446,24 +467,37 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('park_id')->index('park_id');
-            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
-            $table->string('name');
-            $table->string('persona');
-            $table->string('heraldry')->nullable();
-            $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->boolean('restricted')->default(false);
-            $table->boolean('waivered')->default(false);
-            $table->string('waiver_ext', 8);
-            $table->tinyInteger('penalty_box')->default(0);
-            $table->boolean('is_active')->default(true);
-            $table->date('reeve_qualified_expires')->nullable();
-            $table->date('corpora_qualified_expires')->nullable();
-            $table->date('joined_park_at')->nullable();
+            $table->boolean('is_restricted')->default(false);
+            $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+            $table->timestamp('created_at')->useCurrent();
+            $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
+            $table->timestamp('updated_at')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
+            $table->softDeletes();
+        });
+
+        Schema::create('waivers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
+            $table->unsignedBigInteger('persona_id')->nullable()->index('persona_id');
+            $table->enum('waiverable_type', ['Park', 'Event']);
+            $table->unsignedBigInteger('waiverable_id')->index('waiverable_id');
+            $table->string('image')->nullable();
+            $table->string('player', 150);
+            $table->string('email', 255)->nullable();
+            $table->string('phone', 25)->nullable();
+            $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
+            $table->date('dob')->nullable();
+            $table->date('age_verified_at')->nullable();
+            $table->unsignedBigInteger('age_verified_by')->nullable()->index('age_verified_by');
+            $table->string('guardian', 150)->nullable();
+            $table->string('emergency_contact_name', 150)->nullable();
+            $table->string('emergency_contact_phone', 25)->nullable();
+            $table->date('signed_at');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -490,7 +524,7 @@ return new class extends Migration
             $table->foreign(['created_by'], 'attendances_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'attendances_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'attendances_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'attendances_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'attendances_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('awards', function (Blueprint $table) {
@@ -498,25 +532,24 @@ return new class extends Migration
             $table->foreign(['deleted_by'], 'awards_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'awards_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
-
-        Schema::table('configurations', function (Blueprint $table) {
-            $table->foreign(['created_by'], 'configurations_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['deleted_by'], 'configurations_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['updated_by'], 'configurations_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-        });
+        	
+       	Schema::table('crats', function (Blueprint $table) {
+       		$table->foreign(['event_id'], 'crats_persona_id')->references(['id'])->on('events')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['persona_id'], 'crats_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['created_by'], 'crats_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['deleted_by'], 'crats_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['updated_by'], 'crats_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       	});
 
         Schema::table('dues', function (Blueprint $table) {
             $table->foreign(['created_by'], 'dues_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'dues_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['park_id'], 'dues_park_id')->references(['id'])->on('parks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['revoked_by'], 'dues_revoked_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['transaction_id'], 'dues_transaction_id')->references(['id'])->on('transactions')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'dues_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'dues_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'dues_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('events', function (Blueprint $table) {
-            $table->foreign(['autocrat_id'], 'events_autocrat_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['created_by'], 'events_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'events_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['location_id'], 'events_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -526,26 +559,9 @@ return new class extends Migration
         Schema::table('issuances', function (Blueprint $table) {
             $table->foreign(['created_by'], 'issuances_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'issuances_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['issuer_id'], 'issuances_issuer_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['revoked_by'], 'issuances_revoked_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['issuer_id'], 'issuances_issuer_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['revoked_by'], 'issuances_revoked_by')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'issuances_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'issuances_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-        });
-
-        Schema::table('kingdom_office', function (Blueprint $table) {
-            $table->foreign(['created_by'], 'kingdom_office_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['deleted_by'], 'kingdom_office_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['kingdom_id'], 'kingdom_office_kingdom_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['office_id'], 'kingdom_office_office_id')->references(['id'])->on('offices')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['updated_by'], 'kingdom_office_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-        });
-
-        Schema::table('kingdom_title', function (Blueprint $table) {
-            $table->foreign(['created_by'], 'kingdom_title_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['deleted_by'], 'kingdom_title_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['kingdom_id'], 'kingdom_title_kingdom_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['title_id'], 'kingdom_title_title_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['updated_by'], 'kingdom_title_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('kingdoms', function (Blueprint $table) {
@@ -575,16 +591,15 @@ return new class extends Migration
             $table->foreign(['deleted_by'], 'members_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['unit_id'], 'members_unit_id')->references(['id'])->on('units')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'members_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'members_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'members_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('officers', function (Blueprint $table) {
-            $table->foreign(['authorized_by'], 'officers_authorized_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['created_by'], 'officers_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'officers_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['office_id'], 'officers_office_id')->references(['id'])->on('offices')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'officers_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'officers_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'officers_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('offices', function (Blueprint $table) {
@@ -606,6 +621,15 @@ return new class extends Migration
             $table->foreign(['updated_by'], 'parks_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
+        Schema::table('personas', function (Blueprint $table) {
+            $table->foreign(['park_id'], 'personas_park_id')->references(['id'])->on('parks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['user_id'], 'personas_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['pronoun_id'], 'personas_pronoun_id')->references(['id'])->on('pronouns')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['created_by'], 'users_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['deleted_by'], 'users_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['updated_by'], 'users_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        });
+
         Schema::table('pronouns', function (Blueprint $table) {
             $table->foreign(['created_by'], 'pronouns_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'pronouns_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -617,15 +641,21 @@ return new class extends Migration
             $table->foreign(['created_by'], 'recommendations_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'recommendations_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'recommendations_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'recommendations_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'recommendations_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
+        	
+       	Schema::table('reigns', function (Blueprint $table) {
+       		$table->foreign(['created_by'], 'reigns_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['deleted_by'], 'reigns_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['updated_by'], 'reigns_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       	});
 
         Schema::table('reconciliations', function (Blueprint $table) {
             $table->foreign(['archetype_id'], 'reconciliations_archetype_id')->references(['id'])->on('archetypes')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['created_by'], 'reconciliations_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'reconciliations_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'reconciliations_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'reconciliations_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'reconciliations_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('splits', function (Blueprint $table) {
@@ -634,15 +664,16 @@ return new class extends Migration
             $table->foreign(['deleted_by'], 'splits_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['transaction_id'], 'splits_transaction_id')->references(['id'])->on('transactions')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'splits_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'splits_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'splits_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('suspensions', function (Blueprint $table) {
             $table->foreign(['created_by'], 'suspensions_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'suspensions_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['suspended_by'], 'suspensions_suspended_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['suspended_by'], 'suspensions_suspended_by')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'suspensions_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['user_id'], 'suspensions_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'suspensions_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['kingdom_id'], 'suspensions_kingdom_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('titles', function (Blueprint $table) {
@@ -674,6 +705,16 @@ return new class extends Migration
             $table->foreign(['deleted_by'], 'users_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'users_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
+
+        Schema::table('waivers', function (Blueprint $table) {
+            $table->foreign(['age_verified_by'], 'waivers_age_verified_by')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['location_id'], 'waivers_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['persona_id'], 'waivers_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['pronoun_id'], 'waivers_pronoun_id')->references(['id'])->on('pronouns')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['created_by'], 'waivers_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['deleted_by'], 'waivers_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['updated_by'], 'waivers_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        });
     }
 
     /**
@@ -683,6 +724,17 @@ return new class extends Migration
      */
     public function down()
     {
+
+        Schema::table('waivers', function (Blueprint $table) {
+            $table->dropForeign('age_verified_by');
+            $table->dropForeign('location_id');
+            $table->dropForeign('persona_id');
+            $table->dropForeign('pronoun_id');
+            $table->dropForeign('created_by');
+            $table->dropForeign('deleted_by');
+            $table->dropForeign('updated_by');
+        });
+        
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign('users_created_by');
             $table->dropForeign('users_deleted_by');
@@ -718,7 +770,8 @@ return new class extends Migration
             $table->dropForeign('suspensions_deleted_by');
             $table->dropForeign('suspensions_suspended_by');
             $table->dropForeign('suspensions_updated_by');
-            $table->dropForeign('suspensions_user_id');
+            $table->dropForeign('suspensions_kingdom_id');
+            $table->dropForeign('suspensions_persona_id');
         });
 
         Schema::table('splits', function (Blueprint $table) {
@@ -727,7 +780,7 @@ return new class extends Migration
             $table->dropForeign('splits_deleted_by');
             $table->dropForeign('splits_transaction_id');
             $table->dropForeign('splits_updated_by');
-            $table->dropForeign('splits_user_id');
+            $table->dropForeign('splits_persona_id');
         });
 
         Schema::table('reconciliations', function (Blueprint $table) {
@@ -735,7 +788,7 @@ return new class extends Migration
             $table->dropForeign('reconciliations_created_by');
             $table->dropForeign('reconciliations_deleted_by');
             $table->dropForeign('reconciliations_updated_by');
-            $table->dropForeign('reconciliations_user_id');
+            $table->dropForeign('reconciliations_persona_id');
         });
 
         Schema::table('recommendations', function (Blueprint $table) {
@@ -743,13 +796,28 @@ return new class extends Migration
             $table->dropForeign('recommendations_created_by');
             $table->dropForeign('recommendations_deleted_by');
             $table->dropForeign('recommendations_updated_by');
-            $table->dropForeign('recommendations_user_id');
+            $table->dropForeign('recommendations_persona_id');
         });
+        	
+       	Schema::table('reigns', function (Blueprint $table) {
+       		$table->dropForeign('reigns_created_by');
+       		$table->dropForeign('reigns_deleted_by');
+       		$table->dropForeign('reigns_updated_by');
+       	});
 
         Schema::table('pronouns', function (Blueprint $table) {
             $table->dropForeign('pronouns_created_by');
             $table->dropForeign('pronouns_deleted_by');
             $table->dropForeign('pronouns_updated_by');
+        });
+        
+        Schema::table('personas', function (Blueprint $table) {
+            $table->dropForeign('personas_created_by');
+            $table->dropForeign('personas_deleted_by');
+            $table->dropForeign('personas_updated_by');
+            $table->dropForeign('personas_persona_id');
+            $table->dropForeign('personas_park_id');
+            $table->dropForeign('personas_pronoun_id');
         });
 
         Schema::table('parks', function (Blueprint $table) {
@@ -772,12 +840,11 @@ return new class extends Migration
         });
 
         Schema::table('officers', function (Blueprint $table) {
-            $table->dropForeign('officers_authorized_by');
             $table->dropForeign('officers_created_by');
             $table->dropForeign('officers_deleted_by');
             $table->dropForeign('officers_office_id');
             $table->dropForeign('officers_updated_by');
-            $table->dropForeign('officers_user_id');
+            $table->dropForeign('officers_persona_id');
         });
 
         Schema::table('members', function (Blueprint $table) {
@@ -785,7 +852,7 @@ return new class extends Migration
             $table->dropForeign('members_deleted_by');
             $table->dropForeign('members_unit_id');
             $table->dropForeign('members_updated_by');
-            $table->dropForeign('members_user_id');
+            $table->dropForeign('members_persona_id');
         });
 
         Schema::table('meetups', function (Blueprint $table) {
@@ -810,33 +877,15 @@ return new class extends Migration
             $table->dropForeign('kingdoms_updated_by');
         });
 
-        Schema::table('kingdom_title', function (Blueprint $table) {
-            $table->dropForeign('kingdom_title_created_by');
-            $table->dropForeign('kingdom_title_deleted_by');
-            $table->dropForeign('kingdom_title_kingdom_id');
-            $table->dropForeign('kingdom_title_title_id');
-            $table->dropForeign('kingdom_title_updated_by');
-        });
-
-        Schema::table('kingdom_office', function (Blueprint $table) {
-            $table->dropForeign('kingdom_office_created_by');
-            $table->dropForeign('kingdom_office_deleted_by');
-            $table->dropForeign('kingdom_office_kingdom_id');
-            $table->dropForeign('kingdom_office_office_id');
-            $table->dropForeign('kingdom_office_updated_by');
-        });
-
         Schema::table('issuances', function (Blueprint $table) {
             $table->dropForeign('issuances_created_by');
             $table->dropForeign('issuances_deleted_by');
             $table->dropForeign('issuances_issuer_id');
             $table->dropForeign('issuances_revoked_by');
             $table->dropForeign('issuances_updated_by');
-            $table->dropForeign('issuances_user_id');
         });
 
         Schema::table('events', function (Blueprint $table) {
-            $table->dropForeign('events_autocrat_id');
             $table->dropForeign('events_created_by');
             $table->dropForeign('events_deleted_by');
             $table->dropForeign('events_location_id');
@@ -846,18 +895,18 @@ return new class extends Migration
         Schema::table('dues', function (Blueprint $table) {
             $table->dropForeign('dues_created_by');
             $table->dropForeign('dues_deleted_by');
-            $table->dropForeign('dues_park_id');
-            $table->dropForeign('dues_revoked_by');
             $table->dropForeign('dues_transaction_id');
             $table->dropForeign('dues_updated_by');
-            $table->dropForeign('dues_user_id');
+            $table->dropForeign('dues_persona_id');
         });
-
-        Schema::table('configurations', function (Blueprint $table) {
-            $table->dropForeign('configurations_created_by');
-            $table->dropForeign('configurations_deleted_by');
-            $table->dropForeign('configurations_updated_by');
-        });
+        	
+       	Schema::table('crats', function (Blueprint $table) {
+       		$table->dropForeign('crats_event_id');
+       		$table->dropForeign('crats_created_by');
+       		$table->dropForeign('crats_deleted_by');
+       		$table->dropForeign('crats_updated_by');
+       		$table->dropForeign('crats_persona_id');
+       	});
 
         Schema::table('awards', function (Blueprint $table) {
             $table->dropForeign('awards_created_by');
@@ -870,7 +919,7 @@ return new class extends Migration
             $table->dropForeign('attendances_created_by');
             $table->dropForeign('attendances_deleted_by');
             $table->dropForeign('attendances_updated_by');
-            $table->dropForeign('attendances_user_id');
+            $table->dropForeign('attendances_persona_id');
         });
 
         Schema::table('archetypes', function (Blueprint $table) {
@@ -885,6 +934,8 @@ return new class extends Migration
             $table->dropForeign('accounts_parent_id');
             $table->dropForeign('accounts_updated_by');
         });
+
+        Schema::dropIfExists('waivers');
 
         Schema::dropIfExists('users');
 
@@ -903,8 +954,12 @@ return new class extends Migration
         Schema::dropIfExists('reconciliations');
 
         Schema::dropIfExists('recommendations');
-
+        
+        Schema::dropIfExists('reigns');
+        
         Schema::dropIfExists('pronouns');
+
+        Schema::dropIfExists('personas');
 
         Schema::dropIfExists('parks');
 
@@ -922,17 +977,13 @@ return new class extends Migration
 
         Schema::dropIfExists('kingdoms');
 
-        Schema::dropIfExists('kingdom_title');
-
-        Schema::dropIfExists('kingdom_office');
-
         Schema::dropIfExists('issuances');
 
         Schema::dropIfExists('events');
-
+        
         Schema::dropIfExists('dues');
-
-        Schema::dropIfExists('configurations');
+        
+        Schema::dropIfExists('crats');
 
         Schema::dropIfExists('awards');
 
