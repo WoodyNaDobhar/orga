@@ -49,4 +49,4 @@ jobs:
       - name: Deploy to Development
         env:
           DOT_ENV: ${{ secrets.DOT_ENV_DEVELOPMENT }}
-        run: php vendor/bin/dep deploy development --branch="development" -vv
+        run: php vendor/bin/dep deploy dev --branch="development" -vv
