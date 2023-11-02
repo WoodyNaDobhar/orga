@@ -44,10 +44,10 @@ task('deploy:secrets', function () {
 ///////////////////////////////////
 	
 host('dev')
-	->setHostname('108.178.43.190') // Hostname or IP address //iq: permission denied, else host verification failed
+	->setHostname('chi108.greengeeks.net') // Hostname or IP address //iq: permission denied, else host verification failed
 	->set('remote_user', 'migra113') // SSH user
 	->set('branch', 'development') // Git branch
-	->set('deploy_path', '/www/orga'); // Deploy path
+	->set('deploy_path', '/www/orga.interquestonline.com'); // Deploy path
 	
 after('deploy:failed', 'deploy:unlock');  // Unlock after failed deploy
 	

@@ -984,7 +984,19 @@ class ImportOrk3 extends Command
 				$transOfficers = unserialize($transDone->first()->value);
 			}
 			$transRecommendations = [];
+			$transDone = $trans->filter(function($item) {
+				return ($item->table === 'recommendations');
+			});
+			if(count($transDone) > 0){
+				$transRecommendations = unserialize($transDone->first()->value);
+			}
 			$transReconciliations = [];
+			$transDone = $trans->filter(function($item) {
+				return ($item->table === 'reconciliations');
+			});
+			if(count($transDone) > 0){
+				$transReconciliations = unserialize($transDone->first()->value);
+			}
 			$transSplits = [];
 			
 			//what we know
@@ -10736,6 +10748,11 @@ class ImportOrk3 extends Command
 				$bar25->finish();
 				$this->info('');
 			}
+			DB::table('trans')->insert([
+					'table' => 'recommendations',
+					'value' => serialize($transRecommendations)
+			]);
+			dd('check recomendations');
 			
 			//reconciliations
 			$this->info('Importing Reconciliations...');
@@ -10759,6 +10776,11 @@ class ImportOrk3 extends Command
 				$bar26->finish();
 				$this->info('');
 			}
+			DB::table('trans')->insert([
+					'table' => 'reconciliations',
+					'value' => serialize($transReconciliations)
+			]);
+			dd('check recomendations');
 			
 			//suspensions
 			
@@ -10784,7 +10806,6 @@ class ImportOrk3 extends Command
 			//TODO: rename 'parks' to 'chapters'
 			//TODO: add 'notes' style fields (like description) to titles, offices, and whatever else they're using 'notes' for
 			//TODO: awardable to awarder
-			//TODO: add minimum
 
 
 			$this->info(count($deadRecords['Parkranks']) . ' Parkranks lost due to a missing Kingdom');
