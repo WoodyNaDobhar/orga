@@ -47,7 +47,7 @@ host('dev')
 	->setHostname('chi108.greengeeks.net') // Hostname or IP address //iq: permission denied, else host verification failed
 	->set('remote_user', 'migra113') // SSH user
 	->set('branch', 'development') // Git branch
-	->set('deploy_path', 'www/orga.interquestonline.com'); // Deploy path
+	->set('deploy_path', 'www/orga'); // Deploy path
 	
 after('deploy:failed', 'deploy:unlock');  // Unlock after failed deploy
 	
