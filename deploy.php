@@ -18,8 +18,6 @@ set('ssh_multiplexing', true);  // Speed up deployment
 set('rsync_src', function () {
 	return __DIR__; // If your project isn't in the root, you'll need to change this.
 });
-
-set('use_atomic_symlink', true);
 	
 // Configuring the rsync exclusions.
 // You'll want to exclude anything that you don't want on the server.
@@ -41,17 +39,24 @@ task('deploy:secrets', function () {
 	upload('.env', get('deploy_path') . '/shared');
 });
 
-// task('deploy:symlink', function () {
-// 	if (get('use_atomic_symlink')) {
-// 		run("mv -T {{deploy_path}}/release {{current_path}}");
-// 	} else {
-// 		// Atomic symlink does not supported.
-// 		// Will use simple two steps switch.
+task('deploy:publish', [
+		'deploy:symlink2',
+		'deploy:unlock',
+		'deploy:cleanup',
+		'deploy:success',
+]);
+
+task('deploy:symlink2', function () {
+	if (get('use_atomic_symlink')) {
+		run("mv -T {{deploy_path}}/release {{current_path}}");
+	} else {
+		// Atomic symlink does not supported.
+		// Will use simple two steps switch.
 		
-// 		run("cd {{deploy_path}} && {{bin/symlink}} {{release_path}} current"); // Atomic override symlink.
-// 		run("cd {{deploy_path}} && rm release"); // Remove release link.
-// 	}
-// });
+		run("cd {{deploy_path}} && {{bin/symlink}} {{release_path}} current"); // Atomic override symlink.
+		run("cd {{deploy_path}} && rm release"); // Remove release link.
+	}
+});
 	
 ///////////////////////////////////
 // Hosts
