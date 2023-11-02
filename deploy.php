@@ -19,9 +19,7 @@ set('rsync_src', function () {
 	return __DIR__; // If your project isn't in the root, you'll need to change this.
 });
 
-set('use_atomic_symlink', function () {
-	return true;
-});
+set('use_atomic_symlink', true);
 	
 // Configuring the rsync exclusions.
 // You'll want to exclude anything that you don't want on the server.
