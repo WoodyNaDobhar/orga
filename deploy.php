@@ -39,7 +39,7 @@ task('deploy:secrets', function () {
 	upload('.env', get('deploy_path') . '/shared');
 });
 
-task('deploy:publish', [
+task('deploy:publish2', [
 		'deploy:symlink2',
 		'deploy:unlock',
 		'deploy:cleanup',
@@ -58,23 +58,11 @@ task('deploy:symlink2', function () {
 	}
 });
 	
-///////////////////////////////////
-// Hosts
-///////////////////////////////////
-	
 host('dev')
 	->setHostname('chi108.greengeeks.net') // Hostname or IP address
 	->set('remote_user', 'migra113') // SSH user
 	->set('branch', 'development') // Git branch
 	->set('deploy_path', 'www/orga'); // Deploy path
-	
-after('deploy:failed', 'deploy:unlock');  // Unlock after failed deploy
-	
-///////////////////////////////////
-// Tasks
-///////////////////////////////////
-
-desc('Start of Deploy the application');
 
 task('deploy', [
 		'deploy:prepare',
@@ -87,7 +75,7 @@ task('deploy', [
 		'artisan:config:cache', // Laravel specific steps
 		'artisan:migrate',      //
 		'artisan:queue:restart',//
-		'deploy:publish',       //
+		'deploy:publish2',       //
 ]);
 
-desc('End of Deploy the application');
+after('deploy:failed', 'deploy:unlock');  // Unlock after failed deploy
