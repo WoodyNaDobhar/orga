@@ -17,7 +17,7 @@ host('dev')
 	->setHostname('chi108.greengeeks.net') // Hostname or IP address
 	->set('remote_user', 'migra113') // SSH user
 	->set('branch', 'development') // Git branch
-	->set('deploy_path', '/var/www/orga'); // Deploy path
+	->set('deploy_path', '~/www/orga'); // Deploy path
 
 // Hooks
 
