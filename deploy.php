@@ -44,7 +44,8 @@ host('dev')
 	->set('stage', 'development')
 	->set('repository', 'git@github.com:WoodyNaDobhar/orga.git')
 	->set('branch', 'development')// Git branch
-	->set('deploy_path', '~/www/dev.ork4.org'); // Deploy path
+	->set('deploy_path', '~/www/dev.ork4.org')
+	->set('writable_mode', 'chmod');
 
 // Hooks
 
