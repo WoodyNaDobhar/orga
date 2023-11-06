@@ -4,7 +4,7 @@ namespace Deployer;
 
 // Include the Laravel & rsync recipes
 require 'recipe/laravel.php';
-require 'recipe/rsync.php';
+require 'contrib/rsync.php';
 
 set('application', 'ORK4');
 set('ssh_multiplexing', true); // Speed up deployment
