@@ -108,8 +108,8 @@ return new class extends Migration
             $table->mediumText('description');
             $table->string('image', 255)->nullable();
             $table->boolean('is_active')->default(true);
-            $table->timestamp('event_start');
-            $table->timestamp('event_end');
+            $table->timestamp('event_start')->nullable();
+            $table->timestamp('event_end')->nullable();
             $table->float('price', 6)->nullable();
             $table->string('url')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
