@@ -37,6 +37,7 @@ task('deploy:secrets', function () {
 
 // Hosts
 set('forward_agent', false);
+set('http_user', 'orkorg');
 host('dev')
 	->setHostname('chi201.greengeeks.net') // Hostname or IP address
 	->set('remote_user', 'orkorg') // SSH user
