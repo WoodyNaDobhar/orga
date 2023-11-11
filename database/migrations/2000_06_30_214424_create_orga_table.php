@@ -256,6 +256,7 @@ return new class extends Migration
         	$table->unsignedBigInteger('officeable_id')->nullable()->index('officeable_id');
         	$table->string('name', 100);
         	$table->integer('duration')->nullable()->default(6);
+        	$table->integer('order')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
