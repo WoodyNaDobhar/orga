@@ -1023,7 +1023,7 @@ class ImportOrk3 extends Command
 			
 			//kingdoms
 			$this->info('Importing Kingdoms...');
-			$oldKingdoms = $backupConnect->table('ork_kingdom')->orderBy('kingdom_id', 'DESC')->get()->toArray();
+			$oldKingdoms = $backupConnect->table('ork_kingdom')->orderBy('kingdom_id', 'ASC')->get()->toArray();
 			DB::table('kingdoms')->truncate();
 			$freeholds = null;
 			if (count($oldKingdoms) > 0) {
