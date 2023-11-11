@@ -1192,7 +1192,7 @@ class ImportOrk3 extends Command
 							'name' => trim($oldChapter->name),
 							'abbreviation' => $oldChapter->abbreviation,
 							'heraldry' => $oldChapter->has_heraldry === 1 ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
-							'url' => $oldChapter->url,
+							'url' => $this->cleanURL($oldChapter->url),
 							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id === 186 ? 0 : 1,
 							'created_at' => $oldChapter->modified,
 							'updated_at' => $oldChapter->modified
@@ -1223,7 +1223,7 @@ class ImportOrk3 extends Command
 								'heraldry' => $oldUnit->has_heraldry === 1 ? sprintf('%05d.jpg', $oldUnit->unit_id) : null,
 								'description' => $oldUnit->description,
 								'history' => $oldUnit->history,
-								'url' => $oldUnit->url,
+								'url' => $this->cleanURL($oldUnit->url),
 								'created_at' => $oldUnit->modified,
 								'updated_at' => $oldUnit->modified
 						]);
@@ -2091,7 +2091,7 @@ class ImportOrk3 extends Command
 							'event_start' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
 							'event_end' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
 							'price' => $oldEvent->price,
-							'url' => $oldEvent->url,
+							'url' => $this->cleanURL($oldEvent->url),
 							'created_at' => min($oldEvent->modified_1, $oldEvent->modified_2),
 							'updated_at' => max($oldEvent->modified_1, $oldEvent->modified_2)
 					]);
@@ -2228,7 +2228,7 @@ class ImportOrk3 extends Command
 								'chapter_id' => $oldMeetup->park_id,
 								'location_id' => $locationID,
 								'alt_location_id' => null,
-								'url' => filter_var($oldMeetup->location_url, FILTER_VALIDATE_URL) ? $oldMeetup->location_url : null,
+								'url' => $this->cleanURL($oldMeetup->location_url),
 								'recurrence' => $meetupMap[$oldMeetup->recurrence],
 								'week_of_month' => $oldMeetup->week_of_month > 0 ? $oldMeetup->week_of_month : null,
 								'week_day' => $oldMeetup->week_day,
@@ -2644,7 +2644,7 @@ class ImportOrk3 extends Command
 							'tournamentable_id' => $ableid,
 							'name' => $oldTournament->name,
 							'description' => $oldTournament->description,
-							'url' => $oldTournament->url,
+							'url' => $this->cleanURL($oldTournament->url),
 							'occured_at' => $oldTournament->date_time
 					]);
 					$transTournaments[$oldTournament->tournament_id] = $tournamentId;
@@ -3532,5 +3532,15 @@ class ImportOrk3 extends Command
 			return null;
 		}
 		return $value;
+	}
+	
+	private function cleanURL($url){
+		if($url === ''){
+			return null;
+		}
+		$url = str_ireplace('http://', '', $url);
+		$url = str_ireplace('https://', '', $url);
+		$url = 'https://' . $url;
+		return filter_var($url, FILTER_VALIDATE_URL) ? $url : null;
 	}
 }
