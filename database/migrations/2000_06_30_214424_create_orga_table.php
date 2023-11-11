@@ -287,7 +287,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('abbreviation', 3);
             $table->string('heraldry')->nullable();
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -431,7 +431,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
             $table->string('name', 50);
             $table->mediumText('description');
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->dateTime('occured_at');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
