@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateArchetypeRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\ArchetypeRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class ArchetypeController extends AppBaseController
 {

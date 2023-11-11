@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateTournamentRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\TournamentRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class TournamentController extends AppBaseController
 {

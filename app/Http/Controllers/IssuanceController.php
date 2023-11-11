@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateIssuanceRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\IssuanceRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class IssuanceController extends AppBaseController
 {

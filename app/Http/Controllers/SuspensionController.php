@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateSuspensionRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\SuspensionRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class SuspensionController extends AppBaseController
 {

@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateKingdomRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\KingdomRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class KingdomController extends AppBaseController
 {

@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateLocationRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\LocationRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class LocationController extends AppBaseController
 {

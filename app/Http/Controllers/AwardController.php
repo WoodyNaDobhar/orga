@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateAwardRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\AwardRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class AwardController extends AppBaseController
 {

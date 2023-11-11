@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateOfficerRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\OfficerRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class OfficerController extends AppBaseController
 {

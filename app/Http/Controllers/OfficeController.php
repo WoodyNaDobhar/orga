@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateOfficeRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\OfficeRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class OfficeController extends AppBaseController
 {

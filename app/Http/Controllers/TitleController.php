@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateTitleRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\TitleRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class TitleController extends AppBaseController
 {

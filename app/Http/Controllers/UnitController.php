@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateUnitRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\UnitRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class UnitController extends AppBaseController
 {

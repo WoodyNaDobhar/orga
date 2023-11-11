@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateMeetupRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\MeetupRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class MeetupController extends AppBaseController
 {

@@ -7,7 +7,7 @@ use App\Http\Requests\UpdatePronounRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\PronounRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class PronounController extends AppBaseController
 {

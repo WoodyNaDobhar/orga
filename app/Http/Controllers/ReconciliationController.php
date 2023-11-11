@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateReconciliationRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\ReconciliationRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class ReconciliationController extends AppBaseController
 {

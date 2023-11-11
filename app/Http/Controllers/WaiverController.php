@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateWaiverRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\WaiverRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class WaiverController extends AppBaseController
 {

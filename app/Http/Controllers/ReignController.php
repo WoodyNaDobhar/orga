@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateReignRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\ReignRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class ReignController extends AppBaseController
 {

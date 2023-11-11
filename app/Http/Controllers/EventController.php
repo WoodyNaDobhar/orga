@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\EventRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class EventController extends AppBaseController
 {

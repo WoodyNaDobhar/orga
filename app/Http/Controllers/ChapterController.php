@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateChapterRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\ChapterRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class ChapterController extends AppBaseController
 {

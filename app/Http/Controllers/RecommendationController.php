@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateRecommendationRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\RecommendationRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class RecommendationController extends AppBaseController
 {

@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateMemberRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\MemberRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class MemberController extends AppBaseController
 {

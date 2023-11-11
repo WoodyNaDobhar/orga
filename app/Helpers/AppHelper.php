@@ -1,17 +1,6 @@
 <?php
 
-namespace App\Helpers;
-
-use Carbon;
-use DB;
-use Log;
-use Throwable;
-use App\Models\Response;
-use App\Models\Subdomain;
-use App\Traits\ThumbnailableTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Mail;
+namespace app\Helpers;
 
 class AppHelper
 {

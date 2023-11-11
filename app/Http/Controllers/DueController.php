@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateDueRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\DueRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class DueController extends AppBaseController
 {

@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateAttendanceRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\AttendanceRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class AttendanceController extends AppBaseController
 {

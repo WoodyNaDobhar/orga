@@ -220,7 +220,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('unit_id')->index('unit_id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->enum('role', ['Captain', 'Lord', 'Member', 'Friend']);
+            $table->boolean('is_head')->default(true);
+            $table->boolean('is_voting')->default(true);
             $table->date('joined_at')->nullable();
             $table->date('left_at')->nullable();
             $table->string('notes')->nullable();

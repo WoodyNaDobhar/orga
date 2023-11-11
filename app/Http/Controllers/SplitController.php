@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateSplitRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\SplitRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class SplitController extends AppBaseController
 {

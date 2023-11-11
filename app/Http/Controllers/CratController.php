@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateCratRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\CratRepository;
 use Illuminate\Http\Request;
-use Flash;
+use Laracasts\Flash\Flash;
 
 class CratController extends AppBaseController
 {
