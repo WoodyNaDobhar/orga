@@ -1182,18 +1182,18 @@ class ImportOrk3 extends Command
 							'description' => $this->locationClean($oldChapter->description),
 							'directions' => $this->locationClean($oldChapter->directions)
 					]);
-					if($oldChapter->parktitle_id === 186){//inactive is being removed
+					if($oldChapter->parktitle_id == 186){//inactive is being removed
 						$lowestChaptertype = Chaptertype::where('kingdom_id', $transKingdoms[$oldChapter->kingdom_id])->orderBy('rank', 'ASC')->first();
 					}
 					$chapterID = DB::table('chapters')->insertGetId([
 							'kingdom_id' => $transKingdoms[$oldChapter->kingdom_id],
-							'chaptertype_id' => $oldChapter->parktitle_id === 186 ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
+							'chaptertype_id' => $oldChapter->parktitle_id == 186 ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
 							'location_id' => $locationID,
 							'name' => trim($oldChapter->name),
 							'abbreviation' => $oldChapter->abbreviation,
 							'heraldry' => $oldChapter->has_heraldry === 1 ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
 							'url' => $this->cleanURL($oldChapter->url),
-							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id === 186 ? 0 : 1,
+							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id == 186 ? 0 : 1,
 							'created_at' => $oldChapter->modified,
 							'updated_at' => $oldChapter->modified
 					]);
@@ -1813,8 +1813,8 @@ class ImportOrk3 extends Command
 							);
 							//assign role
 							$user = User::find($userId);
-							//park_id == 0 && kingdom_id === $oldUser->kingdom_id && mundane_id === $oldUser->mundane_id
-							//park_id === $oldUser->park_id && mundane_id === $oldUser->mundane_id
+							//park_id == 0 && kingdom_id == $oldUser->kingdom_id && mundane_id == $oldUser->mundane_id
+							//park_id == $oldUser->park_id && mundane_id == $oldUser->mundane_id
 							$offices = $backupConnect->table('ork_officer')->where(function($query) use($oldUser) {
 								$query->where('park_id', 0)
 									->where('kingdom_id', $oldUser->kingdom_id)
@@ -2466,7 +2466,7 @@ class ImportOrk3 extends Command
 									$oldAttendance->credits < 1 && $oldAttendance->class_id != 6 && array_search('Fighter Practice', array_column($meetups, 'purpose')) ? array_search('Fighter Practice', array_column($meetups, 'purpose')) : 
 									(
 										//else if it's < 1 credit and class === 6, go with the arts-day one
-										$oldAttendance->credits < 1 && $oldAttendance->class_id === 6 && array_search('A&S Gathering', array_column($meetups, 'purpose')) ? array_search('A&S Gathering', array_column($meetups, 'purpose')) :
+										$oldAttendance->credits < 1 && $oldAttendance->class_id == 6 && array_search('A&S Gathering', array_column($meetups, 'purpose')) ? array_search('A&S Gathering', array_column($meetups, 'purpose')) :
 										(
 											//else if it's > .9 credits, go with the park-day one
 											$oldAttendance->credits > .9 && array_search('Park Day', array_column($meetups, 'purpose')) ? array_search('Park Day', array_column($meetups, 'purpose')) : 
