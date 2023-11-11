@@ -1023,7 +1023,7 @@ class ImportOrk3 extends Command
 			
 			//kingdoms
 			$this->info('Importing Kingdoms...');
-			$oldKingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
+			$oldKingdoms = $backupConnect->table('ork_kingdom')->orderBy('kingdom_id', 'DESC')->get()->toArray();
 			DB::table('kingdoms')->truncate();
 			$freeholds = null;
 			if (count($oldKingdoms) > 0) {
@@ -1037,7 +1037,7 @@ class ImportOrk3 extends Command
 						$transKingdoms[$oldKingdom->kingdom_id] = $freeholds;
 					}
 					$kingdomId = DB::table('kingdoms')->insertGetId([
-							'parent_id' => $oldKingdom->parent_kingdom_id === 0 ? null : $transKingdoms[$oldKingdom->parent_kingdom_id],
+							'parent_id' => $oldKingdom->parent_kingdom_id == 0 ? null : $transKingdoms[$oldKingdom->parent_kingdom_id],
 							'name' => $oldKingdom->name,
 							'abbreviation' => $oldKingdom->abbreviation,
 							'heraldry' => $oldKingdom->has_heraldry === 1 ? sprintf('%04d.jpg', $oldKingdom->kingdom_id) : null,
@@ -1813,7 +1813,7 @@ class ImportOrk3 extends Command
 							);
 							//assign role
 							$user = User::find($userId);
-							//park_id === 0 && kingdom_id === $oldUser->kingdom_id && mundane_id === $oldUser->mundane_id
+							//park_id == 0 && kingdom_id === $oldUser->kingdom_id && mundane_id === $oldUser->mundane_id
 							//park_id === $oldUser->park_id && mundane_id === $oldUser->mundane_id
 							$offices = $backupConnect->table('ork_officer')->where(function($query) use($oldUser) {
 								$query->where('park_id', 0)
@@ -1869,7 +1869,7 @@ class ImportOrk3 extends Command
 
 					//persona data
 					$personaId = DB::table('personas')->insertGetId([
-							'chapter_id' => $oldUser->park_id === 0 ? 317 : $transChapters[$oldUser->park_id],
+							'chapter_id' => $oldUser->park_id == 0 ? 317 : $transChapters[$oldUser->park_id],
 							'user_id' => $userId,
 							'pronoun_id' => $pronounId,
 							'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
@@ -1935,7 +1935,7 @@ class ImportOrk3 extends Command
 								'pronoun_id' => null,
 								'persona_id' => $personaId,
 								'waiverable_type' => 'Chapter',
-								'waiverable_id' => $oldUser->park_id === 0 ? 317 : $transChapters[$oldUser->park_id],
+								'waiverable_id' => $oldUser->park_id == 0 ? 317 : $transChapters[$oldUser->park_id],
 								'file' => $oldUser->waiver_ext != '' ? sprintf('%06d.' . $oldUser->waiver_ext, $oldUser->mundane_id) : null,
 								'player' => trim($oldUser->given_name . ' ' . $oldUser->surname),
 								'email' => null,
@@ -2004,7 +2004,7 @@ class ImportOrk3 extends Command
 				$burningLands = Chapter::where('name', 'Burning Lands')->first();
 				foreach ($oldEvents as $oldEvent) {
 					$locationID = null;
-					$eventable_type = $oldEvent->unit_id > 0 ? 'Unit' : ($oldEvent->mundane_id > 0 && ($oldEvent->kingdom_id === 0 && $oldEvent->park_id === 0) ? 'Persona' : ($oldEvent->park_id > 0 && $oldEvent->kingdom_id === 0 ? 'Chapter' : 'Kingdom'));
+					$eventable_type = $oldEvent->unit_id > 0 ? 'Unit' : ($oldEvent->mundane_id > 0 && ($oldEvent->kingdom_id == 0 && $oldEvent->park_id == 0) ? 'Persona' : ($oldEvent->park_id > 0 && $oldEvent->kingdom_id == 0 ? 'Chapter' : 'Kingdom'));
 					if($oldEvent->kingdom_id && $oldEvent->kingdom_id != 0 && !array_key_exists($oldEvent->kingdom_id, $transKingdoms)){
 						$kingdomId = DB::table('kingdoms')->insertGetId(
 							[
@@ -2023,7 +2023,7 @@ class ImportOrk3 extends Command
 					if($oldEvent->mundane_id && $oldEvent->mundane_id != 0 && !array_key_exists($oldEvent->mundane_id, $transPersonas)){
 						$personaId = DB::table('personas')->insertGetId(
 							[
-								'chapter_id' => $oldEvent->park_id === 0 ? $burningLands->id : $transChapters[$oldEvent->park_id],
+								'chapter_id' => $oldEvent->park_id == 0 ? $burningLands->id : $transChapters[$oldEvent->park_id],
 								'user_id' => null,
 								'pronoun_id' => null,
 								'mundane' => null,
@@ -2288,7 +2288,7 @@ class ImportOrk3 extends Command
 					
 					//no persona
 					$persona = null;
-					if($oldAttendance->mundane_id === 0){
+					if($oldAttendance->mundane_id == 0){
 						$pairing = null;
 						$fromChapter = null;
 						//those that just won't happen
@@ -2405,7 +2405,7 @@ class ImportOrk3 extends Command
 					}
 					
 					//no park, kingdom, or event (ie, reconciliation)
-					if($oldAttendance->park_id === 0 && $oldAttendance->kingdom_id === 0 && $oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
+					if($oldAttendance->park_id == 0 && $oldAttendance->kingdom_id == 0 && $oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 						DB::table('reconciliations')->insertGetId(
 							[
 								'archetype_id' => $archetypeId,
@@ -2415,7 +2415,7 @@ class ImportOrk3 extends Command
 						);
 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 					//no event and no date (ie, reconciliation)
-					}else if($oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0 && $oldAttendance->entered_at === '0000-00-00 00:00:00' && $oldAttendance->date === '0000-00-00'){
+					}else if($oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0 && $oldAttendance->entered_at === '0000-00-00 00:00:00' && $oldAttendance->date === '0000-00-00'){
 						DB::table('reconciliations')->insertGetId(
 							[
 								'archetype_id' => $archetypeId,
@@ -2445,7 +2445,7 @@ class ImportOrk3 extends Command
 							);
 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 					//if it's more than 2 credits and no event, it's a reconcilliation
-					}else if($oldAttendance->credits > 2.9 && $oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
+					}else if($oldAttendance->credits > 2.9 && $oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 						DB::table('reconciliations')->insertGetId(
 							[
 								'archetype_id' => $archetypeId,
@@ -2455,7 +2455,7 @@ class ImportOrk3 extends Command
 							);
 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 					}else{
-						if($oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
+						if($oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 							//is there a meetup?
 							$meetups = Meetup::where('chapter_id', $transChapters[$oldAttendance->park_id])->get()->toArray();
 							if(count($meetups) > 0){
@@ -2500,7 +2500,7 @@ class ImportOrk3 extends Command
 								//make it
 								if($oldAttendance->event_id > 0){
 									$parentEvent = $backupConnect->table('ork_event')->where('event_id', $oldAttendance->event_id)->first();
-									$eventable_type = $parentEvent->unit_id > 0 ? 'Unit' : ($parentEvent->kingdom_id === 0 && $parentEvent->park_id === 0 ? 'Persona' : ($parentEvent->park_id > 0 && $parentEvent->kingdom_id === 0 ? 'Chapter' : 'Kingdom'));
+									$eventable_type = $parentEvent->unit_id > 0 ? 'Unit' : ($parentEvent->kingdom_id == 0 && $parentEvent->park_id == 0 ? 'Persona' : ($parentEvent->park_id > 0 && $parentEvent->kingdom_id == 0 ? 'Chapter' : 'Kingdom'));
 									switch($eventable_type){
 										case 'Unit':
 											$eventable_id = $transUnits[$parentEvent->unit_id];
@@ -2613,7 +2613,7 @@ class ImportOrk3 extends Command
 				$bar19 = $this->output->createProgressBar(count($oldTournaments));
 				$bar19->start();
 				foreach ($oldTournaments as $oldTournament) {
-					if($oldTournament->kingdom_id === 0 && $oldTournament->park_id === 0 && $oldTournament->event_calendardetail_id === 0 && $oldTournament->event_id === 0){
+					if($oldTournament->kingdom_id == 0 && $oldTournament->park_id == 0 && $oldTournament->event_calendardetail_id == 0 && $oldTournament->event_id == 0){
 						$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
 						$bar19->advance();
 						continue;
@@ -2817,7 +2817,7 @@ class ImportOrk3 extends Command
 					$earned = null;
 					$duesFrom = null;
 					$kingdom = null;
-					if($oldDue->kingdom_id === 0 || !array_key_exists($oldDue->mundane_id, $transPersonas)){
+					if($oldDue->kingdom_id == 0 || !array_key_exists($oldDue->mundane_id, $transPersonas)){
 						//looks like these are the victims of related deletions.  So sad.
 						$deadRecords['Dues'][$oldDue->dues_id] = $oldDue;
 						$bar22->advance();
@@ -2829,7 +2829,7 @@ class ImportOrk3 extends Command
 						$bar22->advance();
 						continue;
 					}else{
-						if($oldDue->import_transaction_id === 0 || !array_key_exists($oldDue->import_transaction_id, $transTransactions)){
+						if($oldDue->import_transaction_id == 0 || !array_key_exists($oldDue->import_transaction_id, $transTransactions)){
 							//make the transaction
 							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
 							$transactionId = DB::table('transactions')->insertGetId([
