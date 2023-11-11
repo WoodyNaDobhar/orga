@@ -30,9 +30,11 @@ class OfficeFactory extends Factory
         }
 
         return [
+            'officeable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
+            'officeable_id' => $this->faker->word,
             'name' => $this->faker->text($this->faker->numberBetween(5, 100)),
-            'crown_points' => $this->faker->word,
-            'crown_limit' => $this->faker->word,
+            'duration' => $this->faker->word,
+            'order' => $this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

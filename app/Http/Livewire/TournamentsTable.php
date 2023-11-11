@@ -34,9 +34,6 @@ class TournamentsTable extends DataTableComponent
             Column::make("Tournamentable Id", "tournamentable_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Event Id", "event_id")
-                ->sortable()
-                ->searchable(),
             Column::make("Name", "name")
                 ->sortable()
                 ->searchable(),

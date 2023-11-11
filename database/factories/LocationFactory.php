@@ -34,6 +34,7 @@ class LocationFactory extends Factory
             'city' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'province' => $this->faker->text($this->faker->numberBetween(5, 35)),
             'postal_code' => $this->faker->text($this->faker->numberBetween(5, 10)),
+            'country' => $this->faker->lexify('?????'),
             'google_geocode' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
             'latitude' => $this->faker->numberBetween(0, 9223372036854775807),
             'longitude' => $this->faker->numberBetween(0, 9223372036854775807),

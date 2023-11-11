@@ -1,13 +1,19 @@
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $recommendation->user_id }}</p>
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $recommendation->persona_id }}</p>
 </div>
 
-<!-- Award Id Field -->
+<!-- Recommendable Type Field -->
 <div class="col-sm-12">
-    {!! Form::label('award_id', 'Award Id:') !!}
-    <p>{{ $recommendation->award_id }}</p>
+    {!! Form::label('recommendable_type', 'Recommendable Type:') !!}
+    <p>{{ $recommendation->recommendable_type }}</p>
+</div>
+
+<!-- Recommendable Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('recommendable_id', 'Recommendable Id:') !!}
+    <p>{{ $recommendation->recommendable_id }}</p>
 </div>
 
 <!-- Rank Field -->

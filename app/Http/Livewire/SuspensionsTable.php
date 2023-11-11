@@ -28,10 +28,10 @@ class SuspensionsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("User Id", "user_id")
+            Column::make("Kingdom Id", "kingdom_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Suspended By", "suspended_by")
@@ -40,10 +40,13 @@ class SuspensionsTable extends DataTableComponent
             Column::make("Suspended At", "suspended_at")
                 ->sortable()
                 ->searchable(),
-            Column::make("Suspended Expires", "suspended_expires")
+            Column::make("Expires At", "expires_at")
                 ->sortable()
                 ->searchable(),
             Column::make("Cause", "cause")
+                ->sortable()
+                ->searchable(),
+            Column::make("Is Propogating", "is_propogating")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

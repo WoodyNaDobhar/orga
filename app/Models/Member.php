@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Member",
- *      required={"unit_id","user_id","role","title","is_active","created_at"},
+ *      required={"unit_id","persona_id","role","created_at"},
  *      @OA\Property(
  *          property="role",
  *          description="",
@@ -16,18 +16,27 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="title",
+ *          property="joined_at",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
+ *          format="date"
  *      ),
  *      @OA\Property(
- *          property="is_active",
+ *          property="left_at",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
- *          type="boolean",
+ *          nullable=true,
+ *          type="string",
+ *          format="date"
+ *      ),
+ *      @OA\Property(
+ *          property="notes",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
  *      ),
  *      @OA\Property(
  *          property="created_at",
@@ -60,24 +69,27 @@ use Illuminate\Database\Eloquent\Model;
 
     public $fillable = [
         'unit_id',
-        'user_id',
+        'persona_id',
         'role',
-        'title',
-        'is_active'
+        'joined_at',
+        'left_at',
+        'notes'
     ];
 
     protected $casts = [
         'role' => 'string',
-        'title' => 'string',
-        'is_active' => 'boolean'
+        'joined_at' => 'date',
+        'left_at' => 'date',
+        'notes' => 'string'
     ];
 
     public static array $rules = [
         'unit_id' => 'required',
-        'user_id' => 'required',
+        'persona_id' => 'required',
         'role' => 'required|string',
-        'title' => 'required|string|max:100',
-        'is_active' => 'required|boolean',
+        'joined_at' => 'nullable',
+        'left_at' => 'nullable',
+        'notes' => 'nullable|string|max:191',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -93,6 +105,11 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
     public function unit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Unit::class, 'unit_id');
@@ -101,10 +118,5 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

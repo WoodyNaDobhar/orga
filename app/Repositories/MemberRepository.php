@@ -9,10 +9,11 @@ class MemberRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'unit_id',
-        'user_id',
+        'persona_id',
         'role',
-        'title',
-        'is_active'
+        'joined_at',
+        'left_at',
+        'notes'
     ];
 
     public function getFieldsSearchable(): array

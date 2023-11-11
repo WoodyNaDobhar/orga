@@ -16,9 +16,11 @@ class OfficeResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'officeable_type' => $this->officeable_type,
+            'officeable_id' => $this->officeable_id,
             'name' => $this->name,
-            'crown_points' => $this->crown_points,
-            'crown_limit' => $this->crown_limit,
+            'duration' => $this->duration,
+            'order' => $this->order,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

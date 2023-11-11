@@ -12,6 +12,7 @@ class LocationRepository extends BaseRepository
         'city',
         'province',
         'postal_code',
+        'country',
         'google_geocode',
         'latitude',
         'longitude',

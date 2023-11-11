@@ -4,15 +4,15 @@
     <p>{{ $reconciliation->archetype_id }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $reconciliation->user_id }}</p>
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $reconciliation->persona_id }}</p>
 </div>
 
-<!-- Is Reconciled Field -->
+<!-- Credits Field -->
 <div class="col-sm-12">
-    {!! Form::label('is_reconciled', 'Is Reconciled:') !!}
-    <p>{{ $reconciliation->is_reconciled }}</p>
+    {!! Form::label('credits', 'Credits:') !!}
+    <p>{{ $reconciliation->credits }}</p>
 </div>
 

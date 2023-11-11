@@ -16,11 +16,13 @@ class SuspensionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'persona_id' => $this->persona_id,
+            'kingdom_id' => $this->kingdom_id,
             'suspended_by' => $this->suspended_by,
             'suspended_at' => $this->suspended_at,
-            'suspended_expires' => $this->suspended_expires,
+            'expires_at' => $this->expires_at,
             'cause' => $this->cause,
+            'is_propogating' => $this->is_propogating,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

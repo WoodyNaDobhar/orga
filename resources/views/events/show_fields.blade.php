@@ -10,12 +10,6 @@
     <p>{{ $event->eventable_id }}</p>
 </div>
 
-<!-- Autocrat Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('autocrat_id', 'Autocrat Id:') !!}
-    <p>{{ $event->autocrat_id }}</p>
-</div>
-
 <!-- Location Id Field -->
 <div class="col-sm-12">
     {!! Form::label('location_id', 'Location Id:') !!}
@@ -32,6 +26,18 @@
 <div class="col-sm-12">
     {!! Form::label('description', 'Description:') !!}
     <p>{{ $event->description }}</p>
+</div>
+
+<!-- Image Field -->
+<div class="col-sm-12">
+    {!! Form::label('image', 'Image:') !!}
+    <p>{{ $event->image }}</p>
+</div>
+
+<!-- Is Active Field -->
+<div class="col-sm-12">
+    {!! Form::label('is_active', 'Is Active:') !!}
+    <p>{{ $event->is_active }}</p>
 </div>
 
 <!-- Event Start Field -->

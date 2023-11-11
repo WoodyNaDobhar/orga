@@ -28,7 +28,7 @@ class AttendancesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("User Id", "user_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Archetype Id", "archetype_id")

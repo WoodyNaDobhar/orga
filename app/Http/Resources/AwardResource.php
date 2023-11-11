@@ -16,10 +16,11 @@ class AwardResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'awardable_type' => $this->awardable_type,
-            'awardable_id' => $this->awardable_id,
+            'awarder_type' => $this->awarder_type,
+            'awarder_id' => $this->awarder_id,
             'name' => $this->name,
             'is_ladder' => $this->is_ladder,
+            'limit' => $this->limit,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

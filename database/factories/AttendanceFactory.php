@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Archetype;
 use App\Models\User;
+use App\Models\Persona;
 
 class AttendanceFactory extends Factory
 {
@@ -31,7 +32,7 @@ class AttendanceFactory extends Factory
         }
 
         return [
-            'user_id' => $this->faker->word,
+            'persona_id' => $this->faker->word,
             'archetype_id' => $this->faker->word,
             'attendable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'attendable_id' => $this->faker->word,

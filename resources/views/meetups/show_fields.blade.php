@@ -1,7 +1,7 @@
-<!-- Park Id Field -->
+<!-- Chapter Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('park_id', 'Park Id:') !!}
-    <p>{{ $meetup->park_id }}</p>
+    {!! Form::label('chapter_id', 'Chapter Id:') !!}
+    <p>{{ $meetup->chapter_id }}</p>
 </div>
 
 <!-- Location Id Field -->
@@ -14,6 +14,12 @@
 <div class="col-sm-12">
     {!! Form::label('alt_location_id', 'Alt Location Id:') !!}
     <p>{{ $meetup->alt_location_id }}</p>
+</div>
+
+<!-- Url Field -->
+<div class="col-sm-12">
+    {!! Form::label('url', 'Url:') !!}
+    <p>{{ $meetup->url }}</p>
 </div>
 
 <!-- Recurrence Field -->

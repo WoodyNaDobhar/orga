@@ -15,7 +15,7 @@
         "name": "subject",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:30",
+        "validations": "required|string|max:30|string|max:30|string|max:30",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -27,7 +27,7 @@
         "name": "object",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:30",
+        "validations": "required|string|max:30|string|max:30|string|max:30",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,7 @@
         "name": "possessive",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:30",
+        "validations": "required|string|max:30|string|max:30|string|max:30",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -51,7 +51,7 @@
         "name": "possessivepronoun",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:30",
+        "validations": "required|string|max:30|string|max:30|string|max:30",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +63,7 @@
         "name": "reflexive",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:30",
+        "validations": "required|string|max:30|string|max:30|string|max:30",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -87,7 +87,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -99,7 +99,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -118,5 +118,13 @@
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Persona,pronoun_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,pronoun_id"
     }
 ]

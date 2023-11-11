@@ -113,4 +113,14 @@ use Illuminate\Database\Eloquent\Model;
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
     }
+
+    public function personas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Persona::class, 'pronoun_id');
+    }
+
+    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Waiver::class, 'pronoun_id');
+    }
 }

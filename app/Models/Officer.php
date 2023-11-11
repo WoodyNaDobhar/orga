@@ -7,20 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Officer",
- *      required={"office_id","user_id","authorized_by","officerable_type","officerable_id","scope","created_at"},
+ *      required={"officeable_type","officeable_id","office_id","persona_id","authorized_by","created_at"},
  *      @OA\Property(
- *          property="officerable_type",
+ *          property="officeable_type",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="scope",
+ *          property="label",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
+ *      ),
+ *      @OA\Property(
+ *          property="starts_on",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *          format="date"
+ *      ),
+ *      @OA\Property(
+ *          property="ends_on",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *          format="date"
  *      ),
  *      @OA\Property(
  *          property="created_at",
@@ -52,26 +68,32 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'officers';
 
     public $fillable = [
+        'officeable_type',
+        'officeable_id',
         'office_id',
-        'user_id',
+        'persona_id',
         'authorized_by',
-        'officerable_type',
-        'officerable_id',
-        'scope'
+        'label',
+        'starts_on',
+        'ends_on'
     ];
 
     protected $casts = [
-        'officerable_type' => 'string',
-        'scope' => 'string'
+        'officeable_type' => 'string',
+        'label' => 'string',
+        'starts_on' => 'date',
+        'ends_on' => 'date'
     ];
 
     public static array $rules = [
+        'officeable_type' => 'required|string',
+        'officeable_id' => 'required',
         'office_id' => 'required',
-        'user_id' => 'required',
+        'persona_id' => 'required',
         'authorized_by' => 'required',
-        'officerable_type' => 'required|string',
-        'officerable_id' => 'required',
-        'scope' => 'required|string',
+        'label' => 'nullable|string|max:50',
+        'starts_on' => 'nullable',
+        'ends_on' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -79,7 +101,7 @@ use Illuminate\Database\Eloquent\Model;
 
     public function authorizedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'authorized_by');
+        return $this->belongsTo(\App\Models\Persona::class, 'authorized_by');
     }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -97,13 +119,13 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\Office::class, 'office_id');
     }
 
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

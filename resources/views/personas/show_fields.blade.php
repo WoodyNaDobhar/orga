@@ -1,7 +1,7 @@
-<!-- Park Id Field -->
+<!-- Chapter Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('park_id', 'Park Id:') !!}
-    <p>{{ $persona->park_id }}</p>
+    {!! Form::label('chapter_id', 'Chapter Id:') !!}
+    <p>{{ $persona->chapter_id }}</p>
 </div>
 
 <!-- User Id Field -->
@@ -22,10 +22,10 @@
     <p>{{ $persona->mundane }}</p>
 </div>
 
-<!-- Persona Field -->
+<!-- Name Field -->
 <div class="col-sm-12">
-    {!! Form::label('persona', 'Persona:') !!}
-    <p>{{ $persona->persona }}</p>
+    {!! Form::label('name', 'Name:') !!}
+    <p>{{ $persona->name }}</p>
 </div>
 
 <!-- Heraldry Field -->
@@ -40,51 +40,27 @@
     <p>{{ $persona->image }}</p>
 </div>
 
-<!-- Restricted Field -->
-<div class="col-sm-12">
-    {!! Form::label('restricted', 'Restricted:') !!}
-    <p>{{ $persona->restricted }}</p>
-</div>
-
-<!-- Waivered Field -->
-<div class="col-sm-12">
-    {!! Form::label('waivered', 'Waivered:') !!}
-    <p>{{ $persona->waivered }}</p>
-</div>
-
-<!-- Waiver Ext Field -->
-<div class="col-sm-12">
-    {!! Form::label('waiver_ext', 'Waiver Ext:') !!}
-    <p>{{ $persona->waiver_ext }}</p>
-</div>
-
-<!-- Penalty Box Field -->
-<div class="col-sm-12">
-    {!! Form::label('penalty_box', 'Penalty Box:') !!}
-    <p>{{ $persona->penalty_box }}</p>
-</div>
-
 <!-- Is Active Field -->
 <div class="col-sm-12">
     {!! Form::label('is_active', 'Is Active:') !!}
     <p>{{ $persona->is_active }}</p>
 </div>
 
-<!-- Reeve Qualified Expires Field -->
+<!-- Reeve Qualified Expires At Field -->
 <div class="col-sm-12">
-    {!! Form::label('reeve_qualified_expires', 'Reeve Qualified Expires:') !!}
-    <p>{{ $persona->reeve_qualified_expires }}</p>
+    {!! Form::label('reeve_qualified_expires_at', 'Reeve Qualified Expires At:') !!}
+    <p>{{ $persona->reeve_qualified_expires_at }}</p>
 </div>
 
-<!-- Corpora Qualified Expires Field -->
+<!-- Corpora Qualified Expires At Field -->
 <div class="col-sm-12">
-    {!! Form::label('corpora_qualified_expires', 'Corpora Qualified Expires:') !!}
-    <p>{{ $persona->corpora_qualified_expires }}</p>
+    {!! Form::label('corpora_qualified_expires_at', 'Corpora Qualified Expires At:') !!}
+    <p>{{ $persona->corpora_qualified_expires_at }}</p>
 </div>
 
-<!-- Joined Park At Field -->
+<!-- Joined Chapter At Field -->
 <div class="col-sm-12">
-    {!! Form::label('joined_park_at', 'Joined Park At:') !!}
-    <p>{{ $persona->joined_park_at }}</p>
+    {!! Form::label('joined_chapter_at', 'Joined Chapter At:') !!}
+    <p>{{ $persona->joined_chapter_at }}</p>
 </div>
 

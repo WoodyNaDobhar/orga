@@ -31,16 +31,19 @@ class MembersTable extends DataTableComponent
             Column::make("Unit Id", "unit_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("User Id", "user_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Role", "role")
                 ->sortable()
                 ->searchable(),
-            Column::make("Title", "title")
+            Column::make("Joined At", "joined_at")
                 ->sortable()
                 ->searchable(),
-            Column::make("Is Active", "is_active")
+            Column::make("Left At", "left_at")
+                ->sortable()
+                ->searchable(),
+            Column::make("Notes", "notes")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

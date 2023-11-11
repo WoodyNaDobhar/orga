@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Event",
- *      required={"eventable_type","eventable_id","autocrat_id","location_id","name","description","event_start","event_end","created_at"},
+ *      required={"eventable_type","eventable_id","name","description","is_active","created_at"},
  *      @OA\Property(
  *          property="eventable_type",
  *          description="",
@@ -30,10 +30,24 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="event_start",
+ *          property="image",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *      ),
+ *      @OA\Property(
+ *          property="is_active",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
+ *          type="boolean",
+ *      ),
+ *      @OA\Property(
+ *          property="event_start",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
  *          type="string",
  *          format="date-time"
  *      ),
@@ -41,7 +55,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="event_end",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
  *          format="date-time"
  *      ),
@@ -99,10 +113,11 @@ use Illuminate\Database\Eloquent\Model;
     public $fillable = [
         'eventable_type',
         'eventable_id',
-        'autocrat_id',
         'location_id',
         'name',
         'description',
+        'image',
+        'is_active',
         'event_start',
         'event_end',
         'price',
@@ -114,6 +129,8 @@ use Illuminate\Database\Eloquent\Model;
         'eventable_type' => 'string',
         'name' => 'string',
         'description' => 'string',
+        'image' => 'string',
+        'is_active' => 'boolean',
         'event_start' => 'datetime',
         'event_end' => 'datetime',
         'price' => 'float',
@@ -124,12 +141,13 @@ use Illuminate\Database\Eloquent\Model;
     public static array $rules = [
         'eventable_type' => 'required|string',
         'eventable_id' => 'required',
-        'autocrat_id' => 'required',
-        'location_id' => 'required',
+        'location_id' => 'nullable',
         'name' => 'required|string|max:255',
         'description' => 'required|string|max:16777215',
-        'event_start' => 'required',
-        'event_end' => 'required',
+        'image' => 'nullable|string|max:255',
+        'is_active' => 'required|boolean',
+        'event_start' => 'nullable',
+        'event_end' => 'nullable',
         'price' => 'nullable|numeric',
         'url' => 'nullable|string|max:255',
         'url_name' => 'nullable|string|max:40',
@@ -137,11 +155,6 @@ use Illuminate\Database\Eloquent\Model;
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
-
-    public function autocrat(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'autocrat_id');
-    }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -161,5 +174,10 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
+    }
+
+    public function crats(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Crat::class, 'event_id');
     }
 }

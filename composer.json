@@ -23,17 +23,18 @@
 		"wildside/userstamps" : "^2.3"
 	},
 	"require-dev" : {
-		"doctrine/dbal" : "~2.3",
-		"fakerphp/faker" : "^1.9.1",
-		"infyomlabs/adminlte-templates" : "^5.0",
-		"infyomlabs/laravel-generator" : "^5.0",
-		"infyomlabs/swagger-generator" : "^3.0",
-		"kitloong/laravel-migrations-generator" : "^6.10",
-		"laravel/pint" : "^1.0",
-		"mockery/mockery" : "^1.4.4",
-		"nunomaduro/collision" : "^6.1",
-		"phpunit/phpunit" : "^9.5.10",
-		"spatie/laravel-ignition" : "^1.0"
+		"barryvdh/laravel-ide-helper": "^2.13",
+		"doctrine/dbal": "~2.3",
+		"fakerphp/faker": "^1.9.1",
+		"infyomlabs/adminlte-templates": "^5.0",
+		"infyomlabs/laravel-generator": "^5.0",
+		"infyomlabs/swagger-generator": "^3.0",
+		"kitloong/laravel-migrations-generator": "^6.10",
+		"laravel/pint": "^1.0",
+		"mockery/mockery": "^1.4.4",
+		"nunomaduro/collision": "^6.1",
+		"phpunit/phpunit": "^9.5.10",
+		"spatie/laravel-ignition": "^1.0"
 	},
 	"autoload" : {
 		"psr-4" : {

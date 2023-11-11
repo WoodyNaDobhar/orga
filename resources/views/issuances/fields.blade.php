@@ -10,10 +10,40 @@
     {!! Form::number('issuable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- User Id Field -->
+<!-- Whereable Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('whereable_type', 'Whereable Type:') !!}
+    {!! Form::text('whereable_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Whereable Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('whereable_id', 'Whereable Id:') !!}
+    {!! Form::number('whereable_id', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Authority Type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('authority_type', 'Authority Type:') !!}
+    {!! Form::text('authority_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Authority Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('authority_id', 'Authority Id:') !!}
+    {!! Form::number('authority_id', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Recipient Type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('recipient_type', 'Recipient Type:') !!}
+    {!! Form::text('recipient_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Recipient Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('recipient_id', 'Recipient Id:') !!}
+    {!! Form::number('recipient_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Issuer Id Field -->
@@ -22,22 +52,10 @@
     {!! Form::number('issuer_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Issuedable Type Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('issuedable_type', 'Issuedable Type:') !!}
-    {!! Form::text('issuedable_type', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
-<!-- Issuedable Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('issuedable_id', 'Issuedable Id:') !!}
-    {!! Form::number('issuedable_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
 <!-- Custom Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('custom_name', 'Custom Name:') !!}
-    {!! Form::text('custom_name', null, ['class' => 'form-control', 'maxlength' => 64]) !!}
+    {!! Form::text('custom_name', null, ['class' => 'form-control', 'maxlength' => 64, 'maxlength' => 64, 'maxlength' => 64]) !!}
 </div>
 
 <!-- Rank Field -->
@@ -61,19 +79,13 @@
 <!-- Note Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('note', 'Note:') !!}
-    {!! Form::text('note', null, ['class' => 'form-control', 'maxlength' => 400]) !!}
+    {!! Form::text('note', null, ['class' => 'form-control', 'maxlength' => 400, 'maxlength' => 400, 'maxlength' => 400]) !!}
 </div>
 
 <!-- Image Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('image', 'Image:') !!}
-    {!! Form::text('image', null, ['class' => 'form-control', 'maxlength' => 255]) !!}
-</div>
-
-<!-- Revocation Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('revocation', 'Revocation:') !!}
-    {!! Form::text('revocation', null, ['class' => 'form-control', 'maxlength' => 50]) !!}
+    {!! Form::text('image', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 
 <!-- Revoked By Field -->
@@ -93,3 +105,9 @@
         $('#revoked_at').datepicker()
     </script>
 @endpush
+
+<!-- Revocation Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('revocation', 'Revocation:') !!}
+    {!! Form::text('revocation', null, ['class' => 'form-control', 'maxlength' => 50, 'maxlength' => 50, 'maxlength' => 50]) !!}
+</div>

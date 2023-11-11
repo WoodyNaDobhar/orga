@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "park_id",
+        "name": "chapter_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -60,7 +60,7 @@
         "inView": true
     },
     {
-        "name": "persona",
+        "name": "name",
         "dbType": "string",
         "htmlType": "text",
         "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
@@ -96,54 +96,6 @@
         "inView": true
     },
     {
-        "name": "restricted",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "waivered",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "waiver_ext",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|max:8|string|max:8|string|max:8",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "penalty_box",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "is_active",
         "dbType": "boolean",
         "htmlType": "checkbox",
@@ -156,7 +108,7 @@
         "inView": true
     },
     {
-        "name": "reeve_qualified_expires",
+        "name": "reeve_qualified_expires_at",
         "dbType": "date",
         "htmlType": "date",
         "validations": "nullable|nullable|nullable",
@@ -168,7 +120,7 @@
         "inView": true
     },
     {
-        "name": "corpora_qualified_expires",
+        "name": "corpora_qualified_expires_at",
         "dbType": "date",
         "htmlType": "date",
         "validations": "nullable|nullable|nullable",
@@ -180,7 +132,7 @@
         "inView": true
     },
     {
-        "name": "joined_park_at",
+        "name": "joined_chapter_at",
         "dbType": "date",
         "htmlType": "date",
         "validations": "nullable|nullable|nullable",
@@ -229,15 +181,15 @@
     },
     {
         "type": "relation",
+        "relation": "mt1,Chapter,chapter_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,User,created_by"
     },
     {
         "type": "relation",
         "relation": "mt1,User,deleted_by"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,Park,park_id"
     },
     {
         "type": "relation",
@@ -250,5 +202,61 @@
     {
         "type": "relation",
         "relation": "mt1,User,user_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Attendance,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Crat,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Due,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,issuer_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Issuance,revoked_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Member,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,authorized_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Officer,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Recommendation,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reconciliation,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Split,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Suspension,suspended_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,persona_id"
     }
 ]

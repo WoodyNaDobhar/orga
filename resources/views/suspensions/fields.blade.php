@@ -1,13 +1,13 @@
-<!-- Id Field -->
+<!-- Persona Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id', 'Id:') !!}
-    {!! Form::number('id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- User Id Field -->
+<!-- Kingdom Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('kingdom_id', 'Kingdom Id:') !!}
+    {!! Form::number('kingdom_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Suspended By Field -->
@@ -28,20 +28,29 @@
     </script>
 @endpush
 
-<!-- Suspended Expires Field -->
+<!-- Expires At Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('suspended_expires', 'Suspended Expires:') !!}
-    {!! Form::text('suspended_expires', null, ['class' => 'form-control','id'=>'suspended_expires']) !!}
+    {!! Form::label('expires_at', 'Expires At:') !!}
+    {!! Form::text('expires_at', null, ['class' => 'form-control','id'=>'expires_at']) !!}
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#suspended_expires').datepicker()
+        $('#expires_at').datepicker()
     </script>
 @endpush
 
 <!-- Cause Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('cause', 'Cause:') !!}
-    {!! Form::text('cause', null, ['class' => 'form-control', 'required', 'maxlength' => 255]) !!}
+    {!! Form::text('cause', null, ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+</div>
+
+<!-- Is Propogating Field -->
+<div class="form-group col-sm-6">
+    <div class="form-check">
+        {!! Form::hidden('is_propogating', 0, ['class' => 'form-check-input']) !!}
+        {!! Form::checkbox('is_propogating', '1', null, ['class' => 'form-check-input']) !!}
+        {!! Form::label('is_propogating', 'Is Propogating', ['class' => 'form-check-label']) !!}
+    </div>
 </div>

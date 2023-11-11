@@ -10,7 +10,7 @@ class SplitRepository extends BaseRepository
     protected $fieldSearchable = [
         'account_id',
         'transaction_id',
-        'user_id',
+        'persona_id',
         'amount'
     ];
 

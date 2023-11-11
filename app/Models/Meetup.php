@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Meetup",
- *      required={"park_id","location_id","recurrence","week_day","occurs_at","purpose","description","created_at"},
+ *      required={"chapter_id","recurrence","week_day","occurs_at","purpose","created_at"},
+ *      @OA\Property(
+ *          property="url",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *      ),
  *      @OA\Property(
  *          property="recurrence",
  *          description="",
@@ -33,7 +40,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="description",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -66,9 +73,10 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'meetups';
 
     public $fillable = [
-        'park_id',
+        'chapter_id',
         'location_id',
         'alt_location_id',
+        'url',
         'recurrence',
         'week_of_month',
         'week_day',
@@ -79,6 +87,7 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     protected $casts = [
+        'url' => 'string',
         'recurrence' => 'string',
         'week_day' => 'string',
         'purpose' => 'string',
@@ -86,16 +95,17 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'park_id' => 'required',
-        'location_id' => 'required',
+        'chapter_id' => 'required',
+        'location_id' => 'nullable',
         'alt_location_id' => 'nullable',
+        'url' => 'nullable|string|max:255',
         'recurrence' => 'required|string',
         'week_of_month' => 'nullable',
         'week_day' => 'required|string',
         'month_day' => 'nullable',
         'occurs_at' => 'required',
         'purpose' => 'required|string',
-        'description' => 'required|string|max:255',
+        'description' => 'nullable|string|max:255',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -104,6 +114,11 @@ use Illuminate\Database\Eloquent\Model;
     public function altLocation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Location::class, 'alt_location_id');
+    }
+
+    public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
     }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -119,11 +134,6 @@ use Illuminate\Database\Eloquent\Model;
     public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Location::class, 'location_id');
-    }
-
-    public function park(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Park::class, 'park_id');
     }
 
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo

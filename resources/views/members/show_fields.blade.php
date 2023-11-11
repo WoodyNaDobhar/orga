@@ -4,10 +4,10 @@
     <p>{{ $member->unit_id }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $member->user_id }}</p>
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $member->persona_id }}</p>
 </div>
 
 <!-- Role Field -->
@@ -16,15 +16,21 @@
     <p>{{ $member->role }}</p>
 </div>
 
-<!-- Title Field -->
+<!-- Joined At Field -->
 <div class="col-sm-12">
-    {!! Form::label('title', 'Title:') !!}
-    <p>{{ $member->title }}</p>
+    {!! Form::label('joined_at', 'Joined At:') !!}
+    <p>{{ $member->joined_at }}</p>
 </div>
 
-<!-- Is Active Field -->
+<!-- Left At Field -->
 <div class="col-sm-12">
-    {!! Form::label('is_active', 'Is Active:') !!}
-    <p>{{ $member->is_active }}</p>
+    {!! Form::label('left_at', 'Left At:') !!}
+    <p>{{ $member->left_at }}</p>
+</div>
+
+<!-- Notes Field -->
+<div class="col-sm-12">
+    {!! Form::label('notes', 'Notes:') !!}
+    <p>{{ $member->notes }}</p>
 </div>
 

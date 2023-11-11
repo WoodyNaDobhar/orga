@@ -28,6 +28,12 @@ class TitlesTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make("Titleable Type", "titleable_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Titleable Id", "titleable_id")
+                ->sortable()
+                ->searchable(),
             Column::make("Name", "name")
                 ->sortable()
                 ->searchable(),
@@ -35,6 +41,12 @@ class TitlesTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Peerage", "peerage")
+                ->sortable()
+                ->searchable(),
+            Column::make("Is Active", "is_active")
+                ->sortable()
+                ->searchable(),
+            Column::make("Is Roaming", "is_roaming")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

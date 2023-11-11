@@ -28,13 +28,16 @@ class MeetupsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Park Id", "park_id")
+            Column::make("Chapter Id", "chapter_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Location Id", "location_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Alt Location Id", "alt_location_id")
+                ->sortable()
+                ->searchable(),
+            Column::make("Url", "url")
                 ->sortable()
                 ->searchable(),
             Column::make("Recurrence", "recurrence")

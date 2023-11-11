@@ -37,6 +37,13 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
+ *          property="country",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *      ),
+ *      @OA\Property(
  *          property="google_geocode",
  *          description="",
  *          readOnly=false,
@@ -121,6 +128,7 @@ use Illuminate\Database\Eloquent\Model;
         'city',
         'province',
         'postal_code',
+        'country',
         'google_geocode',
         'latitude',
         'longitude',
@@ -135,6 +143,7 @@ use Illuminate\Database\Eloquent\Model;
         'city' => 'string',
         'province' => 'string',
         'postal_code' => 'string',
+        'country' => 'string',
         'google_geocode' => 'string',
         'latitude' => 'float',
         'longitude' => 'float',
@@ -149,6 +158,7 @@ use Illuminate\Database\Eloquent\Model;
         'city' => 'nullable|string|max:50',
         'province' => 'nullable|string|max:35',
         'postal_code' => 'nullable|string|max:10',
+        'country' => 'nullable|string|max:2',
         'google_geocode' => 'nullable|string|max:16777215',
         'latitude' => 'nullable|numeric',
         'longitude' => 'nullable|numeric',
@@ -176,6 +186,11 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
     }
 
+    public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chapter::class, 'location_id');
+    }
+
     public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Event::class, 'location_id');
@@ -189,5 +204,10 @@ use Illuminate\Database\Eloquent\Model;
     public function meetup3s(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Meetup::class, 'location_id');
+    }
+
+    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Waiver::class, 'location_id');
     }
 }

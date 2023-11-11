@@ -5,6 +5,8 @@ namespace Database\Factories;
 use App\Models\Suspension;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\Kingdom;
+use App\Models\Persona;
 use App\Models\User;
 
 class SuspensionFactory extends Factory
@@ -30,12 +32,13 @@ class SuspensionFactory extends Factory
         }
 
         return [
-            'id' => $this->faker->word,
-            'user_id' => $this->faker->word,
+            'persona_id' => $this->faker->word,
+            'kingdom_id' => $this->faker->word,
             'suspended_by' => $this->faker->word,
             'suspended_at' => $this->faker->date('Y-m-d'),
-            'suspended_expires' => $this->faker->date('Y-m-d'),
+            'expires_at' => $this->faker->date('Y-m-d'),
             'cause' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'is_propogating' => $this->faker->boolean,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

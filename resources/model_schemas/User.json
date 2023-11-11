@@ -12,82 +12,10 @@
         "inView": false
     },
     {
-        "name": "park_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "pronoun_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "name",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "persona",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "heraldry",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "nullable|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "image",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "nullable|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "email",
         "dbType": "string",
         "htmlType": "email",
-        "validations": "required|string|max:255",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -99,7 +27,7 @@
         "name": "email_verified_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -111,7 +39,7 @@
         "name": "password",
         "dbType": "string",
         "htmlType": "password",
-        "validations": "required|string|max:255",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -123,7 +51,7 @@
         "name": "remember_token",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:100",
+        "validations": "nullable|string|max:100|nullable|string|max:100|nullable|string|max:100",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -132,94 +60,10 @@
         "inView": true
     },
     {
-        "name": "restricted",
+        "name": "is_restricted",
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "waivered",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "waiver_ext",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|max:8",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "penalty_box",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "is_active",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "reeve_qualified_expires",
-        "dbType": "date",
-        "htmlType": "date",
-        "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "corpora_qualified_expires",
-        "dbType": "date",
-        "htmlType": "date",
-        "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "joined_park_at",
-        "dbType": "date",
-        "htmlType": "date",
-        "validations": "nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -243,7 +87,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -255,7 +99,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -301,10 +145,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Attendance,user_id"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Award,created_by"
     },
     {
@@ -317,15 +157,39 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Configuration,created_by"
+        "relation": "1tm,Chapter,created_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Configuration,deleted_by"
+        "relation": "1tm,Chapter,deleted_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Configuration,updated_by"
+        "relation": "1tm,Chapter,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Chaptertype,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Chaptertype,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Chaptertype,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Crat,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Crat,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Crat,updated_by"
     },
     {
         "type": "relation",
@@ -337,19 +201,7 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Due,revoked_by"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Due,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Due,user_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Event,autocrat_id"
     },
     {
         "type": "relation",
@@ -373,43 +225,7 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Issuance,issuer_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Issuance,revoked_by"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Issuance,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Issuance,user_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomOffice,created_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomOffice,deleted_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomOffice,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomTitle,created_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomTitle,deleted_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomTitle,updated_by"
     },
     {
         "type": "relation",
@@ -461,14 +277,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Member,user_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Officer,authorized_by"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Officer,created_by"
     },
     {
@@ -478,10 +286,6 @@
     {
         "type": "relation",
         "relation": "1tm,Officer,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Officer,user_id"
     },
     {
         "type": "relation",
@@ -497,27 +301,19 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Parkrank,created_by"
+        "relation": "1tm,Persona,created_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Parkrank,deleted_by"
+        "relation": "1tm,Persona,deleted_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Parkrank,updated_by"
+        "relation": "1tm,Persona,updated_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Park,created_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Park,deleted_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Park,updated_by"
+        "relation": "1tm,Persona,user_id"
     },
     {
         "type": "relation",
@@ -545,10 +341,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Recommendation,user_id"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Reconciliation,created_by"
     },
     {
@@ -558,10 +350,6 @@
     {
         "type": "relation",
         "relation": "1tm,Reconciliation,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Reconciliation,user_id"
     },
     {
         "type": "relation",
@@ -577,10 +365,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Split,user_id"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Suspension,created_by"
     },
     {
@@ -589,15 +373,7 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Suspension,suspended_by"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Suspension,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Suspension,user_id"
     },
     {
         "type": "relation",
@@ -646,5 +422,21 @@
     {
         "type": "relation",
         "relation": "1tm,Unit,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,age_verified_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,updated_by"
     }
 ]

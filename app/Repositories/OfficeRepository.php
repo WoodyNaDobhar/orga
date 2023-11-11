@@ -8,9 +8,11 @@ use App\Repositories\BaseRepository;
 class OfficeRepository extends BaseRepository
 {
     protected $fieldSearchable = [
+        'officeable_type',
+        'officeable_id',
         'name',
-        'crown_points',
-        'crown_limit'
+        'duration',
+        'order'
     ];
 
     public function getFieldsSearchable(): array

@@ -10,7 +10,6 @@ class TournamentRepository extends BaseRepository
     protected $fieldSearchable = [
         'tournamentable_type',
         'tournamentable_id',
-        'event_id',
         'name',
         'description',
         'url',

@@ -15,8 +15,8 @@ use App\Models\Location;
 use App\Models\Meetup;
 use App\Models\Member;
 use App\Models\Office;
-use App\Models\Park;
-use App\Models\Parkrank;
+use App\Models\Chapter;
+use App\Models\Chaptertype;
 use App\Models\Persona;
 use App\Models\Title;
 use App\Models\Transaction;
@@ -93,6 +93,12 @@ class ImportOrk3 extends Command
 // 			DB::table('permissions')->truncate();
 // 			DB::table('roles')->truncate();
 // 			DB::table('role_has_permissions')->truncate();
+
+			//Make a default 'unknown' location
+			$defaultLocationId = DB::table('locations')->insertGetId([
+				'address' => 'Lost to the Ages',
+				'country' => null
+			]);
 
 // 			//roles and permissions
 // 			$this->info('Setting Roles & Permissions...');
@@ -200,13 +206,13 @@ class ImportOrk3 extends Command
 // 			Permission::create(['name' => 'remove offices', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'removeOwn offices', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'removeRelated offices', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'list parkranks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'store parkranks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'display parkranks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'displayOwn parkranks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'displayRelated parkranks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'update parkranks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'remove parkranks', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'list chaptertypes', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'store chaptertypes', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'display chaptertypes', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'displayOwn chaptertypes', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'displayRelated chaptertypes', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'update chaptertypes', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'remove chaptertypes', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'list pronouns', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'store pronouns', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'display pronouns', 'guard_name' => 'api']);
@@ -262,17 +268,17 @@ class ImportOrk3 extends Command
 // 			Permission::create(['name' => 'remove units', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'removeOwn units', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'removeRelated units', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'list parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'store parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'display parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'displayOwn parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'displayRelated parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'update parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'updateOwn parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'updateRelated parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'remove parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'removeOwn parks', 'guard_name' => 'api']);
-// 			Permission::create(['name' => 'removeRelated parks', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'list chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'store chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'display chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'displayOwn chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'displayRelated chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'update chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'updateOwn chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'updateRelated chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'remove chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'removeOwn chapters', 'guard_name' => 'api']);
+// 			Permission::create(['name' => 'removeRelated chapters', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'list awards', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'store awards', 'guard_name' => 'api']);
 // 			Permission::create(['name' => 'display awards', 'guard_name' => 'api']);
@@ -504,11 +510,11 @@ class ImportOrk3 extends Command
 // 			$role->givePermissionTo('updateRelated offices');
 // 			$role->givePermissionTo('removeOwn offices');
 // 			$role->givePermissionTo('removeRelated offices');
-// 			$role->givePermissionTo('list parkranks');
-// 			$role->givePermissionTo('store parkranks');
-// 			$role->givePermissionTo('display parkranks');
-// 			$role->givePermissionTo('displayOwn parkranks');
-// 			$role->givePermissionTo('displayRelated parkranks');
+// 			$role->givePermissionTo('list chaptertypes');
+// 			$role->givePermissionTo('store chaptertypes');
+// 			$role->givePermissionTo('display chaptertypes');
+// 			$role->givePermissionTo('displayOwn chaptertypes');
+// 			$role->givePermissionTo('displayRelated chaptertypes');
 // 			$role->givePermissionTo('list pronouns');
 // 			$role->givePermissionTo('display pronouns');
 // 			$role->givePermissionTo('displayOwn pronouns');
@@ -548,15 +554,15 @@ class ImportOrk3 extends Command
 // 			$role->givePermissionTo('updateRelated units');
 // 			$role->givePermissionTo('removeOwn units');
 // 			$role->givePermissionTo('removeRelated units');
-// 			$role->givePermissionTo('list parks');
-// 			$role->givePermissionTo('store parks');
-// 			$role->givePermissionTo('display parks');
-// 			$role->givePermissionTo('displayOwn parks');
-// 			$role->givePermissionTo('displayRelated parks');
-// 			$role->givePermissionTo('updateOwn parks');
-// 			$role->givePermissionTo('updateRelated parks');
-// 			$role->givePermissionTo('removeOwn parks');
-// 			$role->givePermissionTo('removeRelated parks');
+// 			$role->givePermissionTo('list chapters');
+// 			$role->givePermissionTo('store chapters');
+// 			$role->givePermissionTo('display chapters');
+// 			$role->givePermissionTo('displayOwn chapters');
+// 			$role->givePermissionTo('displayRelated chapters');
+// 			$role->givePermissionTo('updateOwn chapters');
+// 			$role->givePermissionTo('updateRelated chapters');
+// 			$role->givePermissionTo('removeOwn chapters');
+// 			$role->givePermissionTo('removeRelated chapters');
 // 			$role->givePermissionTo('list awards');
 // 			$role->givePermissionTo('store awards');
 // 			$role->givePermissionTo('display awards');
@@ -708,10 +714,10 @@ class ImportOrk3 extends Command
 // 			$role->givePermissionTo('display offices');
 // 			$role->givePermissionTo('displayOwn offices');
 // 			$role->givePermissionTo('displayRelated offices');
-// 			$role->givePermissionTo('list parkranks');
-// 			$role->givePermissionTo('display parkranks');
-// 			$role->givePermissionTo('displayOwn parkranks');
-// 			$role->givePermissionTo('displayRelated parkranks');
+// 			$role->givePermissionTo('list chaptertypes');
+// 			$role->givePermissionTo('display chaptertypes');
+// 			$role->givePermissionTo('displayOwn chaptertypes');
+// 			$role->givePermissionTo('displayRelated chaptertypes');
 // 			$role->givePermissionTo('list pronouns');
 // 			$role->givePermissionTo('display pronouns');
 // 			$role->givePermissionTo('displayOwn pronouns');
@@ -738,10 +744,10 @@ class ImportOrk3 extends Command
 // 			$role->givePermissionTo('updateOwn units');
 // 			$role->givePermissionTo('remove units');
 // 			$role->givePermissionTo('removeOwn units');
-// 			$role->givePermissionTo('list parks');
-// 			$role->givePermissionTo('display parks');
-// 			$role->givePermissionTo('displayOwn parks');
-// 			$role->givePermissionTo('displayRelated parks');
+// 			$role->givePermissionTo('list chapters');
+// 			$role->givePermissionTo('display chapters');
+// 			$role->givePermissionTo('displayOwn chapters');
+// 			$role->givePermissionTo('displayRelated chapters');
 // 			$role->givePermissionTo('list awards');
 // 			$role->givePermissionTo('display awards');
 // 			$role->givePermissionTo('displayOwn awards');
@@ -843,19 +849,19 @@ class ImportOrk3 extends Command
 			if(count($transDone) > 0){
 				$transKingdoms = unserialize($transDone->first()->value);
 			}
-			$transParkRanks = [];
+			$transChaptertypes = [];
 			$transDone = $trans->filter(function($item) {
-				return ($item->table === 'parkranks');
+				return ($item->table === 'chaptertypes');
 			});
 			if(count($transDone) > 0){
-				$transParkRanks = unserialize($transDone->first()->value);
+				$transChaptertypes = unserialize($transDone->first()->value);
 			}
-			$transParks = [];
+			$transChapters = [];
 			$transDone = $trans->filter(function($item) {
-				return ($item->table === 'parks');
+				return ($item->table === 'chapters');
 			});
 			if(count($transDone) > 0){
-				$transParks = unserialize($transDone->first()->value);
+				$transChapters = unserialize($transDone->first()->value);
 			}
 			$transUnits = [];
 			$transDone = $trans->filter(function($item) {
@@ -871,12 +877,12 @@ class ImportOrk3 extends Command
 			if(count($transDone) > 0){
 				$transGenericAwards = unserialize($transDone->first()->value);
 			}
-			$transCustomAwards = [];
+			$transKingdomawards = [];
 			$transDone = $trans->filter(function($item) {
 				return ($item->table === 'customawards');
 			});
 			if(count($transDone) > 0){
-				$transCustomAwards = unserialize($transDone->first()->value);
+				$transKingdomawards = unserialize($transDone->first()->value);
 			}
 			$transTitles = [];
 			$transDone = $trans->filter(function($item) {
@@ -1000,7499 +1006,7499 @@ class ImportOrk3 extends Command
 			$transSplits = [];
 			
 			//what we know
-// 			$ropLadders = [243, 239, 25, 26, 23, 24, 21, 22, 27]; //the ids in ork3 of awards that are standardized
-// 			$ropTitles = [1,2,3,4,5,6,12,13,14,15,16,17,18,19,20,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,203,240,241,242,244,245,]; //the ids in the ork3 of titles that are standardized
+			$ropLadders = [243, 239, 25, 26, 23, 24, 21, 22, 27]; //the ids in ork3 of awards that are standardized
+			$ropTitles = [1,2,3,4,5,6,12,13,14,15,16,17,18,19,20,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,203,240,241,242,244,245,]; //the ids in the ork3 of titles that are standardized
 			$knownCollectiveGDs = [16, 21, 17, 10];//the ids in ork3 of kingdoms with Grand Duchies that are collective.
 			//TODO: convert any of their GD's into 'kingdoms'
-// 			$knownAwards = [
-// 					'Order of the Flame' => [
-// 							1 => [
-// 									'name' => 'The Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							3 => [
-// 									'name' => 'Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							4 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							5 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							6 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							7 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							10 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							11 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							12 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							14 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							16 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							17 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							18 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							19 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							20 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							21 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							22 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							24 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							25 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							27 => [
-// 									'name' => 'Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							31 => [
-// 									'name' => 'Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							36 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							],
-// 							38 => [
-// 									'name' => 'Order of the Flame',
-// 									'is_ladder' => 0
-// 							]
-// 					],
-// 					'Order of the Griffin' => [
-// 							1 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							3 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							4 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							5 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							6 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							7 => [
-// 									'name' => 'Order of the Griffon|Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							10 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							11 => [
-// 									'name' => 'Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							12 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							14 => [
-// 									'name' => 'Order of the Griffon|Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							16 => [
-// 									'name' => 'Order of the Griffon|Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							17 => [
-// 									'name' => 'Order of the Griffon',
-// 									'is_ladder' => 1
-// 							],
-// 							18 => [
-// 									'name' => 'Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							19 => [
-// 									'name' => 'Order of the Griffon|Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							20 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							21 => [
-// 									'name' => 'Order of the Griffon',
-// 									'is_ladder' => 1
-// 							],
-// 							22 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							],
-// 							24 => [
-// 									'name' => 'Order of the Griffon',
-// 									'is_ladder' => 1
-// 							],
-// 							25 => [
-// 									'name' => 'Order of the Griffon|Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							27 => [
-// 									'name' => 'Order of the Griffon|Order of the Gryphon',
-// 									'is_ladder' => 1
-// 							],
-// 							31 => [
-// 									'name' => 'Griffon',
-// 									'is_ladder' => 1
-// 							],
-// 							36 => [
-// 									'name' => 'Order of the Griffon',
-// 									'is_ladder' => 1
-// 							],
-// 							38 => [
-// 									'name' => 'Order of the Griffin',
-// 									'is_ladder' => 1
-// 							]
-// 					],
-// 					'Order of the Hydra' => [
-// 							1 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							3 => [
-// 									'name' => 'Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							4 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							5 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							6 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							7 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							14 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							16 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							17 => null,
-// 							18 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							19 => null,
-// 							20 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							21 => null,
-// 							22 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							24 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							25 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							27 => [
-// 									'name' => 'Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							31 => [
-// 									'name' => 'Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							36 => [
-// 									'name' => 'Order of the Hydra',
-// 									'is_ladder' => 1
-// 							],
-// 							38 => null
-// 					],
-// 					'Order of the Jovius' => [
-// 							1 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							3 => [
-// 									'name' => 'Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							4 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							5 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							6 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							7 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							10 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							11 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							12 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							14 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							16 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							17 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							18 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							19 => [
-// 									'name' => 'Order of the Jovius',
-// 									'is_ladder' => 1
-// 							],
-// 							20 => [
-// 									'name' => 'Order of the Jovius',
-// 									'is_ladder' => 1
-// 							],
-// 							21 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							22 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							24 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							25 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							27 => [
-// 									'name' => 'Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							31 => [
-// 									'name' => 'Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							36 => [
-// 									'name' => 'Order of the Jovious',
-// 									'is_ladder' => 1
-// 							],
-// 							38 => [
-// 									'name' => 'Order of the Jovius',
-// 									'is_ladder' => 1
-// 							]
-// 					],
-// 					'Order of the Mask' => [
-// 							1 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							3 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							4 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							5 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							6 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							7 => [
-// 									'name' => 'Order of the Mask|Order of the Masque',
-// 									'is_ladder' => 1
-// 							],
-// 							10 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							11 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							12 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							14 => [
-// 									'name' => 'Order of the Mask|Order of the Masque',
-// 									'is_ladder' => 1
-// 							],
-// 							16 => [
-// 									'name' => 'Order of the Mask|Order of the Masque',
-// 									'is_ladder' => 1
-// 							],
-// 							17 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							18 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							19 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							20 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							21 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							22 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							24 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							25 => [
-// 									'name' => 'Order of the Mask|Order of the Masque',
-// 									'is_ladder' => 1
-// 							],
-// 							27 => [
-// 									'name' => 'Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							31 => [
-// 									'name' => 'Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							36 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							],
-// 							38 => [
-// 									'name' => 'Order of the Mask',
-// 									'is_ladder' => 1
-// 							]
-// 					],
-// 					'Order of the Zodiac' => [
-// 							1 => [
-// 									'name' => 'The Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							5 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							6 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							7 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							14 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							16 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							17 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							18 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							19 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							20 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							21 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							22 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							24 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							25 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							27 => [
-// 									'name' => 'Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							31 => [
-// 									'name' => 'Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							36 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							],
-// 							38 => [
-// 									'name' => 'Order of the Zodiac',
-// 									'is_ladder' => 1
-// 							]
-// 					],
-// 					'Order of the Dreamkeeper' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => [
-// 									'name' => 'Dreamkeeper',
-// 									'is_ladder' => 1
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Order of the Walker in the Middle' => [
-// 							1 => [
-// 									'type' => 'award',
-// 									'name' => 'Walker in the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							3 => null,
-// 							4 => [
-// 									'type' => 'award',
-// 									'name' => 'Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							5 => [
-// 									'type' => 'award',
-// 									'name' => 'Order of the Walker in the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							6 => [
-// 									'type' => 'award',
-// 									'name' => 'Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							7 => [
-// 									'type' => 'award',
-// 									'name' => 'Order of the Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => [
-// 									'type' => 'award',
-// 									'name' => 'Order of the Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							16 => [
-// 									'type' => 'award',
-// 									'name' => 'Order of the Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							17 => [
-// 									'type' => 'award',
-// 									'name' => 'Order of the Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							18 => [
-// 									'type' => 'award',
-// 									'name' => 'Walker in the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							19 => [
-// 									'type' => 'award',
-// 									'name' => 'Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							20 => [
-// 									'type' => 'award',
-// 									'name' => 'Order of the Walker of the Middle',
-// 									'is_ladder' => 0
-// 							],
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 			];
+			$knownAwards = [
+					'Order of the Flame' => [
+							1 => [
+									'name' => 'The Flame',
+									'is_ladder' => 0
+							],
+							3 => [
+									'name' => 'Flame',
+									'is_ladder' => 0
+							],
+							4 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							5 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							6 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							7 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							10 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							11 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							12 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							14 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							16 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							17 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							18 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							19 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							20 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							21 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							22 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							24 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							25 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							27 => [
+									'name' => 'Flame',
+									'is_ladder' => 0
+							],
+							31 => [
+									'name' => 'Flame',
+									'is_ladder' => 0
+							],
+							36 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							],
+							38 => [
+									'name' => 'Order of the Flame',
+									'is_ladder' => 0
+							]
+					],
+					'Order of the Griffin' => [
+							1 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							3 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							4 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							5 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							6 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							7 => [
+									'name' => 'Order of the Griffon|Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							10 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							11 => [
+									'name' => 'Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							12 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							14 => [
+									'name' => 'Order of the Griffon|Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							16 => [
+									'name' => 'Order of the Griffon|Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							17 => [
+									'name' => 'Order of the Griffon',
+									'is_ladder' => 1
+							],
+							18 => [
+									'name' => 'Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							19 => [
+									'name' => 'Order of the Griffon|Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							20 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							21 => [
+									'name' => 'Order of the Griffon',
+									'is_ladder' => 1
+							],
+							22 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							],
+							24 => [
+									'name' => 'Order of the Griffon',
+									'is_ladder' => 1
+							],
+							25 => [
+									'name' => 'Order of the Griffon|Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							27 => [
+									'name' => 'Order of the Griffon|Order of the Gryphon',
+									'is_ladder' => 1
+							],
+							31 => [
+									'name' => 'Griffon',
+									'is_ladder' => 1
+							],
+							36 => [
+									'name' => 'Order of the Griffon',
+									'is_ladder' => 1
+							],
+							38 => [
+									'name' => 'Order of the Griffin',
+									'is_ladder' => 1
+							]
+					],
+					'Order of the Hydra' => [
+							1 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							3 => [
+									'name' => 'Hydra',
+									'is_ladder' => 1
+							],
+							4 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							5 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							6 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							7 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							14 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							16 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							17 => null,
+							18 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							19 => null,
+							20 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							21 => null,
+							22 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							24 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							25 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							27 => [
+									'name' => 'Hydra',
+									'is_ladder' => 1
+							],
+							31 => [
+									'name' => 'Hydra',
+									'is_ladder' => 1
+							],
+							36 => [
+									'name' => 'Order of the Hydra',
+									'is_ladder' => 1
+							],
+							38 => null
+					],
+					'Order of the Jovius' => [
+							1 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							3 => [
+									'name' => 'Jovious',
+									'is_ladder' => 1
+							],
+							4 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							5 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							6 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							7 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							10 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							11 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							12 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							14 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							16 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							17 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							18 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							19 => [
+									'name' => 'Order of the Jovius',
+									'is_ladder' => 1
+							],
+							20 => [
+									'name' => 'Order of the Jovius',
+									'is_ladder' => 1
+							],
+							21 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							22 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							24 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							25 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							27 => [
+									'name' => 'Jovious',
+									'is_ladder' => 1
+							],
+							31 => [
+									'name' => 'Jovious',
+									'is_ladder' => 1
+							],
+							36 => [
+									'name' => 'Order of the Jovious',
+									'is_ladder' => 1
+							],
+							38 => [
+									'name' => 'Order of the Jovius',
+									'is_ladder' => 1
+							]
+					],
+					'Order of the Mask' => [
+							1 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							3 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							4 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							5 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							6 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							7 => [
+									'name' => 'Order of the Mask|Order of the Masque',
+									'is_ladder' => 1
+							],
+							10 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							11 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							12 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							14 => [
+									'name' => 'Order of the Mask|Order of the Masque',
+									'is_ladder' => 1
+							],
+							16 => [
+									'name' => 'Order of the Mask|Order of the Masque',
+									'is_ladder' => 1
+							],
+							17 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							18 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							19 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							20 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							21 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							22 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							24 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							25 => [
+									'name' => 'Order of the Mask|Order of the Masque',
+									'is_ladder' => 1
+							],
+							27 => [
+									'name' => 'Mask',
+									'is_ladder' => 1
+							],
+							31 => [
+									'name' => 'Mask',
+									'is_ladder' => 1
+							],
+							36 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							],
+							38 => [
+									'name' => 'Order of the Mask',
+									'is_ladder' => 1
+							]
+					],
+					'Order of the Zodiac' => [
+							1 => [
+									'name' => 'The Zodiac',
+									'is_ladder' => 1
+							],
+							3 => null,
+							4 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							5 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							6 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							7 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							14 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							16 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							17 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							18 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							19 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							20 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							21 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							22 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							24 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							25 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							27 => [
+									'name' => 'Zodiac',
+									'is_ladder' => 1
+							],
+							31 => [
+									'name' => 'Zodiac',
+									'is_ladder' => 1
+							],
+							36 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							],
+							38 => [
+									'name' => 'Order of the Zodiac',
+									'is_ladder' => 1
+							]
+					],
+					'Order of the Dreamkeeper' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => [
+									'name' => 'Dreamkeeper',
+									'is_ladder' => 1
+							],
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Order of the Walker in the Middle' => [
+							1 => [
+									'type' => 'award',
+									'name' => 'Walker in the Middle',
+									'is_ladder' => 0
+							],
+							3 => null,
+							4 => [
+									'type' => 'award',
+									'name' => 'Walker of the Middle',
+									'is_ladder' => 0
+							],
+							5 => [
+									'type' => 'award',
+									'name' => 'Order of the Walker in the Middle',
+									'is_ladder' => 0
+							],
+							6 => [
+									'type' => 'award',
+									'name' => 'Walker of the Middle',
+									'is_ladder' => 0
+							],
+							7 => [
+									'type' => 'award',
+									'name' => 'Order of the Walker of the Middle',
+									'is_ladder' => 0
+							],
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => [
+									'type' => 'award',
+									'name' => 'Order of the Walker of the Middle',
+									'is_ladder' => 0
+							],
+							16 => [
+									'type' => 'award',
+									'name' => 'Order of the Walker of the Middle',
+									'is_ladder' => 0
+							],
+							17 => [
+									'type' => 'award',
+									'name' => 'Order of the Walker of the Middle',
+									'is_ladder' => 0
+							],
+							18 => [
+									'type' => 'award',
+									'name' => 'Walker in the Middle',
+									'is_ladder' => 0
+							],
+							19 => [
+									'type' => 'award',
+									'name' => 'Walker of the Middle',
+									'is_ladder' => 0
+							],
+							20 => [
+									'type' => 'award',
+									'name' => 'Order of the Walker of the Middle',
+									'is_ladder' => 0
+							],
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+			];
 			//titles as they appear in ork3 with kingdom-specific details, as per my best reading of their corpora.  It's kinda a nightmare.
-// 			$knownTitles = [
-// 					'Master Jovius' => [
-// 							1 => [
-// 									'name' => 'Master Jovious',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 0,
-// 									'peerage' => 'Master'
-// 							],
-// 							3 => null,
-// 							4 => null,
-// 							5 => [
-// 									'name' => 'Master Thespian',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							6 => [
-// 									'name' => 'Master Jovious',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => [
-// 									'name' => 'Master Jovious',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							12 => [
-// 									'name' => 'Master Jovious',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							14 => null,
-// 							16 => null,
-// 							17 => [
-// 									'name' => 'Master Jovious',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Master Thespian',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Master Jovious',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							38 => null
-// 					],
-// 					'Master Zodiac' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => [
-// 									'name' => 'Master Zodiac',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							6 => [
-// 									'name' => 'Master Zodiac',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Master Zodiac',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							14 => null,
-// 							16 => null,
-// 							17 => [
-// 									'name' => 'Master Zodiac',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Master Zodiac',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							25 => [
-// 									'name' => 'Master Zodiac',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Master Mask' => [
-// 							1 => [
-// 									'name' => 'Master Mask|Master Thespian',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 0,
-// 									'peerage' => 'Master'
-// 							],
-// 							3 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							4 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							5 => [
-// 									'name' => 'Master Thespian',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							6 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							12 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							14 => null,
-// 							16 => null,
-// 							17 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Master Thespian',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Master Mask',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							38 => null
-// 					],
-// 					'Master Hydra' => [
-// 							1 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							5 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							6 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							7 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							24 => null,
-// 							25 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Master Hydra',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							38 => null
-// 					],
-// 					'Master Griffin' => [
-// 							1 => [
-// 									'name' => 'Master Griffin',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							3 => [
-// 									'name' => 'Master Griffin',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							4 => [
-// 									'name' => 'Master Griffin',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							5 => [
-// 									'name' => 'Master Griffin',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							6 => [
-// 									'name' => 'Master Griffin',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => [
-// 									'name' => 'Master Gryphon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							12 => [
-// 									'name' => 'Master Griffon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Master Griffon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							17 => [
-// 									'name' => 'Master Griffon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => [
-// 									'name' => 'Master Griffon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							24 => null,
-// 							25 => [
-// 									'name' => 'Master Griffon|Master Gryphon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Master Griffon',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							38 => null
-// 					],
-// 					'Order of the Walker in the Middle' => [
-// 							1 => null,
-// 							3 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							11 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							12 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							22 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Walker in the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Walker of the Middle',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							]
-// 					],
-// 					'Weaponmaster' => [
-// 							1 => [
-// 									'name' => 'Kingdom Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							5 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							6 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							7 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							10 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							17 => null,
-// 							18 => null,
-// 							19 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							20 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							21 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Weaponmaster of Winter\'s Edge',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							25 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Grand Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							38 => [
-// 									'name' => 'Weaponmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							]
-// 					],
-// 					'Dragonmaster' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							5 => null,
-// 							6 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							7 => [
-// 									'name' => 'Burning Lands Arts and Sciences Champion',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Arts and Sciences Champion',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							17 => [
-// 									'name' => 'Dragon Master',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							18 => null,
-// 							19 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							20 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							21 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Dragonmaster of Winter\'s Edge',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							25 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							27 => null,
-// 							31 => null,
-// 							36 => [
-// 									'name' => 'Cultural Champion',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							38 => [
-// 									'name' => 'Dragonmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							]
-// 					],
-// 					'Ducal Defender' => [
-// 							1 => [
-// 									'name' => 'Ducal Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Grand Ducal Defender' => [
-// 							1 => [
-// 									'name' => 'Grand Ducal Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Defender' => [
-// 							1 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							4 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							7 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							10 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							11 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							12 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							17 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							18 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							21 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							27 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							31 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Defender',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => null
-// 					],
-// 					'Steward' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => [
-// 									'name' => 'Steward',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Protector' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => [
-// 									'name' => 'Protector',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => [
-// 									'name' => 'Protector',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Dragonrider' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Dragonrider',
-// 									'reign_limit' => null,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Esquire' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							7 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							10 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							11 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => null,
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							17 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							18 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							21 => null,
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							25 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							27 => null,
-// 							31 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							36 => null,
-// 							38 => [
-// 									'name' => 'Esquire',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Master' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Master|Mistress',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => null,
-// 							7 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							10 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							17 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							18 => null,
-// 							19 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							21 => null,
-// 							22 => null,
-// 							24 => [
-// 									'name' => 'Master of the Court|Mistress of the Court',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							25 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							27 => null,
-// 							31 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							36 => null,
-// 							38 => [
-// 									'name' => 'Master',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Lord' => [
-// 							1 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							10 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Lady|Lord',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							17 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Lord|Lady|Noble',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Lord|Lady',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Liege',
-// 									'reign_limit' => null,
-// 									'rank' => 30,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Baronet' => [
-// 							1 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Baronet|Baronetess',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Baronetess|Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Baronet|Baronetess',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Baronet|Baronetess|Constable',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Baronet|Baronetess',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Baronet|Baronetess',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Baronet',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Baronet|Baronetess',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Baronetex',
-// 									'reign_limit' => null,
-// 									'rank' => 40,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Baron' => [
-// 							1 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Baron',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Baroness|Baron',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Baron|Baroness|Viceroy',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Baron',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Baron|Baroness',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Baronex',
-// 									'reign_limit' => null,
-// 									'rank' => 50,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Viscount' => [
-// 							1 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Viscount',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Gentry'
-// 							],
-// 							6 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Viscountess|Viscount',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Viscount|Viscountess|Vicarius',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Viscount',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Viscount|Viscountess',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Viscountex',
-// 									'reign_limit' => null,
-// 									'rank' => 60,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Marquis' => [
-// 							1 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Marquis',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							6 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Marquise|Marquis',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Marquis',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Marquess|Marchioness|Warden',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Marquis|Marchioness',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Marquis',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Marquis|Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Marquex',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Count' => [
-// 							1 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Count',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							6 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Countess|Count',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Count|Countess|Castellan',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Count|Countess|Jarl',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Count',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Count|Countess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Countex',
-// 									'reign_limit' => null,
-// 									'rank' => 70,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Duke' => [
-// 							1 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 80,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							6 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Duchess|Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Duke|Duchess|Dux',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Duke|Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => [
-// 									'name' => 'Dux',
-// 									'reign_limit' => null,
-// 									'rank' => 90,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							]
-// 					],
-// 					'Archduke' => [
-// 							1 => [
-// 									'name' => 'Arch-Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'ArchDuke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							6 => [
-// 									'name' => 'Arch-Duke|Arch-Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Arch Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Archduke|Archduchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Archduke|Archduchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Archduchess|Archduke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Arch Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Archduke|Archduchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Arch Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Arch Duke|Arch Duchess|Arci Dux',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Archduke|Archduchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Archduke|Archduchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Archduke',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Arch Duke|Arch Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 100,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => null
-// 					],
-// 					'Grand Duke' => [
-// 							1 => [
-// 									'name' => 'Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							3 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							4 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							6 => [
-// 									'name' => 'Grand-Duke|Grand-Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							7 => [
-// 									'name' => 'Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							10 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							11 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							12 => [
-// 									'name' => 'Grand Duchess|Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							14 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							16 => [
-// 									'name' => 'Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							17 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							18 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							19 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							20 => [
-// 									'name' => 'Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							21 => [
-// 									'name' => 'Grand Duke|Grand Duchess|Magnus Dux',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							22 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							24 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							25 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							27 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							31 => [
-// 									'name' => 'Grand Duke',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							36 => [
-// 									'name' => 'Grand Duke|Grand Duchess',
-// 									'reign_limit' => null,
-// 									'rank' => 110,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							38 => null
-// 					],
-// 					'Grand Marquis' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Grand Marquis|Grand Marquise',
-// 									'reign_limit' => null,
-// 									'rank' => 120,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							5 => [
-// 									'name' => 'Grand Marquis',
-// 									'reign_limit' => null,
-// 									'rank' => 120,
-// 									'is_active' => 1,
-// 									'peerage' => 'Nobility'
-// 							],
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Warmaster' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							5 => null,
-// 							6 => [
-// 									'name' => 'Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => [
-// 									'name' => 'Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							14 => null,
-// 							16 => [
-// 									'name' => 'Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							17 => null,
-// 							18 => null,
-// 							19 => [
-// 									'name' => 'Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							20 => null,
-// 							21 => [
-// 									'name' => 'Warmaster',
-// 									'reign_limit' => 1,
-// 									'rank' => 0,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Weigher of the Scales' => [
-// 							1 => null,
-// 							3 => [
-// 									'name' => 'Weigher of the Scales',
-// 									'reign_limit' => null,
-// 									'rank' => 5,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Dreamkeeper' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => [
-// 									'name' => 'Dreamkeeper',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							5 => null,
-// 							6 => [
-// 									'name' => 'Master Dreamkeeper',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							7 => null,
-// 							10 => [
-// 									'name' => 'Dreamkeeper',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => [
-// 									'name' => 'Dreamkeeper',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							31 => [
-// 									'name' => 'Dreamkeeper',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'None'
-// 							],
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Master Roach' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => [
-// 									'name' => 'Master Roach',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Master Mantis' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => [
-// 									'name' => 'Master Mantis',
-// 									'reign_limit' => null,
-// 									'rank' => 10,
-// 									'is_active' => 1,
-// 									'peerage' => 'Master'
-// 							],
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Cultural Olympian' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'Grand Olympian' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'War Event Winner' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					],
-// 					'War Olympian' => [
-// 							1 => null,
-// 							3 => null,
-// 							4 => null,
-// 							5 => null,
-// 							6 => null,
-// 							7 => null,
-// 							10 => null,
-// 							11 => null,
-// 							12 => null,
-// 							14 => null,
-// 							16 => null,
-// 							17 => null,
-// 							18 => null,
-// 							19 => null,
-// 							20 => null,
-// 							21 => null,
-// 							22 => null,
-// 							24 => null,
-// 							25 => null,
-// 							27 => null,
-// 							31 => null,
-// 							36 => null,
-// 							38 => null
-// 					]
-// 			];
+			$knownTitles = [
+					'Master Jovius' => [
+							1 => [
+									'name' => 'Master Jovious',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 0,
+									'peerage' => 'Master'
+							],
+							3 => null,
+							4 => null,
+							5 => [
+									'name' => 'Master Thespian',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							6 => [
+									'name' => 'Master Jovious',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							7 => null,
+							10 => null,
+							11 => [
+									'name' => 'Master Jovious',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							12 => [
+									'name' => 'Master Jovious',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							14 => null,
+							16 => null,
+							17 => [
+									'name' => 'Master Jovious',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => [
+									'name' => 'Master Thespian',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Master Jovious',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							38 => null
+					],
+					'Master Zodiac' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => [
+									'name' => 'Master Zodiac',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							6 => [
+									'name' => 'Master Zodiac',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Master Zodiac',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							14 => null,
+							16 => null,
+							17 => [
+									'name' => 'Master Zodiac',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => [
+									'name' => 'Master Zodiac',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							25 => [
+									'name' => 'Master Zodiac',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Master Mask' => [
+							1 => [
+									'name' => 'Master Mask|Master Thespian',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 0,
+									'peerage' => 'Master'
+							],
+							3 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							4 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							5 => [
+									'name' => 'Master Thespian',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							6 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							7 => null,
+							10 => null,
+							11 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							12 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							14 => null,
+							16 => null,
+							17 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => [
+									'name' => 'Master Thespian',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Master Mask',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							38 => null
+					],
+					'Master Hydra' => [
+							1 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							3 => null,
+							4 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							5 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							6 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							7 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							14 => null,
+							16 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							24 => null,
+							25 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Master Hydra',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							38 => null
+					],
+					'Master Griffin' => [
+							1 => [
+									'name' => 'Master Griffin',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							3 => [
+									'name' => 'Master Griffin',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							4 => [
+									'name' => 'Master Griffin',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							5 => [
+									'name' => 'Master Griffin',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							6 => [
+									'name' => 'Master Griffin',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							7 => null,
+							10 => null,
+							11 => [
+									'name' => 'Master Gryphon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							12 => [
+									'name' => 'Master Griffon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							14 => null,
+							16 => [
+									'name' => 'Master Griffon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							17 => [
+									'name' => 'Master Griffon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => [
+									'name' => 'Master Griffon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							24 => null,
+							25 => [
+									'name' => 'Master Griffon|Master Gryphon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Master Griffon',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							38 => null
+					],
+					'Order of the Walker in the Middle' => [
+							1 => null,
+							3 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							11 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							12 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							22 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Walker in the Middle',
+									'reign_limit' => null,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Walker of the Middle',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'None'
+							]
+					],
+					'Weaponmaster' => [
+							1 => [
+									'name' => 'Kingdom Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							3 => null,
+							4 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							5 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							6 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							7 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							10 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							11 => null,
+							12 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							14 => null,
+							16 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							17 => null,
+							18 => null,
+							19 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							20 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							21 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							22 => null,
+							24 => [
+									'name' => 'Weaponmaster of Winter\'s Edge',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							25 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Grand Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							38 => [
+									'name' => 'Weaponmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							]
+					],
+					'Dragonmaster' => [
+							1 => null,
+							3 => null,
+							4 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							5 => null,
+							6 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							7 => [
+									'name' => 'Burning Lands Arts and Sciences Champion',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							14 => null,
+							16 => [
+									'name' => 'Arts and Sciences Champion',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							17 => [
+									'name' => 'Dragon Master',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							18 => null,
+							19 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							20 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							21 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							22 => null,
+							24 => [
+									'name' => 'Dragonmaster of Winter\'s Edge',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							25 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							27 => null,
+							31 => null,
+							36 => [
+									'name' => 'Cultural Champion',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							38 => [
+									'name' => 'Dragonmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							]
+					],
+					'Ducal Defender' => [
+							1 => [
+									'name' => 'Ducal Defender',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Grand Ducal Defender' => [
+							1 => [
+									'name' => 'Grand Ducal Defender',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Defender' => [
+							1 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							4 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							7 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							10 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							11 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							12 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							17 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							18 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							21 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							27 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							31 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Defender',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => null
+					],
+					'Steward' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => [
+									'name' => 'Steward',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Protector' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => [
+									'name' => 'Protector',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => [
+									'name' => 'Protector',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Dragonrider' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Dragonrider',
+									'reign_limit' => null,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Esquire' => [
+							1 => null,
+							3 => null,
+							4 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							7 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							10 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							11 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => null,
+							14 => null,
+							16 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							17 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							18 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							21 => null,
+							22 => null,
+							24 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							25 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							27 => null,
+							31 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							36 => null,
+							38 => [
+									'name' => 'Esquire',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Master' => [
+							1 => null,
+							3 => null,
+							4 => [
+									'name' => 'Master|Mistress',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => null,
+							7 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							10 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							17 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							18 => null,
+							19 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							21 => null,
+							22 => null,
+							24 => [
+									'name' => 'Master of the Court|Mistress of the Court',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							25 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							27 => null,
+							31 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							36 => null,
+							38 => [
+									'name' => 'Master',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Lord' => [
+							1 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							10 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Lady|Lord',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							17 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Lord|Lady|Noble',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Lord|Lady',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Liege',
+									'reign_limit' => null,
+									'rank' => 30,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Baronet' => [
+							1 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Baronet|Baronetess',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Baronetess|Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Baronet|Baronetess',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Baronet|Baronetess|Constable',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Baronet|Baronetess',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Baronet|Baronetess',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Baronet',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Baronet|Baronetess',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Baronetex',
+									'reign_limit' => null,
+									'rank' => 40,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Baron' => [
+							1 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Baron',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Baroness|Baron',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Baron|Baroness|Viceroy',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Baron',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Baron|Baroness',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Baronex',
+									'reign_limit' => null,
+									'rank' => 50,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Viscount' => [
+							1 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Viscount',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Gentry'
+							],
+							6 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Viscountess|Viscount',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Viscount|Viscountess|Vicarius',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Viscount',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Viscount|Viscountess',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Viscountex',
+									'reign_limit' => null,
+									'rank' => 60,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Marquis' => [
+							1 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Marquis',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							6 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Marquise|Marquis',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Marquis',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Marquess|Marchioness|Warden',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Marquis|Marchioness',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Marquis',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Marquis|Marquise',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Marquex',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Count' => [
+							1 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Count',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							6 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Countess|Count',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Count|Countess|Castellan',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Count|Countess|Jarl',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Count',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Count|Countess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Countex',
+									'reign_limit' => null,
+									'rank' => 70,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Duke' => [
+							1 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Duke',
+									'reign_limit' => null,
+									'rank' => 80,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							6 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Duchess|Duke',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Duke|Duchess|Dux',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Duke',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Duke|Duchess',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => [
+									'name' => 'Dux',
+									'reign_limit' => null,
+									'rank' => 90,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							]
+					],
+					'Archduke' => [
+							1 => [
+									'name' => 'Arch-Duke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'ArchDuke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							6 => [
+									'name' => 'Arch-Duke|Arch-Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Arch Duke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Archduke|Archduchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Archduke|Archduchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Archduchess|Archduke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Arch Duke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Archduke|Archduchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Arch Duke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Arch Duke|Arch Duchess|Arci Dux',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Archduke|Archduchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Archduke|Archduchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Archduke',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Arch Duke|Arch Duchess',
+									'reign_limit' => null,
+									'rank' => 100,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => null
+					],
+					'Grand Duke' => [
+							1 => [
+									'name' => 'Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							3 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							4 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							6 => [
+									'name' => 'Grand-Duke|Grand-Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							7 => [
+									'name' => 'Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							10 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							11 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							12 => [
+									'name' => 'Grand Duchess|Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							14 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							16 => [
+									'name' => 'Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							17 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							18 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							19 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							20 => [
+									'name' => 'Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							21 => [
+									'name' => 'Grand Duke|Grand Duchess|Magnus Dux',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							22 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							24 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							25 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							27 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							31 => [
+									'name' => 'Grand Duke',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							36 => [
+									'name' => 'Grand Duke|Grand Duchess',
+									'reign_limit' => null,
+									'rank' => 110,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							38 => null
+					],
+					'Grand Marquis' => [
+							1 => null,
+							3 => null,
+							4 => [
+									'name' => 'Grand Marquis|Grand Marquise',
+									'reign_limit' => null,
+									'rank' => 120,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							5 => [
+									'name' => 'Grand Marquis',
+									'reign_limit' => null,
+									'rank' => 120,
+									'is_active' => 1,
+									'peerage' => 'Nobility'
+							],
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Warmaster' => [
+							1 => null,
+							3 => null,
+							4 => [
+									'name' => 'Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							5 => null,
+							6 => [
+									'name' => 'Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => [
+									'name' => 'Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							14 => null,
+							16 => [
+									'name' => 'Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							17 => null,
+							18 => null,
+							19 => [
+									'name' => 'Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							20 => null,
+							21 => [
+									'name' => 'Warmaster',
+									'reign_limit' => 1,
+									'rank' => 0,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Weigher of the Scales' => [
+							1 => null,
+							3 => [
+									'name' => 'Weigher of the Scales',
+									'reign_limit' => null,
+									'rank' => 5,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Dreamkeeper' => [
+							1 => null,
+							3 => null,
+							4 => [
+									'name' => 'Dreamkeeper',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							5 => null,
+							6 => [
+									'name' => 'Master Dreamkeeper',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							7 => null,
+							10 => [
+									'name' => 'Dreamkeeper',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => [
+									'name' => 'Dreamkeeper',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							31 => [
+									'name' => 'Dreamkeeper',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'None'
+							],
+							36 => null,
+							38 => null
+					],
+					'Master Roach' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => [
+									'name' => 'Master Roach',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Master Mantis' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => [
+									'name' => 'Master Mantis',
+									'reign_limit' => null,
+									'rank' => 10,
+									'is_active' => 1,
+									'peerage' => 'Master'
+							],
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Cultural Olympian' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'Grand Olympian' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'War Event Winner' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					],
+					'War Olympian' => [
+							1 => null,
+							3 => null,
+							4 => null,
+							5 => null,
+							6 => null,
+							7 => null,
+							10 => null,
+							11 => null,
+							12 => null,
+							14 => null,
+							16 => null,
+							17 => null,
+							18 => null,
+							19 => null,
+							20 => null,
+							21 => null,
+							22 => null,
+							24 => null,
+							25 => null,
+							27 => null,
+							31 => null,
+							36 => null,
+							38 => null
+					]
+			];
 			
-// 			$knownKingdomParklevelsOffices = [
-// 					1 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Board of Directors Chief Executive Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Chief Financial Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Kingdom Quartermaster' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Royal Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Outpost' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Clerk' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Shire Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Clerk' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Baronial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Seneschal' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Ducal Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Ducal Defender' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Grand Ducal Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'General Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Grand Ducal Defender' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					3 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Historian' => [
-// 											'duration' => 6
-// 									],
-// 									'Senator' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Elected Director' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Ex Officio Director' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Herald' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Herald' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Herald' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 6
-// 									]
-// 							]
-// 					],
-// 					4 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Royal Consort' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion of the Realm' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Monarch\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Monarch\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Consort\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Bard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Jester' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Shire Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Baronial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Baronial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Ducal Consort' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Ducal Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					5 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion of the Realm' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Kingdom Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Captain of the King\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'King\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Protector' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Principal Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Royal Historian' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							]
-// 					],
-// 					6 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => null
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => null
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => null
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => null
-// 									],
-// 									'Interkingdom Rules Representative' => [
-// 											'duration' => null
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Circle of Monarchs Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Head of Security' => [
-// 											'duration' => 6
-// 									],
-// 									'Security' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Bard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Jester' => [
-// 											'duration' => 6
-// 									],
-// 									'Heir Apparent' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Shire Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Shire Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Baronial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Baronial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Duchy Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Duchy Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							]
-// 					],
-// 					7 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent|Consort|Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion of the Realm' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Captain of the Monarch\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Glass Guildmaster' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Monarch\'s & Consort\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Circle of Steel Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Consort/Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Bard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Jester' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Shire Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Baronial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Baronial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Ducal Consort' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Ducal Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					8 => [
-// 							'Freehold' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Shire Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					10 => [
-// 							'Kingdom' => [
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Kingdom Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Kingdom Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Kingdom Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Kingdom Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Kingdom Quartermaster' => [
-// 											'duration' => 12
-// 									],
-// 									'Kingdom Storyteller' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Quartermaster' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Chairperson' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice Chairperson' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Case Analyst' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									]
-// 							]
-// 					],
-// 					11 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Circle of Monarchs Secretary' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Bard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Jester' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Prime Minister\'s Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'County' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Baronet'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Baron|Baroness'
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Viscount|Viscountess'
-// 									]
-// 							]
-// 					],
-// 					12 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Heir Apparent' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Royal Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Royal Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Smiths' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Garbers' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Engineers' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Circle of Steel Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Liaison Officer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord/Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord/Lady'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									]
-// 							]
-// 					],
-// 					14 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Senator' => [
-// 											'duration' => 12
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative' => [
-// 											'duration' => 12
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown Bard' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown Jester' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Membership Officer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Monarch Alternate' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Prime Minister Alternate' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff|Mayor' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Baronial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Baronial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Baronial Seneschal' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Ducal Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Ducal Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Ducal Seneschal' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Grand Ducal Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Grand Ducal Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Grand Ducal Seneschal' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Crown Prince|Crown Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Crown Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Crown Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Crown Seneschal' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									]
-// 							]
-// 					],
-// 					16 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent|Consort' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion of the Realm' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Captain of the Monarch\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Monarch\'s/Consort\'s Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Circle of Steel Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent/Consort\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Bard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Jester' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative' => [
-// 											'duration' => null
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Baronial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Ducal Consort' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Ducal Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Prince Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Prince Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Grand Ducal Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Grand Ducal Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					17 => [
-// 							'Kingdom' => [
-// 									'Board of Directors Member' => [
-// 											'duration' => 36
-// 									],
-// 									'Board of Directors Trustee' => [
-// 											'duration' => null
-// 									],
-// 									'Board of Directors Trustee Program Liason' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Vice-President' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 24
-// 									],
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Senator' => [
-// 											'duration' => 12,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative' => [
-// 											'duration' => null
-// 									],
-// 									'Corpora Comittee Chair' => [
-// 											'duration' => 6
-// 									],
-// 									'Corpora Comittee Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Masks' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Chronicler' => [
-// 											'duration' => 6
-// 									],
-// 									'Royal Commissioner (Recruiting/Retention)' => [
-// 											'duration' => 6
-// 									],
-// 									'Royal Commissioner (Diversity/Inclusion)' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Novices' => [
-// 											'duration' => 6
-// 									],
-// 									'Kingdom Spotlight' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									]
-// 							]
-// 					],
-// 					18 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Guard Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Heir Apparent' => [
-// 											'duration' => 6
-// 									],
-// 									'Marshall' => [
-// 											'duration' => 6
-// 									],
-// 									'Quartermaster' => [
-// 											'duration' => 6
-// 									],
-// 									'Representative to AI' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative to AI' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Circle of Steel Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Event Committee Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Event Committee Head' => [
-// 											'duration' => 12
-// 									],
-// 									'Event Committee Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Fundraiser Committee Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Chairman of the Board' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice-Chairman of the Board' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Liason Officer' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Protector'
-// 									]
-// 							]
-// 					],
-// 					19 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Ambassador of Tal Dagore' => [
-// 											'duration' => 12
-// 									],
-// 									'Rules Representative of Tal Dagore' => [
-// 											'duration' => 12
-// 									],
-// 									'V9 Representative of Tal Dagore' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Board President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minster' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 6
-// 									]
-// 							]
-// 					],
-// 					20 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion of the Realm' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Rules Representative' => [
-// 											'duration' => 12
-// 									],
-// 									'Chief Herald of the College of Arms' => [
-// 											'duration' => 6
-// 									],
-// 									'Speaker of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Food Fight Representative' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					21 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Steward'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Steward'
-// 									],
-// 									'Heir Apparent' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Royal Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Royal Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Liason Officer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Steward'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Liason Officer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									]
-// 							]
-// 					],
-// 					22 => [
-// 							'Kingdom' => [
-// 									'Emperor|Empress' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Imperial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Imperial Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Imperial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'InterKingdom Rules Committee Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Guard Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Provincial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Provincial Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Provincial Treasurer' => [
-// 											'duration' => 6
-// 									],
-// 									'Provincial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Provincial Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Provincial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Provincial Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Provincial Treasurer' => [
-// 											'duration' => 6
-// 									],
-// 									'Provincial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Provincial Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Provincial Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Provincial Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Provincial Treasurer' => [
-// 											'duration' => 6
-// 									],
-// 									'Provincial Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Provincial Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Principality Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Principality Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Principality Treasurer' => [
-// 											'duration' => 6
-// 									],
-// 									'Principality Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Principality Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							]
-// 					],
-// 					24 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Apprentice' => [
-// 											'duration' => 6
-// 									],
-// 									'Crown Guard Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Principal Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Senator' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Surrogate' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Alternate' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Master|Mistress'
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Prince|Princess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Supreme Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							]
-// 					],
-// 					25 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Champion of the Realm' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Board of Directors Operations Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Financial Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 6
-// 									],
-// 									'Operations Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Assistant Operations Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Adjudication Chief' => [
-// 											'duration' => 6
-// 									],
-// 									'Quartermaster' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Kingdom Rules Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Viridian Outlands Corpora Clarification Committee Member' => [
-// 											'duration' => 6
-// 									],
-// 									'Viridian Outlands Corpora Clarification Committee Board Member' => [
-// 											'duration' => null
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet|Baronetess'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Baron|Baroness'
-// 									]
-// 							]
-// 					],
-// 					27 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Ex Officio' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Treasurer' => [
-// 											'duration' => 12
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 12
-// 									],
-// 									'The Rules Representative' => [
-// 											'duration' => 12
-// 									],
-// 									'The Kingdom Senator' => [
-// 											'duration' => 12
-// 									]
-// 							],
-// 							'Outpost' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							]
-// 					],
-// 					31 => [
-// 							'Kingdom' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors CEO' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors CFO' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Secretary' => [
-// 											'duration' => 24
-// 									],
-// 									'The Rules Representative' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Esquire'
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Master|Mistress'
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									]
-// 							]
-// 					],
-// 					34 => [
-// 							'Kingdom' => [
-// 									'Champion of Hats' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Champion of Art' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Champion of Wacks' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Champion of Records' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion of Rules' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									],
-// 									'Champion of Knights' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Burg' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									]
-// 							]
-// 					],
-// 					36 => [
-// 							'Kingdom' => [
-// 									'Kingdom Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Kingdom Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet|Barnetess'
-// 									],
-// 									'Kingdom Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Kingdom Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Defender'
-// 									],
-// 									'Kingdom Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Baronet|Barnetess'
-// 									],
-// 									'Heir Apparent' => [
-// 											'duration' => 6
-// 									],
-// 									'Captain of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Members of the Guard' => [
-// 											'duration' => 6
-// 									],
-// 									'Regent\'s Defender' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [A&S]' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of [Class]' => [
-// 											'duration' => 6
-// 									],
-// 									'Scribe' => [
-// 											'duration' => 6
-// 									],
-// 									'Court Herald' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Circle of Steel Representative' => [
-// 											'duration' => 6
-// 									],
-// 									'Ambassador' => [
-// 											'duration' => 6
-// 									],
-// 									'Grand Librarian' => [
-// 											'duration' => 6
-// 									],
-// 									'Chief Executive Officer' => [
-// 											'duration' => 24
-// 									],
-// 									'Regional Executive Officer' => [
-// 											'duration' => 6
-// 									],
-// 									'Administrative Officer' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors President' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Secretary-Treasurer' => [
-// 											'duration' => 24
-// 									],
-// 									'Board of Directors Vice President' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Board Liaison' => [
-// 											'duration' => 6
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Sheriff' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Baron|Baroness' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Duke|Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							],
-// 							'Grand Duchy' => [
-// 									'Grand Duke|Grand Duchess' => [
-// 											'duration' => 6,
-// 											'order' => 1
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4
-// 									],
-// 									'Chancellor' => [
-// 											'duration' => 6,
-// 											'order' => 2
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5
-// 									]
-// 							]
-// 					],
-// 					38 => [
-// 							'Kingdom' => [
-// 									'Kingdom Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Duke|Duchess'
-// 									],
-// 									'Kingdom Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Kingdom Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Kingdom Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Kingdom Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Kingdom Ambassador' => [
-// 											'duration' => 6
-// 									],
-// 									'Guildmaster of Knights' => [
-// 											'duration' => 6
-// 									],
-// 									'Board of Directors Member' => [
-// 											'duration' => 48
-// 									]
-// 							],
-// 							'Shire' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Master|Mistress'
-// 									]
-// 							],
-// 							'Barony' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'Duchy' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Baron|Baroness'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Lord|Lady'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Lord|Lady'
-// 									]
-// 							],
-// 							'Principality' => [
-// 									'Monarch' => [
-// 											'duration' => 6,
-// 											'order' => 1,
-// 											'title' => 'Marquis|Marquess'
-// 									],
-// 									'Prime Minister' => [
-// 											'duration' => 6,
-// 											'order' => 2,
-// 											'title' => 'Count|Countess'
-// 									],
-// 									'Guildmaster of Reeves' => [
-// 											'duration' => 6,
-// 											'order' => 5,
-// 											'title' => 'Viscount|Viscountess'
-// 									],
-// 									'Regent' => [
-// 											'duration' => 6,
-// 											'order' => 4,
-// 											'title' => 'Baronet'
-// 									],
-// 									'Champion' => [
-// 											'duration' => 6,
-// 											'order' => 3,
-// 											'title' => 'Baronet'
-// 									]
-// 							]
-// 					]
-// 			];
+			$knownKingdomChaptertypesOffices = [
+					1 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Board of Directors Chief Executive Officer' => [
+											'duration' => 6
+									],
+									'Board of Directors Chief Financial Officer' => [
+											'duration' => 6
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 6
+									],
+									'Board of Directors Kingdom Quartermaster' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Royal Guard' => [
+											'duration' => 6
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									]
+							],
+							'Outpost' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Clerk' => [
+											'duration' => 6,
+											'order' => 2
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Shire Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Clerk' => [
+											'duration' => 6,
+											'order' => 2
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Baronial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Seneschal' => [
+											'duration' => 6,
+											'order' => 2
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Ducal Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Ducal Defender' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Grand Ducal Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'General Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Grand Ducal Defender' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					3 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Herald' => [
+											'duration' => 6
+									],
+									'Rules Representative' => [
+											'duration' => 6
+									],
+									'Historian' => [
+											'duration' => 6
+									],
+									'Senator' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Board of Directors Elected Director' => [
+											'duration' => 24
+									],
+									'Board of Directors Ex Officio Director' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Herald' => [
+											'duration' => 6
+									]
+							],
+							'Barony' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Herald' => [
+											'duration' => 6
+									]
+							],
+							'Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Herald' => [
+											'duration' => 6
+									]
+							],
+							'Principality' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Herald' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 6
+									]
+							]
+					],
+					4 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Royal Consort' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion of the Realm' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Captain of the Monarch\'s Guard' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Monarch\'s Guard' => [
+											'duration' => 6
+									],
+									'Consort\'s Defender' => [
+											'duration' => 6
+									],
+									'Court Bard' => [
+											'duration' => 6
+									],
+									'Court Jester' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Shire Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Baronial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Baronial Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Ducal Consort' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Ducal Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					5 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Champion of the Realm' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Kingdom Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Captain of the King\'s Guard' => [
+											'duration' => 6
+									],
+									'King\'s Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Protector' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Principal Herald' => [
+											'duration' => 6
+									],
+									'Royal Historian' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Esquire'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master|Mistress'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master|Mistress'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Lord|Lady'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							]
+					],
+					6 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => null
+									],
+									'Board of Directors Vice President' => [
+											'duration' => null
+									],
+									'Board of Directors Secretary' => [
+											'duration' => null
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => null
+									],
+									'Interkingdom Rules Representative' => [
+											'duration' => null
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Circle of Monarchs Representative' => [
+											'duration' => 6
+									],
+									'Head of Security' => [
+											'duration' => 6
+									],
+									'Security' => [
+											'duration' => 6
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Crown\'s Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Court Bard' => [
+											'duration' => 6
+									],
+									'Court Jester' => [
+											'duration' => 6
+									],
+									'Heir Apparent' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Shire Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Esquire'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Shire Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Baronial Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Baronial Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Duchy Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Duchy Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							]
+					],
+					7 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent|Consort|Prince|Princess' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion of the Realm' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Captain of the Monarch\'s Guard' => [
+											'duration' => 6
+									],
+									'Glass Guildmaster' => [
+											'duration' => 6
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Monarch\'s & Consort\'s Guard' => [
+											'duration' => 6
+									],
+									'Circle of Steel Member' => [
+											'duration' => 6
+									],
+									'Consort/Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Court Bard' => [
+											'duration' => 6
+									],
+									'Court Jester' => [
+											'duration' => 6
+									],
+									'Rules Representative' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Shire Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Baronial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Baronial Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Ducal Consort' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Ducal Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					8 => [
+							'Freehold' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Shire Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					10 => [
+							'Kingdom' => [
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Kingdom Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Kingdom Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Kingdom Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Kingdom Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Kingdom Quartermaster' => [
+											'duration' => 12
+									],
+									'Kingdom Storyteller' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Quartermaster' => [
+											'duration' => 12
+									],
+									'Board of Directors Chairperson' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice Chairperson' => [
+											'duration' => 12
+									],
+									'Board of Directors Case Analyst' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master'
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Marquis|Marquess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Marquis|Marquess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									]
+							]
+					],
+					11 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Marquis|Marquess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Circle of Monarchs Secretary' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Board of Directors Member' => [
+											'duration' => 6
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Crown Guard' => [
+											'duration' => 6
+									],
+									'Court Bard' => [
+											'duration' => 6
+									],
+									'Court Jester' => [
+											'duration' => 6
+									],
+									'Court Herald' => [
+											'duration' => 6
+									],
+									'Prime Minister\'s Scribe' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Esquire'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									]
+							],
+							'Barony' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'County' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Baronet'
+									]
+							],
+							'Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Baron|Baroness'
+									]
+							],
+							'Grand Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Marquis|Marquess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Viscount|Viscountess'
+									]
+							]
+					],
+					12 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Heir Apparent' => [
+											'duration' => 6
+									],
+									'Captain of the Royal Guard' => [
+											'duration' => 6
+									],
+									'Royal Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Guildmaster of Smiths' => [
+											'duration' => 6
+									],
+									'Guildmaster of Garbers' => [
+											'duration' => 6
+									],
+									'Guildmaster of Engineers' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Circle of Steel Representative' => [
+											'duration' => 6
+									],
+									'Court Herald' => [
+											'duration' => 6
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Liaison Officer' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord/Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord/Lady'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									]
+							]
+					],
+					14 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Marquis|Marquess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Senator' => [
+											'duration' => 12
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Rules Representative' => [
+											'duration' => 12
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Crown Guard' => [
+											'duration' => 6
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Crown Bard' => [
+											'duration' => 6
+									],
+									'Crown Herald' => [
+											'duration' => 6
+									],
+									'Crown Jester' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Membership Officer' => [
+											'duration' => 12
+									],
+									'Board of Directors Monarch Alternate' => [
+											'duration' => 12
+									],
+									'Board of Directors Prime Minister Alternate' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff|Mayor' => [
+											'duration' => 6,
+											'order' => 1
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Baronial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Baronial Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Baronial Seneschal' => [
+											'duration' => 6,
+											'order' => 2
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Ducal Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Ducal Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Ducal Seneschal' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Grand Ducal Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Grand Ducal Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Grand Ducal Seneschal' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									]
+							],
+							'Principality' => [
+									'Crown Prince|Crown Princess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Crown Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Crown Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Crown Seneschal' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									]
+							]
+					],
+					16 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent|Consort' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion of the Realm' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Captain of the Monarch\'s Guard' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Monarch\'s/Consort\'s Guard' => [
+											'duration' => 6
+									],
+									'Circle of Steel Member' => [
+											'duration' => 6
+									],
+									'Regent/Consort\'s Defender' => [
+											'duration' => 6
+									],
+									'Court Bard' => [
+											'duration' => 6
+									],
+									'Court Jester' => [
+											'duration' => 6
+									],
+									'Rules Representative' => [
+											'duration' => null
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Baronial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Ducal Consort' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Ducal Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Prince Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Prince Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Grand Ducal Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Grand Ducal Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					17 => [
+							'Kingdom' => [
+									'Board of Directors Member' => [
+											'duration' => 36
+									],
+									'Board of Directors Trustee' => [
+											'duration' => null
+									],
+									'Board of Directors Trustee Program Liason' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 24
+									],
+									'Board of Directors Vice-President' => [
+											'duration' => 24
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 24
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 24
+									],
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Senator' => [
+											'duration' => 12,
+											'title' => 'Count|Countess'
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Rules Representative' => [
+											'duration' => null
+									],
+									'Corpora Comittee Chair' => [
+											'duration' => 6
+									],
+									'Corpora Comittee Member' => [
+											'duration' => 6
+									],
+									'Guildmaster of Masks' => [
+											'duration' => 6
+									],
+									'Court Herald' => [
+											'duration' => 6
+									],
+									'Guard' => [
+											'duration' => 6
+									],
+									'Court Chronicler' => [
+											'duration' => 6
+									],
+									'Royal Commissioner (Recruiting/Retention)' => [
+											'duration' => 6
+									],
+									'Royal Commissioner (Diversity/Inclusion)' => [
+											'duration' => 6
+									],
+									'Guildmaster of Novices' => [
+											'duration' => 6
+									],
+									'Kingdom Spotlight' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master|Mistress'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master|Mistress'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									]
+							]
+					],
+					18 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Guard Member' => [
+											'duration' => 6
+									],
+									'Regent Defender' => [
+											'duration' => 6
+									],
+									'Court Herald' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Heir Apparent' => [
+											'duration' => 6
+									],
+									'Marshall' => [
+											'duration' => 6
+									],
+									'Quartermaster' => [
+											'duration' => 6
+									],
+									'Representative to AI' => [
+											'duration' => 6
+									],
+									'Rules Representative to AI' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Circle of Steel Representative' => [
+											'duration' => 6
+									],
+									'Event Committee Member' => [
+											'duration' => 12
+									],
+									'Event Committee Head' => [
+											'duration' => 12
+									],
+									'Event Committee Treasurer' => [
+											'duration' => 12
+									],
+									'Fundraiser Committee Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Member' => [
+											'duration' => 24
+									],
+									'Board of Directors Chairman of the Board' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice-Chairman of the Board' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Liason Officer' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Esquire'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Protector'
+									]
+							]
+					],
+					19 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Marquis|Marquess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Ambassador of Tal Dagore' => [
+											'duration' => 12
+									],
+									'Rules Representative of Tal Dagore' => [
+											'duration' => 12
+									],
+									'V9 Representative of Tal Dagore' => [
+											'duration' => 12
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors Board President' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Principality' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minster' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Board of Directors Member' => [
+											'duration' => 6
+									]
+							]
+					],
+					20 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion of the Realm' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Rules Representative' => [
+											'duration' => 12
+									],
+									'Chief Herald of the College of Arms' => [
+											'duration' => 6
+									],
+									'Speaker of Knights' => [
+											'duration' => 6
+									],
+									'Food Fight Representative' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master|Mistress'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master|Mistress'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					21 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Steward'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Steward'
+									],
+									'Heir Apparent' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Captain of the Royal Guard' => [
+											'duration' => 6
+									],
+									'Royal Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Liason Officer' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Grand Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Marquis|Marquess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Steward'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Liason Officer' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									]
+							]
+					],
+					22 => [
+							'Kingdom' => [
+									'Emperor|Empress' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Imperial Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Imperial Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Imperial Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'InterKingdom Rules Committee Representative' => [
+											'duration' => 6
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Guard Member' => [
+											'duration' => 6
+									],
+									'Regent Defender' => [
+											'duration' => 6
+									],
+									'Court Scribe' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Provincial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Provincial Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Provincial Treasurer' => [
+											'duration' => 6
+									],
+									'Provincial Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Provincial Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Provincial Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Provincial Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Provincial Treasurer' => [
+											'duration' => 6
+									],
+									'Provincial Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Provincial Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Provincial Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Provincial Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Provincial Treasurer' => [
+											'duration' => 6
+									],
+									'Provincial Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Provincial Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Principality Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Principality Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Principality Treasurer' => [
+											'duration' => 6
+									],
+									'Principality Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Principality Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							]
+					],
+					24 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baron|Baroness'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Apprentice' => [
+											'duration' => 6
+									],
+									'Crown Guard Member' => [
+											'duration' => 6
+									],
+									'Principal Herald' => [
+											'duration' => 6
+									],
+									'Court Herald' => [
+											'duration' => 6
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Senator' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Surrogate' => [
+											'duration' => 12
+									],
+									'Board of Directors Alternate' => [
+											'duration' => 12
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Esquire'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master|Mistress'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Esquire'
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master|Mistress'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Esquire'
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Master|Mistress'
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Lord|Lady'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'Principality' => [
+									'Prince|Princess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Supreme Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Lord|Lady'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Lord|Lady'
+									]
+							]
+					],
+					25 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Champion of the Realm' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Board of Directors Operations Officer' => [
+											'duration' => 6
+									],
+									'Board of Directors Financial Officer' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 12
+									],
+									'Board of Directors President' => [
+											'duration' => 6
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 6
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 6
+									],
+									'Operations Officer' => [
+											'duration' => 6
+									],
+									'Assistant Operations Officer' => [
+											'duration' => 6
+									],
+									'Adjudication Chief' => [
+											'duration' => 6
+									],
+									'Quartermaster' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Kingdom Rules Representative' => [
+											'duration' => 6
+									],
+									'Viridian Outlands Corpora Clarification Committee Member' => [
+											'duration' => 6
+									],
+									'Viridian Outlands Corpora Clarification Committee Board Member' => [
+											'duration' => null
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master'
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet|Baronetess'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'Principality' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Count|Countess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Marquis|Marquess'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baron|Baroness'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Baron|Baroness'
+									]
+							]
+					],
+					27 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Board of Directors Member' => [
+											'duration' => 24
+									],
+									'Board of Directors Ex Officio' => [
+											'duration' => 24
+									],
+									'Board of Directors President' => [
+											'duration' => 12
+									],
+									'Board of Directors Treasurer' => [
+											'duration' => 12
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 12
+									],
+									'The Rules Representative' => [
+											'duration' => 12
+									],
+									'The Kingdom Senator' => [
+											'duration' => 12
+									]
+							],
+							'Outpost' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Shire' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Barony' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Grand Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							]
+					],
+					31 => [
+							'Kingdom' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 24
+									],
+									'Board of Directors CEO' => [
+											'duration' => 24
+									],
+									'Board of Directors CFO' => [
+											'duration' => 24
+									],
+									'Board of Directors Secretary' => [
+											'duration' => 24
+									],
+									'The Rules Representative' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Master|Mistress'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Esquire'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									]
+							],
+							'Barony' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master|Mistress'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Esquire'
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									]
+							],
+							'Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Master|Mistress'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Master|Mistress'
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									]
+							]
+					],
+					34 => [
+							'Kingdom' => [
+									'Champion of Hats' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Champion of Art' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Champion of Wacks' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Champion of Records' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion of Rules' => [
+											'duration' => 6,
+											'order' => 5
+									],
+									'Champion of Knights' => [
+											'duration' => 6
+									]
+							],
+							'Burg' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Shire' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Barony' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							],
+							'Grand Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									]
+							]
+					],
+					36 => [
+							'Kingdom' => [
+									'Kingdom Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Kingdom Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet|Barnetess'
+									],
+									'Kingdom Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Count|Countess'
+									],
+									'Kingdom Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Defender'
+									],
+									'Kingdom Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Baronet|Barnetess'
+									],
+									'Heir Apparent' => [
+											'duration' => 6
+									],
+									'Captain of the Guard' => [
+											'duration' => 6
+									],
+									'Members of the Guard' => [
+											'duration' => 6
+									],
+									'Regent\'s Defender' => [
+											'duration' => 6
+									],
+									'Guildmaster of [A&S]' => [
+											'duration' => 6
+									],
+									'Guildmaster of [Class]' => [
+											'duration' => 6
+									],
+									'Scribe' => [
+											'duration' => 6
+									],
+									'Court Herald' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Circle of Steel Representative' => [
+											'duration' => 6
+									],
+									'Ambassador' => [
+											'duration' => 6
+									],
+									'Grand Librarian' => [
+											'duration' => 6
+									],
+									'Chief Executive Officer' => [
+											'duration' => 24
+									],
+									'Regional Executive Officer' => [
+											'duration' => 6
+									],
+									'Administrative Officer' => [
+											'duration' => 24
+									],
+									'Board of Directors President' => [
+											'duration' => 24
+									],
+									'Board of Directors Secretary-Treasurer' => [
+											'duration' => 24
+									],
+									'Board of Directors Vice President' => [
+											'duration' => 6
+									],
+									'Board of Directors Board Liaison' => [
+											'duration' => 6
+									]
+							],
+							'Shire' => [
+									'Sheriff' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Barony' => [
+									'Baron|Baroness' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Duchy' => [
+									'Duke|Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							],
+							'Grand Duchy' => [
+									'Grand Duke|Grand Duchess' => [
+											'duration' => 6,
+											'order' => 1
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4
+									],
+									'Chancellor' => [
+											'duration' => 6,
+											'order' => 2
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5
+									]
+							]
+					],
+					38 => [
+							'Kingdom' => [
+									'Kingdom Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Duke|Duchess'
+									],
+									'Kingdom Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Marquis|Marquess'
+									],
+									'Kingdom Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Count|Countess'
+									],
+									'Kingdom Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Kingdom Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Kingdom Ambassador' => [
+											'duration' => 6
+									],
+									'Guildmaster of Knights' => [
+											'duration' => 6
+									],
+									'Board of Directors Member' => [
+											'duration' => 48
+									]
+							],
+							'Shire' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Lord|Lady'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Master|Mistress'
+									]
+							],
+							'Barony' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baronet'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Lord|Lady'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'Duchy' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Baron|Baroness'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Baronet'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Lord|Lady'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Lord|Lady'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Lord|Lady'
+									]
+							],
+							'Principality' => [
+									'Monarch' => [
+											'duration' => 6,
+											'order' => 1,
+											'title' => 'Marquis|Marquess'
+									],
+									'Prime Minister' => [
+											'duration' => 6,
+											'order' => 2,
+											'title' => 'Count|Countess'
+									],
+									'Guildmaster of Reeves' => [
+											'duration' => 6,
+											'order' => 5,
+											'title' => 'Viscount|Viscountess'
+									],
+									'Regent' => [
+											'duration' => 6,
+											'order' => 4,
+											'title' => 'Baronet'
+									],
+									'Champion' => [
+											'duration' => 6,
+											'order' => 3,
+											'title' => 'Baronet'
+									]
+							]
+					]
+			];
 
 			//archetypes
 // 			$this->info('Importing Archetypes...');
@@ -8556,8 +8562,8 @@ class ImportOrk3 extends Command
 // 					'value' => serialize($transKingdoms)
 // 			]);
 			
-// 			//parkranks
-// 			$this->info('Importing Parkranks...');
+// 			//chaptertypes
+// 			$this->info('Importing Chaptertypes...');
 // 			$backupConnect->table('ork_parktitle')
 // 				->where('kingdom_id', 16)
 // 				->orWhere('title', 'Shire')
@@ -8566,72 +8572,72 @@ class ImportOrk3 extends Command
 // 				->where('kingdom_id', 16)
 // 				->orWhere('title', 'Barony')
 // 				->update(['class' => 30]);
-// 			$oldParkranks = $backupConnect->table('ork_parktitle')->get()->toArray();
-// 			$parkrankId = 0;
-// 			$known = $knownKingdomParklevelsOffices;
-// 			DB::table('parkranks')->truncate();
-// 			if (isset($oldParkranks)) {
-// 				$bar3 = $this->output->createProgressBar(count($oldParkranks) + 43);
+// 			$oldChaptertypes = $backupConnect->table('ork_parktitle')->get()->toArray();
+// 			$chaptertypeId = 0;
+// 			$known = $knownKingdomChaptertypesOffices;
+// 			DB::table('chaptertypes')->truncate();
+// 			if (isset($oldChaptertypes)) {
+// 				$bar3 = $this->output->createProgressBar(count($oldChaptertypes) + 43);
 // 				$bar3->start();
-// 				foreach ($oldParkranks as $oldParkrank) {
-// 					if (!array_key_exists($oldParkrank->kingdom_id, $transKingdoms)) {
+// 				foreach ($oldChaptertypes as $oldChaptertype) {
+// 					if (!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)) {
 // 						$kingdomId = DB::table('kingdoms')->insertGetId([
 // 							'parent_id' => null,
-// 							'name' => 'Deleted Kingdom ' . $oldParkrank->kingdom_id,
-// 							'abbreviation' => 'DK' . $oldParkrank->kingdom_id,
+// 							'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
+// 							'abbreviation' => 'DK' . $oldChaptertype->kingdom_id,
 // 							'heraldry' => null,
 // 							'is_active' => 0
 // 						]);
-// 						$transKingdoms[$oldParkrank->kingdom_id] = $kingdomId;
+// 						$transKingdoms[$oldChaptertype->kingdom_id] = $kingdomId;
 // 						DB::table('trans')->where('table', 'kingdoms')->update([
 // 								'value' => serialize($transKingdoms)
 // 						]);
 // 					}
 // 					//If it's one of our known kingdoms, 
-// 					if(array_key_exists($oldParkrank->kingdom_id, $known)){
+// 					if(array_key_exists($oldChaptertype->kingdom_id, $known)){
 // 						//and it's not in the known array (or 'Kingdom', thanks for that DS), 
-// 						if(!array_key_exists($oldParkrank->title, $known[$oldParkrank->kingdom_id]) || $oldParkrank->title == "Kingdom"){
+// 						if(!array_key_exists($oldChaptertype->title, $known[$oldChaptertype->kingdom_id]) || $oldChaptertype->title == "Kingdom"){
 // 							//don't add this one.
-// 							switch($oldParkrank->parktitle_id){
+// 							switch($oldChaptertype->parktitle_id){
 // 								case 56:
-// 									$transParkRanks[$oldParkrank->parktitle_id] = (int)$parkrankId + 1;
+// 									$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId + 1;
 // 									break;
 // 								case 31:
-// 									$transParkRanks[$oldParkrank->parktitle_id] = (int)$parkrankId + 1;
+// 									$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId + 1;
 // 									break;
 // 								case 35:
-// 									$transParkRanks[$oldParkrank->parktitle_id] = (int)$parkrankId;
+// 									$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId;
 // 									break;
 // 								default: 
 // 							}
-// 							$deadRecords['ParkTitles'][$oldParkrank->parktitle_id] = $oldParkrank;
+// 							$deadRecords['Chaptertypes'][$oldChaptertype->parktitle_id] = $oldChaptertype;
 // 							continue;
 // 						}else{
-// 							unset($known[$oldParkrank->kingdom_id][$oldParkrank->title]);
+// 							unset($known[$oldChaptertype->kingdom_id][$oldChaptertype->title]);
 // 						}
 // 					}
-// 					$parkrankId = DB::table('parkranks')->insertGetId([
-// 							'kingdom_id' => $transKingdoms[$oldParkrank->kingdom_id],
-// 							'name' => $oldParkrank->title,
-// 							'rank' => $oldParkrank->class,
-// 							'minimumattendance' => $oldParkrank->minimumattendance,
-// 							'minimumcutoff' => $oldParkrank->minimumcutoff
+// 					$chaptertypeId = DB::table('chaptertypes')->insertGetId([
+// 							'kingdom_id' => $transKingdoms[$oldChaptertype->kingdom_id],
+// 							'name' => $oldChaptertype->title,
+// 							'rank' => $oldChaptertype->class,
+// 							'minimumattendance' => $oldChaptertype->minimumattendance,
+// 							'minimumcutoff' => $oldChaptertype->minimumcutoff
 // 					]);
-// 					$transParkRanks[$oldParkrank->parktitle_id] = $parkrankId;
+// 					$transChaptertypes[$oldChaptertype->parktitle_id] = $chaptertypeId;
 // 					$bar3->advance();
 // 				}
 // 			}
 			
 // 			//now add what's missing
-// 			foreach($known as $kid => $kingdomParkRanks){
-// 				foreach($kingdomParkRanks as $knownParkrank => $offices){
-// 					if($knownParkrank != 'Kingdom'){
-// 						$parkrankId = DB::table('parkranks')->insertGetId([
+// 			foreach($known as $kid => $kingdomChaptertypes){
+// 				foreach($kingdomChaptertypes as $knownChaptertype => $offices){
+// 					if($knownChaptertype != 'Kingdom'){
+// 						$chaptertypeId = DB::table('chaptertypes')->insertGetId([
 // 							'kingdom_id' => $transKingdoms[$kid],
-// 							'name' => $knownParkrank,
-// 							'rank' => $knownParkrank === 'Principality' ? 50 : 35,
-// 							'minimumattendance' => $knownParkrank === 'Principality' ? 60 : 21,
-// 							'minimumcutoff' => $knownParkrank === 'Principality' ? 56 : 19
+// 							'name' => $knownChaptertype,
+// 							'rank' => $knownChaptertype === 'Principality' ? 50 : 35,
+// 							'minimumattendance' => $knownChaptertype === 'Principality' ? 60 : 21,
+// 							'minimumcutoff' => $knownChaptertype === 'Principality' ? 56 : 19
 // 						]);
 // 						$bar3->advance();
 // 					}
@@ -8640,71 +8646,72 @@ class ImportOrk3 extends Command
 // 			$bar3->finish();
 // 			$this->info('');
 // 			DB::table('trans')->insert([
-// 					'table' => 'parkranks',
-// 					'value' => serialize($transParkRanks)
+// 					'table' => 'chaptertypes',
+// 					'value' => serialize($transChaptertypes)
 // 			]);
 			
-// 			//parks
-// 			$this->info('Importing Parks...');
-// 			$oldParks = $backupConnect->table('ork_park')->get()->toArray();
-// 			DB::table('parks')->truncate();
-// 			if (isset($oldParks)) {
-// 				$bar4 = $this->output->createProgressBar(count($oldParks));
+			//chapters
+// 			$this->info('Importing Chapters...');
+// 			$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
+// 			DB::table('chapters')->truncate();
+// 			if (isset($oldChapters)) {
+// 				$bar4 = $this->output->createProgressBar(count($oldChapters));
 // 				$bar4->start();
-// 				foreach ($oldParks as $oldPark) {
-// 					if (!array_key_exists($oldPark->kingdom_id, $transKingdoms)) {
+// 				foreach ($oldChapters as $oldChapter) {
+// 					if (!array_key_exists($oldChapter->kingdom_id, $transKingdoms)) {
 // 						$kingdomId = DB::table('kingdoms')->insertGetId([
 // 								'parent_id' => null,
-// 								'name' => 'Deleted Kingdom ' . $oldPark->kingdom_id,
-// 								'abbreviation' => 'DK' . $oldPark->kingdom_id,
+// 								'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
+// 								'abbreviation' => 'DK' . $oldChapter->kingdom_id,
 // 								'heraldry' => null,
 // 								'is_active' => 0
 // 						]);
-// 						$transKingdoms[$oldPark->kingdom_id] = $kingdomId;
+// 						$transKingdoms[$oldChapter->kingdom_id] = $kingdomId;
 // 						DB::table('trans')->where('table', 'kingdoms')->update([
 // 								'value' => serialize($transKingdoms)
 // 						]);
 // 					}
 // 					$locationID = DB::table('locations')->insertGetId([
-// 							'address' => $this->locationClean($oldPark->address),
-// 							'city' => $this->locationClean($oldPark->city),
-// 							'province' => $this->locationClean($oldPark->province),
-// 							'postal_code' => $this->locationClean($oldPark->postal_code),
-// 							'google_geocode' => $this->geocodeClean($oldPark->google_geocode),
-// 							'latitude' => $this->locationClean($oldPark->latitude),
-// 							'longitude' => $this->locationClean($oldPark->longitude),
-// 							'location' => $this->locationClean($oldPark->location),
-// 							'map_url' => $this->locationClean($oldPark->map_url),
-// 							'description' => $this->locationClean($oldPark->description),
-// 							'directions' => $this->locationClean($oldPark->directions)
+// 							'address' => $this->locationClean($oldChapter->address),
+// 							'city' => $this->locationClean($oldChapter->city),
+// 							'province' => $this->locationClean($oldChapter->province),
+// 							'postal_code' => $this->locationClean($oldChapter->postal_code),
+// 							'google_geocode' => $this->geocodeClean($oldChapter->google_geocode),
+// 							'latitude' => $this->locationClean($oldChapter->latitude),
+// 							'longitude' => $this->locationClean($oldChapter->longitude),
+// 							'location' => $this->locationClean($oldChapter->location),
+// 							'map_url' => $this->locationClean($oldChapter->map_url),
+// 							'description' => $this->locationClean($oldChapter->description),
+// 							'directions' => $this->locationClean($oldChapter->directions)
 // 					]);
-// 					if($oldPark->parktitle_id === 186){//inactive is being removed
-// 						$lowestParkrank = Parkrank::where('kingdom_id', $transKingdoms[$oldPark->kingdom_id])->orderBy('rank', 'ASC')->first();
+// 					if($oldChapter->parktitle_id === 186){//inactive is being removed
+// 						$lowestChaptertype = Chaptertype::where('kingdom_id', $transKingdoms[$oldChapter->kingdom_id])->orderBy('rank', 'ASC')->first();
 // 					}
-// 					$parkID = DB::table('parks')->insertGetId([
-// 							'kingdom_id' => $transKingdoms[$oldPark->kingdom_id],
-// 							'parkrank_id' => $oldPark->parktitle_id === 186 ? $lowestParkrank->id : $transParkRanks[$oldPark->parktitle_id],
+// 					$chapterID = DB::table('chapters')->insertGetId([
+// 							'kingdom_id' => $transKingdoms[$oldChapter->kingdom_id],
+// 							'chaptertype_id' => $oldChapter->parktitle_id === 186 ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
 // 							'location_id' => $locationID,
-// 							'name' => trim($oldPark->name),
-// 							'abbreviation' => $oldPark->abbreviation,
-// 							'heraldry' => $oldPark->has_heraldry === 1 ? sprintf('%05d.jpg', $oldPark->park_id) : null,
-// 							'url' => $oldPark->url,
-// 							'is_active' => $oldPark->active != 'Active' || $oldPark->parktitle_id === 186 ? 0 : 1,
-// 							'created_at' => $oldPark->modified,
-// 							'updated_at' => $oldPark->modified
+// 							'name' => trim($oldChapter->name),
+// 							'abbreviation' => $oldChapter->abbreviation,
+// 							'heraldry' => $oldChapter->has_heraldry === 1 ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
+// 							'url' => $oldChapter->url,
+// 							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id === 186 ? 0 : 1,
+// 							'created_at' => $oldChapter->modified,
+// 							'updated_at' => $oldChapter->modified
 // 					]);
-// 					$transParks[$oldPark->park_id] = $parkID;
+// 					$transChapters[$oldChapter->park_id] = $chapterID;
 // 					$bar4->advance();
 // 				}
 // 				$bar4->finish();
 // 				$this->info('');
 // 			}
 // 			DB::table('trans')->insert([
-// 					'table' => 'parks',
-// 					'value' => serialize($transParks)
+// 					'table' => 'chapters',
+// 					'value' => serialize($transChapters)
 // 			]);
 			
 			//units
+			//TODO: remove 'Events', move them to Crats
 // 			$this->info('Importing Units...');
 // 			$oldUnits = $backupConnect->table('ork_unit')->get()->toArray();
 // 			DB::table('units')->truncate();
@@ -8757,8 +8764,8 @@ class ImportOrk3 extends Command
 // 							foreach($knownAwards[$nameClean] as $kid => $info){
 // 								if($info){
 // 									$awardId = DB::table('awards')->insertGetId([
-// 											'awardable_type' => 'Kingdom',
-// 											'awardable_id' => $transKingdoms[$kid],
+// 											'awarder_type' => 'Kingdom',
+// 											'awarder_id' => $transKingdoms[$kid],
 // 											'name' => $info['name'],
 // 											'is_ladder' => 0,
 // 											'deleted_by' => null,
@@ -8771,8 +8778,8 @@ class ImportOrk3 extends Command
 // 							foreach($knownAwards[$nameClean] as $kid => $info){
 // 								if($info){
 // 									$awardId = DB::table('awards')->insertGetId([
-// 											'awardable_type' => 'Kingdom',
-// 											'awardable_id' => $transKingdoms[$kid],
+// 											'awarder_type' => 'Kingdom',
+// 											'awarder_id' => $transKingdoms[$kid],
 // 											'name' => $info['name'],
 // 											'is_ladder' => $info['is_ladder'],
 // 											'deleted_by' => null,
@@ -8786,8 +8793,8 @@ class ImportOrk3 extends Command
 // 						continue;
 // 					}
 // 					$awardId = DB::table('awards')->insertGetId([
-// 							'awardable_type' => 'Kingdom',
-// 							'awardable_id' => null,
+// 							'awarder_type' => 'Kingdom',
+// 							'awarder_id' => null,
 // 							'name' => $nameClean,
 // 							'is_ladder' => 1,
 // 							'deleted_by' => $oldAward->deprecate === 1 ? 1 : null,
@@ -8823,17 +8830,18 @@ class ImportOrk3 extends Command
 // 				foreach ($oldCustomAwards as $oldCustomAward) {
 // 					$foundAward = DB::table('awards')->where('name', $oldCustomAward->name)->first();
 // 					if(!$foundAward){
+// 						$cleanName = trim($oldCustomAward->name);
 // 						$customAwardId = DB::table('awards')->insertGetId([
-// 								'awardable_type' => 'Kingdom',
-// 								'awardable_id' => $transKingdoms[$oldCustomAward->kingdom_id],
-// 								'name' => $oldCustomAward->name != '' ? trim($oldCustomAward->name) : 'Unknown Award',
+// 								'awarder_type' => 'Kingdom',
+// 								'awarder_id' => $transKingdoms[$oldCustomAward->kingdom_id],
+// 								'name' => $cleanName != '' ? $cleanName : 'Unknown Award',
 // 								'is_ladder' => strpos($oldCustomAward->name, 'dreamkeeper') > -1 || strpos($oldCustomAward->name, 'hell') > -1 ? 0 : 1
 // 						]);
 // 						$kingdomawardsProcessed[$oldCustomAward->kingdomaward_id] = $customAwardId;
-// 						$transCustomAwards[$oldCustomAward->kingdomaward_id] = $customAwardId;
+// 						$transKingdomawards[$oldCustomAward->kingdomaward_id] = $customAwardId;
 // 					}else{
 // 						$kingdomawardsProcessed[$oldCustomAward->kingdomaward_id] = $foundAward->id;
-// 						$transCustomAwards[$oldCustomAward->kingdomaward_id] = $foundAward->id;
+// 						$transKingdomawards[$oldCustomAward->kingdomaward_id] = $foundAward->id;
 // 					}
 // 					$bar7->advance();
 // 				}
@@ -8842,7 +8850,7 @@ class ImportOrk3 extends Command
 // 			}
 // 			DB::table('trans')->insert([
 // 					'table' => 'customawards',
-// 					'value' => serialize($transCustomAwards)
+// 					'value' => serialize($transKingdomawards)
 // 			]);
 // 			DB::table('trans')->where('table', 'kingdomawardsprocessed')->update([
 // 					'value' => serialize($kingdomawardsProcessed)
@@ -8879,7 +8887,9 @@ class ImportOrk3 extends Command
 // 						//if it exists, let's not remake it
 // 						$titleCheck = Title::where('name', $cleanName)->orWhere('name', 'LIKE', $cleanName . '|%')->orWhere('name', 'LIKE', '%|' . $cleanName)->whereNull('titleable_id')->first();
 // 						if($titleCheck){
-// 							$transTitles[$oldTitle->award_id] = $titleCheck->id;
+// 							foreach(array_keys($knownTitles['Master Jovius']) as $kid){
+// 								$transTitles[$oldTitle->award_id][$kid] = $titleCheck->id;
+// 							}
 // 							unset($oldTitles[$otID]);
 // 							$bar8->advance();
 // 							continue;
@@ -8926,7 +8936,9 @@ class ImportOrk3 extends Command
 // 								'is_roaming' => 0,
 // 								'is_active' => $cleanName === 'Paragon Raider' ? 0 : 1
 // 						]);
-// 						$transTitles[$oldTitle->award_id] = $titleId;
+// 						foreach(array_keys($knownTitles['Master Jovius']) as $kid){
+// 							$transTitles[$oldTitle->award_id][$kid] = $titleId;
+// 						}
 // 						unset($oldTitles[$otID]);
 // 						$bar8->advance();
 // 					}
@@ -9153,8 +9165,8 @@ class ImportOrk3 extends Command
 // 							$rank = 0;
 // 						}
 // 						$customTitleId = DB::table('titles')->insertGetId([
-// 								'titleable_type' => $nameClean === 'Valkyrie\'s Chosen' ? 'Park' : 'Kingdom',
-// 								'titleable_id' => $nameClean === 'Valkyrie\'s Chosen' ? $transParks[907] : $transKingdoms[$oldCustomTitle->kingdom_id],
+// 								'titleable_type' => $nameClean === 'Valkyrie\'s Chosen' ? 'Chapter' : 'Kingdom',
+// 								'titleable_id' => $nameClean === 'Valkyrie\'s Chosen' ? $transChapters[907] : $transKingdoms[$oldCustomTitle->kingdom_id],
 // 								'name' => $nameClean,
 // 								'rank' => $rank,
 // 								'peerage' => $peerage,
@@ -9182,28 +9194,28 @@ class ImportOrk3 extends Command
 			//offices
 // 			$this->info('Creating Offices...');
 // 			$count = 0;
-// 			foreach($knownKingdomParklevelsOffices as $d){
+// 			foreach($knownKingdomChaptertypesOffices as $d){
 // 				$count = $count + array_sum(array_map("count", $d));
 // 			}
 // 			$bar10 = $this->output->createProgressBar($count);
 // 			$bar10->start();
 // 			DB::table('offices')->truncate();
 // 			//create from known offices (that was a lot of corpora reading I just did)
-// 			foreach($knownKingdomParklevelsOffices as $kid => $knownKingdomParklevelsOffice){
-// 				foreach($knownKingdomParklevelsOffice as $parkRank => $offices){
-// 					$officeableType = $parkRank != 'Kingdom' ? 'Parkrank' : 'Kingdom';
+// 			foreach($knownKingdomChaptertypesOffices as $kid => $knownKingdomChaptertypesOffice){
+// 				foreach($knownKingdomChaptertypesOffice as $chaptertype => $offices){
+// 					$officeableType = $chaptertype != 'Kingdom' ? 'Chaptertype' : 'Kingdom';
 // 					$officeableID = $officeableType === 'Kingdom' ? $transKingdoms[$kid] : null;
 // 					if(!$officeableID){
-// 						$parkRankArray = Parkrank::where('kingdom_id', $transKingdoms[$kid])->where('name', $parkRank)->first();
-// 						if(!$parkRankArray){
+// 						$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+// 						if(!$chaptertypeArray){
 // 							//this shouldn't happen.  Tell me if it does.
 // 							dd(array(
 // 									$kid,
 // 									$transKingdoms[$kid],
-// 									$parkRank
+// 									$chaptertype
 // 							));
 // 						}
-// 						$officeableID = $parkRankArray->id;
+// 						$officeableID = $chaptertypeArray->id;
 // 					}
 // 					foreach($offices as $office => $officeData){
 // 						$officeId = DB::table('offices')->insertGetId(
@@ -9359,7 +9371,7 @@ class ImportOrk3 extends Command
 
 // 					//persona data
 // 					$personaId = DB::table('personas')->insertGetId([
-// 							'park_id' => $oldUser->park_id === 0 ? 317 : $transParks[$oldUser->park_id],
+// 							'chapter_id' => $oldUser->park_id === 0 ? 317 : $transChapters[$oldUser->park_id],
 // 							'user_id' => $userId,
 // 							'pronoun_id' => $pronounId,
 // 							'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
@@ -9369,7 +9381,7 @@ class ImportOrk3 extends Command
 // 							'is_active' => $oldUser->active === 1 ? 1 : 0,
 // 							'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
 // 							'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
-// 							'joined_park_at' => $oldUser->park_member_since === '0000-00-00' ? null : $oldUser->park_member_since,
+// 							'joined_chapter_at' => $oldUser->park_member_since === '0000-00-00' ? null : $oldUser->park_member_since,
 // 							'created_at' => $oldUser->modified,
 // 							'updated_at' => $oldUser->modified
 // 					]);
@@ -9384,7 +9396,6 @@ class ImportOrk3 extends Command
 // 									'unit_id' => $transUnits[$oldUser->company_id],
 // 									'persona_id' => $personaId,
 // 									'role' => 'Member',
-// 									'title' => null,
 // 									'is_active' => 1,
 // 									'created_at' => $oldUser->modified,
 // 									'updated_at' => $oldUser->modified
@@ -9426,8 +9437,8 @@ class ImportOrk3 extends Command
 // 						DB::table('waivers')->insertGetId([
 // 								'pronoun_id' => null,
 // 								'persona_id' => $personaId,
-// 								'waiverable_type' => 'Park',
-// 								'waiverable_id' => $oldUser->park_id === 0 ? 317 : $transParks[$oldUser->park_id],
+// 								'waiverable_type' => 'Chapter',
+// 								'waiverable_id' => $oldUser->park_id === 0 ? 317 : $transChapters[$oldUser->park_id],
 // 								'file' => $oldUser->waiver_ext != '' ? sprintf('%06d.' . $oldUser->waiver_ext, $oldUser->mundane_id) : null,
 // 								'player' => trim($oldUser->given_name . ' ' . $oldUser->surname),
 // 								'email' => null,
@@ -9493,10 +9504,10 @@ class ImportOrk3 extends Command
 // 			if (count($oldEvents) > 0) {
 // 				$bar15 = $this->output->createProgressBar(count($oldEvents));
 // 				$bar15->start();
-// 				$burningLands = Park::where('name', 'Burning Lands')->first();
+// 				$burningLands = Chapter::where('name', 'Burning Lands')->first();
 // 				foreach ($oldEvents as $oldEvent) {
 // 					$locationID = null;
-// 					$eventable_type = $oldEvent->unit_id > 0 ? 'Unit' : ($oldEvent->mundane_id > 0 && ($oldEvent->kingdom_id === 0 && $oldEvent->park_id === 0) ? 'Persona' : ($oldEvent->park_id > 0 && $oldEvent->kingdom_id === 0 ? 'Park' : 'Kingdom'));
+// 					$eventable_type = $oldEvent->unit_id > 0 ? 'Unit' : ($oldEvent->mundane_id > 0 && ($oldEvent->kingdom_id === 0 && $oldEvent->park_id === 0) ? 'Persona' : ($oldEvent->park_id > 0 && $oldEvent->kingdom_id === 0 ? 'Chapter' : 'Kingdom'));
 // 					if($oldEvent->kingdom_id && $oldEvent->kingdom_id != 0 && !array_key_exists($oldEvent->kingdom_id, $transKingdoms)){
 // 						$kingdomId = DB::table('kingdoms')->insertGetId(
 // 							[
@@ -9515,7 +9526,7 @@ class ImportOrk3 extends Command
 // 					if($oldEvent->mundane_id && $oldEvent->mundane_id != 0 && !array_key_exists($oldEvent->mundane_id, $transPersonas)){
 // 						$personaId = DB::table('personas')->insertGetId(
 // 							[
-// 								'park_id' => $oldEvent->park_id === 0 ? $burningLands->id : $transParks[$oldEvent->park_id],
+// 								'chapter_id' => $oldEvent->park_id === 0 ? $burningLands->id : $transChapters[$oldEvent->park_id],
 // 								'user_id' => null,
 // 								'pronoun_id' => null,
 // 								'mundane' => null,
@@ -9537,8 +9548,8 @@ class ImportOrk3 extends Command
 // 						case 'Persona':
 // 							$eventable_id = $transPersonas[$oldEvent->mundane_id];
 // 							break;
-// 						case 'Park':
-// 							$eventable_id = $transParks[$oldEvent->park_id];
+// 						case 'Chapter':
+// 							$eventable_id = $transChapters[$oldEvent->park_id];
 // 							break;
 // 						case 'Kingdom':
 // 							$eventable_id = $transKingdoms[$oldEvent->kingdom_id];
@@ -9623,7 +9634,7 @@ class ImportOrk3 extends Command
 // 				$bar16 = $this->output->createProgressBar(count($oldAccounts));
 // 				$bar16->start();
 // 				foreach ($oldAccounts as $oldAccount) {
-// 					$accountable_type = $oldAccount->unit_id > 0 ? 'Unit' : ($oldAccount->event_id > 0 ? 'Event' : ($oldAccount->park_id > 0 ? 'Park' : 'Kingdom'));
+// 					$accountable_type = $oldAccount->unit_id > 0 ? 'Unit' : ($oldAccount->event_id > 0 ? 'Event' : ($oldAccount->park_id > 0 ? 'Chapter' : 'Kingdom'));
 // 					switch($accountable_type){
 // 						case 'Unit':
 // 							$accountable_id = $transUnits[$oldAccount->unit_id];
@@ -9631,8 +9642,8 @@ class ImportOrk3 extends Command
 // 						case 'Event':
 // 							$accountable_id = $transEvents[$oldAccount->event_id];
 // 							break;
-// 						case 'Park':
-// 							$accountable_id = $transParks[$oldAccount->park_id];
+// 						case 'Chapter':
+// 							$accountable_id = $transChapters[$oldAccount->park_id];
 // 							break;
 // 						case 'Kingdom':
 // 							$accountable_id = $transKingdoms[$oldAccount->kingdom_id];
@@ -9659,7 +9670,7 @@ class ImportOrk3 extends Command
 // 					'value' => serialize($transAccounts)
 // 			]);
 
-// 			//meetups
+			//meetups
 // 			$this->info('Importing Meetups...');
 // 			$oldMeetups = $backupConnect->table('ork_parkday')->get()->toArray();
 // 			DB::table('meetups')->truncate();
@@ -9694,7 +9705,7 @@ class ImportOrk3 extends Command
 // 						]);
 // 						$location = Location::where('address', $oldMeetup->address)->first();
 // 					}
-// 					$altChecks = Meetup::where('park_id', $transParks[$oldMeetup->park_id])
+// 					$altChecks = Meetup::where('chapter_id', $transChapters[$oldMeetup->park_id])
 // 						->where('recurrence', $oldMeetup->recurrence)
 // 						->where('week_of_month', $oldMeetup->week_of_month)
 // 						->where('week_day', $oldMeetup->week_day)
@@ -9717,7 +9728,7 @@ class ImportOrk3 extends Command
 // 						}
 // 					}else{
 // 						$meetupId = DB::table('meetups')->insertGetId([
-// 								'park_id' => $oldMeetup->park_id,
+// 								'chapter_id' => $oldMeetup->park_id,
 // 								'location_id' => $locationID,
 // 								'alt_location_id' => null,
 // 								'url' => filter_var($oldMeetup->location_url, FILTER_VALIDATE_URL) ? $oldMeetup->location_url : null,
@@ -9744,449 +9755,462 @@ class ImportOrk3 extends Command
 // 					'value' => serialize($transMeetups)
 // 			]);
 			
-			//attendances
-			$this->info('Importing Attendances...');
-			$oldAttendances = $backupConnect->table('ork_attendance')->get()->toArray();
-			DB::table('attendances')->truncate();
-			DB::table('reconciliations')->truncate();
-			$kingdoms = Kingdom::all()->toArray();
-			$parks = Park::all()->toArray();
-			if (count($oldAttendances) > 0) {
-				$meetups = null;
-				$meetupId = null;
-				$bar18 = $this->output->createProgressBar(count($oldAttendances));
-				$bar18->start();
-				foreach ($oldAttendances as $oldAttendance) {
+// 			//attendances
+// 			$this->info('Importing Attendances...');
+// 			$oldAttendances = $backupConnect->table('ork_attendance')->get()->toArray();
+// 			DB::table('attendances')->truncate();
+// 			DB::table('reconciliations')->truncate();
+// 			$kingdoms = Kingdom::all()->toArray();
+// 			$chapters = Chapter::all()->toArray();
+// 			if (count($oldAttendances) > 0) {
+// 				$meetups = null;
+// 				$meetupId = null;
+// 				$bar18 = $this->output->createProgressBar(count($oldAttendances));
+// 				$bar18->start();
+// 				foreach ($oldAttendances as $oldAttendance) {
 					
-					$locationID = null;
-					//work out archetype stuff
-					$archetypeId = null;
-					if($oldAttendance->flavor != ''){
-						$flavorClean = $oldAttendance->flavor === 'Newbie' ? 'Undeclared' : trim($oldAttendance->flavor);
-						$archetype = Archetype::where('name', $flavorClean)->first();
-						if(!$archetype){
-							$archetypeId = DB::table('archetypes')->insertGetId(
-								[
-										'name' => $flavorClean,
-										'is_active' => $flavorClean === 'Undeclared' ? 1 : 0
-								]
-							);
-						}else{
-							$archetypeId = $archetype->id;
-						}
-					}else{
-						$archetypeId = $transArchetypes[$oldAttendance->class_id];
-					}
+// 					$locationID = null;
+// 					//work out archetype stuff
+// 					$archetypeId = null;
+// 					if($oldAttendance->flavor != ''){
+// 						$flavorClean = $oldAttendance->flavor === 'Newbie' ? 'Undeclared' : trim($oldAttendance->flavor);
+// 						$archetype = Archetype::where('name', $flavorClean)->first();
+// 						if(!$archetype){
+// 							$archetypeId = DB::table('archetypes')->insertGetId(
+// 								[
+// 										'name' => $flavorClean,
+// 										'is_active' => $flavorClean === 'Undeclared' ? 1 : 0
+// 								]
+// 							);
+// 						}else{
+// 							$archetypeId = $archetype->id;
+// 						}
+// 					}else{
+// 						$archetypeId = $transArchetypes[$oldAttendance->class_id];
+// 					}
 					
-					//no persona
-					$persona = null;
-					if($oldAttendance->mundane_id === 0){
-						$pairing = null;
-						$fromPark = null;
-						//those that just won't happen
-						if($oldAttendance->persona === '' || $oldAttendance->flavor === '' && ($oldAttendance->note === '' || $oldAttendance->note === 'unknown' || $oldAttendance->note === '**' || $oldAttendance->note === '-' || $oldAttendance->note === '--' || $oldAttendance->note === '---' || $oldAttendance->note === '----' || $oldAttendance->note === '?' || $oldAttendance->note === '??' || $oldAttendance->note === '?? ??' || $oldAttendance->note === '??-??' || $oldAttendance->note === '??-???' || $oldAttendance->note === '???' || $oldAttendance->note === '????' || $oldAttendance->note === '-?' || $oldAttendance->note === 'Undeclaired' || $oldAttendance->note === 'Unk' || $oldAttendance->note === 'unknown' || $oldAttendance->note === 'unkwn' || $oldAttendance->note === 'visitor')){
-							$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
-							continue;
-						}else{
-							//figure out if it's somebody
-							if(strpos($oldAttendance->note, '--') > -1){
-								$pairing = explode('--', $oldAttendance->note);
-								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
-								$fromParks = array_keys(array_column($parks, 'abbreviation'), $pairing[1]);
-								$fromPark = $fromKingdom && array_search($fromKingdom, array_column($fromParks, 'kingdom_id')) ? $parks[array_search($fromKingdom, array_column($fromParks, 'kingdom_id'))] : null;
-							}else if(strpos($oldAttendance->note, '-') > -1){
-								$pairing = explode('-', $oldAttendance->note);
-								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
-								$fromParks = array_keys(array_column($parks, 'abbreviation'), $pairing[1]);
-								$fromPark = $fromKingdom && array_search($fromKingdom, array_column($fromParks, 'kingdom_id')) ? $parks[array_search($fromKingdom, array_column($fromParks, 'kingdom_id'))] : null;
-							}else if(strpos($oldAttendance->note, '/') > -1){
-								$pairing = explode('/', $oldAttendance->note);
-								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
-								$fromParks = array_keys(array_column($parks, 'abbreviation'), $pairing[1]);
-								$fromPark = $fromKingdom && array_search($fromKingdom, array_column($fromParks, 'kingdom_id')) ? $parks[array_search($fromKingdom, array_column($fromParks, 'kingdom_id'))] : null;
-							}else if(strpos($oldAttendance->note, ':') > -1){
-								$pairing = explode(':', $oldAttendance->note);
-								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
-								$fromParks = array_keys(array_column($parks, 'abbreviation'), $pairing[1]);
-								$fromPark = $fromKingdom && array_search($fromKingdom, array_column($fromParks, 'kingdom_id')) ? $parks[array_search($fromKingdom, array_column($fromParks, 'kingdom_id'))] : null;
-							}else{
-								$fromPark = array_search($oldAttendance->note, array_column($parks, 'name')) ? $parks[array_search($oldAttendance->note, array_column($parks, 'name'))] : 
-								(
-									array_search(str_replace('.', '', $oldAttendance->note), array_column($parks, 'abbreviation')) ? $parks[array_search(str_replace('.', '', $oldAttendance->note), array_column($parks, 'abbreviation'))] : 
-									null
-								);
-							}
-							if($fromPark && trim($oldAttendance->persona)){
-								$persona = Persona::where('name', 'LIKE', '%' . $oldAttendance->persona . '%')->where('park_id', $fromPark)->first();
-								$personaID = $persona ? $persona->id : null;
-							}else{
-								$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
-								continue;
-							}
-							if(!$personaID){
-								$personaID = DB::table('personas')->insertGetId([
-										'park_id' => $fromPark['id'],
-										'user_id' => null,
-										'pronoun_id' => null,
-										'mundane' => null,
-										'name' => $this->cleanPersona($oldAttendance->persona, null),
-										'heraldry' => null,
-										'image' => null,
-										'is_active' => 0,
-										'reeve_qualified_expires_at' => null,
-										'corpora_qualified_expires_at' => null,
-										'joined_park_at' => null
-								]);
-								$transPersonas[$oldAttendance->mundane_id] = $personaID;
-								DB::table('trans')->where('table', 'personas')->update([
-										'value' => serialize($transPersonas)
-								]);
-							}
-						}
-					//get it
-					}else{
-						if(array_key_exists($oldAttendance->mundane_id, $transPersonas)){
-						  $persona = Persona::where('id', $transPersonas[$oldAttendance->mundane_id])->first();
-						}
-						if(!$persona){
-							$parkID = null;
-							//try to work out their main park...the one with the most attendances
-							$mostAttendeds = $backupConnect->table('ork_attendance')
-								->where('mundane_id', $oldAttendance->mundane_id)
-								->where('park_id', '!=', '0')
-								->select('park_id', DB::raw('count(*) as total'))
-								->groupBy('park_id')
-								->orderBy('total', 'DESC')
-								->get()->toArray();
-							if(count($mostAttendeds) > 0){
-								foreach($mostAttendeds as $mostAttended){
-									if(array_key_exists($mostAttended->park_id, $transParks)){
-										$parkID = $transParks[$mostAttended->park_id];
-										break;
-									}
-								}
-							}else{
-								$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
-								continue;
-							}
-							$personaID = DB::table('personas')->insertGetId(
-								[
-									'park_id' => $parkID,
-									'user_id' => null,
-									'pronoun_id' => null,
-									'mundane' => null,
-									'name' => $this->cleanPersona($oldAttendance->persona, null) ? $this->cleanPersona($oldAttendance->persona, null) : 'Deleted Persona ' . $oldAttendance->mundane_id,
-									'heraldry' => null,
-									'image' => null,
-									'is_active' => 0,
-									'reeve_qualified_expires_at' => null,
-									'corpora_qualified_expires_at' => null,
-									'joined_park_at' => null
-								]
-							);
-							$transPersonas[$oldAttendance->mundane_id] = $personaID;
-							DB::table('trans')->where('table', 'personas')->update([
-									'value' => serialize($transPersonas)
-							]);
-						}else{
-							$personaID = $persona->id;
-						}
-					}
+// 					//no persona
+// 					$persona = null;
+// 					if($oldAttendance->mundane_id === 0){
+// 						$pairing = null;
+// 						$fromChapter = null;
+// 						//those that just won't happen
+// 						if($oldAttendance->persona === '' || $oldAttendance->flavor === '' && ($oldAttendance->note === '' || $oldAttendance->note === 'unknown' || $oldAttendance->note === '**' || $oldAttendance->note === '-' || $oldAttendance->note === '--' || $oldAttendance->note === '---' || $oldAttendance->note === '----' || $oldAttendance->note === '?' || $oldAttendance->note === '??' || $oldAttendance->note === '?? ??' || $oldAttendance->note === '??-??' || $oldAttendance->note === '??-???' || $oldAttendance->note === '???' || $oldAttendance->note === '????' || $oldAttendance->note === '-?' || $oldAttendance->note === 'Undeclaired' || $oldAttendance->note === 'Unk' || $oldAttendance->note === 'unknown' || $oldAttendance->note === 'unkwn' || $oldAttendance->note === 'visitor')){
+// 							$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
+// 							continue;
+// 						}else{
+// 							//figure out if it's somebody
+// 							if(strpos($oldAttendance->note, '--') > -1){
+// 								$pairing = explode('--', $oldAttendance->note);
+// 								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
+// 								$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+// 								$fromChapter = $fromKingdom && array_search($fromKingdom, array_column($fromChapters, 'kingdom_id')) ? $chapters[array_search($fromKingdom, array_column($fromChapters, 'kingdom_id'))] : null;
+// 							}else if(strpos($oldAttendance->note, '-') > -1){
+// 								$pairing = explode('-', $oldAttendance->note);
+// 								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
+// 								$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+// 								$fromChapter = $fromKingdom && array_search($fromKingdom, array_column($fromChapters, 'kingdom_id')) ? $chapters[array_search($fromKingdom, array_column($fromChapters, 'kingdom_id'))] : null;
+// 							}else if(strpos($oldAttendance->note, '/') > -1){
+// 								$pairing = explode('/', $oldAttendance->note);
+// 								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
+// 								$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+// 								$fromChapter = $fromKingdom && array_search($fromKingdom, array_column($fromChapters, 'kingdom_id')) ? $chapters[array_search($fromKingdom, array_column($fromChapters, 'kingdom_id'))] : null;
+// 							}else if(strpos($oldAttendance->note, ':') > -1){
+// 								$pairing = explode(':', $oldAttendance->note);
+// 								$fromKingdom = array_search($pairing[0], array_column($kingdoms, 'abbreviation')) ? $kingdoms[array_search($pairing[0], array_column($kingdoms, 'abbreviation'))] : null;
+// 								$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+// 								$fromChapter = $fromKingdom && array_search($fromKingdom, array_column($fromChapters, 'kingdom_id')) ? $chapters[array_search($fromKingdom, array_column($fromChapters, 'kingdom_id'))] : null;
+// 							}else{
+// 								$fromChapter = array_search($oldAttendance->note, array_column($chapters, 'name')) ? $chapters[array_search($oldAttendance->note, array_column($chapters, 'name'))] : 
+// 								(
+// 									array_search(str_replace('.', '', $oldAttendance->note), array_column($chapters, 'abbreviation')) ? $chapters[array_search(str_replace('.', '', $oldAttendance->note), array_column($chapters, 'abbreviation'))] : 
+// 									null
+// 								);
+// 							}
+// 							if($fromChapter && trim($oldAttendance->persona)){
+// 								$persona = Persona::where('name', 'LIKE', '%' . $oldAttendance->persona . '%')->where('chapter_id', $fromChapter)->first();
+// 								$personaID = $persona ? $persona->id : null;
+// 							}else{
+// 								$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
+// 								continue;
+// 							}
+// 							if(!$personaID){
+// 								$personaID = DB::table('personas')->insertGetId([
+// 										'chapter_id' => $fromChapter['id'],
+// 										'user_id' => null,
+// 										'pronoun_id' => null,
+// 										'mundane' => null,
+// 										'name' => $this->cleanPersona($oldAttendance->persona, null),
+// 										'heraldry' => null,
+// 										'image' => null,
+// 										'is_active' => 0,
+// 										'reeve_qualified_expires_at' => null,
+// 										'corpora_qualified_expires_at' => null,
+// 										'joined_chapter_at' => null
+// 								]);
+// 								$transPersonas[$oldAttendance->mundane_id] = $personaID;
+// 								DB::table('trans')->where('table', 'personas')->update([
+// 										'value' => serialize($transPersonas)
+// 								]);
+// 							}
+// 						}
+// 					//get it
+// 					}else{
+// 						if(array_key_exists($oldAttendance->mundane_id, $transPersonas)){
+// 						  $persona = Persona::where('id', $transPersonas[$oldAttendance->mundane_id])->first();
+// 						}
+// 						if(!$persona){
+// 							$chapterID = null;
+// 							//try to work out their main park...the one with the most attendances
+// 							$mostAttendeds = $backupConnect->table('ork_attendance')
+// 								->where('mundane_id', $oldAttendance->mundane_id)
+// 								->where('park_id', '!=', '0')
+// 								->select('park_id', DB::raw('count(*) as total'))
+// 								->groupBy('park_id')
+// 								->orderBy('total', 'DESC')
+// 								->get()->toArray();
+// 							if(count($mostAttendeds) > 0){
+// 								foreach($mostAttendeds as $mostAttended){
+// 									if(array_key_exists($mostAttended->park_id, $transChapters)){
+// 										$chapterID = $transChapters[$mostAttended->park_id];
+// 										break;
+// 									}
+// 								}
+// 							}else{
+// 								$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
+// 								continue;
+// 							}
+// 							$personaID = DB::table('personas')->insertGetId(
+// 								[
+// 									'chapter_id' => $chapterID,
+// 									'user_id' => null,
+// 									'pronoun_id' => null,
+// 									'mundane' => null,
+// 									'name' => $this->cleanPersona($oldAttendance->persona, null) ? $this->cleanPersona($oldAttendance->persona, null) : 'Deleted Persona ' . $oldAttendance->mundane_id,
+// 									'heraldry' => null,
+// 									'image' => null,
+// 									'is_active' => 0,
+// 									'reeve_qualified_expires_at' => null,
+// 									'corpora_qualified_expires_at' => null,
+// 									'joined_chapter_at' => null
+// 								]
+// 							);
+// 							$transPersonas[$oldAttendance->mundane_id] = $personaID;
+// 							DB::table('trans')->where('table', 'personas')->update([
+// 									'value' => serialize($transPersonas)
+// 							]);
+// 						}else{
+// 							$personaID = $persona->id;
+// 						}
+// 					}
 					
-					//no park, kingdom, or event (ie, reconciliation)
-					if($oldAttendance->park_id === 0 && $oldAttendance->kingdom_id === 0 && $oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
-						DB::table('reconciliations')->insertGetId(
-							[
-								'archetype_id' => $archetypeId,
-								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
-								'credits' => $oldAttendance->credits
-							]
-						);
-						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
-					//no event and no date (ie, reconciliation)
-					}else if($oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0 && $oldAttendance->entered_at === '0000-00-00 00:00:00' && $oldAttendance->date === '0000-00-00'){
-						DB::table('reconciliations')->insertGetId(
-							[
-								'archetype_id' => $archetypeId,
-								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
-								'credits' => $oldAttendance->credits
-							]
-						);
-						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
-					//if the date is before Feb 01 1983, it's a reconciliation
-					}else if($oldAttendance->date < '1983-02-01'){
-						DB::table('reconciliations')->insertGetId(
-							[
-								'archetype_id' => $archetypeId,
-								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
-								'credits' => $oldAttendance->credits
-							]
-							);
-						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
-					//if the date is missing the month or day, reconcile it
-					}else if(strpos($oldAttendance->date, '-00') > -1){
-						DB::table('reconciliations')->insertGetId(
-							[
-								'archetype_id' => $archetypeId,
-								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
-								'credits' => $oldAttendance->credits
-							]
-							);
-						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
-					//if it's more than 2 credits and no event, it's a reconcilliation
-					}else if($oldAttendance->credits > 2.9 && $oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
-						DB::table('reconciliations')->insertGetId(
-							[
-								'archetype_id' => $archetypeId,
-								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
-								'credits' => $oldAttendance->credits
-							]
-							);
-						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
-					}else{
-						if($oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
-							//is there a meetup?
-							$meetups = Meetup::where('park_id', $oldAttendance->park_id)->get()->toArray();
-							if(count($meetups) > 0){
-								//if the day of week for the meetup and the attendance match, this is it
-								$meetupSelected = array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) ? array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) : 
-								(
-									//else if it's < 1 credit and class != 6, go with the fighter-practice one
-									$oldAttendance->credits < 1 && $oldAttendance->class_id != 6 && array_search('Fighter Practice', array_column($meetups, 'purpose')) ? array_search('Fighter Practice', array_column($meetups, 'purpose')) : 
-									(
-										//else if it's < 1 credit and class === 6, go with the arts-day one
-										$oldAttendance->credits < 1 && $oldAttendance->class_id === 6 && array_search('A&S Gathering', array_column($meetups, 'purpose')) ? array_search('A&S Gathering', array_column($meetups, 'purpose')) :
-										(
-											//else if it's > .9 credits, go with the park-day one
-											$oldAttendance->credits > .9 && array_search('Park Day', array_column($meetups, 'purpose')) ? array_search('Park Day', array_column($meetups, 'purpose')) : 
-											//else just the first one, I guess?
-											0
-										)
-									)
-								);
-								$meetupId = $meetups[$meetupSelected]['id'];
-							}else{
-								//make it
-								$meetupId = DB::table('meetups')->insertGetId(
-									[
-										'park_id' => $oldAttendance->park_id,
-										'location_id' => $locationID ? $locationID : null,
-										'alt_location_id' => null,
-										'url' => null,
-										'recurrence' => 'Weekly',
-										'week_of_month' => null,
-										'week_day' => date('l', strtotime($oldAttendance->date)),
-										'month_day' => null,
-										'occurs_at' => '13:00:00',
-										'purpose' => 'Park Day',
-										'description' => 'This Meetup has been generated.  Please review it and correct as appropriate.'
-									]
-								);
-							}
-						//check to make sure the event exists
-						}else if($oldAttendance->event_calendardetail_id != 0){
-							if(!array_key_exists($oldAttendance->event_calendardetail_id, $transEventDetails)){
-								//make it
-								if($oldAttendance->event_id > 0){
-									$parentEvent = $backupConnect->table('ork_event')->where('event_id', $oldAttendance->event_id)->first();
-									$eventable_type = $parentEvent->unit_id > 0 ? 'Unit' : ($parentEvent->kingdom_id === 0 && $parentEvent->park_id === 0 ? 'Persona' : ($parentEvent->park_id > 0 && $parentEvent->kingdom_id === 0 ? 'Park' : 'Kingdom'));
-									switch($eventable_type){
-										case 'Unit':
-											$eventable_id = $transUnits[$parentEvent->unit_id];
-											break;
-										case 'Persona':
-											$eventable_id = $transPersonas[$parentEvent->mundane_id];
-											break;
-										case 'Park':
-											$eventable_id = $transParks[$parentEvent->park_id];
-											break;
-										case 'Kingdom':
-											$eventable_id = $transKingdoms[$parentEvent->kingdom_id];
-											break;
-										default:
-											$eventable_id = null;
-											break;
-									}
-									$eventId = DB::table('events')->insertGetId(
-										[
-											'eventable_type' => $eventable_type,
-											'eventable_id' => $eventable_id,
-											'location_id' => $locationID ? $locationID : null,
-											'name' => trim($parentEvent->name),
-											'description' => 'This event was generated from related records.  Please correct it.',
-											'is_active' => 0,
-											'image' => null,
-											'event_start' => $oldAttendance->date,
-											'event_end' => $oldAttendance->date,
-											'price' => null,
-											'url' => null
-										]
-									);
-									$transEvents[$oldAttendance->event_id] = $eventId;
-									DB::table('trans')->where('table', 'events')->update([
-											'value' => serialize($transEvents)
-									]);
-									$transEventDetails[$oldAttendance->event_calendardetail_id] = $eventId;
-									DB::table('trans')->where('table', 'eventDetails')->update([
-											'value' => serialize($transEventDetails)
-									]);
-								}else{
-									//deadrecords it since there's no event data
-									$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
-								}
-							}
-						}
-						//check by_whom
-						if($oldAttendance->by_whom_id != 0 && !array_key_exists($oldAttendance->by_whom_id, $transUsers)){
-							//somebody lost their user...we'll have to make one up
-							$userId = DB::table('users')->insertGetId([
-								'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
-								'email_verified_at' => null,
-								'password' => 'generated',
-								'remember_token' => null,
-								'is_restricted' => 1
-							]);
-							$transUsers[$oldAttendance->by_whom_id] = $userId;
-							DB::table('trans')->where('table', 'users')->update([
-									'value' => serialize($transUsers)
-							]);
-							$persona = Persona::where('id', $transPersonas[$oldAttendance->mundane_id])->first();
-							$persona->user_id = $userId;
-							$persona->save();
-						}
-						$attendanceId = DB::table('attendances')->insertGetId(
-							[
-								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
-								'archetype_id' => $archetypeId,
-								'attendable_type' => $oldAttendance->event_calendardetail_id > 0 ? 'Event' : 'Meetup',  //Meetup, Event
-								'attendable_id' => $oldAttendance->event_calendardetail_id > 0 ? $transEventDetails[$oldAttendance->event_calendardetail_id] : $meetupId,
-								'attended_at' => $oldAttendance->date,
-								'credits' => $oldAttendance->credits,
-								'created_by' => $oldAttendance->by_whom_id != 0 ? $transUsers[$oldAttendance->by_whom_id] : 1,
-								'created_at' => $oldAttendance->entered_at != '0000-00-00 00:00:00' ? $oldAttendance->entered_at : $oldAttendance->date
-							]
-						);
-						$transGenericAttendances[$oldAttendance->attendance_id] = $attendanceId;
-					}
-					$bar18->advance();
-				}
-				$bar18->finish();
-				$this->info('');
-			}
-			DB::table('trans')->insert([
-					'table' => 'genericAttendances',
-					'value' => serialize($transGenericAttendances)
-			]);
-			dd('check attendances');
+// 					//no park, kingdom, or event (ie, reconciliation)
+// 					if($oldAttendance->park_id === 0 && $oldAttendance->kingdom_id === 0 && $oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
+// 						DB::table('reconciliations')->insertGetId(
+// 							[
+// 								'archetype_id' => $archetypeId,
+// 								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
+// 								'credits' => $oldAttendance->credits
+// 							]
+// 						);
+// 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+// 					//no event and no date (ie, reconciliation)
+// 					}else if($oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0 && $oldAttendance->entered_at === '0000-00-00 00:00:00' && $oldAttendance->date === '0000-00-00'){
+// 						DB::table('reconciliations')->insertGetId(
+// 							[
+// 								'archetype_id' => $archetypeId,
+// 								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
+// 								'credits' => $oldAttendance->credits
+// 							]
+// 						);
+// 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+// 					//if the date is before Feb 01 1983, it's a reconciliation
+// 					}else if($oldAttendance->date < '1983-02-01'){
+// 						DB::table('reconciliations')->insertGetId(
+// 							[
+// 								'archetype_id' => $archetypeId,
+// 								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
+// 								'credits' => $oldAttendance->credits
+// 							]
+// 							);
+// 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+// 					//if the date is missing the month or day, reconcile it
+// 					}else if(strpos($oldAttendance->date, '-00') > -1){
+// 						DB::table('reconciliations')->insertGetId(
+// 							[
+// 								'archetype_id' => $archetypeId,
+// 								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
+// 								'credits' => $oldAttendance->credits
+// 							]
+// 							);
+// 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+// 					//if it's more than 2 credits and no event, it's a reconcilliation
+// 					}else if($oldAttendance->credits > 2.9 && $oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
+// 						DB::table('reconciliations')->insertGetId(
+// 							[
+// 								'archetype_id' => $archetypeId,
+// 								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
+// 								'credits' => $oldAttendance->credits
+// 							]
+// 							);
+// 						$deadRecords['AttendancesReconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+// 					}else{
+// 						if($oldAttendance->event_id === 0 && $oldAttendance->event_calendardetail_id === 0){
+// 							//is there a meetup?
+// 							$meetups = Meetup::where('chapter_id', $transChapters[$oldAttendance->park_id])->get()->toArray();
+// 							if(count($meetups) > 0){
+// 								//if the day of week for the meetup and the attendance match, this is it
+// 								$meetupSelected = array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) ? array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) : 
+// 								(
+// 									//else if it's < 1 credit and class != 6, go with the fighter-practice one
+// 									$oldAttendance->credits < 1 && $oldAttendance->class_id != 6 && array_search('Fighter Practice', array_column($meetups, 'purpose')) ? array_search('Fighter Practice', array_column($meetups, 'purpose')) : 
+// 									(
+// 										//else if it's < 1 credit and class === 6, go with the arts-day one
+// 										$oldAttendance->credits < 1 && $oldAttendance->class_id === 6 && array_search('A&S Gathering', array_column($meetups, 'purpose')) ? array_search('A&S Gathering', array_column($meetups, 'purpose')) :
+// 										(
+// 											//else if it's > .9 credits, go with the park-day one
+// 											$oldAttendance->credits > .9 && array_search('Park Day', array_column($meetups, 'purpose')) ? array_search('Park Day', array_column($meetups, 'purpose')) : 
+// 											//else just the first one, I guess?
+// 											0
+// 										)
+// 									)
+// 								);
+// 								$meetupId = $meetups[$meetupSelected]['id'];
+// 							}else{
+// 								//make it
+// 								$meetupId = DB::table('meetups')->insertGetId(
+// 									[
+// 										'chapter_id' => $transChapters[$oldAttendance->park_id],
+// 										'location_id' => $locationID ? $locationID : null,
+// 										'alt_location_id' => null,
+// 										'url' => null,
+// 										'recurrence' => 'Weekly',
+// 										'week_of_month' => null,
+// 										'week_day' => date('l', strtotime($oldAttendance->date)),
+// 										'month_day' => null,
+// 										'occurs_at' => '13:00:00',
+// 										'purpose' => 'Park Day',
+// 										'description' => 'This Meetup has been generated.  Please review it and correct as appropriate.'
+// 									]
+// 								);
+// 							}
+// 						//check to make sure the event exists
+// 						}else if($oldAttendance->event_calendardetail_id != 0){
+// 							if(!array_key_exists($oldAttendance->event_calendardetail_id, $transEventDetails)){
+// 								//make it
+// 								if($oldAttendance->event_id > 0){
+// 									$parentEvent = $backupConnect->table('ork_event')->where('event_id', $oldAttendance->event_id)->first();
+// 									$eventable_type = $parentEvent->unit_id > 0 ? 'Unit' : ($parentEvent->kingdom_id === 0 && $parentEvent->park_id === 0 ? 'Persona' : ($parentEvent->park_id > 0 && $parentEvent->kingdom_id === 0 ? 'Chapter' : 'Kingdom'));
+// 									switch($eventable_type){
+// 										case 'Unit':
+// 											$eventable_id = $transUnits[$parentEvent->unit_id];
+// 											break;
+// 										case 'Persona':
+// 											$eventable_id = $transPersonas[$parentEvent->mundane_id];
+// 											break;
+// 										case 'Chapter':
+// 											$eventable_id = $transChapters[$parentEvent->park_id];
+// 											break;
+// 										case 'Kingdom':
+// 											$eventable_id = $transKingdoms[$parentEvent->kingdom_id];
+// 											break;
+// 										default:
+// 											$eventable_id = null;
+// 											break;
+// 									}
+// 									$eventId = DB::table('events')->insertGetId(
+// 										[
+// 											'eventable_type' => $eventable_type,
+// 											'eventable_id' => $eventable_id,
+// 											'location_id' => $locationID ? $locationID : null,
+// 											'name' => trim($parentEvent->name),
+// 											'description' => 'This event was generated from related records.  Please correct it.',
+// 											'is_active' => 0,
+// 											'image' => null,
+// 											'event_start' => $oldAttendance->date,
+// 											'event_end' => $oldAttendance->date,
+// 											'price' => null,
+// 											'url' => null
+// 										]
+// 									);
+// 									$transEvents[$oldAttendance->event_id] = $eventId;
+// 									DB::table('trans')->where('table', 'events')->update([
+// 											'value' => serialize($transEvents)
+// 									]);
+// 									$transEventDetails[$oldAttendance->event_calendardetail_id] = $eventId;
+// 									DB::table('trans')->where('table', 'eventDetails')->update([
+// 											'value' => serialize($transEventDetails)
+// 									]);
+// 								}else{
+// 									//deadrecords it since there's no event data
+// 									$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
+// 								}
+// 							}
+// 						}
+// 						//check by_whom
+// 						if($oldAttendance->by_whom_id != 0 && !array_key_exists($oldAttendance->by_whom_id, $transUsers)){
+// 							//somebody lost their user...we'll have to make one up
+// 							$userId = DB::table('users')->insertGetId([
+// 								'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
+// 								'email_verified_at' => null,
+// 								'password' => 'generated',
+// 								'remember_token' => null,
+// 								'is_restricted' => 1
+// 							]);
+// 							$transUsers[$oldAttendance->by_whom_id] = $userId;
+// 							DB::table('trans')->where('table', 'users')->update([
+// 									'value' => serialize($transUsers)
+// 							]);
+// 							if(array_key_exists($oldAttendance->by_whom_id, $transPersonas)){
+// 								DB::table('personas')->where('id', $transPersonas[$oldAttendance->by_whom_id])->update([
+// 										'user_id' => $userId
+// 								]);
+// 							}else{
+// 								$personaId = DB::table('personas')->insertGetId([
+// 										'chapter_id' => $transChapters[$oldAttendance->park_id],
+// 										'user_id' => $userId,
+// 										'pronoun_id' => null,
+// 										'mundane' => 'Deleted Persona',
+// 										'name' => 'Deleted Persona',
+// 										'is_active' => 0
+// 								]);
+// 								$transPersonas[$oldAttendance->by_whom_id] = $personaId;
+// 								DB::table('trans')->where('table', 'personas')->update([
+// 										'value' => serialize($transPersonas)
+// 								]);
+// 							}
+// 						}
+// 						$attendanceId = DB::table('attendances')->insertGetId(
+// 							[
+// 								'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
+// 								'archetype_id' => $archetypeId,
+// 								'attendable_type' => $oldAttendance->event_calendardetail_id > 0 ? 'Event' : 'Meetup',  //Meetup, Event
+// 								'attendable_id' => $oldAttendance->event_calendardetail_id > 0 ? $transEventDetails[$oldAttendance->event_calendardetail_id] : $meetupId,
+// 								'attended_at' => $oldAttendance->date,
+// 								'credits' => $oldAttendance->credits,
+// 								'created_by' => $oldAttendance->by_whom_id != 0 ? $transUsers[$oldAttendance->by_whom_id] : 1,
+// 								'created_at' => $oldAttendance->entered_at != '0000-00-00 00:00:00' ? $oldAttendance->entered_at : $oldAttendance->date
+// 							]
+// 						);
+// 						$transGenericAttendances[$oldAttendance->attendance_id] = $attendanceId;
+// 					}
+// 					$bar18->advance();
+// 				}
+// 				$bar18->finish();
+// 				$this->info('');
+// 			}
+// 			DB::table('trans')->insert([
+// 					'table' => 'genericAttendances',
+// 					'value' => serialize($transGenericAttendances)
+// 			]);
+// 			dd('check attendances');
 
 			//tournaments
-			$this->info('Importing Tournaments...');
-			$oldTournaments = $backupConnect->table('ork_tournament')->get()->toArray();
-			DB::table('tournaments')->truncate();
-			if (count($oldTournaments) > 0) {
-				$bar19 = $this->output->createProgressBar(count($oldTournaments));
-				$bar19->start();
-				foreach ($oldTournaments as $oldTournament) {
-					if($oldTournament->kingdom_id === 0 && $oldTournament->park_id === 0 && $oldTournament->event_calendardetail_id === 0 && $oldTournament->event_id === 0){
-						$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
-						continue;
-					}
-					$abletype = $oldTournament->kingdom_id > 0 ? 'Kingdom' : ($oldTournament->park_id > 0 ? 'Park' : 'Event');
-					if($abletype === 'Kingdom'){
-						$ableid = $transKingdoms[$oldTournament->kingdom_id];
-					}elseif($abletype === 'Park'){
-						$ableid = $transParks[$oldTournament->park_id];
-					}else{
-						if($oldTournament->event_calendardetail_id > 0){
-							if(!array_key_exists($oldTournament->event_calendardetail_id, $transEventDetails)){
-								$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
-								continue;
-							}else{
-								$ableid = $transEventDetails[$oldTournament->event_calendardetail_id];
-							}
-						}else{
-							//these are all garbage, so goodby
-							$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
-							continue;
-						}
-					}
-					$tournamentId = DB::table('tournaments')->insertGetId([
-							'tournamentable_type' => $abletype,
-							'tournamentable_id' => $ableid,
-							'name' => $oldTournament->name,
-							'description' => $oldTournament->description,
-							'url' => $oldTournament->url,
-							'occured_at' => $oldTournament->date_time
-					]);
-					$transTournaments[$oldTournament->tournament_id] = $tournamentId;
-					$bar19->advance();
-				}
-				$bar19->finish();
-				$this->info('');
-			}
-			DB::table('trans')->insert([
-					'table' => 'tournaments',
-					'value' => serialize($transTournaments)
-			]);
-			dd('check tournaments');
+// 			$this->info('Importing Tournaments...');
+// 			$oldTournaments = $backupConnect->table('ork_tournament')->get()->toArray();
+// 			DB::table('tournaments')->truncate();
+// 			if (count($oldTournaments) > 0) {
+// 				$bar19 = $this->output->createProgressBar(count($oldTournaments));
+// 				$bar19->start();
+// 				foreach ($oldTournaments as $oldTournament) {
+// 					if($oldTournament->kingdom_id === 0 && $oldTournament->park_id === 0 && $oldTournament->event_calendardetail_id === 0 && $oldTournament->event_id === 0){
+// 						$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
+// 						continue;
+// 					}
+// 					$abletype = $oldTournament->kingdom_id > 0 ? 'Kingdom' : ($oldTournament->park_id > 0 ? 'Chapter' : 'Event');
+// 					if($abletype === 'Kingdom'){
+// 						$ableid = $transKingdoms[$oldTournament->kingdom_id];
+// 					}elseif($abletype === 'Chapter'){
+// 						$ableid = $transChapters[$oldTournament->park_id];
+// 					}else{
+// 						if($oldTournament->event_calendardetail_id > 0){
+// 							if(!array_key_exists($oldTournament->event_calendardetail_id, $transEventDetails)){
+// 								$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
+// 								continue;
+// 							}else{
+// 								$ableid = $transEventDetails[$oldTournament->event_calendardetail_id];
+// 							}
+// 						}else{
+// 							//these are all garbage, so goodby
+// 							$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
+// 							continue;
+// 						}
+// 					}
+// 					$tournamentId = DB::table('tournaments')->insertGetId([
+// 							'tournamentable_type' => $abletype,
+// 							'tournamentable_id' => $ableid,
+// 							'name' => $oldTournament->name,
+// 							'description' => $oldTournament->description,
+// 							'url' => $oldTournament->url,
+// 							'occured_at' => $oldTournament->date_time
+// 					]);
+// 					$transTournaments[$oldTournament->tournament_id] = $tournamentId;
+// 					$bar19->advance();
+// 				}
+// 				$bar19->finish();
+// 				$this->info('');
+// 			}
+// 			DB::table('trans')->insert([
+// 					'table' => 'tournaments',
+// 					'value' => serialize($transTournaments)
+// 			]);
 
 			//configurations
-			$this->info('Importing Configurations...');
-			$oldConfigurations = $backupConnect->table('ork_configuration')->get()->toArray();
-			if (count($oldConfigurations) > 0) {
-				$bar20 = $this->output->createProgressBar(count($oldConfigurations));
-				$bar20->start();
-				foreach ($oldConfigurations as $oldConfiguration) {
-					if($oldConfiguration->key === 'AccountPointers'){
-						$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
-					}else{
-						//update the kingdom
-						$kingdom = Kingdom::where('id', $transKingdoms[$oldConfiguration->id])->first();
-						$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
-						$cleanNoQuotes = str_replace('"', '', $cleanValue);
-						switch($oldConfiguration->key){
-							case 'AtlasColor':
-								$kingdom->color = $cleanNoQuotes;
-								break;
-							case 'AttendanceCreditMinimum':
-								$kingdom->credit_minimum = $cleanNoQuotes;
-								break;
-							case 'AttendanceDailyMinimum':
-								$kingdom->daily_minimum = $cleanNoQuotes === 'null' ? 0 : $cleanNoQuotes;
-								break;
-							case 'AttendanceWeeklyMinimum':
-								$kingdom->weekly_minimum = $cleanNoQuotes === 'null' ? 0 : $cleanNoQuotes;
-								break;
-							case 'AveragePeriod':
-								$data = json_decode($cleanValue);
-								$kingdom->average_period_type = $data->Type != '' && $data->Type != '-' ? ucfirst($data->Type) : 'Month';
-								$kingdom->average_period = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : 0;
-								break;
-							case 'DuesAmount':
-								$kingdom->dues_amount = $cleanNoQuotes;
-								break;
-							case 'DuesPeriod':
-								$data = json_decode($cleanValue);
-								$kingdom->dues_intervals_type = $data->Type != '' ? ucfirst($data->Type) : 'Month';
-								$kingdom->dues_intervals = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : 6;
-								break;
-							case 'KingdomDuesTake':
-								$kingdom->dues_take = $cleanNoQuotes;
-								break;
-							case 'MonthlyCreditMaximum':
-								$kingdom->credit_maximum = $cleanNoQuotes === 'null' || $cleanNoQuotes > 100 ? null : $cleanNoQuotes;
-								break;
-						}
-						$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
-						$kingdom->save();
-					}
-					$bar20->advance();
-				}
-				$bar20->finish();
-				$this->info('');
-			}
-			dd('check configs');
-
+// 			$this->info('Importing Configurations...');
+// 			$oldConfigurations = $backupConnect->table('ork_configuration')->get()->toArray();
+// 			if (count($oldConfigurations) > 0) {
+// 				$bar20 = $this->output->createProgressBar(count($oldConfigurations));
+// 				$bar20->start();
+// 				foreach ($oldConfigurations as $oldConfiguration) {
+// 					if($oldConfiguration->key === 'AccountPointers'){
+// 						$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
+// 					}else{
+// 						//update the kingdom
+// 						$kingdom = Kingdom::where('id', $transKingdoms[$oldConfiguration->id])->first();
+// 						$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
+// 						$cleanNoQuotes = str_replace('"', '', $cleanValue);
+// 						switch($oldConfiguration->key){
+// 							case 'AtlasColor':
+// 								$kingdom->color = $cleanNoQuotes;
+// 								break;
+// 							case 'AttendanceCreditMinimum':
+// 								$kingdom->credit_minimum = $cleanNoQuotes;
+// 								break;
+// 							case 'AttendanceDailyMinimum':
+// 								$kingdom->daily_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
+// 								break;
+// 							case 'AttendanceWeeklyMinimum':
+// 								$kingdom->weekly_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
+// 								break;
+// 							case 'AveragePeriod':
+// 								$data = json_decode($cleanValue);
+// 								$kingdom->average_period_type = $data->Type != '' && $data->Type != '-' ? ucfirst($data->Type) : null;
+// 								$kingdom->average_period = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
+// 								break;
+// 							case 'DuesAmount':
+// 								$kingdom->dues_amount = $cleanNoQuotes;
+// 								break;
+// 							case 'DuesPeriod':
+// 								$data = json_decode($cleanValue);
+// 								$kingdom->dues_intervals_type = $data->Type != '' ? ucfirst($data->Type) : null;
+// 								$kingdom->dues_intervals = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
+// 								break;
+// 							case 'KingdomDuesTake':
+// 								$kingdom->dues_take = $cleanNoQuotes;
+// 								break;
+// 							case 'MonthlyCreditMaximum':
+// 								$kingdom->credit_maximum = $cleanNoQuotes === 'null' || $cleanNoQuotes > 100 ? null : $cleanNoQuotes;
+// 								break;
+// 						}
+// 						$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
+// 						$kingdom->save();
+// 					}
+// 					$bar20->advance();
+// 				}
+// 				$bar20->finish();
+// 				$this->info('');
+// 			}
+			
 			//transactions
 			$this->info('Importing Transactions...');
 			$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
@@ -10195,10 +10219,10 @@ class ImportOrk3 extends Command
 				$bar21 = $this->output->createProgressBar(count($oldTransactions));
 				$bar21->start();
 				foreach ($oldTransactions as $oldTransaction) {
-					if($oldTransaction->recorded_by != 0 && !array_key_exists($oldTransaction->recorded_by, $transUsers)){
+					if($oldTransaction->recorded_by != 0 && !array_key_exists($oldTransaction->recorded_by, $transUsers) && array_key_exists($oldTransaction->recorded_by, $transPersonas)){
 						//somebody lost their user...we'll have to make one up
 						$userId = DB::table('users')->insertGetId([
-							'email' => $oldTransaction->recorded_by . '@nowhere.net',
+							'email' => 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net',
 							'email_verified_at' => null,
 							'password' => 'generated',
 							'remember_token' => null,
@@ -10207,6 +10231,9 @@ class ImportOrk3 extends Command
 						$transUsers[$oldTransaction->recorded_by] = $userId;
 						DB::table('trans')->where('table', 'users')->update([
 								'value' => serialize($transUsers)
+						]);
+						DB::table('personas')->where('id', $transPersonas[$oldTransaction->recorded_by])->update([
+								'user_id' => $userId
 						]);
 					}
 					$transactionId = DB::table('transactions')->insertGetId([
@@ -10442,6 +10469,8 @@ class ImportOrk3 extends Command
 			dd('check dues');
 
 			//members 
+			//TODO: remove 'Events', move them to Crats
+			//TODO: change role to 'is_head' and 'is_voting'
 			$this->info('Importing Members...');
 			$oldMembers = $backupConnect->table('ork_unit_mundane')->get()->toArray();
 			DB::table('members')->truncate();
@@ -10449,11 +10478,41 @@ class ImportOrk3 extends Command
 				$bar23 = $this->output->createProgressBar(count($oldMembers));
 				$bar23->start();
 				foreach ($oldMembers as $oldMember) {
+					//if they have a title, make/find it and give it to the persona
+					if(trim($oldMember->title) != ''){
+						$cleanTitle = trim($oldMember->title);
+						$foundTitle = Title::where('titleable_type', 'Unit')->where('titleable_id', $transUnits[$oldMember->unit_id])->where('name', $cleanTitle)->first();
+						if(!$foundTitle){
+							$titleId = DB::table('titles')->insertGetId([
+									'titleable_type' => 'Unit',
+									'titleable_id' => $transUnits[$oldMember->unit_id],
+									'name' => $cleanTitle,
+									'rank' => null,
+									'peerage' => null,
+									'is_roaming' => 0,
+									'is_active' => 1
+							]);
+						}else{
+							$titleId = $foundTitle->id;
+						}
+						
+						DB::table('issuances')->insert(
+								[
+										'issuable_type' => 'Title',
+										'issuable_id' => $titleId,
+										'authority_type' => 'Unit',
+										'authority_id' => $transUnits[$oldMember->unit_id],
+										'issuer_id' => null,
+										'recipient_type' => 'Persona',
+										'recipient_id' => $transPersonas[$oldMember->mundane_id],
+										'issued_at' => date('Y-m-d'),
+								]
+						);
+					}
 					//check to see if entry exists already, and if so, update
 					$memberCheck = Member::where('unit_id', $transUnits[$oldMember->unit_id])->where('persona_id', $transPersonas[$oldMember->mundane_id])->first();
 					if($memberCheck){
 						$memberCheck->role = ucfirst($oldMember->role);
-						$memberCheck->title = trim($oldMember->title) != '' ? trim($oldMember->title) : null;
 						$memberCheck->is_active = $oldMember->active === 'Active' ? 1 : 0;
 						$memberCheck->save();
 					}else{
@@ -10461,7 +10520,6 @@ class ImportOrk3 extends Command
 								'unit_id' => $transUnits[$oldMember->unit_id],
 								'persona_id' => $transPersonas[$oldMember->mundane_id],
 								'role' => ucfirst($oldMember->role),
-								'title' => trim($oldMember->title) != '' ? trim($oldMember->title) : null,
 								'is_active' => $oldMember->active === 'Active' ? 1 : 0
 						]);
 					}
@@ -10475,7 +10533,7 @@ class ImportOrk3 extends Command
 					'table' => 'members',
 					'value' => serialize($transMembers)
 			]);
-			dd('check members, particularly trans for duplicate & proper totals started with 543');
+			dd('check titles & members, particularly trans for duplicate & proper totals started with 543');
 			
 			//officers/reigns
 			//TODO: move this up with the rest of the vars
@@ -10650,13 +10708,13 @@ class ImportOrk3 extends Command
 					}
 					if($order){
 						if($oldOfficer->park_id != 0){
-							$park = Park::where('id', $transParks[$oldOfficer->park_id])->first();
-							$office = Office::where('officeable_type', 'Parkrank')->where('officeable_id', $park->parkrank_id)->where('order', 1)->first();
+							$chapter = Chapter::where('id', $transChapters[$oldOfficer->park_id])->first();
+							$office = Office::where('officeable_type', 'Chaptertype')->where('officeable_id', $chapter->chaptertype_id)->where('order', 1)->first();
 							$officeID = $office->id;
-							if(strpos($park->name, '|') > -1){
+							if(strpos($chapter->name, '|') > -1){
 								//assign custom term by gender (if known) Also, I'm sorry I'm defaulting to male.  I don't feel like I have a choice.  Please forgive me.
 								$officeNames = explode('|', $office->name);
-								if($park->parkrank->rank < 30){
+								if($chapter->chaptertype->rank < 30){
 									if($oldOfficer->kingdom_id == 14){
 										$label = $officeNames[1];
 									}else{
@@ -10688,7 +10746,7 @@ class ImportOrk3 extends Command
 					}
 					
 					//reign?
-					$getReign = DB::table('reigns')->where('reignable_type', $oldOfficer->park_id != 0 ? 'Park' : 'Kingdom')->where('reignable_id', $oldOfficer->park_id != 0 ? $transParks[$oldOfficer->park_id] : $transKingdoms[$oldOfficer->kingdom_id])->orderBy('ends_on', 'DESC')->first();
+					$getReign = DB::table('reigns')->where('reignable_type', $oldOfficer->park_id != 0 ? 'Chapter' : 'Kingdom')->where('reignable_id', $oldOfficer->park_id != 0 ? $transChapters[$oldOfficer->park_id] : $transKingdoms[$oldOfficer->kingdom_id])->orderBy('ends_on', 'DESC')->first();
 					if($getReign){
 						$reignID = $getReign->id;
 					}else{
@@ -10697,8 +10755,8 @@ class ImportOrk3 extends Command
 							dd($oldOfficer);
 						}
 						$reignID = DB::table('reigns')->insertGetId([
-								'reignable_type' => $oldOfficer->park_id != 0 ? 'Park' : 'Kingdom',
-								'reignable_id' => $oldOfficer->park_id != 0 ? $transParks[$oldOfficer->park_id] : $transKingdoms[$oldOfficer->kingdom_id],
+								'reignable_type' => $oldOfficer->park_id != 0 ? 'Chapter' : 'Kingdom',
+								'reignable_id' => $oldOfficer->park_id != 0 ? $transChapters[$oldOfficer->park_id] : $transKingdoms[$oldOfficer->kingdom_id],
 								'name' => $knownCurrentReigns[$oldOfficer->kingdom_id]['label'],
 								'starts_on' => $order === 2 || $order === 5 ? $knownCurrentReigns[$oldOfficer->kingdom_id]['midreign'] : $knownCurrentReigns[$oldOfficer->kingdom_id]['begins'],
 								'ends_on' => $order === 2 || $order === 5 ? date('Y-m-d', strtotime($knownCurrentReigns[$oldOfficer->kingdom_id]['midreign'] . '+6 months')) : $knownCurrentReigns[$oldOfficer->kingdom_id]['begins']
@@ -10733,9 +10791,14 @@ class ImportOrk3 extends Command
 				$bar25 = $this->output->createProgressBar(count($oldRecommendations));
 				$bar25->start();
 				foreach ($oldRecommendations as $oldRecommendation) {
+					//work out the kingdomaward_id (get persona, search kingdomawards by persona kingdom && award)
+					$persona = $backupConnect->table('ork_mundane')->where('id', $oldRecommendation->mundane_id)->first();
+					$kingdomaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $persona->kingdom_id)->where('award_id', $oldRecommendation->award_id)->first();
+					$isTitle = array_key_exists($oldRecommendation->award_id, $transTitles) ? true : false;
 					$RecommendationId = DB::table('recommendations')->insertGetId([
 							'persona_id' => $transPersonas[$oldRecommendation->mundane_id],
-							'award_id' => array_key_exists($oldRecommendation->award_id) ? $transGenericAwards[$oldRecommendation->award_id] : $transCustomAwards[$oldRecommendation->kingdomaward_id],
+							'recommendable_type' => $isTitle ? 'Title' : 'Award',
+							'recommendable_id' => $isTitle ? $transTitles[$oldRecommendation->award_id][$persona->kingdom_id] : $transKingdomawards[$kingdomaward->id],
 							'rank' => $oldRecommendation->rank > 0 ? $oldRecommendation->rank : null,
 							'is_anonymous' => $oldRecommendation->mask_giver,
 							'reason' => $oldRecommendation->reason,
@@ -10755,6 +10818,7 @@ class ImportOrk3 extends Command
 			dd('check recomendations');
 			
 			//reconciliations
+			//TODO: check negatives...doesn't seem to be doing that right
 			$this->info('Importing Reconciliations...');
 			$oldReconciliations = $backupConnect->table('ork_class_reconciliation')->get()->toArray();
 			DB::table('reconciliations')->truncate();
@@ -10764,6 +10828,7 @@ class ImportOrk3 extends Command
 				foreach ($oldReconciliations as $oldReconciliation) {
 					if($oldReconciliation->reconciled === 0){
 						$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
+						continue;
 					}
 					$ReconciliationId = DB::table('reconciliations')->insertGetId([
 							'archetype_id' => $transArchetypes[$oldReconciliation->class_id],
@@ -10782,8 +10847,7 @@ class ImportOrk3 extends Command
 			]);
 			dd('check recomendations');
 			
-			//suspensions
-			
+			//this will create too much garbage.  Make humans do it.
 			//notes
 			
 			//issuances
@@ -10795,20 +10859,118 @@ class ImportOrk3 extends Command
 				//autocrat & subcrat not issuances, but instead 'crats'
 				//			218 Autocrat
 				//			219 Subcrat
+			//TODO: remove Events from auth_ty
+			$this->info('Importing Issuances...');
+			$oldIssuances = $backupConnect->table('ork_awards')->get()->toArray();
+			DB::table('issuances')->truncate();
+			if (count($oldIssuances) > 0) {
+				$bar22 = $this->output->createProgressBar(count($oldIssuances));
+				$bar22->start();
+				foreach ($oldIssuances as $oldIssuance) {
+					$issuable_type = null;
+					$issuable_id = null;
+					$rank = null;
+					
+					//we don't know what the issuance is...coincedently, we don't know the authorizing kingdom or park either
+					if($oldIssuance->kingdomaward_id == 0){
+						//leave them and let humans do the work.  There's only about 300 of them.
+						$deadRecords['IssuancesNoAward'][$oldIssuances->awards_id] = $oldIssuance;
+						continue;
+					}
+					
+					//get kingdomaward (and thus, the kingdom)
+					$kingdomaward = $backupConnect->table('ork_kingdomawards')->where('id', $oldIssuance->kingdomaward_id)->first();
+					
+					//get eventcalendardetail?
+					$eventcaldet = null;
+					if($oldIssuance->event_id != 0){
+						$eventcaldet = $backupConnect->table('ork_event_calendardetail')->where('event_id', $oldIssuance->event_id)->where('event_start', '<=', $oldIssuance->date)->where('event_end', '>=', $oldIssuance->date)->first();
+					}
+					
+					//awards
+					if (array_key_exists($oldIssuance->kingdomaward_id, $transKingdomawards)) {
+						//TODO: check for a custom award?
+						if($oldIssuance->award_id == 94){
+							//tile, office, or award?
+// 					        if(){
+
+// 					        }else if(){
+
+// 					        }else if(){
+
+// 					        }else{
+// 					            //
+
+// 					        }
+						}
+						$issuable_type = 'Award';
+						$issuable_id = $transKingdomawards[$oldIssuance->kingdomaward_id];
+						$rank = $oldIssuance->rank != '' ? $oldIssuance->rank : null;
+					//TODO: this isn't gonna work, since some of them are 0
+					}else if(array_key_exists($oldIssuance->award_id, $transTitles)){
+						$issuable_type = 'Title';
+						$issuable_id = $transTitles[$oldIssuance->award_id][$kingdomaward->kingdom_id];
+						$rank = null;
+					}
+// 					else if(array_key_exists($oldIssuance->kingdomaward_id, $transOffices)){
+						
+// 					}
+					else{
+						$deadRecords['kingdomAwards'][$oldIssuance->awards_id] = $oldIssuance;
+					}
+					
+					//make it
+					$issuanceId = DB::table('issuances')->insertGetId(
+							[
+									'issuable_type' => $issuable_type,
+									'issuable_id' => $issuable_id,
+									'whereable_type' => $eventcaldet ? $transEventDetails[$eventcaldet->id] : $defaultLocationId,
+									'whereable_id' => $eventcaldet ? 'Event' : 'Location',
+									'authority_type' => $oldIssuance->park_id != 0 ? 'Chapter' : 'Kingdom',
+									'authority_id' => $oldIssuance->park_id != 0 ? $transChapters[$oldIssuance->park_id] : $transKingdoms[$kingdomaward->kingdom_id],
+									'recipient_type' => $oldIssuance->unit_id != 0 ? 'Unit' : 'Persona',
+									'recipient_id' => $oldIssuance->unit_id != 0 ? $transUnits[$oldIssuance->unit_id] : ($oldIssuance->persona_id != 0 ? $transPersonas[$oldIssuance->persona_id] : $transPersonas[$oldIssuance->stripped_from]),
+									'issuer_id' => $oldIssuance->given_by_id != 0 ? $transPersonas[$oldIssuance->given_by_id] : null,
+									'custom_name' => $oldIssuance->custom_name != '' ? $oldIssuance->custom_name : null,
+									'rank' => $rank,
+									'issued_at' => $oldIssuance->date != '0000-00-00' ? $oldIssuance->date : ($oldIssuance->entered_at != '0000-00-00' ? $oldIssuance->entered_at : date('Y-m-d')),
+									'note' => trim($oldIssuance->note) != '' ? trim($oldIssuance->note) : null,
+									'image' => null,
+									'revocation' => trim($oldIssuance->revocation) != '' ? trim($oldIssuance->revocation) : null,
+									'revoked_by' => $transPersonas[$oldIssuance->revoked_by_id],
+									'revoked_at' => $oldIssuance->revoked_at
+							]
+					);
+					$transIssuances[$oldIssuance->issuance_id] = $issuanceId;
+					$bar22->advance();
+				}
+				$bar22->finish();
+				$this->info('');
+			}
+			dd('check issuances');
+				
+			
+			
+			//see what you can do about Squires, Pages, Apprentices, At-Arms in notes
+			//see what you can do about units in notes
+			//see what you can do about offices in notes
+			
+			//demos/guests
+			
 			//persona name titles  //go thru the personas
 			//duplicate personas (move this up towards the top)
 			//custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles.
 			//custom officers (award data)
 
-			//notes //get what you can, record what's left
+			
 			//TODO: wiki fields
 			//TODO: website fields
-			//TODO: rename 'parks' to 'chapters'
+			//TODO: kingdom waiver options
 			//TODO: add 'notes' style fields (like description) to titles, offices, and whatever else they're using 'notes' for
-			//TODO: awardable to awarder
+			//TODO: compare awardsprocessed with list of awards.  Dump results and check for stuff we can get
 
 
-			$this->info(count($deadRecords['Parkranks']) . ' Parkranks lost due to a missing Kingdom');
+			$this->info(count($deadRecords['Chaptertypes']) . ' Chaptertypes lost due to a missing Kingdom');
 			$this->info(count($deadRecords['Units']) . ' Units lost due to a missing Type or having been deleted');
 			$this->info(count($oldCustomAwards) . ' Awards created from \'Custom Award\'');
 			$this->info(count($oldCustomTitles) . ' Titles created from \'Custom Award\'');
@@ -10819,10 +10981,10 @@ class ImportOrk3 extends Command
 			$this->info(count($deadRecords['ParkdayAlternates']) . ' Parkday alternate locations dropped.');
 			$this->info(count($deadRecords['ParkdayUrl']) . ' Parkday urls tossed for not being a url');
 			$this->info(count($deadRecords['HeadlessAttendances']) . ' Attendances without a viable persona were lost');
-			$this->info(count($deadRecords['AttendancesReconciled']) . ' Attendances made into Reconciliations due to missing critical data (date, park/event, etc)');
-			$this->info(count($deadRecords['Dues']) . ' Dues lost due to no park/kingdom or terms');
+			$this->info(count($deadRecords['AttendancesReconciled']) . ' Attendances made into Reconciliations due to missing critical data (date, chapter/event, etc)');
+			$this->info(count($deadRecords['Dues']) . ' Dues lost due to no chapter/kingdom or terms');
 			$this->info(count($deadRecords['IssuancesNoAward']) . ' Award/Title Issuances lost due to no award id');
-			$this->info(count($deadRecords['Tournaments']) . ' Tournaments lost due to no kingdom/park/event data');
+			$this->info(count($deadRecords['Tournaments']) . ' Tournaments lost due to no kingdom/chapter/event data');
 			$this->info(count($deadRecords['Reconciliations']) . ' Reconciliations lost due to 0 value reconciled');
 			$this->info(count($deadRecords['Configurations']) . ' Configurations moved to db functionality');
 			$this->info(count($deadRecords['Splits']) . ' Splits lost due to deleted Account, Persona, or Transactiom');

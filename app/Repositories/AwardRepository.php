@@ -8,10 +8,11 @@ use App\Repositories\BaseRepository;
 class AwardRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'awardable_type',
-        'awardable_id',
+        'awarder_type',
+        'awarder_id',
         'name',
-        'is_ladder'
+        'is_ladder',
+        'limit'
     ];
 
     public function getFieldsSearchable(): array

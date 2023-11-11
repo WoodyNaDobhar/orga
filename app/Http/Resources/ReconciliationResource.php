@@ -17,8 +17,8 @@ class ReconciliationResource extends JsonResource
         return [
             'id' => $this->id,
             'archetype_id' => $this->archetype_id,
-            'user_id' => $this->user_id,
-            'is_reconciled' => $this->is_reconciled,
+            'persona_id' => $this->persona_id,
+            'credits' => $this->credits,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

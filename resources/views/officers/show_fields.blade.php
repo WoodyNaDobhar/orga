@@ -1,13 +1,25 @@
+<!-- Officeable Type Field -->
+<div class="col-sm-12">
+    {!! Form::label('officeable_type', 'Officeable Type:') !!}
+    <p>{{ $officer->officeable_type }}</p>
+</div>
+
+<!-- Officeable Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('officeable_id', 'Officeable Id:') !!}
+    <p>{{ $officer->officeable_id }}</p>
+</div>
+
 <!-- Office Id Field -->
 <div class="col-sm-12">
     {!! Form::label('office_id', 'Office Id:') !!}
     <p>{{ $officer->office_id }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $officer->user_id }}</p>
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $officer->persona_id }}</p>
 </div>
 
 <!-- Authorized By Field -->
@@ -16,21 +28,21 @@
     <p>{{ $officer->authorized_by }}</p>
 </div>
 
-<!-- Officerable Type Field -->
+<!-- Label Field -->
 <div class="col-sm-12">
-    {!! Form::label('officerable_type', 'Officerable Type:') !!}
-    <p>{{ $officer->officerable_type }}</p>
+    {!! Form::label('label', 'Label:') !!}
+    <p>{{ $officer->label }}</p>
 </div>
 
-<!-- Officerable Id Field -->
+<!-- Starts On Field -->
 <div class="col-sm-12">
-    {!! Form::label('officerable_id', 'Officerable Id:') !!}
-    <p>{{ $officer->officerable_id }}</p>
+    {!! Form::label('starts_on', 'Starts On:') !!}
+    <p>{{ $officer->starts_on }}</p>
 </div>
 
-<!-- Scope Field -->
+<!-- Ends On Field -->
 <div class="col-sm-12">
-    {!! Form::label('scope', 'Scope:') !!}
-    <p>{{ $officer->scope }}</p>
+    {!! Form::label('ends_on', 'Ends On:') !!}
+    <p>{{ $officer->ends_on }}</p>
 </div>
 

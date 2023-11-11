@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Award",
- *      required={"awardable_type","name","is_ladder","created_at"},
+ *      required={"awarder_type","name","is_ladder","created_at"},
  *      @OA\Property(
- *          property="awardable_type",
+ *          property="awarder_type",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
@@ -59,23 +59,25 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'awards';
 
     public $fillable = [
-        'awardable_type',
-        'awardable_id',
+        'awarder_type',
+        'awarder_id',
         'name',
-        'is_ladder'
+        'is_ladder',
+        'limit'
     ];
 
     protected $casts = [
-        'awardable_type' => 'string',
+        'awarder_type' => 'string',
         'name' => 'string',
         'is_ladder' => 'boolean'
     ];
 
     public static array $rules = [
-        'awardable_type' => 'required|string',
-        'awardable_id' => 'nullable',
+        'awarder_type' => 'required|string',
+        'awarder_id' => 'nullable',
         'name' => 'required|string|max:100',
         'is_ladder' => 'required|boolean',
+        'limit' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -94,10 +96,5 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Recommendation::class, 'award_id');
     }
 }

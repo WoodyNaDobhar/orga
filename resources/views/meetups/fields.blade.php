@@ -1,19 +1,25 @@
-<!-- Park Id Field -->
+<!-- Chapter Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('park_id', 'Park Id:') !!}
-    {!! Form::number('park_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('chapter_id', 'Chapter Id:') !!}
+    {!! Form::number('chapter_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Location Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('location_id', 'Location Id:') !!}
-    {!! Form::number('location_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('location_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Alt Location Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('alt_location_id', 'Alt Location Id:') !!}
     {!! Form::number('alt_location_id', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Url Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('url', 'Url:') !!}
+    {!! Form::text('url', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 
 <!-- Recurrence Field -->
@@ -55,5 +61,5 @@
 <!-- Description Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('description', 'Description:') !!}
-    {!! Form::text('description', null, ['class' => 'form-control', 'required', 'maxlength' => 255]) !!}
+    {!! Form::text('description', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>

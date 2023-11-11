@@ -8,14 +8,10 @@ use App\Repositories\BaseRepository;
 class DueRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'user_id',
-        'park_id',
+        'persona_id',
         'transaction_id',
-        'is_for_life',
-        'dues_at',
-        'intervals',
-        'revoked_on',
-        'revoked_by'
+        'dues_on',
+        'intervals'
     ];
 
     public function getFieldsSearchable(): array

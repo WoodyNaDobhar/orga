@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Office",
- *      required={"name","crown_points","crown_limit","created_at"},
+ *      required={"officeable_type","name","created_at"},
+ *      @OA\Property(
+ *          property="officeable_type",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *      ),
  *      @OA\Property(
  *          property="name",
  *          description="",
@@ -45,19 +52,24 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'offices';
 
     public $fillable = [
+        'officeable_type',
+        'officeable_id',
         'name',
-        'crown_points',
-        'crown_limit'
+        'duration',
+        'order'
     ];
 
     protected $casts = [
+        'officeable_type' => 'string',
         'name' => 'string'
     ];
 
     public static array $rules = [
+        'officeable_type' => 'required|string',
+        'officeable_id' => 'nullable',
         'name' => 'required|string|max:100',
-        'crown_points' => 'required',
-        'crown_limit' => 'required',
+        'duration' => 'nullable',
+        'order' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -76,11 +88,6 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function kingdomOffices(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\KingdomOffice::class, 'office_id');
     }
 
     public function officers(): \Illuminate\Database\Eloquent\Relations\HasMany

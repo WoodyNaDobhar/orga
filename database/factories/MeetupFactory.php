@@ -6,9 +6,7 @@ use App\Models\Meetup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Location;
-use App\Models\User;
-use App\Models\Location;
-use App\Models\Park;
+use App\Models\Chapter;
 use App\Models\User;
 
 class MeetupFactory extends Factory
@@ -34,9 +32,10 @@ class MeetupFactory extends Factory
         }
 
         return [
-            'park_id' => $this->faker->word,
+            'chapter_id' => $this->faker->word,
             'location_id' => $this->faker->word,
             'alt_location_id' => $this->faker->word,
+            'url' => $this->faker->text($this->faker->numberBetween(5, 255)),
             'recurrence' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'week_of_month' => $this->faker->word,
             'week_day' => $this->faker->text($this->faker->numberBetween(5, 4096)),

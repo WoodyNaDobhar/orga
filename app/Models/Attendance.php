@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Attendance",
- *      required={"user_id","attendable_type","attendable_id","attended_at","credits","created_at"},
+ *      required={"persona_id","attendable_type","attendable_id","attended_at","credits","created_at"},
  *      @OA\Property(
  *          property="attendable_type",
  *          description="",
@@ -61,7 +61,7 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'attendances';
 
     public $fillable = [
-        'user_id',
+        'persona_id',
         'archetype_id',
         'attendable_type',
         'attendable_id',
@@ -76,7 +76,7 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'user_id' => 'required',
+        'persona_id' => 'required',
         'archetype_id' => 'nullable',
         'attendable_type' => 'required|string',
         'attendable_id' => 'required',
@@ -102,13 +102,13 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

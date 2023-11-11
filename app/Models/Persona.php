@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Persona",
- *      required={"park_id","restricted","waivered","waiver_ext","penalty_box","is_active","created_at"},
+ *      required={"chapter_id","is_active","created_at"},
  *      @OA\Property(
  *          property="mundane",
  *          description="",
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="persona",
+ *          property="name",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
@@ -37,34 +37,6 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="restricted",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="boolean",
- *      ),
- *      @OA\Property(
- *          property="waivered",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="boolean",
- *      ),
- *      @OA\Property(
- *          property="waiver_ext",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="penalty_box",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="boolean",
- *      ),
- *      @OA\Property(
  *          property="is_active",
  *          description="",
  *          readOnly=false,
@@ -72,7 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  *          type="boolean",
  *      ),
  *      @OA\Property(
- *          property="reeve_qualified_expires",
+ *          property="reeve_qualified_expires_at",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
@@ -80,7 +52,7 @@ use Illuminate\Database\Eloquent\Model;
  *          format="date"
  *      ),
  *      @OA\Property(
- *          property="corpora_qualified_expires",
+ *          property="corpora_qualified_expires_at",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
@@ -88,7 +60,7 @@ use Illuminate\Database\Eloquent\Model;
  *          format="date"
  *      ),
  *      @OA\Property(
- *          property="joined_park_at",
+ *          property="joined_chapter_at",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
@@ -125,58 +97,51 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'personas';
 
     public $fillable = [
-        'park_id',
+        'chapter_id',
         'user_id',
         'pronoun_id',
         'mundane',
-        'persona',
+        'name',
         'heraldry',
         'image',
-        'restricted',
-        'waivered',
-        'waiver_ext',
-        'penalty_box',
         'is_active',
-        'reeve_qualified_expires',
-        'corpora_qualified_expires',
-        'joined_park_at'
+        'reeve_qualified_expires_at',
+        'corpora_qualified_expires_at',
+        'joined_chapter_at'
     ];
 
     protected $casts = [
         'mundane' => 'string',
-        'persona' => 'string',
+        'name' => 'string',
         'heraldry' => 'string',
         'image' => 'string',
-        'restricted' => 'boolean',
-        'waivered' => 'boolean',
-        'waiver_ext' => 'string',
-        'penalty_box' => 'boolean',
         'is_active' => 'boolean',
-        'reeve_qualified_expires' => 'date',
-        'corpora_qualified_expires' => 'date',
-        'joined_park_at' => 'date'
+        'reeve_qualified_expires_at' => 'date',
+        'corpora_qualified_expires_at' => 'date',
+        'joined_chapter_at' => 'date'
     ];
 
     public static array $rules = [
-        'park_id' => 'required',
+        'chapter_id' => 'required',
         'user_id' => 'nullable',
         'pronoun_id' => 'nullable',
         'mundane' => 'nullable|string|max:255',
-        'persona' => 'nullable|string|max:255',
+        'name' => 'nullable|string|max:255',
         'heraldry' => 'nullable|string|max:255',
         'image' => 'nullable|string|max:255',
-        'restricted' => 'required|boolean',
-        'waivered' => 'required|boolean',
-        'waiver_ext' => 'required|string|max:8',
-        'penalty_box' => 'required|boolean',
         'is_active' => 'required|boolean',
-        'reeve_qualified_expires' => 'nullable',
-        'corpora_qualified_expires' => 'nullable',
-        'joined_park_at' => 'nullable',
+        'reeve_qualified_expires_at' => 'nullable',
+        'corpora_qualified_expires_at' => 'nullable',
+        'joined_chapter_at' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
+
+    public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
+    }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -186,11 +151,6 @@ use Illuminate\Database\Eloquent\Model;
     public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
-
-    public function park(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Park::class, 'park_id');
     }
 
     public function pronoun(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -206,5 +166,75 @@ use Illuminate\Database\Eloquent\Model;
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+
+    public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Attendance::class, 'persona_id');
+    }
+
+    public function crats(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Crat::class, 'persona_id');
+    }
+
+    public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Due::class, 'persona_id');
+    }
+
+    public function issuances(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Issuance::class, 'issuer_id');
+    }
+
+    public function issuance4s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Issuance::class, 'revoked_by');
+    }
+
+    public function members(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Member::class, 'persona_id');
+    }
+
+    public function officers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Officer::class, 'authorized_by');
+    }
+
+    public function officer5s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Officer::class, 'persona_id');
+    }
+
+    public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Recommendation::class, 'persona_id');
+    }
+
+    public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Reconciliation::class, 'persona_id');
+    }
+
+    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Split::class, 'persona_id');
+    }
+
+    public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Suspension::class, 'persona_id');
+    }
+
+    public function suspension6s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
+    }
+
+    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Waiver::class, 'persona_id');
     }
 }

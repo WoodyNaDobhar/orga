@@ -10,12 +10,6 @@
     <p>{{ $tournament->tournamentable_id }}</p>
 </div>
 
-<!-- Event Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('event_id', 'Event Id:') !!}
-    <p>{{ $tournament->event_id }}</p>
-</div>
-
 <!-- Name Field -->
 <div class="col-sm-12">
     {!! Form::label('name', 'Name:') !!}

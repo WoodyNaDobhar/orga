@@ -31,10 +31,10 @@ class ReconciliationsTable extends DataTableComponent
             Column::make("Archetype Id", "archetype_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("User Id", "user_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Is Reconciled", "is_reconciled")
+            Column::make("Credits", "credits")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

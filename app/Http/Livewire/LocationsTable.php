@@ -40,6 +40,9 @@ class LocationsTable extends DataTableComponent
             Column::make("Postal Code", "postal_code")
                 ->sortable()
                 ->searchable(),
+            Column::make("Country", "country")
+                ->sortable()
+                ->searchable(),
             Column::make("Google Geocode", "google_geocode")
                 ->sortable()
                 ->searchable(),

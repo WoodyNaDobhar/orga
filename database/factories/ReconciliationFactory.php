@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Archetype;
 use App\Models\User;
+use App\Models\Persona;
 
 class ReconciliationFactory extends Factory
 {
@@ -32,8 +33,8 @@ class ReconciliationFactory extends Factory
 
         return [
             'archetype_id' => $this->faker->word,
-            'user_id' => $this->faker->word,
-            'is_reconciled' => $this->faker->boolean,
+            'persona_id' => $this->faker->word,
+            'credits' => $this->faker->numberBetween(0, 9223372036854775807),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

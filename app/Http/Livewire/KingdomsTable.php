@@ -37,10 +37,43 @@ class KingdomsTable extends DataTableComponent
             Column::make("Abbreviation", "abbreviation")
                 ->sortable()
                 ->searchable(),
+            Column::make("Color", "color")
+                ->sortable()
+                ->searchable(),
             Column::make("Heraldry", "heraldry")
                 ->sortable()
                 ->searchable(),
             Column::make("Is Active", "is_active")
+                ->sortable()
+                ->searchable(),
+            Column::make("Credit Minimum", "credit_minimum")
+                ->sortable()
+                ->searchable(),
+            Column::make("Credit Maximum", "credit_maximum")
+                ->sortable()
+                ->searchable(),
+            Column::make("Daily Minimum", "daily_minimum")
+                ->sortable()
+                ->searchable(),
+            Column::make("Weekly Minimum", "weekly_minimum")
+                ->sortable()
+                ->searchable(),
+            Column::make("Average Period Type", "average_period_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Average Period", "average_period")
+                ->sortable()
+                ->searchable(),
+            Column::make("Dues Intervals Type", "dues_intervals_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Dues Intervals", "dues_intervals")
+                ->sortable()
+                ->searchable(),
+            Column::make("Dues Amount", "dues_amount")
+                ->sortable()
+                ->searchable(),
+            Column::make("Dues Take", "dues_take")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

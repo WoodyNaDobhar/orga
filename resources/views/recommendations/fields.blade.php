@@ -1,13 +1,19 @@
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Award Id Field -->
+<!-- Recommendable Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('award_id', 'Award Id:') !!}
-    {!! Form::number('award_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('recommendable_type', 'Recommendable Type:') !!}
+    {!! Form::text('recommendable_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Recommendable Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('recommendable_id', 'Recommendable Id:') !!}
+    {!! Form::number('recommendable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Rank Field -->
@@ -28,5 +34,5 @@
 <!-- Reason Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('reason', 'Reason:') !!}
-    {!! Form::text('reason', null, ['class' => 'form-control', 'required', 'maxlength' => 400]) !!}
+    {!! Form::text('reason', null, ['class' => 'form-control', 'required', 'maxlength' => 400, 'maxlength' => 400, 'maxlength' => 400]) !!}
 </div>

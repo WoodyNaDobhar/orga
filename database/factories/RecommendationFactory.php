@@ -5,8 +5,8 @@ namespace Database\Factories;
 use App\Models\Recommendation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Award;
 use App\Models\User;
+use App\Models\Persona;
 
 class RecommendationFactory extends Factory
 {
@@ -31,8 +31,9 @@ class RecommendationFactory extends Factory
         }
 
         return [
-            'user_id' => $this->faker->word,
-            'award_id' => $this->faker->word,
+            'persona_id' => $this->faker->word,
+            'recommendable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
+            'recommendable_id' => $this->faker->word,
             'rank' => $this->faker->word,
             'is_anonymous' => $this->faker->boolean,
             'reason' => $this->faker->text($this->faker->numberBetween(5, 400)),

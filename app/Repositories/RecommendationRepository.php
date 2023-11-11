@@ -8,8 +8,9 @@ use App\Repositories\BaseRepository;
 class RecommendationRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'user_id',
-        'award_id',
+        'persona_id',
+        'recommendable_type',
+        'recommendable_id',
         'rank',
         'is_anonymous',
         'reason'

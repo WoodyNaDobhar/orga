@@ -16,8 +16,9 @@ class RecommendationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'award_id' => $this->award_id,
+            'persona_id' => $this->persona_id,
+            'recommendable_type' => $this->recommendable_type,
+            'recommendable_id' => $this->recommendable_id,
             'rank' => $this->rank,
             'is_anonymous' => $this->is_anonymous,
             'reason' => $this->reason,

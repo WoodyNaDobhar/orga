@@ -15,7 +15,7 @@
         "name": "account_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -36,7 +36,7 @@
         "inView": true
     },
     {
-        "name": "user_id",
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -75,7 +75,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -87,7 +87,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -109,14 +109,14 @@
     },
     {
         "type": "relation",
+        "relation": "mt1,Persona,persona_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,Transaction,transaction_id"
     },
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,User,user_id"
     }
 ]

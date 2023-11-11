@@ -7,27 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Due",
- *      required={"user_id","park_id","is_for_life","dues_at","intervals","created_at"},
+ *      required={"persona_id","dues_on","created_at"},
  *      @OA\Property(
- *          property="is_for_life",
+ *          property="dues_on",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
- *          type="boolean",
- *      ),
- *      @OA\Property(
- *          property="dues_at",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date"
- *      ),
- *      @OA\Property(
- *          property="revoked_on",
- *          description="",
- *          readOnly=false,
- *          nullable=true,
  *          type="string",
  *          format="date"
  *      ),
@@ -61,31 +46,21 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'dues';
 
     public $fillable = [
-        'user_id',
-        'park_id',
+        'persona_id',
         'transaction_id',
-        'is_for_life',
-        'dues_at',
-        'intervals',
-        'revoked_on',
-        'revoked_by'
+        'dues_on',
+        'intervals'
     ];
 
     protected $casts = [
-        'is_for_life' => 'boolean',
-        'dues_at' => 'date',
-        'revoked_on' => 'date'
+        'dues_on' => 'date'
     ];
 
     public static array $rules = [
-        'user_id' => 'required',
-        'park_id' => 'required',
+        'persona_id' => 'required',
         'transaction_id' => 'nullable',
-        'is_for_life' => 'required|boolean',
-        'dues_at' => 'required',
-        'intervals' => 'required',
-        'revoked_on' => 'nullable',
-        'revoked_by' => 'nullable',
+        'dues_on' => 'required',
+        'intervals' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -101,14 +76,9 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
-    public function park(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Park::class, 'park_id');
-    }
-
-    public function revokedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'revoked_by');
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
     }
 
     public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -119,10 +89,5 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

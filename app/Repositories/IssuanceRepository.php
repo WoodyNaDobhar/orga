@@ -10,18 +10,21 @@ class IssuanceRepository extends BaseRepository
     protected $fieldSearchable = [
         'issuable_type',
         'issuable_id',
-        'user_id',
+        'whereable_type',
+        'whereable_id',
+        'authority_type',
+        'authority_id',
+        'recipient_type',
+        'recipient_id',
         'issuer_id',
-        'issuedable_type',
-        'issuedable_id',
         'custom_name',
         'rank',
         'issued_at',
         'note',
         'image',
-        'revocation',
         'revoked_by',
-        'revoked_at'
+        'revoked_at',
+        'revocation'
     ];
 
     public function getFieldsSearchable(): array

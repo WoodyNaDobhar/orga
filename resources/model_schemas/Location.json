@@ -15,7 +15,7 @@
         "name": "address",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -27,7 +27,7 @@
         "name": "city",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:50",
+        "validations": "nullable|string|max:50|nullable|string|max:50|nullable|string|max:50",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,7 @@
         "name": "province",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:35",
+        "validations": "nullable|string|max:35|nullable|string|max:35|nullable|string|max:35",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -51,7 +51,19 @@
         "name": "postal_code",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:10",
+        "validations": "nullable|string|max:10|nullable|string|max:10|nullable|string|max:10",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "country",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:2|nullable|string|max:2|nullable|string|max:2",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +75,7 @@
         "name": "google_geocode",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "nullable|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -99,7 +111,7 @@
         "name": "location",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "nullable|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -111,7 +123,7 @@
         "name": "map_url",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "nullable|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -123,7 +135,7 @@
         "name": "description",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "nullable|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -135,7 +147,7 @@
         "name": "directions",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "nullable|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -159,7 +171,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -171,7 +183,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -193,6 +205,10 @@
     },
     {
         "type": "relation",
+        "relation": "1tm,Chapter,location_id"
+    },
+    {
+        "type": "relation",
         "relation": "1tm,Event,location_id"
     },
     {
@@ -202,5 +218,9 @@
     {
         "type": "relation",
         "relation": "1tm,Meetup,location_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Waiver,location_id"
     }
 ]

@@ -8,9 +8,10 @@ use App\Repositories\BaseRepository;
 class MeetupRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'park_id',
+        'chapter_id',
         'location_id',
         'alt_location_id',
+        'url',
         'recurrence',
         'week_of_month',
         'week_day',

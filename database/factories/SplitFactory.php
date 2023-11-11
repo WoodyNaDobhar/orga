@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Account;
 use App\Models\User;
+use App\Models\Persona;
 use App\Models\Transaction;
-use App\Models\User;
 
 class SplitFactory extends Factory
 {
@@ -35,7 +35,7 @@ class SplitFactory extends Factory
         return [
             'account_id' => $this->faker->word,
             'transaction_id' => $this->faker->word,
-            'user_id' => $this->faker->word,
+            'persona_id' => $this->faker->word,
             'amount' => $this->faker->numberBetween(0, 9223372036854775807),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),

@@ -10,28 +10,46 @@
     <p>{{ $issuance->issuable_id }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Whereable Type Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $issuance->user_id }}</p>
+    {!! Form::label('whereable_type', 'Whereable Type:') !!}
+    <p>{{ $issuance->whereable_type }}</p>
+</div>
+
+<!-- Whereable Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('whereable_id', 'Whereable Id:') !!}
+    <p>{{ $issuance->whereable_id }}</p>
+</div>
+
+<!-- Authority Type Field -->
+<div class="col-sm-12">
+    {!! Form::label('authority_type', 'Authority Type:') !!}
+    <p>{{ $issuance->authority_type }}</p>
+</div>
+
+<!-- Authority Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('authority_id', 'Authority Id:') !!}
+    <p>{{ $issuance->authority_id }}</p>
+</div>
+
+<!-- Recipient Type Field -->
+<div class="col-sm-12">
+    {!! Form::label('recipient_type', 'Recipient Type:') !!}
+    <p>{{ $issuance->recipient_type }}</p>
+</div>
+
+<!-- Recipient Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('recipient_id', 'Recipient Id:') !!}
+    <p>{{ $issuance->recipient_id }}</p>
 </div>
 
 <!-- Issuer Id Field -->
 <div class="col-sm-12">
     {!! Form::label('issuer_id', 'Issuer Id:') !!}
     <p>{{ $issuance->issuer_id }}</p>
-</div>
-
-<!-- Issuedable Type Field -->
-<div class="col-sm-12">
-    {!! Form::label('issuedable_type', 'Issuedable Type:') !!}
-    <p>{{ $issuance->issuedable_type }}</p>
-</div>
-
-<!-- Issuedable Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('issuedable_id', 'Issuedable Id:') !!}
-    <p>{{ $issuance->issuedable_id }}</p>
 </div>
 
 <!-- Custom Name Field -->
@@ -64,12 +82,6 @@
     <p>{{ $issuance->image }}</p>
 </div>
 
-<!-- Revocation Field -->
-<div class="col-sm-12">
-    {!! Form::label('revocation', 'Revocation:') !!}
-    <p>{{ $issuance->revocation }}</p>
-</div>
-
 <!-- Revoked By Field -->
 <div class="col-sm-12">
     {!! Form::label('revoked_by', 'Revoked By:') !!}
@@ -80,5 +92,11 @@
 <div class="col-sm-12">
     {!! Form::label('revoked_at', 'Revoked At:') !!}
     <p>{{ $issuance->revoked_at }}</p>
+</div>
+
+<!-- Revocation Field -->
+<div class="col-sm-12">
+    {!! Form::label('revocation', 'Revocation:') !!}
+    <p>{{ $issuance->revocation }}</p>
 </div>
 

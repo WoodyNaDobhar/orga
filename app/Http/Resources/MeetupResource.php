@@ -16,9 +16,10 @@ class MeetupResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'park_id' => $this->park_id,
+            'chapter_id' => $this->chapter_id,
             'location_id' => $this->location_id,
             'alt_location_id' => $this->alt_location_id,
+            'url' => $this->url,
             'recurrence' => $this->recurrence,
             'week_of_month' => $this->week_of_month,
             'week_day' => $this->week_day,

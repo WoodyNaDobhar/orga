@@ -30,9 +30,13 @@ class TitleFactory extends Factory
         }
 
         return [
-            'name' => $this->faker->text($this->faker->numberBetween(5, 50)),
+            'titleable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
+            'titleable_id' => $this->faker->word,
+            'name' => $this->faker->text($this->faker->numberBetween(5, 100)),
             'rank' => $this->faker->word,
             'peerage' => $this->faker->text($this->faker->numberBetween(5, 4096)),
+            'is_active' => $this->faker->boolean,
+            'is_roaming' => $this->faker->boolean,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

@@ -1,8 +1,8 @@
-<!-- need to remove -->
+
 <li class="nav-item">
-    <a href="{{ route('home') }}" class="nav-link {{ Request::is('home') ? 'active' : '' }}">
+    <a href="{{ route('accounts.index') }}" class="nav-link {{ Request::is('accounts*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Home</p>
+        <p>Accounts</p>
     </a>
 </li>
 
@@ -28,9 +28,23 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('configurations.index') }}" class="nav-link {{ Request::is('configurations*') ? 'active' : '' }}">
+    <a href="{{ route('chapters.index') }}" class="nav-link {{ Request::is('chapters*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Configurations</p>
+        <p>Chapters</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('chaptertypes.index') }}" class="nav-link {{ Request::is('chaptertypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Chaptertypes</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('crats.index') }}" class="nav-link {{ Request::is('crats*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Crats</p>
     </a>
 </li>
 
@@ -59,20 +73,6 @@
     <a href="{{ route('kingdoms.index') }}" class="nav-link {{ Request::is('kingdoms*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
         <p>Kingdoms</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('kingdomOffices.index') }}" class="nav-link {{ Request::is('kingdomOffices*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Kingdom Offices</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('kingdomTitles.index') }}" class="nav-link {{ Request::is('kingdomTitles*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Kingdom Titles</p>
     </a>
 </li>
 
@@ -112,16 +112,9 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('parkranks.index') }}" class="nav-link {{ Request::is('parkranks*') ? 'active' : '' }}">
+    <a href="{{ route('personas.index') }}" class="nav-link {{ Request::is('personas*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Parkranks</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('parks.index') }}" class="nav-link {{ Request::is('parks*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Parks</p>
+        <p>Personas</p>
     </a>
 </li>
 
@@ -143,6 +136,13 @@
     <a href="{{ route('reconciliations.index') }}" class="nav-link {{ Request::is('reconciliations*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
         <p>Reconciliations</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('reigns.index') }}" class="nav-link {{ Request::is('reigns*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Reigns</p>
     </a>
 </li>
 
@@ -196,8 +196,8 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('personas.index') }}" class="nav-link {{ Request::is('personas*') ? 'active' : '' }}">
+    <a href="{{ route('waivers.index') }}" class="nav-link {{ Request::is('waivers*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Personas</p>
+        <p>Waivers</p>
     </a>
 </li>

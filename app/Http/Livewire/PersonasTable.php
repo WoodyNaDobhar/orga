@@ -28,7 +28,7 @@ class PersonasTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Park Id", "park_id")
+            Column::make("Chapter Id", "chapter_id")
                 ->sortable()
                 ->searchable(),
             Column::make("User Id", "user_id")
@@ -40,7 +40,7 @@ class PersonasTable extends DataTableComponent
             Column::make("Mundane", "mundane")
                 ->sortable()
                 ->searchable(),
-            Column::make("Persona", "persona")
+            Column::make("Name", "name")
                 ->sortable()
                 ->searchable(),
             Column::make("Heraldry", "heraldry")
@@ -49,28 +49,16 @@ class PersonasTable extends DataTableComponent
             Column::make("Image", "image")
                 ->sortable()
                 ->searchable(),
-            Column::make("Restricted", "restricted")
-                ->sortable()
-                ->searchable(),
-            Column::make("Waivered", "waivered")
-                ->sortable()
-                ->searchable(),
-            Column::make("Waiver Ext", "waiver_ext")
-                ->sortable()
-                ->searchable(),
-            Column::make("Penalty Box", "penalty_box")
-                ->sortable()
-                ->searchable(),
             Column::make("Is Active", "is_active")
                 ->sortable()
                 ->searchable(),
-            Column::make("Reeve Qualified Expires", "reeve_qualified_expires")
+            Column::make("Reeve Qualified Expires At", "reeve_qualified_expires_at")
                 ->sortable()
                 ->searchable(),
-            Column::make("Corpora Qualified Expires", "corpora_qualified_expires")
+            Column::make("Corpora Qualified Expires At", "corpora_qualified_expires_at")
                 ->sortable()
                 ->searchable(),
-            Column::make("Joined Park At", "joined_park_at")
+            Column::make("Joined Chapter At", "joined_chapter_at")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

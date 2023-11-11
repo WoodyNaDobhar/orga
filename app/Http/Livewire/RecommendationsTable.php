@@ -28,10 +28,13 @@ class RecommendationsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("User Id", "user_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Award Id", "award_id")
+            Column::make("Recommendable Type", "recommendable_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Recommendable Id", "recommendable_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Rank", "rank")

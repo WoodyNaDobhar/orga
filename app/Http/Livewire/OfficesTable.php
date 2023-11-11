@@ -28,13 +28,19 @@ class OfficesTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make("Officeable Type", "officeable_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Officeable Id", "officeable_id")
+                ->sortable()
+                ->searchable(),
             Column::make("Name", "name")
                 ->sortable()
                 ->searchable(),
-            Column::make("Crown Points", "crown_points")
+            Column::make("Duration", "duration")
                 ->sortable()
                 ->searchable(),
-            Column::make("Crown Limit", "crown_limit")
+            Column::make("Order", "order")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

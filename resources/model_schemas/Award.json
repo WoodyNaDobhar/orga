@@ -12,10 +12,10 @@
         "inView": false
     },
     {
-        "name": "awardable_type",
+        "name": "awarder_type",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -24,10 +24,10 @@
         "inView": true
     },
     {
-        "name": "awardable_id",
+        "name": "awarder_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,7 @@
         "name": "name",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:100",
+        "validations": "required|string|max:100|string|max:100|string|max:100",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -52,6 +52,18 @@
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "limit",
+        "dbType": "smallInteger,false",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -75,7 +87,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -87,7 +99,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -106,9 +118,5 @@
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Recommendation,award_id"
     }
 ]

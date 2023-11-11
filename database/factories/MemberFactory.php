@@ -6,8 +6,7 @@ use App\Models\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\User;
-use App\Models\Unit;
-use App\Models\User;
+use App\Models\Persona;
 
 class MemberFactory extends Factory
 {
@@ -33,10 +32,11 @@ class MemberFactory extends Factory
 
         return [
             'unit_id' => $this->faker->word,
-            'user_id' => $this->faker->word,
+            'persona_id' => $this->faker->word,
             'role' => $this->faker->text($this->faker->numberBetween(5, 4096)),
-            'title' => $this->faker->text($this->faker->numberBetween(5, 100)),
-            'is_active' => $this->faker->boolean,
+            'joined_at' => $this->faker->date('Y-m-d'),
+            'left_at' => $this->faker->date('Y-m-d'),
+            'notes' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 class AttendanceRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'user_id',
+        'persona_id',
         'archetype_id',
         'attendable_type',
         'attendable_id',

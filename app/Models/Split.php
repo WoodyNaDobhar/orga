@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Split",
- *      required={"account_id","transaction_id","user_id","amount","created_at"},
+ *      required={"transaction_id","persona_id","amount","created_at"},
  *      @OA\Property(
  *          property="amount",
  *          description="",
@@ -48,7 +48,7 @@ use Illuminate\Database\Eloquent\Model;
     public $fillable = [
         'account_id',
         'transaction_id',
-        'user_id',
+        'persona_id',
         'amount'
     ];
 
@@ -57,9 +57,9 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'account_id' => 'required',
+        'account_id' => 'nullable',
         'transaction_id' => 'required',
-        'user_id' => 'required',
+        'persona_id' => 'required',
         'amount' => 'required|numeric',
         'created_at' => 'required',
         'updated_at' => 'nullable',
@@ -81,6 +81,11 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
     public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Transaction::class, 'transaction_id');
@@ -89,10 +94,5 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

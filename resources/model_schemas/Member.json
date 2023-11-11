@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "user_id",
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -39,7 +39,7 @@
         "name": "role",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -48,22 +48,34 @@
         "inView": true
     },
     {
-        "name": "title",
+        "name": "joined_at",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "left_at",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "notes",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:100",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "is_active",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
+        "validations": "nullable|string|max:191|nullable|string|max:191|nullable|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -87,7 +99,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -99,7 +111,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -117,14 +129,14 @@
     },
     {
         "type": "relation",
+        "relation": "mt1,Persona,persona_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,Unit,unit_id"
     },
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,User,user_id"
     }
 ]

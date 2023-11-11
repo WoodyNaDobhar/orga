@@ -1,7 +1,7 @@
-<!-- Park Id Field -->
+<!-- Chapter Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('park_id', 'Park Id:') !!}
-    {!! Form::number('park_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('chapter_id', 'Chapter Id:') !!}
+    {!! Form::number('chapter_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- User Id Field -->
@@ -22,10 +22,10 @@
     {!! Form::text('mundane', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 
-<!-- Persona Field -->
+<!-- Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('persona', 'Persona:') !!}
-    {!! Form::text('persona', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::label('name', 'Name:') !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 
 <!-- Heraldry Field -->
@@ -40,39 +40,6 @@
     {!! Form::text('image', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 
-<!-- Restricted Field -->
-<div class="form-group col-sm-6">
-    <div class="form-check">
-        {!! Form::hidden('restricted', 0, ['class' => 'form-check-input']) !!}
-        {!! Form::checkbox('restricted', '1', null, ['class' => 'form-check-input']) !!}
-        {!! Form::label('restricted', 'Restricted', ['class' => 'form-check-label']) !!}
-    </div>
-</div>
-
-<!-- Waivered Field -->
-<div class="form-group col-sm-6">
-    <div class="form-check">
-        {!! Form::hidden('waivered', 0, ['class' => 'form-check-input']) !!}
-        {!! Form::checkbox('waivered', '1', null, ['class' => 'form-check-input']) !!}
-        {!! Form::label('waivered', 'Waivered', ['class' => 'form-check-label']) !!}
-    </div>
-</div>
-
-<!-- Waiver Ext Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('waiver_ext', 'Waiver Ext:') !!}
-    {!! Form::text('waiver_ext', null, ['class' => 'form-control', 'required', 'maxlength' => 8, 'maxlength' => 8, 'maxlength' => 8]) !!}
-</div>
-
-<!-- Penalty Box Field -->
-<div class="form-group col-sm-6">
-    <div class="form-check">
-        {!! Form::hidden('penalty_box', 0, ['class' => 'form-check-input']) !!}
-        {!! Form::checkbox('penalty_box', '1', null, ['class' => 'form-check-input']) !!}
-        {!! Form::label('penalty_box', 'Penalty Box', ['class' => 'form-check-label']) !!}
-    </div>
-</div>
-
 <!-- Is Active Field -->
 <div class="form-group col-sm-6">
     <div class="form-check">
@@ -82,38 +49,38 @@
     </div>
 </div>
 
-<!-- Reeve Qualified Expires Field -->
+<!-- Reeve Qualified Expires At Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('reeve_qualified_expires', 'Reeve Qualified Expires:') !!}
-    {!! Form::text('reeve_qualified_expires', null, ['class' => 'form-control','id'=>'reeve_qualified_expires']) !!}
+    {!! Form::label('reeve_qualified_expires_at', 'Reeve Qualified Expires At:') !!}
+    {!! Form::text('reeve_qualified_expires_at', null, ['class' => 'form-control','id'=>'reeve_qualified_expires_at']) !!}
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#reeve_qualified_expires').datepicker()
+        $('#reeve_qualified_expires_at').datepicker()
     </script>
 @endpush
 
-<!-- Corpora Qualified Expires Field -->
+<!-- Corpora Qualified Expires At Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('corpora_qualified_expires', 'Corpora Qualified Expires:') !!}
-    {!! Form::text('corpora_qualified_expires', null, ['class' => 'form-control','id'=>'corpora_qualified_expires']) !!}
+    {!! Form::label('corpora_qualified_expires_at', 'Corpora Qualified Expires At:') !!}
+    {!! Form::text('corpora_qualified_expires_at', null, ['class' => 'form-control','id'=>'corpora_qualified_expires_at']) !!}
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#corpora_qualified_expires').datepicker()
+        $('#corpora_qualified_expires_at').datepicker()
     </script>
 @endpush
 
-<!-- Joined Park At Field -->
+<!-- Joined Chapter At Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('joined_park_at', 'Joined Park At:') !!}
-    {!! Form::text('joined_park_at', null, ['class' => 'form-control','id'=>'joined_park_at']) !!}
+    {!! Form::label('joined_chapter_at', 'Joined Chapter At:') !!}
+    {!! Form::text('joined_chapter_at', null, ['class' => 'form-control','id'=>'joined_chapter_at']) !!}
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#joined_park_at').datepicker()
+        $('#joined_chapter_at').datepicker()
     </script>
 @endpush

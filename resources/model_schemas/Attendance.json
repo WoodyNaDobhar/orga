@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "user_id",
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -27,7 +27,7 @@
         "name": "archetype_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,7 @@
         "name": "attendable_type",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -99,7 +99,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -111,7 +111,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -133,10 +133,10 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,User,updated_by"
+        "relation": "mt1,Persona,persona_id"
     },
     {
         "type": "relation",
-        "relation": "mt1,User,user_id"
+        "relation": "mt1,User,updated_by"
     }
 ]

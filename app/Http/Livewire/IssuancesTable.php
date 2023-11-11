@@ -34,16 +34,25 @@ class IssuancesTable extends DataTableComponent
             Column::make("Issuable Id", "issuable_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("User Id", "user_id")
+            Column::make("Whereable Type", "whereable_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Whereable Id", "whereable_id")
+                ->sortable()
+                ->searchable(),
+            Column::make("Authority Type", "authority_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Authority Id", "authority_id")
+                ->sortable()
+                ->searchable(),
+            Column::make("Recipient Type", "recipient_type")
+                ->sortable()
+                ->searchable(),
+            Column::make("Recipient Id", "recipient_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Issuer Id", "issuer_id")
-                ->sortable()
-                ->searchable(),
-            Column::make("Issuedable Type", "issuedable_type")
-                ->sortable()
-                ->searchable(),
-            Column::make("Issuedable Id", "issuedable_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Custom Name", "custom_name")
@@ -61,13 +70,13 @@ class IssuancesTable extends DataTableComponent
             Column::make("Image", "image")
                 ->sortable()
                 ->searchable(),
-            Column::make("Revocation", "revocation")
-                ->sortable()
-                ->searchable(),
             Column::make("Revoked By", "revoked_by")
                 ->sortable()
                 ->searchable(),
             Column::make("Revoked At", "revoked_at")
+                ->sortable()
+                ->searchable(),
+            Column::make("Revocation", "revocation")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

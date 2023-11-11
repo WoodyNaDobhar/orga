@@ -1,7 +1,7 @@
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Archetype Id Field -->

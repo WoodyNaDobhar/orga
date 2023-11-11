@@ -20,6 +20,7 @@ class LocationResource extends JsonResource
             'city' => $this->city,
             'province' => $this->province,
             'postal_code' => $this->postal_code,
+            'country' => $this->country,
             'google_geocode' => $this->google_geocode,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,

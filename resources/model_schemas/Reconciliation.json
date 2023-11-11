@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "user_id",
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -36,10 +36,10 @@
         "inView": true
     },
     {
-        "name": "is_reconciled",
-        "dbType": "boolean",
-        "htmlType": "checkbox",
-        "validations": "required|boolean|boolean|boolean",
+        "name": "credits",
+        "dbType": "float",
+        "htmlType": "number",
+        "validations": "required|numeric|numeric|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +63,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -75,7 +75,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -97,10 +97,10 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,User,updated_by"
+        "relation": "mt1,Persona,persona_id"
     },
     {
         "type": "relation",
-        "relation": "mt1,User,user_id"
+        "relation": "mt1,User,updated_by"
     }
 ]

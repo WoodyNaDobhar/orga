@@ -1,13 +1,13 @@
-<!-- Id Field -->
+<!-- Persona Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $suspension->id }}</p>
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $suspension->persona_id }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Kingdom Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $suspension->user_id }}</p>
+    {!! Form::label('kingdom_id', 'Kingdom Id:') !!}
+    <p>{{ $suspension->kingdom_id }}</p>
 </div>
 
 <!-- Suspended By Field -->
@@ -22,15 +22,21 @@
     <p>{{ $suspension->suspended_at }}</p>
 </div>
 
-<!-- Suspended Expires Field -->
+<!-- Expires At Field -->
 <div class="col-sm-12">
-    {!! Form::label('suspended_expires', 'Suspended Expires:') !!}
-    <p>{{ $suspension->suspended_expires }}</p>
+    {!! Form::label('expires_at', 'Expires At:') !!}
+    <p>{{ $suspension->expires_at }}</p>
 </div>
 
 <!-- Cause Field -->
 <div class="col-sm-12">
     {!! Form::label('cause', 'Cause:') !!}
     <p>{{ $suspension->cause }}</p>
+</div>
+
+<!-- Is Propogating Field -->
+<div class="col-sm-12">
+    {!! Form::label('is_propogating', 'Is Propogating:') !!}
+    <p>{{ $suspension->is_propogating }}</p>
 </div>
 

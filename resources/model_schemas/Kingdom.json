@@ -15,7 +15,7 @@
         "name": "parent_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -27,7 +27,7 @@
         "name": "name",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:100",
+        "validations": "required|string|max:100|string|max:100|string|max:100",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,19 @@
         "name": "abbreviation",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:3",
+        "validations": "required|string|max:4|string|max:4|string|max:4",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "color",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|max:6|string|max:6|string|max:6",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -51,7 +63,7 @@
         "name": "heraldry",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -64,6 +76,126 @@
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "credit_minimum",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "credit_maximum",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "daily_minimum",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "weekly_minimum",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "average_period_type",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|nullable|string|nullable|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "average_period",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "dues_intervals_type",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|nullable|string|nullable|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "dues_intervals",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "dues_amount",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "dues_take",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -87,7 +219,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -99,7 +231,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -121,18 +253,14 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,KingdomOffice,kingdom_id"
+        "relation": "1tm,Chapter,kingdom_id"
     },
     {
         "type": "relation",
-        "relation": "1tm,KingdomTitle,kingdom_id"
+        "relation": "1tm,Chaptertype,kingdom_id"
     },
     {
         "type": "relation",
-        "relation": "1tm,KingdomTitle,title_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Parkrank,kingdom_id"
+        "relation": "1tm,Suspension,kingdom_id"
     }
 ]

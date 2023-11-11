@@ -28,28 +28,16 @@ class DuesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("User Id", "user_id")
-                ->sortable()
-                ->searchable(),
-            Column::make("Park Id", "park_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Transaction Id", "transaction_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Is For Life", "is_for_life")
-                ->sortable()
-                ->searchable(),
-            Column::make("Dues At", "dues_at")
+            Column::make("Dues On", "dues_on")
                 ->sortable()
                 ->searchable(),
             Column::make("Intervals", "intervals")
-                ->sortable()
-                ->searchable(),
-            Column::make("Revoked On", "revoked_on")
-                ->sortable()
-                ->searchable(),
-            Column::make("Revoked By", "revoked_by")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

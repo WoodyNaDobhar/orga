@@ -8,12 +8,13 @@ use App\Repositories\BaseRepository;
 class SuspensionRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'id',
-        'user_id',
+        'persona_id',
+        'kingdom_id',
         'suspended_by',
         'suspended_at',
-        'suspended_expires',
-        'cause'
+        'expires_at',
+        'cause',
+        'is_propogating'
     ];
 
     public function getFieldsSearchable(): array

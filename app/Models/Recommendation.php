@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Recommendation",
- *      required={"user_id","award_id","rank","is_anonymous","reason","created_at"},
+ *      required={"persona_id","recommendable_type","recommendable_id","rank","is_anonymous","reason","created_at"},
+ *      @OA\Property(
+ *          property="recommendable_type",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *      ),
  *      @OA\Property(
  *          property="is_anonymous",
  *          description="",
@@ -52,21 +59,24 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'recommendations';
 
     public $fillable = [
-        'user_id',
-        'award_id',
+        'persona_id',
+        'recommendable_type',
+        'recommendable_id',
         'rank',
         'is_anonymous',
         'reason'
     ];
 
     protected $casts = [
+        'recommendable_type' => 'string',
         'is_anonymous' => 'boolean',
         'reason' => 'string'
     ];
 
     public static array $rules = [
-        'user_id' => 'required',
-        'award_id' => 'required',
+        'persona_id' => 'required',
+        'recommendable_type' => 'required|string',
+        'recommendable_id' => 'required',
         'rank' => 'required',
         'is_anonymous' => 'required|boolean',
         'reason' => 'required|string|max:400',
@@ -74,11 +84,6 @@ use Illuminate\Database\Eloquent\Model;
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
-
-    public function award(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Award::class, 'award_id');
-    }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -90,13 +95,13 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

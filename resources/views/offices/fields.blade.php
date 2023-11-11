@@ -1,17 +1,29 @@
+<!-- Officeable Type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('officeable_type', 'Officeable Type:') !!}
+    {!! Form::text('officeable_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Officeable Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('officeable_id', 'Officeable Id:') !!}
+    {!! Form::number('officeable_id', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'maxlength' => 100]) !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'maxlength' => 100, 'maxlength' => 100, 'maxlength' => 100]) !!}
 </div>
 
-<!-- Crown Points Field -->
+<!-- Duration Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('crown_points', 'Crown Points:') !!}
-    {!! Form::number('crown_points', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('duration', 'Duration:') !!}
+    {!! Form::number('duration', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Crown Limit Field -->
+<!-- Order Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('crown_limit', 'Crown Limit:') !!}
-    {!! Form::number('crown_limit', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('order', 'Order:') !!}
+    {!! Form::number('order', null, ['class' => 'form-control']) !!}
 </div>

@@ -15,7 +15,7 @@
         "name": "issuable_type",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -36,7 +36,67 @@
         "inView": true
     },
     {
-        "name": "user_id",
+        "name": "whereable_type",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "whereable_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "authority_type",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "authority_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "recipient_type",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "recipient_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -60,34 +120,10 @@
         "inView": true
     },
     {
-        "name": "issuedable_type",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "issuedable_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "custom_name",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:64",
+        "validations": "nullable|string|max:64|nullable|string|max:64|nullable|string|max:64",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -99,7 +135,7 @@
         "name": "rank",
         "dbType": "integer,false,true",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -123,7 +159,7 @@
         "name": "note",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:400",
+        "validations": "nullable|string|max:400|nullable|string|max:400|nullable|string|max:400",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -135,19 +171,7 @@
         "name": "image",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "revocation",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "nullable|string|max:50",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -159,7 +183,7 @@
         "name": "revoked_by",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -171,7 +195,19 @@
         "name": "revoked_at",
         "dbType": "date",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "revocation",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:50|nullable|string|max:50|nullable|string|max:50",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -195,7 +231,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -207,7 +243,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -225,18 +261,14 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,User,issuer_id"
+        "relation": "mt1,Persona,issuer_id"
     },
     {
         "type": "relation",
-        "relation": "mt1,User,revoked_by"
+        "relation": "mt1,Persona,revoked_by"
     },
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,User,user_id"
     }
 ]

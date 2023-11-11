@@ -10,10 +10,11 @@ class EventRepository extends BaseRepository
     protected $fieldSearchable = [
         'eventable_type',
         'eventable_id',
-        'autocrat_id',
         'location_id',
         'name',
         'description',
+        'image',
+        'is_active',
         'event_start',
         'event_end',
         'price',

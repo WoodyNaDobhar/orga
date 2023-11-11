@@ -1,9 +1,21 @@
 [
     {
         "name": "id",
-        "dbType": "bigInteger,false,true",
+        "dbType": "bigInteger,true,true",
         "htmlType": "number",
         "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "persona_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -12,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "user_id",
+        "name": "kingdom_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -39,7 +51,7 @@
         "name": "suspended_at",
         "dbType": "date",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -48,10 +60,10 @@
         "inView": true
     },
     {
-        "name": "suspended_expires",
+        "name": "expires_at",
         "dbType": "date",
         "htmlType": "date",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +75,19 @@
         "name": "cause",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:255",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "is_propogating",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -87,7 +111,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -99,7 +123,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -117,14 +141,18 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,User,suspended_by"
+        "relation": "mt1,Kingdom,kingdom_id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Persona,persona_id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Persona,suspended_by"
     },
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,User,user_id"
     }
 ]

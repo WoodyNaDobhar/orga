@@ -8,24 +8,11 @@ use App\Repositories\BaseRepository;
 class UserRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'park_id',
-        'pronoun_id',
-        'name',
-        'persona',
-        'heraldry',
-        'image',
         'email',
         'email_verified_at',
         'password',
         'remember_token',
-        'restricted',
-        'waivered',
-        'waiver_ext',
-        'penalty_box',
-        'is_active',
-        'reeve_qualified_expires',
-        'corpora_qualified_expires',
-        'joined_park_at'
+        'is_restricted'
     ];
 
     public function getFieldsSearchable(): array

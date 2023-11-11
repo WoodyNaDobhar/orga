@@ -12,10 +12,34 @@
         "inView": false
     },
     {
+        "name": "officeable_type",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "officeable_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "name",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:100",
+        "validations": "required|string|max:100|string|max:100|string|max:100",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -24,10 +48,10 @@
         "inView": true
     },
     {
-        "name": "crown_points",
-        "dbType": "integer,false",
+        "name": "duration",
+        "dbType": "smallInteger,false",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -36,10 +60,10 @@
         "inView": true
     },
     {
-        "name": "crown_limit",
-        "dbType": "integer,false",
+        "name": "order",
+        "dbType": "smallInteger,false",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +87,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -75,7 +99,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -94,10 +118,6 @@
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,KingdomOffice,office_id"
     },
     {
         "type": "relation",

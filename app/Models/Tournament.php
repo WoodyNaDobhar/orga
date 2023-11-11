@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Tournament",
- *      required={"tournamentable_type","tournamentable_id","event_id","name","description","url","occured_at","created_at"},
+ *      required={"tournamentable_type","tournamentable_id","name","description","url","occured_at","created_at"},
  *      @OA\Property(
  *          property="tournamentable_type",
  *          description="",
@@ -76,7 +76,6 @@ use Illuminate\Database\Eloquent\Model;
     public $fillable = [
         'tournamentable_type',
         'tournamentable_id',
-        'event_id',
         'name',
         'description',
         'url',
@@ -94,7 +93,6 @@ use Illuminate\Database\Eloquent\Model;
     public static array $rules = [
         'tournamentable_type' => 'required|string',
         'tournamentable_id' => 'required',
-        'event_id' => 'required',
         'name' => 'required|string|max:50',
         'description' => 'required|string|max:16777215',
         'url' => 'required|string|max:255',

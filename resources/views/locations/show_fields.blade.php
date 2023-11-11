@@ -22,6 +22,12 @@
     <p>{{ $location->postal_code }}</p>
 </div>
 
+<!-- Country Field -->
+<div class="col-sm-12">
+    {!! Form::label('country', 'Country:') !!}
+    <p>{{ $location->country }}</p>
+</div>
+
 <!-- Google Geocode Field -->
 <div class="col-sm-12">
     {!! Form::label('google_geocode', 'Google Geocode:') !!}

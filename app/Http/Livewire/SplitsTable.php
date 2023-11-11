@@ -34,7 +34,7 @@ class SplitsTable extends DataTableComponent
             Column::make("Transaction Id", "transaction_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("User Id", "user_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Amount", "amount")

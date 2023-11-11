@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "park_id",
+        "name": "chapter_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -27,7 +27,7 @@
         "name": "location_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,19 @@
         "name": "alt_location_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "url",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -51,7 +63,7 @@
         "name": "recurrence",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +75,7 @@
         "name": "week_of_month",
         "dbType": "smallInteger,false",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -75,7 +87,7 @@
         "name": "week_day",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -87,7 +99,7 @@
         "name": "month_day",
         "dbType": "smallInteger,false",
         "htmlType": "number",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -111,7 +123,7 @@
         "name": "purpose",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -123,7 +135,7 @@
         "name": "description",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:255",
+        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -147,7 +159,7 @@
         "name": "updated_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -159,7 +171,7 @@
         "name": "deleted_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -173,6 +185,10 @@
     },
     {
         "type": "relation",
+        "relation": "mt1,Chapter,chapter_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,User,created_by"
     },
     {
@@ -182,10 +198,6 @@
     {
         "type": "relation",
         "relation": "mt1,Location,location_id"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,Park,park_id"
     },
     {
         "type": "relation",

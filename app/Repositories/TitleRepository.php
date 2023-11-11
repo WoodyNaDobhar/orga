@@ -8,9 +8,13 @@ use App\Repositories\BaseRepository;
 class TitleRepository extends BaseRepository
 {
     protected $fieldSearchable = [
+        'titleable_type',
+        'titleable_id',
         'name',
         'rank',
-        'peerage'
+        'peerage',
+        'is_active',
+        'is_roaming'
     ];
 
     public function getFieldsSearchable(): array

@@ -10,10 +10,10 @@
     <p>{{ $split->transaction_id }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $split->user_id }}</p>
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $split->persona_id }}</p>
 </div>
 
 <!-- Amount Field -->

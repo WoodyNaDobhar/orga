@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Reconciliation",
- *      required={"archetype_id","user_id","is_reconciled","created_at"},
+ *      required={"archetype_id","persona_id","credits","created_at"},
  *      @OA\Property(
- *          property="is_reconciled",
+ *          property="credits",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
- *          type="boolean",
+ *          type="number",
+ *          format="number"
  *      ),
  *      @OA\Property(
  *          property="created_at",
@@ -46,18 +47,18 @@ use Illuminate\Database\Eloquent\Model;
 
     public $fillable = [
         'archetype_id',
-        'user_id',
-        'is_reconciled'
+        'persona_id',
+        'credits'
     ];
 
     protected $casts = [
-        'is_reconciled' => 'boolean'
+        'credits' => 'float'
     ];
 
     public static array $rules = [
         'archetype_id' => 'required',
-        'user_id' => 'required',
-        'is_reconciled' => 'required|boolean',
+        'persona_id' => 'required',
+        'credits' => 'required|numeric',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -78,13 +79,13 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

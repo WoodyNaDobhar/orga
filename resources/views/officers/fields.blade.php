@@ -1,13 +1,25 @@
+<!-- Officeable Type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('officeable_type', 'Officeable Type:') !!}
+    {!! Form::text('officeable_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Officeable Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('officeable_id', 'Officeable Id:') !!}
+    {!! Form::number('officeable_id', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
 <!-- Office Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('office_id', 'Office Id:') !!}
     {!! Form::number('office_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- User Id Field -->
+<!-- Persona Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Authorized By Field -->
@@ -16,20 +28,32 @@
     {!! Form::number('authorized_by', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Officerable Type Field -->
+<!-- Label Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('officerable_type', 'Officerable Type:') !!}
-    {!! Form::text('officerable_type', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('label', 'Label:') !!}
+    {!! Form::text('label', null, ['class' => 'form-control', 'maxlength' => 50, 'maxlength' => 50, 'maxlength' => 50]) !!}
 </div>
 
-<!-- Officerable Id Field -->
+<!-- Starts On Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('officerable_id', 'Officerable Id:') !!}
-    {!! Form::number('officerable_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('starts_on', 'Starts On:') !!}
+    {!! Form::text('starts_on', null, ['class' => 'form-control','id'=>'starts_on']) !!}
 </div>
 
-<!-- Scope Field -->
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#starts_on').datepicker()
+    </script>
+@endpush
+
+<!-- Ends On Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('scope', 'Scope:') !!}
-    {!! Form::text('scope', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('ends_on', 'Ends On:') !!}
+    {!! Form::text('ends_on', null, ['class' => 'form-control','id'=>'ends_on']) !!}
 </div>
+
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#ends_on').datepicker()
+    </script>
+@endpush

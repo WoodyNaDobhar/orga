@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Title",
- *      required={"name","rank","peerage","created_at"},
+ *      required={"titleable_type","name","rank","peerage","is_active","is_roaming","created_at"},
+ *      @OA\Property(
+ *          property="titleable_type",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *      ),
  *      @OA\Property(
  *          property="name",
  *          description="",
@@ -21,6 +28,20 @@ use Illuminate\Database\Eloquent\Model;
  *          readOnly=false,
  *          nullable=false,
  *          type="string",
+ *      ),
+ *      @OA\Property(
+ *          property="is_active",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="boolean",
+ *      ),
+ *      @OA\Property(
+ *          property="is_roaming",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="boolean",
  *      ),
  *      @OA\Property(
  *          property="created_at",
@@ -52,20 +73,31 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'titles';
 
     public $fillable = [
+        'titleable_type',
+        'titleable_id',
         'name',
         'rank',
-        'peerage'
+        'peerage',
+        'is_active',
+        'is_roaming'
     ];
 
     protected $casts = [
+        'titleable_type' => 'string',
         'name' => 'string',
-        'peerage' => 'string'
+        'peerage' => 'string',
+        'is_active' => 'boolean',
+        'is_roaming' => 'boolean'
     ];
 
     public static array $rules = [
-        'name' => 'required|string|max:50',
+        'titleable_type' => 'required|string',
+        'titleable_id' => 'nullable',
+        'name' => 'required|string|max:100',
         'rank' => 'required',
         'peerage' => 'required|string',
+        'is_active' => 'required|boolean',
+        'is_roaming' => 'required|boolean',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
