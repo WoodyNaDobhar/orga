@@ -1784,44 +1784,44 @@ class ImportOrk3 extends Command
 			$backupConnect->table('ork_mundane')
 				->where('mundane_id', 1)
 				->update(['email' => 'admin@nowhere.net']);
-			$oldUsers = $backupConnect->table('ork_mundane')->get()->toArray();
 			$usedEmails = [];
+			$suspensionsWaitList = [];
 			DB::table('users')->truncate();
 			DB::table('personas')->truncate();
 			DB::table('members')->truncate();
 			DB::table('suspensions')->truncate();
 			DB::table('waivers')->truncate();
-			if (count($oldUsers) > 0) {
-				$bar13 = $this->output->createProgressBar(count($oldUsers));
-				$bar13->start();
-				foreach ($oldUsers as $i => $oldUser) {
+			$bar13 = $this->output->createProgressBar($backupConnect->table('ork_mundane')->count());
+			$bar13->start();
+			$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use ($usedEmails, $backupConnect, $suspensionsWaitList, $transUsers, $deadRecords, $transMembers, $bar13, $transUnits, $transChapters, $transKingdoms){
+				foreach($oldUsers as $i => $oldUser) {
 					$pronounId = null;
 					$userId = null;
 					//user data
 					if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
 						if(!in_array(strtolower($oldUser->email), $usedEmails)){
 							$userId = DB::table('users')->insertGetId(
-								[
-									'email' => $i === 0 ? 'nobody@nowhere.net' : strtolower($oldUser->email),
-									'email_verified_at' => null,
-									'password' => bin2hex(openssl_random_pseudo_bytes(4)),
-									'remember_token' => null,
-									'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
-									'created_at' => $oldUser->modified,
-									'updated_at' => $oldUser->modified
-								]
-							);
+									[
+											'email' => $i === 0 ? 'nobody@nowhere.net' : strtolower($oldUser->email),
+											'email_verified_at' => null,
+											'password' => bin2hex(openssl_random_pseudo_bytes(4)),
+											'remember_token' => null,
+											'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
+											'created_at' => $oldUser->modified,
+											'updated_at' => $oldUser->modified
+									]
+									);
 							//assign role
 							$user = User::find($userId);
 							//park_id == 0 && kingdom_id == $oldUser->kingdom_id && mundane_id == $oldUser->mundane_id
 							//park_id == $oldUser->park_id && mundane_id == $oldUser->mundane_id
 							$offices = $backupConnect->table('ork_officer')->where(function($query) use($oldUser) {
 								$query->where('park_id', 0)
-									->where('kingdom_id', $oldUser->kingdom_id)
-									->where('mundane_id', $oldUser->mundane_id);
+								->where('kingdom_id', $oldUser->kingdom_id)
+								->where('mundane_id', $oldUser->mundane_id);
 							})->orWhere(function($query2) use($oldUser) {
 								$query2->where('park_id', $oldUser->park_id)
-									->where('mundane_id', $oldUser->mundane_id);
+								->where('mundane_id', $oldUser->mundane_id);
 							})->get()->toArray();
 							if($userId === 1){
 								$user->assignRole('admin');
@@ -1866,7 +1866,7 @@ class ImportOrk3 extends Command
 					}else{
 						$personaName = null;
 					}
-
+					
 					//persona data
 					$personaId = DB::table('personas')->insertGetId([
 							'chapter_id' => $oldUser->park_id == 0 ? 317 : $transChapters[$oldUser->park_id],
@@ -1884,42 +1884,42 @@ class ImportOrk3 extends Command
 							'updated_at' => $oldUser->modified
 					]);
 					$transPersonas[$oldUser->mundane_id] = $personaId;
-
+					
 					//unit membership data
 					if ($oldUser->company_id > 0) {
 						if (array_key_exists($oldUser->company_id, $transUnits)) {
 							$memberId = DB::table('members')->insertGetId(
-								[
-									'unit_id' => $transUnits[$oldUser->company_id],
-									'persona_id' => $personaId,
-									'joined_at' => null,
-									'left_at' => null,
-									'is_head' => 0,
-									'is_voting' => 1
-								]
-							);
+									[
+											'unit_id' => $transUnits[$oldUser->company_id],
+											'persona_id' => $personaId,
+											'joined_at' => null,
+											'left_at' => null,
+											'is_head' => 0,
+											'is_voting' => 1
+									]
+									);
 							$transMembers[$oldUser->mundane_id] = $memberId;
 						}else{
 							$deadRecords['Units'][$oldUser->company_id] = 'Deleted';
 						}
 					}
-
+					
 					//suspensions data
 					if($oldUser->suspended > 0){
 						if (!$oldUser->suspended_by_id || $oldUser->suspended_by_id < $oldUser->mundane_id) {
 							DB::table('suspensions')->insertGetId(
-								[
-									'persona_id' => $personaId,
-									'kingdom_id' => $transKingdoms[$oldUser->kingdom_id],
-									'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
-									'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
-									'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
-									'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
-									'cause' => $oldUser->suspension && $oldUser->suspension != '' ? $oldUser->suspension : 'Unknown',
-									'created_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
-									'updated_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at
-								]
-							);
+									[
+											'persona_id' => $personaId,
+											'kingdom_id' => $transKingdoms[$oldUser->kingdom_id],
+											'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
+											'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
+											'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
+											'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
+											'cause' => $oldUser->suspension && $oldUser->suspension != '' ? $oldUser->suspension : 'Unknown',
+											'created_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
+											'updated_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at
+									]
+									);
 						}else{
 							$suspensionsWaitList[] = $oldUser;
 						}
@@ -1928,7 +1928,7 @@ class ImportOrk3 extends Command
 							$deadRecords['PenaltyBox'][$oldUser->mundane_id] = $oldUser;
 						}
 					}
-	  
+					
 					//waiver data
 					if($oldUser->waivered > 0 && (trim($oldUser->given_name) != '' || trim($oldUser->surname) != '')){
 						DB::table('waivers')->insertGetId([
@@ -1950,20 +1950,21 @@ class ImportOrk3 extends Command
 								'signed_at' => $oldUser->park_member_since != '' && $oldUser->park_member_since != '0000-00-00' ? $oldUser->park_member_since : $oldUser->modified,
 								'created_at' => $oldUser->park_member_since != '' && $oldUser->park_member_since != '0000-00-00' ? $oldUser->park_member_since : $oldUser->modified,
 								'updated_at' => $oldUser->park_member_since != '' && $oldUser->park_member_since != '0000-00-00' ? $oldUser->park_member_since : $oldUser->modified
-						]);	
+						]);
 					}
 					$bar13->advance();
 				}
-				$bar13->finish();
-				$this->info('');
-			}
+			});
+			$bar13->finish();
+			$this->info('');
+			
 			if(count($suspensionsWaitList) > 0){
 				$this->info('Finishing Up Suspensions...');
 				$bar14 = $this->output->createProgressBar(count($suspensionsWaitList));
 				$bar14->start();
 				foreach($suspensionsWaitList as $oldUser){
 					DB::table('suspensions')->insertGetId([
-							'persona_id' => $personaId,
+							'persona_id' => $transPersonas[$oldUser->mundane_id],
 							'kingdom_id' => $transKingdoms[$oldUser->kingdom_id],
 							'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
 							'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,

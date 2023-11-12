@@ -2,8 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\SoftDeletes; use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use App\Traits\CanGetTableNameStatically;
+// use App\Traits\ImageTrait;
+// use App\Traits\NullableTrait;
+// use GeneaLabs\LaravelPivotEvents\Traits\PivotEventTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+// use Lab404\Impersonate\Models\Impersonate;
+use Laravel\Sanctum\HasApiTokens;
+// use OwenIt\Auditing\Contracts\Auditable;
+// use OwenIt\Auditing\Models\Audit;
+use Spatie\Permission\Traits\HasRoles;
+use Wildside\Userstamps\Userstamps;
+
 /**
  * @OA\Schema(
  *      schema="User",
@@ -69,9 +87,27 @@ use Illuminate\Database\Eloquent\Model;
  *          format="date-time"
  *      )
  * )
- */class User extends Model
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
-     use SoftDeletes;    use HasFactory;    public $table = 'users';
+    use HasFactory;
+	use SoftDeletes;
+	use Notifiable;
+	// use ImageTrait {
+	// 	deleteImage as traitDeleteImage;
+	// }
+	use Userstamps;
+	// use NullableTrait;
+	// use \OwenIt\Auditing\Auditable;
+	// use PivotEventTrait;
+	// use Impersonate;
+	// use CanGetTableNameStatically;
+	use HasRoles;
+	use HasApiTokens;
+    
+    public $table = 'users';
+
+    protected $guard_name = 'api';
 
     public $fillable = [
         'email',
@@ -100,172 +136,249 @@ use Illuminate\Database\Eloquent\Model;
         'deleted_at' => 'nullable'
     ];
 
-    public function accounts(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Account::class, 'created_by');
-    }
-
-    public function account1s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Account::class, 'deleted_by');
-    }
-
-    public function account2s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Account::class, 'updated_by');
-    }
-
-    public function archetypes(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Archetype::class, 'created_by');
-    }
-
-    public function archetype3s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Archetype::class, 'deleted_by');
-    }
-
-    public function archetype4s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Archetype::class, 'updated_by');
-    }
-
     public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Attendance::class, 'created_by');
+        return $this->hasMany(\App\Models\Attendance::class, 'user_id');
     }
 
-    public function attendance5s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function duesRevoked(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Attendance::class, 'deleted_by');
-    }
-
-    public function attendance6s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Attendance::class, 'updated_by');
-    }
-
-    public function awards(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Award::class, 'created_by');
-    }
-
-    public function award7s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Award::class, 'deleted_by');
-    }
-
-    public function award8s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Award::class, 'updated_by');
-    }
-
-    public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chapter::class, 'created_by');
-    }
-
-    public function chapter9s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chapter::class, 'deleted_by');
-    }
-
-    public function chapter10s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chapter::class, 'updated_by');
-    }
-
-    public function chaptertypes(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chaptertype::class, 'created_by');
-    }
-
-    public function chaptertype11s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chaptertype::class, 'deleted_by');
-    }
-
-    public function chaptertype12s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chaptertype::class, 'updated_by');
-    }
-
-    public function crats(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Crat::class, 'created_by');
-    }
-
-    public function crat13s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Crat::class, 'deleted_by');
-    }
-
-    public function crat14s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Crat::class, 'updated_by');
+        return $this->hasMany(\App\Models\Due::class, 'revoked_by');
     }
 
     public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Due::class, 'created_by');
+        return $this->hasMany(\App\Models\Due::class, 'user_id');
     }
 
-    public function due15s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function eventsAutocrated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Due::class, 'deleted_by');
+        return $this->hasMany(\App\Models\Event::class, 'autocrat_id');
     }
 
-    public function due16s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function issuancesIssued(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Due::class, 'updated_by');
+        return $this->hasMany(\App\Models\Issuance::class, 'issuer_id');
     }
 
-    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function issuancesRevoked(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Event::class, 'created_by');
-    }
-
-    public function event17s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Event::class, 'deleted_by');
-    }
-
-    public function event18s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Event::class, 'updated_by');
+        return $this->hasMany(\App\Models\Issuance::class, 'revoked_by');
     }
 
     public function issuances(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
+        return $this->hasMany(\App\Models\Issuance::class, 'user_id');
+    }
+
+    public function memberships(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Member::class, 'user_id');
+    }
+
+    public function officersAuthorized(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Officer::class, 'authorized_by');
+    }
+
+    public function officesHeld(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Officer::class, 'user_id');
+    }
+
+    public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Recommendation::class, 'user_id');
+    }
+
+    public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Reconciliation::class, 'user_id');
+    }
+
+    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Split::class, 'user_id');
+    }
+
+    public function suspensionsEnforced(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
+    }
+
+    public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Suspension::class, 'user_id');
+    }
+
+    //Created/Updated/Deleted relations
+
+    public function accountsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Account::class, 'created_by');
+    }
+
+    public function accountsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Account::class, 'deleted_by');
+    }
+
+    public function accountsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Account::class, 'updated_by');
+    }
+
+    public function archetypesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Archetype::class, 'created_by');
+    }
+
+    public function archetypesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Archetype::class, 'deleted_by');
+    }
+
+    public function archetypesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Archetype::class, 'updated_by');
+    }
+
+    public function attendancesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Attendance::class, 'created_by');
+    }
+
+    public function attendancesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Attendance::class, 'deleted_by');
+    }
+
+    public function attendancesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Attendance::class, 'updated_by');
+    }
+
+    public function awardsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Award::class, 'created_by');
+    }
+
+    public function awardsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Award::class, 'deleted_by');
+    }
+
+    public function awardsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Award::class, 'updated_by');
+    }
+
+    public function chaptersCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chapter::class, 'created_by');
+    }
+
+    public function chaptersDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chapter::class, 'deleted_by');
+    }
+
+    public function chaptersUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chapter::class, 'updated_by');
+    }
+
+    public function chaptertypesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chaptertype::class, 'created_by');
+    }
+
+    public function chaptertypesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chaptertype::class, 'deleted_by');
+    }
+
+    public function chaptertypesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Chaptertype::class, 'updated_by');
+    }
+
+    public function cratsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Crat::class, 'created_by');
+    }
+
+    public function cratsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Crat::class, 'deleted_by');
+    }
+
+    public function cratsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Crat::class, 'updated_by');
+    }
+
+    public function duesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Due::class, 'created_by');
+    }
+
+    public function duesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Due::class, 'deleted_by');
+    }
+
+    public function duesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Due::class, 'updated_by');
+    }
+
+    public function eventsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Event::class, 'created_by');
+    }
+
+    public function eventsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Event::class, 'deleted_by');
+    }
+
+    public function eventsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Event::class, 'updated_by');
+    }
+
+    public function issuancesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(\App\Models\Issuance::class, 'created_by');
     }
 
-    public function issuance19s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function issuancesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Issuance::class, 'deleted_by');
     }
 
-    public function issuance20s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function issuancesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Issuance::class, 'updated_by');
     }
 
-    public function kingdoms(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function kingdomsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Kingdom::class, 'created_by');
     }
 
-    public function kingdom21s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function kingdomsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Kingdom::class, 'deleted_by');
     }
 
-    public function kingdom22s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function kingdomsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Kingdom::class, 'updated_by');
     }
 
-    public function locations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function locationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Location::class, 'created_by');
     }
@@ -280,7 +393,7 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Location::class, 'updated_by');
     }
 
-    public function meetups(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function meetupsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Meetup::class, 'created_by');
     }
@@ -295,7 +408,7 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Meetup::class, 'updated_by');
     }
 
-    public function members(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function membersCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Member::class, 'created_by');
     }
@@ -310,7 +423,7 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Member::class, 'updated_by');
     }
 
-    public function officers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function officersCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Officer::class, 'created_by');
     }
@@ -325,7 +438,7 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Officer::class, 'updated_by');
     }
 
-    public function offices(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function officesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Office::class, 'created_by');
     }
@@ -340,7 +453,7 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Office::class, 'updated_by');
     }
 
-    public function personas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function personasCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Persona::class, 'created_by');
     }
@@ -355,142 +468,142 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Persona::class, 'updated_by');
     }
 
-    public function persona35s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function personas(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Persona::class, 'user_id');
     }
 
-    public function pronouns(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function pronounsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Pronoun::class, 'created_by');
     }
 
-    public function pronoun36s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function pronounsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Pronoun::class, 'deleted_by');
     }
 
-    public function pronoun37s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function pronounsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Pronoun::class, 'updated_by');
     }
 
-    public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function recommendationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Recommendation::class, 'created_by');
     }
 
-    public function recommendation38s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function recommendationsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Recommendation::class, 'deleted_by');
     }
 
-    public function recommendation39s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function recommendationsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Recommendation::class, 'updated_by');
     }
 
-    public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function reconciliationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Reconciliation::class, 'created_by');
     }
 
-    public function reconciliation40s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function reconciliationsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Reconciliation::class, 'deleted_by');
     }
 
-    public function reconciliation41s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function reconciliationsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Reconciliation::class, 'updated_by');
     }
 
-    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function splitsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Split::class, 'created_by');
     }
 
-    public function split42s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function splitsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Split::class, 'deleted_by');
     }
 
-    public function split43s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function splitsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Split::class, 'updated_by');
     }
 
-    public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function suspensionsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Suspension::class, 'created_by');
     }
 
-    public function suspension44s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function suspensionsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Suspension::class, 'deleted_by');
     }
 
-    public function suspension45s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function suspensionsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Suspension::class, 'updated_by');
     }
 
-    public function titles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function titlesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Title::class, 'created_by');
     }
 
-    public function title46s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function titlesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Title::class, 'deleted_by');
     }
 
-    public function title47s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function titlesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Title::class, 'updated_by');
     }
 
-    public function tournaments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function tournamentsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Tournament::class, 'created_by');
     }
 
-    public function tournament48s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function tournamentsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Tournament::class, 'deleted_by');
     }
 
-    public function tournament49s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function tournamentsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Tournament::class, 'updated_by');
     }
 
-    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactionsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Transaction::class, 'created_by');
     }
 
-    public function transaction50s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactionsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Transaction::class, 'deleted_by');
     }
 
-    public function transaction51s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactionsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Transaction::class, 'updated_by');
     }
 
-    public function units(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function unitsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Unit::class, 'created_by');
     }
 
-    public function unit52s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function unitsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Unit::class, 'deleted_by');
     }
 
-    public function unit53s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function unitsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Unit::class, 'updated_by');
     }
@@ -500,17 +613,17 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Waiver::class, 'age_verified_by');
     }
 
-    public function waiver54s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function waiversCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Waiver::class, 'created_by');
     }
 
-    public function waiver55s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function waiversDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Waiver::class, 'deleted_by');
     }
 
-    public function waiver56s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function waiversUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Waiver::class, 'updated_by');
     }
