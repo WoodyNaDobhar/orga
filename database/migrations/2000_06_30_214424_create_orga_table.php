@@ -111,7 +111,6 @@ return new class extends Migration
             $table->timestamp('event_start')->nullable();
             $table->timestamp('event_end')->nullable();
             $table->float('price', 6)->nullable();
-            $table->string('url', 255)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -126,7 +125,7 @@ return new class extends Migration
             $table->unsignedBigInteger('issuable_id')->index('issuable_id');
             $table->enum('whereable_type', ['Event','Meetup','Location']);
             $table->unsignedBigInteger('whereable_id')->index('whereable_id');
-            $table->enum('authority_type', ['Chapter', 'Kingdom', 'Event', 'Unit', 'Persona']);
+            $table->enum('authority_type', ['Chapter', 'Kingdom', 'Unit', 'Persona']);
             $table->unsignedBigInteger('authority_id')->index('authority_id');
             $table->enum('recipient_type', ['Persona', 'Unit']);
             $table->unsignedBigInteger('recipient_id')->index('recipient_id');
@@ -200,7 +199,6 @@ return new class extends Migration
             $table->unsignedBigInteger('chapter_id')->index('chapter_id');
             $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
             $table->unsignedBigInteger('alt_location_id')->nullable()->index('alt_location_id');
-            $table->string('url', 255)->nullable();
             $table->enum('recurrence', ['Weekly', 'Monthly', 'Week-of-Month']);
             $table->smallInteger('week_of_month')->nullable();
             $table->enum('week_day', ['None', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
@@ -242,6 +240,7 @@ return new class extends Migration
             $table->string('label', 50)->nullable();
             $table->date('starts_on')->nullable();
             $table->date('ends_on')->nullable();
+            $table->string('notes')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -288,7 +287,6 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('abbreviation', 3);
             $table->string('heraldry')->nullable();
-            $table->string('url', 255)->nullable();
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -370,6 +368,7 @@ return new class extends Migration
             $table->unsignedBigInteger('archetype_id')->index('archetype_id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->double('credits', 4, 2)->default(1);
+            $table->string('notes')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -377,6 +376,20 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
             $table->softDeletes();
         });
+        	
+       	Schema::create('socials', function (Blueprint $table) {
+       		$table->bigIncrements('id');
+       		$table->enum('sociable_type', ['Kingdom', 'Chapter', 'Event', 'Unit', 'Persona']);
+       		$table->unsignedBigInteger('sociable_id')->nullable()->index('sociable_id');
+       		$table->enum('media', ['Web', 'Facebook', 'Discord', 'Instagram', 'YouTube', 'TicToc']);
+       		$table->string('value', 255);
+       		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+       		$table->timestamp('created_at')->useCurrent();
+       		$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
+       		$table->timestamp('updated_at')->nullable();
+       		$table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
+       		$table->softDeletes();
+       	});
 
         Schema::create('splits', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -432,7 +445,6 @@ return new class extends Migration
             $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
             $table->string('name', 50);
             $table->mediumText('description');
-            $table->string('url', 255)->nullable();
             $table->dateTime('occured_at');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -462,7 +474,6 @@ return new class extends Migration
             $table->string('heraldry')->nullable();
             $table->mediumText('description')->nullable();
             $table->mediumText('history')->nullable();
-            $table->string('url', 255)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -501,8 +512,9 @@ return new class extends Migration
             $table->date('age_verified_at')->nullable();
             $table->unsignedBigInteger('age_verified_by')->nullable()->index('age_verified_by');
             $table->string('guardian', 150)->nullable();
-            $table->string('emergency_contact_name', 150)->nullable();
-            $table->string('emergency_contact_phone', 25)->nullable();
+            $table->string('emergency_name', 150)->nullable();
+            $table->string('emergency_relationship', 150)->nullable();
+            $table->string('emergency_phone', 25)->nullable();
             $table->date('signed_at');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -665,6 +677,13 @@ return new class extends Migration
             $table->foreign(['updated_by'], 'reconciliations_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['persona_id'], 'reconciliations_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
+        	
+       	Schema::table('socials', function (Blueprint $table) {
+       		$table->foreign(['created_by'], 'socials_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['deleted_by'], 'socials_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['updated_by'], 'socials_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['persona_id'], 'socials_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       	});
 
         Schema::table('splits', function (Blueprint $table) {
             $table->foreign(['account_id'], 'splits_account_id')->references(['id'])->on('accounts')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -790,6 +809,13 @@ return new class extends Migration
             $table->dropForeign('splits_updated_by');
             $table->dropForeign('splits_persona_id');
         });
+        	
+       	Schema::table('socials', function (Blueprint $table) {
+       		$table->dropForeign('socials_created_by');
+       		$table->dropForeign('socials_deleted_by');
+       		$table->dropForeign('socials_updated_by');
+       		$table->dropForeign('socials_persona_id');
+       	});
 
         Schema::table('reconciliations', function (Blueprint $table) {
             $table->dropForeign('reconciliations_archetype_id');
@@ -960,7 +986,9 @@ return new class extends Migration
         Schema::dropIfExists('suspensions');
 
         Schema::dropIfExists('splits');
-
+        
+        Schema::dropIfExists('socials');
+        
         Schema::dropIfExists('reconciliations');
 
         Schema::dropIfExists('recommendations');

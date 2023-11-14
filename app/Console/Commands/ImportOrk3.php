@@ -995,6 +995,14 @@ class ImportOrk3 extends Command
 			//TODO: convert any of their GD's into 'kingdoms'
 			
 			//what we know
+			$ropLadders = null;
+			$ropTitles = null;
+			$knownCollectiveGDs = null;
+			$knownAwards = null;
+			$knownTitles = null;
+			$knownKingdomChaptertypesOffices = null;
+			$knownCurrentReigns = null;
+			$countries = null;
 			include 'known.php';
 
 			//archetypes
@@ -1174,11 +1182,12 @@ class ImportOrk3 extends Command
 							'city' => $this->locationClean($oldChapter->city),
 							'province' => $this->locationClean($oldChapter->province),
 							'postal_code' => $this->locationClean($oldChapter->postal_code),
+							'country' => $this->getCountryCode((string) substr($oldChapter->address, strrpos("/$oldChapter->address", ', ') + 1), $countries),
 							'google_geocode' => $this->geocodeClean($oldChapter->google_geocode),
 							'latitude' => $this->locationClean($oldChapter->latitude),
 							'longitude' => $this->locationClean($oldChapter->longitude),
 							'location' => $this->locationClean($oldChapter->location),
-							'map_url' => $this->locationClean($oldChapter->map_url),
+							'map_url' => $this->cleanUrl($this->locationClean($oldChapter->map_url)),
 							'description' => $this->locationClean($oldChapter->description),
 							'directions' => $this->locationClean($oldChapter->directions)
 					]);
@@ -1192,12 +1201,20 @@ class ImportOrk3 extends Command
 							'name' => trim($oldChapter->name),
 							'abbreviation' => $oldChapter->abbreviation,
 							'heraldry' => $oldChapter->has_heraldry === 1 ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
-							'url' => $this->cleanURL($oldChapter->url),
 							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id == 186 ? 0 : 1,
 							'created_at' => $oldChapter->modified,
 							'updated_at' => $oldChapter->modified
 					]);
 					$transChapters[$oldChapter->park_id] = $chapterID;
+					$url = $this->cleanURL($oldChapter->url);
+					if($url){
+						DB::table('socials')->insert([
+								'sociable_type' => 'Chapter',
+								'sociable_id' => $chapterID,
+								'media' => 'Web',
+								'value' => $url
+						]);
+					}
 					$bar4->advance();
 				}
 				$bar4->finish();
@@ -1223,10 +1240,18 @@ class ImportOrk3 extends Command
 								'heraldry' => $oldUnit->has_heraldry === 1 ? sprintf('%05d.jpg', $oldUnit->unit_id) : null,
 								'description' => trim($oldUnit->description) != '' ? trim($oldUnit->description) : null,
 								'history' => trim($oldUnit->history) != '' ? trim($oldUnit->history) : null,
-								'url' => $this->cleanURL($oldUnit->url),
 								'created_at' => $oldUnit->modified,
 								'updated_at' => $oldUnit->modified
 						]);
+						$url = $this->cleanURL($oldUnit->url);
+						if($url){
+							DB::table('socials')->insert([
+									'sociable_type' => 'Unit',
+									'sociable_id' => $unitId,
+									'media' => 'Web',
+									'value' => $url
+							]);
+						}
 						$transUnits[$oldUnit->unit_id] = $unitId;
 					}else{
 						$deadRecords['Units'][$oldUnit->unit_id] = $oldUnit;
@@ -1917,8 +1942,9 @@ class ImportOrk3 extends Command
 								'age_verified_at' => null,
 								'age_verified_by' => null,
 								'guardian' => null,
-								'emergency_contact_name' => null,
-								'emergency_contact_phone' => null,
+								'emergency_name' => null,
+								'emergency_relationship' => null,
+								'emergency_phone' => null,
 								'signed_at' => $oldUser->park_member_since != '' && $oldUser->park_member_since != '0000-00-00' ? $oldUser->park_member_since : $oldUser->modified,
 								'created_at' => $oldUser->park_member_since != '' && $oldUser->park_member_since != '0000-00-00' ? $oldUser->park_member_since : $oldUser->modified,
 								'updated_at' => $oldUser->park_member_since != '' && $oldUser->park_member_since != '0000-00-00' ? $oldUser->park_member_since : $oldUser->modified
@@ -2041,6 +2067,7 @@ class ImportOrk3 extends Command
 								'city' => $this->locationClean($oldEvent->city),
 								'province' => $this->locationClean($oldEvent->province),
 								'postal_code' => $this->locationClean($oldEvent->postal_code),
+								'country' => $this->getCountryCode((string) substr($oldEvent->address, strrpos("/$oldEvent->address", ', ') + 1), $countries),
 								'google_geocode' => $this->geocodeClean($oldEvent->google_geocode),
 								'latitude' => $this->locationClean($oldEvent->latitude),
 								'longitude' => $this->locationClean($oldEvent->longitude),
@@ -2064,10 +2091,18 @@ class ImportOrk3 extends Command
 							'event_start' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
 							'event_end' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
 							'price' => $oldEvent->price,
-							'url' => $this->cleanURL($oldEvent->url),
 							'created_at' => min($oldEvent->modified_1, $oldEvent->modified_2),
 							'updated_at' => max($oldEvent->modified_1, $oldEvent->modified_2)
 					]);
+					$url = $this->cleanURL($oldEvent->url);
+					if($url){
+						DB::table('socials')->insert([
+								'sociable_type' => 'Event',
+								'sociable_id' => $eventId,
+								'media' => 'Web',
+								'value' => $url
+						]);
+					}
 					if($oldEvent->mundane_id != 0){
 						//make the crat
 						DB::table('crats')->insertGetId([
@@ -2165,6 +2200,7 @@ class ImportOrk3 extends Command
 								'city' => $this->locationClean($oldMeetup->city),
 								'province' => $this->locationClean($oldMeetup->province),
 								'postal_code' => $this->locationClean($oldMeetup->postal_code),
+								'country' => $this->getCountryCode((string) substr($oldMeetup->address, strrpos("/$oldMeetup->address", ', ') + 1), $countries),
 								'google_geocode' => $this->geocodeClean($oldMeetup->google_geocode),
 								'latitude' => $this->locationClean($oldMeetup->latitude),
 								'longitude' => $this->locationClean($oldMeetup->longitude),
@@ -2201,7 +2237,6 @@ class ImportOrk3 extends Command
 								'chapter_id' => $oldMeetup->park_id,
 								'location_id' => $locationID,
 								'alt_location_id' => null,
-								'url' => $this->cleanURL($oldMeetup->location_url),
 								'recurrence' => $meetupMap[$oldMeetup->recurrence],
 								'week_of_month' => $oldMeetup->week_of_month > 0 ? $oldMeetup->week_of_month : null,
 								'week_day' => $oldMeetup->week_day,
@@ -2210,9 +2245,6 @@ class ImportOrk3 extends Command
 								'purpose' => $meetupMap[$oldMeetup->purpose],
 								'description' => trim($oldMeetup->description) != '' ? trim($oldMeetup->description) : null
 						]);
-						if($oldMeetup->location_url != '' && !filter_var($oldMeetup->location_url, FILTER_VALIDATE_URL)){
-							$deadRecords['ParkdayUrl'][$oldMeetup->parkday_id] = $oldMeetup->location_url;
-						}
 						$transMeetups[$oldMeetup->parkday_id] = $meetupId;
 					}
 					$bar17->advance();
@@ -2456,7 +2488,6 @@ class ImportOrk3 extends Command
 										'chapter_id' => $transChapters[$oldAttendance->park_id],
 										'location_id' => $locationID ? $locationID : null,
 										'alt_location_id' => null,
-										'url' => null,
 										'recurrence' => 'Weekly',
 										'week_of_month' => null,
 										'week_day' => date('l', strtotime($oldAttendance->date)),
@@ -2491,21 +2522,18 @@ class ImportOrk3 extends Command
 											$eventable_id = null;
 											break;
 									}
-									$eventId = DB::table('events')->insertGetId(
-										[
-											'eventable_type' => $eventable_type,
-											'eventable_id' => $eventable_id,
-											'location_id' => $locationID ? $locationID : null,
-											'name' => trim($parentEvent->name),
-											'description' => 'This event was generated from related records.  Please correct it.',
-											'is_active' => 0,
-											'image' => null,
-											'event_start' => $oldAttendance->date,
-											'event_end' => $oldAttendance->date,
-											'price' => null,
-											'url' => null
-										]
-									);
+									$eventId = DB::table('events')->insertGetId([
+										'eventable_type' => $eventable_type,
+										'eventable_id' => $eventable_id,
+										'location_id' => $locationID ? $locationID : null,
+										'name' => trim($parentEvent->name),
+										'description' => 'This event was generated from related records.  Please correct it.',
+										'is_active' => 0,
+										'image' => null,
+										'event_start' => $oldAttendance->date,
+										'event_end' => $oldAttendance->date,
+										'price' => null
+									]);
 									$transEvents[$oldAttendance->event_id] = $eventId;
 // 									DB::table('trans')->where('table', 'events')->update([
 // 											'value' => serialize($transEvents)
@@ -2514,6 +2542,15 @@ class ImportOrk3 extends Command
 // 									DB::table('trans')->where('table', 'eventDetails')->update([
 // 											'value' => serialize($transEventDetails)
 // 									]);
+									$url = $this->cleanURL($oldEvent->url);
+									if($url){
+										DB::table('socials')->insert([
+												'sociable_type' => 'Event',
+												'sociable_id' => $eventId,
+												'media' => 'Web',
+												'value' => $url
+										]);
+									}
 								}else{
 									//deadrecords it since there's no event data
 									$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
@@ -2617,7 +2654,6 @@ class ImportOrk3 extends Command
 							'tournamentable_id' => $ableid,
 							'name' => $oldTournament->name,
 							'description' => $oldTournament->description,
-							'url' => $this->cleanURL($oldTournament->url),
 							'occured_at' => $oldTournament->date_time
 					]);
 					$transTournaments[$oldTournament->tournament_id] = $tournamentId;
@@ -3184,7 +3220,7 @@ class ImportOrk3 extends Command
 // 					'table' => 'reconciliations',
 // 					'value' => serialize($transReconciliations)
 // 			]);
-			dd('check recomendations');
+			dd('check reconciliations');
 			
 			//this will create too much garbage.  Make humans do it.
 			//notes
@@ -3198,13 +3234,12 @@ class ImportOrk3 extends Command
 				//autocrat & subcrat not issuances, but instead 'crats'
 				//			218 Autocrat
 				//			219 Subcrat
-			//TODO: remove Events from auth_ty
 			$this->info('Importing Issuances...');
 			$oldIssuances = $backupConnect->table('ork_awards')->get()->toArray();
 			DB::table('issuances')->truncate();
 			if (count($oldIssuances) > 0) {
-				$bar22 = $this->output->createProgressBar(count($oldIssuances));
-				$bar22->start();
+				$bar27 = $this->output->createProgressBar(count($oldIssuances));
+				$bar27->start();
 				foreach ($oldIssuances as $oldIssuance) {
 					$issuable_type = null;
 					$issuable_id = null;
@@ -3214,7 +3249,7 @@ class ImportOrk3 extends Command
 					if($oldIssuance->kingdomaward_id == 0){
 						//leave them and let humans do the work.  There's only about 300 of them.
 						$deadRecords['IssuancesNoAward'][$oldIssuances->awards_id] = $oldIssuance;
-						$bar22->advance();
+						$bar27->advance();
 						continue;
 					}
 					
@@ -3282,32 +3317,21 @@ class ImportOrk3 extends Command
 							]
 					);
 					$transIssuances[$oldIssuance->issuance_id] = $issuanceId;
-					$bar22->advance();
+					$bar27->advance();
 				}
-				$bar22->finish();
+				$bar27->finish();
 				$this->info('');
 			}
 			dd('check issuances');
-				
 			
+			//demos/guests: demos are just events.  Add 'is demo' flag to event.  add guests table.  in user import above, find obvious demo entries and move them.
 			
-			//see what you can do about Squires, Pages, Apprentices, At-Arms in notes
-			//see what you can do about units in notes
-			//see what you can do about offices in notes
-			
-			//demos/guests
-			
-			//persona name titles  //go thru the personas
-			//duplicate personas (move this up towards the top)
 			//custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles.
 			//custom officers (award data)
-
+			//iterate locations: update 'address' to 'street', add 'label', use google geocoder to clean up data & add geocode field
 			
-			//TODO: wiki fields
-			//TODO: website fields
-			//TODO: kingdom waiver config options
-			//TODO: add 'notes' style fields (like description) to titles, offices, and whatever else they're using 'notes' for
 			//TODO: compare awardsprocessed with list of awards.  Dump results and check for stuff we can get
+			//TODO: dump notes into a persona-transed table for processing
 
 
 			$this->info(count($deadRecords['Chaptertypes']) . ' Chaptertypes lost due to a missing Kingdom');
@@ -3319,19 +3343,18 @@ class ImportOrk3 extends Command
 			$this->info(count($deadRecords['PenaltyBox']) . ' Users in the Penalty Box but NOT suspended are now free');
 			$this->info(count($deadRecords['EventUrlNames']) . ' Event URL names were tossed due to being unnecessary');
 			$this->info(count($deadRecords['ParkdayAlternates']) . ' Parkday alternate locations dropped.');
-			$this->info(count($deadRecords['ParkdayUrl']) . ' Parkday urls tossed for not being a url');
 			$this->info(count($deadRecords['HeadlessAttendances']) . ' Attendances without a viable persona were lost');
 			$this->info(count($deadRecords['AttendancesReconciled']) . ' Attendances made into Reconciliations due to missing critical data (date, chapter/event, etc)');
 			$this->info(count($deadRecords['Dues']) . ' Dues lost due to no chapter/kingdom or terms');
 			$this->info(count($deadRecords['IssuancesNoAward']) . ' Award/Title Issuances lost due to no award id');
 			$this->info(count($deadRecords['Tournaments']) . ' Tournaments lost due to no kingdom/chapter/event data');
 			$this->info(count($deadRecords['Reconciliations']) . ' Reconciliations lost due to 0 value reconciled');
-			$this->info(count($deadRecords['Configurations']) . ' Configurations moved to db functionality');
+			$this->info(count($deadRecords['Configurations']) . ' Configurations moved to kingdom table');
 			$this->info(count($deadRecords['Splits']) . ' Splits lost due to deleted Account, Persona, or Transactiom');
 			
 			Schema::enableForeignKeyConstraints();
 
-			//log all the dead records
+			//TODO: log all the dead records
 
 			$this->info('All done!');
 			// dd($deadRecords);
@@ -3504,6 +3527,16 @@ class ImportOrk3 extends Command
 			return null;
 		}
 		return $value;
+	}
+	
+	private function getCountryCode($country){
+		if(!$country || $country === ''){
+			return null;
+		}
+		if($country === 'USA'){
+			$country = 'United States';
+		}
+		return array_search($country, $countries) ? array_search($country, $countries) : null;
 	}
 	
 	private function cleanURL($url){
