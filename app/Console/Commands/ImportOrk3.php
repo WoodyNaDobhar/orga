@@ -1216,13 +1216,13 @@ class ImportOrk3 extends Command
 				$bar5 = $this->output->createProgressBar(count($oldUnits));
 				$bar5->start();
 				foreach ($oldUnits as $oldUnit) {
-					if ($oldUnit->type != '' && $oldUnit->type != 'Event') {
+					if ($oldUnit->type != '') {
 						$unitId = DB::table('units')->insertGetId([
 								'type' => $oldUnit->type,
 								'name' => $oldUnit->name != '' ? trim($oldUnit->name) : 'Unknown ' . $oldUnit->type,
 								'heraldry' => $oldUnit->has_heraldry === 1 ? sprintf('%05d.jpg', $oldUnit->unit_id) : null,
-								'description' => $oldUnit->description,
-								'history' => $oldUnit->history,
+								'description' => trim($oldUnit->description) != '' ? trim($oldUnit->description) : null,
+								'history' => trim($oldUnit->history) != '' ? trim($oldUnit->history) : null,
 								'url' => $this->cleanURL($oldUnit->url),
 								'created_at' => $oldUnit->modified,
 								'updated_at' => $oldUnit->modified
@@ -1758,28 +1758,6 @@ class ImportOrk3 extends Command
 // 			]);
 
 			//users
-			//TOOD: there are 13K of these users that have NOTHING, not even a single credit, note, or anything.  Many thousands of them do have email addresses, tho...Add them to attendees?  Make attendees?
-// 			SELECT Parents.* FROM ork_mundane Parents
-// 			LEFT JOIN ork_attendance Childs0 ON Parents.mundane_id = Childs0.mundane_id
-// 			LEFT JOIN ork_authorization Childs1 ON Parents.mundane_id = Childs1.mundane_id
-// 			LEFT JOIN ork_awards Childs2 ON Parents.mundane_id = Childs2.mundane_id
-// 			LEFT JOIN ork_class_reconciliation Childs3 ON Parents.mundane_id = Childs3.mundane_id
-// 			LEFT JOIN ork_dues Childs4 ON Parents.mundane_id = Childs4.mundane_id
-// 			LEFT JOIN ork_event Childs5 ON Parents.mundane_id = Childs5.mundane_id
-// 			LEFT JOIN ork_mundane_note Childs6 ON Parents.mundane_id = Childs6.mundane_id
-// 			LEFT JOIN ork_officer Childs7 ON Parents.mundane_id = Childs7.mundane_id
-// 			LEFT JOIN ork_recommendations Childs8 ON Parents.mundane_id = Childs8.mundane_id
-// 			LEFT JOIN ork_unit_mundane Childs9 ON Parents.mundane_id = Childs9.mundane_id
-// 			WHERE Childs0.attendance_id IS NULL
-// 			AND Childs1.authorization_id IS NULL
-// 			AND Childs2.awards_id IS NULL
-// 			AND Childs3.class_reconciliation_id IS NULL
-// 			AND Childs4.dues_id IS NULL
-// 			AND Childs5.event_id IS NULL
-// 			AND Childs6.mundane_note_id IS NULL
-// 			AND Childs7.officer_id IS NULL
-// 			AND Childs8.recommendations_id IS NULL
-// 			AND Childs9.unit_mundane_id IS NULL
 			$this->info('Importing Users/Personas/Memberships/Suspensions/Waivers...');
 			$backupConnect->table('ork_mundane')
 				->where('mundane_id', 1)
@@ -1793,24 +1771,22 @@ class ImportOrk3 extends Command
 			DB::table('waivers')->truncate();
 			$bar13 = $this->output->createProgressBar($backupConnect->table('ork_mundane')->count());
 			$bar13->start();
-			$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use ($usedEmails, $backupConnect, $suspensionsWaitList, $transUsers, $deadRecords, $transMembers, $bar13, $transUnits, $transChapters, $transKingdoms){
-				foreach($oldUsers as $i => $oldUser) {
+			$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$deadRecords, &$transMembers, &$bar13, &$transUnits, &$transChapters, &$transKingdoms){
+				foreach($oldUsers as $oldUser) {
 					$pronounId = null;
 					$userId = null;
 					//user data
 					if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
 						if(!in_array(strtolower($oldUser->email), $usedEmails)){
-							$userId = DB::table('users')->insertGetId(
-									[
-											'email' => $i === 0 ? 'nobody@nowhere.net' : strtolower($oldUser->email),
-											'email_verified_at' => null,
-											'password' => bin2hex(openssl_random_pseudo_bytes(4)),
-											'remember_token' => null,
-											'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
-											'created_at' => $oldUser->modified,
-											'updated_at' => $oldUser->modified
-									]
-									);
+							$userId = DB::table('users')->insertGetId([
+								'email' => strtolower($oldUser->email),
+								'email_verified_at' => null,
+								'password' => bin2hex(openssl_random_pseudo_bytes(4)),
+								'remember_token' => null,
+								'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
+								'created_at' => $oldUser->modified,
+								'updated_at' => $oldUser->modified
+							]);
 							//assign role
 							$user = User::find($userId);
 							//park_id == 0 && kingdom_id == $oldUser->kingdom_id && mundane_id == $oldUser->mundane_id
@@ -1888,16 +1864,14 @@ class ImportOrk3 extends Command
 					//unit membership data
 					if ($oldUser->company_id > 0) {
 						if (array_key_exists($oldUser->company_id, $transUnits)) {
-							$memberId = DB::table('members')->insertGetId(
-									[
-											'unit_id' => $transUnits[$oldUser->company_id],
-											'persona_id' => $personaId,
-											'joined_at' => null,
-											'left_at' => null,
-											'is_head' => 0,
-											'is_voting' => 1
-									]
-									);
+							$memberId = DB::table('members')->insertGetId([
+								'unit_id' => $transUnits[$oldUser->company_id],
+								'persona_id' => $personaId,
+								'joined_at' => null,
+								'left_at' => null,
+								'is_head' => 0,
+								'is_voting' => 1
+							]);
 							$transMembers[$oldUser->mundane_id] = $memberId;
 						}else{
 							$deadRecords['Units'][$oldUser->company_id] = 'Deleted';
@@ -1906,20 +1880,18 @@ class ImportOrk3 extends Command
 					
 					//suspensions data
 					if($oldUser->suspended > 0){
-						if (!$oldUser->suspended_by_id || $oldUser->suspended_by_id < $oldUser->mundane_id) {
-							DB::table('suspensions')->insertGetId(
-									[
-											'persona_id' => $personaId,
-											'kingdom_id' => $transKingdoms[$oldUser->kingdom_id],
-											'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
-											'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
-											'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
-											'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
-											'cause' => $oldUser->suspension && $oldUser->suspension != '' ? $oldUser->suspension : 'Unknown',
-											'created_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
-											'updated_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at
-									]
-									);
+						if (!$oldUser->suspended_by_id || array_key_exists($oldUser->suspended_by_id, $transPersonas)) {
+							DB::table('suspensions')->insertGetId([
+									'persona_id' => $personaId,
+									'kingdom_id' => $transKingdoms[$oldUser->kingdom_id],
+									'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
+									'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
+									'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
+									'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
+									'cause' => $oldUser->suspension && $oldUser->suspension != '' ? $oldUser->suspension : 'Unknown',
+									'created_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
+									'updated_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at
+							]);
 						}else{
 							$suspensionsWaitList[] = $oldUser;
 						}
@@ -1930,15 +1902,15 @@ class ImportOrk3 extends Command
 					}
 					
 					//waiver data
-					if($oldUser->waivered > 0 && (trim($oldUser->given_name) != '' || trim($oldUser->surname) != '')){
+					if($oldUser->waivered > 0 && trim($oldUser->given_name) != '' && trim($oldUser->surname) != ''){
 						DB::table('waivers')->insertGetId([
-								'pronoun_id' => null,
+								'pronoun_id' => $pronounId,
 								'persona_id' => $personaId,
-								'waiverable_type' => 'Chapter',
-								'waiverable_id' => $oldUser->park_id == 0 ? 317 : $transChapters[$oldUser->park_id],
+								'waiverable_type' => 'Kingdom',
+								'waiverable_id' => $transKingdoms[$oldUser->kingdom_id],
 								'file' => $oldUser->waiver_ext != '' ? sprintf('%06d.' . $oldUser->waiver_ext, $oldUser->mundane_id) : null,
 								'player' => trim($oldUser->given_name . ' ' . $oldUser->surname),
-								'email' => null,
+								'email' => filter_var($oldUser->email, FILTER_VALIDATE_EMAIL) ? strtolower($oldUser->email) : null,
 								'phone' => null,
 								'location_id' => null,
 								'dob' => null,
@@ -1966,7 +1938,7 @@ class ImportOrk3 extends Command
 					DB::table('suspensions')->insertGetId([
 							'persona_id' => $transPersonas[$oldUser->mundane_id],
 							'kingdom_id' => $transKingdoms[$oldUser->kingdom_id],
-							'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
+							'suspended_by' => $oldUser->suspended_by_id ? (array_key_exists($oldUser->suspended_by_id, $transPersonas) ? $transPersonas[$oldUser->suspended_by_id] : 1) : 1,
 							'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
 							'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
 							'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
@@ -2086,7 +2058,7 @@ class ImportOrk3 extends Command
 							'eventable_id' => $eventable_id,
 							'location_id' => $locationID ? $locationID : null,
 							'name' => trim($oldEvent->name),
-							'description' => trim($oldEvent->description),
+							'description' => trim($oldEvent->description) != '' ? trim($oldEvent->description) : null,
 							'is_active' => $oldEvent->current,
 							'image' => $oldEvent->has_heraldry === 1 ? sprintf('%05d.jpg', $oldEvent->event_id) : null,
 							'event_start' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
@@ -3043,7 +3015,6 @@ class ImportOrk3 extends Command
 			dd('check titles & members, particularly trans for duplicate & proper totals started with 543');
 			
 			//officers/reigns
-			//TODO: move this up with the rest of the vars
 			//TODO: check Plagueservant of Peasants
 			$this->info('Importing Officers...');
 			$oldOfficers = $backupConnect->table('ork_officer')->get()->toArray();
@@ -3508,9 +3479,9 @@ class ImportOrk3 extends Command
 		}
 		$personaName = trim($personaName);
 		if($personaName === $mundaneName){
-			$personaName = null;
+			$personaName = 'Undeclared(' . $personaName . ')';
 		}
-		return $personaName === '' ? null : $personaName;
+		return !$personaName || $personaName === '' ? 'Undeclared (' . $mundaneName . ')' : $personaName;
 	}
 	
 	private function locationClean($value){

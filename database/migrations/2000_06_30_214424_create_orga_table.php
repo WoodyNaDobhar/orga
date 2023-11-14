@@ -105,13 +105,13 @@ return new class extends Migration
             $table->unsignedBigInteger('eventable_id')->index('eventable_id');
             $table->unsignedBigInteger('location_id')->nullable()->index('at_chapter_id');
             $table->string('name');
-            $table->mediumText('description');
+            $table->mediumText('description')->nullable();
             $table->string('image', 255)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamp('event_start')->nullable();
             $table->timestamp('event_end')->nullable();
             $table->float('price', 6)->nullable();
-            $table->string('url')->nullable();
+            $table->string('url', 255)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -200,7 +200,7 @@ return new class extends Migration
             $table->unsignedBigInteger('chapter_id')->index('chapter_id');
             $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
             $table->unsignedBigInteger('alt_location_id')->nullable()->index('alt_location_id');
-            $table->string('url')->nullable();
+            $table->string('url', 255)->nullable();
             $table->enum('recurrence', ['Weekly', 'Monthly', 'Week-of-Month']);
             $table->smallInteger('week_of_month')->nullable();
             $table->enum('week_day', ['None', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
@@ -288,7 +288,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('abbreviation', 3);
             $table->string('heraldry')->nullable();
-            $table->string('url')->nullable();
+            $table->string('url', 255)->nullable();
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -303,7 +303,7 @@ return new class extends Migration
             $table->unsignedBigInteger('chapter_id')->index('chapter_id');
             $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
             $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
-            $table->string('mundane');
+            $table->string('mundane')->nullable();
             $table->string('name');
             $table->string('heraldry')->nullable();
             $table->string('image')->nullable();
@@ -432,7 +432,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
             $table->string('name', 50);
             $table->mediumText('description');
-            $table->string('url')->nullable();
+            $table->string('url', 255)->nullable();
             $table->dateTime('occured_at');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -462,7 +462,7 @@ return new class extends Migration
             $table->string('heraldry')->nullable();
             $table->mediumText('description')->nullable();
             $table->mediumText('history')->nullable();
-            $table->string('url')->nullable();
+            $table->string('url', 255)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -490,9 +490,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
             $table->unsignedBigInteger('persona_id')->nullable()->index('persona_id');
-            $table->enum('waiverable_type', ['Chapter', 'Event']);
+            $table->enum('waiverable_type', ['Kingdom', 'Event']);
             $table->unsignedBigInteger('waiverable_id')->index('waiverable_id');
-            $table->string('image')->nullable();
+            $table->string('file')->nullable();
             $table->string('player', 150);
             $table->string('email', 255)->nullable();
             $table->string('phone', 25)->nullable();
