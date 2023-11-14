@@ -682,7 +682,6 @@ return new class extends Migration
        		$table->foreign(['created_by'], 'socials_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
        		$table->foreign(['deleted_by'], 'socials_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
        		$table->foreign(['updated_by'], 'socials_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-       		$table->foreign(['persona_id'], 'socials_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
        	});
 
         Schema::table('splits', function (Blueprint $table) {
@@ -814,7 +813,6 @@ return new class extends Migration
        		$table->dropForeign('socials_created_by');
        		$table->dropForeign('socials_deleted_by');
        		$table->dropForeign('socials_updated_by');
-       		$table->dropForeign('socials_persona_id');
        	});
 
         Schema::table('reconciliations', function (Blueprint $table) {
