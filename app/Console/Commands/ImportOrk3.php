@@ -802,9 +802,8 @@ class ImportOrk3 extends Command
 			app('cache')
 				->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
 				->forget(config('permission.cache.key'));
-
-			//TODO: delete this
-// 			$trans = DB::table('trans')->get();
+//TODO: make it async (importOrk3:<step>, each step waits for the appropriate trans value to exist to continue)
+			$trans = DB::table('trans')->get();
 			
 			//various holders
 			$deadRecords = [];
@@ -816,25 +815,26 @@ class ImportOrk3 extends Command
 			$transGenericAwards = [];
 			$transKingdomawards = [];
 			$transTitles = [];
-			$transCustomTitles = [];
-			$transPronouns = [];
 			$transUsers = [];
 			$transPersonas = [];
 			$transEvents = [];
 			$transEventDetails = [];
 			$transAccounts = [];
+			$transTransactions = [];
 			$transMeetups = [];
 			$transGenericAttendances = [];
 			$transTournaments = [];
-			$transTransactions = [];
+			$transCustomTitles = [];
+			$transPronouns = [];
 			$transDues = [];
 			$transMembers = [];
 			$transOfficers = [];
 			$transRecommendations = [];
 			$transReconciliations = [];
 			$transSplits = [];
+			$transIssuances = [];
+			$kingdomawardsProcessed = [];
 			
-			//TODO: delete these
 // 			$transDone = $trans->filter(function($item) {
 // 				return ($item->table === 'kingdomawardsprocessed');
 // 			});
@@ -992,11 +992,11 @@ class ImportOrk3 extends Command
 // 				$transReconciliations = unserialize($transDone->first()->value);
 // 			}
 			
-			//TODO: convert any of their GD's into 'kingdoms'
 			
 			//what we know
 			$ropLadders = null;
 			$ropTitles = null;
+			//TODO: convert any of their GD's into 'kingdoms'
 			$knownCollectiveGDs = null;
 			$knownAwards = null;
 			$knownTitles = null;
@@ -1048,7 +1048,7 @@ class ImportOrk3 extends Command
 							'parent_id' => $oldKingdom->parent_kingdom_id == 0 ? null : $transKingdoms[$oldKingdom->parent_kingdom_id],
 							'name' => $oldKingdom->name,
 							'abbreviation' => $oldKingdom->abbreviation,
-							'heraldry' => $oldKingdom->has_heraldry === 1 ? sprintf('%04d.jpg', $oldKingdom->kingdom_id) : null,
+							'heraldry' => $oldKingdom->has_heraldry === '1' ? sprintf('%04d.jpg', $oldKingdom->kingdom_id) : null,
 							'is_active' => $oldKingdom->active === 'Active' ? 1 : 0,
 							'created_at' => $oldKingdom->modified,
 							'updated_at' => $oldKingdom->modified
@@ -1199,8 +1199,8 @@ class ImportOrk3 extends Command
 							'chaptertype_id' => $oldChapter->parktitle_id == 186 ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
 							'location_id' => $locationID,
 							'name' => trim($oldChapter->name),
-							'abbreviation' => $oldChapter->abbreviation,
-							'heraldry' => $oldChapter->has_heraldry === 1 ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
+							'abbreviation' => $oldChapter->abbreviation === '' ? null : $oldChapter->abbreviation,
+							'heraldry' => $oldChapter->has_heraldry === '1' ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
 							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id == 186 ? 0 : 1,
 							'created_at' => $oldChapter->modified,
 							'updated_at' => $oldChapter->modified
@@ -1237,7 +1237,7 @@ class ImportOrk3 extends Command
 						$unitId = DB::table('units')->insertGetId([
 								'type' => $oldUnit->type,
 								'name' => $oldUnit->name != '' ? trim($oldUnit->name) : 'Unknown ' . $oldUnit->type,
-								'heraldry' => $oldUnit->has_heraldry === 1 ? sprintf('%05d.jpg', $oldUnit->unit_id) : null,
+								'heraldry' => $oldUnit->has_heraldry === '1' ? sprintf('%05d.jpg', $oldUnit->unit_id) : null,
 								'description' => trim($oldUnit->description) != '' ? trim($oldUnit->description) : null,
 								'history' => trim($oldUnit->history) != '' ? trim($oldUnit->history) : null,
 								'created_at' => $oldUnit->modified,
@@ -1319,8 +1319,8 @@ class ImportOrk3 extends Command
 							'awarder_id' => null,
 							'name' => $nameClean,
 							'is_ladder' => 1,
-							'deleted_by' => $oldAward->deprecate === 1 ? 1 : null,
-							'deleted_at' => $oldAward->deprecate === 1 ? $now : null
+							'deleted_by' => $oldAward->deprecate === '1' ? 1 : null,
+							'deleted_at' => $oldAward->deprecate === '1' ? $now : null
 					]);
 					$transGenericAwards[$oldAward->award_id] = $awardId;
 					$bar6->advance();
@@ -1741,14 +1741,13 @@ class ImportOrk3 extends Command
 						$officeableID = $chaptertypeArray->id;
 					}
 					foreach($offices as $office => $officeData){
-						$officeId = DB::table('offices')->insertGetId(
-								[
-										'officeable_type' => $officeableType,
-										'officeable_id' => $officeableID,
-										'name' => $office,
-										'duration' => $officeData['duration'],
-										'order' => array_key_exists('order', $officeData) ? $officeData['order'] : null
-							]);
+						DB::table('offices')->insertGetId([
+							'officeable_type' => $officeableType,
+							'officeable_id' => $officeableID,
+							'name' => $office,
+							'duration' => $officeData['duration'],
+							'order' => array_key_exists('order', $officeData) ? $officeData['order'] : null
+						]);
 						$bar10->advance();
 					}
 				}
@@ -1808,7 +1807,7 @@ class ImportOrk3 extends Command
 								'email_verified_at' => null,
 								'password' => bin2hex(openssl_random_pseudo_bytes(4)),
 								'remember_token' => null,
-								'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
+								'is_restricted' => $oldUser->restricted === '1' ? 1 : 0,
 								'created_at' => $oldUser->modified,
 								'updated_at' => $oldUser->modified
 							]);
@@ -1861,12 +1860,8 @@ class ImportOrk3 extends Command
 					}
 					
 					//clean up the persona name
-					if($this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname)) && $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname)) != ''){
-						$personaName = $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname));
-						$personaName = $this->stripTitles($personaName);
-					}else{
-						$personaName = null;
-					}
+					$personaName = $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname));
+					$personaName = $this->stripTitles($personaName);
 					
 					//persona data
 					$personaId = DB::table('personas')->insertGetId([
@@ -1875,9 +1870,9 @@ class ImportOrk3 extends Command
 							'pronoun_id' => $pronounId,
 							'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
 							'name' => $personaName,
-							'heraldry' => $oldUser->has_heraldry === 1 ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-							'image' => $oldUser->has_image === 1 ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-							'is_active' => $oldUser->active === 1 ? 1 : 0,
+							'heraldry' => $oldUser->has_heraldry === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+							'image' => $oldUser->has_image === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+							'is_active' => $oldUser->active === '1' ? 1 : 0,
 							'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
 							'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
 							'joined_chapter_at' => $oldUser->park_member_since === '0000-00-00' ? null : $oldUser->park_member_since,
@@ -1921,7 +1916,7 @@ class ImportOrk3 extends Command
 							$suspensionsWaitList[] = $oldUser;
 						}
 					}else{
-						if($oldUser->penalty_box === 1){
+						if($oldUser->penalty_box === '1'){
 							$deadRecords['PenaltyBox'][$oldUser->mundane_id] = $oldUser;
 						}
 					}
@@ -1934,7 +1929,7 @@ class ImportOrk3 extends Command
 								'waiverable_type' => 'Kingdom',
 								'waiverable_id' => $transKingdoms[$oldUser->kingdom_id],
 								'file' => $oldUser->waiver_ext != '' ? sprintf('%06d.' . $oldUser->waiver_ext, $oldUser->mundane_id) : null,
-								'player' => trim($oldUser->given_name . ' ' . $oldUser->surname),
+								'player' => $this->cleanMundane($oldUser->given_name . ' ' . $oldUser->surname),
 								'email' => filter_var($oldUser->email, FILTER_VALIDATE_EMAIL) ? strtolower($oldUser->email) : null,
 								'phone' => null,
 								'location_id' => null,
@@ -2087,7 +2082,7 @@ class ImportOrk3 extends Command
 							'name' => trim($oldEvent->name),
 							'description' => trim($oldEvent->description) != '' ? trim($oldEvent->description) : null,
 							'is_active' => $oldEvent->current,
-							'image' => $oldEvent->has_heraldry === 1 ? sprintf('%05d.jpg', $oldEvent->event_id) : null,
+							'image' => $oldEvent->has_heraldry === '1' ? sprintf('%05d.jpg', $oldEvent->event_id) : null,
 							'event_start' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
 							'event_end' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
 							'price' => $oldEvent->price,
@@ -2234,7 +2229,7 @@ class ImportOrk3 extends Command
 						}
 					}else{
 						$meetupId = DB::table('meetups')->insertGetId([
-								'chapter_id' => $oldMeetup->park_id,
+								'chapter_id' => $transChapters[$oldMeetup->park_id],
 								'location_id' => $locationID,
 								'alt_location_id' => null,
 								'recurrence' => $meetupMap[$oldMeetup->recurrence],
@@ -2259,18 +2254,16 @@ class ImportOrk3 extends Command
 			
 			//attendances
 			$this->info('Importing Attendances...');
-			$oldAttendances = $backupConnect->table('ork_attendance')->get()->toArray();
 			DB::table('attendances')->truncate();
 			DB::table('reconciliations')->truncate();
 			$kingdoms = Kingdom::all()->toArray();
 			$chapters = Chapter::all()->toArray();
-			if (count($oldAttendances) > 0) {
+			$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$transGenericAttendances, &$transUsers, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$deadRecords, &$kingdoms, &$chapters, $backupConnect, &$transArchetypes){
 				$meetups = null;
 				$meetupId = null;
 				$bar18 = $this->output->createProgressBar(count($oldAttendances));
 				$bar18->start();
 				foreach ($oldAttendances as $oldAttendance) {
-					
 					$locationID = null;
 					//work out archetype stuff
 					$archetypeId = null;
@@ -2542,15 +2535,6 @@ class ImportOrk3 extends Command
 // 									DB::table('trans')->where('table', 'eventDetails')->update([
 // 											'value' => serialize($transEventDetails)
 // 									]);
-									$url = $this->cleanURL($oldEvent->url);
-									if($url){
-										DB::table('socials')->insert([
-												'sociable_type' => 'Event',
-												'sociable_id' => $eventId,
-												'media' => 'Web',
-												'value' => $url
-										]);
-									}
 								}else{
 									//deadrecords it since there's no event data
 									$deadRecords['HeadlessAttendances'][$oldAttendance->attendance_id] = $oldAttendance;
@@ -2608,7 +2592,7 @@ class ImportOrk3 extends Command
 				}
 				$bar18->finish();
 				$this->info('');
-			}
+			});
 // 			DB::table('trans')->insert([
 // 					'table' => 'genericAttendances',
 // 					'value' => serialize($transGenericAttendances)
@@ -2890,7 +2874,7 @@ class ImportOrk3 extends Command
 									'email_verified_at' => null,
 									'password' => $oldUser->password_salt,
 									'remember_token' => null,
-									'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
+									'is_restricted' => $oldUser->restricted === '1' ? 1 : 0,
 									'created_at' => $oldUser->modified,
 									'updated_at' => $oldUser->modified
 								]
@@ -2919,7 +2903,7 @@ class ImportOrk3 extends Command
 											'email_verified_at' => null,
 											'password' => $oldUser->password_salt,
 											'remember_token' => null,
-											'is_restricted' => $oldUser->restricted === 1 ? 1 : 0,
+											'is_restricted' => $oldUser->restricted === '1' ? 1 : 0,
 											'created_at' => $oldUser->modified,
 											'updated_at' => $oldUser->modified
 									]
@@ -2967,8 +2951,8 @@ class ImportOrk3 extends Command
 							'intervals' => $intervals,
 							'created_at' => $duesFrom, 
 							'created_by' => $transUsers[$oldDue->created_by],
-							'deleted_at' => $oldDue->revoked === 1 ? date('Y-m-d H:i:s', strtotime($oldDue->revoked_on)) : null,
-							'deleted_by' => $oldDue->revoked === 1 ? $transUsers[$oldDue->revoked_by] : null
+							'deleted_at' => $oldDue->revoked === '1' ? date('Y-m-d H:i:s', strtotime($oldDue->revoked_on)) : null,
+							'deleted_by' => $oldDue->revoked === '1' ? $transUsers[$oldDue->revoked_by] : null
 						]
 					);
 					$transDues[$oldDue->dues_id] = $dueId;
@@ -3355,9 +3339,9 @@ class ImportOrk3 extends Command
 			Schema::enableForeignKeyConstraints();
 
 			//TODO: log all the dead records
+			dd($deadRecords);
 
 			$this->info('All done!');
-			// dd($deadRecords);
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . ' (' . $trace['file'] . ':' . $trace['line'] . ')\r\n' . '[stacktrace]' . '\r\n' . $e->getTraceAsString());
@@ -3477,7 +3461,7 @@ class ImportOrk3 extends Command
 		return $personaName;
 	}
 	
-	private function cleanPersona($personaName, $mundaneName){
+	private function cleanPersona($personaName, $mundaneName = null){
 		$personaName = str_replace('_', ' ', $personaName);
 		$personaName = str_replace('.', '', $personaName);
 		$personaName = str_replace('(', '', $personaName);
@@ -3501,10 +3485,22 @@ class ImportOrk3 extends Command
 			$personaName = ltrim($personaName, 'Zz');
 		}
 		$personaName = trim($personaName);
+		if($mundaneName){
+			$mundaneName = $this->cleanMundane($mundaneName);
+		}
 		if($personaName === $mundaneName){
 			$personaName = 'Undeclared(' . $personaName . ')';
 		}
 		return !$personaName || $personaName === '' ? 'Undeclared (' . $mundaneName . ')' : $personaName;
+	}
+	
+	private function cleanMundane($mundaneName){
+		preg_replace("/\([^)]+\)/", "", $mundaneName);
+		$mundaneName = str_replace('  ', ' ', $mundaneName);
+		$mundaneName = str_replace('.', '', $mundaneName);
+		$mundaneName = trim($mundaneName);
+		$mundaneName = str_ireplace('zzz', '', $mundaneName);
+		return $mundaneName;
 	}
 	
 	private function locationClean($value){
@@ -3529,11 +3525,11 @@ class ImportOrk3 extends Command
 		return $value;
 	}
 	
-	private function getCountryCode($country){
+	private function getCountryCode($country, $countries){
 		if(!$country || $country === ''){
 			return null;
 		}
-		if($country === 'USA'){
+		if($country === 'USA' || $country === 'US'){
 			$country = 'United States';
 		}
 		return array_search($country, $countries) ? array_search($country, $countries) : null;
