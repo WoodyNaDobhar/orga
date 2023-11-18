@@ -268,7 +268,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
             $table->string('name', 50);
-            $table->integer('rank')->default(0);
+            $table->integer('rank')->nullable();
             $table->integer('minimumattendance')->default(5);
             $table->integer('minimumcutoff')->default(1);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
@@ -337,7 +337,7 @@ return new class extends Migration
             $table->unsignedBigInteger('persona_id')->index('mundane_id');
             $table->enum('recommendable_type', ['Award', 'Title']);
             $table->unsignedBigInteger('recommendable_id')->nullable()->index('recommendable_id');
-            $table->integer('rank');
+            $table->integer('rank')->nullable();
             $table->boolean('is_anonymous')->default(false);
             $table->string('reason', 400);
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
@@ -427,7 +427,7 @@ return new class extends Migration
         	$table->enum('titleable_type', ['Kingdom', 'Chapter', 'Unit']);
         	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id');
             $table->string('name', 100);
-            $table->unsignedSmallInteger('rank')->default(0);
+            $table->unsignedSmallInteger('rank')->nullable();
             $table->enum('peerage', ['Gentry', 'Knight', 'Master', 'Nobility', 'None', 'Retainer', 'Paragon', 'Squire'])->default('None');
             $table->boolean('is_roaming')->default(0);
             $table->boolean('is_active')->default(1);
