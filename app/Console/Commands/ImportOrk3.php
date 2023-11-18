@@ -936,14 +936,15 @@ class ImportOrk3 extends Command
 							//and it's not in the known array (or 'Kingdom', thanks for that DS),
 							if(!array_key_exists($oldChaptertype->title, $knownKingdomChaptertypesOffices[$oldChaptertype->kingdom_id]) || $oldChaptertype->title == "Kingdom"){
 								//don't add this one.
+								//TODO: check me
 								switch($oldChaptertype->parktitle_id){
-									case 56:
+									case '56':
 										$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId + 1;
 										break;
-									case 31:
+									case '31':
 										$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId + 1;
 										break;
-									case 35:
+									case '35':
 										$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId;
 										break;
 									default:
@@ -2262,7 +2263,7 @@ class ImportOrk3 extends Command
 					$transEvents = $this->getTrans('events');
 					$transEventDetails = $this->getTrans('eventsdetails');
 					$transUsers = $this->getTrans('users');
-					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transUsers, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$kingdoms, &$chapters, &$personas, $backupConnect, &$transArchetypes){
+					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$kingdoms, &$chapters, &$personas, $backupConnect, &$transArchetypes){
 						$meetups = null;
 						$meetupId = null;
 						$bar = $this->output->createProgressBar(count($oldAttendances));
