@@ -1147,6 +1147,11 @@ class ImportOrk3 extends Command
 							}else{
 								foreach($knownAwards[$nameClean] as $kid => $info){
 									if($info){
+										while(!array_key_exists($kid, $transKingdoms)){
+											$this->info('waiting for kingdom ' . $kid);
+											sleep(5);
+											$transKingdoms = $this->getTrans('kingdoms');
+										}
 										$awardId = DB::table('awards')->insertGetId([
 												'awarder_type' => 'Kingdom',
 												'awarder_id' => $transKingdoms[$kid],
@@ -1754,10 +1759,28 @@ class ImportOrk3 extends Command
 										->where('mundane_id', $oldUser->mundane_id);
 									})->get()->toArray();
 									if($userId === 1){
+										$roleExists = Role::findByName('admin')->get();
+										while(!$roleExists){
+											$this->info('waiting for role admin');
+											sleep(5);
+											$roleExists = Role::findByName('admin')->get();
+										}
 										$user->assignRole('admin');
 									}else if(count($offices) > 0){
+										$roleExists = Role::findByName('officer')->get();
+										while(!$roleExists){
+											$this->info('waiting for role officer');
+											sleep(5);
+											$roleExists = Role::findByName('officer')->get();
+										}
 										$user->assignRole('officer');
 									}else{
+										$roleExists = Role::findByName('player')->get();
+										while(!$roleExists){
+											$this->info('waiting for role player');
+											sleep(5);
+											$roleExists = Role::findByName('player')->get();
+										}
 										$user->assignRole('player');
 									}
 									$usedEmails[] = strtolower($oldUser->email);
@@ -2778,7 +2801,7 @@ class ImportOrk3 extends Command
 						if($oldConfiguration->key === 'AccountPointers'){
 							$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
 						}else{
-							if(array_key_exists($oldChaptertype->kingdom_id, $knownKingdomChaptertypesOffices)){
+							if(array_key_exists($oldConfiguration->id, $knownKingdomChaptertypesOffices)){
 								//update the kingdom
 								while(!array_key_exists($oldConfiguration->id, $transKingdoms)){
 									$this->info('waiting for kingdom ' . $oldConfiguration->id);
@@ -3831,7 +3854,7 @@ class ImportOrk3 extends Command
 		preg_replace("/\([^)]+\)/", "", $name);
 		$name = trim($name);
 		preg_match_all('/\b\w/u', $name, $abbreviatedName);
-		return implode("", substr($abbreviatedName[0], 0, 3));
+		return implode("", substr($abbreviatedName[0][0], 0, 3));
 	}
 	
 	private function getTrans($array){

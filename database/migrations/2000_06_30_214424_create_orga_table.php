@@ -123,8 +123,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->enum('issuable_type', ['Award', 'Title']);
             $table->unsignedBigInteger('issuable_id')->index('issuable_id');
-            $table->enum('whereable_type', ['Event','Meetup','Location']);
-            $table->unsignedBigInteger('whereable_id')->index('whereable_id');
+            $table->enum('whereable_type', ['Event','Meetup','Location'])->nullable();
+            $table->unsignedBigInteger('whereable_id')->index('whereable_id')->nullable();
             $table->enum('authority_type', ['Chapter', 'Kingdom', 'Unit', 'Persona']);
             $table->unsignedBigInteger('authority_id')->index('authority_id');
             $table->enum('recipient_type', ['Persona', 'Unit']);
