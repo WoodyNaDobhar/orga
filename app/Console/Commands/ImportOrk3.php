@@ -902,7 +902,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldChaptertypes as $oldChaptertype) {
 						//deleted kingdoms
-						if (!array_key_exists($oldChaptertype->kingdom_id, $oldKingdoms)) {
+						if (!array_key_exists($oldChaptertype->kingdom_id, $oldKingdoms) && !array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)) {
 							$kingdomId = DB::table('kingdoms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
@@ -999,7 +999,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldChapters as $oldChapter) {
 						//deleted kingdoms
-						if (!array_key_exists($oldChapter->kingdom_id, $oldKingdoms)) {
+						if (!array_key_exists($oldChapter->kingdom_id, $oldKingdoms) && !array_key_exists($oldChapter->kingdom_id, $transKingdoms)) {
 							$kingdomId = DB::table('kingdoms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
@@ -2270,9 +2270,9 @@ class ImportOrk3 extends Command
 					break;
 				case 'Attendances':
 					$this->info('Importing Attendances...');
-					$kingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
-					$chapters = $backupConnect->table('ork_park')->get()->toArray();
-					$personas = $backupConnect->table('ork_mundane')->get()->toArray();
+					$oldKingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
+					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->get()->toArray();
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
 					$transPersonas = $this->getTrans('personas');
@@ -2280,7 +2280,7 @@ class ImportOrk3 extends Command
 					$transEvents = $this->getTrans('events');
 					$transEventDetails = $this->getTrans('eventsdetails');
 					$transUsers = $this->getTrans('users');
-					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$kingdoms, &$chapters, &$personas, $backupConnect, &$transArchetypes){
+					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
 						$meetups = null;
 						$meetupId = null;
 						$bar = $this->output->createProgressBar(count($oldAttendances));
@@ -2318,8 +2318,8 @@ class ImportOrk3 extends Command
 									//figure out if it's somebody
 									if(strpos($oldAttendance->note, '--') > -1){
 										$pairing = explode('--', $oldAttendance->note);
-										$fromKingdomOldID = array_search($pairing[0], array_column($kingdoms, 'abbreviation'));
-										$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+										$fromKingdomOldID = array_search($pairing[0], array_column($oldKingdoms, 'abbreviation'));
+										$fromChapters = array_keys(array_column($oldChapters, 'abbreviation'), $pairing[1]);
 										$fromChapterOldID = array_search($fromKingdomOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
@@ -2332,8 +2332,8 @@ class ImportOrk3 extends Command
 										}
 									}else if(strpos($oldAttendance->note, '-') > -1){
 										$pairing = explode('-', $oldAttendance->note);
-										$fromKingdomOldID = array_search($pairing[0], array_column($kingdoms, 'abbreviation'));
-										$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+										$fromKingdomOldID = array_search($pairing[0], array_column($oldKingdoms, 'abbreviation'));
+										$fromChapters = array_keys(array_column($oldChapters, 'abbreviation'), $pairing[1]);
 										$fromChapterOldID = array_search($fromKingdomOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
@@ -2346,8 +2346,8 @@ class ImportOrk3 extends Command
 										}
 									}else if(strpos($oldAttendance->note, '/') > -1){
 										$pairing = explode('/', $oldAttendance->note);
-										$fromKingdomOldID = array_search($pairing[0], array_column($kingdoms, 'abbreviation'));
-										$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+										$fromKingdomOldID = array_search($pairing[0], array_column($oldKingdoms, 'abbreviation'));
+										$fromChapters = array_keys(array_column($oldChapters, 'abbreviation'), $pairing[1]);
 										$fromChapterOldID = array_search($fromKingdomOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
@@ -2360,8 +2360,8 @@ class ImportOrk3 extends Command
 										}
 									}else if(strpos($oldAttendance->note, ':') > -1){
 										$pairing = explode(':', $oldAttendance->note);
-										$fromKingdomOldID = array_search($pairing[0], array_column($kingdoms, 'abbreviation'));
-										$fromChapters = array_keys(array_column($chapters, 'abbreviation'), $pairing[1]);
+										$fromKingdomOldID = array_search($pairing[0], array_column($oldKingdoms, 'abbreviation'));
+										$fromChapters = array_keys(array_column($oldChapters, 'abbreviation'), $pairing[1]);
 										$fromChapterOldID = array_search($fromKingdomOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
@@ -2373,9 +2373,9 @@ class ImportOrk3 extends Command
 											$fromChapter = $transChapters[$fromChapterOldID];
 										}
 									}else{
-										$fromChapterOldID = array_search($oldAttendance->note, array_column($chapters, 'name')) ? array_search($oldAttendance->note, array_column($chapters, 'name')) : 
+										$fromChapterOldID = array_search($oldAttendance->note, array_column($oldChapters, 'name')) ? array_search($oldAttendance->note, array_column($oldChapters, 'name')) : 
 										(
-												array_search(str_replace('.', '', $oldAttendance->note), array_column($chapters, 'abbreviation')) ? array_search(str_replace('.', '', $oldAttendance->note), array_column($chapters, 'abbreviation')) :
+												array_search(str_replace('.', '', $oldAttendance->note), array_column($oldChapters, 'abbreviation')) ? array_search(str_replace('.', '', $oldAttendance->note), array_column($oldChapters, 'abbreviation')) :
 												null
 										);
 										$fromChapter = null;
@@ -2425,7 +2425,7 @@ class ImportOrk3 extends Command
 								}
 							//get it
 							}else{
-								if(array_key_exists($oldAttendance->mundane_id, $personas)){
+								if(array_key_exists($oldAttendance->mundane_id, $oldPersonas)){
 									while(!array_key_exists($oldAttendance->mundane_id, $transPersonas)){
 										$this->info('waiting for persona ' . $oldAttendance->mundane_id);
 										sleep(5);
@@ -2637,7 +2637,7 @@ class ImportOrk3 extends Command
 								}
 								//check by_whom
 								if($oldAttendance->by_whom_id != 0){
-									if(array_key_exists($oldAttendance->by_whom_id, $personas)){
+									if(array_key_exists($oldAttendance->by_whom_id, $oldPersonas)){
 										while(!array_key_exists($oldAttendance->by_whom_id, $transPersonas)){
 											$this->info('waiting for persona ' . $oldAttendance->by_whom_id);
 											sleep(5);
@@ -2778,50 +2778,52 @@ class ImportOrk3 extends Command
 						if($oldConfiguration->key === 'AccountPointers'){
 							$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
 						}else{
-							//update the kingdom
-							while(!array_key_exists($oldConfiguration->id, $transKingdoms)){
-								$this->info('waiting for kingdom ' . $oldConfiguration->id);
-								sleep(5);
-								$transKingdoms = $this->getTrans('kingdoms');
+							if(array_key_exists($oldChaptertype->kingdom_id, $knownKingdomChaptertypesOffices)){
+								//update the kingdom
+								while(!array_key_exists($oldConfiguration->id, $transKingdoms)){
+									$this->info('waiting for kingdom ' . $oldConfiguration->id);
+									sleep(5);
+									$transKingdoms = $this->getTrans('kingdoms');
+								}
+								$kingdom = Kingdom::where('id', $transKingdoms[$oldConfiguration->id])->first();
+								$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
+								$cleanNoQuotes = str_replace('"', '', $cleanValue);
+								switch($oldConfiguration->key){
+									case 'AtlasColor':
+										$kingdom->color = $cleanNoQuotes;
+										break;
+									case 'AttendanceCreditMinimum':
+										$kingdom->credit_minimum = $cleanNoQuotes;
+										break;
+									case 'AttendanceDailyMinimum':
+										$kingdom->daily_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
+										break;
+									case 'AttendanceWeeklyMinimum':
+										$kingdom->weekly_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
+										break;
+									case 'AveragePeriod':
+										$data = json_decode($cleanValue);
+										$kingdom->average_period_type = $data->Type != '' && $data->Type != '-' ? ucfirst($data->Type) : null;
+										$kingdom->average_period = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
+										break;
+									case 'DuesAmount':
+										$kingdom->dues_amount = $cleanNoQuotes;
+										break;
+									case 'DuesPeriod':
+										$data = json_decode($cleanValue);
+										$kingdom->dues_intervals_type = $data->Type != '' ? ucfirst($data->Type) : null;
+										$kingdom->dues_intervals = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
+										break;
+									case 'KingdomDuesTake':
+										$kingdom->dues_take = $cleanNoQuotes;
+										break;
+									case 'MonthlyCreditMaximum':
+										$kingdom->credit_maximum = $cleanNoQuotes === 'null' || $cleanNoQuotes > 100 ? null : $cleanNoQuotes;
+										break;
+								}
+								$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
+								$kingdom->save();
 							}
-							$kingdom = Kingdom::where('id', $transKingdoms[$oldConfiguration->id])->first();
-							$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
-							$cleanNoQuotes = str_replace('"', '', $cleanValue);
-							switch($oldConfiguration->key){
-								case 'AtlasColor':
-									$kingdom->color = $cleanNoQuotes;
-									break;
-								case 'AttendanceCreditMinimum':
-									$kingdom->credit_minimum = $cleanNoQuotes;
-									break;
-								case 'AttendanceDailyMinimum':
-									$kingdom->daily_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
-									break;
-								case 'AttendanceWeeklyMinimum':
-									$kingdom->weekly_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
-									break;
-								case 'AveragePeriod':
-									$data = json_decode($cleanValue);
-									$kingdom->average_period_type = $data->Type != '' && $data->Type != '-' ? ucfirst($data->Type) : null;
-									$kingdom->average_period = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
-									break;
-								case 'DuesAmount':
-									$kingdom->dues_amount = $cleanNoQuotes;
-									break;
-								case 'DuesPeriod':
-									$data = json_decode($cleanValue);
-									$kingdom->dues_intervals_type = $data->Type != '' ? ucfirst($data->Type) : null;
-									$kingdom->dues_intervals = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
-									break;
-								case 'KingdomDuesTake':
-									$kingdom->dues_take = $cleanNoQuotes;
-									break;
-								case 'MonthlyCreditMaximum':
-									$kingdom->credit_maximum = $cleanNoQuotes === 'null' || $cleanNoQuotes > 100 ? null : $cleanNoQuotes;
-									break;
-							}
-							$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
-							$kingdom->save();
 						}
 						$bar->advance();
 					}
@@ -3192,7 +3194,7 @@ class ImportOrk3 extends Command
 									'titleable_id' => $transUnits[$oldMember->unit_id],
 									'name' => $cleanTitle,
 									'rank' => null,
-									'peerage' => null,
+									'peerage' => 'None',
 									'is_roaming' => 0,
 									'is_active' => 1
 								]);
@@ -3821,10 +3823,15 @@ class ImportOrk3 extends Command
 	
 	private function getAbbreviation($name){
 		$abbreviatedName = [];
+		if(strpos($name, '-') > -1){
+			$namesploded = explode('-', $name);
+			$name = $namesploded[0];
+		}
+		$name = str_replace(' Defunct', '', $name);
 		preg_replace("/\([^)]+\)/", "", $name);
 		$name = trim($name);
 		preg_match_all('/\b\w/u', $name, $abbreviatedName);
-		return implode("", $abbreviatedName[0]);
+		return implode("", substr($abbreviatedName[0], 0, 3));
 	}
 	
 	private function getTrans($array){

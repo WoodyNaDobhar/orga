@@ -367,7 +367,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('archetype_id')->index('archetype_id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->double('credits', 4, 2)->default(1);
+            $table->double('credits', 6, 2)->default(1);
             $table->string('notes')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
