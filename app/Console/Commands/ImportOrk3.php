@@ -1730,7 +1730,7 @@ class ImportOrk3 extends Command
 					$transKingdoms = $this->getTrans('kingdoms');
 					$bar = $this->output->createProgressBar($backupConnect->table('ork_mundane')->count());
 					$bar->start();
-					$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$deadRecords, &$bar, &$transUnits, &$transChapters, &$transKingdoms, &$oldUnits){
+					$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$deadRecords, &$bar, &$transUnits, &$transChapters, &$transKingdoms, &$oldUnits, &$transUnits){
 						foreach($oldUsers as $oldUser) {
 							$pronounId = null;
 							$userId = null;
@@ -1822,7 +1822,7 @@ class ImportOrk3 extends Command
 							$personaName = $this->stripTitles($personaName);
 							
 							//wait for the chapter to exist
-							while(!array_key_exists($oldUser->park_id, $transChapters)){
+							while(!array_key_exists(($oldUser->park_id == 0 ? 317 : $oldUser->park_id), $transChapters)){
 								$this->info('waiting for chapter ' . $oldUser->park_id);
 								sleep(5);
 								$transChapters = $this->getTrans('chapters');
@@ -3797,7 +3797,7 @@ class ImportOrk3 extends Command
 		if($mundaneName){
 			$mundaneName = $this->cleanMundane($mundaneName);
 		}
-		if($personaName === $mundaneName){
+		if($personaName === $mundaneName && $mundane != 'admin'){
 			$personaName = 'Undeclared(' . $personaName . ')';
 		}
 		return !$personaName || $personaName === '' ? 'Undeclared (' . $mundaneName . ')' : $personaName;
