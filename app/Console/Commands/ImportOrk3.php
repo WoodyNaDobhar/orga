@@ -1730,7 +1730,7 @@ class ImportOrk3 extends Command
 					$transKingdoms = $this->getTrans('kingdoms');
 					$bar = $this->output->createProgressBar($backupConnect->table('ork_mundane')->count());
 					$bar->start();
-					$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$deadRecords, &$bar, &$transUnits, &$transChapters, &$transKingdoms, &$oldUnits, &$transUnits){
+					$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$deadRecords, &$bar, &$transUnits, &$transChapters, &$transKingdoms, &$oldUnits){
 						foreach($oldUsers as $oldUser) {
 							$pronounId = null;
 							$userId = null;
@@ -1855,6 +1855,7 @@ class ImportOrk3 extends Command
 							if ($oldUser->company_id > 0) {
 								if (array_key_exists($oldUser->company_id, $oldUnits)) {
 									//wait for the unit to exist
+									$transUnits = $this->getTrans('units');
 									while(!array_key_exists($oldUser->park_id, $transUnits)){
 										$this->info('waiting for park ' . $oldUser->park_id);
 										sleep(5);
