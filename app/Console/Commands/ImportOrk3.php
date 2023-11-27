@@ -1739,7 +1739,7 @@ class ImportOrk3 extends Command
 							if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
 								if(!in_array(strtolower($oldUser->email), $usedEmails)){
 									$userId = DB::table('users')->insertGetId([
-											'email' => strtolower($oldUser->email),
+											'email' => $oldUser->username === 'orkadmin' ? 'admin@ork.amtgard.com' : strtolower($oldUser->email),
 											'email_verified_at' => null,
 											'password' => bin2hex(openssl_random_pseudo_bytes(4)),
 											'remember_token' => null,
@@ -1784,7 +1784,7 @@ class ImportOrk3 extends Command
 										}
 										$user->assignRole('player');
 									}
-									$usedEmails[] = strtolower($oldUser->email);
+									$usedEmails[] = $oldUser->username === 'orkadmin' ? 'admin@ork.amtgard.com' : strtolower($oldUser->email);
 									DB::table('trans')->insert([
 											'array' => 'users',
 											'oldID' => $oldUser->mundane_id,
