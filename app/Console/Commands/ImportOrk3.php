@@ -1725,6 +1725,7 @@ class ImportOrk3 extends Command
 					$transUsers = [];
 					$transPersonas = [];
 					$deadRecords = [];
+					$oldUnits = $backupConnect->table('ork_unit')->get()->toArray();
 					$transUnits = $this->getTrans('units');
 					$transChapters = $this->getTrans('chapters');
 					$transKingdoms = $this->getTrans('kingdoms');
@@ -1855,7 +1856,6 @@ class ImportOrk3 extends Command
 							if ($oldUser->company_id > 0) {
 								if (array_key_exists($oldUser->company_id, $oldUnits)) {
 									//wait for the unit to exist
-									$transUnits = $this->getTrans('units');
 									while(!array_key_exists($oldUser->park_id, $transUnits)){
 										$this->info('waiting for park ' . $oldUser->park_id);
 										sleep(5);
