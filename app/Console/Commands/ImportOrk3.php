@@ -67,7 +67,6 @@ class ImportOrk3 extends Command
 			//setup
 			$backupConnect = DB::connection('mysqlBak');
 			$now = DB::raw('CURRENT_TIMESTAMP');
-			$this->info('Beginning Import...');
 			$deadRecords = [];
 			$kingdomawardsProcessed = [];
 			
@@ -998,6 +997,7 @@ class ImportOrk3 extends Command
 					$bar = $this->output->createProgressBar(count($oldChapters));
 					$bar->start();
 					foreach ($oldChapters as $oldChapter) {
+						$lowestChaptertype = null;
 						//deleted kingdoms
 						if (!array_key_exists($oldChapter->kingdom_id, $oldKingdoms) && !array_key_exists($oldChapter->kingdom_id, $transKingdoms)) {
 							$kingdomId = DB::table('kingdoms')->insertGetId([
@@ -1043,7 +1043,7 @@ class ImportOrk3 extends Command
 						}
 						$chapterID = DB::table('chapters')->insertGetId([
 								'kingdom_id' => $transKingdoms[$oldChapter->kingdom_id],
-								'chaptertype_id' => $oldChapter->parktitle_id == 186 ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
+								'chaptertype_id' => $lowestChaptertype ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
 								'location_id' => $locationID,
 								'name' => trim($oldChapter->name),
 								'abbreviation' => $oldChapter->abbreviation === '' ? $this->getAbbreviation(trim($oldChapter->name)) : $oldChapter->abbreviation,
@@ -1681,11 +1681,11 @@ class ImportOrk3 extends Command
 							$officeableType = $chaptertype != 'Kingdom' ? 'Chaptertype' : 'Kingdom';
 							$officeableID = $officeableType === 'Kingdom' ? $transKingdoms[$kid] : null;
 							if(!$officeableID){
-								$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+								$chaptertypeArray = DB::table('chaptertype')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								while(!$chaptertypeArray){
 									$this->info('waiting for kingdom/chaptertype ' . $kid . '/' . $chaptertype);
 									sleep(5);
-									$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+									$chaptertypeArray = DB::table('chaptertype')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								}
 								$officeableID = $chaptertypeArray->id;
 							}
@@ -2001,11 +2001,6 @@ class ImportOrk3 extends Command
 							$transKingdoms[$oldEvent->kingdom_id] = $kingdomId;
 						}
 						if($oldEvent->mundane_id && $oldEvent->mundane_id != 0){
-							while(!array_key_exists($oldEvent->park_id, $transChapters)){
-								$this->info('waiting for chapter ' . $oldEvent->park_id);
-								sleep(5);
-								$transChapters = $this->getTrans('chapters');
-							}
 							//check old mundanes for existence
 							$mundaneCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldEvent->mundane_id)->first();
 							if($mundaneCheck){
@@ -2017,8 +2012,15 @@ class ImportOrk3 extends Command
 									}
 								}
 							}else{
+								if($oldEvent->park_id != '0'){
+									while(!array_key_exists($oldEvent->park_id, $transChapters)){
+										$this->info('waiting for chapter ' . $oldEvent->park_id);
+										sleep(5);
+										$transChapters = $this->getTrans('chapters');
+									}
+								}
 								$personaId = DB::table('personas')->insertGetId([
-									'chapter_id' => $oldEvent->park_id == 0 ? $burningLands->id : $transChapters[$oldEvent->park_id],
+									'chapter_id' => $oldEvent->park_id == '0' ? $burningLands->id : $transChapters[$oldEvent->park_id],
 									'user_id' => null,
 									'pronoun_id' => null,
 									'mundane' => null,
@@ -2308,11 +2310,11 @@ class ImportOrk3 extends Command
 					$transEvents = $this->getTrans('events');
 					$transEventDetails = $this->getTrans('eventsdetails');
 					$transUsers = $this->getTrans('users');
-					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
+					$bar = $this->output->createProgressBar(count($oldAttendances));
+					$bar->start();
+					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
 						$meetups = null;
 						$meetupId = null;
-						$bar = $this->output->createProgressBar(count($oldAttendances));
-						$bar->start();
 						foreach ($oldAttendances as $oldAttendance) {
 							$locationID = null;
 							//work out archetype stuff
@@ -3249,6 +3251,8 @@ class ImportOrk3 extends Command
 						if($memberCheck){
 							$memberCheck->role = ucfirst($oldMember->role);
 							$memberCheck->is_active = $oldMember->active === 'Active' ? 1 : 0;
+							$memberCheck->is_head = $oldMember->role === 'captain' || $oldMember->role === 'lord' ? 1 : 0;
+							$memberCheck->is_voting = 1;
 							$memberCheck->save();
 						}else{
 							DB::table('members')->insert([
@@ -3396,9 +3400,14 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transPersonas = $this->getTrans('personas');
 						}
+						while(!array_key_exists($oldRecommendation->mundane_id, $transPersonas)){
+							$this->info('waiting for persona ' . $oldRecommendation->mundane_id);
+							sleep(5);
+							$transPersonas = $this->getTrans('personas');
+						}
 						if($isTitle){
-							while(!array_key_exists($oldRecommendation->award_id, $transTitles)){
-								$this->info('waiting for title ' . $oldRecommendation->award_id);
+							while(!array_key_exists($oldRecommendation->award_id, $transTitles) && !array_key_exists($persona->kingdom_id, $transTitles[$oldRecommendation->award_id])){
+								$this->info('waiting for kingdom/title ' . $persona->kingdom_id . '/' . $oldRecommendation->award_id);
 								sleep(5);
 								$transTitles = $this->getTrans('titles');
 							}
@@ -3533,8 +3542,8 @@ class ImportOrk3 extends Command
 							//TODO: this isn't gonna work, since some of them are 0
 						}else if(array_key_exists($oldIssuance->award_id, $oldTitles)){
 							$issuable_type = 'Title';
-							while(!array_key_exists($oldIssuance->award_id, $transTitles[$kingdomaward->kingdom_id])){
-								$this->info('waiting for title ' . $oldIssuance->award_id);
+							while(!array_key_exists($oldIssuance->award_id, $transTitles) && !array_key_exists($kingdomaward->kingdom_id, $transTitles[$oldIssuance->award_id])){
+								$this->info('waiting for kingdom/title ' . $kingdomaward->kingdom_id . '/' . $oldIssuance->award_id);
 								sleep(5);
 								$transTitles = $this->getTrans('titles');
 							}
@@ -3873,6 +3882,11 @@ class ImportOrk3 extends Command
 	}
 	
 	private function getTrans($array){
+		$hasTable = Schema::hasTable('trans');
+		while(!$hasTable){
+			sleep(5);
+			$hasTable = Schema::hasTable('trans');
+		}
 		$array = [];
 		$transJSONs = DB::table('trans')->where('array', $array)->get()->toArray();
 		foreach($transJSONs as $transJSON){
