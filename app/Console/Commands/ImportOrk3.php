@@ -1683,7 +1683,7 @@ class ImportOrk3 extends Command
 							if(!$officeableID){
 								$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								while(!$chaptertypeArray){
-									$this->info('waiting for chaptertype ' . $chaptertype);
+									$this->info('waiting for kingdom/chaptertype ' . $kid . '/' . $chaptertype);
 									sleep(5);
 									$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								}
@@ -1759,27 +1759,27 @@ class ImportOrk3 extends Command
 										->where('mundane_id', $oldUser->mundane_id);
 									})->get()->toArray();
 									if($userId === 1){
-										$roleExists = Role::findByName('admin')->get();
+										$roleExists = Role::findByName('admin')->first();
 										while(!$roleExists){
 											$this->info('waiting for role admin');
 											sleep(5);
-											$roleExists = Role::findByName('admin')->get();
+											$roleExists = Role::findByName('admin')->first();
 										}
 										$user->assignRole('admin');
 									}else if(count($offices) > 0){
-										$roleExists = Role::findByName('officer')->get();
+										$roleExists = Role::findByName('officer')->first();
 										while(!$roleExists){
 											$this->info('waiting for role officer');
 											sleep(5);
-											$roleExists = Role::findByName('officer')->get();
+											$roleExists = Role::findByName('officer')->first();
 										}
 										$user->assignRole('officer');
 									}else{
-										$roleExists = Role::findByName('player')->get();
+										$roleExists = Role::findByName('player')->first();
 										while(!$roleExists){
 											$this->info('waiting for role player');
 											sleep(5);
-											$roleExists = Role::findByName('player')->get();
+											$roleExists = Role::findByName('player')->first();
 										}
 										$user->assignRole('player');
 									}
@@ -2809,6 +2809,10 @@ class ImportOrk3 extends Command
 									$transKingdoms = $this->getTrans('kingdoms');
 								}
 								$kingdom = Kingdom::where('id', $transKingdoms[$oldConfiguration->id])->first();
+								//this shouldn't happen
+								if(!$kingdom){
+									dd($oldConfiguration);
+								}
 								$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
 								$cleanNoQuotes = str_replace('"', '', $cleanValue);
 								switch($oldConfiguration->key){
@@ -3417,6 +3421,7 @@ class ImportOrk3 extends Command
 					//TODO: check negatives...doesn't seem to be doing that right
 					$this->info('Importing Reconciliations...');
 					$transArchetypes = $this->getTrans('archetypes');
+					$transPersonas = $this->getTrans('personas');
 					$oldReconciliations = $backupConnect->table('ork_class_reconciliation')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldReconciliations));
 					$bar->start();
@@ -3431,9 +3436,14 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transArchetypes = $this->getTrans('archetypes');
 						}
+						while(!array_key_exists($oldReconciliation->mundane_id, $transPersonas)){
+							$this->info('waiting for persona ' . $oldReconciliation->mundane_id);
+							sleep(5);
+							$transPersonas = $this->getTrans('personas');
+						}
 						DB::table('reconciliations')->insert([
 								'archetype_id' => $transArchetypes[$oldReconciliation->class_id],
-								'persona_id' => $oldReconciliation->mundane_id,
+								'persona_id' => $transPersonas[$oldReconciliation->mundane_id],
 								'credits' => (int) $oldReconciliation->reconciled > 2000 ? 2000 : (int) $oldReconciliation->reconciled
 						]);
 						$bar->advance();
@@ -3854,7 +3864,7 @@ class ImportOrk3 extends Command
 		preg_replace("/\([^)]+\)/", "", $name);
 		$name = trim($name);
 		preg_match_all('/\b\w/u', $name, $abbreviatedName);
-		return implode("", substr($abbreviatedName[0][0], 0, 3));
+		return substr(implode("", $abbreviatedName[0]), 0, 3);
 	}
 	
 	private function getTrans($array){
