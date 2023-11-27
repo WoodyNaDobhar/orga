@@ -1759,27 +1759,27 @@ class ImportOrk3 extends Command
 										->where('mundane_id', $oldUser->mundane_id);
 									})->get()->toArray();
 									if($userId === 1){
-										$roleExists = Role::findByName('admin')->first();
+										$roleExists = Role::where('name', 'admin')->exists();
 										while(!$roleExists){
 											$this->info('waiting for role admin');
 											sleep(5);
-											$roleExists = Role::findByName('admin')->first();
+											$roleExists = Role::where('name', 'admin')->exists();
 										}
 										$user->assignRole('admin');
 									}else if(count($offices) > 0){
-										$roleExists = Role::findByName('officer')->first();
+										$roleExists = Role::where('name', 'officer')->exists();
 										while(!$roleExists){
 											$this->info('waiting for role officer');
 											sleep(5);
-											$roleExists = Role::findByName('officer')->first();
+											$roleExists = Role::where('name', 'officer')->exists();
 										}
 										$user->assignRole('officer');
 									}else{
-										$roleExists = Role::findByName('player')->first();
+										$roleExists = Role::where('name', 'player')->exists();
 										while(!$roleExists){
 											$this->info('waiting for role player');
 											sleep(5);
-											$roleExists = Role::findByName('player')->first();
+											$roleExists = Role::where('name', 'player')->exists();
 										}
 										$user->assignRole('player');
 									}
