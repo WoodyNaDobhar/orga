@@ -1874,14 +1874,13 @@ class ImportOrk3 extends Command
 								}
 							}
 							
-							while(!array_key_exists($oldUser->kingdom_id, $transKingdoms)){
-								$this->info('waiting for kingdom ' . $oldUser->kingdom_id);
-								sleep(5);
-								$transKingdoms = $this->getTrans('kingdoms');
-							}
-							
 							//suspensions data
 							if($oldUser->suspended > 0){
+								while(!array_key_exists($oldUser->kingdom_id, $transKingdoms)){
+									$this->info('waiting for kingdom ' . $oldUser->kingdom_id);
+									sleep(5);
+									$transKingdoms = $this->getTrans('kingdoms');
+								}
 								if (!$oldUser->suspended_by_id || array_key_exists($oldUser->suspended_by_id, $transPersonas)) {
 									DB::table('suspensions')->insertGetId([
 											'persona_id' => $personaId,
@@ -1905,6 +1904,11 @@ class ImportOrk3 extends Command
 							
 							//waiver data
 							if($oldUser->waivered > 0 && trim($oldUser->given_name) != '' && trim($oldUser->surname) != ''){
+								while(!array_key_exists($oldUser->kingdom_id, $transKingdoms)){
+									$this->info('waiting for kingdom ' . $oldUser->kingdom_id);
+									sleep(5);
+									$transKingdoms = $this->getTrans('kingdoms');
+								}
 								DB::table('waivers')->insertGetId([
 										'pronoun_id' => $pronounId,
 										'persona_id' => $personaId,
