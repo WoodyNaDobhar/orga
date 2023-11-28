@@ -2303,6 +2303,7 @@ class ImportOrk3 extends Command
 					$oldKingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
 					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
+					$transArchetypes = $this->getTrans('archetypes');
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
 					$transPersonas = $this->getTrans('personas');
@@ -2332,6 +2333,11 @@ class ImportOrk3 extends Command
 									$archetypeId = $archetype->id;
 								}
 							}else{
+								while(!array_key_exists($oldAttendance->class_id, $transArchetypes)){
+									$this->info('waiting for archetype ' . $oldAttendance->class_id);
+									sleep(5);
+									$transArchetypes = $this->getTrans('archetypes');
+								}
 								$archetypeId = $transArchetypes[$oldAttendance->class_id];
 							}
 							
@@ -2984,10 +2990,12 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						while(!array_key_exists($oldSplit->account_id, $transAccounts)){
-							$this->info('waiting for account ' . $oldSplit->account_id);
-							sleep(5);
-							$transAccounts = $this->getTrans('accounts');
+						if($oldSplit->account_id != '0'){
+							while(!array_key_exists($oldSplit->account_id, $transAccounts)){
+								$this->info('waiting for account ' . $oldSplit->account_id);
+								sleep(5);
+								$transAccounts = $this->getTrans('accounts');
+							}
 						}
 						while(!array_key_exists($oldSplit->transaction_id, $transTransactions)){
 							$this->info('waiting for transaction ' . $oldSplit->transaction_id);
@@ -3000,7 +3008,7 @@ class ImportOrk3 extends Command
 							$transPersonas = $this->getTrans('personas');
 						}
 						DB::table('splits')->insert([
-								'account_id' => $oldSplit->account_id > 0 ? $transAccounts[$oldSplit->account_id] : null,
+								'account_id' => $oldSplit->account_id != '0' ? $transAccounts[$oldSplit->account_id] : null,
 								'transaction_id' => $transTransactions[$oldSplit->transaction_id],
 								'persona_id' => $transPersonas[$oldSplit->src_mundane_id],
 								'amount' => $oldSplit->amount
@@ -3016,7 +3024,7 @@ class ImportOrk3 extends Command
 					$transUsers = $this->getTrans('transactions');
 					$transKingdoms = $this->getTrans('kingdoms');
 					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
-					$oldTransactions = $backupConnect->table('ork_transactions')->get()->toArray();
+					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$oldDues = $backupConnect->table('ork_dues')->get()->toArray();
 					$oldTransaction = null;
 					$bar = $this->output->createProgressBar(count($oldDues));
