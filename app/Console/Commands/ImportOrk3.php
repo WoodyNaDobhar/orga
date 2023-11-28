@@ -902,19 +902,21 @@ class ImportOrk3 extends Command
 					foreach ($oldChaptertypes as $oldChaptertype) {
 						//deleted kingdoms
 						if (!array_key_exists($oldChaptertype->kingdom_id, $oldKingdoms)) {
-							$kingdomId = DB::table('kingdoms')->insertGetId([
-									'parent_id' => null,
-									'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
-									'abbreviation' => 'DK' . $oldChaptertype->kingdom_id,
-									'heraldry' => null,
-									'is_active' => 0
-							]);
-							DB::table('trans')->insert([
-									'array' => 'kingdoms',
-									'oldID' => $oldChaptertype->kingdom_id,
-									'newID' => $kingdomId
-							]);
-							$transKingdoms[$oldChaptertype->kingdom_id] = $kingdomId;
+							if(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
+								$kingdomId = DB::table('kingdoms')->insertGetId([
+										'parent_id' => null,
+										'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
+										'abbreviation' => 'DK' . $oldChaptertype->kingdom_id,
+										'heraldry' => null,
+										'is_active' => 0
+								]);
+								DB::table('trans')->insert([
+										'array' => 'kingdoms',
+										'oldID' => $oldChaptertype->kingdom_id,
+										'newID' => $kingdomId
+								]);
+								$transKingdoms[$oldChaptertype->kingdom_id] = $kingdomId;
+							}
 						}else{
 							//wait for the kingdom to exist
 							while(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
@@ -926,8 +928,8 @@ class ImportOrk3 extends Command
 						
 						//If it's one of our known kingdoms,
 						if(array_key_exists($oldChaptertype->kingdom_id, $knownKingdomChaptertypesOffices)){
-							//and it's not in the known array (or 'Kingdom', thanks for that DS),
-							if(!array_key_exists($oldChaptertype->title, $knownKingdomChaptertypesOffices[$oldChaptertype->kingdom_id]) || $oldChaptertype->title == "Kingdom"){
+							//and it's not in the known array,
+							if(!array_key_exists($oldChaptertype->title, $knownKingdomChaptertypesOffices[$oldChaptertype->kingdom_id])){
 								//don't add this one.
 								//TODO: check me
 								switch($oldChaptertype->parktitle_id){
@@ -946,7 +948,9 @@ class ImportOrk3 extends Command
 								$bar->advance();
 								continue;
 							}else{
+								echo '  ||before: ' . count($knownKingdomChaptertypesOffices) . ' ';
 								unset($knownKingdomChaptertypesOffices[$oldChaptertype->kingdom_id][$oldChaptertype->title]);
+								echo 'after: '.count($knownKingdomChaptertypesOffices);
 							}
 						}
 						$chaptertypeId = DB::table('chaptertypes')->insertGetId([
@@ -964,7 +968,7 @@ class ImportOrk3 extends Command
 						$transChaptertypes[$oldChaptertype->parktitle_id] = $chaptertypeId;
 						$bar->advance();
 					}
-					
+					echo count($knownKingdomChaptertypesOffices) . ' left!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
 					//now add what's missing
 					foreach($knownKingdomChaptertypesOffices as $kid => $kingdomChaptertypes){
 						//wait for the kingdom to exist
@@ -1681,11 +1685,15 @@ class ImportOrk3 extends Command
 							$officeableType = $chaptertype != 'Kingdom' ? 'Chaptertype' : 'Kingdom';
 							$officeableID = $officeableType === 'Kingdom' ? $transKingdoms[$kid] : null;
 							if(!$officeableID){
-								$chaptertypeArray = DB::table('chaptertypes')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+								$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								while(!$chaptertypeArray){
-									$this->info('waiting for kingdom/chaptertype ' . $kid . '/' . $chaptertype);
+									$this->info('waiting for kingdom/chaptertype (' . $kid . ') ' . $transKingdoms[$kid] . '/' . $chaptertype);
 									sleep(5);
-									$chaptertypeArray = DB::table('chaptertypes')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+									$chaptertypeArray = null;
+									DB::enableQueryLog();
+									$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+									$queryLog = DB::getQueryLog();
+									print_r($queryLog);
 								}
 								$officeableID = $chaptertypeArray->id;
 							}
@@ -2222,6 +2230,7 @@ class ImportOrk3 extends Command
 					break;
 				case 'Meetups':
 					$this->info('Importing Meetups...');
+					$transMeetups = [];
 					$transChapters = $this->getTrans('chapters');
 					$oldMeetups = $backupConnect->table('ork_parkday')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldMeetups));
@@ -2282,7 +2291,7 @@ class ImportOrk3 extends Command
 								}
 							}
 						}else{
-							DB::table('meetups')->insert([
+							$meetupId = DB::table('meetups')->insertGetId([
 									'chapter_id' => $transChapters[$oldMeetup->park_id],
 									'location_id' => $locationID,
 									'alt_location_id' => null,
@@ -2294,6 +2303,12 @@ class ImportOrk3 extends Command
 									'purpose' => $meetupMap[$oldMeetup->purpose],
 									'description' => trim($oldMeetup->description) != '' ? trim($oldMeetup->description) : null
 							]);
+							DB::table('trans')->insert([
+									'array' => 'meetups',
+									'oldID' => $oldMeetup->meetup_id,
+									'newID' => $meetupId
+							]);
+							$transMeetups[$oldMeetup->meetup_id] = $meetupId;
 						}
 						$bar->advance();
 					}
@@ -2311,7 +2326,8 @@ class ImportOrk3 extends Command
 					$transEvents = $this->getTrans('events');
 					$transEventDetails = $this->getTrans('eventsdetails');
 					$transUsers = $this->getTrans('users');
-					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
+					$transMeetups = $this->getTrans('meetups');
+					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$transMeetups, &$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
 						$count = $backupConnect->table('ork_attendance')->count();
 						$bar = $this->output->createProgressBar($count);
 						$bar->start();
@@ -2577,7 +2593,13 @@ class ImportOrk3 extends Command
 																)
 														)
 												);
-										$meetupId = $meetups[$meetupSelected]['id'];
+										$oldMeetupId = $meetups[$meetupSelected]->id;
+										while(!array_key_exists($oldMeetupId, $transMeetups)){
+											$this->info('waiting for meetup ' . $oldMeetupId);
+											sleep(5);
+											$transMeetups = $this->getTrans('meetups');
+										}
+										$meetupId = $transMeetups[$oldMeetupId];
 									}else{
 										//make it
 										$meetupId = DB::table('meetups')->insertGetId([
@@ -3263,7 +3285,6 @@ class ImportOrk3 extends Command
 						//check to see if entry exists already, and if so, update
 						$memberCheck = Member::where('unit_id', $transUnits[$oldMember->unit_id])->where('persona_id', $transPersonas[$oldMember->mundane_id])->first();
 						if($memberCheck){
-							$memberCheck->is_active = $oldMember->active === 'Active' ? 1 : 0;
 							$memberCheck->is_head = $oldMember->role === 'captain' || $oldMember->role === 'lord' ? 1 : 0;
 							$memberCheck->is_voting = 1;
 							$memberCheck->save();
