@@ -2559,7 +2559,7 @@ class ImportOrk3 extends Command
 							}else{
 								if($oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 									//is there a meetup?
-									$meetups = $backupConnect->table('parkdays')->where('park_id', $oldAttendance->park_id)->get()->toArray();
+									$meetups = $backupConnect->table('parkday')->where('park_id', $oldAttendance->park_id)->get()->toArray();
 									if(count($meetups) > 0){
 										//if the day of week for the meetup and the attendance match, this is it
 										$meetupSelected = array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) ? array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) :
@@ -2873,6 +2873,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Transactions...');
 					$transTransactions = [];
 					$transUsers = $this->getTrans('users');
+					$transPersonas = $this->getTrans('personas');
 					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldTransactions));
@@ -3089,7 +3090,7 @@ class ImportOrk3 extends Command
 							if($thisTransaction){
 								$duesFrom = $thisTransaction->date_created;
 							}else{
-								$kingdom = $backupConnect->table('kingdoms')->where('id', $oldDue->kingdom_id)->first();
+								$kingdom = $backupConnect->table('kingdom')->where('id', $oldDue->kingdom_id)->first();
 								$earned = $thisSplit->amount / $kingdom->dues_amount;
 								$duesFrom = date('Y-m-d H:i:s', strtotime('-' . round($earned) . ' months', strtotime($thisSplit->dues_through)));
 							}
@@ -3516,7 +3517,7 @@ class ImportOrk3 extends Command
 						}
 						
 						//get kingdomaward (and thus, the kingdom)
-						$kingdomaward = $backupConnect->table('ork_kingdomawards')->where('id', $oldIssuance->kingdomaward_id)->first();
+						$kingdomaward = $backupConnect->table('ork_kingdomaward')->where('id', $oldIssuance->kingdomaward_id)->first();
 						
 						//get eventcalendardetail?
 						$eventcaldet = null;
