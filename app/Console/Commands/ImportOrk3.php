@@ -901,7 +901,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldChaptertypes as $oldChaptertype) {
 						//deleted kingdoms
-						if (!array_key_exists($oldChaptertype->kingdom_id, $oldKingdoms) && !array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)) {
+						if (!array_key_exists($oldChaptertype->kingdom_id, $oldKingdoms)) {
 							$kingdomId = DB::table('kingdoms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
@@ -915,13 +915,13 @@ class ImportOrk3 extends Command
 									'newID' => $kingdomId
 							]);
 							$transKingdoms[$oldChaptertype->kingdom_id] = $kingdomId;
-						}
-						
-						//wait for the kingdom to exist
-						while(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
-							$this->info('waiting for kingdom ' . $oldChaptertype->kingdom_id);
-							sleep(5);
-							$transKingdoms = $this->getTrans('kingdoms');
+						}else{
+							//wait for the kingdom to exist
+							while(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
+								$this->info('waiting for kingdom ' . $oldChaptertype->kingdom_id);
+								sleep(5);
+								$transKingdoms = $this->getTrans('kingdoms');
+							}
 						}
 						
 						//If it's one of our known kingdoms,
@@ -2559,7 +2559,7 @@ class ImportOrk3 extends Command
 							}else{
 								if($oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 									//is there a meetup?
-									$meetups = $backupConnect->table('parkday')->where('park_id', $oldAttendance->park_id)->get()->toArray();
+									$meetups = $backupConnect->table('ork_parkday')->where('park_id', $oldAttendance->park_id)->get()->toArray();
 									if(count($meetups) > 0){
 										//if the day of week for the meetup and the attendance match, this is it
 										$meetupSelected = array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) ? array_search(date('l', strtotime($oldAttendance->date)), array_column($meetups, 'week_day')) :
@@ -3023,7 +3023,6 @@ class ImportOrk3 extends Command
 					$transPersonas = $this->getTrans('personas');
 					$transTransactions = $this->getTrans('transactions');
 					$transUsers = $this->getTrans('transactions');
-					$transKingdoms = $this->getTrans('kingdoms');
 					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$oldDues = $backupConnect->table('ork_dues')->get()->toArray();
@@ -3054,6 +3053,11 @@ class ImportOrk3 extends Command
 									$this->info('waiting for persona ' . $oldDue->mundane_id);
 									sleep(5);
 									$transPersonas = $this->getTrans('personas');
+								}
+								while(!array_key_exists($oldDue->created_by, $transUsers)){
+									$this->info('waiting for user ' . $oldDue->created_by);
+									sleep(5);
+									$transUsers = $this->getTrans('users');
 								}
 								$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
 								$transactionId = DB::table('transactions')->insertGetId([
@@ -3259,7 +3263,6 @@ class ImportOrk3 extends Command
 						//check to see if entry exists already, and if so, update
 						$memberCheck = Member::where('unit_id', $transUnits[$oldMember->unit_id])->where('persona_id', $transPersonas[$oldMember->mundane_id])->first();
 						if($memberCheck){
-							$memberCheck->role = ucfirst($oldMember->role);
 							$memberCheck->is_active = $oldMember->active === 'Active' ? 1 : 0;
 							$memberCheck->is_head = $oldMember->role === 'captain' || $oldMember->role === 'lord' ? 1 : 0;
 							$memberCheck->is_voting = 1;
@@ -3321,25 +3324,28 @@ class ImportOrk3 extends Command
 									$transChapters = $this->getTrans('chapters');
 								}
 								$chapter = Chapter::where('id', $transChapters[$oldOfficer->park_id])->first();
-								$office = Office::where('officeable_type', 'Chaptertype')->where('officeable_id', $chapter->chaptertype_id)->where('order', 1)->first();
+								$office = Office::where('officeable_type', 'Chaptertype')->where('officeable_id', $chapter->chaptertype_id)->where('order', $order)->first();
 								$officeID = $office->id;
-								if(strpos($chapter->name, '|') > -1){
+								if(strpos($office->name, '|') > -1){
 									//assign custom term by gender (if known) Also, I'm sorry I'm defaulting to male.  I don't feel like I have a choice.  Please forgive me.
 									$officeNames = explode('|', $office->name);
-									if($chapter->chaptertype->rank < 30){
-										if($oldOfficer->kingdom_id == 14){
+// 									if($chapter->chaptertype->rank < 30){
+										//TODO: figure out what this is
+// 										if($oldOfficer->kingdom_id == 14){
+// 											$label = $officeNames[1];
+// 										}else{
+// 											$label = $officeNames[0];
+// 										}
+// 									}else{
+										$persona = Persona::where('id', $transPersonas[$oldOfficer->mundane_id])->first();
+										if($persona->pronoun && $persona->pronoun->subject === 'she'){
 											$label = $officeNames[1];
 										}else{
 											$label = $officeNames[0];
 										}
-									}else{
-										$persona = Persona::where('id', $transPersonas[$oldOfficer->mundane_id])->first();
-										if($persona->pronoun && $persona->pronoun->subject === 'she'){
-											$label = $officeNames[1];
-										}elseif($persona->pronoun && $persona->pronoun->subject === 'he'){
-											$label = $officeNames[0];
-										}
-									}
+// 									}
+								}else{
+									$label = $office->name;
 								}
 							}else{
 								while(!array_key_exists($oldOfficer->kingdom_id, $transKingdoms)){
@@ -3347,14 +3353,24 @@ class ImportOrk3 extends Command
 									sleep(5);
 									$transKingdoms = $this->getTrans('kingdoms');
 								}
-								$kingdom = Kingdom::where('id', $transKingdoms[$oldOfficer->kingdom_id])->first();
-								$office = Office::where('officeable_type', 'Kingdom')->where('officeable_id', $kingdom->kingdom_id)->where('order', 1)->first();
+								$office = Office::where('officeable_type', 'Kingdom')->where('officeable_id', $transKingdoms[$oldOfficer->kingdom_id])->where('order', $order)->first();
+								while(!$office){
+									$this->info('waiting for office');
+									sleep(5);
+									$office = Office::where('officeable_type', 'Kingdom')->where('officeable_id', $transKingdoms[$oldOfficer->kingdom_id])->where('order', $order)->first();
+								}
 								$officeID = $office->id;
-								$persona = Persona::where('id', $transPersonas[$oldOfficer->mundane_id])->first();
-								if($persona->pronoun && $persona->pronoun->subject === 'she'){
-									$label = $officeNames[1];
-								}elseif($persona->pronoun && $persona->pronoun->subject === 'he'){
-									$label = $officeNames[0];
+								if(strpos($office->name, '|') > -1){
+									//assign custom term by gender (if known) Also, I'm sorry I'm defaulting to male.  I don't feel like I have a choice.  Please forgive me.
+									$officeNames = explode('|', $office->name);
+									$persona = Persona::where('id', $transPersonas[$oldOfficer->mundane_id])->first();
+									if($persona->pronoun && $persona->pronoun->subject === 'she'){
+										$label = $officeNames[1];
+									}else{
+										$label = $officeNames[0];
+									}
+								}else{
+									$label = $office->name;
 								}
 							}
 						}else{
@@ -3446,11 +3462,17 @@ class ImportOrk3 extends Command
 					$this->info('Importing Reconciliations...');
 					$transArchetypes = $this->getTrans('archetypes');
 					$transPersonas = $this->getTrans('personas');
+					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$oldReconciliations = $backupConnect->table('ork_class_reconciliation')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldReconciliations));
 					$bar->start();
 					foreach ($oldReconciliations as $oldReconciliation) {
 						if($oldReconciliation->reconciled === 0){
+							$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
+							$bar->advance();
+							continue;
+						}
+						if(!array_key_exists($oldReconciliation->mundane_id, $oldPersonas)){
 							$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
