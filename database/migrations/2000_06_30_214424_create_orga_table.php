@@ -31,6 +31,7 @@ return new class extends Migration
         });
 
         Schema::create('archetypes', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('name', 50);
             $table->boolean('is_active')->default(true);
@@ -43,6 +44,7 @@ return new class extends Migration
         });
 
         Schema::create('attendances', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->unsignedBigInteger('archetype_id')->nullable()->index('archetype_id');
@@ -59,6 +61,7 @@ return new class extends Migration
         });
 
         Schema::create('awards', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->enum('awarder_type', ['Kingdom', 'Chapter', 'Unit']);
             $table->unsignedBigInteger('awarder_id')->nullable()->index('awarder_id');
@@ -73,6 +76,7 @@ return new class extends Migration
         });
         	
        	Schema::create('crats', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
        		$table->bigIncrements('id');
        		$table->unsignedBigInteger('event_id')->index('event_id');
        		$table->unsignedBigInteger('persona_id')->index('persona_id');
@@ -87,6 +91,7 @@ return new class extends Migration
        	});
 
         Schema::create('dues', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->unsignedBigInteger('transaction_id')->index('transaction_id');
@@ -101,6 +106,7 @@ return new class extends Migration
         });
 
         Schema::create('events', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->enum('eventable_type', ['Kingdom', 'Chapter', 'Unit', 'Persona']);
             $table->unsignedBigInteger('eventable_id')->index('eventable_id');
@@ -121,6 +127,7 @@ return new class extends Migration
         });
 
         Schema::create('issuances', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->enum('issuable_type', ['Award', 'Title']);
             $table->unsignedBigInteger('issuable_id')->index('issuable_id');
@@ -148,6 +155,7 @@ return new class extends Migration
         });
 
         Schema::create('kingdoms', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
             $table->string('name', 100);
@@ -174,6 +182,7 @@ return new class extends Migration
         });
 
         Schema::create('locations', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('address')->nullable();
             $table->string('city', 50)->nullable();
@@ -196,6 +205,7 @@ return new class extends Migration
         });
 
         Schema::create('meetups', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('chapter_id')->index('chapter_id');
             $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
@@ -216,6 +226,7 @@ return new class extends Migration
         });
 
         Schema::create('members', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('unit_id')->index('unit_id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
@@ -233,6 +244,7 @@ return new class extends Migration
         });
 
         Schema::create('officers', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
         	$table->bigIncrements('id');
         	$table->enum('officerable_type', ['Reign', 'Unit']);
         	$table->unsignedBigInteger('officerable_id')->index('officerable_id');
@@ -251,6 +263,7 @@ return new class extends Migration
         });
 
         Schema::create('offices', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
         	$table->bigIncrements('id');
         	$table->enum('officeable_type', ['Kingdom', 'Chaptertype', 'Unit']);
         	$table->unsignedBigInteger('officeable_id')->nullable()->index('officeable_id');
@@ -266,6 +279,7 @@ return new class extends Migration
         });
 
         Schema::create('chaptertypes', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
             $table->string('name', 50);
@@ -281,6 +295,7 @@ return new class extends Migration
         });
 
         Schema::create('chapters', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedInteger('kingdom_id')->index('kingdom_id');
             $table->unsignedBigInteger('chaptertype_id')->default(1)->index('chaptertype_id');
@@ -298,6 +313,7 @@ return new class extends Migration
         });
 
         Schema::create('personas', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('chapter_id')->index('chapter_id');
             $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
@@ -319,6 +335,7 @@ return new class extends Migration
         });
 
         Schema::create('pronouns', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('subject', 30);
             $table->string('object', 30);
@@ -334,6 +351,7 @@ return new class extends Migration
         });
 
         Schema::create('recommendations', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('persona_id')->index('mundane_id');
             $table->enum('recommendable_type', ['Award', 'Title']);
@@ -350,6 +368,7 @@ return new class extends Migration
         });
         	
        	Schema::create('reigns', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
        		$table->bigIncrements('id');
        		$table->enum('reignable_type', ['Kingdom', 'Chapter']);
        		$table->unsignedBigInteger('reignable_id')->nullable()->index('reignable_id');
@@ -365,6 +384,7 @@ return new class extends Migration
        	});
 
         Schema::create('reconciliations', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('archetype_id')->index('archetype_id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
@@ -379,6 +399,7 @@ return new class extends Migration
         });
         	
        	Schema::create('socials', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
        		$table->bigIncrements('id');
        		$table->enum('sociable_type', ['Kingdom', 'Chapter', 'Event', 'Unit', 'Persona']);
        		$table->unsignedBigInteger('sociable_id')->nullable()->index('sociable_id');
@@ -393,6 +414,7 @@ return new class extends Migration
        	});
 
         Schema::create('splits', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('account_id')->index('account_id')->nullable();
             $table->unsignedBigInteger('transaction_id')->index('transaction_id');
@@ -407,6 +429,7 @@ return new class extends Migration
         });
 
         Schema::create('suspensions', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
@@ -424,6 +447,7 @@ return new class extends Migration
         });
 
         Schema::create('titles', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
         	$table->bigIncrements('id');
         	$table->enum('titleable_type', ['Kingdom', 'Chapter', 'Unit']);
         	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id');
@@ -441,6 +465,7 @@ return new class extends Migration
         });
 
         Schema::create('tournaments', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->enum('tournamentable_type', ['Kingdom', 'Chapter', 'Event']);
             $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
@@ -456,6 +481,7 @@ return new class extends Migration
         });
 
         Schema::create('transactions', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('description');
             $table->mediumText('memo');
@@ -469,6 +495,7 @@ return new class extends Migration
         });
 
         Schema::create('units', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->enum('type', ['Company', 'Household', 'Event'])->default('Household');
             $table->string('name', 100);
@@ -484,6 +511,7 @@ return new class extends Migration
         });
 
         Schema::create('users', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -499,6 +527,7 @@ return new class extends Migration
         });
 
         Schema::create('waivers', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
             $table->unsignedBigInteger('persona_id')->nullable()->index('persona_id');
