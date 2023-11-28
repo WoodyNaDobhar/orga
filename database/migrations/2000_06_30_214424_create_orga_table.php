@@ -15,6 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('accounts', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
             $table->enum('accountable_type', ['Kingdom', 'Chapter', 'Unit', 'Event']);
