@@ -1681,11 +1681,11 @@ class ImportOrk3 extends Command
 							$officeableType = $chaptertype != 'Kingdom' ? 'Chaptertype' : 'Kingdom';
 							$officeableID = $officeableType === 'Kingdom' ? $transKingdoms[$kid] : null;
 							if(!$officeableID){
-								$chaptertypeArray = DB::table('chaptertype')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+								$chaptertypeArray = DB::table('chaptertypes')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								while(!$chaptertypeArray){
 									$this->info('waiting for kingdom/chaptertype ' . $kid . '/' . $chaptertype);
 									sleep(5);
-									$chaptertypeArray = DB::table('chaptertype')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
+									$chaptertypeArray = DB::table('chaptertypes')->where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
 								}
 								$officeableID = $chaptertypeArray->id;
 							}
@@ -2302,7 +2302,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Attendances...');
 					$oldKingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
-					$oldPersonas = $backupConnect->table('ork_mundane')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
 					$transPersonas = $this->getTrans('personas');
@@ -2310,9 +2310,10 @@ class ImportOrk3 extends Command
 					$transEvents = $this->getTrans('events');
 					$transEventDetails = $this->getTrans('eventsdetails');
 					$transUsers = $this->getTrans('users');
-					$bar = $this->output->createProgressBar(count($oldAttendances));
-					$bar->start();
-					$backupConnect->table('ork_attendance')->orderBy('mundane_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
+					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$transPersonas, &$transEvents, &$transUnits, &$transKingdoms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldKingdoms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
+						$count = $backupConnect->table('ork_attendance')->count();
+						$bar = $this->output->createProgressBar($count);
+						$bar->start();
 						$meetups = null;
 						$meetupId = null;
 						foreach ($oldAttendances as $oldAttendance) {
@@ -2866,7 +2867,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Transactions...');
 					$transTransactions = [];
 					$transUsers = $this->getTrans('users');
-					$oldPersonas = $backupConnect->table('ork_mundane')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldTransactions));
 					$bar->start();
@@ -2960,7 +2961,7 @@ class ImportOrk3 extends Command
 					$transPersonas = $this->getTrans('personas');
 					$oldAccounts = $backupConnect->table('ork_account')->get()->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
-					$oldPersonas = $backupConnect->table('ork_mundane')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$oldSplits = $backupConnect->table('ork_split')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldSplits));
 					$bar->start();
@@ -3014,7 +3015,7 @@ class ImportOrk3 extends Command
 					$transTransactions = $this->getTrans('transactions');
 					$transUsers = $this->getTrans('transactions');
 					$transKingdoms = $this->getTrans('kingdoms');
-					$oldPersonas = $backupConnect->table('ork_mundane')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
 					$oldTransactions = $backupConnect->table('ork_transactions')->get()->toArray();
 					$oldDues = $backupConnect->table('ork_dues')->get()->toArray();
 					$oldTransaction = null;
@@ -3885,7 +3886,7 @@ class ImportOrk3 extends Command
 		$hasTable = Schema::hasTable('trans');
 		while(!$hasTable){
 			sleep(5);
-			$hasTable = Schema::hasTable('trans');
+			Schema::hasTable('trans');
 		}
 		$array = [];
 		$transJSONs = DB::table('trans')->where('array', $array)->get()->toArray();
