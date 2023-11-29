@@ -902,7 +902,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldChaptertypes as $oldChaptertype) {
 						//deleted kingdoms
-						if (!array_key_exists($oldChaptertype->kingdom_id, $oldKingdoms)) {
+						if (!array_search($oldChaptertype->kingdom_id, $oldKingdoms)) {
 							$deadRecords['Chaptertypes'][$oldChaptertype->parktitle_id] = $oldChaptertype;
 							continue;
 // 							if(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
@@ -1004,7 +1004,7 @@ class ImportOrk3 extends Command
 					foreach ($oldChapters as $oldChapter) {
 						$lowestChaptertype = null;
 						//deleted kingdoms
-						if (!array_key_exists($oldChapter->kingdom_id, $oldKingdoms)) {
+						if (!array_search($oldChapter->kingdom_id, $oldKingdoms)) {
 							$kingdomId = DB::table('kingdoms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
@@ -1734,7 +1734,7 @@ class ImportOrk3 extends Command
 					$transUsers = [];
 					$transPersonas = [];
 					$deadRecords = [];
-					$oldUnits = $backupConnect->table('ork_unit')->get()->toArray();
+					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->get()->toArray();
 					$transUnits = $this->getTrans('units');
 					$transChapters = $this->getTrans('chapters');
 					$transKingdoms = $this->getTrans('kingdoms');
@@ -1863,7 +1863,7 @@ class ImportOrk3 extends Command
 							
 							//unit membership data
 							if ($oldUser->company_id > 0) {
-								if (array_key_exists($oldUser->company_id, $oldUnits)) {
+								if (array_search($oldUser->company_id, $oldUnits)) {
 									//wait for the unit to exist
 									while(!array_key_exists($oldUser->park_id, $transUnits)){
 										$this->info('waiting for park ' . $oldUser->park_id);
@@ -2318,7 +2318,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Attendances...');
 					$oldKingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
-					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->get()->toArray();
 					$transArchetypes = $this->getTrans('archetypes');
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
@@ -2479,7 +2479,7 @@ class ImportOrk3 extends Command
 								}
 							//get it
 							}else{
-								if(array_key_exists($oldAttendance->mundane_id, $oldPersonas)){
+								if(array_search($oldAttendance->mundane_id, $oldPersonas)){
 									while(!array_key_exists($oldAttendance->mundane_id, $transPersonas)){
 										$this->info('waiting for persona ' . $oldAttendance->mundane_id);
 										sleep(5);
@@ -2697,7 +2697,7 @@ class ImportOrk3 extends Command
 								}
 								//check by_whom
 								if($oldAttendance->by_whom_id != 0){
-									if(array_key_exists($oldAttendance->by_whom_id, $oldPersonas)){
+									if(array_search($oldAttendance->by_whom_id, $oldPersonas)){
 										while(!array_key_exists($oldAttendance->by_whom_id, $transPersonas)){
 											$this->info('waiting for persona ' . $oldAttendance->by_whom_id);
 											sleep(5);
@@ -2769,7 +2769,7 @@ class ImportOrk3 extends Command
 						break;
 				case 'Tournaments':
 					$this->info('Importing Tournaments...');
-					$oldEventDetails = $backupConnect->table('ork_event_calendardetail')->get()->toArray();
+					$oldEventDetails = $backupConnect->table('ork_event_calendardetail')->pluck('event_calendardetail_id')->get()->toArray();
 					$transEventDetails = $this->getTrans('eventdetails');
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
@@ -2799,7 +2799,7 @@ class ImportOrk3 extends Command
 							$ableid = $transChapters[$oldTournament->park_id];
 						}else{
 							if($oldTournament->event_calendardetail_id > 0){
-								if(!array_key_exists($oldTournament->event_calendardetail_id, $oldEventDetails)){
+								if(!array_search($oldTournament->event_calendardetail_id, $oldEventDetails)){
 									$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
 									$bar->advance();
 									continue;
@@ -2897,13 +2897,13 @@ class ImportOrk3 extends Command
 					$transTransactions = [];
 					$transUsers = $this->getTrans('users');
 					$transPersonas = $this->getTrans('personas');
-					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->get()->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldTransactions));
 					$bar->start();
 					foreach ($oldTransactions as $oldTransaction) {
 						if($oldTransaction->recorded_by != 0){
-							if(array_key_exists($oldTransaction->recorded_by, $oldPersonas)){
+							if(array_search($oldTransaction->recorded_by, $oldPersonas)){
 								while(!array_key_exists($oldTransaction->recorded_by, $transPersonas)){
 									$this->info('waiting for persona ' . $oldTransaction->recorded_by);
 									sleep(5);
@@ -2990,26 +2990,26 @@ class ImportOrk3 extends Command
 					$transTransactions = $this->getTrans('transactions');
 					$transPersonas = $this->getTrans('personas');
 					$oldAccounts = $backupConnect->table('ork_account')->get()->toArray();
-					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
+					$oldTransactions = $backupConnect->table('ork_transaction')->select('transaction_id')->get()->toArray();
 					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
-					$oldSplits = $backupConnect->table('ork_split')->get()->toArray();
+					$oldSplits = $backupConnect->table('ork_split')->select('split_id')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldSplits));
 					$bar->start();
 					foreach ($oldSplits as $oldSplit) {
 						//account was deleted...sigh.  Not sure there's enough of these to justify the time it'd take me to make the script rebuild it, and I'm not sure I even could.  So, without further adeau...
-						if(!array_key_exists($oldSplit->account_id, $oldAccounts)){
+						if(!array_search($oldSplit->account_id, $oldAccounts)){
 							$deadRecords['Splits'][$oldSplit->split_id] = $oldSplit;
 							$bar->advance();
 							continue;
 						}
 						//transaction was deleted
-						if(!array_key_exists($oldSplit->transaction_id, $oldTransactions)){
+						if(!array_search($oldSplit->transaction_id, $oldTransactions)){
 							$deadRecords['Splits'][$oldSplit->split_id] = $oldSplit;
 							$bar->advance();
 							continue;
 						}
 						//persona was deleted
-						if(!array_key_exists($oldSplit->src_mundane_id, $oldPersonas)){
+						if(!array_search($oldSplit->src_mundane_id, $oldPersonas)){
 							$deadRecords['Splits'][$oldSplit->split_id] = $oldSplit;
 							$bar->advance();
 							continue;
@@ -3058,7 +3058,7 @@ class ImportOrk3 extends Command
 						$earned = null;
 						$duesFrom = null;
 						$kingdom = null;
-						if($oldDue->kingdom_id == 0 || !array_key_exists($oldDue->mundane_id, $oldPersonas)){
+						if($oldDue->kingdom_id == 0 || !array_search($oldDue->mundane_id, $oldPersonas)){
 							//looks like these are the victims of related deletions.  So sad.
 							$deadRecords['Dues'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
@@ -3070,7 +3070,7 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}else{
-							if($oldDue->import_transaction_id == 0 || !array_key_exists($oldDue->import_transaction_id, $oldTransactions)){
+							if($oldDue->import_transaction_id == 0 || !array_search($oldDue->import_transaction_id, $oldTransactions)){
 								//make the transaction
 								while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
 									$this->info('waiting for persona ' . $oldDue->mundane_id);
@@ -3128,7 +3128,7 @@ class ImportOrk3 extends Command
 							$duesFrom = date('Y-m-d H:i:s', strtotime($oldDue->dues_from));
 						}
 						//check users
-						if(!array_key_exists($oldDue->created_by, $oldPersonas)){
+						if(!array_search($oldDue->created_by, $oldPersonas)){
 							$userId = DB::table('users')->insertGetId([
 									'email' => 'deletedUser' . $oldDue->created_by . '@nowhere.net',
 									'email_verified_at' => null,
@@ -3163,7 +3163,7 @@ class ImportOrk3 extends Command
 								$transUsers = $this->getTrans('users');
 							}
 						}
-						if($oldDue->revoked_by && !array_key_exists($oldDue->revoked_by, $oldPersonas)){
+						if($oldDue->revoked_by && !array_search($oldDue->revoked_by, $oldPersonas)){
 							$userId = DB::table('users')->insertGetId([
 									'email' => 'deletedUser' . $oldDue->revoked_by . '@nowhere.net',
 									'email_verified_at' => null,
@@ -3514,7 +3514,7 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						if(!array_key_exists($oldReconciliation->mundane_id, $oldPersonas)){
+						if(!array_search($oldReconciliation->mundane_id, $oldPersonas)){
 							$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
@@ -3590,7 +3590,7 @@ class ImportOrk3 extends Command
 						}
 						
 						//awards
-						if (array_key_exists($oldIssuance->kingdomaward_id, $oldKingdomawards)) {
+						if (array_search($oldIssuance->kingdomaward_id, $oldKingdomawards)) {
 							//TODO: check for a custom award?
 							if($oldIssuance->award_id == 94){
 							//tile, office, or award?
@@ -3614,7 +3614,7 @@ class ImportOrk3 extends Command
 							$issuable_id = $transKingdomawards[$oldIssuance->kingdomaward_id];
 							$rank = $oldIssuance->rank != '' ? $oldIssuance->rank : null;
 							//TODO: this isn't gonna work, since some of them are 0
-						}else if(array_key_exists($oldIssuance->award_id, $oldTitles)){
+						}else if(array_search($oldIssuance->award_id, $oldTitles)){
 							$issuable_type = 'Title';
 							while(!array_key_exists($oldIssuance->award_id, $transTitles) && !array_key_exists($kingdomaward->kingdom_id, $transTitles[$oldIssuance->award_id])){
 								$this->info('waiting for kingdom/title ' . $kingdomaward->kingdom_id . '/' . $oldIssuance->award_id);
