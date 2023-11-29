@@ -297,7 +297,7 @@ return new class extends Migration
         Schema::create('chapters', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->unsignedInteger('kingdom_id')->index('kingdom_id');
+            $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
             $table->unsignedBigInteger('chaptertype_id')->default(1)->index('chaptertype_id');
             $table->unsignedBigInteger('location_id')->index('location_id');
             $table->string('name', 100);
@@ -582,7 +582,7 @@ return new class extends Migration
         });
         	
        	Schema::table('crats', function (Blueprint $table) {
-       		$table->foreign(['event_id'], 'crats_persona_id')->references(['id'])->on('events')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+       		$table->foreign(['event_id'], 'crats_event_id')->references(['id'])->on('events')->onUpdate('NO ACTION')->onDelete('NO ACTION');
        		$table->foreign(['persona_id'], 'crats_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
        		$table->foreign(['created_by'], 'crats_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
        		$table->foreign(['deleted_by'], 'crats_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -676,9 +676,9 @@ return new class extends Migration
             $table->foreign(['chapter_id'], 'personas_chapter_id')->references(['id'])->on('chapters')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['user_id'], 'personas_user_id')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['pronoun_id'], 'personas_pronoun_id')->references(['id'])->on('pronouns')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['created_by'], 'users_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['deleted_by'], 'users_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['updated_by'], 'users_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['created_by'], 'personas_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['deleted_by'], 'personas_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['updated_by'], 'personas_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('pronouns', function (Blueprint $table) {
