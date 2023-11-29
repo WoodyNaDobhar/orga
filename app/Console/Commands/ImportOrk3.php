@@ -2599,8 +2599,7 @@ class ImportOrk3 extends Command
 																)
 														)
 												);
-										$oldMeetup = $meetups[$meetupSelected ? $meetupSelected : 0];
-										$oldMeetupId = $oldMeetup->id;
+										$oldMeetupId = $meetups[$meetupSelected ? $meetupSelected : 0]->parkday_id;
 										while(!array_key_exists($oldMeetupId, $transMeetups)){
 											$this->info('waiting for meetup ' . $oldMeetupId);
 											sleep(5);
@@ -3967,11 +3966,15 @@ class ImportOrk3 extends Command
 			sleep(5);
 			Schema::hasTable('trans');
 		}
-		$array = [];
-		$transJSONs = DB::table('trans')->where('array', $array)->get()->toArray();
-		foreach($transJSONs as $transJSON){
-			$array[$transJSON->oldID] = $transJSON->newID;
+		$transDatas = DB::table('trans')->where('array', $array)->get()->toArray();
+		$response = [];
+		foreach($transDatas as $transData){
+			if($transData->oldMID){
+				$response[$transData->oldID][$transData->oldMID] = $transData->newID;
+			}else{
+				$response[$transData->oldID] = $transData->newID;
+			}
 		}
-		return $array;
+		return $response;
 	}
 }
