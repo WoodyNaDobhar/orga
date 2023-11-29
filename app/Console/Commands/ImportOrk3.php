@@ -954,11 +954,6 @@ class ImportOrk3 extends Command
 								unset($knownKingdomChaptertypesOffices[$oldChaptertype->kingdom_id][$oldChaptertype->title]);
 							}
 						}
-						print_r(array(
-								$oldChaptertype->kingdom_id,
-								$transKingdoms[$oldChaptertype->kingdom_id],
-								$transKingdoms,
-						));
 						$chaptertypeId = DB::table('chaptertypes')->insertGetId([
 								'kingdom_id' => $transKingdoms[$oldChaptertype->kingdom_id],
 								'name' => $oldChaptertype->title,
@@ -1009,7 +1004,7 @@ class ImportOrk3 extends Command
 					foreach ($oldChapters as $oldChapter) {
 						$lowestChaptertype = null;
 						//deleted kingdoms
-						if (!array_key_exists($oldChapter->kingdom_id, $oldKingdoms) && !array_key_exists($oldChapter->kingdom_id, $transKingdoms)) {
+						if (!array_key_exists($oldChapter->kingdom_id, $oldKingdoms)) {
 							$kingdomId = DB::table('kingdoms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
@@ -1019,7 +1014,7 @@ class ImportOrk3 extends Command
 							]);
 							DB::table('trans')->insert([
 									'array' => 'kingdoms',
-									'oldID' => $oldKingdom->kingdom_id,
+									'oldID' => $oldChapter->kingdom_id,
 									'newID' => $kingdomId
 							]);
 							$transKingdoms[$oldChapter->kingdom_id] = $kingdomId;
@@ -1044,7 +1039,7 @@ class ImportOrk3 extends Command
 							$transKingdoms = $this->getTrans('kingdoms');
 						}
 						while(!array_key_exists($oldChapter->parktitle_id, $transChaptertypes)){
-							$this->info('waiting for chaptertypes ' . $oldChapter->parktitle_id);
+							$this->info('waiting for chaptertype ' . $oldChapter->parktitle_id);
 							sleep(5);
 							$transChaptertypes = $this->getTrans('chaptertypes');
 						}
