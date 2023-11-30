@@ -1896,8 +1896,8 @@ class ImportOrk3 extends Command
 							if ($oldUser->company_id > 0 && $oldUser->park_id != 0) {
 								if (array_search($oldUser->company_id, $oldUnits)) {
 									//wait for the unit to exist
-									while(!array_key_exists($oldUser->park_id, $transUnits)){
-										$this->info('waiting for park ' . $oldUser->park_id);
+									while(!array_key_exists($oldUser->company_id, $transUnits)){
+										$this->info('waiting for unit ' . $oldUser->company_id);
 										sleep(5);
 										$transUnits = $this->getTrans('units');
 									}
