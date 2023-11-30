@@ -1008,6 +1008,7 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Chapters':
+					//TODO: work out why it's skipping some
 					$this->info('Importing Chapters...');
 					$transChapters = [];
 					$transKingdoms = $this->getTrans('kingdoms');
@@ -1020,7 +1021,7 @@ class ImportOrk3 extends Command
 						$lowestChaptertype = null;
 						//deleted kingdoms
 						if (!in_array($oldChapter->kingdom_id, $oldKingdoms)) {
-							$deadRecords['Chapters'][$oldChapter->chapter_id] = $oldChapter;
+							$deadRecords['Chapters'][$oldChapter->park_id] = $oldChapter;
 							continue;
 // 							$kingdomId = DB::table('kingdoms')->insertGetId([
 // 									'parent_id' => null,
@@ -1055,10 +1056,12 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transKingdoms = $this->getTrans('kingdoms');
 						}
-						while(!array_key_exists($oldChapter->parktitle_id, $transChaptertypes)){
-							$this->info('waiting for chaptertype ' . $oldChapter->parktitle_id);
-							sleep(5);
-							$transChaptertypes = $this->getTrans('chaptertypes');
+						if($oldChapter->parktitle_id != 186){
+							while(!array_key_exists($oldChapter->parktitle_id, $transChaptertypes)){
+								$this->info('waiting for chaptertype ' . $oldChapter->parktitle_id);
+								sleep(5);
+								$transChaptertypes = $this->getTrans('chaptertypes');
+							}
 						}
 						if($oldChapter->parktitle_id == 186){//inactive is being removed
 							$lowestChaptertype = Chaptertype::where('kingdom_id', $transKingdoms[$oldChapter->kingdom_id])->orderBy('rank', 'ASC')->first();
@@ -1751,7 +1754,7 @@ class ImportOrk3 extends Command
 					$transUsers = [];
 					$transPersonas = [];
 					$deadRecords = [];
-					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->get()->toArray();
+					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->toArray();
 					$transUnits = $this->getTrans('units');
 					$transChapters = $this->getTrans('chapters');
 					$transKingdoms = $this->getTrans('kingdoms');
@@ -2337,7 +2340,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Attendances...');
 					$oldKingdoms = $backupConnect->table('ork_kingdom')->get()->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
-					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$transArchetypes = $this->getTrans('archetypes');
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
@@ -2788,7 +2791,7 @@ class ImportOrk3 extends Command
 						break;
 				case 'Tournaments':
 					$this->info('Importing Tournaments...');
-					$oldEventDetails = $backupConnect->table('ork_event_calendardetail')->pluck('event_calendardetail_id')->get()->toArray();
+					$oldEventDetails = $backupConnect->table('ork_event_calendardetail')->pluck('event_calendardetail_id')->toArray();
 					$transEventDetails = $this->getTrans('eventdetails');
 					$transKingdoms = $this->getTrans('kingdoms');
 					$transChapters = $this->getTrans('chapters');
@@ -2904,7 +2907,6 @@ class ImportOrk3 extends Command
 										$kingdom->credit_maximum = $cleanNoQuotes === 'null' || $cleanNoQuotes > 100 ? null : $cleanNoQuotes;
 										break;
 								}
-								$deadRecords['Configurations'][$oldConfiguration->configuration_id] = $oldConfiguration;
 								$kingdom->save();
 							}
 						}
@@ -2916,7 +2918,7 @@ class ImportOrk3 extends Command
 					$transTransactions = [];
 					$transUsers = $this->getTrans('users');
 					$transPersonas = $this->getTrans('personas');
-					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldTransactions));
 					$bar->start();
@@ -3008,10 +3010,10 @@ class ImportOrk3 extends Command
 					$transAccounts = $this->getTrans('accounts');
 					$transTransactions = $this->getTrans('transactions');
 					$transPersonas = $this->getTrans('personas');
-					$oldAccounts = $backupConnect->table('ork_account')->get()->toArray();
-					$oldTransactions = $backupConnect->table('ork_transaction')->select('transaction_id')->get()->toArray();
-					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
-					$oldSplits = $backupConnect->table('ork_split')->select('split_id')->get()->toArray();
+					$oldAccounts = $backupConnect->table('ork_account')->pluck('account_id')->toArray();
+					$oldTransactions = $backupConnect->table('ork_transaction')->pluck('transaction_id')->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
+					$oldSplits = $backupConnect->table('ork_split')->pluck('split_id')->toArray();
 					$bar = $this->output->createProgressBar(count($oldSplits));
 					$bar->start();
 					foreach ($oldSplits as $oldSplit) {
@@ -3065,7 +3067,7 @@ class ImportOrk3 extends Command
 					$transPersonas = $this->getTrans('personas');
 					$transTransactions = $this->getTrans('transactions');
 					$transUsers = $this->getTrans('transactions');
-					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$oldDues = $backupConnect->table('ork_dues')->get()->toArray();
 					$oldTransaction = null;
@@ -3079,13 +3081,13 @@ class ImportOrk3 extends Command
 						$kingdom = null;
 						if($oldDue->kingdom_id == 0 || !in_array($oldDue->mundane_id, $oldPersonas)){
 							//looks like these are the victims of related deletions.  So sad.
-							$deadRecords['Dues'][$oldDue->dues_id] = $oldDue;
+							$deadRecords['Dues']['Related'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
 							continue;
 						}
 						if($oldDue->created_on > date('Y-m-d hh:mm:ss', strtotime('tomorrow'))){
 							//it's just bad data, not much I can do
-							$deadRecords['Dues'][$oldDue->dues_id] = $oldDue;
+							$deadRecords['Dues']['Bad'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
 							continue;
 						}else{
@@ -3523,18 +3525,18 @@ class ImportOrk3 extends Command
 					$this->info('Importing Reconciliations...');
 					$transArchetypes = $this->getTrans('archetypes');
 					$transPersonas = $this->getTrans('personas');
-					$oldPersonas = $backupConnect->table('ork_mundane')->select('mundane_id')->get()->toArray();
+					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$oldReconciliations = $backupConnect->table('ork_class_reconciliation')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldReconciliations));
 					$bar->start();
 					foreach ($oldReconciliations as $oldReconciliation) {
 						if($oldReconciliation->reconciled === 0){
-							$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
+							$deadRecords['Reconciliations'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
 						}
 						if(!in_array($oldReconciliation->mundane_id, $oldPersonas)){
-							$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
+							$deadRecords['Reconciliations'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
 						}
