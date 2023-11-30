@@ -897,7 +897,7 @@ class ImportOrk3 extends Command
 					$chaptertypeId = 0;
 					$oldKingdoms = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
 					$transKingdoms = $this->getTrans('kingdoms');
-					$oldChaptertypes = $backupConnect->table('ork_parktitle')->get()->toArray();
+					$oldChaptertypes = $backupConnect->table('ork_parktitle')->orderBy('parktitle_id')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldChaptertypes) + 43);
 					$bar->start();
 					foreach ($oldChaptertypes as $oldChaptertype) {
@@ -1005,19 +1005,21 @@ class ImportOrk3 extends Command
 						$lowestChaptertype = null;
 						//deleted kingdoms
 						if (!array_search($oldChapter->kingdom_id, $oldKingdoms)) {
-							$kingdomId = DB::table('kingdoms')->insertGetId([
-									'parent_id' => null,
-									'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
-									'abbreviation' => 'DK' . $oldChapter->kingdom_id,
-									'heraldry' => null,
-									'is_active' => 0
-							]);
-							DB::table('trans')->insert([
-									'array' => 'kingdoms',
-									'oldID' => $oldChapter->kingdom_id,
-									'newID' => $kingdomId
-							]);
-							$transKingdoms[$oldChapter->kingdom_id] = $kingdomId;
+							$deadRecords['Chapters'][$oldChapter->chapter_id] = $oldChapter;
+							continue;
+// 							$kingdomId = DB::table('kingdoms')->insertGetId([
+// 									'parent_id' => null,
+// 									'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
+// 									'abbreviation' => 'DK' . $oldChapter->kingdom_id,
+// 									'heraldry' => null,
+// 									'is_active' => 0
+// 							]);
+// 							DB::table('trans')->insert([
+// 									'array' => 'kingdoms',
+// 									'oldID' => $oldChapter->kingdom_id,
+// 									'newID' => $kingdomId
+// 							]);
+// 							$transKingdoms[$oldChapter->kingdom_id] = $kingdomId;
 						}
 						$locationID = DB::table('locations')->insertGetId([
 								'address' => $this->locationClean($oldChapter->address),
@@ -1995,19 +1997,21 @@ class ImportOrk3 extends Command
 							}
 						}
 						if($oldEvent->kingdom_id && $oldEvent->kingdom_id != 0 && !array_key_exists($oldEvent->kingdom_id, $transKingdoms)){
-							$kingdomId = DB::table('kingdoms')->insertGetId([
-									'parent_id' => null,
-									'name' => 'Deleted Kingdom ' . $oldEvent->kingdom_id,
-									'abbreviation' => 'DK' . $oldEvent->kingdom_id,
-									'heraldry' => null,
-									'is_active' => 0
-							]);
-							DB::table('trans')->insert([
-									'array' => 'kingdoms',
-									'oldID' => $oldEvent->kingdom_id,
-									'newID' => $kingdomId
-							]);
-							$transKingdoms[$oldEvent->kingdom_id] = $kingdomId;
+							$deadRecords['Events'][$oldEvent->event_id] = $oldEvent;
+							continue;
+// 							$kingdomId = DB::table('kingdoms')->insertGetId([
+// 									'parent_id' => null,
+// 									'name' => 'Deleted Kingdom ' . $oldEvent->kingdom_id,
+// 									'abbreviation' => 'DK' . $oldEvent->kingdom_id,
+// 									'heraldry' => null,
+// 									'is_active' => 0
+// 							]);
+// 							DB::table('trans')->insert([
+// 									'array' => 'kingdoms',
+// 									'oldID' => $oldEvent->kingdom_id,
+// 									'newID' => $kingdomId
+// 							]);
+// 							$transKingdoms[$oldEvent->kingdom_id] = $kingdomId;
 						}
 						if($oldEvent->mundane_id && $oldEvent->mundane_id != 0){
 							//check old mundanes for existence
