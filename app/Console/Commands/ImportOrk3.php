@@ -1028,17 +1028,17 @@ class ImportOrk3 extends Command
 // 							$deadRecords['Chapters'][$oldChapter->park_id] = $oldChapter;
 // 							continue;
 							$transKingdoms = $this->getTrans('kingdoms');
-							if(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
+							if(!array_key_exists($oldChapter->kingdom_id, $transKingdoms)){
 								$kingdomId = DB::table('kingdoms')->insertGetId([
 										'parent_id' => null,
-										'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
-										'abbreviation' => 'DK' . $oldChaptertype->kingdom_id,
+										'name' => 'Deleted Kingdom ' . $oldChapter->kingdom_id,
+										'abbreviation' => 'DK' . $oldChapter->kingdom_id,
 										'heraldry' => null,
 										'is_active' => 0
 								]);
 								DB::table('trans')->insert([
 										'array' => 'kingdoms',
-										'oldID' => $oldChaptertype->kingdom_id,
+										'oldID' => $oldChapter->kingdom_id,
 										'newID' => $kingdomId
 								]);
 								$transKingdoms = $this->getTrans('kingdoms');
@@ -2029,17 +2029,17 @@ class ImportOrk3 extends Command
 // 							$deadRecords['Events'][$oldEvent->event_id] = $oldEvent;
 // 							continue;
 							$transKingdoms = $this->getTrans('kingdoms');
-							if(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
+							if(!array_key_exists($oldEvent->kingdom_id, $transKingdoms)){
 								$kingdomId = DB::table('kingdoms')->insertGetId([
 										'parent_id' => null,
-										'name' => 'Deleted Kingdom ' . $oldChaptertype->kingdom_id,
-										'abbreviation' => 'DK' . $oldChaptertype->kingdom_id,
+										'name' => 'Deleted Kingdom ' . $oldEvent->kingdom_id,
+										'abbreviation' => 'DK' . $oldEvent->kingdom_id,
 										'heraldry' => null,
 										'is_active' => 0
 								]);
 								DB::table('trans')->insert([
 										'array' => 'kingdoms',
-										'oldID' => $oldChaptertype->kingdom_id,
+										'oldID' => $oldEvent->kingdom_id,
 										'newID' => $kingdomId
 								]);
 								$transKingdoms = $this->getTrans('kingdoms');
@@ -3559,6 +3559,11 @@ class ImportOrk3 extends Command
 							$deadRecords['Reconciliations'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
+						}
+						while(!array_key_exists($oldReconciliation->mundane_id, $transPersonas)){
+							$this->info('waiting for persona ' . $oldReconciliation->mundane_id);
+							sleep(5);
+							$transArchetypes = $this->getTrans('personas');
 						}
 						while(!array_key_exists($oldReconciliation->class_id, $transArchetypes)){
 							$this->info('waiting for archetype ' . $oldReconciliation->class_id);
