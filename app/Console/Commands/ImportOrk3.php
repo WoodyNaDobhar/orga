@@ -902,7 +902,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldChaptertypes as $oldChaptertype) {
 						//deleted kingdoms
-						if (!array_search($oldChaptertype->kingdom_id, $oldKingdoms)) {
+						if (!in_array($oldChaptertype->kingdom_id, $oldKingdoms)) {
 							$deadRecords['Chaptertypes'][$oldChaptertype->parktitle_id] = $oldChaptertype;
 							continue;
 // 							if(!array_key_exists($oldChaptertype->kingdom_id, $transKingdoms)){
@@ -937,12 +937,27 @@ class ImportOrk3 extends Command
 								//TODO: check me
 								switch($oldChaptertype->parktitle_id){
 									case '56':
+										DB::table('trans')->insert([
+											'array' => 'chaptertypes',
+											'oldID' => $oldChaptertype->parktitle_id,
+											'newID' => (int)$chaptertypeId + 1
+										]);
 										$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId + 1;
 										break;
 									case '31':
+										DB::table('trans')->insert([
+											'array' => 'chaptertypes',
+											'oldID' => $oldChaptertype->parktitle_id,
+											'newID' => (int)$chaptertypeId + 1
+										]);
 										$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId + 1;
 										break;
 									case '35':
+										DB::table('trans')->insert([
+											'array' => 'chaptertypes',
+											'oldID' => $oldChaptertype->parktitle_id,
+											'newID' => (int)$chaptertypeId
+										]);
 										$transChaptertypes[$oldChaptertype->parktitle_id] = (int)$chaptertypeId;
 										break;
 									default:
@@ -1004,7 +1019,7 @@ class ImportOrk3 extends Command
 					foreach ($oldChapters as $oldChapter) {
 						$lowestChaptertype = null;
 						//deleted kingdoms
-						if (!array_search($oldChapter->kingdom_id, $oldKingdoms)) {
+						if (!in_array($oldChapter->kingdom_id, $oldKingdoms)) {
 							$deadRecords['Chapters'][$oldChapter->chapter_id] = $oldChapter;
 							continue;
 // 							$kingdomId = DB::table('kingdoms')->insertGetId([
@@ -2803,7 +2818,7 @@ class ImportOrk3 extends Command
 							$ableid = $transChapters[$oldTournament->park_id];
 						}else{
 							if($oldTournament->event_calendardetail_id > 0){
-								if(!array_search($oldTournament->event_calendardetail_id, $oldEventDetails)){
+								if(!in_array($oldTournament->event_calendardetail_id, $oldEventDetails)){
 									$deadRecords['Tournaments'][$oldTournament->tournament_id] = $oldTournament;
 									$bar->advance();
 									continue;
@@ -3001,19 +3016,19 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldSplits as $oldSplit) {
 						//account was deleted...sigh.  Not sure there's enough of these to justify the time it'd take me to make the script rebuild it, and I'm not sure I even could.  So, without further adeau...
-						if(!array_search($oldSplit->account_id, $oldAccounts)){
+						if(!in_array($oldSplit->account_id, $oldAccounts)){
 							$deadRecords['Splits'][$oldSplit->split_id] = $oldSplit;
 							$bar->advance();
 							continue;
 						}
 						//transaction was deleted
-						if(!array_search($oldSplit->transaction_id, $oldTransactions)){
+						if(!in_array($oldSplit->transaction_id, $oldTransactions)){
 							$deadRecords['Splits'][$oldSplit->split_id] = $oldSplit;
 							$bar->advance();
 							continue;
 						}
 						//persona was deleted
-						if(!array_search($oldSplit->src_mundane_id, $oldPersonas)){
+						if(!in_array($oldSplit->src_mundane_id, $oldPersonas)){
 							$deadRecords['Splits'][$oldSplit->split_id] = $oldSplit;
 							$bar->advance();
 							continue;
@@ -3062,7 +3077,7 @@ class ImportOrk3 extends Command
 						$earned = null;
 						$duesFrom = null;
 						$kingdom = null;
-						if($oldDue->kingdom_id == 0 || !array_search($oldDue->mundane_id, $oldPersonas)){
+						if($oldDue->kingdom_id == 0 || !in_array($oldDue->mundane_id, $oldPersonas)){
 							//looks like these are the victims of related deletions.  So sad.
 							$deadRecords['Dues'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
@@ -3074,7 +3089,7 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}else{
-							if($oldDue->import_transaction_id == 0 || !array_search($oldDue->import_transaction_id, $oldTransactions)){
+							if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
 								//make the transaction
 								while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
 									$this->info('waiting for persona ' . $oldDue->mundane_id);
@@ -3132,7 +3147,7 @@ class ImportOrk3 extends Command
 							$duesFrom = date('Y-m-d H:i:s', strtotime($oldDue->dues_from));
 						}
 						//check users
-						if(!array_search($oldDue->created_by, $oldPersonas)){
+						if(!in_array($oldDue->created_by, $oldPersonas)){
 							$userId = DB::table('users')->insertGetId([
 									'email' => 'deletedUser' . $oldDue->created_by . '@nowhere.net',
 									'email_verified_at' => null,
@@ -3167,7 +3182,7 @@ class ImportOrk3 extends Command
 								$transUsers = $this->getTrans('users');
 							}
 						}
-						if($oldDue->revoked_by && !array_search($oldDue->revoked_by, $oldPersonas)){
+						if($oldDue->revoked_by && !in_array($oldDue->revoked_by, $oldPersonas)){
 							$userId = DB::table('users')->insertGetId([
 									'email' => 'deletedUser' . $oldDue->revoked_by . '@nowhere.net',
 									'email_verified_at' => null,
@@ -3518,7 +3533,7 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						if(!array_search($oldReconciliation->mundane_id, $oldPersonas)){
+						if(!in_array($oldReconciliation->mundane_id, $oldPersonas)){
 							$deadRecords['Reconciliations'][$oldReconciliation->reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
