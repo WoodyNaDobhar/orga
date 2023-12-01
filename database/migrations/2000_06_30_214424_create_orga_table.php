@@ -96,7 +96,7 @@ return new class extends Migration
             $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->unsignedBigInteger('transaction_id')->index('transaction_id');
             $table->date('dues_on');
-            $table->integer('intervals')->nullable();
+            $table->double('intervals', 4, 3)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
