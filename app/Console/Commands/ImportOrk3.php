@@ -2059,11 +2059,12 @@ class ImportOrk3 extends Command
 						}
 						if($oldEvent->mundane_id && $oldEvent->mundane_id != 0){
 							//check old mundanes for existence
-							try {
+// 							try {
+								DB::reconnect("mysqlBak");
 								$mundaneCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldEvent->mundane_id)->first();
-							} catch(\Illuminate\Database\QueryException $ex){
-								dd($ex->getMessage());
-							}
+// 							} catch(\Illuminate\Database\QueryException $ex){
+// 								dd($ex->getMessage());
+// 							}
 							if($mundaneCheck){
 								if(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
 									while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
@@ -2268,7 +2269,11 @@ class ImportOrk3 extends Command
 						}
 						//since Kingdom has possible dupes in the trans (combined kingdoms), check for existence
 						if($accountable_type === 'Kingdom'){
-							$foundAccount = Account::where('accountable_type', $accountable_type)->where('accountable_id', $accountable_id)->first();
+							$foundAccount = Account::where('accountable_type', $accountable_type)
+								->where('accountable_id', $accountable_id)
+								->where('name', trim($oldAccount->name))
+								->where('type', $oldAccount->type)
+								->first();
 							if($foundAccount){
 								DB::table('trans')->insert([
 										'array' => 'accounts',
@@ -3566,10 +3571,10 @@ class ImportOrk3 extends Command
 								$transTitles = $this->getTrans('titles');
 							}
 						}else{
-							while(!array_key_exists($kingdomaward->id, $transKingdomawards)){
-								$this->info('waiting for award ' . $kingdomaward->id);
+							while(!array_key_exists($kingdomaward->kingdomaward_id, $transKingdomawards)){
+								$this->info('waiting for award ' . $kingdomaward->kingdomaward_id);
 								sleep(5);
-								$transKingdomawards = $this->getTrans('awards');
+								$transKingdomawards = $this->getTrans('kingdomawards');
 							}
 						}
 						DB::table('recommendations')->insert([
