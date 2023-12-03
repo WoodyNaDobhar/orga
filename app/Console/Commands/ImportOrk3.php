@@ -1199,28 +1199,29 @@ class ImportOrk3 extends Command
 												'newID' => $awardId
 										]);
 										$transGenericAwards[$oldAward->award_id][$kid] = $awardId;
-										//go thru the kingdomawards that use this award, and add them to the trans and processed arrays
-										//TODO: some of those (name = 'Order of the x') have different, deleted award_id's.  Check those guys.
-										$kingdomawards = $backupConnect->table('ork_kingdomaward')->where('name', $oldAward->name)->get()->toArray();
-										foreach($kingdomawards as $kingdomaward){
-											DB::table('trans')->insert([
-													'array' => 'kingdomawards',
-													'oldID' => $kingdomaward->kingdomaward_id,
-													'newID' => $awardId
-											]);
-											$transKingdomawards[$kingdomaward->kingdomaward_id] = $awardId;
-											DB::table('trans')->insert([
-													'array' => 'kingdomawardsprocessed',
-													'oldID' => $kingdomaward->kingdomaward_id,
-													'newID' => $awardId
-											]);
-											$kingdomawardsProcessed[(int)$kingdomaward->kingdomaward_id] = $awardId;
-										}
 									}
 								}
 							}
 							$bar->advance();
 							continue;
+						}else{
+							//go thru the kingdomawards that use this award, and add them to the trans and processed arrays
+							//TODO: some of those (name = 'Order of the x') have different, deleted award_id's.  Check those guys.
+							$kingdomawards = $backupConnect->table('ork_kingdomaward')->where('name', $nameClean)->get()->toArray();
+							foreach($kingdomawards as $kingdomaward){
+								DB::table('trans')->insert([
+										'array' => 'kingdomawards',
+										'oldID' => $kingdomaward->kingdomaward_id,
+										'newID' => $awardId
+								]);
+								$transKingdomawards[$kingdomaward->kingdomaward_id] = $awardId;
+								DB::table('trans')->insert([
+										'array' => 'kingdomawardsprocessed',
+										'oldID' => $kingdomaward->kingdomaward_id,
+										'newID' => $awardId
+								]);
+								$kingdomawardsProcessed[(int)$kingdomaward->kingdomaward_id] = $awardId;
+							}
 						}
 						$awardId = DB::table('awards')->insertGetId([
 								'awarder_type' => 'Kingdom',
@@ -1899,7 +1900,7 @@ class ImportOrk3 extends Command
 							
 							//persona data
 							$personaId = DB::table('personas')->insertGetId([
-									'chapter_id' => $oldUser->park_id == 0 ? $burningLands->park_id : $transChapters[$oldUser->park_id],
+									'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
 									'user_id' => $userId,
 									'pronoun_id' => $pronounId,
 									'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
@@ -2547,7 +2548,7 @@ class ImportOrk3 extends Command
 									}
 									if(!$personaID){
 										$personaID = DB::table('personas')->insertGetId([
-												'chapter_id' => $fromChapter['id'],
+												'chapter_id' => $fromChapter,
 												'user_id' => null,
 												'pronoun_id' => null,
 												'mundane' => null,
@@ -3162,47 +3163,47 @@ class ImportOrk3 extends Command
 							$deadRecords['Dues']['Bad'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
 							continue;
-						}else{
-							if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
-								//make the transaction
-								while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
-									$this->info('waiting for persona ' . $oldDue->mundane_id);
-									sleep(5);
-									$transPersonas = $this->getTrans('personas');
-								}
-								//check to see if it'll ever exist
-								$createdBy = $transUsers[$oldDue->created_by];
-								$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $createdBy)->first();
-								if(!$mundane || $mundane->email === ''){
-									$createdBy = null;
-								}else{
-									while(!array_key_exists($mundane->mundane_id, $transUsers)){
-										$this->info('waiting for user ' . $oldDue->created_by);
-										sleep(5);
-										$transUsers = $this->getTrans('users');
-									}
-								}
-								$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
-								$transactionId = DB::table('transactions')->insertGetId([
-										'description' => 'Dues Paid for ' . $persona->mundane,
-										'memo' => 'Dues Paid for ' . $persona->mundane,
-										'transaction_at' => $oldDue->created_on,
-										'created_by' => $createdBy,
-										'created_at' => $oldDue->created_on
-								]);
-								DB::table('trans')->insert([
-										'array' => 'transactions',
-										'oldID' => $oldDue->import_transaction_id,
-										'newID' => $transactionId
-								]);
-							}else{
-								while(!array_key_exists($oldDue->import_transaction_id, $transTransactions)){
-									$this->info('waiting for transaction ' . $oldDue->import_transaction_id);
-									sleep(5);
-									$transTransactions = $this->getTrans('transactions');
-								}
-								$transactionId = $transTransactions[$oldDue->import_transaction_id];
+						}
+						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
+							while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
+								$this->info('waiting for persona ' . $oldDue->mundane_id);
+								sleep(5);
+								$transPersonas = $this->getTrans('personas');
 							}
+							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
+
+							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
+							if(!$mundane || $mundane->email === ''){
+								$createdBy = null;
+							}else{
+								while(!array_key_exists($mundane->mundane_id, $transUsers)){
+									$this->info('waiting for user ' . $oldDue->created_by);
+									sleep(5);
+									$transUsers = $this->getTrans('users');
+								}
+								$createdBy = $transUsers[$oldDue->created_by];
+							}
+							
+							
+							$transactionId = DB::table('transactions')->insertGetId([
+									'description' => 'Dues Paid for ' . $persona->mundane,
+									'memo' => 'Dues Paid for ' . $persona->mundane,
+									'transaction_at' => $oldDue->created_on,
+									'created_by' => $createdBy,
+									'created_at' => $oldDue->created_on
+							]);
+							DB::table('trans')->insert([
+									'array' => 'transactions',
+									'oldID' => $oldDue->import_transaction_id,
+									'newID' => $transactionId
+							]);
+						}else{
+							while(!array_key_exists($oldDue->import_transaction_id, $transTransactions)){
+								$this->info('waiting for transaction ' . $oldDue->import_transaction_id);
+								sleep(5);
+								$transTransactions = $this->getTrans('transactions');
+							}
+							$transactionId = $transTransactions[$oldDue->import_transaction_id];
 						}
 						//if the dues_from is before 1998-07-01, we need to figure out what it REALLY is, with the floor set at Feb 01, 1983 (Our birth month)
 						if(strtotime($oldDue->dues_from) < strtotime('1998-07-01')){
@@ -3495,6 +3496,11 @@ class ImportOrk3 extends Command
 								}
 								$chapter = Chapter::where('id', $transChapters[$oldOfficer->park_id])->first();
 								$office = Office::where('officeable_type', 'Chaptertype')->where('officeable_id', $chapter->chaptertype_id)->where('order', $order)->first();
+								while(!$office){
+									$this->info('waiting for office for chaptertype/order ' . $chapter->chaptertype_id . '/' . $order);
+									sleep(5);
+									$office = Office::where('officeable_type', 'Chaptertype')->where('officeable_id', $chapter->chaptertype_id)->where('order', $order)->first();
+								}
 								$officeID = $office->id;
 								if(strpos($office->name, '|') > -1){
 									//assign custom term by gender (if known) Also, I'm sorry I'm defaulting to male.  I don't feel like I have a choice.  Please forgive me.
@@ -3719,7 +3725,7 @@ class ImportOrk3 extends Command
 							
 							//get kingdomaward (and thus, the kingdom)
 							DB::reconnect("mysqlBak");
-							$kingdomaward = $backupConnect->table('ork_kingdomaward')->where('id', $oldIssuance->kingdomaward_id)->first();
+							$kingdomaward = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldIssuance->kingdomaward_id)->first();
 							
 							//get eventcalendardetail?
 							$eventcaldet = null;
