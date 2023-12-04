@@ -77,9 +77,9 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
-    public function kingdom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Kingdom::class, 'kingdom_id');
+        return $this->belongsTo(\App\Models\Realm::class, 'kingdom_id');
     }
 
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo

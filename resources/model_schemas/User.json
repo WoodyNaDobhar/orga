@@ -229,15 +229,15 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Kingdom,created_by"
+        "relation": "1tm,Realm,created_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Kingdom,deleted_by"
+        "relation": "1tm,Realm,deleted_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Kingdom,updated_by"
+        "relation": "1tm,Realm,updated_by"
     },
     {
         "type": "relation",

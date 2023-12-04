@@ -4,9 +4,9 @@
     <p>{{ $suspension->persona_id }}</p>
 </div>
 
-<!-- Kingdom Id Field -->
+<!-- Realm Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('kingdom_id', 'Kingdom Id:') !!}
+    {!! Form::label('kingdom_id', 'Realm Id:') !!}
     <p>{{ $suspension->kingdom_id }}</p>
 </div>
 

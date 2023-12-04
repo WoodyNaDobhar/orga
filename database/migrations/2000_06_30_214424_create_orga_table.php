@@ -18,7 +18,7 @@ return new class extends Migration
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
-            $table->enum('accountable_type', ['Kingdom', 'Chapter', 'Unit', 'Event']);
+            $table->enum('accountable_type', ['Realm', 'Chapter', 'Unit', 'Event']);
             $table->unsignedInteger('accountable_id')->index('accountable_id');
             $table->string('name', 50);
             $table->enum('type', ['Imbalance', 'Income', 'Expense', 'Asset', 'Liability', 'Equity']);
@@ -63,7 +63,7 @@ return new class extends Migration
         Schema::create('awards', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->enum('awarder_type', ['Kingdom', 'Chapter', 'Unit']);
+            $table->enum('awarder_type', ['Realm', 'Chapter', 'Unit']);
             $table->unsignedBigInteger('awarder_id')->nullable()->index('awarder_id');
             $table->string('name', 100);
             $table->boolean('is_ladder')->default(false);
@@ -108,7 +108,7 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->enum('eventable_type', ['Kingdom', 'Chapter', 'Unit', 'Persona']);
+            $table->enum('eventable_type', ['Realm', 'Chapter', 'Unit', 'Persona']);
             $table->unsignedBigInteger('eventable_id')->index('eventable_id');
             $table->unsignedBigInteger('location_id')->nullable()->index('at_chapter_id');
             $table->string('name');
@@ -133,7 +133,7 @@ return new class extends Migration
             $table->unsignedBigInteger('issuable_id')->index('issuable_id');
             $table->enum('whereable_type', ['Event','Meetup','Location'])->nullable();
             $table->unsignedBigInteger('whereable_id')->index('whereable_id')->nullable();
-            $table->enum('authority_type', ['Chapter', 'Kingdom', 'Unit', 'Persona']);
+            $table->enum('authority_type', ['Chapter', 'Realm', 'Unit', 'Persona']);
             $table->unsignedBigInteger('authority_id')->index('authority_id');
             $table->enum('recipient_type', ['Persona', 'Unit']);
             $table->unsignedBigInteger('recipient_id')->index('recipient_id');
@@ -154,7 +154,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('kingdoms', function (Blueprint $table) {
+        Schema::create('realms', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
@@ -265,7 +265,7 @@ return new class extends Migration
         Schema::create('offices', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
         	$table->bigIncrements('id');
-        	$table->enum('officeable_type', ['Kingdom', 'Chaptertype', 'Unit']);
+        	$table->enum('officeable_type', ['Realm', 'Chaptertype', 'Unit']);
         	$table->unsignedBigInteger('officeable_id')->nullable()->index('officeable_id');
         	$table->string('name', 100);
         	$table->integer('duration')->nullable()->default(6);
@@ -281,7 +281,7 @@ return new class extends Migration
         Schema::create('chaptertypes', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
+            $table->unsignedBigInteger('realm_id')->index('realm_id');
             $table->string('name', 50);
             $table->integer('rank')->nullable();
             $table->integer('minimumattendance')->default(5);
@@ -297,7 +297,7 @@ return new class extends Migration
         Schema::create('chapters', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
+            $table->unsignedBigInteger('realm_id')->index('realm_id');
             $table->unsignedBigInteger('chaptertype_id')->default(1)->index('chaptertype_id');
             $table->unsignedBigInteger('location_id')->index('location_id');
             $table->string('name', 100);
@@ -370,7 +370,7 @@ return new class extends Migration
        	Schema::create('reigns', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
        		$table->bigIncrements('id');
-       		$table->enum('reignable_type', ['Kingdom', 'Chapter']);
+       		$table->enum('reignable_type', ['Realm', 'Chapter']);
        		$table->unsignedBigInteger('reignable_id')->nullable()->index('reignable_id');
        		$table->string('name', 100)->nullable();
        		$table->date('starts_on');
@@ -401,7 +401,7 @@ return new class extends Migration
        	Schema::create('socials', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
        		$table->bigIncrements('id');
-       		$table->enum('sociable_type', ['Kingdom', 'Chapter', 'Event', 'Unit', 'Persona']);
+       		$table->enum('sociable_type', ['Realm', 'Chapter', 'Event', 'Unit', 'Persona']);
        		$table->unsignedBigInteger('sociable_id')->nullable()->index('sociable_id');
        		$table->enum('media', ['Web', 'Facebook', 'Discord', 'Instagram', 'YouTube', 'TicToc']);
        		$table->string('value', 255);
@@ -432,7 +432,7 @@ return new class extends Migration
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->unsignedBigInteger('kingdom_id')->index('kingdom_id');
+            $table->unsignedBigInteger('realm_id')->index('realm_id');
             $table->unsignedBigInteger('suspended_by')->index('suspended_by');
             $table->date('suspended_at')->nullable();
             $table->date('expires_at')->nullable();
@@ -449,7 +449,7 @@ return new class extends Migration
         Schema::create('titles', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
         	$table->bigIncrements('id');
-        	$table->enum('titleable_type', ['Kingdom', 'Chapter', 'Unit']);
+        	$table->enum('titleable_type', ['Realm', 'Chapter', 'Unit']);
         	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id');
             $table->string('name', 100);
             $table->unsignedSmallInteger('rank')->nullable();
@@ -467,7 +467,7 @@ return new class extends Migration
         Schema::create('tournaments', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->enum('tournamentable_type', ['Kingdom', 'Chapter', 'Event']);
+            $table->enum('tournamentable_type', ['Realm', 'Chapter', 'Event']);
             $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
             $table->string('name', 50);
             $table->mediumText('description');
@@ -531,7 +531,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
             $table->unsignedBigInteger('persona_id')->nullable()->index('persona_id');
-            $table->enum('waiverable_type', ['Kingdom', 'Event']);
+            $table->enum('waiverable_type', ['Realm', 'Event']);
             $table->unsignedBigInteger('waiverable_id')->index('waiverable_id');
             $table->string('file')->nullable();
             $table->string('player', 150);
@@ -612,11 +612,11 @@ return new class extends Migration
             $table->foreign(['updated_by'], 'issuances_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
-        Schema::table('kingdoms', function (Blueprint $table) {
-            $table->foreign(['created_by'], 'kingdoms_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['deleted_by'], 'kingdoms_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['parent_id'], 'kingdoms_parent_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['updated_by'], 'kingdoms_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::table('realms', function (Blueprint $table) {
+            $table->foreign(['created_by'], 'realms_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['deleted_by'], 'realms_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['parent_id'], 'realms_parent_id')->references(['id'])->on('realms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['updated_by'], 'realms_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('locations', function (Blueprint $table) {
@@ -659,7 +659,7 @@ return new class extends Migration
         Schema::table('chaptertypes', function (Blueprint $table) {
             $table->foreign(['created_by'], 'chaptertypes_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'chaptertypes_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['kingdom_id'], 'chaptertypes_kingdom_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['realm_id'], 'chaptertypes_realm_id')->references(['id'])->on('realms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'chaptertypes_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
@@ -667,7 +667,7 @@ return new class extends Migration
             $table->foreign(['created_by'], 'chapters_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'chapters_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'chapters_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['kingdom_id'], 'chapters_kingdom_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['realm_id'], 'chapters_realm_id')->references(['id'])->on('realms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['chaptertype_id'], 'chapters_chaptertype_id')->references(['id'])->on('chaptertypes')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['location_id'], 'chapters_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
@@ -729,7 +729,7 @@ return new class extends Migration
             $table->foreign(['suspended_by'], 'suspensions_suspended_by')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'suspensions_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['persona_id'], 'suspensions_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['kingdom_id'], 'suspensions_kingdom_id')->references(['id'])->on('kingdoms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['realm_id'], 'suspensions_realm_id')->references(['id'])->on('realms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 
         Schema::table('titles', function (Blueprint $table) {
@@ -826,7 +826,7 @@ return new class extends Migration
             $table->dropForeign('suspensions_deleted_by');
             $table->dropForeign('suspensions_suspended_by');
             $table->dropForeign('suspensions_updated_by');
-            $table->dropForeign('suspensions_kingdom_id');
+            $table->dropForeign('suspensions_realm_id');
             $table->dropForeign('suspensions_persona_id');
         });
 
@@ -885,7 +885,7 @@ return new class extends Migration
             $table->dropForeign('chapters_created_by');
             $table->dropForeign('chapters_deleted_by');
             $table->dropForeign('chapters_updated_by');
-            $table->dropForeign('chapters_kingdom_id');
+            $table->dropForeign('chapters_realm_id');
             $table->dropForeign('chapters_chaptertype_id');
             $table->dropForeign('chapters_location_id');
         });
@@ -893,7 +893,7 @@ return new class extends Migration
         Schema::table('chaptertypes', function (Blueprint $table) {
             $table->dropForeign('chaptertypes_created_by');
             $table->dropForeign('chaptertypes_deleted_by');
-            $table->dropForeign('chaptertypes_kingdom_id');
+            $table->dropForeign('chaptertypes_realm_id');
             $table->dropForeign('chaptertypes_updated_by');
         });
 
@@ -934,11 +934,11 @@ return new class extends Migration
             $table->dropForeign('locations_updated_by');
         });
 
-        Schema::table('kingdoms', function (Blueprint $table) {
-            $table->dropForeign('kingdoms_created_by');
-            $table->dropForeign('kingdoms_deleted_by');
-            $table->dropForeign('kingdoms_parent_id');
-            $table->dropForeign('kingdoms_updated_by');
+        Schema::table('realms', function (Blueprint $table) {
+            $table->dropForeign('realms_created_by');
+            $table->dropForeign('realms_deleted_by');
+            $table->dropForeign('realms_parent_id');
+            $table->dropForeign('realms_updated_by');
         });
 
         Schema::table('issuances', function (Blueprint $table) {
@@ -1041,7 +1041,7 @@ return new class extends Migration
 
         Schema::dropIfExists('locations');
 
-        Schema::dropIfExists('kingdoms');
+        Schema::dropIfExists('realms');
 
         Schema::dropIfExists('issuances');
 

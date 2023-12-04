@@ -20,7 +20,7 @@ class KingdomController extends AppBaseController
     }
 
     /**
-     * Display a listing of the Kingdom.
+     * Display a listing of the Realm.
      */
     public function index(Request $request)
     {
@@ -28,7 +28,7 @@ class KingdomController extends AppBaseController
     }
 
     /**
-     * Show the form for creating a new Kingdom.
+     * Show the form for creating a new Realm.
      */
     public function create()
     {
@@ -36,89 +36,89 @@ class KingdomController extends AppBaseController
     }
 
     /**
-     * Store a newly created Kingdom in storage.
+     * Store a newly created Realm in storage.
      */
     public function store(CreateKingdomRequest $request)
     {
         $input = $request->all();
 
-        $kingdom = $this->kingdomRepository->create($input);
+        $realm = $this->kingdomRepository->create($input);
 
-        Flash::success('Kingdom saved successfully.');
+        Flash::success('Realm saved successfully.');
 
         return redirect(route('kingdoms.index'));
     }
 
     /**
-     * Display the specified Kingdom.
+     * Display the specified Realm.
      */
     public function show($id)
     {
-        $kingdom = $this->kingdomRepository->find($id);
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            Flash::error('Kingdom not found');
+        if (empty($realm)) {
+            Flash::error('Realm not found');
 
             return redirect(route('kingdoms.index'));
         }
 
-        return view('kingdoms.show')->with('kingdom', $kingdom);
+        return view('kingdoms.show')->with('realm', $realm);
     }
 
     /**
-     * Show the form for editing the specified Kingdom.
+     * Show the form for editing the specified Realm.
      */
     public function edit($id)
     {
-        $kingdom = $this->kingdomRepository->find($id);
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            Flash::error('Kingdom not found');
+        if (empty($realm)) {
+            Flash::error('Realm not found');
 
             return redirect(route('kingdoms.index'));
         }
 
-        return view('kingdoms.edit')->with('kingdom', $kingdom);
+        return view('kingdoms.edit')->with('realm', $realm);
     }
 
     /**
-     * Update the specified Kingdom in storage.
+     * Update the specified Realm in storage.
      */
     public function update($id, UpdateKingdomRequest $request)
     {
-        $kingdom = $this->kingdomRepository->find($id);
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            Flash::error('Kingdom not found');
+        if (empty($realm)) {
+            Flash::error('Realm not found');
 
             return redirect(route('kingdoms.index'));
         }
 
-        $kingdom = $this->kingdomRepository->update($request->all(), $id);
+        $realm = $this->kingdomRepository->update($request->all(), $id);
 
-        Flash::success('Kingdom updated successfully.');
+        Flash::success('Realm updated successfully.');
 
         return redirect(route('kingdoms.index'));
     }
 
     /**
-     * Remove the specified Kingdom from storage.
+     * Remove the specified Realm from storage.
      *
      * @throws \Exception
      */
     public function destroy($id)
     {
-        $kingdom = $this->kingdomRepository->find($id);
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            Flash::error('Kingdom not found');
+        if (empty($realm)) {
+            Flash::error('Realm not found');
 
             return redirect(route('kingdoms.index'));
         }
 
         $this->kingdomRepository->delete($id);
 
-        Flash::success('Kingdom deleted successfully.');
+        Flash::success('Realm deleted successfully.');
 
         return redirect(route('kingdoms.index'));
     }

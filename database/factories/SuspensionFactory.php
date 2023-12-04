@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Suspension;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Kingdom;
+use App\Models\Realm;
 use App\Models\Persona;
 use App\Models\User;
 

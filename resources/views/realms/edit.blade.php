@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                        Edit Kingdom
+                        Edit Realm
                     </h1>
                 </div>
             </div>
@@ -19,7 +19,7 @@
 
         <div class="card">
 
-            {!! Form::model($kingdom, ['route' => ['kingdoms.update', $kingdom->id], 'method' => 'patch']) !!}
+            {!! Form::model($realm, ['route' => ['kingdoms.update', $realm->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Kingdom;
+use App\Models\Realm;
 use App\Repositories\BaseRepository;
 
 class KingdomRepository extends BaseRepository
@@ -33,6 +33,6 @@ class KingdomRepository extends BaseRepository
 
     public function model(): string
     {
-        return Kingdom::class;
+        return Realm::class;
     }
 }

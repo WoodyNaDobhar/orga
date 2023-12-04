@@ -5,18 +5,18 @@ namespace App\Http\Livewire;
 use Laracasts\Flash\Flash;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Kingdom;
+use App\Models\Realm;
 
 class KingdomsTable extends DataTableComponent
 {
-    protected $model = Kingdom::class;
+    protected $model = Realm::class;
 
     protected $listeners = ['deleteRecord' => 'deleteRecord'];
 
     public function deleteRecord($id)
     {
-        Kingdom::find($id)->delete();
-        Flash::success('Kingdom deleted successfully.');
+        Realm::find($id)->delete();
+        Flash::success('Realm deleted successfully.');
         $this->emit('refreshDatatable');
     }
 

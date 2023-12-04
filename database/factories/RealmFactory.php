@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Kingdom;
+use App\Models\Realm;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\User;
@@ -14,7 +14,7 @@ class KingdomFactory extends Factory
      *
      * @var string
      */
-    protected $model = Kingdom::class;
+    protected $model = Realm::class;
 
     /**
      * Define the model's default state.

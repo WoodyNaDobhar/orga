@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Chaptertype;
 use App\Models\User;
-use App\Models\Kingdom;
+use App\Models\Realm;
 use App\Models\Location;
 
 class ChapterFactory extends Factory

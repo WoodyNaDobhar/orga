@@ -365,17 +365,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function kingdomsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Kingdom::class, 'created_by');
+        return $this->hasMany(\App\Models\Realm::class, 'created_by');
     }
 
     public function kingdomsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Kingdom::class, 'deleted_by');
+        return $this->hasMany(\App\Models\Realm::class, 'deleted_by');
     }
 
     public function kingdomsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Kingdom::class, 'updated_by');
+        return $this->hasMany(\App\Models\Realm::class, 'updated_by');
     }
 
     public function locationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany

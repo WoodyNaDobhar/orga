@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use App\Models\Kingdom;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Realm;
+use InfyOm\Generator\Request\APIRequest;
 
-class UpdateKingdomRequest extends FormRequest
+class CreateKingdomAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,6 @@ class UpdateKingdomRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Kingdom::$rules;
-        
-        return $rules;
+        return Realm::$rules;
     }
 }

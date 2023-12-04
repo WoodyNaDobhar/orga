@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Kingdom;
+use App\Models\Realm;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateKingdomRequest extends FormRequest
@@ -24,6 +24,6 @@ class CreateKingdomRequest extends FormRequest
      */
     public function rules()
     {
-        return Kingdom::$rules;
+        return Realm::$rules;
     }
 }

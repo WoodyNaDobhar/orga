@@ -157,7 +157,7 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Kingdom,kingdom_id"
+        "relation": "mt1,Realm,kingdom_id"
     },
     {
         "type": "relation",

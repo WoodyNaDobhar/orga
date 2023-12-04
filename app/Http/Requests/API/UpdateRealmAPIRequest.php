@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\Kingdom;
+use App\Models\Realm;
 use InfyOm\Generator\Request\APIRequest;
 
 class UpdateKingdomAPIRequest extends APIRequest
@@ -24,7 +24,7 @@ class UpdateKingdomAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = Kingdom::$rules;
+        $rules = Realm::$rules;
         
         return $rules;
     }

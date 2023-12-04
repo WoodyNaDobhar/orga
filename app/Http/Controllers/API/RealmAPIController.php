@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateKingdomAPIRequest;
 use App\Http\Requests\API\UpdateKingdomAPIRequest;
-use App\Models\Kingdom;
+use App\Models\Realm;
 use App\Repositories\KingdomRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class KingdomAPIController extends AppBaseController
      * @OA\Get(
      *      path="/kingdoms",
      *      summary="getKingdomList",
-     *      tags={"Kingdom"},
+     *      tags={"Realm"},
      *      description="Get all Kingdoms",
      *      @OA\Response(
      *          response=200,
@@ -43,7 +43,7 @@ class KingdomAPIController extends AppBaseController
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Kingdom")
+     *                  @OA\Items(ref="#/components/schemas/Realm")
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -68,11 +68,11 @@ class KingdomAPIController extends AppBaseController
      * @OA\Post(
      *      path="/kingdoms",
      *      summary="createKingdom",
-     *      tags={"Kingdom"},
-     *      description="Create Kingdom",
+     *      tags={"Realm"},
+     *      description="Create Realm",
      *      @OA\RequestBody(
      *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Kingdom")
+     *        @OA\JsonContent(ref="#/components/schemas/Realm")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -85,7 +85,7 @@ class KingdomAPIController extends AppBaseController
      *              ),
      *              @OA\Property(
      *                  property="data",
-     *                  ref="#/components/schemas/Kingdom"
+     *                  ref="#/components/schemas/Realm"
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -99,20 +99,20 @@ class KingdomAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $kingdom = $this->kingdomRepository->create($input);
+        $realm = $this->kingdomRepository->create($input);
 
-        return $this->sendResponse(new KingdomResource($kingdom), 'Kingdom saved successfully');
+        return $this->sendResponse(new KingdomResource($realm), 'Realm saved successfully');
     }
 
     /**
      * @OA\Get(
      *      path="/kingdoms/{id}",
      *      summary="getKingdomItem",
-     *      tags={"Kingdom"},
-     *      description="Get Kingdom",
+     *      tags={"Realm"},
+     *      description="Get Realm",
      *      @OA\Parameter(
      *          name="id",
-     *          description="id of Kingdom",
+     *          description="id of Realm",
      *           @OA\Schema(
      *             type="integer"
      *          ),
@@ -130,7 +130,7 @@ class KingdomAPIController extends AppBaseController
      *              ),
      *              @OA\Property(
      *                  property="data",
-     *                  ref="#/components/schemas/Kingdom"
+     *                  ref="#/components/schemas/Realm"
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -142,25 +142,25 @@ class KingdomAPIController extends AppBaseController
      */
     public function show($id): JsonResponse
     {
-        /** @var Kingdom $kingdom */
-        $kingdom = $this->kingdomRepository->find($id);
+        /** @var Realm $realm */
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            return $this->sendError('Kingdom not found');
+        if (empty($realm)) {
+            return $this->sendError('Realm not found');
         }
 
-        return $this->sendResponse(new KingdomResource($kingdom), 'Kingdom retrieved successfully');
+        return $this->sendResponse(new KingdomResource($realm), 'Realm retrieved successfully');
     }
 
     /**
      * @OA\Put(
      *      path="/kingdoms/{id}",
      *      summary="updateKingdom",
-     *      tags={"Kingdom"},
-     *      description="Update Kingdom",
+     *      tags={"Realm"},
+     *      description="Update Realm",
      *      @OA\Parameter(
      *          name="id",
-     *          description="id of Kingdom",
+     *          description="id of Realm",
      *           @OA\Schema(
      *             type="integer"
      *          ),
@@ -169,7 +169,7 @@ class KingdomAPIController extends AppBaseController
      *      ),
      *      @OA\RequestBody(
      *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Kingdom")
+     *        @OA\JsonContent(ref="#/components/schemas/Realm")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -182,7 +182,7 @@ class KingdomAPIController extends AppBaseController
      *              ),
      *              @OA\Property(
      *                  property="data",
-     *                  ref="#/components/schemas/Kingdom"
+     *                  ref="#/components/schemas/Realm"
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -196,27 +196,27 @@ class KingdomAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        /** @var Kingdom $kingdom */
-        $kingdom = $this->kingdomRepository->find($id);
+        /** @var Realm $realm */
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            return $this->sendError('Kingdom not found');
+        if (empty($realm)) {
+            return $this->sendError('Realm not found');
         }
 
-        $kingdom = $this->kingdomRepository->update($input, $id);
+        $realm = $this->kingdomRepository->update($input, $id);
 
-        return $this->sendResponse(new KingdomResource($kingdom), 'Kingdom updated successfully');
+        return $this->sendResponse(new KingdomResource($realm), 'Realm updated successfully');
     }
 
     /**
      * @OA\Delete(
      *      path="/kingdoms/{id}",
      *      summary="deleteKingdom",
-     *      tags={"Kingdom"},
-     *      description="Delete Kingdom",
+     *      tags={"Realm"},
+     *      description="Delete Realm",
      *      @OA\Parameter(
      *          name="id",
-     *          description="id of Kingdom",
+     *          description="id of Realm",
      *           @OA\Schema(
      *             type="integer"
      *          ),
@@ -246,15 +246,15 @@ class KingdomAPIController extends AppBaseController
      */
     public function destroy($id): JsonResponse
     {
-        /** @var Kingdom $kingdom */
-        $kingdom = $this->kingdomRepository->find($id);
+        /** @var Realm $realm */
+        $realm = $this->kingdomRepository->find($id);
 
-        if (empty($kingdom)) {
-            return $this->sendError('Kingdom not found');
+        if (empty($realm)) {
+            return $this->sendError('Realm not found');
         }
 
-        $kingdom->delete();
+        $realm->delete();
 
-        return $this->sendSuccess('Kingdom deleted successfully');
+        return $this->sendSuccess('Realm deleted successfully');
     }
 }

@@ -4,9 +4,9 @@
     {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Kingdom Id Field -->
+<!-- Realm Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('kingdom_id', 'Kingdom Id:') !!}
+    {!! Form::label('kingdom_id', 'Realm Id:') !!}
     {!! Form::number('kingdom_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 

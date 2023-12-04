@@ -3672,7 +3672,7 @@ $knownTitles = [
 		]
 ];
 
-$knownKingdomChaptertypesOffices = [
+$knownRealmChaptertypesOffices = [
 		1 => [
 				'Kingdom' => [
 						'Monarch' => [

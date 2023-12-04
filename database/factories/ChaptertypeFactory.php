@@ -6,7 +6,7 @@ use App\Models\Chaptertype;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\User;
-use App\Models\Kingdom;
+use App\Models\Realm;
 
 class ChaptertypeFactory extends Factory
 {

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\SoftDeletes; use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @OA\Schema(
- *      schema="Kingdom",
+ *      schema="Realm",
  *      required={"name","abbreviation","color","is_active","created_at"},
  *      @OA\Property(
  *          property="name",
@@ -82,7 +82,7 @@ use Illuminate\Database\Eloquent\Model;
  *          format="date-time"
  *      )
  * )
- */class Kingdom extends Model
+ */class Realm extends Model
 {
      use SoftDeletes;    use HasFactory;    public $table = 'kingdoms';
 
