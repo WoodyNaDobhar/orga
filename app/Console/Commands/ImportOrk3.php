@@ -3716,7 +3716,7 @@ class ImportOrk3 extends Command
 							'country' => null
 					]);
 					
-					$backupConnect->table('ork_awards')->orderBy('awards_id')->chunk(100, function ($oldIssuances) use (&$backupConnect, &$deadRecords, &$bar, &$defaultLocationId, &$transRealmawards, &$transTitles, &$transEventDetails, &$transChapters, &$oldRealmawards, &$oldTitles, &$transRealms, &$transUnits, &$transPersonas){
+					$backupConnect->table('ork_awards')->chunk(100, function ($oldIssuances) use (&$backupConnect, &$deadRecords, &$bar, &$defaultLocationId, &$transRealmawards, &$transTitles, &$transEventDetails, &$transChapters, &$oldRealmawards, &$oldTitles, &$transRealms, &$transUnits, &$transPersonas){
 						$bar = $this->output->createProgressBar(count($oldIssuances));
 						$bar->start();
 						foreach($oldIssuances as $oldIssuance) {
@@ -3874,14 +3874,16 @@ class ImportOrk3 extends Command
 			//TODO: iterate locations: update 'address' to 'street', add 'label', use google geocoder to clean up data & add geocode field
 			//TODO: compare awardsprocessed with list of awards.  Dump results and check for stuff we can get
 			
-			foreach($deadRecords as $model => $cause){
-				foreach($cause as $model_id => $model_value){
-					DB::table('crypt')->insert([
-							'model' 		=> $model,
-							'cause' 		=> $cause,
-							'model_id'		=> $model_id,
-							'model_value'	=> $model_value
-					]);
+			foreach($deadRecords as $model => $causes){
+				foreach($causes as $cause => $oldInfos){
+					foreach($oldInfos as $model_id => $model_value){
+						DB::table('crypt')->insert([
+								'model' 		=> $model,
+								'cause' 		=> $cause,
+								'model_id'		=> $model_id,
+								'model_value'	=> json_encode($model_value)
+						]);
+					}
 				}
 			}
 
