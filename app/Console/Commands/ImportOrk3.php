@@ -1204,24 +1204,6 @@ class ImportOrk3 extends Command
 							}
 							$bar->advance();
 							continue;
-						}else{
-							//go thru the kingdomawards that use this award, and add them to the trans and processed arrays
-							//TODO: some of those (name = 'Order of the x') have different, deleted award_id's.  Check those guys.
-							$kingdomawards = $backupConnect->table('ork_kingdomaward')->where('name', $nameClean)->get()->toArray();
-							foreach($kingdomawards as $kingdomaward){
-								DB::table('trans')->insert([
-										'array' => 'kingdomawards',
-										'oldID' => $kingdomaward->kingdomaward_id,
-										'newID' => $awardId
-								]);
-								$transKingdomawards[$kingdomaward->kingdomaward_id] = $awardId;
-								DB::table('trans')->insert([
-										'array' => 'kingdomawardsprocessed',
-										'oldID' => $kingdomaward->kingdomaward_id,
-										'newID' => $awardId
-								]);
-								$kingdomawardsProcessed[(int)$kingdomaward->kingdomaward_id] = $awardId;
-							}
 						}
 						$awardId = DB::table('awards')->insertGetId([
 								'awarder_type' => 'Kingdom',
@@ -1237,6 +1219,23 @@ class ImportOrk3 extends Command
 								'newID' => $awardId
 						]);
 						$transGenericAwards[$oldAward->award_id] = $awardId;
+						//go thru the kingdomawards that use this award, and add them to the trans and processed arrays
+						//TODO: some of those (name = 'Order of the x') have different, deleted award_id's.  Check those guys.
+						$kingdomawards = $backupConnect->table('ork_kingdomaward')->where('name', $nameClean)->get()->toArray();
+						foreach($kingdomawards as $kingdomaward){
+							DB::table('trans')->insert([
+									'array' => 'kingdomawards',
+									'oldID' => $kingdomaward->kingdomaward_id,
+									'newID' => $awardId
+							]);
+							$transKingdomawards[$kingdomaward->kingdomaward_id] = $awardId;
+							DB::table('trans')->insert([
+									'array' => 'kingdomawardsprocessed',
+									'oldID' => $kingdomaward->kingdomaward_id,
+									'newID' => $awardId
+							]);
+							$kingdomawardsProcessed[(int)$kingdomaward->kingdomaward_id] = $awardId;
+						}
 						$bar->advance();
 					}
 					break;
@@ -1737,10 +1736,7 @@ class ImportOrk3 extends Command
 									$this->info('waiting for kingdom/chaptertype (' . $kid . ') ' . $transKingdoms[$kid] . '/' . $chaptertype);
 									sleep(5);
 									$chaptertypeArray = null;
-// 									DB::enableQueryLog();
 									$chaptertypeArray = Chaptertype::where('kingdom_id', $transKingdoms[$kid])->where('name', $chaptertype)->first();
-// 									$queryLog = DB::getQueryLog();
-// 									print_r($queryLog);
 								}
 								$officeableID = $chaptertypeArray->id;
 							}
@@ -1780,7 +1776,7 @@ class ImportOrk3 extends Command
 					$transUsers = [];
 					$transPersonas = [];
 					$deadRecords = [];
-					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->toArray();
+					$oldUnits = $backupConnect->table('ork_unit')->where('type', '!=', '')->pluck('unit_id')->toArray();
 					$transUnits = $this->getTrans('units');
 					$transChapters = $this->getTrans('chapters');
 					$transKingdoms = $this->getTrans('kingdoms');
@@ -3171,7 +3167,7 @@ class ImportOrk3 extends Command
 								$transPersonas = $this->getTrans('personas');
 							}
 							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
-
+							DB::reconnect("mysqlBak");
 							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
 							if(!$mundane || $mundane->email === ''){
 								$createdBy = null;
@@ -3345,7 +3341,7 @@ class ImportOrk3 extends Command
 					$transUnits = $this->getTrans('units');
 					$transPersonas = $this->getTrans('personas');
 					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
-					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->toArray();
+					$oldUnits = $backupConnect->table('ork_unit')->where('type', '!=', '')->pluck('unit_id')->toArray();
 					$oldMembers = $backupConnect->table('ork_unit_mundane')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldMembers));
 					$bar->start();
@@ -3461,8 +3457,7 @@ class ImportOrk3 extends Command
 								break;
 						}
 						if($order){
-							//TODO: I think we want the other one...
-							$backupConnect->reconnect();
+							DB::reconnect("mysqlBak");
 							$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldOfficer->mundane_id)->first();
 							if(!$persona){
 								$deadRecords['Officers']['Persona'][$oldOfficer->mundane_id] = $oldOfficer;
@@ -3495,6 +3490,16 @@ class ImportOrk3 extends Command
 									$transChapters = $this->getTrans('chapters');
 								}
 								$chapter = Chapter::where('id', $transChapters[$oldOfficer->park_id])->first();
+								//oddly, we have officers that don't actually exist...like champion for WL shires, which don't have them.  Kill those.
+								while(!in_array($chapter->chaptertype_id, $transChaptertypes)){
+									$this->info('waiting for chaptertype ' . $chapter->chaptertype_id);
+									sleep(5);
+								}
+								if(!array_key_exists($chapter->chaptertype->name, $knownKingdomChaptertypesOffices[$oldOfficer->kingdom_id])){
+									$deadRecords['Officers']['NoOffice'][$oldOfficer->authorization_id] = $oldOfficer;
+									$bar->advance();
+									continue;
+								}
 								$office = Office::where('officeable_type', 'Chaptertype')->where('officeable_id', $chapter->chaptertype_id)->where('order', $order)->first();
 								while(!$office){
 									$this->info('waiting for office for chaptertype/order ' . $chapter->chaptertype_id . '/' . $order);
@@ -3729,9 +3734,9 @@ class ImportOrk3 extends Command
 							
 							//get eventcalendardetail?
 							$eventcaldet = null;
-							if($oldIssuance->event_id != 0){
+							if($oldIssuance->at_event_id != 0){
 								DB::reconnect("mysqlBak");
-								$eventcaldet = $backupConnect->table('ork_event_calendardetail')->where('event_id', $oldIssuance->event_id)->where('event_start', '<=', $oldIssuance->date)->where('event_end', '>=', $oldIssuance->date)->first();
+								$eventcaldet = $backupConnect->table('ork_event_calendardetail')->where('event_id', $oldIssuance->at_event_id)->where('event_start', '<=', $oldIssuance->date)->where('event_end', '>=', $oldIssuance->date)->first();
 							}
 							
 							//awards
