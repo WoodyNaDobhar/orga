@@ -84,7 +84,7 @@ use Illuminate\Database\Eloquent\Model;
  * )
  */class Realm extends Model
 {
-     use SoftDeletes;    use HasFactory;    public $table = 'kingdoms';
+     use SoftDeletes;    use HasFactory;    public $table = 'realms';
 
     public $fillable = [
         'parent_id',

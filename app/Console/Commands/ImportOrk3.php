@@ -2994,6 +2994,7 @@ class ImportOrk3 extends Command
 									$transPersonas = $this->getTrans('personas');
 								}
 								//if they need a user, we'll have to make one up
+								$transUsers = $this->getTrans('users');
 								if(!array_key_exists($oldTransaction->recorded_by, $transUsers)){
 									$userId = DB::table('users')->insertGetId([
 											'email' => 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net',
@@ -3873,16 +3874,14 @@ class ImportOrk3 extends Command
 			//TODO: iterate locations: update 'address' to 'street', add 'label', use google geocoder to clean up data & add geocode field
 			//TODO: compare awardsprocessed with list of awards.  Dump results and check for stuff we can get
 			
-			foreach($deadRecords as $model){
-				foreach($model as $cause){
-					foreach($cause as $model_id => $model_value){
-						DB::table('crypt')->insert([
-								'model' 		=> $model,
-								'cause' 		=> $cause,
-								'model_id'		=> $model_id,
-								'model_value'	=> $model_value
-						]);
-					}
+			foreach($deadRecords as $model => $cause){
+				foreach($cause as $model_id => $model_value){
+					DB::table('crypt')->insert([
+							'model' 		=> $model,
+							'cause' 		=> $cause,
+							'model_id'		=> $model_id,
+							'model_value'	=> $model_value
+					]);
 				}
 			}
 
