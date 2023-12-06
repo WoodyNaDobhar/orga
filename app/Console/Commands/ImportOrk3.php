@@ -945,8 +945,8 @@ class ImportOrk3 extends Command
 						
 						//If it's one of our known realms,
 						if(array_key_exists($oldChaptertype->kingdom_id, $knownRealmChaptertypesOffices)){
-							//and it's not in the known array,
-							if(!array_key_exists($oldChaptertype->title, $knownRealmChaptertypesOffices[$oldChaptertype->kingdom_id])){
+							//it's not in the known array,
+							if($oldChaptertype->title === 'Kingdom' || !array_key_exists($oldChaptertype->title, $knownRealmChaptertypesOffices[$oldChaptertype->kingdom_id])){
 								//don't add this one.
 								switch($oldChaptertype->parktitle_id){
 									case '56':
@@ -1316,13 +1316,14 @@ class ImportOrk3 extends Command
 					$bar = $this->output->createProgressBar(392);
 					$bar->start();
 					$titleId = 0;
-					
 					//first the RoP titles
 					foreach ($oldTitles as $otID => $oldTitle) {
 						if(in_array($oldTitle->award_id, $ropTitles)){
+							//TODO: check master smith et all
 							$rank = $oldTitle->title_class;
 							$cleanName = trim($oldTitle->name);
 							$titleCheck = null;
+							$titleableType = 'Realm';
 							
 							//if it exists, let's not remake it
 							$titleCheck = Title::where('name', $cleanName)->orWhere('name', 'LIKE', $cleanName . '|%')->orWhere('name', 'LIKE', '%|' . $cleanName)->whereNull('titleable_id')->first();
@@ -1335,6 +1336,15 @@ class ImportOrk3 extends Command
 											'newID' => $titleCheck->id
 									]);
 									$transTitles[$oldTitle->award_id][$rid] = $titleCheck->id;
+								}
+								$realmawards = $backupConnect->table('ork_kingdomawards')->where('award_id', $oldTitle->award_id)->get()->toArray();
+								foreach($realmawards as $realmaward){
+									DB::table('trans')->insert([
+											'array' => 'realmawardsprocessed',
+											'oldID' => $realmaward->kingdomaward_id,
+											'newID' => $titleId
+									]);
+									$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 								}
 								unset($oldTitles[$otID]);
 								$bar->advance();
@@ -1352,7 +1362,6 @@ class ImportOrk3 extends Command
 								$cleanName = 'At-Arms|Man-at-Arms|Woman-at-Arms|Comrade-at-Arms|Sword-at-Arms|Shieldmaiden|Shield Brother';
 								$peerage = 'Retainer';
 							}
-							
 							switch($oldTitle->peerage){
 								case 'None':
 									if(strpos($cleanName, 'Master ') > -1){
@@ -1364,18 +1373,26 @@ class ImportOrk3 extends Command
 									}
 									break;
 								case 'Lords-Page':
+									$titleableType = 'Persona';
 									$peerage = 'Retainer';
 									break;
 								case 'Man-At-Arms':
+									$titleableType = 'Persona';
 									$peerage = 'Retainer';
 									break;
 								case 'Page':
+									$titleableType = 'Persona';
 									$peerage = 'Retainer';
+									break;
+								case 'Squire':
+									$titleableType = 'Persona';
 									break;
 								default:
 									$peerage = $oldTitle->peerage;
 							}
 							$titleId = DB::table('titles')->insertGetId([
+									'titleable_type' => $titleableType,
+									'titleable_id' => null,
 									'name' => $cleanName,
 									'rank' => $rank,
 									'peerage' => $peerage,
@@ -1417,7 +1434,6 @@ class ImportOrk3 extends Command
 								break;
 							}
 						}
-						
 						foreach($realmInfo as $rid => $info){
 							if($info){
 								while(!array_key_exists($rid, $transRealms)){
@@ -1597,10 +1613,12 @@ class ImportOrk3 extends Command
 									}
 								}
 								$bar->advance();
+							}else{
+								$bar->advance();
 							}
 						}
 					}
-					
+					print_r($oldTitles);
 					//whatever is left
 					foreach ($oldTitles as $oldTitle) {
 						$cleanName = trim($oldTitle->name);
@@ -1632,7 +1650,6 @@ class ImportOrk3 extends Command
 								}
 							}
 							$bar->advance();
-							continue;
 						}
 					}
 					break;
@@ -1757,7 +1774,7 @@ class ImportOrk3 extends Command
 								$transRealms = $this->getTrans('realms');
 							}
 							$officeableType = $chaptertype != 'Kingdom' ? 'Chaptertype' : 'Realm';
-							$officeableID = $officeableType === 'Kingdom' ? $transRealms[$rid] : null;
+							$officeableID = $officeableType === 'Realm' ? $transRealms[$rid] : null;
 							if(!$officeableID){
 								$chaptertypeArray = Chaptertype::where('realm_id', $transRealms[$rid])->where('name', $chaptertype)->first();
 								while(!$chaptertypeArray){

@@ -449,7 +449,7 @@ return new class extends Migration
         Schema::create('titles', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
         	$table->bigIncrements('id');
-        	$table->enum('titleable_type', ['Realm', 'Chapter', 'Unit']);
+        	$table->enum('titleable_type', ['Realm', 'Chapter', 'Unit', 'Persona']);
         	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id');
             $table->string('name', 100);
             $table->unsignedSmallInteger('rank')->nullable();
