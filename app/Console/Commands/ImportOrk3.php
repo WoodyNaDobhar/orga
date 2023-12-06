@@ -1230,6 +1230,9 @@ class ImportOrk3 extends Command
 						//go thru the realmawards that use this award, and add them to the trans and processed arrays
 						//TODO: some of those (name = 'Order of the x') have different, deleted award_id's.  Check those guys.
 						$realmawards = $backupConnect->table('ork_kingdomaward')->where('name', $nameClean)->get()->toArray();
+						$this->info('');
+						$this->info('Adding ' . $nameClean);
+						$this->info('');
 						foreach($realmawards as $realmaward){
 							DB::table('trans')->insert([
 									'array' => 'realmawards',
@@ -1388,6 +1391,15 @@ class ImportOrk3 extends Command
 								]);
 								$transTitles[$oldTitle->award_id][$rid] = $titleId;
 							}
+							$realmawards = $backupConnect->table('ork_kingdomawards')->where('award_id', $oldTitle->award_id)->get()->toArray();
+							foreach($realmawards as $realmaward){
+								DB::table('trans')->insert([
+										'array' => 'realmawardsprocessed',
+										'oldID' => $realmaward->kingdomaward_id,
+										'newID' => $titleId
+								]);
+								$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
+							}
 							unset($oldTitles[$otID]);
 							$bar->advance();
 						}
@@ -1430,6 +1442,15 @@ class ImportOrk3 extends Command
 											'newID' => $titleId
 									]);
 									$transTitles[$foundTitle->award_id][$rid] = $titleId;
+									$realmawards = $backupConnect->table('ork_kingdomawards')->where('award_id', $foundTitle->award_id)->where('kingdom_id', $rid)->get()->toArray();
+									foreach($realmawards as $realmaward){
+										DB::table('trans')->insert([
+												'array' => 'realmawardsprocessed',
+												'oldID' => $realmaward->kingdomaward_id,
+												'newID' => $titleId
+										]);
+										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
+									}
 									unset($oldTitles[$foundOtID]);
 								}
 								
@@ -2582,9 +2603,15 @@ class ImportOrk3 extends Command
 										->get()->toArray();
 									if(count($mostAttendeds) > 0){
 										foreach($mostAttendeds as $mostAttended){
-											if(array_key_exists($mostAttended->park_id, $transChapters)){
-												$chapterID = $transChapters[$mostAttended->park_id];
-												break;
+											if(array_search($mostAttended->park_id, $oldChapters)){
+												if(array_key_exists($mostAttended->park_id, $transChapters)){
+													$chapterID = $transChapters[$mostAttended->park_id];
+													break;
+												}
+											}else{
+												$deadRecords['Attendance']['NoChapter'][$oldAttendance->attendance_id] = $oldAttendance;
+												$bar->advance();
+												continue;
 											}
 										}
 									}else{
@@ -3533,7 +3560,7 @@ class ImportOrk3 extends Command
 								}
 								$office = Office::where('officeable_type', 'Realm')->where('officeable_id', $transRealms[$oldOfficer->kingdom_id])->where('order', $order)->first();
 								while(!$office){
-									$this->info('waiting for office');
+									$this->info('waiting for office realm/order ' . $oldOfficer->kingdom_id . '/' . $order);
 									sleep(5);
 									$office = Office::where('officeable_type', 'Realm')->where('officeable_id', $transRealms[$oldOfficer->kingdom_id])->where('order', $order)->first();
 								}
@@ -3716,9 +3743,9 @@ class ImportOrk3 extends Command
 							'country' => null
 					]);
 					
-					$backupConnect->table('ork_awards')->chunk(100, function ($oldIssuances) use (&$backupConnect, &$deadRecords, &$bar, &$defaultLocationId, &$transRealmawards, &$transTitles, &$transEventDetails, &$transChapters, &$oldRealmawards, &$oldTitles, &$transRealms, &$transUnits, &$transPersonas){
-						$bar = $this->output->createProgressBar(count($oldIssuances));
-						$bar->start();
+					$bar = $this->output->createProgressBar($backupConnect->table('ork_awards')->count());
+					$bar->start();
+					$backupConnect->table('ork_awards')->orderBy('awards_id')->chunk(100, function ($oldIssuances) use (&$backupConnect, &$deadRecords, &$bar, &$defaultLocationId, &$transRealmawards, &$transTitles, &$transEventDetails, &$transChapters, &$oldRealmawards, &$oldTitles, &$transRealms, &$transUnits, &$transPersonas){
 						foreach($oldIssuances as $oldIssuance) {
 							$issuable_type = null;
 							$issuable_id = null;
@@ -3727,7 +3754,7 @@ class ImportOrk3 extends Command
 							//we don't know what the issuance is...coincedently, we don't know the authorizing realm or park either
 							if($oldIssuance->kingdomaward_id == 0){
 								//leave them and let humans do the work.  There's only about 300 of them.
-								$deadRecords['Issuance']['NoAward'][$oldIssuances->awards_id] = $oldIssuance;
+								$deadRecords['Issuance']['NoAward'][$oldIssuance->awards_id] = $oldIssuance;
 								$bar->advance();
 								continue;
 							}
@@ -3741,10 +3768,12 @@ class ImportOrk3 extends Command
 							if($oldIssuance->at_event_id != 0){
 								DB::reconnect("mysqlBak");
 								$eventcaldet = $backupConnect->table('ork_event_calendardetail')->where('event_id', $oldIssuance->at_event_id)->where('event_start', '<=', $oldIssuance->date)->where('event_end', '>=', $oldIssuance->date)->first();
-								while(!array_key_exists($eventcaldet->id, $transEventDetails)){
-									$this->info('waiting for eventdetails ' . $eventcaldet->id);
-									sleep(5);
-									$transEventDetails = $this->getTrans('eventdetails');
+								if($eventcaldet){
+									while(!array_key_exists($eventcaldet->event_calendardetail_id, $transEventDetails)){
+										$this->info('waiting for eventdetails ' . $eventcaldet->event_calendardetail_id);
+										sleep(5);
+										$transEventDetails = $this->getTrans('eventdetails');
+									}
 								}
 							}
 							
@@ -3840,7 +3869,7 @@ class ImportOrk3 extends Command
 							DB::table('issuances')->insert([
 								'issuable_type' => $issuable_type,
 								'issuable_id' => $issuable_id,
-								'whereable_type' => $eventcaldet ? $transEventDetails[$eventcaldet->id] : $defaultLocationId,
+								'whereable_type' => $eventcaldet ? $transEventDetails[$eventcaldet->event_calendardetail_id] : $defaultLocationId,
 								'whereable_id' => $eventcaldet ? 'Event' : 'Location',
 								'authority_type' => $oldIssuance->park_id != '0' ? 'Chapter' : 'Realm',
 								'authority_id' => $oldIssuance->park_id != '0' ? $transChapters[$oldIssuance->park_id] : $transRealms[$realmaward->kingdom_id],
@@ -3871,8 +3900,8 @@ class ImportOrk3 extends Command
 			//TODO: demos/guests: demos are just events.  Add the waiver, waiverable_type = Event (the demo), but no persona.
 			//TODO: custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles.
 			//TODO: custom officers (award data)
-			//TODO: iterate locations: update 'address' to 'street', add 'label', use google geocoder to clean up data & add geocode field
 			//TODO: compare awardsprocessed with list of awards.  Dump results and check for stuff we can get
+			
 			
 			foreach($deadRecords as $model => $causes){
 				foreach($causes as $cause => $oldInfos){
