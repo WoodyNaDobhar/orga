@@ -120,6 +120,10 @@ class ImportOrk3 extends Command
 				->orWhere('name', 'Order of the Walker in the Middle')
 				->update(['is_title' => 1, 'is_ladder' => 0]);
 				
+			$backupConnect->table('ork_officer')
+				->where('kingdom_id', 0)
+				->update(['kingdom_id' => 8]);
+				
 			$backupConnect->table('ork_parktitle')
 				->where('kingdom_id', 16)
 				->orWhere('title', 'Shire')
@@ -3769,7 +3773,7 @@ class ImportOrk3 extends Command
 									$transChapters = $this->getTrans('chapters');
 								}
 								$chapter = Chapter::where('id', $transChapters[$oldOfficer->park_id])->first();
-								//oddly, we have officers that don't actually exist...like champion for WL shires, which don't have them.  Kill those.
+								//oddly, we have officers for offices and chaptertypes that don't actually exist...like champion for WL shires, which don't have them.  Kill those.
 								$transChaptertypes = $this->getTrans('chaptertypes');
 								while(!in_array($chapter->chaptertype_id, $transChaptertypes)){
 									$this->info('waiting for chaptertype ' . $chapter->chaptertype_id);
@@ -3777,7 +3781,12 @@ class ImportOrk3 extends Command
 									$transChaptertypes = $this->getTrans('chaptertypes');
 								}
 								if(!array_key_exists($chapter->chaptertype->name, $knownRealmChaptertypesOffices[$oldOfficer->kingdom_id])){
-									$deadRecords['Officer']['NoOffice'][$oldOfficer->authorization_id] = $oldOfficer;
+									$deadRecords['Officer']['NoCorporaChaptertype'][$oldOfficer->authorization_id] = $oldOfficer;
+									$bar->advance();
+									continue;
+								}
+								if(array_search($order, array_column($knownRealmChaptertypesOffices[$oldOfficer->kingdom_id][$chapter->chaptertype->name], 'order')) === FALSE){
+									$deadRecords['Officer']['NoCorporaOffice'][$oldOfficer->authorization_id] = $oldOfficer;
 									$bar->advance();
 									continue;
 								}
@@ -3880,6 +3889,12 @@ class ImportOrk3 extends Command
 						DB::reconnect("mysqlBak");
 						$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->mundane_id)->first();
 						$isTitle = in_array($oldRecommendation->award_id, $oldTitles) ? true : false;
+						//let's fix this for WitM
+						if($oldRecommendation->award_id == 31){
+							if($knownAwards['Order of the Walker in the Middle'][$persona->kingdom_id]['type'] == 'award'){
+								$isTitle = false;
+							}
+						}
 						while(!array_key_exists($oldRecommendation->recommended_by_id, $transPersonas)){
 							$this->info('waiting for persona ' . $oldRecommendation->recommended_by_id);
 							sleep(5);
