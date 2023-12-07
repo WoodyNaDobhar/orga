@@ -1973,7 +1973,7 @@ class ImportOrk3 extends Command
 								'oldID' => $oldCustomTitle->kingdomaward_id,
 								'newID' => $customTitleId ? $customTitleId : $titleExists->id
 						]);
-						$transRealmawards[$realmaward->kingdomaward_id] = $titleId;
+						$transRealmawards[(int)$oldCustomTitle->kingdomaward_id] = $customTitleId ? $customTitleId : $titleExists->id;
 						DB::table('trans')->insert([
 								'array' => 'realmawardsprocessed',
 								'oldID' => $oldCustomTitle->kingdomaward_id,
@@ -2958,6 +2958,12 @@ class ImportOrk3 extends Command
 										}
 										$meetupId = $transMeetups[$oldMeetupId];
 									}else{
+										$transChapters = $this->getTrans('chapters');
+										while(!array_key_exists($oldAttendance->park_id, $transChapters)){
+											$this->info('waiting for chapter ' . $oldAttendance->park_id);
+											sleep(5);
+											$transChapters = $this->getTrans('chapters');
+										}
 										//make it
 										$meetupId = DB::table('meetups')->insertGetId([
 												'chapter_id' => $transChapters[$oldAttendance->park_id],
@@ -3433,47 +3439,6 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
-							while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
-								$this->info('waiting for persona ' . $oldDue->mundane_id);
-								sleep(5);
-								$transPersonas = $this->getTrans('personas');
-							}
-							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
-							DB::reconnect("mysqlBak");
-							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
-							if(!$mundane || $mundane->email === ''){
-								$createdBy = null;
-							}else{
-								while(!array_key_exists($mundane->mundane_id, $transUsers)){
-									$this->info('waiting for user ' . $oldDue->created_by);
-									sleep(5);
-									$transUsers = $this->getTrans('users');
-								}
-								$createdBy = $transUsers[$oldDue->created_by];
-							}
-							
-							
-							$transactionId = DB::table('transactions')->insertGetId([
-									'description' => 'Dues Paid for ' . $persona->mundane,
-									'memo' => 'Dues Paid for ' . $persona->mundane,
-									'transaction_at' => $oldDue->created_on,
-									'created_by' => $createdBy ? $createdBy : 1,
-									'created_at' => $oldDue->created_on
-							]);
-							DB::table('trans')->insert([
-									'array' => 'transactions',
-									'oldID' => $oldDue->import_transaction_id,
-									'newID' => $transactionId
-							]);
-						}else{
-							while(!array_key_exists($oldDue->import_transaction_id, $transTransactions)){
-								$this->info('waiting for transaction ' . $oldDue->import_transaction_id);
-								sleep(5);
-								$transTransactions = $this->getTrans('transactions');
-							}
-							$transactionId = $transTransactions[$oldDue->import_transaction_id];
-						}
 						//if the dues_from is before 1998-07-01, we need to figure out what it REALLY is, with the floor set at Feb 01, 1983 (Our birth month)
 						if(strtotime($oldDue->dues_from) < strtotime('1998-07-01')){
 							DB::reconnect("mysqlBak");
@@ -3498,6 +3463,46 @@ class ImportOrk3 extends Command
 							}
 						}else{
 							$duesFrom = date('Y-m-d H:i:s', strtotime($oldDue->dues_from));
+						}
+						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
+							while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
+								$this->info('waiting for persona ' . $oldDue->mundane_id);
+								sleep(5);
+								$transPersonas = $this->getTrans('personas');
+							}
+							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
+							DB::reconnect("mysqlBak");
+							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
+							if(!$mundane || $mundane->email === ''){
+								$createdBy = null;
+							}else{
+								while(!array_key_exists($mundane->mundane_id, $transUsers)){
+									$this->info('waiting for user ' . $oldDue->created_by);
+									sleep(5);
+									$transUsers = $this->getTrans('users');
+								}
+								$createdBy = $transUsers[$oldDue->created_by];
+							}
+							
+							$transactionId = DB::table('transactions')->insertGetId([
+									'description' => 'Dues Paid for ' . $persona->mundane,
+									'memo' => 'Dues Paid for ' . $persona->mundane,
+									'transaction_at' => $oldDue->created_on,
+									'created_by' => $createdBy ? $createdBy : 1,
+									'created_at' => $duesFrom
+							]);
+							DB::table('trans')->insert([
+									'array' => 'transactions',
+									'oldID' => $oldDue->import_transaction_id,
+									'newID' => $transactionId
+							]);
+						}else{
+							while(!array_key_exists($oldDue->import_transaction_id, $transTransactions)){
+								$this->info('waiting for transaction ' . $oldDue->import_transaction_id);
+								sleep(5);
+								$transTransactions = $this->getTrans('transactions');
+							}
+							$transactionId = $transTransactions[$oldDue->import_transaction_id];
 						}
 						//check users
 						if(!in_array($oldDue->created_by, $oldPersonas)){
@@ -4092,7 +4097,7 @@ class ImportOrk3 extends Command
 									$transUnits = $this->getTrans('units');
 								}
 							}else{
-								$target = $oldIssuance->persona_id != '0' ? $oldIssuance->persona_id : $oldIssuance->stripped_from;
+								$target = $oldIssuance->mundane_id != '0' ? $oldIssuance->mundane_id : $oldIssuance->stripped_from;
 								while(!array_key_exists($target, $transPersonas)){
 									$this->info('waiting for persona ' . $target);
 									sleep(5);
@@ -4123,7 +4128,7 @@ class ImportOrk3 extends Command
 								'authority_type' => $oldIssuance->park_id != '0' ? 'Chapter' : 'Realm',
 								'authority_id' => $oldIssuance->park_id != '0' ? $transChapters[$oldIssuance->park_id] : $transRealms[$realmaward->kingdom_id],
 								'recipient_type' => $oldIssuance->unit_id != '0' ? 'Unit' : 'Persona',
-								'recipient_id' => $oldIssuance->unit_id != '0' ? $transUnits[$oldIssuance->unit_id] : ($oldIssuance->persona_id != '0' ? $transPersonas[$oldIssuance->persona_id] : $transPersonas[$oldIssuance->stripped_from]),
+								'recipient_id' => $oldIssuance->unit_id != '0' ? $transUnits[$oldIssuance->unit_id] : ($oldIssuance->mundane_id != '0' ? $transPersonas[$oldIssuance->mundane_id] : $transPersonas[$oldIssuance->stripped_from]),
 								'issuer_id' => $oldIssuance->given_by_id != '0' ? $transPersonas[$oldIssuance->given_by_id] : null,
 								'custom_name' => $oldIssuance->custom_name != '' ? $oldIssuance->custom_name : null,
 								'rank' => $rank,
