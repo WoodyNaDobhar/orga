@@ -1364,7 +1364,7 @@ class ImportOrk3 extends Command
 										'oldMID' => null,
 										'newID' => $titleCheck->id
 								]);
-								$transTitles[$oldTitle->award_id][0] = $titleCheck->id;
+								$transTitles[0][$oldTitle->award_id] = $titleCheck->id;
 								$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldTitle->award_id)->get()->toArray();
 								foreach($realmawards as $realmaward){
 									DB::table('trans')->insert([
@@ -1438,7 +1438,7 @@ class ImportOrk3 extends Command
 									'oldMID' => null,
 									'newID' => $titleId
 							]);
-							$transTitles[$oldTitle->award_id][0] = $titleId;
+							$transTitles[0][$oldTitle->award_id] = $titleId;
 							$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldTitle->award_id)->get()->toArray();
 							foreach($realmawards as $realmaward){
 								DB::table('trans')->insert([
@@ -1493,7 +1493,7 @@ class ImportOrk3 extends Command
 											'oldMID' => $rid,
 											'newID' => $titleId
 									]);
-									$transTitles[$foundTitle->award_id][$rid] = $titleId;
+									$transTitles[$rid][$foundTitle->award_id] = $titleId;
 									$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $foundTitle->award_id)->where('kingdom_id', $rid)->get()->toArray();
 									foreach($realmawards as $realmaward){
 										DB::table('trans')->insert([
@@ -1522,7 +1522,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1551,7 +1551,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1580,7 +1580,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1609,7 +1609,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1638,7 +1638,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1667,7 +1667,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1696,7 +1696,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1725,7 +1725,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1754,7 +1754,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -1783,7 +1783,7 @@ class ImportOrk3 extends Command
 													'oldMID' => $rid,
 													'newID' => $titleId
 											]);
-											$transTitles[$ot->award_id][$rid] = $titleId;
+											$transTitles[$rid][$ot->award_id] = $titleId;
 											DB::reconnect("mysqlBak");
 											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
@@ -4068,7 +4068,7 @@ class ImportOrk3 extends Command
 										sleep(5);
 										$transTitles = $this->getTrans('titles');
 									}
-									$issuable_id = $transTitles[$oldIssuance->award_id][0];
+									$issuable_id = $transTitles[0][$oldIssuance->award_id];
 								}else{
 									while(
 										!array_key_exists($realmaward->kingdom_id, $transTitles) ||
@@ -4078,7 +4078,7 @@ class ImportOrk3 extends Command
 										sleep(5);
 										$transTitles = $this->getTrans('titles');
 									}
-									$issuable_id = $transTitles[$oldIssuance->award_id][$realmaward->kingdom_id];
+									$issuable_id = $transTitles[$realmaward->kingdom_id][$oldIssuance->award_id];
 								}
 							}
 		// 					else if(array_key_exists($oldIssuance->kingdomaward_id, $transOffices)){
@@ -4409,7 +4409,7 @@ class ImportOrk3 extends Command
 		$response = [];
 		foreach($transDatas as $transData){
 			if($transData->array === 'titles'){
-				$response[$transData->oldID][$transData->oldMID ? $transData->oldMID : 0] = $transData->newID;
+				$response[$transData->oldMID ? $transData->oldMID : 0][$transData->oldID] = $transData->newID;
 			}else{
 				$response[$transData->oldID] = $transData->newID;
 			}
