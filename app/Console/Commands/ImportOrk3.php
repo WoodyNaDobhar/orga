@@ -3929,7 +3929,10 @@ class ImportOrk3 extends Command
 						}
 						if($isTitle){
 							if(in_array($oldRecommendation->award_id, $ropTitles)){
-								while(!array_key_exists($oldRecommendation->award_id, $transTitles[0])){
+								while(
+									!array_key_exists(0, $transTitles) ||
+									!array_key_exists($oldRecommendation->award_id, $transTitles[0])
+								){
 									$this->info('waiting for general title ' . $oldRecommendation->award_id);
 									sleep(5);
 									$transTitles = $this->getTrans('titles');
@@ -4108,7 +4111,10 @@ class ImportOrk3 extends Command
 								$rank = null;
 								//TODO: update so that it uses 0 for ROP titles.  Also, get them added properly in the transTitles (key 0)
 								if(in_array($oldIssuance->award_id, $ropTitles)){
-									while(!array_key_exists($oldIssuance->award_id, $transTitles[0])){
+									while(
+										!array_key_exists(0, $transTitles) ||
+										!array_key_exists($oldIssuance->award_id, $transTitles[0])
+									){
 										$this->info('waiting for general title ' . $oldIssuance->award_id);
 										sleep(5);
 										$transTitles = $this->getTrans('titles');
