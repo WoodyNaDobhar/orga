@@ -1380,7 +1380,6 @@ class ImportOrk3 extends Command
 									]);
 									$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleCheck->id;
 								}
-								unset($oldTitles[$otID]);
 								$bar->advance();
 								continue;
 							}
@@ -1457,7 +1456,6 @@ class ImportOrk3 extends Command
 								]);
 								$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 							}
-							unset($oldTitles[$otID]);
 							$bar->advance();
 						}
 					}
@@ -1513,7 +1511,6 @@ class ImportOrk3 extends Command
 										]);
 										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 									}
-									unset($oldTitles[$foundOtID]);
 								}
 								//TODO: Nuke me
 								echo '|' . $title . '|';
@@ -1529,7 +1526,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1544,7 +1541,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1559,7 +1555,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1574,7 +1570,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1589,7 +1584,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1604,7 +1599,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1619,7 +1613,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1634,7 +1628,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1649,7 +1642,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1664,7 +1657,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1679,7 +1671,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1694,7 +1686,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1709,7 +1700,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1724,7 +1715,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1739,7 +1729,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1754,7 +1744,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1769,7 +1758,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1784,7 +1773,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1799,7 +1787,7 @@ class ImportOrk3 extends Command
 											]);
 											$transTitles[$ot->award_id][$rid] = $titleId;
 											DB::reconnect("mysqlBak");
-											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->get()->toArray();
+											$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
 											foreach($realmawards as $realmaward){
 												DB::table('trans')->insert([
 														'array' => 'realmawards',
@@ -1814,7 +1802,6 @@ class ImportOrk3 extends Command
 												]);
 												$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 											}
-											unset($oldTitles[$otID]);
 											break;
 										}
 									}
@@ -1825,56 +1812,20 @@ class ImportOrk3 extends Command
 							}
 						}
 					}
-					//TODO: nuke me
-					print_r($oldTitles);
+					
 					//whatever is left
 					foreach ($oldTitles as $oldTitle) {
-						$cleanName = trim($oldTitle->name);
-						//the titles that aren't expressly defined in the RoP need to be put into the trans array
-						if(!in_array($oldTitle->award_id, $ropTitles)){
-							foreach($knownTitles[$cleanName] as $rid => $info){
-								while(!array_key_exists($rid, $transRealms)){
-									$this->info('waiting for realm ' . $rid);
-									sleep(5);
-									$transRealms = $this->getTrans('realms');
-								}
-								if($info){
-									$titleId = DB::table('titles')->insertGetId([
-											'titleable_type' => 'Realm',
-											'titleable_id' => $transRealms[$rid],
-											'name' => $info['name'],
-											'rank' => $info['rank'],
-											'peerage' => $info['peerage'],
-											'is_roaming' => $info['reign_limit'] ? 1 : 0,
-											'is_active' => $info['is_active']
-									]);
-									DB::table('trans')->insert([
-											'array' => 'titles',
-											'oldID' => $oldTitle->award_id,
-											'oldMID' => $rid,
-											'newID' => $titleId
-									]);
-									$transTitles[$oldTitle->award_id][$rid] = $titleId;
-									DB::reconnect("mysqlBak");
-									$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $ot->award_id)->where('kingdom_id', $rid)->get()->toArray();
-									foreach($realmawards as $realmaward){
-										DB::table('trans')->insert([
-												'array' => 'realmawards',
-												'oldID' => $realmaward->kingdomaward_id,
-												'newID' => $titleId
-										]);
-										$transRealmawards[$realmaward->kingdomaward_id] = $titleId;
-										DB::table('trans')->insert([
-												'array' => 'realmawardsprocessed',
-												'oldID' => $realmaward->kingdomaward_id,
-												'newID' => $titleId
-										]);
-										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
-									}
-								}
-							}
-							$bar->advance();
+						//not if they're in ropTitles
+						if(in_array($oldTitle->award_id, $ropTitles)){
+							continue;
 						}
+						//not if they're in knownTitles
+						foreach($knownTitles as $title => $realmInfo){
+							if($oldTitle->name === $title){
+								continue 2;
+							}
+						}
+						$deadRecords['Title']['NoCorpora'][$oldTitle->award_id] = $oldTitle;
 					}
 					break;
 				case 'CustomTitles':
