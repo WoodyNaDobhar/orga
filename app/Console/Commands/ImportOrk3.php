@@ -1364,7 +1364,7 @@ class ImportOrk3 extends Command
 										'oldMID' => null,
 										'newID' => $titleCheck->id
 								]);
-								$transTitles[$oldTitle->award_id][$rid] = $titleCheck->id;
+								$transTitles[$oldTitle->award_id][0] = $titleCheck->id;
 								$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldTitle->award_id)->get()->toArray();
 								foreach($realmawards as $realmaward){
 									DB::table('trans')->insert([
@@ -1432,15 +1432,13 @@ class ImportOrk3 extends Command
 									'is_roaming' => 0,
 									'is_active' => $cleanName === 'Paragon Raider' ? 0 : 1
 							]);
-							foreach(array_keys($knownTitles['Master Jovius']) as $rid){
-								DB::table('trans')->insert([
-										'array' => 'titles',
-										'oldID' => $oldTitle->award_id,
-										'oldMID' => $rid,
-										'newID' => $titleId
-								]);
-								$transTitles[$oldTitle->award_id][$rid] = $titleId;
-							}
+							DB::table('trans')->insert([
+									'array' => 'titles',
+									'oldID' => $oldTitle->award_id,
+									'oldMID' => null,
+									'newID' => $titleId
+							]);
+							$transTitles[$oldTitle->award_id][0] = $titleId;
 							$realmawards = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldTitle->award_id)->get()->toArray();
 							foreach($realmawards as $realmaward){
 								DB::table('trans')->insert([
