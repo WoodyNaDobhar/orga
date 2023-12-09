@@ -914,6 +914,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Chaptertypes...');
 					$transChaptertypes = [];
 					$chaptertypeId = 0;
+					$doneKnown = [];
 					$oldRealms = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
 					$transRealms = $this->getTrans('realms');
 					$oldChaptertypes = $backupConnect->table('ork_parktitle')->orderBy('parktitle_id')->get()->toArray();
@@ -983,7 +984,7 @@ class ImportOrk3 extends Command
 								$bar->advance();
 								continue;
 							}else{
-								unset($knownRealmChaptertypesOffices[$oldChaptertype->kingdom_id][$oldChaptertype->title]);
+								$doneKnown[$oldChaptertype->kingdom_id][$oldChaptertype->title] = $knownRealmChaptertypesOffices[$oldChaptertype->kingdom_id][$oldChaptertype->title];
 							}
 						}
 						$chaptertypeId = DB::table('chaptertypes')->insertGetId([
@@ -1011,16 +1012,18 @@ class ImportOrk3 extends Command
 							$transRealms = $this->getTrans('realms');
 						}
 						foreach($realmChaptertypes as $knownChaptertype => $offices){
-							if($knownChaptertype != 'Realm'){
-								$chaptertypeId = DB::table('chaptertypes')->insertGetId([
-									'realm_id' => $transRealms[$rid],
-									'name' => $knownChaptertype,
-									'rank' => $knownChaptertype === 'Principality' ? 50 : 35,
-									'minimumattendance' => $knownChaptertype === 'Principality' ? 60 : 21,
-									'minimumcutoff' => $knownChaptertype === 'Principality' ? 56 : 19
-								]);
-								$bar->advance();
+							//skip it if it's kingdom or done already
+							if($knownChaptertype === 'Kingdom' || (array_key_exists($rid, $doneKnown) && array_key_exists($knownChaptertype, $doneKnown[$rid]))){
+								continue;
 							}
+							$chaptertypeId = DB::table('chaptertypes')->insertGetId([
+								'realm_id' => $transRealms[$rid],
+								'name' => $knownChaptertype,
+								'rank' => $knownChaptertype === 'Principality' ? 50 : 35,
+								'minimumattendance' => $knownChaptertype === 'Principality' ? 60 : 21,
+								'minimumcutoff' => $knownChaptertype === 'Principality' ? 56 : 19
+							]);
+							$bar->advance();
 						}
 					}
 					break;
@@ -1306,7 +1309,7 @@ class ImportOrk3 extends Command
 							$customAwardId = DB::table('awards')->insertGetId([
 									'awarder_type' => 'Realm',
 									'awarder_id' => $transRealms[$oldCustomAward->kingdom_id],
-									'name' => $cleanName != '' ? $cleanName : 'Unknown Award',
+									'name' => $cleanName != '' ? $cleanName : 'Unknown Award ' . $oldCustomAward->kingdomaward_id,
 									'is_ladder' => strpos($oldCustomAward->name, 'dreamkeeper') > -1 || strpos($oldCustomAward->name, 'hell') > -1 ? 0 : 1
 							]);
 							DB::table('trans')->insert([
@@ -1347,9 +1350,8 @@ class ImportOrk3 extends Command
 					$bar->start();
 					$titleId = 0;
 					//first the RoP titles
-					foreach ($oldTitles as $otID => $oldTitle) {
+					foreach ($oldTitles as $oldTitle) {
 						if(in_array($oldTitle->award_id, $ropTitles)){
-							//TODO: check master smith et all
 							$rank = $oldTitle->title_class;
 							$cleanName = trim($oldTitle->name);
 							$titleCheck = null;
@@ -1462,11 +1464,9 @@ class ImportOrk3 extends Command
 					foreach($knownTitles as $title => $realmInfo){
 						//find the $oldTitle with name === $title
 						$foundTitle = null;
-						$foundOtID = null;
-						foreach($oldTitles as $otID => $ot){
+						foreach($oldTitles as $ot){
 							if($ot->name === $title){
 								$foundTitle = $ot;
-								$foundOtID = $otID;
 								break;
 							}
 						}
@@ -1514,7 +1514,7 @@ class ImportOrk3 extends Command
 								echo '|' . $title . '|';
 								//translate the fem into this one
 								if($title === 'Lord'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Lady'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1543,7 +1543,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Baron'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Baroness'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1572,7 +1572,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Baronet'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Baronetess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1601,7 +1601,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Count'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Countess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1630,7 +1630,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Duke'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Duchess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1659,7 +1659,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Archduke'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Archduchess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1688,7 +1688,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Grand Duke'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Grand Duchess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1717,7 +1717,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Marquis'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Marquess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1746,7 +1746,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Viscount'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Viscountess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -1775,7 +1775,7 @@ class ImportOrk3 extends Command
 										}
 									}
 								}else if($title === 'Grand Marquis'){
-									foreach($oldTitles as $otID => $ot){
+									foreach($oldTitles as $ot){
 										if($ot->name === 'Grand Marquess'){
 											DB::table('trans')->insert([
 													'array' => 'titles',
@@ -2444,7 +2444,7 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Accounts':
-					//TODO: check kingdom 7 is in twice, and kingdom 33 is missing
+					//TODO: kingdom 33 is missing
 					$this->info('Importing Accounts...');
 					$transAccounts = [];
 					$transRealms = $this->getTrans('realms');
@@ -4150,7 +4150,7 @@ class ImportOrk3 extends Command
 								'custom_name' => $oldIssuance->custom_name != '' ? $oldIssuance->custom_name : null,
 								'rank' => $rank,
 								'issued_at' => $issueDate != '0000-00-00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' ? $oldIssuance->entered_at : date('Y-m-d')),
-								'note' => trim($oldIssuance->note) != '' ? trim($oldIssuance->note) : null,
+								'for' => trim($oldIssuance->note) != '' ? trim($oldIssuance->note) : null,
 								'image' => null,
 								'revocation' => trim($oldIssuance->revocation) != '' ? trim($oldIssuance->revocation) : null,
 								'revoked_by' => $oldIssuance->revoked_by_id != '0' ? $transPersonas[$oldIssuance->revoked_by_id] : null,
@@ -4402,8 +4402,9 @@ class ImportOrk3 extends Command
 	private function getTrans($array){
 		$hasTable = Schema::hasTable('trans');
 		while(!$hasTable){
+			$this->info('waiting for trans');
 			sleep(5);
-			Schema::hasTable('trans');
+			$hasTable = Schema::hasTable('trans');
 		}
 		$transDatas = DB::table('trans')->where('array', $array)->get()->toArray();
 		$response = [];

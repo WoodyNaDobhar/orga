@@ -141,7 +141,7 @@ return new class extends Migration
             $table->string('custom_name', 64)->nullable();
             $table->unsignedInteger('rank')->nullable();
             $table->date('issued_at');
-            $table->string('note', 400)->nullable();
+            $table->string('for', 400)->nullable();
             $table->string('image', 255)->nullable();
             $table->unsignedBigInteger('revoked_by')->nullable()->index('revoked_by');
             $table->date('revoked_at')->nullable();
