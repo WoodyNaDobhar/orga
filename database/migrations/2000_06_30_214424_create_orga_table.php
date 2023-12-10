@@ -18,7 +18,7 @@ return new class extends Migration
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
-            $table->enum('accountable_type', ['Realm', 'Chapter', 'Unit', 'Event']);
+            $table->enum('accountable_type', ['Realm', 'Chapter', 'Unit']);
             $table->unsignedInteger('accountable_id')->index('accountable_id');
             $table->string('name', 50);
             $table->enum('type', ['Imbalance', 'Income', 'Expense', 'Asset', 'Liability', 'Equity']);
@@ -96,7 +96,7 @@ return new class extends Migration
             $table->unsignedBigInteger('persona_id')->index('persona_id');
             $table->unsignedBigInteger('transaction_id')->index('transaction_id');
             $table->date('dues_on');
-            $table->double('intervals', 4, 3)->nullable();
+            $table->double('intervals', 7, 3)->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');

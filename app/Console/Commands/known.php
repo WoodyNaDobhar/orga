@@ -29,6 +29,10 @@ $knownAwards = [
 						'name' => 'Order of the Flame',
 						'is_ladder' => 0
 				],
+				8 => [
+						'name' => 'Order of the Flame',
+						'is_ladder' => 0
+				],
 				10 => [
 						'name' => 'Order of the Flame',
 						'is_ladder' => 0
@@ -120,6 +124,10 @@ $knownAwards = [
 						'is_ladder' => 1
 				],
 				7 => [
+						'name' => 'Order of the Griffon|Order of the Gryphon',
+						'is_ladder' => 1
+				],
+				8 => [
 						'name' => 'Order of the Griffon|Order of the Gryphon',
 						'is_ladder' => 1
 				],
@@ -217,6 +225,10 @@ $knownAwards = [
 						'name' => 'Order of the Hydra',
 						'is_ladder' => 1
 				],
+				8 => [
+						'name' => 'Order of the Hydra',
+						'is_ladder' => 1
+				],
 				10 => null,
 				11 => null,
 				12 => [
@@ -290,6 +302,10 @@ $knownAwards = [
 						'is_ladder' => 1
 				],
 				7 => [
+						'name' => 'Order of the Jovious',
+						'is_ladder' => 1
+				],
+				8 => [
 						'name' => 'Order of the Jovious',
 						'is_ladder' => 1
 				],
@@ -387,6 +403,10 @@ $knownAwards = [
 						'name' => 'Order of the Mask|Order of the Masque',
 						'is_ladder' => 1
 				],
+				8 => [
+						'name' => 'Order of the Mask|Order of the Masque',
+						'is_ladder' => 1
+				],
 				10 => [
 						'name' => 'Order of the Mask',
 						'is_ladder' => 1
@@ -475,6 +495,10 @@ $knownAwards = [
 						'is_ladder' => 1
 				],
 				7 => [
+						'name' => 'Order of the Zodiac',
+						'is_ladder' => 1
+				],
+				8 => [
 						'name' => 'Order of the Zodiac',
 						'is_ladder' => 1
 				],
@@ -592,6 +616,11 @@ $knownAwards = [
 						'is_ladder' => 0
 				],
 				7 => [
+						'type' => 'award',
+						'name' => 'Order of the Walker of the Middle',
+						'is_ladder' => 0
+				],
+				8 => [
 						'type' => 'award',
 						'name' => 'Order of the Walker of the Middle',
 						'is_ladder' => 0
@@ -897,6 +926,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'Master'
 				],
+				8 => [
+						'name' => 'Master Hydra',
+						'reign_limit' => null,
+						'rank' => 10,
+						'is_active' => 1,
+						'peerage' => 'Master'
+				],
 				10 => null,
 				11 => null,
 				12 => [
@@ -1158,6 +1194,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'None'
 				],
+				8 => [
+						'name' => 'Weaponmaster',
+						'reign_limit' => 1,
+						'rank' => 0,
+						'is_active' => 1,
+						'peerage' => 'None'
+				],
 				10 => [
 						'name' => 'Weaponmaster',
 						'reign_limit' => 1,
@@ -1255,6 +1298,13 @@ $knownTitles = [
 						'peerage' => 'None'
 				],
 				7 => [
+						'name' => 'Burning Lands Arts and Sciences Champion',
+						'reign_limit' => 1,
+						'rank' => 0,
+						'is_active' => 1,
+						'peerage' => 'None'
+				],
+				8 => [
 						'name' => 'Burning Lands Arts and Sciences Champion',
 						'reign_limit' => 1,
 						'rank' => 0,
@@ -1438,6 +1488,13 @@ $knownTitles = [
 						'peerage' => 'Gentry'
 				],
 				7 => [
+						'name' => 'Defender',
+						'reign_limit' => null,
+						'rank' => 0,
+						'is_active' => 1,
+						'peerage' => 'Gentry'
+				],
+				8 => [
 						'name' => 'Defender',
 						'reign_limit' => null,
 						'rank' => 0,
@@ -1688,6 +1745,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'Gentry'
 				],
+				8 => [
+						'name' => 'Esquire',
+						'reign_limit' => null,
+						'rank' => 5,
+						'is_active' => 1,
+						'peerage' => 'Gentry'
+				],
 				10 => [
 						'name' => 'Esquire',
 						'reign_limit' => null,
@@ -1791,6 +1855,13 @@ $knownTitles = [
 				],
 				6 => null,
 				7 => [
+						'name' => 'Master',
+						'reign_limit' => null,
+						'rank' => 5,
+						'is_active' => 1,
+						'peerage' => 'Gentry'
+				],
+				8 => [
 						'name' => 'Master',
 						'reign_limit' => null,
 						'rank' => 5,
@@ -1906,6 +1977,13 @@ $knownTitles = [
 						'peerage' => 'Nobility'
 				],
 				7 => [
+						'name' => 'Lord|Lady',
+						'reign_limit' => null,
+						'rank' => 30,
+						'is_active' => 1,
+						'peerage' => 'Gentry'
+				],
+				8 => [
 						'name' => 'Lord|Lady',
 						'reign_limit' => null,
 						'rank' => 30,
@@ -2075,6 +2153,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'Nobility'
 				],
+				8 => [
+						'name' => 'Baronet',
+						'reign_limit' => null,
+						'rank' => 40,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
 				10 => [
 						'name' => 'Baronet',
 						'reign_limit' => null,
@@ -2232,6 +2317,13 @@ $knownTitles = [
 						'peerage' => 'Nobility'
 				],
 				7 => [
+						'name' => 'Baron|Baroness',
+						'reign_limit' => null,
+						'rank' => 50,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
+				8 => [
 						'name' => 'Baron|Baroness',
 						'reign_limit' => null,
 						'rank' => 50,
@@ -2401,6 +2493,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'Nobility'
 				],
+				8 => [
+						'name' => 'Viscount|Viscountess',
+						'reign_limit' => null,
+						'rank' => 60,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
 				10 => [
 						'name' => 'Viscount|Viscountess',
 						'reign_limit' => null,
@@ -2558,6 +2657,13 @@ $knownTitles = [
 						'peerage' => 'Nobility'
 				],
 				7 => [
+						'name' => 'Marquis|Marquise',
+						'reign_limit' => null,
+						'rank' => 70,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
+				8 => [
 						'name' => 'Marquis|Marquise',
 						'reign_limit' => null,
 						'rank' => 70,
@@ -2727,6 +2833,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'Nobility'
 				],
+				8 => [
+						'name' => 'Count|Countess',
+						'reign_limit' => null,
+						'rank' => 80,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
 				10 => [
 						'name' => 'Count|Countess',
 						'reign_limit' => null,
@@ -2884,6 +2997,13 @@ $knownTitles = [
 						'peerage' => 'Nobility'
 				],
 				7 => [
+						'name' => 'Duke|Duchess',
+						'reign_limit' => null,
+						'rank' => 90,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
+				8 => [
 						'name' => 'Duke|Duchess',
 						'reign_limit' => null,
 						'rank' => 90,
@@ -3053,6 +3173,13 @@ $knownTitles = [
 						'is_active' => 1,
 						'peerage' => 'Nobility'
 				],
+				8 => [
+						'name' => 'Arch Duke',
+						'reign_limit' => null,
+						'rank' => 100,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
 				10 => [
 						'name' => 'Archduke|Archduchess',
 						'reign_limit' => null,
@@ -3204,6 +3331,13 @@ $knownTitles = [
 						'peerage' => 'Nobility'
 				],
 				7 => [
+						'name' => 'Grand Duke',
+						'reign_limit' => null,
+						'rank' => 110,
+						'is_active' => 1,
+						'peerage' => 'Nobility'
+				],
+				8 => [
 						'name' => 'Grand Duke',
 						'reign_limit' => null,
 						'rank' => 110,

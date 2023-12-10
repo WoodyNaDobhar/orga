@@ -1510,8 +1510,7 @@ class ImportOrk3 extends Command
 										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 									}
 								}
-								//TODO: Nuke me
-								echo '|' . $title . '|';
+								
 								//translate the fem into this one
 								if($title === 'Lord'){
 									foreach($oldTitles as $ot){
@@ -2245,7 +2244,6 @@ class ImportOrk3 extends Command
 					break;
 				case 'Events':
 					$this->info('Importing Events/Crats...');
-					$transEvents = [];
 					$transEventDetails = [];
 					$transRealms = $this->getTrans('realms');
 					$transChapters = $this->getTrans('chapters');
@@ -2429,12 +2427,6 @@ class ImportOrk3 extends Command
 							]);
 						}
 						DB::table('trans')->insert([
-								'array' => 'events',
-								'oldID' => $oldEvent->event_id,
-								'newID' => $eventId
-						]);
-						$transEvents[$oldEvent->event_id] = $eventId;
-						DB::table('trans')->insert([
 								'array' => 'eventdetails',
 								'oldID' => $oldEvent->event_calendardetail_id,
 								'newID' => $eventId
@@ -2449,7 +2441,6 @@ class ImportOrk3 extends Command
 					$transAccounts = [];
 					$transRealms = $this->getTrans('realms');
 					$transChapters = $this->getTrans('chapters');
-					$transEvents = $this->getTrans('events');
 					$transUnits = $this->getTrans('units');
 					$oldAccounts = $backupConnect->table('ork_account')->orderBy('account_id')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldAccounts));
@@ -2466,13 +2457,9 @@ class ImportOrk3 extends Command
 								$accountable_id = $transUnits[$oldAccount->unit_id];
 								break;
 							case 'Event':
-								while(!array_key_exists($oldAccount->event_id, $transEvents)){
-									$this->info('waiting for event ' . $oldAccount->event_id);
-									sleep(5);
-									$transEvents = $this->getTrans('events');
-								}
-								$accountable_id = $transEvents[$oldAccount->event_id];
-								break;
+								$deadRecords['Accounts']['Events'][$oldAccount->account_id] = $oldAccount;
+								$bar->advance();
+								continue 2;
 							case 'Chapter':
 								while(!array_key_exists($oldAccount->park_id, $transChapters)){
 									$this->info('waiting for chapter ' . $oldAccount->park_id);
@@ -2622,14 +2609,13 @@ class ImportOrk3 extends Command
 					$transChapters = $this->getTrans('chapters');
 					$transPersonas = $this->getTrans('personas');
 					$transUnits = $this->getTrans('units');
-					$transEvents = $this->getTrans('events');
 					$transEventDetails = $this->getTrans('eventsdetails');
 					$transUsers = $this->getTrans('users');
 					$transMeetups = $this->getTrans('meetups');
 					$count = $backupConnect->table('ork_attendance')->count();
 					$bar = $this->output->createProgressBar($count);
 					$bar->start();
-					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transEvents, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
+					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
 						$meetups = null;
 						$meetupId = null;
 						foreach ($oldAttendances as $oldAttendance) {
@@ -2950,12 +2936,6 @@ class ImportOrk3 extends Command
 											sleep(5);
 											$transEventDetails = $this->getTrans('eventdetails');
 										}
-									}else{
-										while(!array_key_exists($oldAttendance->event_id, $transEvents)){
-											$this->info('waiting for old event ' . $oldAttendance->event_id);
-											sleep(5);
-											$transEventDetails = $this->getTrans('events');
-										}
 									}
 									if(!array_key_exists($oldAttendance->event_calendardetail_id, $transEventDetails)){
 										//make it
@@ -3012,12 +2992,6 @@ class ImportOrk3 extends Command
 													'event_end' => $oldAttendance->date,
 													'price' => null
 											]);
-											DB::table('trans')->insert([
-													'array' => 'events',
-													'oldID' => $oldAttendance->event_id,
-													'newID' => $eventId
-											]);
-											$transEvents[$oldAttendance->event_id] = $eventId;
 											DB::table('trans')->insert([
 													'array' => 'eventdetails',
 													'oldID' => $oldAttendance->event_calendardetail_id,
@@ -4054,11 +4028,9 @@ class ImportOrk3 extends Command
 								}
 								$issuable_id = $transRealmawards[(int)$oldIssuance->kingdomaward_id];
 								$rank = $oldIssuance->rank != '' ? $oldIssuance->rank : null;
-								//TODO: this isn't gonna work, since some of them are null (everybody)
 							}else if(in_array($oldIssuance->award_id, $oldTitles)){
 								$issuable_type = 'Title';
 								$rank = null;
-								//TODO: update so that it uses 0 for ROP titles.  Also, get them added properly in the transTitles (key 0)
 								if(in_array($oldIssuance->award_id, $ropTitles)){
 									while(
 										!array_key_exists(0, $transTitles) ||
