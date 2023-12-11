@@ -1822,7 +1822,7 @@ class ImportOrk3 extends Command
 								continue 2;
 							}
 						}
-						$deadRecords['Title']['NoCorpora'][$oldTitle->award_id] = $oldTitle;
+						$deadRecords['Title']['Femms'][$oldTitle->award_id] = $oldTitle;
 					}
 					break;
 				case 'CustomTitles':
@@ -2603,6 +2603,7 @@ class ImportOrk3 extends Command
 					$this->info('Importing Attendances...');
 					$oldRealms = $backupConnect->table('ork_kingdom')->get()->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
+					$oldChaptersCheck = $backupConnect->table('ork_parks')->pluck('park_id')->toArray();
 					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$transArchetypes = $this->getTrans('archetypes');
 					$transRealms = $this->getTrans('realms');
@@ -2615,7 +2616,7 @@ class ImportOrk3 extends Command
 					$count = $backupConnect->table('ork_attendance')->count();
 					$bar = $this->output->createProgressBar($count);
 					$bar->start();
-					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes){
+					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes, &$oldChaptersCheck){
 						$meetups = null;
 						$meetupId = null;
 						foreach ($oldAttendances as $oldAttendance) {
@@ -2662,7 +2663,7 @@ class ImportOrk3 extends Command
 										$fromChapter = null;
 										if($fromChapterOldID){
 											while(!array_key_exists($fromChapterOldID, $transChapters)){
-												$this->info('waiting for chapter ' . $fromChapterOldID);
+												$this->info('1 waiting for chapter ' . $fromChapterOldID);
 												sleep(5);
 												$transChapters = $this->getTrans('chapters');
 											}
@@ -2676,7 +2677,7 @@ class ImportOrk3 extends Command
 										$fromChapter = null;
 										if($fromChapterOldID){
 											while(!array_key_exists($fromChapterOldID, $transChapters)){
-												$this->info('waiting for chapter ' . $fromChapterOldID);
+												$this->info('2 waiting for chapter ' . $fromChapterOldID);
 												sleep(5);
 												$transChapters = $this->getTrans('chapters');
 											}
@@ -2690,7 +2691,7 @@ class ImportOrk3 extends Command
 										$fromChapter = null;
 										if($fromChapterOldID){
 											while(!array_key_exists($fromChapterOldID, $transChapters)){
-												$this->info('waiting for chapter ' . $fromChapterOldID);
+												$this->info('3 waiting for chapter ' . $fromChapterOldID);
 												sleep(5);
 												$transChapters = $this->getTrans('chapters');
 											}
@@ -2704,7 +2705,7 @@ class ImportOrk3 extends Command
 										$fromChapter = null;
 										if($fromChapterOldID){
 											while(!array_key_exists($fromChapterOldID, $transChapters)){
-												$this->info('waiting for chapter ' . $fromChapterOldID);
+												$this->info('4 waiting for chapter ' . $fromChapterOldID);
 												sleep(5);
 												$transChapters = $this->getTrans('chapters');
 											}
@@ -2719,7 +2720,7 @@ class ImportOrk3 extends Command
 										$fromChapter = null;
 										if($fromChapterOldID){
 											while(!array_key_exists($fromChapterOldID, $transChapters)){
-												$this->info('waiting for chapter ' . $fromChapterOldID);
+												$this->info('5 waiting for chapter ' . $fromChapterOldID);
 												sleep(5);
 												$transChapters = $this->getTrans('chapters');
 											}
@@ -2788,7 +2789,7 @@ class ImportOrk3 extends Command
 											if(array_search($mostAttended->park_id, $oldChapters)){
 												$transChapters = $this->getTrans('chapters');
 												while(!array_key_exists($mostAttended->park_id, $transChapters)){
-													$this->info('waiting for chapter ' . $mostAttended->park_id);
+													$this->info('6 waiting for chapter ' . $mostAttended->park_id);
 													sleep(5);
 													$transChapters = $this->getTrans('chapters');
 												}
@@ -2907,11 +2908,18 @@ class ImportOrk3 extends Command
 										$meetupId = $transMeetups[$oldMeetupId];
 									}else{
 										$transChapters = $this->getTrans('chapters');
-										while(!array_key_exists($oldAttendance->park_id, $transChapters)){
-											$this->info('waiting for chapter ' . $oldAttendance->park_id);
-											sleep(5);
-											$transChapters = $this->getTrans('chapters');
+										if(!in_array($oldAttendance->park_id, $oldChaptersCheck)){
+											$deadRecords['Attendance']['NoChapter'][$oldAttendance->attendance_id] = $oldAttendance;
+											$bar->advance();
+											continue;
+										}else{
+											while(!array_key_exists($oldAttendance->park_id, $transChapters)){
+												$this->info('7 waiting for chapter ' . $oldAttendance->park_id);
+												sleep(5);
+												$transChapters = $this->getTrans('chapters');
+											}
 										}
+										
 										//make it
 										$meetupId = DB::table('meetups')->insertGetId([
 												'chapter_id' => $transChapters[$oldAttendance->park_id],
@@ -2962,7 +2970,7 @@ class ImportOrk3 extends Command
 													break;
 												case 'Chapter':
 													while(!array_key_exists($parentEvent->park_id, $transChapters)){
-														$this->info('waiting for chapter ' . $parentEvent->park_id);
+														$this->info('8 waiting for chapter ' . $parentEvent->park_id);
 														sleep(5);
 														$transChapters = $this->getTrans('chapters');
 													}
@@ -3425,7 +3433,7 @@ class ImportOrk3 extends Command
 								$createdBy = null;
 							}else{
 								while(!array_key_exists($mundane->mundane_id, $transUsers)){
-									$this->info('waiting for user ' . $oldDue->created_by);
+									$this->info('1 waiting for user ' . $oldDue->created_by);
 									sleep(5);
 									$transUsers = $this->getTrans('users');
 								}
@@ -3482,10 +3490,16 @@ class ImportOrk3 extends Command
 							]);
 							$transPersonas[$oldDue->created_by] = $personaId;
 						}else{
-							while(!array_key_exists($oldDue->created_by, $transUsers)){
-								$this->info('waiting for user ' . $oldDue->created_by);
-								sleep(5);
-								$transUsers = $this->getTrans('users');
+							DB::reconnect("mysqlBak");
+							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
+							if(!$mundane || $mundane->email === ''){
+								$createdBy = null;
+							}else{
+								while(!array_key_exists($oldDue->created_by, $transUsers)){
+									$this->info('2 waiting for user ' . $oldDue->created_by);
+									sleep(5);
+									$transUsers = $this->getTrans('users');
+								}
 							}
 						}
 						if($oldDue->revoked_by && !in_array($oldDue->revoked_by, $oldPersonas)){
@@ -3502,6 +3516,7 @@ class ImportOrk3 extends Command
 									'newID' => $userId
 							]);
 							$transUsers[$oldDue->revoked_by] = $userId;
+							$revokedBy = $userId;
 							$personaId = DB::table('personas')->insertGetId([
 									'chapter_id' => $transChapters[$oldDue->park_id],
 									'user_id' => $userId,
@@ -3517,32 +3532,35 @@ class ImportOrk3 extends Command
 							]);
 							$transPersonas[$oldDue->revoked_by] = $personaId;
 						}elseif($oldDue->revoked_by){
-							while(!array_key_exists($oldDue->revoked_by, $transUsers)){
-								$this->info('waiting for user ' . $oldDue->revoked_by);
-								sleep(5);
-								$transUsers = $this->getTrans('users');
+							DB::reconnect("mysqlBak");
+							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->revoked_by)->first();
+							if(!$mundane || $mundane->email === ''){
+								$revokedBy = null;
+							}else{
+								while(!array_key_exists($oldDue->revoked_by, $transUsers)){
+									$this->info('3 waiting for user ' . $oldDue->revoked_by);
+									sleep(5);
+									$transUsers = $this->getTrans('users');
+								}
+								$revokedBy = $transUsers[$oldDue->revoked_by];
 							}
+						}else{
+							$revokedBy = null;
 						}
-						//work out the intervals
-						//dues_until - dues_from in months / 6
-						$date1 = $duesFrom;
-						$date2 = $oldDue->dues_until;
-						$ts1 = strtotime($date1);
-						$ts2 = strtotime($date2);
-						$year1 = date('Y', $ts1);
-						$year2 = date('Y', $ts2);
-						$month1 = date('m', $ts1);
-						$month2 = date('m', $ts2);
-						$monthsDiff = (($year2 - $year1) * 12) + ($month2 - $month1);
-						$intervals = $monthsDiff/6;
-						if(date("Y-m", strtotime($oldDue->dues_until)) != date('Y-m', strtotime($duesFrom. '+ ' . $monthsDiff . ' months'))){
-							//this shouldn't happen.  let me know
-							dd(array(
-								$duesFrom,
-								$oldDue->dues_until,
-									date('Y-m-d', strtotime($duesFrom. '+ ' . $monthsDiff . ' months')),
-								$intervals
-							));
+						
+						if($oldDue->dues_for_life == '1'){
+							$intervals = null;
+						}else{
+							//work out the intervals
+							//dues_until - dues_from in months / 6
+							$date1 = $duesFrom;
+							$date2 = $oldDue->dues_until;
+							$date_diff = abs(strtotime($date2) - strtotime($date1));
+							$intervals = $date_diff / (182.5*60*60*24);
+							//convert intervals > 160 to 'dues paid for life'
+							if($intervals > 160){
+								$intervals = null;
+							}
 						}
 						while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
 							$this->info('waiting for persona ' . $oldDue->mundane_id);
@@ -3553,11 +3571,11 @@ class ImportOrk3 extends Command
 							'persona_id' => $transPersonas[$oldDue->mundane_id],
 							'transaction_id' => $transactionId,
 							'dues_on' => date('Y-m-d', strtotime($duesFrom)),
-							'intervals' => round($intervals, 3),
+							'intervals' => $intervals ? round($intervals, 3) : null,
 							'created_at' => $duesFrom,
 							'created_by' => $transUsers[$oldDue->created_by],
 							'deleted_at' => $oldDue->revoked === '1' ? date('Y-m-d H:i:s', strtotime($oldDue->revoked_on)) : null,
-							'deleted_by' => $oldDue->revoked === '1' ? $transUsers[$oldDue->revoked_by] : null
+							'deleted_by' => $oldDue->revoked === '1' ? $revokedBy : null
 						]);
 						$bar->advance();
 					}
@@ -3826,6 +3844,7 @@ class ImportOrk3 extends Command
 					$transRealmawards = $this->getTrans('realmawards');
 					$transPersonas = $this->getTrans('personas');
 					$oldTitles = $backupConnect->table('ork_award')->where('is_title', 1)->pluck('award_id')->toArray();
+					$oldKingdomawards = $backupConnect->table('ork_kingdomaward')->pluck('kingdomaward_id')->toArray();
 					$oldRecommendations = $backupConnect->table('ork_recommendations')->get()->toArray();
 					$bar = $this->output->createProgressBar(count($oldRecommendations));
 					$bar->start();
@@ -3839,16 +3858,6 @@ class ImportOrk3 extends Command
 							if($knownAwards['Order of the Walker in the Middle'][$persona->kingdom_id]['type'] == 'award'){
 								$isTitle = false;
 							}
-						}
-						while(!array_key_exists($oldRecommendation->recommended_by_id, $transPersonas)){
-							$this->info('waiting for persona ' . $oldRecommendation->recommended_by_id);
-							sleep(5);
-							$transPersonas = $this->getTrans('personas');
-						}
-						while(!array_key_exists($oldRecommendation->mundane_id, $transPersonas)){
-							$this->info('waiting for persona ' . $oldRecommendation->mundane_id);
-							sleep(5);
-							$transPersonas = $this->getTrans('personas');
 						}
 						if($isTitle){
 							if(in_array($oldRecommendation->award_id, $ropTitles)){
@@ -3871,11 +3880,27 @@ class ImportOrk3 extends Command
 								}
 							}
 						}else{
-							while(!array_key_exists($oldRecommendation->kingdomaward_id, $transRealmawards)){
-								$this->info('waiting for realmaward ' . $oldRecommendation->kingdomaward_id);
-								sleep(5);
-								$transRealmawards = $this->getTrans('realmawards');
+							if(!in_array($oldRecommendation->kingdomaward_id, $oldKingdomawards)) {
+								$deadRecords['Recommendation']['CustomAward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								$bar->advance();
+								continue;
+							}else{
+								while(!array_key_exists($oldRecommendation->kingdomaward_id, $transRealmawards)){
+									$this->info('waiting for realmaward ' . $oldRecommendation->kingdomaward_id);
+									sleep(5);
+									$transRealmawards = $this->getTrans('realmawards');
+								}
 							}
+						}
+						while(!array_key_exists($oldRecommendation->recommended_by_id, $transPersonas)){
+							$this->info('waiting for persona ' . $oldRecommendation->recommended_by_id);
+							sleep(5);
+							$transPersonas = $this->getTrans('personas');
+						}
+						while(!array_key_exists($oldRecommendation->mundane_id, $transPersonas)){
+							$this->info('waiting for persona ' . $oldRecommendation->mundane_id);
+							sleep(5);
+							$transPersonas = $this->getTrans('personas');
 						}
 						//TODO: check
 						DB::table('recommendations')->insert([
