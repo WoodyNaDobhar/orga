@@ -1918,21 +1918,23 @@ class ImportOrk3 extends Command
 									'is_roaming' => 0,
 									'is_active' => $nameClean === 'Master' || $nameClean === 'Esquire' ? 0 : 1
 							]);
+							//The transTitles normally stores the award_id.  Since we're not doing the old way for custom awards, we have to give it the kingdomaward_id.  
+							//Since it might overlap an award_id, we're going to prefix these edge-cases with '999', a number higher than the number of award_ids there are
 							DB::table('trans')->insert([
 									'array' => 'titles',
-									'oldID' => 'r'.$oldCustomTitle->kingdomaward_id,
+									'oldID' => '999' . $oldCustomTitle->kingdomaward_id,
 									'oldMID' => $oldCustomTitle->kingdom_id,
 									'newID' => $customTitleId
 							]);
-							$transTitles[$oldCustomTitle->kingdom_id]['r'.$oldCustomTitle->kingdomaward_id] = $customTitleId;
+							$transTitles[(int)$oldCustomTitle->kingdom_id][(int)'999' . $oldCustomTitle->kingdomaward_id] = $customTitleId;
 						}else{
 							DB::table('trans')->insert([
 									'array' => 'titles',
-									'oldID' => 'r'.$oldCustomTitle->kingdomaward_id,
+									'oldID' => '999' . $oldCustomTitle->kingdomaward_id,
 									'oldMID' => $oldCustomTitle->kingdom_id,
 									'newID' => $titleExists->id
 							]);
-							$transTitles[$oldCustomTitle->kingdom_id]['r'.$oldCustomTitle->kingdomaward_id] = $titleExists->id;
+							$transTitles[(int)$oldCustomTitle->kingdom_id][(int)'999' . $oldCustomTitle->kingdomaward_id] = $titleExists->id;
 						}
 						DB::table('trans')->insert([
 								'array' => 'realmawards',
@@ -3911,19 +3913,19 @@ class ImportOrk3 extends Command
 								continue;
 							}
 							//check $knownTitles
-							//TODO: add custom titles to transTitles (we need the kingdomaward_id put in there, not the award id, and it needs to be distinct: 'r' . id)
+							//TODO: add custom titles to transTitles (we need the kingdomaward_id put in there, not the award id, and it needs to be distinct: '999' . id)
 							if($knownTitles[$realmaward->name] && $knownTitles[$realmaward->name][$persona->kingdom_id]){
 								$isTitle = true;
 								//wait for it in trans
 								while(
 									!array_key_exists($persona->kingdom_id, $transTitles) ||
-									!array_key_exists('r' . $realmaward->kingdomaward_id, $transTitles[$persona->kingdom_id])
+									!array_key_exists('999' . $realmaward->kingdomaward_id, $transTitles[$persona->kingdom_id])
 								){
 									$this->info('waiting for realm/title ' . $persona->kingdom_id . '|r' . $realmaward->kingdomaward_id);
 									sleep(5);
 									$transRealmawards = $this->getTrans('realmawards');
 								}
-								$titleAwardId = 'r' . $realmaward->kingdomaward_id;
+								$titleAwardId = '999' . $realmaward->kingdomaward_id;
 							}
 							//check awards
 							DB::reconnect("mysqlBak");
@@ -4123,13 +4125,13 @@ class ImportOrk3 extends Command
 									DB::reconnect("mysqlBak");
 									while(
 										!array_key_exists($realmaward->kingdom_id, $transTitles) ||
-										!array_key_exists('r' . $realmaward->kingdomaward_id, $transTitles[$realmaward->kingdom_id])
+										!array_key_exists('999' . $realmaward->kingdomaward_id, $transTitles[$realmaward->kingdom_id])
 									){
 										$this->info('waiting for realm/title ' . $realmaward->kingdom_id . '|r' . $realmaward->kingdomaward_id);
 										sleep(5);
 										$transRealmawards = $this->getTrans('realmawards');
 									}
-									$issuable_id = $transRealmawards['r' . $realmaward->kingdomaward_id];
+									$issuable_id = $transRealmawards['999' . $realmaward->kingdomaward_id];
 								}
 								//check awards
 								DB::reconnect("mysqlBak");
