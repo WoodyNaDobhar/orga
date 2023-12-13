@@ -115,6 +115,7 @@ return new class extends Migration
             $table->mediumText('description')->nullable();
             $table->string('image', 255)->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_demo')->default(false);
             $table->timestamp('event_start')->nullable();
             $table->timestamp('event_end')->nullable();
             $table->float('price', 6)->nullable();
@@ -124,6 +125,22 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
             $table->softDeletes();
+        });
+        	
+        Schema::create('guests', function (Blueprint $table) {
+        	$table->engine = 'InnoDB';
+        	$table->bigIncrements('id');
+        	$table->unsignedBigInteger('event_id')->index('event_id');
+        	$table->unsignedBigInteger('waiver_id')->index('waiver_id');
+        	$table->unsignedBigInteger('chapter_id')->index('chapter_id')->nullable();
+        	$table->boolean('is_followedup')->default(false);
+        	$table->string('notes')->nullable();
+        	$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
+        	$table->timestamp('created_at')->useCurrent();
+        	$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
+        	$table->timestamp('updated_at')->nullable();
+        	$table->unsignedBigInteger('deleted_by')->nullable()->index('deleted_by');
+        	$table->softDeletes();
         });
 
         Schema::create('issuances', function (Blueprint $table) {
@@ -603,6 +620,15 @@ return new class extends Migration
             $table->foreign(['location_id'], 'events_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['updated_by'], 'events_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
+        	
+        Schema::table('guests', function (Blueprint $table) {
+        	$table->foreign(['event_id'], 'guests_event_id')->references(['id'])->on('events')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        	$table->foreign(['waiver_id'], 'guests_waiver_id')->references(['id'])->on('waivers')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        	$table->foreign(['chapter_id'], 'guests_chapter_id')->references(['id'])->on('chapters')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        	$table->foreign(['created_by'], 'guests_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        	$table->foreign(['deleted_by'], 'guests_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        	$table->foreign(['updated_by'], 'guests_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        });
 
         Schema::table('issuances', function (Blueprint $table) {
             $table->foreign(['created_by'], 'issuances_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -948,6 +974,15 @@ return new class extends Migration
             $table->dropForeign('issuances_revoked_by');
             $table->dropForeign('issuances_updated_by');
         });
+        	
+        Schema::table('guests', function (Blueprint $table) {
+        	$table->dropForeign('guests_event_id');
+        	$table->dropForeign('guests_waiver_id');
+        	$table->dropForeign('guests_chapter_id');
+        	$table->dropForeign('guests_created_by');
+        	$table->dropForeign('guests_deleted_by');
+        	$table->dropForeign('guests_updated_by');
+        });
 
         Schema::table('events', function (Blueprint $table) {
             $table->dropForeign('events_created_by');
@@ -1044,6 +1079,8 @@ return new class extends Migration
         Schema::dropIfExists('realms');
 
         Schema::dropIfExists('issuances');
+        
+        Schema::dropIfExists('guests');
 
         Schema::dropIfExists('events');
         

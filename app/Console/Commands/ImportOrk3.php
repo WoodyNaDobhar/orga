@@ -2010,7 +2010,7 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Personas':
-					$this->info('Importing Users/Personas/Memberships/Suspensions/Waivers...');
+					$this->info('Importing Users/Personas/Guests/Memberships/Suspensions/Waivers...');
 					$usedEmails = [];
 					$suspensionsWaitList = [];
 					$transUsers = [];
@@ -2025,6 +2025,8 @@ class ImportOrk3 extends Command
 						foreach($oldUsers as $oldUser) {
 							$pronounId = null;
 							$userId = null;
+							$isDemo = false;
+							$personaId = null;
 							//don't redo this one
 							if($oldUser->username === 'orkadmin'){
 								DB::table('trans')->insert([
@@ -2035,67 +2037,11 @@ class ImportOrk3 extends Command
 								$transPersonas[$oldUser->mundane_id] = 1;
 								continue;
 							}
-							//user data
-							if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
-								if(!in_array(strtolower($oldUser->email), $usedEmails)){
-									$userId = DB::table('users')->insertGetId([
-											'email' => strtolower($oldUser->email),
-											'email_verified_at' => null,
-											'password' => bin2hex(openssl_random_pseudo_bytes(4)),
-											'remember_token' => null,
-											'is_restricted' => $oldUser->restricted === '1' ? 1 : 0,
-											'created_at' => $oldUser->modified,
-											'updated_at' => $oldUser->modified
-									]);
-									//assign role
-									$user = User::find($userId);
-									//park_id == 0 && kingdom_id == $oldUser->kingdom_id && mundane_id == $oldUser->mundane_id
-									//park_id == $oldUser->park_id && mundane_id == $oldUser->mundane_id
-									$offices = $backupConnect->table('ork_officer')->where(function($query) use($oldUser) {
-										$query->where('park_id', 0)
-										->where('kingdom_id', $oldUser->kingdom_id)
-										->where('mundane_id', $oldUser->mundane_id);
-									})->orWhere(function($query2) use($oldUser) {
-										$query2->where('park_id', $oldUser->park_id)
-										->where('mundane_id', $oldUser->mundane_id);
-									})->get()->toArray();
-									if($userId === 1){
-										$roleExists = Role::where('name', 'admin')->exists();
-										while(!$roleExists){
-											$this->info('waiting for role admin');
-											sleep(5);
-											$roleExists = Role::where('name', 'admin')->exists();
-										}
-										$user->assignRole('admin');
-									}else if(count($offices) > 0){
-										$roleExists = Role::where('name', 'officer')->exists();
-										while(!$roleExists){
-											$this->info('waiting for role officer');
-											sleep(5);
-											$roleExists = Role::where('name', 'officer')->exists();
-										}
-										$user->assignRole('officer');
-									}else{
-										$roleExists = Role::where('name', 'player')->exists();
-										while(!$roleExists){
-											$this->info('waiting for role player');
-											sleep(5);
-											$roleExists = Role::where('name', 'player')->exists();
-										}
-										$user->assignRole('player');
-									}
-									$usedEmails[] = strtolower($oldUser->email);
-									DB::table('trans')->insert([
-											'array' => 'users',
-											'oldID' => $oldUser->mundane_id,
-											'newID' => $userId
-									]);
-									$transUsers[$oldUser->mundane_id] = $userId;
-								}else{
-									$deadRecords['User']['DuplicateEmail'][$oldUser->mundane_id] = $oldUser;
-								}
+							while(!array_key_exists($oldUser->kingdom_id, $transRealms)){
+								$this->info('waiting for realm ' . $oldUser->kingdom_id);
+								sleep(5);
+								$transRealms = $this->getTrans('realms');
 							}
-							
 							if($oldUser->pronoun_id < 1){
 								$detector = new \GenderDetector\GenderDetector();
 								$gender = $detector->getGender(trim($oldUser->given_name), 'US');
@@ -2116,98 +2062,159 @@ class ImportOrk3 extends Command
 							}else{
 								$pronounId = $oldUser->pronoun_id;
 							}
-							
-							//clean up the persona name
-							$personaName = $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname));
-							$personaName = $this->stripTitles($personaName);
-							
-							if($oldUser->park_id == 0){
-								$burningLands = $backupConnect->table('ork_park')->where('name', 'Burning Lands')->first();
+							//obvious demo people only get a waiver.  There's no event to tie 'em to.
+							if(
+								str_contains($oldUser->persona, 'zzc2e2_') ||
+								str_contains($oldUser->persona, 'zzsc')
+							){
+								$isDemo = true;
 							}
 							
-							//wait for the chapter to exist
-							while(!array_key_exists(($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id), $transChapters)){
-								$this->info('waiting for chapter ' . ($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id));
-								sleep(5);
-								$transChapters = $this->getTrans('chapters');
-							}
-							
-							//persona data
-							$personaId = DB::table('personas')->insertGetId([
-									'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
-									'user_id' => $userId,
-									'pronoun_id' => $pronounId,
-									'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
-									'name' => $personaName,
-									'heraldry' => $oldUser->has_heraldry === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-									'image' => $oldUser->has_image === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-									'is_active' => $oldUser->active === '1' ? 1 : 0,
-									'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
-									'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
-									'joined_chapter_at' => $oldUser->park_member_since === '0000-00-00' || $userId === 1 ? null : $oldUser->park_member_since,
-									'created_at' => $oldUser->modified,
-									'updated_at' => $oldUser->modified
-							]);
-							DB::table('trans')->insert([
-									'array' => 'personas',
-									'oldID' => $oldUser->mundane_id,
-									'newID' => $personaId
-							]);
-							$transPersonas[$oldUser->mundane_id] = $personaId;
-							
-							//unit membership data
-							if ($oldUser->company_id > 0 && $oldUser->park_id != 0) {
-								if (in_array($oldUser->company_id, $oldUnits)) {
-									//wait for the unit to exist
-									while(!array_key_exists($oldUser->company_id, $transUnits)){
-										$this->info('waiting for unit ' . $oldUser->company_id);
-										sleep(5);
-										$transUnits = $this->getTrans('units');
+							if(!$isDemo){
+								//user data
+								if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
+									if(!in_array(strtolower($oldUser->email), $usedEmails)){
+										$userId = DB::table('users')->insertGetId([
+												'email' => strtolower($oldUser->email),
+												'email_verified_at' => null,
+												'password' => bin2hex(openssl_random_pseudo_bytes(4)),
+												'remember_token' => null,
+												'is_restricted' => $oldUser->restricted === '1' ? 1 : 0,
+												'created_at' => $oldUser->modified,
+												'updated_at' => $oldUser->modified
+										]);
+										//assign role
+										$user = User::find($userId);
+										//park_id == 0 && kingdom_id == $oldUser->kingdom_id && mundane_id == $oldUser->mundane_id
+										//park_id == $oldUser->park_id && mundane_id == $oldUser->mundane_id
+										$offices = $backupConnect->table('ork_officer')->where(function($query) use($oldUser) {
+											$query->where('park_id', 0)
+											->where('kingdom_id', $oldUser->kingdom_id)
+											->where('mundane_id', $oldUser->mundane_id);
+										})->orWhere(function($query2) use($oldUser) {
+											$query2->where('park_id', $oldUser->park_id)
+											->where('mundane_id', $oldUser->mundane_id);
+										})->get()->toArray();
+										if($userId === 1){
+											$roleExists = Role::where('name', 'admin')->exists();
+											while(!$roleExists){
+												$this->info('waiting for role admin');
+												sleep(5);
+												$roleExists = Role::where('name', 'admin')->exists();
+											}
+											$user->assignRole('admin');
+										}else if(count($offices) > 0){
+											$roleExists = Role::where('name', 'officer')->exists();
+											while(!$roleExists){
+												$this->info('waiting for role officer');
+												sleep(5);
+												$roleExists = Role::where('name', 'officer')->exists();
+											}
+											$user->assignRole('officer');
+										}else{
+											$roleExists = Role::where('name', 'player')->exists();
+											while(!$roleExists){
+												$this->info('waiting for role player');
+												sleep(5);
+												$roleExists = Role::where('name', 'player')->exists();
+											}
+											$user->assignRole('player');
+										}
+										$usedEmails[] = strtolower($oldUser->email);
+										DB::table('trans')->insert([
+												'array' => 'users',
+												'oldID' => $oldUser->mundane_id,
+												'newID' => $userId
+										]);
+										$transUsers[$oldUser->mundane_id] = $userId;
+									}else{
+										$deadRecords['User']['DuplicateEmail'][$oldUser->mundane_id] = $oldUser;
 									}
-									DB::table('members')->insert([
-											'unit_id' => $transUnits[$oldUser->company_id],
-											'persona_id' => $personaId,
-											'joined_at' => null,
-											'left_at' => null,
-											'is_head' => 0,
-											'is_voting' => 1
-									]);
-								}else{
-									$deadRecords['Unit']['Deleted'][$oldUser->company_id] = $oldUser;
 								}
-							}
-							
-							//suspensions data
-							if($oldUser->suspended > 0){
-								while(!array_key_exists($oldUser->kingdom_id, $transRealms)){
-									$this->info('waiting for realm ' . $oldUser->kingdom_id);
+								
+								//clean up the persona name
+								$personaName = $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname));
+								$personaName = $this->stripTitles($personaName);
+								
+								if($oldUser->park_id == 0){
+									$burningLands = $backupConnect->table('ork_park')->where('name', 'Burning Lands')->first();
+								}
+								
+								//wait for the chapter to exist
+								while(!array_key_exists(($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id), $transChapters)){
+									$this->info('waiting for chapter ' . ($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id));
 									sleep(5);
-									$transRealms = $this->getTrans('realms');
+									$transChapters = $this->getTrans('chapters');
 								}
-								if (!$oldUser->suspended_by_id || array_key_exists($oldUser->suspended_by_id, $transPersonas)) {
-									DB::table('suspensions')->insertGetId([
-											'persona_id' => $personaId,
-											'realm_id' => $transRealms[$oldUser->kingdom_id],
-											'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
-											'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
-											'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
-											'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
-											'cause' => $oldUser->suspension && $oldUser->suspension != '' ? $oldUser->suspension : 'Unknown',
-											'created_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
-											'updated_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at
-									]);
-								}else{
-									$suspensionsWaitList[] = $oldUser;
+								
+								//persona data
+								$personaId = DB::table('personas')->insertGetId([
+										'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
+										'user_id' => $userId,
+										'pronoun_id' => $pronounId,
+										'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
+										'name' => $personaName,
+										'heraldry' => $oldUser->has_heraldry === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+										'image' => $oldUser->has_image === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+										'is_active' => $oldUser->active === '1' ? 1 : 0,
+										'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
+										'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
+										'joined_chapter_at' => $oldUser->park_member_since === '0000-00-00' || $userId === 1 ? null : $oldUser->park_member_since,
+										'created_at' => $oldUser->modified,
+										'updated_at' => $oldUser->modified
+								]);
+								DB::table('trans')->insert([
+										'array' => 'personas',
+										'oldID' => $oldUser->mundane_id,
+										'newID' => $personaId
+								]);
+								$transPersonas[$oldUser->mundane_id] = $personaId;
+								
+								//unit membership data
+								if ($oldUser->company_id > 0 && $oldUser->park_id != 0) {
+									if (in_array($oldUser->company_id, $oldUnits)) {
+										//wait for the unit to exist
+										while(!array_key_exists($oldUser->company_id, $transUnits)){
+											$this->info('waiting for unit ' . $oldUser->company_id);
+											sleep(5);
+											$transUnits = $this->getTrans('units');
+										}
+										DB::table('members')->insert([
+												'unit_id' => $transUnits[$oldUser->company_id],
+												'persona_id' => $personaId,
+												'joined_at' => null,
+												'left_at' => null,
+												'is_head' => 0,
+												'is_voting' => 1
+										]);
+									}else{
+										$deadRecords['Unit']['Deleted'][$oldUser->company_id] = $oldUser;
+									}
+								}
+								
+								//suspensions data
+								if($oldUser->suspended > 0){
+									if (!$oldUser->suspended_by_id || array_key_exists($oldUser->suspended_by_id, $transPersonas)) {
+										DB::table('suspensions')->insertGetId([
+												'persona_id' => $personaId,
+												'realm_id' => $transRealms[$oldUser->kingdom_id],
+												'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
+												'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
+												'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
+												'is_propogating' => stripos($oldUser->suspension, 'COC') > -1 || stripos($oldUser->suspension, 'Code of Conduct') > -1 || stripos($oldUser->suspension, 'Registe') > -1 || (stripos($oldUser->suspension, 'Prop') > -1 && stripos($oldUser->suspension, ' not ') < 1 ) || stripos($oldUser->suspension, 'inter') > -1 || stripos($oldUser->suspension, 'triggers') > -1 || stripos($oldUser->suspension, 'applies') > -1 || stripos($oldUser->suspension, 'spans') > -1 ? 1 : 0,
+												'cause' => $oldUser->suspension && $oldUser->suspension != '' ? $oldUser->suspension : 'Unknown',
+												'created_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
+												'updated_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at
+										]);
+									}else{
+										$suspensionsWaitList[] = $oldUser;
+									}
 								}
 							}
 							
 							//waiver data
 							if($oldUser->waivered > 0 && trim($oldUser->given_name) != '' && trim($oldUser->surname) != '' && $oldUser->park_id != 0){
-								while(!array_key_exists($oldUser->kingdom_id, $transRealms)){
-									$this->info('waiting for realm ' . $oldUser->kingdom_id);
-									sleep(5);
-									$transRealms = $this->getTrans('realms');
-								}
+								
 								DB::table('waivers')->insertGetId([
 										'pronoun_id' => $pronounId,
 										'persona_id' => $personaId,
@@ -2303,12 +2310,8 @@ class ImportOrk3 extends Command
 						}
 						if($oldEvent->mundane_id && $oldEvent->mundane_id != 0){
 							//check old mundanes for existence
-// 							try {
-								DB::reconnect("mysqlBak");
-								$mundaneCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldEvent->mundane_id)->first();
-// 							} catch(\Illuminate\Database\QueryException $ex){
-// 								dd($ex->getMessage());
-// 							}
+							DB::reconnect("mysqlBak");
+							$mundaneCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldEvent->mundane_id)->first();
 							if($mundaneCheck){
 								if(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
 									while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
@@ -2413,6 +2416,7 @@ class ImportOrk3 extends Command
 								'name' => trim($oldEvent->name),
 								'description' => trim($oldEvent->description) != '' ? trim($oldEvent->description) : null,
 								'is_active' => $oldEvent->current,
+								'is_demo' => str_contains(strtolower(trim($oldEvent->name)), 'demo') ? 1 : 0,
 								'image' => $oldEvent->has_heraldry === '1' ? sprintf('%05d.jpg', $oldEvent->event_id) : null,
 								'event_start' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
 								'event_end' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
@@ -2856,7 +2860,7 @@ class ImportOrk3 extends Command
 								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 								$bar->advance();
 								continue;
-								//no event and no date (ie, reconciliation)
+							//no event and no date (ie, reconciliation)
 							}else if($oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0 && $oldAttendance->entered_at === '0000-00-00 00:00:00' && $oldAttendance->date === '0000-00-00'){
 								DB::table('reconciliations')->insertGetId([
 										'archetype_id' => $archetypeId,
@@ -2866,7 +2870,7 @@ class ImportOrk3 extends Command
 								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 								$bar->advance();
 								continue;
-								//if the date is before Feb 01 1983, it's a reconciliation
+							//if the date is before Feb 01 1983, it's a reconciliation
 							}else if($oldAttendance->date < '1983-02-01'){
 								DB::table('reconciliations')->insertGetId([
 										'archetype_id' => $archetypeId,
@@ -2876,7 +2880,7 @@ class ImportOrk3 extends Command
 								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 								$bar->advance();
 								continue;
-								//if the date is missing the month or day, reconcile it
+							//if the date is missing the month or day, reconcile it
 							}else if(strpos($oldAttendance->date, '-00') > -1){
 								DB::table('reconciliations')->insertGetId([
 										'archetype_id' => $archetypeId,
@@ -2886,7 +2890,7 @@ class ImportOrk3 extends Command
 								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
 								$bar->advance();
 								continue;
-								//if it's more than 2 credits and no event, it's a reconcilliation
+							//if it's more than 2 credits and no event, it's a reconcilliation
 							}else if($oldAttendance->credits > 2.9 && $oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 								DB::table('reconciliations')->insertGetId([
 										'archetype_id' => $archetypeId,
@@ -2897,6 +2901,7 @@ class ImportOrk3 extends Command
 								$bar->advance();
 								continue;
 							}else{
+								//it's a meetup
 								if($oldAttendance->event_id == 0 && $oldAttendance->event_calendardetail_id == 0){
 									//is there a meetup?
 									DB::reconnect("mysqlBak");
@@ -2953,20 +2958,22 @@ class ImportOrk3 extends Command
 												'description' => 'This Meetup has been generated.  Please review it and correct as appropriate.'
 										]);
 									}
-								//check to make sure the event exists
+								//it's an event
 								}else if($oldAttendance->event_calendardetail_id != 0){
 									DB::reconnect("mysqlBak");
 									$eventDetailsCheck = $backupConnect->table('ork_event_calendardetail')->where('event_calendardetail_id', $oldAttendance->event_calendardetail_id)->first();
+									//and it's a thing
 									if($eventDetailsCheck){
+										//wait for it
 										while(!array_key_exists($oldAttendance->event_calendardetail_id, $transEventDetails)){
 											$this->info('waiting for event ' . $oldAttendance->event_calendardetail_id);
 											sleep(5);
 											$transEventDetails = $this->getTrans('eventdetails');
 										}
-									}
-									if(!array_key_exists($oldAttendance->event_calendardetail_id, $transEventDetails)){
-										//make it
+									//otherwise, make it
+									}else{
 										if($oldAttendance->event_id > 0){
+											//TODO: DEMO CHECK
 											DB::reconnect("mysqlBak");
 											$parentEvent = $backupConnect->table('ork_event')->where('event_id', $oldAttendance->event_id)->first();
 											$eventable_type = $parentEvent->unit_id > 0 ? 'Unit' : ($parentEvent->kingdom_id == 0 && $parentEvent->park_id == 0 ? 'Persona' : ($parentEvent->park_id > 0 && $parentEvent->kingdom_id == 0 ? 'Chapter' : 'Realm'));
@@ -3014,6 +3021,7 @@ class ImportOrk3 extends Command
 													'name' => trim($parentEvent->name),
 													'description' => 'This event was generated from related records.  Please correct it.',
 													'is_active' => 0,
+													'is_demo' => str_contains(strtolower(trim($parentEvent->name)), 'demo') ? 1 : 0,
 													'image' => null,
 													'event_start' => $oldAttendance->date,
 													'event_end' => $oldAttendance->date,
@@ -3594,7 +3602,7 @@ class ImportOrk3 extends Command
 							'dues_on' => date('Y-m-d', strtotime($duesFrom)),
 							'intervals' => $intervals ? round($intervals, 3) : null,
 							'created_at' => $duesFrom,
-							'created_by' => $createdBy,
+							'created_by' => $createdBy ? $createdBy : 1,
 							'deleted_at' => $oldDue->revoked === '1' ? date('Y-m-d H:i:s', strtotime($oldDue->revoked_on)) : null,
 							'deleted_by' => $oldDue->revoked === '1' ? $revokedBy : null
 						]);
@@ -4177,15 +4185,23 @@ class ImportOrk3 extends Command
 									}
 									$issuable_id = $transTitles[0][$oldIssuance->award_id];
 								}else{
-									while(
-										!array_key_exists($realmaward->kingdom_id, $transTitles) ||
-										!array_key_exists($oldIssuance->award_id, $transTitles[$realmaward->kingdom_id])
-									){
-										$this->info('waiting for realm/title ' . $realmaward->kingdom_id . '/' . $oldIssuance->award_id);
-										sleep(5);
-										$transTitles = $this->getTrans('titles');
+									//check $knownTitles
+									if($knownTitles[$realmaward->name] && $knownTitles[$realmaward->name][$realmaward->kingdom_id]){
+										while(
+												!array_key_exists($realmaward->kingdom_id, $transTitles) ||
+												!array_key_exists($oldIssuance->award_id, $transTitles[$realmaward->kingdom_id])
+												){
+													$this->info('waiting for realm/title ' . $realmaward->kingdom_id . '/' . $oldIssuance->award_id);
+													sleep(5);
+													$transTitles = $this->getTrans('titles');
+										}
+										$issuable_id = $transTitles[$realmaward->kingdom_id][$oldIssuance->award_id];
+									}else{
+										//they don't have that, toss it
+										$deadRecords['Issuance']['RealmHasntAward'][$oldIssuance->awards_id] = $oldIssuance;
+										$bar->advance();
+										continue;
 									}
-									$issuable_id = $transTitles[$realmaward->kingdom_id][$oldIssuance->award_id];
 								}
 							}
 		// 					else if(array_key_exists($oldIssuance->kingdomaward_id, $transOffices)){
@@ -4252,7 +4268,7 @@ class ImportOrk3 extends Command
 								'issuer_id' => $oldIssuance->given_by_id != '0' ? $transPersonas[$oldIssuance->given_by_id] : null,
 								'custom_name' => $oldIssuance->custom_name != '' ? $oldIssuance->custom_name : null,
 								'rank' => $rank,
-								'issued_at' => $issueDate != '0000-00-00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' ? $oldIssuance->entered_at : date('Y-m-d')),
+								'issued_at' => $issueDate != '0000-00-00' && $issueDate != '0000-00-00 00:00:00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' && $oldIssuance->entered_at != '0000-00-00 00:00:00' ? $oldIssuance->entered_at : date('Y-m-d')),
 								'reason' => trim($oldIssuance->note) != '' ? trim($oldIssuance->note) : null,
 								'image' => null,
 								'revocation' => trim($oldIssuance->revocation) != '' ? trim($oldIssuance->revocation) : null,
@@ -4272,7 +4288,6 @@ class ImportOrk3 extends Command
 			Schema::enableForeignKeyConstraints();
 			
 			//TODO: squires, pages, at-arms, and apprentices can't be done, the data is just too jacked.  Stop trying, make them do it.
-			//TODO: demos/guests: demos are just events.  Add the waiver, waiverable_type = Event (the demo), but no persona.
 			//TODO: custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles.
 			//TODO: custom officers (award data)
 			//TODO: compare awardsprocessed with list of awards.  Dump results and check for stuff we can get
