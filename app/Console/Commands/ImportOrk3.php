@@ -2752,13 +2752,13 @@ class ImportOrk3 extends Command
 										DB::reconnect("mysqlBak");
 										$persona = $backupConnect->table('ork_mundane')->where('persona', 'LIKE', '%' . $oldAttendance->persona . '%')->where('park_id', $fromChapterOldID)->first();
 										if($persona){
-											while(!array_key_exists($persona->id, $transPersonas)){
-												$this->info('waiting for persona ' . $persona->id);
+											while(!array_key_exists($persona->mundane_id, $transPersonas)){
+												$this->info('waiting for persona ' . $persona->mundane_id);
 												sleep(5);
 												$transPersonas = $this->getTrans('personas');
 											}
 										}
-										$personaID = $persona ? $transPersonas[$persona->id] : null;
+										$personaID = $persona ? $transPersonas[$persona->mundane_id] : null;
 									}else{
 										$deadRecords['Attendance']['NoPersona'][$oldAttendance->attendance_id] = $oldAttendance;
 										$bar->advance();
@@ -3422,6 +3422,20 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
+						if($oldDue->dues_for_life == '1'){
+							$intervals = null;
+						}else{
+							//work out the intervals
+							//dues_until - dues_from in months / 6
+							$date1 = $duesFrom;
+							$date2 = $oldDue->dues_until;
+							$date_diff = abs(strtotime($date2) - strtotime($date1));
+							$intervals = $date_diff / (182.5*60*60*24);
+							//convert intervals > 160 to 'dues paid for life'
+							if($intervals > 160){
+								$intervals = null;
+							}
+						}
 						//if the dues_from is before 1998-07-01, we need to figure out what it REALLY is, with the floor set at Feb 01, 1983 (Our birth month)
 						if(strtotime($oldDue->dues_from) < strtotime('1998-07-01')){
 							DB::reconnect("mysqlBak");
@@ -3434,18 +3448,40 @@ class ImportOrk3 extends Command
 							}
 							DB::reconnect("mysqlBak");
 							$thisTransaction = $backupConnect->table('ork_transaction')->where('transaction_id', $thisSplit->transaction_id)->first();
+							//TODO: check and clean prints/echos
 							if($thisTransaction){
 								$duesFrom = $thisTransaction->date_created;
+								echo 'copiedCreated';
+								print_r($duesFrom);
+								echo '|';
 							}else{
-								$oldKingdom = $backupConnect->table('ork_kingdom')->where('kingdom_id', $oldDue->kingdom_id)->first();
-								$earned = $thisSplit->amount / $oldKingdom->dues_amount;
-								$duesFrom = date('Y-m-d H:i:s', strtotime('-' . round($earned) . ' months', strtotime($thisSplit->dues_through)));
+								if($intervals){
+									$duesFrom = date('Y-m-d H:i:s', strtotime('-' . round($intervals*6) . ' months', strtotime($thisSplit->dues_through)));
+									echo 'mathed';
+									print_r($intervals);
+									echo '|';
+									print_r($thisSplit->dues_through);
+									echo '|';
+									print_r($duesFrom);
+									echo '|';
+								}else{
+									$duesFrom = date('Y-m-d H:i:s', strtotime('Feb 01, 1983'));
+									echo 'set';
+									print_r($duesFrom);
+									echo '|';
+								}
 							}
 							if($duesFrom < date('Y-m-d H:i:s', strtotime('Feb 01, 1983'))){
 								$duesFrom = date('Y-m-d H:i:s', strtotime('Feb 01, 1983'));
+								echo 'set';
+								print_r($duesFrom);
+								echo '|';
 							}
 						}else{
 							$duesFrom = date('Y-m-d H:i:s', strtotime($oldDue->dues_from));
+							echo 'copiedFrom';
+							print_r($duesFrom);
+							echo '|';
 						}
 						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
 							while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
@@ -3575,21 +3611,6 @@ class ImportOrk3 extends Command
 							}
 						}else{
 							$revokedBy = null;
-						}
-						
-						if($oldDue->dues_for_life == '1'){
-							$intervals = null;
-						}else{
-							//work out the intervals
-							//dues_until - dues_from in months / 6
-							$date1 = $duesFrom;
-							$date2 = $oldDue->dues_until;
-							$date_diff = abs(strtotime($date2) - strtotime($date1));
-							$intervals = $date_diff / (182.5*60*60*24);
-							//convert intervals > 160 to 'dues paid for life'
-							if($intervals > 160){
-								$intervals = null;
-							}
 						}
 						while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
 							$this->info('waiting for persona ' . $oldDue->mundane_id);
@@ -3922,7 +3943,34 @@ class ImportOrk3 extends Command
 							}
 							//check $knownTitles
 							//TODO: add custom titles to transTitles (we need the kingdomaward_id put in there, not the award id, and it needs to be distinct: '999' . id)
-							if($knownTitles[$realmaward->name] && $knownTitles[$realmaward->name][$persona->kingdom_id]){
+							if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
+								$titleName = 'Lord';
+							}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
+								$titleName = 'Baronet';
+							}else if($realmaward->name === 'Baroness' || $realmaward->name === 'Viceroy' || $realmaward->name === 'Baronex'){
+								$titleName = 'Baron';
+							}else if($realmaward->name === 'Viscountess' || $realmaward->name === 'Vicarius' || $realmaward->name === 'Viscountex'){
+								$titleName = 'Viscount';
+							}else if($realmaward->name === 'Marquise' || $realmaward->name === 'Warden' || $realmaward->name === 'Marchioness' || $realmaward->name === 'Marquex'){
+								$titleName = 'Marquis';
+							}else if($realmaward->name === 'Countess' || $realmaward->name === 'Castellan' || $realmaward->name === 'Jarl' || $realmaward->name === 'Countex'){
+								$titleName = 'Count';
+							}else if($realmaward->name === 'Duchess' || $realmaward->name === 'Dux'){
+								$titleName = 'Duke';
+							}else if($realmaward->name === 'Archduchess' || $realmaward->name === 'Arch Duchess' || $realmaward->name === 'Arch-Duchess' || $realmaward->name === 'Arci Dux'){
+								$titleName = 'Archduke';
+							}else if($realmaward->name === 'Grand Duchess' || $realmaward->name === 'Grand-Duchess' || $realmaward->name === 'Magnus Dux'){
+								$titleName = 'Grand Duke';
+							}else if($realmaward->name === 'Grand Marquise'){
+								$titleName = 'Grand Marquis';
+							}else{
+								$titleName = $realmaward->name;
+							}
+							if(
+								array_key_exists($titleName, $knownTitles) &&
+								array_key_exists($persona->kingdom_id, $knownTitles[$titleName]) &&
+								is_array($knownTitles[$titleName][$persona->kingdom_id])
+							){
 								$isTitle = true;
 								//wait for it in trans
 								while(
@@ -4127,7 +4175,34 @@ class ImportOrk3 extends Command
 									continue;
 								}
 								//check $knownTitles
-								if($knownTitles[$realmaward->name] && $knownTitles[$realmaward->name][$realmaward->kingdom_id]){
+								if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
+									$titleName = 'Lord';
+								}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
+									$titleName = 'Baronet';
+								}else if($realmaward->name === 'Baroness' || $realmaward->name === 'Viceroy' || $realmaward->name === 'Baronex'){
+									$titleName = 'Baron';
+								}else if($realmaward->name === 'Viscountess' || $realmaward->name === 'Vicarius' || $realmaward->name === 'Viscountex'){
+									$titleName = 'Viscount';
+								}else if($realmaward->name === 'Marquise' || $realmaward->name === 'Warden' || $realmaward->name === 'Marchioness' || $realmaward->name === 'Marquex'){
+									$titleName = 'Marquis';
+								}else if($realmaward->name === 'Countess' || $realmaward->name === 'Castellan' || $realmaward->name === 'Jarl' || $realmaward->name === 'Countex'){
+									$titleName = 'Count';
+								}else if($realmaward->name === 'Duchess' || $realmaward->name === 'Dux'){
+									$titleName = 'Duke';
+								}else if($realmaward->name === 'Archduchess' || $realmaward->name === 'Arch Duchess' || $realmaward->name === 'Arch-Duchess' || $realmaward->name === 'Arci Dux'){
+									$titleName = 'Archduke';
+								}else if($realmaward->name === 'Grand Duchess' || $realmaward->name === 'Grand-Duchess' || $realmaward->name === 'Magnus Dux'){
+									$titleName = 'Grand Duke';
+								}else if($realmaward->name === 'Grand Marquise'){
+									$titleName = 'Grand Marquis';
+								}else{
+									$titleName = $realmaward->name;
+								}
+								if(
+									array_key_exists($titleName, $knownTitles) &&
+									array_key_exists($realmaward->kingdom_id, $knownTitles[$titleName]) &&
+									is_array($knownTitles[$titleName][$realmaward->kingdom_id])
+								){
 									$issuable_type = 'Title';
 									$rank = null;
 									DB::reconnect("mysqlBak");
@@ -4186,14 +4261,41 @@ class ImportOrk3 extends Command
 									$issuable_id = $transTitles[0][$oldIssuance->award_id];
 								}else{
 									//check $knownTitles
-									if($knownTitles[$realmaward->name] && $knownTitles[$realmaward->name][$realmaward->kingdom_id]){
+									if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
+										$titleName = 'Lord';
+									}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
+										$titleName = 'Baronet';
+									}else if($realmaward->name === 'Baroness' || $realmaward->name === 'Viceroy' || $realmaward->name === 'Baronex'){
+										$titleName = 'Baron';
+									}else if($realmaward->name === 'Viscountess' || $realmaward->name === 'Vicarius' || $realmaward->name === 'Viscountex'){
+										$titleName = 'Viscount';
+									}else if($realmaward->name === 'Marquise' || $realmaward->name === 'Warden' || $realmaward->name === 'Marchioness' || $realmaward->name === 'Marquex'){
+										$titleName = 'Marquis';
+									}else if($realmaward->name === 'Countess' || $realmaward->name === 'Castellan' || $realmaward->name === 'Jarl' || $realmaward->name === 'Countex'){
+										$titleName = 'Count';
+									}else if($realmaward->name === 'Duchess' || $realmaward->name === 'Dux'){
+										$titleName = 'Duke';
+									}else if($realmaward->name === 'Archduchess' || $realmaward->name === 'Arch Duchess' || $realmaward->name === 'Arch-Duchess' || $realmaward->name === 'Arci Dux'){
+										$titleName = 'Archduke';
+									}else if($realmaward->name === 'Grand Duchess' || $realmaward->name === 'Grand-Duchess' || $realmaward->name === 'Magnus Dux'){
+										$titleName = 'Grand Duke';
+									}else if($realmaward->name === 'Grand Marquise'){
+										$titleName = 'Grand Marquis';
+									}else{
+										$titleName = $realmaward->name;
+									}
+									if(
+										array_key_exists($titleName, $knownTitles) &&
+										array_key_exists($realmaward->kingdom_id, $knownTitles[$titleName]) &&
+										is_array($knownTitles[$titleName][$realmaward->kingdom_id])
+									){
 										while(
-												!array_key_exists($realmaward->kingdom_id, $transTitles) ||
-												!array_key_exists($oldIssuance->award_id, $transTitles[$realmaward->kingdom_id])
-												){
-													$this->info('waiting for realm/title ' . $realmaward->kingdom_id . '/' . $oldIssuance->award_id);
-													sleep(5);
-													$transTitles = $this->getTrans('titles');
+											!array_key_exists($realmaward->kingdom_id, $transTitles) ||
+											!array_key_exists($oldIssuance->award_id, $transTitles[$realmaward->kingdom_id])
+										){
+											$this->info('waiting for realm/title ' . $realmaward->kingdom_id . '/' . $oldIssuance->award_id);
+											sleep(5);
+											$transTitles = $this->getTrans('titles');
 										}
 										$issuable_id = $transTitles[$realmaward->kingdom_id][$oldIssuance->award_id];
 									}else{
