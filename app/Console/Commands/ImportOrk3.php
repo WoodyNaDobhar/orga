@@ -121,6 +121,21 @@ class ImportOrk3 extends Command
 				->orWhere('name', 'Order of the Walker in the Middle')
 				->update(['is_title' => 1, 'is_ladder' => 0]);
 				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 6043)
+				->orWhere('kingdomaward_id', 6580)
+				->update('award_id', 209);
+				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 6287)
+				->orWhere('kingdomaward_id', 6166)
+				->orWhere('kingdomaward_id', 6042)
+				->update('award_id', 226);
+				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 6338)
+				->update('award_id', 31);
+				
 			$backupConnect->table('ork_officer')
 				->where('kingdom_id', 0)
 				->update(['kingdom_id' => 8]);
@@ -138,6 +153,10 @@ class ImportOrk3 extends Command
 			$backupConnect->table('ork_award')
 				->where('name', 'Order of the Walker in the Middle')
 				->update(['is_ladder' => 1]);
+				
+			$backupConnect->table('ork_recommendation')
+				->where('kingdomaward_id', 7051)
+				->update(['kingdomaward_id' => 6960]);
 				
 			$backupConnect->table('ork_mundane')
 				->where('mundane_id', 1)
@@ -1925,7 +1944,6 @@ class ImportOrk3 extends Command
 									'is_active' => $nameClean === 'Master' || $nameClean === 'Esquire' ? 0 : 1
 							]);
 							//The transTitles normally stores the award_id.  Since we're not doing the old way for custom awards, we have to give it the kingdomaward_id.  
-							//Since it might overlap an award_id, we're going to prefix these edge-cases with '999', a number higher than the number of award_ids there are
 							DB::table('trans')->insert([
 									'array' => 'titles',
 									'oldID' => '999' . $oldCustomTitle->kingdomaward_id,
@@ -2582,7 +2600,7 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transChapters = $this->getTrans('chapters');
 						}
-						$altChecks = Meetup::where('chapter_id', $transChapters[$oldMeetup->park_id])
+						$alternateMeetupsChecks = Meetup::where('chapter_id', $transChapters[$oldMeetup->park_id])
 							->where('recurrence', $oldMeetup->recurrence)
 							->where('week_of_month', $oldMeetup->week_of_month)
 							->where('week_day', $oldMeetup->week_day)
@@ -2594,15 +2612,12 @@ class ImportOrk3 extends Command
 							})
 							->get()
 							->toArray();
-						if(count($altChecks) > 0){
-							$meetup = array_shift($altChecks);
+						//we might have duplicate meetups.  If it already exists, update the alt_location 
+						if(count($alternateMeetupsChecks) > 0){
+							$meetup = array_shift($alternateMeetupsChecks);
 							$meetup->alt_location_id = $locationID;
 							$meetup->save();
-							if(count($altChecks) > 0){
-								for($i=0; $i<count($altChecks); $i++){
-									$deadRecords['Meetup']['Unused'][$oldMeetup->parkday_id] = $oldMeetup;
-								}
-							}
+							$deadRecords['Meetup']['Unused'][$oldMeetup->parkday_id] = $oldMeetup;
 						}else{
 							$meetupId = DB::table('meetups')->insertGetId([
 									'chapter_id' => $transChapters[$oldMeetup->park_id],
@@ -2667,6 +2682,7 @@ class ImportOrk3 extends Command
 									sleep(5);
 									$transArchetypes = $this->getTrans('archetypes');
 								}
+								DB::reconnect("mysqlBak");
 								$archetypeId = $transArchetypes[$oldAttendance->class_id];
 							}
 							
@@ -2689,12 +2705,13 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('1 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
 													$transChapters = $this->getTrans('chapters');
 												}
+												DB::reconnect("mysqlBak");
 												$fromChapter = $transChapters[$fromChapterOldID];
 											}
 										}
@@ -2705,12 +2722,13 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('2 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
 													$transChapters = $this->getTrans('chapters');
 												}
+												DB::reconnect("mysqlBak");
 												$fromChapter = $transChapters[$fromChapterOldID];
 											}
 										}
@@ -2721,12 +2739,13 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('3 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
 													$transChapters = $this->getTrans('chapters');
 												}
+												DB::reconnect("mysqlBak");
 												$fromChapter = $transChapters[$fromChapterOldID];
 											}
 										}
@@ -2737,31 +2756,38 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('4 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
 													$transChapters = $this->getTrans('chapters');
 												}
+												DB::reconnect("mysqlBak");
 												$fromChapter = $transChapters[$fromChapterOldID];
 											}
 										}
 									}else{
-										$fromChapterOldID = array_search($oldAttendance->note, array_column($oldChapters, 'name')) ? array_search($oldAttendance->note, array_column($oldChapters, 'name')) : 
-										(
-												array_search(str_replace('.', '', $oldAttendance->note), array_column($oldChapters, 'abbreviation')) ? array_search(str_replace('.', '', $oldAttendance->note), array_column($oldChapters, 'abbreviation')) :
-												null
-										);
+										$fromChapterOldID = null;
 										$fromChapter = null;
-										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
-												while(!array_key_exists($fromChapterOldID, $transChapters)){
-													$this->info('5 waiting for chapter ' . $fromChapterOldID);
-													sleep(5);
-													$transChapters = $this->getTrans('chapters');
-												}
-												$fromChapter = $transChapters[$fromChapterOldID];
+										// Search by 'name'
+										$indexByName = array_search($oldAttendance->note, array_column($oldChapters, 'name'));
+										if ($indexByName !== false) {
+											$fromChapterOldID = $oldChapters[$indexByName]->park_id;
+										} else {
+											// Search by 'abbreviation'
+											$indexByAbbreviation = array_search(str_replace('.', '', $oldAttendance->note), array_column($oldChapters, 'abbreviation'));
+											if ($indexByAbbreviation !== false) {
+												$fromChapterOldID = $oldChapters[$indexByAbbreviation]->park_id;
 											}
+										}
+										if ($fromChapterOldID !== null && array_key_exists($fromChapterOldID, $oldChapters)) {
+											while (!array_key_exists($fromChapterOldID, $transChapters)) {
+												$this->info('5 waiting for chapter ' . $fromChapterOldID);
+												sleep(5);
+												$transChapters = $this->getTrans('chapters');
+											}
+											DB::reconnect("mysqlBak");
+											$fromChapter = $transChapters[$fromChapterOldID];
 										}
 									}
 									if($fromChapter && trim($oldAttendance->persona)){
@@ -2773,10 +2799,11 @@ class ImportOrk3 extends Command
 												sleep(5);
 												$transPersonas = $this->getTrans('personas');
 											}
+											DB::reconnect("mysqlBak");
 										}
 										$personaID = $persona ? $transPersonas[$persona->mundane_id] : null;
 									}else{
-										$deadRecords['Attendance']['NoPersona'][$oldAttendance->attendance_id] = $oldAttendance;
+										$deadRecords['Attendance']['PersonaUnconstructable'][$oldAttendance->attendance_id] = $oldAttendance;
 										$bar->advance();
 										continue;
 									}
@@ -2810,6 +2837,7 @@ class ImportOrk3 extends Command
 										sleep(5);
 										$transPersonas = $this->getTrans('personas');
 									}
+									DB::reconnect("mysqlBak");
 									$persona = Persona::where('id', $transPersonas[$oldAttendance->mundane_id])->first();
 								}
 								if(!$persona){
@@ -2832,6 +2860,7 @@ class ImportOrk3 extends Command
 													sleep(5);
 													$transChapters = $this->getTrans('chapters');
 												}
+												DB::reconnect("mysqlBak");
 												$chapterID = $transChapters[$mostAttended->park_id];
 												break;
 											}
@@ -2945,6 +2974,7 @@ class ImportOrk3 extends Command
 											sleep(5);
 											$transMeetups = $this->getTrans('meetups');
 										}
+										DB::reconnect("mysqlBak");
 										$meetupId = $transMeetups[$oldMeetupId];
 									}else{
 										$transChapters = $this->getTrans('chapters');
@@ -2958,6 +2988,7 @@ class ImportOrk3 extends Command
 												sleep(5);
 												$transChapters = $this->getTrans('chapters');
 											}
+											DB::reconnect("mysqlBak");
 										}
 										
 										//make it
@@ -2986,6 +3017,7 @@ class ImportOrk3 extends Command
 											sleep(5);
 											$transEventDetails = $this->getTrans('eventdetails');
 										}
+										DB::reconnect("mysqlBak");
 									//otherwise, make it
 									}else{
 										if($oldAttendance->event_id > 0){
@@ -3000,6 +3032,7 @@ class ImportOrk3 extends Command
 														sleep(5);
 														$transUnits = $this->getTrans('units');
 													}
+													DB::reconnect("mysqlBak");
 													$eventable_id = $transUnits[$parentEvent->unit_id];
 													break;
 												case 'Persona':
@@ -3008,6 +3041,7 @@ class ImportOrk3 extends Command
 														sleep(5);
 														$transPersonas = $this->getTrans('personas');
 													}
+													DB::reconnect("mysqlBak");
 													$eventable_id = $transPersonas[$parentEvent->mundane_id];
 													break;
 												case 'Chapter':
@@ -3016,6 +3050,7 @@ class ImportOrk3 extends Command
 														sleep(5);
 														$transChapters = $this->getTrans('chapters');
 													}
+													DB::reconnect("mysqlBak");
 													$eventable_id = $transChapters[$parentEvent->park_id];
 													break;
 												case 'Realm':
@@ -3024,6 +3059,7 @@ class ImportOrk3 extends Command
 														sleep(5);
 														$transRealms = $this->getTrans('realms');
 													}
+													DB::reconnect("mysqlBak");
 													$eventable_id = $transRealms[$parentEvent->kingdom_id];
 													break;
 												default:
@@ -3065,6 +3101,7 @@ class ImportOrk3 extends Command
 											sleep(5);
 											$transPersonas = $this->getTrans('personas');
 										}
+										DB::reconnect("mysqlBak");
 										//if they need a user, we'll have to make one up
 										if(!array_key_exists($oldAttendance->by_whom_id, $transUsers)){
 											$userId = DB::table('users')->insertGetId([
@@ -3128,7 +3165,7 @@ class ImportOrk3 extends Command
 							$bar->advance();
 						}
 					});
-						break;
+					break;
 				case 'Tournaments':
 					$this->info('Importing Tournaments...');
 					$oldEventDetails = $backupConnect->table('ork_event_calendardetail')->pluck('event_calendardetail_id')->toArray();
@@ -3191,6 +3228,7 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Configurations':
+					//TODO: chapter configs?
 					$this->info('Importing Configurations...');
 					$transRealms = $this->getTrans('realms');
 					$oldConfigurations = $backupConnect->table('ork_configuration')->where('type', 'Kingdom')->get()->toArray();
@@ -3198,7 +3236,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldConfigurations as $oldConfiguration) {
 						if($oldConfiguration->key === 'AccountPointers'){
-							$deadRecords['Configuration']['AccountPointersTossed'][$oldConfiguration->configuration_id] = $oldConfiguration;
+							$deadRecords['Configuration']['AccountPointer'][$oldConfiguration->configuration_id] = $oldConfiguration;
 						}else{
 							if(array_key_exists($oldConfiguration->id, $knownRealmChaptertypesOffices)){
 								//update the realm
@@ -3325,7 +3363,7 @@ class ImportOrk3 extends Command
 									$transPersonas[$oldTransaction->recorded_by] = $personaId;
 								}else{
 									//nothing to be done
-									$deadRecords['Transaction']['NoPersona'][$oldTransaction->transaction_id] = $oldTransaction;
+									$deadRecords['Transaction']['PersonaGone'][$oldTransaction->transaction_id] = $oldTransaction;
 									$bar->advance();
 									continue;
 								}
@@ -3359,6 +3397,11 @@ class ImportOrk3 extends Command
 					$bar = $this->output->createProgressBar(count($oldSplits));
 					$bar->start();
 					foreach ($oldSplits as $oldSplit) {
+						if($oldSplit->account_id === '0'){
+							$deadRecords['Split']['NoAccount'][$oldSplit->split_id] = $oldSplit;
+							$bar->advance();
+							continue;
+						}
 						//account was deleted...sigh.  Not sure there's enough of these to justify the time it'd take me to make the script rebuild it, and I'm not sure I even could.  So, without further adeau...
 						if(!in_array($oldSplit->account_id, $oldAccounts)){
 							$deadRecords['Split']['GoneAccount'][$oldSplit->split_id] = $oldSplit;
@@ -3377,12 +3420,10 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						if($oldSplit->account_id != '0'){
-							while(!array_key_exists($oldSplit->account_id, $transAccounts)){
-								$this->info('waiting for account ' . $oldSplit->account_id);
-								sleep(5);
-								$transAccounts = $this->getTrans('accounts');
-							}
+						while(!array_key_exists($oldSplit->account_id, $transAccounts)){
+							$this->info('waiting for account ' . $oldSplit->account_id);
+							sleep(5);
+							$transAccounts = $this->getTrans('accounts');
 						}
 						while(!array_key_exists($oldSplit->transaction_id, $transTransactions)){
 							$this->info('waiting for transaction ' . $oldSplit->transaction_id);
@@ -3404,7 +3445,6 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Dues':
-					//https://github.com/scottlaurent/accounting - we'll be updating to that.  For now, just pass the data over.
 					$this->info('Importing Dues');
 					$transPersonas = $this->getTrans('personas');
 					$transTransactions = $this->getTrans('transactions');
@@ -3421,13 +3461,13 @@ class ImportOrk3 extends Command
 						$thisTransaction = null;
 						$duesFrom = null;
 						if($oldDue->kingdom_id == 0){
-							$deadRecords['Due']['GoneKingdom'][$oldDue->dues_id] = $oldDue;
+							$deadRecords['Due']['KingdomGone'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
 							continue;
 						}
 						if(!in_array($oldDue->mundane_id, $oldPersonas)){
 							//looks like these are the victims of related deletions.  So sad.
-							$deadRecords['Due']['GonePersona'][$oldDue->dues_id] = $oldDue;
+							$deadRecords['Due']['PersonaGone'][$oldDue->dues_id] = $oldDue;
 							$bar->advance();
 							continue;
 						}
@@ -3457,7 +3497,7 @@ class ImportOrk3 extends Command
 							$thisSplit = $backupConnect->table('ork_split')->where('transaction_id', $oldDue->import_transaction_id)->where('is_dues', 1)->first();
 							if(!$thisSplit){
 								//damn.  Guess this one is toast.
-								$deadRecords['Due']['NoSplit'][$oldDue->dues_id] = $oldDue;
+								$deadRecords['Due']['SplitGone'][$oldDue->dues_id] = $oldDue;
 								$bar->advance();
 								continue;
 							}
@@ -3678,7 +3718,7 @@ class ImportOrk3 extends Command
 								$transPersonas = $this->getTrans('personas');
 							}
 						}else{
-							$deadRecords['Member']['NoPersona'][$oldMember->unit_id] = $oldMember;
+							$deadRecords['Member']['PersonaGone'][$oldMember->unit_id] = $oldMember;
 							$bar->advance();
 							continue;
 						}
@@ -3770,7 +3810,7 @@ class ImportOrk3 extends Command
 							DB::reconnect("mysqlBak");
 							$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldOfficer->mundane_id)->first();
 							if(!$persona){
-								$deadRecords['Officer']['NoPersona'][$oldOfficer->mundane_id] = $oldOfficer;
+								$deadRecords['Officer']['PersonaGone'][$oldOfficer->mundane_id] = $oldOfficer;
 								$bar->advance();
 								continue;
 							}
@@ -3922,6 +3962,18 @@ class ImportOrk3 extends Command
 					foreach ($oldRecommendations as $oldRecommendation) {
 						//work out the kingdomaward_id (get persona, search realmawards by persona realm && award)
 						DB::reconnect("mysqlBak");
+						$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->mundane_id)->first();
+						if(!$persona){
+							$deadRecords['Recommendation']['NoTargetPersona'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+							$bar->advance();
+							continue;
+						}
+						$recommendingPersona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
+						if(!$recommendingPersona){
+							$deadRecords['Recommendation']['NoByPersona'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+							$bar->advance();
+							continue;
+						}
 						while(!array_key_exists($oldRecommendation->recommended_by_id, $transPersonas)){
 							$this->info('waiting for persona ' . $oldRecommendation->recommended_by_id);
 							sleep(5);
@@ -3932,11 +3984,10 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transPersonas = $this->getTrans('personas');
 						}
-						$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->mundane_id)->first();
 						$isTitle = in_array($oldRecommendation->award_id, $oldTitles) ? true : false;
 						//let's fix this for WitM
 						if($oldRecommendation->award_id == 31){
-							if($knownAwards['Order of the Walker in the Middle'][$persona->kingdom_id]['type'] == 'award'){
+							if(is_array($knownAwards['Order of the Walker in the Middle'][$persona->kingdom_id]) && $knownAwards['Order of the Walker in the Middle'][$persona->kingdom_id]['type'] == 'award'){
 								$isTitle = false;
 							}
 						}
@@ -3946,7 +3997,7 @@ class ImportOrk3 extends Command
 							$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldRecommendation->kingdomaward_id)->first();
 							//eliminate garbage
 							if(!$realmaward){
-								$deadRecords['Recommendation']['NoRealmAward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								$deadRecords['Recommendation']['CustomRealmAwardGone'][$oldRecommendation->recommendations_id] = $oldRecommendation;
 								$bar->advance();
 								continue;
 							}
@@ -3956,7 +4007,7 @@ class ImportOrk3 extends Command
 								continue;
 							}
 							//check $knownTitles
-							//TODO: add custom titles to transTitles (we need the kingdomaward_id put in there, not the award id, and it needs to be distinct: '999' . id)
+							// when adding custom titles to transTitles (we need the kingdomaward_id put in there, not the award id, and it needs to be distinct: '999' . id)
 							if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
 								$titleName = 'Lord';
 							}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
@@ -3981,27 +4032,27 @@ class ImportOrk3 extends Command
 								$titleName = $realmaward->name;
 							}
 							if(
-								array_key_exists($titleName, $knownTitles) &&
-								array_key_exists($persona->kingdom_id, $knownTitles[$titleName]) &&
-								is_array($knownTitles[$titleName][$persona->kingdom_id])
-							){
-								$isTitle = true;
-								//wait for it in trans
-								while(
-									!array_key_exists($persona->kingdom_id, $transTitles) ||
-									!array_key_exists('999' . $realmaward->kingdomaward_id, $transTitles[$persona->kingdom_id])
-								){
-									$this->info('waiting for realm custom title ' . $persona->kingdom_id . '|999' . $realmaward->kingdomaward_id);
-									sleep(5);
-									$transTitles = $this->getTrans('titles');
-								}
-								$titleAwardId = '999' . $realmaward->kingdomaward_id;
+									array_key_exists($titleName, $knownTitles) &&
+									array_key_exists($persona->kingdom_id, $knownTitles[$titleName]) &&
+									is_array($knownTitles[$titleName][$persona->kingdom_id])
+									){
+										$isTitle = true;
+										//wait for it in trans
+										while(
+												!array_key_exists($persona->kingdom_id, $transTitles) ||
+												!array_key_exists('999' . $realmaward->kingdomaward_id, $transTitles[$persona->kingdom_id])
+												){
+													$this->info('waiting for realm custom title ' . $persona->kingdom_id . '|999' . $realmaward->kingdomaward_id);
+													sleep(5);
+													$transTitles = $this->getTrans('titles');
+										}
+										//we add the 999 to distinguish between those records with 'award_id' and 'kingdomaward_id', which is prefixed
+										$titleAwardId = '999' . $realmaward->kingdomaward_id;
 							}
 							//check awards
 							DB::reconnect("mysqlBak");
 							if(!in_array($oldRecommendation->kingdomaward_id, $oldCustomAwards)) {
-								//TODO: check the tossed, get what you can
-								$deadRecords['Recommendation']['NoRealmAward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								$deadRecords['Recommendation']['CustomAwardGone'][$oldRecommendation->recommendations_id] = $oldRecommendation;
 								$bar->advance();
 								continue;
 							}else{
@@ -4013,33 +4064,63 @@ class ImportOrk3 extends Command
 							}
 						}else{
 							DB::reconnect("mysqlBak");
+							$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $persona->kingdom_id)->where('award_id', $oldRecommendation->award_id)->first();
+							//eliminate garbage
+							if(!$realmaward){
+								$deadRecords['Recommendation']['NoRealmawardTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								$bar->advance();
+								continue;
+							}
 							if($isTitle){
 								if(in_array($oldRecommendation->award_id, $ropTitles)){
 									while(
-										!array_key_exists(0, $transTitles) ||
-										!array_key_exists($oldRecommendation->award_id, $transTitles[0])
-									){
-										$this->info('waiting for general title ' . $oldRecommendation->award_id);
-										sleep(5);
-										$transTitles = $this->getTrans('titles');
+											!array_key_exists(0, $transTitles) ||
+											!array_key_exists($oldRecommendation->award_id, $transTitles[0])
+											){
+												$this->info('waiting for general title ' . $oldRecommendation->award_id);
+												sleep(5);
+												$transTitles = $this->getTrans('titles');
 									}
 								}else{
+									DB::reconnect("mysqlBak");
+									if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
+										$titleName = 'Lord';
+									}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
+										$titleName = 'Baronet';
+									}else if($realmaward->name === 'Baroness' || $realmaward->name === 'Viceroy' || $realmaward->name === 'Baronex'){
+										$titleName = 'Baron';
+									}else if($realmaward->name === 'Viscountess' || $realmaward->name === 'Vicarius' || $realmaward->name === 'Viscountex'){
+										$titleName = 'Viscount';
+									}else if($realmaward->name === 'Marquise' || $realmaward->name === 'Warden' || $realmaward->name === 'Marchioness' || $realmaward->name === 'Marquex'){
+										$titleName = 'Marquis';
+									}else if($realmaward->name === 'Countess' || $realmaward->name === 'Castellan' || $realmaward->name === 'Jarl' || $realmaward->name === 'Countex'){
+										$titleName = 'Count';
+									}else if($realmaward->name === 'Duchess' || $realmaward->name === 'Dux'){
+										$titleName = 'Duke';
+									}else if($realmaward->name === 'Archduchess' || $realmaward->name === 'Arch Duchess' || $realmaward->name === 'Arch-Duchess' || $realmaward->name === 'Arci Dux'){
+										$titleName = 'Archduke';
+									}else if($realmaward->name === 'Grand Duchess' || $realmaward->name === 'Grand-Duchess' || $realmaward->name === 'Magnus Dux'){
+										$titleName = 'Grand Duke';
+									}else if($realmaward->name === 'Grand Marquise'){
+										$titleName = 'Grand Marquis';
+									}else{
+										$titleName = $realmaward->name;
+									}
 									if(
-										array_key_exists($titleName, $knownTitles) &&
-										array_key_exists($persona->kingdom_id, $knownTitles[$titleName]) &&
-										is_array($knownTitles[$titleName][$persona->kingdom_id])
-									){
-										while(
-											!array_key_exists($persona->kingdom_id, $transTitles) ||
-											!array_key_exists($oldRecommendation->award_id, $transTitles[$persona->kingdom_id])
-										){
-											$this->info('waiting for realm/title ' . $persona->kingdom_id . '/' . $oldRecommendation->award_id);
-											sleep(5);
-											$transTitles = $this->getTrans('titles');
-										}
+											array_key_exists($titleName, $knownTitles) &&
+											array_key_exists($persona->kingdom_id, $knownTitles[$titleName]) &&
+											is_array($knownTitles[$titleName][$persona->kingdom_id])
+											){
+												while(
+														!array_key_exists($persona->kingdom_id, $transTitles) ||
+														!array_key_exists($oldRecommendation->award_id, $transTitles[$persona->kingdom_id])
+														){
+															$this->info('waiting for realm/title ' . $persona->kingdom_id . '/' . $oldRecommendation->award_id);
+															sleep(5);
+															$transTitles = $this->getTrans('titles');
+												}
 									}else{
 										//This realm doesn't have this award
-										//TODO: check the tossed, get what you can
 										$deadRecords['Recommendation']['NoRealmTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
 										$bar->advance();
 										continue;
@@ -4048,14 +4129,48 @@ class ImportOrk3 extends Command
 								$titleAwardId = $oldRecommendation->award_id;
 							}else{
 								if(!in_array($oldRecommendation->kingdomaward_id, $oldKingdomawards)) {
-									$deadRecords['Recommendation']['NoRealmAward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+									$deadRecords['Recommendation']['NoRealmaward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
 									$bar->advance();
 									continue;
 								}else{
-									while(!array_key_exists($oldRecommendation->kingdomaward_id, $transRealmawards)){
-										$this->info('waiting for realmaward ' . $oldRecommendation->kingdomaward_id);
-										sleep(5);
-										$transRealmawards = $this->getTrans('realmawards');
+									//check for 'office'
+									if($oldRecommendation->award_id == '0'){
+										$deadRecords['Recommendation']['NullAward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										$bar->advance();
+										continue;
+									}else{
+										$oldAward = $backupConnect->table('ork_award')->where('award_id', $oldRecommendation->award_id)->first();
+										if(!$oldAward){
+											$deadRecords['Recommendation']['AwardGone'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+											$bar->advance();
+											continue;
+										}elseif($oldAward->officer_role != 'none'){
+											$deadRecords['Recommendation']['IsOfficer'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+											$bar->advance();
+											continue;
+										}
+									}
+									$awardName = $realmaward->name;
+									if(
+										(
+											in_array($realmaward->award_id, $ropLadders)
+										) || 
+										(
+											array_key_exists($awardName, $knownAwards) &&
+											array_key_exists($persona->kingdom_id, $knownAwards[$awardName]) &&
+											is_array($knownAwards[$awardName][$persona->kingdom_id])
+										)
+									){
+										while(!array_key_exists($oldRecommendation->kingdomaward_id, $transRealmawards)){
+											$this->info('waiting for realmaward ' . $oldRecommendation->kingdomaward_id);
+											sleep(5);
+											$transRealmawards = $this->getTrans('realmawards');
+										}
+									}else{
+										//This realm doesn't have this award
+										$deadRecords['Recommendation']['NoAwardForRealm'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										$bar->advance();
+										continue;
 									}
 								}
 							}
@@ -4091,12 +4206,12 @@ class ImportOrk3 extends Command
 							continue;
 						}
 						if(!in_array($oldReconciliation->class_id, $oldArchetypes)){
-							$deadRecords['Reconciliation']['Archetype'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
+							$deadRecords['Reconciliation']['ArchetypeGone'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
 						}
 						if(!in_array($oldReconciliation->mundane_id, $oldPersonas)){
-							$deadRecords['Reconciliation']['Persona'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
+							$deadRecords['Reconciliation']['PersonaGone'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
 							$bar->advance();
 							continue;
 						}
@@ -4192,7 +4307,7 @@ class ImportOrk3 extends Command
 							if($oldIssuance->award_id == 94){
 								//eliminate garbage
 								if(!$realmaward){
-									$deadRecords['Issuance']['NoRealmAward'][$oldIssuance->awards_id] = $oldIssuance;
+									$deadRecords['Issuance']['NoCustomRealmAward'][$oldIssuance->awards_id] = $oldIssuance;
 									$bar->advance();
 									continue;
 								}
@@ -4247,7 +4362,6 @@ class ImportOrk3 extends Command
 								//check award
 								DB::reconnect("mysqlBak");
 								if(!in_array($realmaward->kingdomaward_id, $oldCustomAwards)) {
-									//TODO: check the tossed, get what you can
 									$deadRecords['Issuance']['NoCustomAward'][$oldIssuance->awards_id] = $oldIssuance;
 									$bar->advance();
 									continue;
@@ -4338,7 +4452,6 @@ class ImportOrk3 extends Command
 		
 		// 					}
 							else{
-								//TODO: check me, get what you can
 								$deadRecords['Issuance']['UnknownType'][$oldIssuance->awards_id] = $oldIssuance;
 								$bar->advance();
 								continue;
@@ -4437,16 +4550,35 @@ class ImportOrk3 extends Command
 				case 'CheckAwards':
 					$realmawardsProcessed = $this->getTrans('realmawardsprocessed');
 					$processedKeys = array_keys($realmawardsProcessed);
+					
+					// Retrieve kingdomaward_id values from the old Ork system's table
 					$oldAwards = $backupConnect->table('ork_kingdomaward')->pluck('kingdomaward_id')->toArray();
+					
 					$unfound = [];
-					foreach($oldAwards as $oldAward){
-						if(!in_array($oldAward->kingdomaward_id, $processedKeys)){
+					
+					// Create a progress bar for better visibility of the process
+					$bar = $this->output->createProgressBar(count($oldAwards));
+					$bar->start();
+					
+					foreach ($oldAwards as $oldAward) {
+						// Check if the kingdomaward_id is not found in the processed keys
+						if (!in_array($oldAward, $processedKeys)) {
 							$unfound[] = $oldAward;
 						}
+						
+						// Update the progress bar
+						$bar->advance();
 					}
+					
+					// Stop the progress bar and display the unfound awards
+					$bar->finish();
 					dd($unfound);
 					break;
 				case 'Default':
+					$bar = $this->output->createProgressBar(1);
+					$bar->start();
+					$this->info('No step given.');
+					$bar->advance(); // Advance the progress bar to complete the process
 					break;
 			}
 			
@@ -4457,19 +4589,6 @@ class ImportOrk3 extends Command
 			//TODO: squires, pages, at-arms, and apprentices can't be done, the data is just too jacked.  Stop trying, make them do it.
 			//TODO: custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles?  Check for them, and respond.
 			//TODO: custom officers (award data)?  Might be too much
-			
-			foreach($deadRecords as $model => $causes){
-				foreach($causes as $cause => $oldInfos){
-					foreach($oldInfos as $model_id => $model_value){
-						DB::table('crypt')->insert([
-								'model' 		=> $model,
-								'cause' 		=> $cause,
-								'model_id'		=> $model_id,
-								'model_value'	=> json_encode($model_value)
-						]);
-					}
-				}
-			}
 
 			$this->info('All done!');
 		} catch (Throwable $e) {
