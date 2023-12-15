@@ -2689,7 +2689,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('1 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2705,7 +2705,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('2 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2721,7 +2721,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('3 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2737,7 +2737,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('4 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2754,7 +2754,7 @@ class ImportOrk3 extends Command
 										);
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(in_array($fromChapterOldID, $oldChapters)){
+											if(array_search($fromChapterOldID, $oldChapters)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('5 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -4024,6 +4024,37 @@ class ImportOrk3 extends Command
 										$transTitles = $this->getTrans('titles');
 									}
 								}else{
+									DB::reconnect("mysqlBak");
+									$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $persona->kingdom_id)->where('kingdomaward_id', $oldRecommendation->award_id)->first();
+									//eliminate garbage
+									if(!$realmaward){
+										$deadRecords['Recommendation']['NoRealmAwardTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										$bar->advance();
+										continue;
+									}
+									if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
+										$titleName = 'Lord';
+									}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
+										$titleName = 'Baronet';
+									}else if($realmaward->name === 'Baroness' || $realmaward->name === 'Viceroy' || $realmaward->name === 'Baronex'){
+										$titleName = 'Baron';
+									}else if($realmaward->name === 'Viscountess' || $realmaward->name === 'Vicarius' || $realmaward->name === 'Viscountex'){
+										$titleName = 'Viscount';
+									}else if($realmaward->name === 'Marquise' || $realmaward->name === 'Warden' || $realmaward->name === 'Marchioness' || $realmaward->name === 'Marquex'){
+										$titleName = 'Marquis';
+									}else if($realmaward->name === 'Countess' || $realmaward->name === 'Castellan' || $realmaward->name === 'Jarl' || $realmaward->name === 'Countex'){
+										$titleName = 'Count';
+									}else if($realmaward->name === 'Duchess' || $realmaward->name === 'Dux'){
+										$titleName = 'Duke';
+									}else if($realmaward->name === 'Archduchess' || $realmaward->name === 'Arch Duchess' || $realmaward->name === 'Arch-Duchess' || $realmaward->name === 'Arci Dux'){
+										$titleName = 'Archduke';
+									}else if($realmaward->name === 'Grand Duchess' || $realmaward->name === 'Grand-Duchess' || $realmaward->name === 'Magnus Dux'){
+										$titleName = 'Grand Duke';
+									}else if($realmaward->name === 'Grand Marquise'){
+										$titleName = 'Grand Marquis';
+									}else{
+										$titleName = $realmaward->name;
+									}
 									if(
 										array_key_exists($titleName, $knownTitles) &&
 										array_key_exists($persona->kingdom_id, $knownTitles[$titleName]) &&
