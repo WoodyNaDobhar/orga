@@ -4083,6 +4083,14 @@ class ImportOrk3 extends Command
 									}
 								}else{
 									DB::reconnect("mysqlBak");
+									$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $persona->kingdom_id)->where('kingdomaward_id', $oldRecommendation->award_id)->first();
+									//eliminate garbage
+									if(!$realmaward){
+										//TODO: check this
+										$deadRecords['Recommendation']['NoRealmAwardTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										$bar->advance();
+										continue;
+									}
 									if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
 										$titleName = 'Lord';
 									}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
