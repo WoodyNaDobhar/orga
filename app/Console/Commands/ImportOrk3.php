@@ -124,17 +124,17 @@ class ImportOrk3 extends Command
 			$backupConnect->table('ork_kingdomaward')
 				->where('kingdomaward_id', 6043)
 				->orWhere('kingdomaward_id', 6580)
-				->update('award_id', 209);
+				->update(['award_id' => 209]);
 				
 			$backupConnect->table('ork_kingdomaward')
 				->where('kingdomaward_id', 6287)
 				->orWhere('kingdomaward_id', 6166)
 				->orWhere('kingdomaward_id', 6042)
-				->update('award_id', 226);
+				->update(['award_id' => 226]);
 				
 			$backupConnect->table('ork_kingdomaward')
 				->where('kingdomaward_id', 6338)
-				->update('award_id', 31);
+				->update(['award_id' => 31]);
 				
 			$backupConnect->table('ork_officer')
 				->where('kingdom_id', 0)
