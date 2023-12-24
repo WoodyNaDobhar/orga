@@ -123,8 +123,11 @@ class ImportOrk3 extends Command
 				
 			$backupConnect->table('ork_kingdomaward')
 				->where('kingdomaward_id', 6043)
-				->orWhere('kingdomaward_id', 6580)
 				->update(['award_id' => 209]);
+				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 6580)
+				->delete();
 				
 			$backupConnect->table('ork_kingdomaward')
 				->where('kingdomaward_id', 6287)
@@ -154,7 +157,7 @@ class ImportOrk3 extends Command
 				->where('name', 'Order of the Walker in the Middle')
 				->update(['is_ladder' => 1]);
 				
-			$backupConnect->table('ork_recommendation')
+			$backupConnect->table('ork_recommendations')
 				->where('kingdomaward_id', 7051)
 				->update(['kingdomaward_id' => 6960]);
 				
@@ -1188,84 +1191,45 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldAwards as $oldAward) {
 						$nameClean = trim($oldAward->name);
+						$this->info('Working ' . $nameClean);
 						//the awards that aren't expressly defined in the RoP are no longer 'common'.  Make one for each realm, as appropriate
 						if(!in_array($oldAward->award_id, $ropLadders)){
-							if($nameClean === 'Order of the Walker in the Middle'){
-								foreach($knownAwards[$nameClean] as $rid => $info){
+							//TODO: looks like this isn't working, can't find WitM in awards
+							foreach($knownAwards[$nameClean] as $rid => $info){
+								if($info){
 									while(!array_key_exists($rid, $transRealms)){
 										$this->info('waiting for realm ' . $rid);
 										sleep(5);
 										$transRealms = $this->getTrans('realms');
 									}
-									if($info){
-										$awardId = DB::table('awards')->insertGetId([
-												'awarder_type' => 'Realm',
-												'awarder_id' => $transRealms[$rid],
-												'name' => $info['name'],
-												'is_ladder' => 0,
-												'deleted_by' => null,
-												'deleted_at' => null
-										]);
-										DB::table('trans')->insert([
-												'array' => 'genericawards',
-												'oldID' => $oldAward->award_id,
-												'oldMID' => $rid,
-												'newID' => $awardId
-										]);
-										$transGenericAwards[$oldAward->award_id][$rid] = $awardId;
-										DB::reconnect("mysqlBak");
-										$realmaward = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldAward->award_id)->where('kingdom_id', $rid)->first();
-										DB::table('trans')->insert([
-												'array' => 'realmawards',
-												'oldID' => $realmaward->kingdomaward_id,
-												'newID' => $awardId
-										]);
-										$transRealmawards[(int)$realmaward->kingdomaward_id] = $awardId;
-										DB::table('trans')->insert([
-												'array' => 'realmawardsprocessed',
-												'oldID' => $realmaward->kingdomaward_id,
-												'newID' => $awardId
-										]);
-										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $awardId;
-									}
-								}
-							}else{
-								foreach($knownAwards[$nameClean] as $rid => $info){
-									if($info){
-										while(!array_key_exists($rid, $transRealms)){
-											$this->info('waiting for realm ' . $rid);
-											sleep(5);
-											$transRealms = $this->getTrans('realms');
-										}
-										$awardId = DB::table('awards')->insertGetId([
-												'awarder_type' => 'Realm',
-												'awarder_id' => $transRealms[$rid],
-												'name' => $info['name'],
-												'is_ladder' => $info['is_ladder'],
-												'deleted_by' => null,
-												'deleted_at' => null
-										]);
-										DB::table('trans')->insert([
-												'array' => 'genericawards',
-												'oldID' => $oldAward->award_id,
-												'oldMID' => $rid,
-												'newID' => $awardId
-										]);
-										$transGenericAwards[$oldAward->award_id][$rid] = $awardId;
-										$realmaward = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldAward->award_id)->where('kingdom_id', $rid)->first();
-										DB::table('trans')->insert([
-												'array' => 'realmawards',
-												'oldID' => $realmaward->kingdomaward_id,
-												'newID' => $awardId
-										]);
-										$transRealmawards[(int)$realmaward->kingdomaward_id] = $awardId;
-										DB::table('trans')->insert([
-												'array' => 'realmawardsprocessed',
-												'oldID' => $realmaward->kingdomaward_id,
-												'newID' => $awardId
-										]);
-										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $awardId;
-									}
+									$awardId = DB::table('awards')->insertGetId([
+											'awarder_type' => 'Realm',
+											'awarder_id' => $transRealms[$rid],
+											'name' => $info['name'],
+											'is_ladder' => $info['is_ladder'],
+											'deleted_by' => null,
+											'deleted_at' => null
+									]);
+									DB::table('trans')->insert([
+											'array' => 'genericawards',
+											'oldID' => $oldAward->award_id,
+											'oldMID' => $rid,
+											'newID' => $awardId
+									]);
+									$transGenericAwards[$oldAward->award_id][$rid] = $awardId;
+									$realmaward = $backupConnect->table('ork_kingdomaward')->where('award_id', $oldAward->award_id)->where('kingdom_id', $rid)->first();
+									DB::table('trans')->insert([
+											'array' => 'realmawards',
+											'oldID' => $realmaward->kingdomaward_id,
+											'newID' => $awardId
+									]);
+									$transRealmawards[(int)$realmaward->kingdomaward_id] = $awardId;
+									DB::table('trans')->insert([
+											'array' => 'realmawardsprocessed',
+											'oldID' => $realmaward->kingdomaward_id,
+											'newID' => $awardId
+									]);
+									$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $awardId;
 								}
 							}
 							$bar->advance();
@@ -1366,7 +1330,7 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Titles':
-					//TODO: Dreamkeeper (GV) isn't being added to trans, but it is being added to the db (yet Warmaster is?)
+					//TODO: Dreamkeeper (GV) isn't being added to trans, but it is being added to the db (yet Warmaster is?) Check now.
 					$this->info('Importing Titles...');
 					$transTitles = [];
 					$transRealms = $this->getTrans('realms');
@@ -1495,6 +1459,7 @@ class ImportOrk3 extends Command
 								break;
 							}
 						}
+						//TODO: some don't appear in oldTitle, we need to find it in kingdomawards by kingdom
 						foreach($realmInfo as $rid => $info){
 							if($info){
 								while(!array_key_exists($rid, $transRealms)){
@@ -1533,6 +1498,17 @@ class ImportOrk3 extends Command
 												'newID' => $titleId
 										]);
 										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
+									}
+								}else{
+									$oldRealmaward = $backupConnect->table('kingdomaward')->where('kingdom_id', $rid)->where('name', $info['name'])->first();
+									if($oldRealmaward){
+										DB::table('trans')->insert([
+												'array' => 'titles',
+												'oldID' => '999' . $oldRealmaward->kingdomaward_id,
+												'oldMID' => $rid,
+												'newID' => $titleId
+										]);
+										$transTitles[(int)$rid][(int)'999' . $oldRealmaward->kingdomaward_id] = $titleId;
 									}
 								}
 								
@@ -3117,10 +3093,10 @@ class ImportOrk3 extends Command
 													'newID' => $userId
 											]);
 											$transUsers[$oldAttendance->by_whom_id] = $userId;
+											DB::table('personas')->where('id', $transPersonas[$oldAttendance->by_whom_id])->update([
+													'user_id' => $userId
+											]);
 										}
-										DB::table('personas')->where('id', $transPersonas[$oldAttendance->by_whom_id])->update([
-												'user_id' => $userId
-										]);
 									}else{
 										$userId = DB::table('users')->insertGetId([
 												'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
@@ -4007,7 +3983,6 @@ class ImportOrk3 extends Command
 								continue;
 							}
 							//check $knownTitles
-							// when adding custom titles to transTitles (we need the kingdomaward_id put in there, not the award id, and it needs to be distinct: '999' . id)
 							if($realmaward->name === 'Lady' || $realmaward->name === 'Noble' || $realmaward->name === 'Liege'){
 								$titleName = 'Lord';
 							}else if($realmaward->name === 'Baronetess' || $realmaward->name === 'Constable' || $realmaward->name === 'Baronetex'){
@@ -4597,7 +4572,21 @@ class ImportOrk3 extends Command
 			//TODO: squires, pages, at-arms, and apprentices can't be done, the data is just too jacked.  Stop trying, make them do it.
 			//TODO: custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles?  Check for them, and respond.
 			//TODO: custom officers (award data)?  Might be too much
-
+			
+			//log the deadRecords
+			foreach($deadRecords as $model => $causes){
+				foreach($causes as $cause => $oldInfos){
+					foreach($oldInfos as $model_id => $model_value){
+						DB::table('crypt')->insert([
+								'model' 		=> $model,
+								'cause' 		=> $cause,
+								'model_id'		=> $model_id,
+								'model_value'	=> json_encode($model_value)
+						]);
+					}
+				}
+			}
+			
 			$this->info('All done!');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];

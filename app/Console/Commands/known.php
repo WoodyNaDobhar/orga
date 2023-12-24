@@ -1,6 +1,6 @@
 <?php 
 
-$ropLadders = [243, 239, 25, 26, 23, 24, 21, 22, 27]; //the ids in ork3 of awards that are standardized
+$ropLadders = [21, 22, 23, 24, 25, 26, 27, 243, 239]; //the ids in ork3 of awards that are standardized
 $ropTitles = [1,2,3,4,5,6,12,13,14,15,16,17,18,19,20,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,203,240,241,242,244,245]; //the ids in the ork3 of titles that are standardized
 $knownCollectiveGDs = [16, 21, 17, 10];//the ids in ork3 of kingdoms with Grand Duchies that are collective (realms).
 //$knownAwards[AwardName][KingdomID][] as per the name and kingdomID in ork3
