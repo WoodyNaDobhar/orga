@@ -18,6 +18,7 @@ use App\Models\Chaptertype;
 use App\Models\Persona;
 use App\Models\Title;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -68,7 +69,6 @@ class ImportOrk3 extends Command
 			//setup
 			$backupConnect = DB::connection('mysqlBak');
 			$now = DB::raw('CURRENT_TIMESTAMP');
-			$deadRecords = [];
 			$realmawardsProcessed = [];
 			ini_set('memory_limit', '512M');
 			
@@ -138,6 +138,18 @@ class ImportOrk3 extends Command
 			$backupConnect->table('ork_kingdomaward')
 				->where('kingdomaward_id', 6338)
 				->update(['award_id' => 31]);
+				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 2839)
+				->update(['name' => 'Order of the Walker of the Middle']);
+				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 3119)
+				->update(['name' => 'Walker in the Middle']);
+				
+			$backupConnect->table('ork_kingdomaward')
+				->where('kingdomaward_id', 7051)
+				->update(['name' => 'Order of Battle']);
 				
 			$backupConnect->table('ork_officer')
 				->where('kingdom_id', 0)
@@ -1007,7 +1019,12 @@ class ImportOrk3 extends Command
 										break;
 									default:
 								}
-								$deadRecords['Chaptertype']['NotInCorpora'][$oldChaptertype->parktitle_id] = $oldChaptertype;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Chaptertype',
+										'cause' 		=> 'NotInCorpora',
+										'model_id'		=> $oldChaptertype->parktitle_id,
+										'model_value'	=> json_encode($oldChaptertype)
+								]);
 								$bar->advance();
 								continue;
 							}else{
@@ -1175,7 +1192,12 @@ class ImportOrk3 extends Command
 							]);
 							$transUnits[$oldUnit->unit_id] = $unitId;
 						}else{
-							$deadRecords['Unit']['NoType'][$oldUnit->unit_id] = $oldUnit;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Unit',
+									'cause' 		=> 'NoType',
+									'model_id'		=> $oldUnit->unit_id,
+									'model_value'	=> json_encode($oldUnit)
+							]);
 						}
 						$bar->advance();
 					}
@@ -1194,7 +1216,6 @@ class ImportOrk3 extends Command
 						$this->info('Working ' . $nameClean);
 						//the awards that aren't expressly defined in the RoP are no longer 'common'.  Make one for each realm, as appropriate
 						if(!in_array($oldAward->award_id, $ropLadders)){
-							//TODO: looks like this isn't working, can't find WitM in awards
 							foreach($knownAwards[$nameClean] as $rid => $info){
 								if($info){
 									while(!array_key_exists($rid, $transRealms)){
@@ -1330,7 +1351,6 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Titles':
-					//TODO: Dreamkeeper (GV) isn't being added to trans, but it is being added to the db (yet Warmaster is?) Check now.
 					$this->info('Importing Titles...');
 					$transTitles = [];
 					$transRealms = $this->getTrans('realms');
@@ -1459,7 +1479,6 @@ class ImportOrk3 extends Command
 								break;
 							}
 						}
-						//TODO: some don't appear in oldTitle, we need to find it in kingdomawards by kingdom
 						foreach($realmInfo as $rid => $info){
 							if($info){
 								while(!array_key_exists($rid, $transRealms)){
@@ -1500,7 +1519,7 @@ class ImportOrk3 extends Command
 										$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $titleId;
 									}
 								}else{
-									$oldRealmaward = $backupConnect->table('kingdomaward')->where('kingdom_id', $rid)->where('name', $info['name'])->first();
+									$oldRealmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $rid)->where('name', $info['name'])->first();
 									if($oldRealmaward){
 										DB::table('trans')->insert([
 												'array' => 'titles',
@@ -1823,7 +1842,12 @@ class ImportOrk3 extends Command
 								continue 2;
 							}
 						}
-						$deadRecords['Title']['Femms'][$oldTitle->award_id] = $oldTitle;
+						DB::table('crypt')->insert([
+								'model' 		=> 'Title',
+								'cause' 		=> 'Femms',
+								'model_id'		=> $oldTitle->award_id,
+								'model_value'	=> json_encode($oldTitle)
+						]);
 					}
 					break;
 				case 'CustomTitles':
@@ -1981,14 +2005,25 @@ class ImportOrk3 extends Command
 								$officeableID = $chaptertypeArray->id;
 							}
 							foreach($offices as $office => $officeData){
-								DB::table('offices')->insert([
+								$officeID = DB::table('offices')->insertGetId([
 										'officeable_type' => $officeableType,
 										'officeable_id' => $officeableID,
 										'name' => $office,
 										'duration' => $officeData['duration'],
 										'order' => array_key_exists('order', $officeData) ? $officeData['order'] : null
 								]);
-								$bar->advance();
+								//find it in kingdomawards, then add it to transOffices
+								//TODO: check me!
+								$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $rid)->where('name', $office)->first();
+								if($realmaward){
+									DB::table('trans')->insert([
+											'array' => 'offices',
+											'oldID' => $realmaward->kingdomaward_id,
+											'newID' => $officeID
+									]);
+									$transOffices[(int)$realmaward->kingdomaward_id] = $officeID;
+									$bar->advance();
+								}
 							}
 						}
 					}
@@ -2021,7 +2056,7 @@ class ImportOrk3 extends Command
 					$transRealms = $this->getTrans('realms');
 					$bar = $this->output->createProgressBar($backupConnect->table('ork_mundane')->count());
 					$bar->start();
-					$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$deadRecords, &$bar, &$transUnits, &$transChapters, &$transRealms, &$oldUnits){
+					$backupConnect->table('ork_mundane')->orderBy('mundane_id')->chunk(100, function ($oldUsers) use (&$usedEmails, $backupConnect, &$suspensionsWaitList, &$transUsers, &$transPersonas, &$bar, &$transUnits, &$transChapters, &$transRealms, &$oldUnits){
 						foreach($oldUsers as $oldUser) {
 							$pronounId = null;
 							$userId = null;
@@ -2054,7 +2089,7 @@ class ImportOrk3 extends Command
 										$pronounId = null;
 									}else{
 										//this shouldn't happen.  Let me know if it does.
-										dd(array($oldUser->given_name, $gender));
+										throw new \Exception($oldUser->given_name . ' for gender ' . $gender->name);
 									}
 								}else{
 									$pronounId = null;
@@ -2128,7 +2163,12 @@ class ImportOrk3 extends Command
 										]);
 										$transUsers[$oldUser->mundane_id] = $userId;
 									}else{
-										$deadRecords['User']['DuplicateEmail'][$oldUser->mundane_id] = $oldUser;
+										DB::table('crypt')->insert([
+											'model' 		=> 'User',
+											'cause' 		=> 'DuplicateEmail',
+											'model_id'		=> $oldUser->mundane_id,
+											'model_value'	=> json_encode($oldUser)
+										]);
 									}
 								}
 								
@@ -2188,7 +2228,12 @@ class ImportOrk3 extends Command
 												'is_voting' => 1
 										]);
 									}else{
-										$deadRecords['Unit']['Deleted'][$oldUser->company_id] = $oldUser;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Unit',
+												'cause' 		=> 'Deleted',
+												'model_id'		=> $oldUser->company_id,
+												'model_value'	=> json_encode($oldUser)
+										]);
 									}
 								}
 								
@@ -2478,7 +2523,12 @@ class ImportOrk3 extends Command
 								$accountable_id = $transUnits[$oldAccount->unit_id];
 								break;
 							case 'Event':
-								$deadRecords['Accounts']['Events'][$oldAccount->account_id] = $oldAccount;
+								DB::table('crypt')->insert([
+									'model' 		=> 'Accounts',
+									'cause' 		=> 'Events',
+									'model_id'		=> $oldAccount->account_id,
+									'model_value'	=> json_encode($oldAccount)
+								]);
 								$bar->advance();
 								continue 2;
 							case 'Chapter':
@@ -2593,7 +2643,12 @@ class ImportOrk3 extends Command
 							$meetup = array_shift($alternateMeetupsChecks);
 							$meetup->alt_location_id = $locationID;
 							$meetup->save();
-							$deadRecords['Meetup']['Unused'][$oldMeetup->parkday_id] = $oldMeetup;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Meetup',
+									'cause' 		=> 'Unused',
+									'model_id'		=> $oldMeetup->parkday_id,
+									'model_value'	=> json_encode($oldMeetup)
+							]);
 						}else{
 							$meetupId = DB::table('meetups')->insertGetId([
 									'chapter_id' => $transChapters[$oldMeetup->park_id],
@@ -2634,7 +2689,7 @@ class ImportOrk3 extends Command
 					$count = $backupConnect->table('ork_attendance')->count();
 					$bar = $this->output->createProgressBar($count);
 					$bar->start();
-					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$deadRecords, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes, &$oldChaptersCheck){
+					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes, &$oldChaptersCheck){
 						$meetups = null;
 						$meetupId = null;
 						foreach ($oldAttendances as $oldAttendance) {
@@ -2669,7 +2724,12 @@ class ImportOrk3 extends Command
 								$fromChapter = null;
 								//those that just won't happen
 								if($oldAttendance->persona === '' || $oldAttendance->flavor === '' && ($oldAttendance->note === '' || $oldAttendance->note === 'unknown' || $oldAttendance->note === '**' || $oldAttendance->note === '-' || $oldAttendance->note === '--' || $oldAttendance->note === '---' || $oldAttendance->note === '----' || $oldAttendance->note === '?' || $oldAttendance->note === '??' || $oldAttendance->note === '?? ??' || $oldAttendance->note === '??-??' || $oldAttendance->note === '??-???' || $oldAttendance->note === '???' || $oldAttendance->note === '????' || $oldAttendance->note === '-?' || $oldAttendance->note === 'Undeclaired' || $oldAttendance->note === 'Unk' || $oldAttendance->note === 'unknown' || $oldAttendance->note === 'unkwn' || $oldAttendance->note === 'visitor')){
-									$deadRecords['Attendance']['BadData'][$oldAttendance->attendance_id] = $oldAttendance;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Attendance',
+											'cause' 		=> 'BadData',
+											'model_id'		=> $oldAttendance->attendance_id,
+											'model_value'	=> json_encode($oldAttendance)
+									]);
 									$bar->advance();
 									continue;
 								}else{
@@ -2779,7 +2839,12 @@ class ImportOrk3 extends Command
 										}
 										$personaID = $persona ? $transPersonas[$persona->mundane_id] : null;
 									}else{
-										$deadRecords['Attendance']['PersonaUnconstructable'][$oldAttendance->attendance_id] = $oldAttendance;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Attendance',
+												'cause' 		=> 'PersonaUnconstructable',
+												'model_id'		=> $oldAttendance->attendance_id,
+												'model_value'	=> json_encode($oldAttendance)
+										]);
 										$bar->advance();
 										continue;
 									}
@@ -2843,7 +2908,12 @@ class ImportOrk3 extends Command
 										}
 									}
 									if(!$chapterID){
-										$deadRecords['Attendance']['NoChapter'][$oldAttendance->attendance_id] = $oldAttendance;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Attendance',
+												'cause' 		=> 'NoChapter',
+												'model_id'		=> $oldAttendance->attendance_id,
+												'model_value'	=> json_encode($oldAttendance)
+										]);
 										$bar->advance();
 										continue;
 									}
@@ -2878,7 +2948,12 @@ class ImportOrk3 extends Command
 										'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
 										'credits' => $oldAttendance->credits
 								]);
-								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Attendance',
+										'cause' 		=> 'Reconciled',
+										'model_id'		=> $oldAttendance->attendance_id,
+										'model_value'	=> json_encode($oldAttendance)
+								]);
 								$bar->advance();
 								continue;
 							//no event and no date (ie, reconciliation)
@@ -2888,7 +2963,12 @@ class ImportOrk3 extends Command
 										'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
 										'credits' => $oldAttendance->credits
 								]);
-								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Attendance',
+										'cause' 		=> 'Reconciled',
+										'model_id'		=> $oldAttendance->attendance_id,
+										'model_value'	=> json_encode($oldAttendance)
+								]);
 								$bar->advance();
 								continue;
 							//if the date is before Feb 01 1983, it's a reconciliation
@@ -2898,7 +2978,12 @@ class ImportOrk3 extends Command
 										'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
 										'credits' => $oldAttendance->credits
 								]);
-								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Attendance',
+										'cause' 		=> 'Reconciled',
+										'model_id'		=> $oldAttendance->attendance_id,
+										'model_value'	=> json_encode($oldAttendance)
+								]);
 								$bar->advance();
 								continue;
 							//if the date is missing the month or day, reconcile it
@@ -2908,7 +2993,12 @@ class ImportOrk3 extends Command
 										'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
 										'credits' => $oldAttendance->credits
 								]);
-								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Attendance',
+										'cause' 		=> 'Reconciled',
+										'model_id'		=> $oldAttendance->attendance_id,
+										'model_value'	=> json_encode($oldAttendance)
+								]);
 								$bar->advance();
 								continue;
 							//if it's more than 2 credits and no event, it's a reconcilliation
@@ -2918,7 +3008,12 @@ class ImportOrk3 extends Command
 										'persona_id' => $oldAttendance->mundane_id > 0 ? $transPersonas[$oldAttendance->mundane_id] : $personaID,
 										'credits' => $oldAttendance->credits
 								]);
-								$deadRecords['Attendance']['Reconciled'][$oldAttendance->attendance_id] = $oldAttendance;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Attendance',
+										'cause' 		=> 'Reconciled',
+										'model_id'		=> $oldAttendance->attendance_id,
+										'model_value'	=> json_encode($oldAttendance)
+								]);
 								$bar->advance();
 								continue;
 							}else{
@@ -2955,7 +3050,12 @@ class ImportOrk3 extends Command
 									}else{
 										$transChapters = $this->getTrans('chapters');
 										if(!in_array($oldAttendance->park_id, $oldChaptersCheck)){
-											$deadRecords['Attendance']['NoChapter'][$oldAttendance->attendance_id] = $oldAttendance;
+											DB::table('crypt')->insert([
+													'model' 		=> 'Attendance',
+													'cause' 		=> 'NoChapter',
+													'model_id'		=> $oldAttendance->attendance_id,
+													'model_value'	=> json_encode($oldAttendance)
+											]);
 											$bar->advance();
 											continue;
 										}else{
@@ -3063,7 +3163,12 @@ class ImportOrk3 extends Command
 											$transEventDetails[$oldAttendance->event_calendardetail_id] = $eventId;
 										}else{
 											//deadrecords it since there's no event data
-											$deadRecords['Attendance']['NoEvent'][$oldAttendance->attendance_id] = $oldAttendance;
+											DB::table('crypt')->insert([
+													'model' 		=> 'Attendance',
+													'cause' 		=> 'NoEvent',
+													'model_id'		=> $oldAttendance->attendance_id,
+													'model_value'	=> json_encode($oldAttendance)
+											]);
 											$bar->advance();
 											continue;
 										}
@@ -3071,6 +3176,7 @@ class ImportOrk3 extends Command
 								}
 								//check by_whom
 								if($oldAttendance->by_whom_id != 0){
+									$userId = null;
 									if(in_array($oldAttendance->by_whom_id, $oldPersonas)){
 										while(!array_key_exists($oldAttendance->by_whom_id, $transPersonas)){
 											$this->info('waiting for persona ' . $oldAttendance->by_whom_id);
@@ -3079,7 +3185,37 @@ class ImportOrk3 extends Command
 										}
 										DB::reconnect("mysqlBak");
 										//if they need a user, we'll have to make one up
+										$transUsers = $this->getTrans('users');
 										if(!array_key_exists($oldAttendance->by_whom_id, $transUsers)){
+											$userCheck = User::where('email', 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net')->select('id')->first();
+											if($userCheck){
+												$userId = $userCheck->id;
+											}
+											if(!$userId){
+												$userId = DB::table('users')->insertGetId([
+														'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
+														'email_verified_at' => null,
+														'password' => 'generated',
+														'remember_token' => null,
+														'is_restricted' => 1
+												]);
+											}
+											DB::table('trans')->insert([
+													'array' => 'users',
+													'oldID' => $oldAttendance->by_whom_id,
+													'newID' => $userId
+											]);
+											$transUsers[$oldAttendance->by_whom_id] = $userId;
+											Persona::where('id', $transPersonas[$oldAttendance->by_whom_id])->update([
+													'user_id' => $userId
+											]);
+										}
+									}elseif($oldAttendance->park_id != '0'){
+										$userCheck = User::where('email', 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net')->select('id')->first();
+										if($userCheck){
+											$userId = $userCheck->id;
+										}
+										if(!$userId){
 											$userId = DB::table('users')->insertGetId([
 													'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
 													'email_verified_at' => null,
@@ -3087,24 +3223,7 @@ class ImportOrk3 extends Command
 													'remember_token' => null,
 													'is_restricted' => 1
 											]);
-											DB::table('trans')->insert([
-													'array' => 'users',
-													'oldID' => $oldAttendance->by_whom_id,
-													'newID' => $userId
-											]);
-											$transUsers[$oldAttendance->by_whom_id] = $userId;
-											DB::table('personas')->where('id', $transPersonas[$oldAttendance->by_whom_id])->update([
-													'user_id' => $userId
-											]);
 										}
-									}else{
-										$userId = DB::table('users')->insertGetId([
-												'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
-												'email_verified_at' => null,
-												'password' => 'generated',
-												'remember_token' => null,
-												'is_restricted' => 1
-										]);
 										DB::table('trans')->insert([
 												'array' => 'users',
 												'oldID' => $oldAttendance->by_whom_id,
@@ -3153,7 +3272,12 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldTournaments as $oldTournament) {
 						if($oldTournament->kingdom_id == 0 && $oldTournament->park_id == 0 && $oldTournament->event_calendardetail_id == 0 && $oldTournament->event_id == 0){
-							$deadRecords['Tournament']['NoHost'][$oldTournament->tournament_id] = $oldTournament;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Tournament',
+									'cause' 		=> 'NoHost',
+									'model_id'		=> $oldTournament->tournament_id,
+									'model_value'	=> json_encode($oldTournament)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3175,7 +3299,12 @@ class ImportOrk3 extends Command
 						}else{
 							if($oldTournament->event_calendardetail_id > 0){
 								if(!in_array($oldTournament->event_calendardetail_id, $oldEventDetails)){
-									$deadRecords['Tournament']['GoneEvent'][$oldTournament->tournament_id] = $oldTournament;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Tournament',
+											'cause' 		=> 'GoneEvent',
+											'model_id'		=> $oldTournament->tournament_id,
+											'model_value'	=> json_encode($oldTournament)
+									]);
 									$bar->advance();
 									continue;
 								}else{
@@ -3188,7 +3317,12 @@ class ImportOrk3 extends Command
 								}
 							}else{
 								//these are all garbage, so goodby
-								$deadRecords['Tournament']['NoEvent'][$oldTournament->tournament_id] = $oldTournament;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Tournament',
+										'cause' 		=> 'NoEvent',
+										'model_id'		=> $oldTournament->tournament_id,
+										'model_value'	=> json_encode($oldTournament)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -3204,7 +3338,6 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Configurations':
-					//TODO: chapter configs?
 					$this->info('Importing Configurations...');
 					$transRealms = $this->getTrans('realms');
 					$oldConfigurations = $backupConnect->table('ork_configuration')->where('type', 'Kingdom')->get()->toArray();
@@ -3212,7 +3345,12 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldConfigurations as $oldConfiguration) {
 						if($oldConfiguration->key === 'AccountPointers'){
-							$deadRecords['Configuration']['AccountPointer'][$oldConfiguration->configuration_id] = $oldConfiguration;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Configuration',
+									'cause' 		=> 'AccountPointer',
+									'model_id'		=> $oldConfiguration->configuration_id,
+									'model_value'	=> json_encode($oldConfiguration)
+							]);
 						}else{
 							if(array_key_exists($oldConfiguration->id, $knownRealmChaptertypesOffices)){
 								//update the realm
@@ -3224,7 +3362,7 @@ class ImportOrk3 extends Command
 								$realm = Realm::where('id', $transRealms[$oldConfiguration->id])->first();
 								//this shouldn't happen
 								if(!$realm){
-									dd($oldConfiguration);
+									throw new \Exception('oldConfiguration ' . $oldConfiguration->configuration_id . ' has no Realm');
 								}
 								$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
 								$cleanNoQuotes = str_replace('"', '', $cleanValue);
@@ -3339,7 +3477,12 @@ class ImportOrk3 extends Command
 									$transPersonas[$oldTransaction->recorded_by] = $personaId;
 								}else{
 									//nothing to be done
-									$deadRecords['Transaction']['PersonaGone'][$oldTransaction->transaction_id] = $oldTransaction;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Transaction',
+											'cause' 		=> 'PersonaGone',
+											'model_id'		=> $oldTransaction->transaction_id,
+											'model_value'	=> json_encode($oldTransaction)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -3374,25 +3517,45 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldSplits as $oldSplit) {
 						if($oldSplit->account_id === '0'){
-							$deadRecords['Split']['NoAccount'][$oldSplit->split_id] = $oldSplit;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Split',
+									'cause' 		=> 'NoAccount',
+									'model_id'		=> $oldSplit->split_id,
+									'model_value'	=> json_encode($oldSplit)
+							]);
 							$bar->advance();
 							continue;
 						}
 						//account was deleted...sigh.  Not sure there's enough of these to justify the time it'd take me to make the script rebuild it, and I'm not sure I even could.  So, without further adeau...
 						if(!in_array($oldSplit->account_id, $oldAccounts)){
-							$deadRecords['Split']['GoneAccount'][$oldSplit->split_id] = $oldSplit;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Split',
+									'cause' 		=> 'GoneAccount',
+									'model_id'		=> $oldSplit->split_id,
+									'model_value'	=> json_encode($oldSplit)
+							]);
 							$bar->advance();
 							continue;
 						}
 						//transaction was deleted
 						if(!in_array($oldSplit->transaction_id, $oldTransactions)){
-							$deadRecords['Split']['GoneTransaction'][$oldSplit->split_id] = $oldSplit;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Split',
+									'cause' 		=> 'GoneTransaction',
+									'model_id'		=> $oldSplit->split_id,
+									'model_value'	=> json_encode($oldSplit)
+							]);
 							$bar->advance();
 							continue;
 						}
 						//persona was deleted
 						if(!in_array($oldSplit->src_mundane_id, $oldPersonas)){
-							$deadRecords['Split']['GonePersona'][$oldSplit->split_id] = $oldSplit;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Split',
+									'cause' 		=> 'GonePersona',
+									'model_id'		=> $oldSplit->split_id,
+									'model_value'	=> json_encode($oldSplit)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3437,19 +3600,34 @@ class ImportOrk3 extends Command
 						$thisTransaction = null;
 						$duesFrom = null;
 						if($oldDue->kingdom_id == 0){
-							$deadRecords['Due']['KingdomGone'][$oldDue->dues_id] = $oldDue;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Due',
+									'cause' 		=> 'KingdomGone',
+									'model_id'		=> $oldDue->dues_id,
+									'model_value'	=> json_encode($oldDue)
+							]);
 							$bar->advance();
 							continue;
 						}
 						if(!in_array($oldDue->mundane_id, $oldPersonas)){
 							//looks like these are the victims of related deletions.  So sad.
-							$deadRecords['Due']['PersonaGone'][$oldDue->dues_id] = $oldDue;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Due',
+									'cause' 		=> 'PersonaGone',
+									'model_id'		=> $oldDue->dues_id,
+									'model_value'	=> json_encode($oldDue)
+							]);
 							$bar->advance();
 							continue;
 						}
 						if($oldDue->created_on > date('Y-m-d hh:mm:ss', strtotime('tomorrow'))){
 							//it's just bad data, not much I can do
-							$deadRecords['Due']['BadDate'][$oldDue->dues_id] = $oldDue;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Due',
+									'cause' 		=> 'BadDate',
+									'model_id'		=> $oldDue->dues_id,
+									'model_value'	=> json_encode($oldDue)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3473,7 +3651,12 @@ class ImportOrk3 extends Command
 							$thisSplit = $backupConnect->table('ork_split')->where('transaction_id', $oldDue->import_transaction_id)->where('is_dues', 1)->first();
 							if(!$thisSplit){
 								//damn.  Guess this one is toast.
-								$deadRecords['Due']['SplitGone'][$oldDue->dues_id] = $oldDue;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Due',
+										'cause' 		=> 'SplitGone',
+										'model_id'		=> $oldDue->dues_id,
+										'model_value'	=> json_encode($oldDue)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -3550,6 +3733,7 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transChapters = $this->getTrans('chapters');
 						}
+						$transUsers = $this->getTrans('users');
 						if(!in_array($oldDue->created_by, $oldPersonas) && !array_key_exists($oldDue->created_by, $transUsers)){
 							$userId = DB::table('users')->insertGetId([
 									'email' => 'deletedUser' . $oldDue->created_by . '@nowhere.net',
@@ -3593,6 +3777,7 @@ class ImportOrk3 extends Command
 								$createdBy = $transUsers[$oldDue->created_by];
 							}
 						}
+						$transUsers = $this->getTrans('users');
 						if($oldDue->revoked_by && !in_array($oldDue->revoked_by, $oldPersonas) && !array_key_exists($oldDue->revoked_by, $transUsers)){
 							while(!array_key_exists($oldDue->park_id, $transChapters)){
 								$this->info('waiting for chapter ' . $oldDue->park_id);
@@ -3672,7 +3857,12 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldMembers as $oldMember) {
 						if($oldMember->mundane_id == '0'){
-							$deadRecords['Member']['NullPersona'][$oldMember->unit_id] = $oldMember;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Member',
+									'cause' 		=> 'NullPersona',
+									'model_id'		=> $oldMember->unit_id,
+									'model_value'	=> json_encode($oldMember)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3683,7 +3873,12 @@ class ImportOrk3 extends Command
 								$transUnits = $this->getTrans('units');
 							}
 						}else{
-							$deadRecords['Member']['NoUnit'][$oldMember->unit_id] = $oldMember;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Member',
+									'cause' 		=> 'NoUnit',
+									'model_id'		=> $oldMember->unit_id,
+									'model_value'	=> json_encode($oldMember)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3694,7 +3889,12 @@ class ImportOrk3 extends Command
 								$transPersonas = $this->getTrans('personas');
 							}
 						}else{
-							$deadRecords['Member']['PersonaGone'][$oldMember->unit_id] = $oldMember;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Member',
+									'cause' 		=> 'PersonaGone',
+									'model_id'		=> $oldMember->unit_id,
+									'model_value'	=> json_encode($oldMember)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3757,7 +3957,12 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldOfficers as $oldOfficer) {
 						if($oldOfficer->mundane_id == '0'){
-							$deadRecords['Officer']['NullPersona'][$oldOfficer->officer_id] = $oldOfficer;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Officer',
+									'cause' 		=> 'NullPersona',
+									'model_id'		=> $oldOfficer->officer_id,
+									'model_value'	=> json_encode($oldOfficer)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3786,7 +3991,12 @@ class ImportOrk3 extends Command
 							DB::reconnect("mysqlBak");
 							$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldOfficer->mundane_id)->first();
 							if(!$persona){
-								$deadRecords['Officer']['PersonaGone'][$oldOfficer->mundane_id] = $oldOfficer;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Officer',
+										'cause' 		=> 'PersonaGone',
+										'model_id'		=> $oldOfficer->officer_id,
+										'model_value'	=> json_encode($oldOfficer)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -3799,7 +4009,12 @@ class ImportOrk3 extends Command
 								DB::reconnect("mysqlBak");
 								$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldOfficer->authorization_id)->first();
 								if(!$persona){
-									$deadRecords['Officer']['NoAuthPersona'][$oldOfficer->authorization_id] = $oldOfficer;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Officer',
+											'cause' 		=> 'NoAuthPersona',
+											'model_id'		=> $oldOfficer->officer_id,
+											'model_value'	=> json_encode($oldOfficer)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -3824,12 +4039,22 @@ class ImportOrk3 extends Command
 									$transChaptertypes = $this->getTrans('chaptertypes');
 								}
 								if(!array_key_exists($chapter->chaptertype->name, $knownRealmChaptertypesOffices[$oldOfficer->kingdom_id])){
-									$deadRecords['Officer']['NoCorporaChaptertype'][$oldOfficer->authorization_id] = $oldOfficer;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Officer',
+											'cause' 		=> 'NoCorporaChaptertype',
+											'model_id'		=> $oldOfficer->officer_id,
+											'model_value'	=> json_encode($oldOfficer)
+									]);
 									$bar->advance();
 									continue;
 								}
 								if(array_search($order, array_column($knownRealmChaptertypesOffices[$oldOfficer->kingdom_id][$chapter->chaptertype->name], 'order')) === FALSE){
-									$deadRecords['Officer']['NoCorporaOffice'][$oldOfficer->authorization_id] = $oldOfficer;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Officer',
+											'cause' 		=> 'NoCorporaOffice',
+											'model_id'		=> $oldOfficer->officer_id,
+											'model_value'	=> json_encode($oldOfficer)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -3884,8 +4109,14 @@ class ImportOrk3 extends Command
 								}
 							}
 						}else{
-							//this shouldn't happen.  Tell me if it does
-							dd($oldOfficer);
+							DB::table('crypt')->insert([
+									'model' 		=> 'Officer',
+									'cause' 		=> 'NoOrderFound',
+									'model_id'		=> $oldOfficer->officer_id,
+									'model_value'	=> json_encode($oldOfficer)
+							]);
+							$bar->advance();
+							continue;
 						}
 						
 						//reign?
@@ -3895,7 +4126,7 @@ class ImportOrk3 extends Command
 						}else{
 							if(!array_key_exists($oldOfficer->kingdom_id, $knownCurrentReigns)){
 								//this shouldn't happen.  let me know if it does
-								dd($oldOfficer);
+								throw new \Exception('oldOfficer ' . $oldOfficer->officer_id . ' has no reign detected.');
 							}
 							$reignID = DB::table('reigns')->insertGetId([
 								'reignable_type' => $oldOfficer->park_id != 0 ? 'Chapter' : 'Realm',
@@ -3940,13 +4171,23 @@ class ImportOrk3 extends Command
 						DB::reconnect("mysqlBak");
 						$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->mundane_id)->first();
 						if(!$persona){
-							$deadRecords['Recommendation']['NoTargetPersona'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Recommendation',
+									'cause' 		=> 'NoTargetPersona',
+									'model_id'		=> $oldRecommendation->recommendations_id,
+									'model_value'	=> json_encode($oldRecommendation)
+							]);
 							$bar->advance();
 							continue;
 						}
 						$recommendingPersona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
 						if(!$recommendingPersona){
-							$deadRecords['Recommendation']['NoByPersona'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Recommendation',
+									'cause' 		=> 'NoByPersona',
+									'model_id'		=> $oldRecommendation->recommendations_id,
+									'model_value'	=> json_encode($oldRecommendation)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -3973,12 +4214,22 @@ class ImportOrk3 extends Command
 							$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldRecommendation->kingdomaward_id)->first();
 							//eliminate garbage
 							if(!$realmaward){
-								$deadRecords['Recommendation']['CustomRealmAwardGone'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Recommendation',
+										'cause' 		=> 'CustomRealmAwardGone',
+										'model_id'		=> $oldRecommendation->recommendations_id,
+										'model_value'	=> json_encode($oldRecommendation)
+								]);
 								$bar->advance();
 								continue;
 							}
 							if($realmaward->name === 'Custom Award' || $realmaward->name === ''){
-								$deadRecords['Recommendation']['CustomAwardBlank'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Recommendation',
+										'cause' 		=> 'CustomAwardBlank',
+										'model_id'		=> $oldRecommendation->recommendations_id,
+										'model_value'	=> json_encode($oldRecommendation)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -4027,7 +4278,12 @@ class ImportOrk3 extends Command
 							//check awards
 							DB::reconnect("mysqlBak");
 							if(!in_array($oldRecommendation->kingdomaward_id, $oldCustomAwards)) {
-								$deadRecords['Recommendation']['CustomAwardGone'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Recommendation',
+										'cause' 		=> 'CustomAwardGone',
+										'model_id'		=> $oldRecommendation->recommendations_id,
+										'model_value'	=> json_encode($oldRecommendation)
+								]);
 								$bar->advance();
 								continue;
 							}else{
@@ -4042,7 +4298,12 @@ class ImportOrk3 extends Command
 							$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $persona->kingdom_id)->where('award_id', $oldRecommendation->award_id)->first();
 							//eliminate garbage
 							if(!$realmaward){
-								$deadRecords['Recommendation']['NoRealmawardTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Recommendation',
+										'cause' 		=> 'NoAwardTitle',
+										'model_id'		=> $oldRecommendation->recommendations_id,
+										'model_value'	=> json_encode($oldRecommendation)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -4062,7 +4323,12 @@ class ImportOrk3 extends Command
 									//eliminate garbage
 									if(!$realmaward){
 										//TODO: check this
-										$deadRecords['Recommendation']['NoRealmAwardTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Recommendation',
+												'cause' 		=> 'NoRealmawardTitle',
+												'model_id'		=> $oldRecommendation->recommendations_id,
+												'model_value'	=> json_encode($oldRecommendation)
+										]);
 										$bar->advance();
 										continue;
 									}
@@ -4104,7 +4370,12 @@ class ImportOrk3 extends Command
 												}
 									}else{
 										//This realm doesn't have this award
-										$deadRecords['Recommendation']['NoRealmTitle'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Recommendation',
+												'cause' 		=> 'NoRealmTitle',
+												'model_id'		=> $oldRecommendation->recommendations_id,
+												'model_value'	=> json_encode($oldRecommendation)
+										]);
 										$bar->advance();
 										continue;
 									}
@@ -4112,23 +4383,43 @@ class ImportOrk3 extends Command
 								$titleAwardId = $oldRecommendation->award_id;
 							}else{
 								if(!in_array($oldRecommendation->kingdomaward_id, $oldKingdomawards)) {
-									$deadRecords['Recommendation']['NoRealmaward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Recommendation',
+											'cause' 		=> 'NoRealmaward',
+											'model_id'		=> $oldRecommendation->recommendations_id,
+											'model_value'	=> json_encode($oldRecommendation)
+									]);
 									$bar->advance();
 									continue;
 								}else{
 									//check for 'office'
 									if($oldRecommendation->award_id == '0'){
-										$deadRecords['Recommendation']['NullAward'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Recommendation',
+												'cause' 		=> 'NullAward',
+												'model_id'		=> $oldRecommendation->recommendations_id,
+												'model_value'	=> json_encode($oldRecommendation)
+										]);
 										$bar->advance();
 										continue;
 									}else{
 										$oldAward = $backupConnect->table('ork_award')->where('award_id', $oldRecommendation->award_id)->first();
 										if(!$oldAward){
-											$deadRecords['Recommendation']['AwardGone'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+											DB::table('crypt')->insert([
+													'model' 		=> 'Recommendation',
+													'cause' 		=> 'AwardGone',
+													'model_id'		=> $oldRecommendation->recommendations_id,
+													'model_value'	=> json_encode($oldRecommendation)
+											]);
 											$bar->advance();
 											continue;
 										}elseif($oldAward->officer_role != 'none'){
-											$deadRecords['Recommendation']['IsOfficer'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+											DB::table('crypt')->insert([
+													'model' 		=> 'Recommendation',
+													'cause' 		=> 'IsOfficer',
+													'model_id'		=> $oldRecommendation->recommendations_id,
+													'model_value'	=> json_encode($oldRecommendation)
+											]);
 											$bar->advance();
 											continue;
 										}
@@ -4151,7 +4442,12 @@ class ImportOrk3 extends Command
 										}
 									}else{
 										//This realm doesn't have this award
-										$deadRecords['Recommendation']['NoAwardForRealm'][$oldRecommendation->recommendations_id] = $oldRecommendation;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Recommendation',
+												'cause' 		=> 'NoAwardForRealm',
+												'model_id'		=> $oldRecommendation->recommendations_id,
+												'model_value'	=> json_encode($oldRecommendation)
+										]);
 										$bar->advance();
 										continue;
 									}
@@ -4184,17 +4480,32 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldReconciliations as $oldReconciliation) {
 						if($oldReconciliation->reconciled === 0){
-							$deadRecords['Reconciliation']['NullValue'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Reconciliation',
+									'cause' 		=> 'NullValue',
+									'model_id'		=> $oldReconciliation->class_reconciliation_id,
+									'model_value'	=> json_encode($oldReconciliation)
+							]);
 							$bar->advance();
 							continue;
 						}
 						if(!in_array($oldReconciliation->class_id, $oldArchetypes)){
-							$deadRecords['Reconciliation']['ArchetypeGone'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Reconciliation',
+									'cause' 		=> 'ArchetypeGone',
+									'model_id'		=> $oldReconciliation->class_reconciliation_id,
+									'model_value'	=> json_encode($oldReconciliation)
+							]);
 							$bar->advance();
 							continue;
 						}
 						if(!in_array($oldReconciliation->mundane_id, $oldPersonas)){
-							$deadRecords['Reconciliation']['PersonaGone'][$oldReconciliation->class_reconciliation_id] = $oldReconciliation;
+							DB::table('crypt')->insert([
+									'model' 		=> 'Reconciliation',
+									'cause' 		=> 'PersonaGone',
+									'model_id'		=> $oldReconciliation->class_reconciliation_id,
+									'model_value'	=> json_encode($oldReconciliation)
+							]);
 							$bar->advance();
 							continue;
 						}
@@ -4234,6 +4545,7 @@ class ImportOrk3 extends Command
 					$transPersonas = $this->getTrans('personas');
 					$transEventDetails = $this->getTrans('eventdetails');
 					$transChapters = $this->getTrans('chapters');
+					$transOffices = $this->getTrans('offices');
 					$oldAwards = $backupConnect->table('ork_award')->where('is_ladder', 1)->pluck('award_id')->toArray();
 					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$oldCustomAwards = $backupConnect->table('ork_kingdomaward')
@@ -4244,6 +4556,7 @@ class ImportOrk3 extends Command
 							$q->where('name', '')->orWhere('name', 'LIKE', '%Antigriffin%')->orWhere('name', 'LIKE', '%typhoon%')->orWhere('name', 'LIKE', '%tsunami%')->orWhere('name', 'LIKE', '%Hellrider%')->orWhere('name', 'LIKE', '%Dreamkeeper%')->orWhere('name', 'LIKE', '%Cyclone%')->orWhere('name', 'LIKE', '%Emerald%')->orWhere('name', 'LIKE', 'Order %');
 						})->pluck('kingdomaward_id')->toArray();
 					$oldTitles = $backupConnect->table('ork_award')->where('is_title', 1)->pluck('award_id')->toArray();
+					$oldOffices = $backupConnect->table('ork_award')->where('officer_role', '!=', 'none');
 // 					$oldTitles = $backupConnect->table('ork_award')->where('is_title', 1)->get()->toArray();
 					//Make a default 'unknown' location
 					$defaultLocationId = DB::table('locations')->insertGetId([
@@ -4253,7 +4566,7 @@ class ImportOrk3 extends Command
 					
 					$bar = $this->output->createProgressBar($backupConnect->table('ork_awards')->count());
 					$bar->start();
-					$backupConnect->table('ork_awards')->orderBy('awards_id')->chunk(100, function ($oldIssuances) use (&$oldPersonas, &$oldCustomAwards, &$knownTitles, &$ropTitles, &$backupConnect, &$deadRecords, &$bar, &$defaultLocationId, &$transRealmawards, &$transTitles, &$transEventDetails, &$transChapters, &$oldAwards, &$oldTitles, &$transRealms, &$transUnits, &$transPersonas){
+					$backupConnect->table('ork_awards')->orderBy('awards_id')->chunk(100, function ($oldIssuances) use (&$knownCurrentReigns, &$oldOffices, &$transOffices, &$oldPersonas, &$oldCustomAwards, &$knownTitles, &$ropTitles, &$backupConnect, &$bar, &$defaultLocationId, &$transRealmawards, &$transTitles, &$transEventDetails, &$transChapters, &$oldAwards, &$oldTitles, &$transRealms, &$transUnits, &$transPersonas){
 						foreach($oldIssuances as $oldIssuance) {
 							$issuable_type = null;
 							$issuable_id = null;
@@ -4263,7 +4576,12 @@ class ImportOrk3 extends Command
 							//we don't know what the issuance is...coincedently, we don't know the authorizing realm or park either
 							if($oldIssuance->kingdomaward_id == 0){
 								//leave them and let humans do the work.  There's only about 300 of them.
-								$deadRecords['Issuance']['NoAward'][$oldIssuance->awards_id] = $oldIssuance;
+								DB::table('crypt')->insert([
+										'model' 		=> 'Issuance',
+										'cause' 		=> 'NoAward',
+										'model_id'		=> $oldIssuance->awards_id,
+										'model_value'	=> json_encode($oldIssuance)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -4271,6 +4589,16 @@ class ImportOrk3 extends Command
 							//get realmaward (and thus, the realm)
 							DB::reconnect("mysqlBak");
 							$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldIssuance->kingdomaward_id)->first();
+							if(!$realmaward){
+								DB::table('crypt')->insert([
+										'model' 		=> 'Issuance',
+										'cause' 		=> 'NoRealmaward',
+										'model_id'		=> $oldIssuance->awards_id,
+										'model_value'	=> json_encode($oldIssuance)
+								]);
+								$bar->advance();
+								continue;
+							}
 							
 							//get eventcalendardetail?
 							$eventcaldet = null;
@@ -4288,14 +4616,13 @@ class ImportOrk3 extends Command
 							
 							//custom award gets its own handling
 							if($oldIssuance->award_id == 94){
-								//eliminate garbage
-								if(!$realmaward){
-									$deadRecords['Issuance']['NoCustomRealmAward'][$oldIssuance->awards_id] = $oldIssuance;
-									$bar->advance();
-									continue;
-								}
 								if($realmaward->name === 'Custom Award' || $realmaward->name === ''){
-									$deadRecords['Issuance']['CustomAwardBlank'][$oldIssuance->awards_id] = $oldIssuance;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'CustomAwardBlank',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -4345,7 +4672,12 @@ class ImportOrk3 extends Command
 								//check award
 								DB::reconnect("mysqlBak");
 								if(!in_array($realmaward->kingdomaward_id, $oldCustomAwards)) {
-									$deadRecords['Issuance']['NoCustomAward'][$oldIssuance->awards_id] = $oldIssuance;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'NoCustomAward',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
 									$bar->advance();
 									continue;
 								}else{
@@ -4425,17 +4757,200 @@ class ImportOrk3 extends Command
 										$issuable_id = $transTitles[$realmaward->kingdom_id][$oldIssuance->award_id];
 									}else{
 										//they don't have that, toss it
-										$deadRecords['Issuance']['RealmHasntAward'][$oldIssuance->awards_id] = $oldIssuance;
+										DB::table('crypt')->insert([
+												'model' 		=> 'Issuance',
+												'cause' 		=> 'RealmHasntAward',
+												'model_id'		=> $oldIssuance->awards_id,
+												'model_value'	=> json_encode($oldIssuance)
+										]);
 										$bar->advance();
 										continue;
 									}
 								}
 							}
-		// 					else if(array_key_exists($oldIssuance->kingdomaward_id, $transOffices)){
-		
-		// 					}
-							else{
-								$deadRecords['Issuance']['UnknownType'][$oldIssuance->awards_id] = $oldIssuance;
+							//this one isn't an issuance, it's an office held.  Consider it isolated from here on.
+							else if(in_array($oldIssuance->award_id, $oldOffices)){
+								if($oldIssuance->mundane_id == '0'){
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'OfficerNullPersona',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
+									$bar->advance();
+									continue;
+								}
+								if($oldIssuance->park_id == '0' && $oldIssuance->kingdom_id == '0'){
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'OfficerNoReignInfo',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
+									$bar->advance();
+									continue;
+								}
+								$personaCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldIssuance->mundane_id)->first();
+								if(!$personaCheck){
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'PersonaGone',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
+									$bar->advance();
+									continue;
+								}
+								if($oldIssuance->date == '0000-00-00'){
+									//try to figure it out
+									$matches = [];
+									$pattern = '/\b(\d{1,2}\/\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December)\s?\d{4}|[a-zA-Z]+\s?\d{4}|\d{1,2}\/\d{1,2}\/\d{4})\b/';
+									preg_match_all($pattern, $oldIssuance->date, $matches);
+									$dates = $matches[0];
+									// Parse dates using Carbon and find the earliest date
+									$earliestDate = null;
+									foreach ($dates as $tDate) {
+										$parsedDate = Carbon::parse($tDate, 'UTC');
+										if (!$earliestDate || $parsedDate->lt($earliestDate)) {
+											$earliestDate = $parsedDate;
+										}
+									}
+									if($earliestDate){
+										$date = date('Y-m-d', strtotime($earliestDate->toDateString()));
+									}else{
+										DB::table('crypt')->insert([
+												'model' 		=> 'Officer',
+												'cause' 		=> 'BadDate',
+												'model_id'		=> $oldIssuance->awards_id,
+												'model_value'	=> json_encode($oldIssuance)
+										]);
+										$bar->advance();
+										continue;
+									}
+								}else{
+									$date = date('Y-m-d', strtotime($oldIssuance->date));
+								}
+								while(!array_key_exists($oldIssuance->mundane_id, $transPersonas)){
+									$this->info('waiting for persona ' . $oldIssuance->mundane_id);
+									sleep(5);
+									$transPersonas = $this->getTrans('personas');
+								}
+								$fromID = $oldIssuance->by_whom_id != '0' ? $oldIssuance->by_whom_id : ($oldIssuance->given_by_id != '0' ? $oldIssuance->given_by_id : 1);
+								$fromCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $fromID)->first();
+								if(!$fromCheck){
+									$fromID = 1;
+								}
+								$officeCheck = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldIssuance->kingdomaward_id)->first();
+								if(!$officeCheck){
+									DB::table('crypt')->insert([
+											'model' 		=> 'Officer',
+											'cause' 		=> 'OfficeGone',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
+									$bar->advance();
+									continue;
+								}
+								while(!array_key_exists($oldIssuance->kingdomaward_id, $transOffices)){
+									$this->info('waiting for office ' . $oldIssuance->kingdomaward_id);
+									sleep(5);
+									$transOffices = $this->getTrans('offices');
+								}
+								$office = Office::where('id', $transOffices[$oldIssuance->kingdomaward_id])->first();
+								$persona = Persona::where('id', $transPersonas[$oldIssuance->mundane_id])->first();
+								//work out label by gender (as appropriate)
+								if(strpos($office->name, '|') > -1){
+									//assign custom term by gender (if known) Also, I'm sorry I'm defaulting to male.  I don't feel like I have a choice.  Please forgive me.
+									$officeNames = explode('|', $office->name);
+									if($persona->pronoun && $persona->pronoun->subject === 'she'){
+										$label = $officeNames[1];
+									}else{
+										$label = $officeNames[0];
+									}
+								}else{
+									$label = $office->name;
+								}
+								if($office->officeable_type == 'Chaptertype'){
+									$reignBaseCheck = $backupConnect->table('ork_park')->where('park_id', $oldIssuance->park_id)->first();
+									if($reignBaseCheck){
+										while(!array_key_exists($oldIssuance->park_id, $transChapters)){
+											$this->info('waiting for chapter ' . $oldIssuance->park_id);
+											sleep(5);
+											$transChapters = $this->getTrans('chapters');
+										}
+									}else{
+										DB::table('crypt')->insert([
+												'model' 		=> 'Officer',
+												'cause' 		=> 'ChapterGone',
+												'model_id'		=> $oldIssuance->awards_id,
+												'model_value'	=> json_encode($oldIssuance)
+										]);
+										$bar->advance();
+										continue;
+									}
+								}else{
+									$realmBaseCheck = $backupConnect->table('ork_kingdom')->where('park_id', $oldIssuance->kingdom_id)->first();
+									if($realmBaseCheck){
+										while(!array_key_exists($oldIssuance->kingdom_id, $transRealms)){
+											$this->info('waiting for realm ' . $oldIssuance->kingdom_id);
+											sleep(5);
+											$transRealms = $this->getTrans('realms');
+										}
+									}else{
+										DB::table('crypt')->insert([
+												'model' 		=> 'Officer',
+												'cause' 		=> 'RealmGone',
+												'model_id'		=> $oldIssuance->awards_id,
+												'model_value'	=> json_encode($oldIssuance)
+										]);
+										$bar->advance();
+										continue;
+									}
+								}
+								
+								//reign
+								$getReign = DB::table('reigns')
+									->where('reignable_type', $office->officeable_type == 'Chaptertype' ? 'Chapter' : 'Realm')
+									->where('reignable_id', $office->officeable_type == 'Chaptertype' ? $transChapters[$oldIssuance->park_id] : $transRealms[$oldIssuance->kingdom_id])
+									->where('begins_on', '<=', $date)
+									->where('ends_on', '>=', $date)
+									->first();
+								if($getReign){
+									$reignID = $getReign->id;
+								}else{
+									if(!array_key_exists($oldIssuance->kingdom_id, $knownCurrentReigns)){
+										//this shouldn't happen.  let me know if it does
+										throw new \Exception('oldIssuanceOfficer ' . $oldIssuance->awards_id . ' has no kingdom detected.');
+									}
+									$reignID = DB::table('reigns')->insertGetId([
+										'reignable_type' => $office->officeable_type == 'Chaptertype' ? 'Chapter' : 'Realm',
+										'reignable_id' => $office->officeable_type == 'Chaptertype' ? $transChapters[$oldIssuance->park_id] : $transRealms[$oldIssuance->kingdom_id],
+										'name' => $office->officeable_type == 'Chaptertype' ? null : $knownCurrentReigns[$oldIssuance->kingdom_id]['label'],
+										'starts_on' => $office->order === 2 || $office->order === 5 ? date('Y-m-d', strtotime($date . ' - 3 months')) : $date,
+										'ends_on' => $office->order === 2 || $office->order === 5 ? date('Y-m-d', strtotime($date . '+3 months')) : date('Y-m-d', strtotime($date . '+6 months'))
+									]);
+								}
+								
+								DB::table('officers')->insert([
+									'officerable_type' => 'Reign',
+									'officerable_id' => $reignID,
+									'office_id' => $office->id,
+									'persona_id' => $persona->id,
+									'label' => $label ? $label : null,
+									'starts_on' => null,
+									'ends_on' => null,
+									'created_by' => $transPersonas[$fromID]
+								]);
+								//all done with this one
+								$bar->advance();
+								continue;
+							}else{
+								DB::table('crypt')->insert([
+										'model' 		=> 'Issuance',
+										'cause' 		=> 'UnknownType',
+										'model_id'		=> $oldIssuance->awards_id,
+										'model_value'	=> json_encode($oldIssuance)
+								]);
 								$bar->advance();
 								continue;
 							}
@@ -4471,7 +4986,12 @@ class ImportOrk3 extends Command
 									}
 								}else{
 									//nope this bitch
-									$deadRecords['Issuance']['NoTargetPersona'][$oldIssuance->awards_id] = $oldIssuance;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'NoTargetPersona',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -4485,7 +5005,12 @@ class ImportOrk3 extends Command
 									}
 								}else{
 									//nope this bitch
-									$deadRecords['Issuance']['NoGivingPersona'][$oldIssuance->awards_id] = $oldIssuance;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'NoGivingPersona',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -4499,7 +5024,12 @@ class ImportOrk3 extends Command
 									}
 								}else{
 									//nope this bitch
-									$deadRecords['Issuance']['NoRevokingPersona'][$oldIssuance->awards_id] = $oldIssuance;
+									DB::table('crypt')->insert([
+											'model' 		=> 'Issuance',
+											'cause' 		=> 'NoRevokingPersona',
+											'model_id'		=> $oldIssuance->awards_id,
+											'model_value'	=> json_encode($oldIssuance)
+									]);
 									$bar->advance();
 									continue;
 								}
@@ -4530,6 +5060,7 @@ class ImportOrk3 extends Command
 					});
 					break;
 				//TODO: run and check results when a full rotation is complete
+				//TODO: it should only include unused stuff.  Process stuff like 'DPfL' and 'x Qualified'.
 				case 'CheckAwards':
 					$realmawardsProcessed = $this->getTrans('realmawardsprocessed');
 					$processedKeys = array_keys($realmawardsProcessed);
@@ -4571,21 +5102,7 @@ class ImportOrk3 extends Command
 			
 			//TODO: squires, pages, at-arms, and apprentices can't be done, the data is just too jacked.  Stop trying, make them do it.
 			//TODO: custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles?  Check for them, and respond.
-			//TODO: custom officers (award data)?  Might be too much
-			
-			//log the deadRecords
-			foreach($deadRecords as $model => $causes){
-				foreach($causes as $cause => $oldInfos){
-					foreach($oldInfos as $model_id => $model_value){
-						DB::table('crypt')->insert([
-								'model' 		=> $model,
-								'cause' 		=> $cause,
-								'model_id'		=> $model_id,
-								'model_value'	=> json_encode($model_value)
-						]);
-					}
-				}
-			}
+			//TODO: tell chapters to adjust their reign dates
 			
 			$this->info('All done!');
 		} catch (Throwable $e) {
