@@ -147,10 +147,6 @@ class ImportOrk3 extends Command
 				->where('kingdomaward_id', 3119)
 				->update(['name' => 'Walker in the Middle']);
 				
-			$backupConnect->table('ork_kingdomaward')
-				->where('kingdomaward_id', 7051)
-				->update(['name' => 'Order of Battle']);
-				
 			$backupConnect->table('ork_officer')
 				->where('kingdom_id', 0)
 				->update(['kingdom_id' => 8]);
@@ -1289,6 +1285,21 @@ class ImportOrk3 extends Command
 									'newID' => $awardId
 							]);
 							$realmawardsProcessed[(int)$realmaward->kingdomaward_id] = $awardId;
+							//6960 is also in the system as 7051 (no name).  conflate them.
+							if($realmaward->kingdomaward_id == '6960'){
+								DB::table('trans')->insert([
+										'array' => 'realmawards',
+										'oldID' => 7051,
+										'newID' => $awardId
+								]);
+								$transRealmawards[7051] = $awardId;
+								DB::table('trans')->insert([
+										'array' => 'realmawardsprocessed',
+										'oldID' => 7051,
+										'newID' => $awardId
+								]);
+								$realmawardsProcessed[7051] = $awardId;
+							}
 						}
 						$bar->advance();
 					}
