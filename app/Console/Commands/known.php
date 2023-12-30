@@ -7666,6 +7666,12 @@ $knownCurrentReigns = [
 				'midreign' => '2024-01-01',
 				'ends' => '2024-04-01'
 		],
+		8 => [
+				'label' => null,
+				'begins' => '2023-10-01',
+				'midreign' => '2024-01-01',
+				'ends' => '2024-04-01'
+		],
 		10 => [
 				'label' => null,
 				'begins' => '2023-09-01',

@@ -4567,7 +4567,7 @@ class ImportOrk3 extends Command
 							$q->where('name', '')->orWhere('name', 'LIKE', '%Antigriffin%')->orWhere('name', 'LIKE', '%typhoon%')->orWhere('name', 'LIKE', '%tsunami%')->orWhere('name', 'LIKE', '%Hellrider%')->orWhere('name', 'LIKE', '%Dreamkeeper%')->orWhere('name', 'LIKE', '%Cyclone%')->orWhere('name', 'LIKE', '%Emerald%')->orWhere('name', 'LIKE', 'Order %');
 						})->pluck('kingdomaward_id')->toArray();
 					$oldTitles = $backupConnect->table('ork_award')->where('is_title', 1)->pluck('award_id')->toArray();
-					$oldOffices = $backupConnect->table('ork_award')->where('officer_role', '!=', 'none');
+					$oldOffices = $backupConnect->table('ork_award')->where('officer_role', '!=', 'none')->pluck('award_id')->toArray();
 // 					$oldTitles = $backupConnect->table('ork_award')->where('is_title', 1)->get()->toArray();
 					//Make a default 'unknown' location
 					$defaultLocationId = DB::table('locations')->insertGetId([
