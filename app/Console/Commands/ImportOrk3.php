@@ -2700,7 +2700,7 @@ class ImportOrk3 extends Command
 					$count = $backupConnect->table('ork_attendance')->count();
 					$bar = $this->output->createProgressBar($count);
 					$bar->start();
-					$backupConnect->table('ork_attendance')->orderBy('attendance_id')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes, &$oldChaptersCheck){
+					$backupConnect->table('ork_attendance')->orderBy('attendance_id', 'DESC')->chunk(100, function ($oldAttendances) use (&$bar, &$transMeetups, &$transPersonas, &$transUnits, &$transRealms, &$transEventDetails, &$transChapters, &$transUsers, &$oldRealms, &$oldChapters, &$oldPersonas, $backupConnect, &$transArchetypes, &$oldChaptersCheck){
 						$meetups = null;
 						$meetupId = null;
 						foreach ($oldAttendances as $oldAttendance) {
@@ -2752,7 +2752,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(array_search($fromChapterOldID, $oldChapters)){
+											if(in_array($fromChapterOldID, $oldChaptersCheck)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('1 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2769,7 +2769,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(array_search($fromChapterOldID, $oldChapters)){
+											if(in_array($fromChapterOldID, $oldChaptersCheck)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('2 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2786,7 +2786,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(array_search($fromChapterOldID, $oldChapters)){
+											if(in_array($fromChapterOldID, $oldChaptersCheck)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('3 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2803,7 +2803,7 @@ class ImportOrk3 extends Command
 										$fromChapterOldID = array_search($fromRealmOldID, array_column($fromChapters, 'kingdom_id'));
 										$fromChapter = null;
 										if($fromChapterOldID){
-											if(array_search($fromChapterOldID, $oldChapters)){
+											if(in_array($fromChapterOldID, $oldChaptersCheck)){
 												while(!array_key_exists($fromChapterOldID, $transChapters)){
 													$this->info('4 waiting for chapter ' . $fromChapterOldID);
 													sleep(5);
@@ -2883,7 +2883,7 @@ class ImportOrk3 extends Command
 								}
 							//get it
 							}else{
-								if(array_search($oldAttendance->mundane_id, $oldPersonas)){
+								if(in_array($oldAttendance->mundane_id, $oldPersonas)){
 									while(!array_key_exists($oldAttendance->mundane_id, $transPersonas)){
 										$this->info('waiting for persona ' . $oldAttendance->mundane_id);
 										sleep(5);
@@ -2905,7 +2905,7 @@ class ImportOrk3 extends Command
 										->get()->toArray();
 									if(count($mostAttendeds) > 0){
 										foreach($mostAttendeds as $mostAttended){
-											if(array_search($mostAttended->park_id, $oldChapters)){
+											if(in_array($mostAttended->park_id, array_column($oldChapters, 'park_id'))){
 												$transChapters = $this->getTrans('chapters');
 												while(!array_key_exists($mostAttended->park_id, $transChapters)){
 													$this->info('6 waiting for chapter ' . $mostAttended->park_id);
@@ -2921,7 +2921,7 @@ class ImportOrk3 extends Command
 									if(!$chapterID){
 										DB::table('crypt')->insert([
 												'model' 		=> 'Attendance',
-												'cause' 		=> 'NoChapter',
+												'cause' 		=> 'NoPersonaChapter',
 												'model_id'		=> $oldAttendance->attendance_id,
 												'model_value'	=> json_encode($oldAttendance)
 										]);
@@ -2961,7 +2961,7 @@ class ImportOrk3 extends Command
 								]);
 								DB::table('crypt')->insert([
 										'model' 		=> 'Attendance',
-										'cause' 		=> 'Reconciled',
+										'cause' 		=> 'ReconciledNoPlace',
 										'model_id'		=> $oldAttendance->attendance_id,
 										'model_value'	=> json_encode($oldAttendance)
 								]);
@@ -2976,7 +2976,7 @@ class ImportOrk3 extends Command
 								]);
 								DB::table('crypt')->insert([
 										'model' 		=> 'Attendance',
-										'cause' 		=> 'Reconciled',
+										'cause' 		=> 'ReconciledNoDate',
 										'model_id'		=> $oldAttendance->attendance_id,
 										'model_value'	=> json_encode($oldAttendance)
 								]);
@@ -2991,7 +2991,7 @@ class ImportOrk3 extends Command
 								]);
 								DB::table('crypt')->insert([
 										'model' 		=> 'Attendance',
-										'cause' 		=> 'Reconciled',
+										'cause' 		=> 'ReconciledPreDawnDate',
 										'model_id'		=> $oldAttendance->attendance_id,
 										'model_value'	=> json_encode($oldAttendance)
 								]);
@@ -3006,7 +3006,7 @@ class ImportOrk3 extends Command
 								]);
 								DB::table('crypt')->insert([
 										'model' 		=> 'Attendance',
-										'cause' 		=> 'Reconciled',
+										'cause' 		=> 'ReconciledBadDate',
 										'model_id'		=> $oldAttendance->attendance_id,
 										'model_value'	=> json_encode($oldAttendance)
 								]);
@@ -3021,7 +3021,7 @@ class ImportOrk3 extends Command
 								]);
 								DB::table('crypt')->insert([
 										'model' 		=> 'Attendance',
-										'cause' 		=> 'Reconciled',
+										'cause' 		=> 'ReconciledTooManyCredits',
 										'model_id'		=> $oldAttendance->attendance_id,
 										'model_value'	=> json_encode($oldAttendance)
 								]);
@@ -3063,7 +3063,7 @@ class ImportOrk3 extends Command
 										if(!in_array($oldAttendance->park_id, $oldChaptersCheck)){
 											DB::table('crypt')->insert([
 													'model' 		=> 'Attendance',
-													'cause' 		=> 'NoChapter',
+													'cause' 		=> 'NoMeetupChapter',
 													'model_id'		=> $oldAttendance->attendance_id,
 													'model_value'	=> json_encode($oldAttendance)
 											]);
@@ -3264,7 +3264,7 @@ class ImportOrk3 extends Command
 										'attendable_id' => $oldAttendance->event_calendardetail_id > 0 ? $transEventDetails[$oldAttendance->event_calendardetail_id] : $meetupId,
 										'attended_at' => $oldAttendance->date,
 										'credits' => $oldAttendance->credits,
-										'created_by' => $oldAttendance->by_whom_id != 0 ? $transUsers[$oldAttendance->by_whom_id] : 1,
+										'created_by' => $oldAttendance->by_whom_id != 0 ? (in_array($oldAttendance->mundane_id, $oldPersonas) ? $transUsers[$oldAttendance->by_whom_id] : 1) : 1,
 										'created_at' => $oldAttendance->entered_at != '0000-00-00 00:00:00' ? $oldAttendance->entered_at : $oldAttendance->date
 								]);
 							}
