@@ -3814,136 +3814,170 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [188]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => null,
+								'award_ids' => [202]
 						],
 						'Board of Directors Chief Executive Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [93]
 						],
 						'Board of Directors Chief Financial Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Kingdom Quartermaster' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Royal Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						]
 				],
 				'Outpost' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Clerk' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Shire Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Clerk' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Seneschal' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Ducal Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						],
 						'Ducal Defender' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [75,76]
 						],
 						'Grand Ducal Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [80]
 						],
 						'General Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [84]
 						],
 						'Grand Ducal Defender' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						]
 				]
 		],
@@ -3952,160 +3986,199 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Rules Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [225]
 						],
 						'Historian' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Senator' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Board of Directors Elected Director' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => [93]
 						],
 						'Board of Directors Ex Officio Director' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						],
 						'Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [212]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						],
 						'Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [83]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [213]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						],
 						'Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Principality' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [202]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [215]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						],
 						'Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				]
 		],
@@ -4114,110 +4187,137 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Royal Consort' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Captain of the Monarch\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Monarch\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Consort\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Bard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Jester' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Shire Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85, 206]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [71,72]
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [73,74]
 						],
 						'Ducal Consort' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				]
 		],
@@ -4226,185 +4326,226 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Kingdom Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Captain of the King\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'King\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Protector' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Principal Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Royal Historian' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [86]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [87]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [213]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [80]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [88]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [214]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [235]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [215]
 						]
 				]
 		],
@@ -4413,161 +4554,200 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice President' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => null
 						],
 						'Interkingdom Rules Representative' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => [225]
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Circle of Monarchs Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Head of Security' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Security' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Crown\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Bard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Jester' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Heir Apparent' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Shire Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						],
 						'Shire Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [85]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [82]
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [86]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Duchy Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						],
 						'Duchy Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [87]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [213]
 						]
 				]
 		],
@@ -4576,119 +4756,149 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent|Consort|Prince|Princess' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Captain of the Monarch\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Glass Guildmaster' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Monarch\'s & Consort\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Circle of Steel Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Consort/Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Bard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Jester' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Rules Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [225]
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Shire Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [71,72]
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [73,74]
 						],
 						'Ducal Consort' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				]
 		],
@@ -4696,186 +4906,225 @@ $knownRealmChaptertypesOffices = [
 				'Freehold' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Shire Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85, 206]
 						]
 				]
 		],
 		10 => [
 				'Kingdom' => [
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Kingdom Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Kingdom Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Kingdom Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [91]
 						],
 						'Kingdom Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Kingdom Quartermaster' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Kingdom Storyteller' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Quartermaster' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Chairperson' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice Chairperson' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Case Analyst' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [77]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [86]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [82]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [87]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [80]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [88]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [84]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [235]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [236]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [237]
 						]
 				]
 		],
@@ -4884,173 +5133,205 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Circle of Monarchs Secretary' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
-						],
-						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'award_ids' => [188]
 						],
 						'Board of Directors Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Crown Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Bard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Jester' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Prime Minister\'s Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [77]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [86]
 						]
 				],
 				'County' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => null
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => null
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => null
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => null
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [79]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [87]
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [80]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [88]
 						]
 				]
 		],
@@ -5059,161 +5340,201 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Heir Apparent' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Captain of the Royal Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Royal Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Guildmaster of Smiths' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Garbers' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Engineers' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Circle of Steel Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Liaison Officer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord/Lady'
+								'title' => 'Lord/Lady',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord/Lady'
+								'title' => 'Lord/Lady',
+								'award_ids' => [79]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [235]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [236]
 						]
 				]
 		],
@@ -5222,162 +5543,201 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Senator' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Rules Representative' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [225]
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Crown Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Crown Bard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Crown Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Crown Jester' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Membership Officer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Monarch Alternate' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Prime Minister Alternate' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff|Mayor' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						],
 						'Baronial Seneschal' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Ducal Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						],
 						'Ducal Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [75,76]
 						],
 						'Grand Ducal Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [80]
 						],
 						'Grand Ducal Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						],
 						'Grand Ducal Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [84]
 						]
 				],
 				'Principality' => [
 						'Crown Prince|Crown Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [234]
 						],
 						'Crown Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [235]
 						],
 						'Crown Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						],
 						'Crown Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [237]
 						]
 				]
 		],
@@ -5386,363 +5746,438 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent|Consort' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
-						],
-						'Board of Directors Member' => [
-								'duration' => 12
-						],
-						'Board of Directors Member' => [
-								'duration' => 12
-						],
-						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Captain of the Monarch\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Monarch\'s/Consort\'s Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Circle of Steel Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent/Consort\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Bard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Jester' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Rules Representative' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => [225]
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85, 206]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [71,72]
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [73,74]
 						],
 						'Ducal Consort' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [234]
 						],
 						'Prince Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [235]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Prince Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [75,76]
 						],
 						'Grand Ducal Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [80]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [84]
 						],
 						'Grand Ducal Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						]
 				]
 		],
 		17 => [
 				'Kingdom' => [
 						'Board of Directors Member' => [
-								'duration' => 36
+								'duration' => 36,
+								'award_ids' => null
 						],
 						'Board of Directors Trustee' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => null
 						],
 						'Board of Directors Trustee Program Liason' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice-President' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Senator' => [
 								'duration' => 12,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Rules Representative' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => [225]
 						],
 						'Corpora Comittee Chair' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Corpora Comittee Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Masks' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Chronicler' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Royal Commissioner (Recruiting/Retention)' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Royal Commissioner (Diversity/Inclusion)' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Novices' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Kingdom Spotlight' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [77]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [79]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [87]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [80]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [88]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [235]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [236]
 						]
 				]
 		],
@@ -5751,175 +6186,218 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [91]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guard Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Heir Apparent' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Marshall' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Quartermaster' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Representative to AI' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Rules Representative to AI' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [225]
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Circle of Steel Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Event Committee Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Event Committee Head' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Event Committee Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Fundraiser Committee Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors Chairman of the Board' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice-Chairman of the Board' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Liason Officer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [235]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Protector'
+								'title' => 'Protector',
+								'award_ids' => [236]
 						]
 				]
 		],
@@ -5928,131 +6406,161 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Ambassador of Tal Dagore' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Rules Representative of Tal Dagore' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [225]
 						],
 						'V9 Representative of Tal Dagore' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Board President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85, 206]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [235]
 						],
 						'Prime Minster' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						],
 						'Board of Directors Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				]
 		],
@@ -6061,140 +6569,171 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [91]
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Rules Representative' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [225]
 						],
 						'Chief Herald of the College of Arms' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Speaker of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Food Fight Representative' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [235]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						]
 				]
 		],
@@ -6203,178 +6742,221 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Steward'
+								'title' => 'Steward',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Steward'
+								'title' => 'Steward',
+								'award_ids' => [202]
 						],
 						'Heir Apparent' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Captain of the Royal Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Royal Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Liason Officer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [80]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [235]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Steward'
+								'title' => 'Steward',
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [236]
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Liason Officer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				]
 		],
@@ -6383,163 +6965,203 @@ $knownRealmChaptertypesOffices = [
 						'Emperor|Empress' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Imperial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Imperial Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Imperial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'InterKingdom Rules Committee Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [225]
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guard Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Provincial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Provincial Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Provincial Treasurer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Provincial Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						],
 						'Provincial Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Provincial Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Provincial Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Provincial Treasurer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Provincial Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						],
 						'Provincial Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Provincial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Provincial Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [83]
 						],
 						'Provincial Treasurer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Provincial Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						],
 						'Provincial Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [213]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [234]
 						],
 						'Principality Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [235]
 						],
 						'Principality Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [237]
 						],
 						'Principality Treasurer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Principality Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [236]
 						],
 						'Principality Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [215]
 						]
 				]
 		],
@@ -6548,207 +7170,252 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [202]
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Apprentice' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Crown Guard Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Principal Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Senator' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Surrogate' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Alternate' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85, 206]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [211]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [86]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [87]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [213]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [80]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [88]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [214]
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [235]
 						],
 						'Supreme Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [236]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [215]
 						]
 				]
 		],
@@ -6757,159 +7424,195 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [90]
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [91]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Board of Directors Operations Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Financial Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Member' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [93]
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Operations Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Assistant Operations Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Adjudication Chief' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Quartermaster' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Kingdom Rules Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [225]
 						],
 						'Viridian Outlands Corpora Clarification Committee Member' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Viridian Outlands Corpora Clarification Committee Board Member' => [
-								'duration' => null
+								'duration' => null,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master'
+								'title' => 'Master',
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet|Baronetess'
+								'title' => 'Baronet|Baronetess',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [235]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [237]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [236]
 						]
 				]
 		],
@@ -6918,161 +7621,198 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Board of Directors Member' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors Ex Officio' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [93]
 						],
 						'Board of Directors Treasurer' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						],
 						'The Rules Representative' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => [225]
 						],
 						'The Kingdom Senator' => [
-								'duration' => 12
+								'duration' => 12,
+								'award_ids' => null
 						]
 				],
 				'Outpost' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => null
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [213]
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [80]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [214]
 						]
 				]
 		],
@@ -7081,134 +7821,163 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [91]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Board of Directors Member' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors CEO' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => [93]
 						],
 						'Board of Directors CFO' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors Secretary' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'The Rules Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [225]
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [85]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [211]
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [86]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Esquire'
+								'title' => 'Esquire',
+								'award_ids' => [212]
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [87]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [213]
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						]
 				]
 		],
@@ -7217,118 +7986,144 @@ $knownRealmChaptertypesOffices = [
 						'Champion of Hats' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Champion of Art' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Champion of Wacks' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Champion of Records' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [91]
 						],
 						'Champion of Rules' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [202]
 						],
 						'Champion of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						]
 				],
 				'Burg' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => null
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => null
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => null
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70, 198]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [80]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						]
 				]
 		],
@@ -7337,172 +8132,216 @@ $knownRealmChaptertypesOffices = [
 						'Kingdom Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Kingdom Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet|Barnetess'
+								'title' => 'Baronet|Barnetess',
+								'award_ids' => [91]
 						],
 						'Kingdom Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [90]
 						],
 						'Kingdom Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Defender'
+								'title' => 'Defender',
+								'award_ids' => [89]
 						],
 						'Kingdom Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Baronet|Barnetess'
+								'title' => 'Baronet|Barnetess',
+								'award_ids' => [202]
 						],
 						'Heir Apparent' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Captain of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Members of the Guard' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Regent\'s Defender' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [A&S]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of [Class]' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
 						],
 						'Scribe' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Court Herald' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Circle of Steel Representative' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Ambassador' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Grand Librarian' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Chief Executive Officer' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Regional Executive Officer' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Administrative Officer' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors President' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => [93]
 						],
 						'Board of Directors Secretary-Treasurer' => [
-								'duration' => 24
+								'duration' => 24,
+								'award_ids' => null
 						],
 						'Board of Directors Vice President' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Board of Directors Board Liaison' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [70]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [77]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [81]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [85]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [211]
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [71,72]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [78]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [82]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [86]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [73,74]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [79]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [83]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [87]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [213]
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
-								'order' => 1
+								'order' => 1,
+								'award_ids' => [75,76]
 						],
 						'Regent' => [
 								'duration' => 6,
-								'order' => 4
+								'order' => 4,
+								'award_ids' => [80]
 						],
 						'Chancellor' => [
 								'duration' => 6,
-								'order' => 2
+								'order' => 2,
+								'award_ids' => [84]
 						],
 						'Champion' => [
 								'duration' => 6,
-								'order' => 3
+								'order' => 3,
+								'award_ids' => [88]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
-								'order' => 5
+								'order' => 5,
+								'award_ids' => [214]
 						]
 				]
 		],
@@ -7511,119 +8350,142 @@ $knownRealmChaptertypesOffices = [
 						'Kingdom Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Duke|Duchess'
+								'title' => 'Duke|Duchess',
+								'award_ids' => [92]
 						],
 						'Kingdom Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [91]
 						],
 						'Kingdom Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [202]
 						],
 						'Kingdom Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [90]
 						],
 						'Kingdom Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [89]
 						],
 						'Kingdom Ambassador' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => null
 						],
 						'Guildmaster of Knights' => [
-								'duration' => 6
+								'duration' => 6,
+								'award_ids' => [188]
 						],
 						'Board of Directors Member' => [
-								'duration' => 48
+								'duration' => 48,
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [70]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Master|Mistress'
+								'title' => 'Master|Mistress',
+								'award_ids' => [81]
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [71,72]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [82]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [212]
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Baron|Baroness'
+								'title' => 'Baron|Baroness',
+								'award_ids' => [73,74]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [83]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [213]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [79]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Lord|Lady'
+								'title' => 'Lord|Lady',
+								'award_ids' => [87]
 						]
 				],
 				'Principality' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'title' => 'Marquis|Marquess'
+								'title' => 'Marquis|Marquess',
+								'award_ids' => [234]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'title' => 'Count|Countess'
+								'title' => 'Count|Countess',
+								'award_ids' => [237]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'title' => 'Viscount|Viscountess'
+								'title' => 'Viscount|Viscountess',
+								'award_ids' => [215]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [235]
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'title' => 'Baronet'
+								'title' => 'Baronet',
+								'award_ids' => [236]
 						]
 				]
 		]

@@ -2025,16 +2025,18 @@ class ImportOrk3 extends Command
 								]);
 								//find it in kingdomawards, then add it to transOffices
 								//TODO: check me!
-								$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $rid)->where('name', $office)->first();
-								if($realmaward){
-									DB::table('trans')->insert([
-											'array' => 'offices',
-											'oldID' => $realmaward->kingdomaward_id,
-											'newID' => $officeID
-									]);
-									$transOffices[(int)$realmaward->kingdomaward_id] = $officeID;
-									$bar->advance();
+								if(is_array($officeData['award_ids'])){
+									foreach($officeData['award_ids'] as $award_id){
+										$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $rid)->where('award_id', $award_id)->first();
+										DB::table('trans')->insert([
+												'array' => 'offices',
+												'oldID' => $realmaward->kingdomaward_id,
+												'newID' => $officeID
+										]);
+										$transOffices[(int)$realmaward->kingdomaward_id] = $officeID;
+									}
 								}
+								$bar->advance();
 							}
 						}
 					}
@@ -2371,7 +2373,7 @@ class ImportOrk3 extends Command
 							if($mundaneCheck){
 								if(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
 									while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
-										$this->info('waiting for persona ' . $oldEvent->mundane_id);
+										$this->info('waiting for persona1 ' . $oldEvent->mundane_id);
 										sleep(5);
 										$transPersonas = $this->getTrans('personas');
 									}
@@ -2413,7 +2415,7 @@ class ImportOrk3 extends Command
 								break;
 							case 'Persona':
 								while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
-									$this->info('waiting for persona ' . $oldEvent->mundane_id);
+									$this->info('waiting for persona2 ' . $oldEvent->mundane_id);
 									sleep(5);
 									$transPersonas = $this->getTrans('personas');
 								}
@@ -2492,7 +2494,7 @@ class ImportOrk3 extends Command
 						if($oldEvent->mundane_id != 0){
 							//make the crat
 							while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
-								$this->info('waiting for persona ' . $oldEvent->mundane_id);
+								$this->info('waiting for persona3 ' . $oldEvent->mundane_id);
 								sleep(5);
 								$transPersonas = $this->getTrans('personas');
 							}
@@ -2842,7 +2844,7 @@ class ImportOrk3 extends Command
 										$persona = $backupConnect->table('ork_mundane')->where('persona', 'LIKE', '%' . $oldAttendance->persona . '%')->where('park_id', $fromChapterOldID)->first();
 										if($persona){
 											while(!array_key_exists($persona->mundane_id, $transPersonas)){
-												$this->info('waiting for persona ' . $persona->mundane_id);
+												$this->info('waiting for persona1 ' . $persona->mundane_id);
 												sleep(5);
 												$transPersonas = $this->getTrans('personas');
 											}
@@ -2885,7 +2887,7 @@ class ImportOrk3 extends Command
 							}else{
 								if(in_array($oldAttendance->mundane_id, $oldPersonas)){
 									while(!array_key_exists($oldAttendance->mundane_id, $transPersonas)){
-										$this->info('waiting for persona ' . $oldAttendance->mundane_id);
+										$this->info('waiting for persona2 ' . $oldAttendance->mundane_id);
 										sleep(5);
 										$transPersonas = $this->getTrans('personas');
 									}
@@ -3124,7 +3126,7 @@ class ImportOrk3 extends Command
 													break;
 												case 'Persona':
 													while(!array_key_exists($parentEvent->mundane_id, $transPersonas)){
-														$this->info('waiting for persona ' . $parentEvent->mundane_id);
+														$this->info('waiting for persona3 ' . $parentEvent->mundane_id);
 														sleep(5);
 														$transPersonas = $this->getTrans('personas');
 													}
@@ -3190,7 +3192,7 @@ class ImportOrk3 extends Command
 									$userId = null;
 									if(in_array($oldAttendance->by_whom_id, $oldPersonas)){
 										while(!array_key_exists($oldAttendance->by_whom_id, $transPersonas)){
-											$this->info('waiting for persona ' . $oldAttendance->by_whom_id);
+											$this->info('waiting for persona4 ' . $oldAttendance->by_whom_id);
 											sleep(5);
 											$transPersonas = $this->getTrans('personas');
 										}
@@ -3700,7 +3702,7 @@ class ImportOrk3 extends Command
 						}
 						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
 							while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
-								$this->info('waiting for persona ' . $oldDue->mundane_id);
+								$this->info('waiting for persona1 ' . $oldDue->mundane_id);
 								sleep(5);
 								$transPersonas = $this->getTrans('personas');
 							}
@@ -3840,7 +3842,7 @@ class ImportOrk3 extends Command
 							$revokedBy = null;
 						}
 						while(!array_key_exists($oldDue->mundane_id, $transPersonas)){
-							$this->info('waiting for persona ' . $oldDue->mundane_id);
+							$this->info('waiting for persona2 ' . $oldDue->mundane_id);
 							sleep(5);
 							$transPersonas = $this->getTrans('personas');
 						}
@@ -3964,6 +3966,8 @@ class ImportOrk3 extends Command
 					$transPersonas = $this->getTrans('personas');
 					$transRealms = $this->getTrans('realms');
 					$oldOfficers = $backupConnect->table('ork_officer')->get()->toArray();
+					$oldRealmCheck = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
+					$personaCheck = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$bar = $this->output->createProgressBar(count($oldOfficers));
 					$bar->start();
 					foreach ($oldOfficers as $oldOfficer) {
@@ -3999,9 +4003,7 @@ class ImportOrk3 extends Command
 								break;
 						}
 						if($order){
-							DB::reconnect("mysqlBak");
-							$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldOfficer->mundane_id)->first();
-							if(!$persona){
+							if(!in_array($oldOfficer->mundane_id, $personaCheck)){
 								DB::table('crypt')->insert([
 										'model' 		=> 'Officer',
 										'cause' 		=> 'PersonaGone',
@@ -4016,10 +4018,26 @@ class ImportOrk3 extends Command
 								sleep(5);
 								$transPersonas = $this->getTrans('personas');
 							}
+							DB::reconnect("mysqlBak");
+							if(!in_array($oldOfficer->kingdom_id, $oldRealmCheck)){
+								DB::table('crypt')->insert([
+										'model' 		=> 'Officer',
+										'cause' 		=> 'KingdomGone',
+										'model_id'		=> $oldOfficer->officer_id,
+										'model_value'	=> json_encode($oldOfficer)
+								]);
+								$bar->advance();
+								continue;
+							}
+							while(!array_key_exists($oldOfficer->kingdom_id, $transRealms)){
+								$this->info('waiting for realm ' . $oldOfficer->kingdom_id);
+								sleep(5);
+								$transRealms = $this->getTrans('realms');
+							}
+							DB::reconnect("mysqlBak");
 							if($oldOfficer->authorization_id != '0'){
 								DB::reconnect("mysqlBak");
-								$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldOfficer->authorization_id)->first();
-								if(!$persona){
+								if(!in_array($oldOfficer->mundane_id, $personaCheck)){
 									DB::table('crypt')->insert([
 											'model' 		=> 'Officer',
 											'cause' 		=> 'NoAuthPersona',
@@ -4094,11 +4112,6 @@ class ImportOrk3 extends Command
 									$label = $office->name;
 								}
 							}else{
-								while(!array_key_exists($oldOfficer->kingdom_id, $transRealms)){
-									$this->info('waiting for realm ' . $oldOfficer->kingdom_id);
-									sleep(5);
-									$transRealms = $this->getTrans('realms');
-								}
 								$office = Office::where('officeable_type', 'Realm')->where('officeable_id', $transRealms[$oldOfficer->kingdom_id])->where('order', $order)->first();
 								while(!$office){
 									$this->info('waiting for office realm/order ' . $oldOfficer->kingdom_id . '/' . $order);
@@ -4203,12 +4216,12 @@ class ImportOrk3 extends Command
 							continue;
 						}
 						while(!array_key_exists($oldRecommendation->recommended_by_id, $transPersonas)){
-							$this->info('waiting for persona ' . $oldRecommendation->recommended_by_id);
+							$this->info('waiting for persona1 ' . $oldRecommendation->recommended_by_id);
 							sleep(5);
 							$transPersonas = $this->getTrans('personas');
 						}
 						while(!array_key_exists($oldRecommendation->mundane_id, $transPersonas)){
-							$this->info('waiting for persona ' . $oldRecommendation->mundane_id);
+							$this->info('waiting for persona2 ' . $oldRecommendation->mundane_id);
 							sleep(5);
 							$transPersonas = $this->getTrans('personas');
 						}
@@ -4842,7 +4855,7 @@ class ImportOrk3 extends Command
 									$date = date('Y-m-d', strtotime($oldIssuance->date));
 								}
 								while(!array_key_exists($oldIssuance->mundane_id, $transPersonas)){
-									$this->info('waiting for persona ' . $oldIssuance->mundane_id);
+									$this->info('waiting for persona1 ' . $oldIssuance->mundane_id);
 									sleep(5);
 									$transPersonas = $this->getTrans('personas');
 								}
@@ -4991,7 +5004,7 @@ class ImportOrk3 extends Command
 								//check if it exists
 								if(in_array($target, $oldPersonas)){
 									while(!array_key_exists($target, $transPersonas)){
-										$this->info('waiting for persona ' . $target);
+										$this->info('waiting for persona2 ' . $target);
 										sleep(5);
 										$transPersonas = $this->getTrans('personas');
 									}
@@ -5010,7 +5023,7 @@ class ImportOrk3 extends Command
 							if($oldIssuance->given_by_id != '0'){
 								if(in_array($oldIssuance->given_by_id, $oldPersonas)){
 									while(!array_key_exists($oldIssuance->given_by_id, $transPersonas)){
-										$this->info('waiting for persona ' . $oldIssuance->given_by_id);
+										$this->info('waiting for persona3 ' . $oldIssuance->given_by_id);
 										sleep(5);
 										$transPersonas = $this->getTrans('personas');
 									}
@@ -5029,7 +5042,7 @@ class ImportOrk3 extends Command
 							if($oldIssuance->revoked_by_id != '0'){
 								if(in_array($oldIssuance->revoked_by_id, $oldPersonas)){
 									while(!array_key_exists($oldIssuance->revoked_by_id, $transPersonas)){
-										$this->info('waiting for persona ' . $oldIssuance->revoked_by_id);
+										$this->info('waiting for persona4 ' . $oldIssuance->revoked_by_id);
 										sleep(5);
 										$transPersonas = $this->getTrans('personas');
 									}
@@ -5114,6 +5127,7 @@ class ImportOrk3 extends Command
 			//TODO: squires, pages, at-arms, and apprentices can't be done, the data is just too jacked.  Stop trying, make them do it.
 			//TODO: custom titles hidden in ork_awards...specifically, those for kingdomaward_id 6036.  Make the custom titles?  Check for them, and respond.
 			//TODO: tell chapters to adjust their reign dates
+			//TODO: replace DB::reconnect("mysqlBak"); to 'just after all waits'.  Remove all others.
 			
 			$this->info('All done!');
 		} catch (Throwable $e) {
