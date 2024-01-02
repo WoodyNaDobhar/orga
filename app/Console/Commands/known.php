@@ -3878,10 +3878,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
 								'award_ids' => null,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						]
 				],
 				'Outpost' => [
@@ -4032,9 +4092,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
@@ -4228,9 +4349,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
@@ -4364,9 +4546,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Principal Herald' => [
 								'duration' => 6,
@@ -4608,9 +4851,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
@@ -5175,9 +5479,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Crown Guard' => [
 								'duration' => 6,
@@ -5398,9 +5763,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Scribe' => [
 								'duration' => 6,
@@ -5792,9 +6218,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
@@ -6000,9 +6487,70 @@ $knownRealmChaptertypesOffices = [
 								'title' => 'Count|Countess',
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
@@ -6228,9 +6776,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
@@ -6615,9 +7224,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 12,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Rules Representative' => [
 								'duration' => 12,
@@ -7015,9 +7685,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
@@ -7221,9 +7952,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Senator' => [
 								'duration' => 6,
@@ -7490,9 +8282,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Kingdom Rules Representative' => [
 								'duration' => 6,
@@ -7847,9 +8700,70 @@ $knownRealmChaptertypesOffices = [
 								'order' => 5,
 								'award_ids' => [202]
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Board of Directors Member' => [
 								'duration' => 24,
@@ -7903,9 +8817,70 @@ $knownRealmChaptertypesOffices = [
 								'title' => 'Esquire',
 								'award_ids' => [211]
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						]
 				],
 				'Barony' => [
@@ -7939,9 +8914,70 @@ $knownRealmChaptertypesOffices = [
 								'title' => 'Esquire',
 								'award_ids' => [212]
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						]
 				],
 				'Duchy' => [
@@ -7975,9 +9011,70 @@ $knownRealmChaptertypesOffices = [
 								'title' => 'Master|Mistress',
 								'award_ids' => [213]
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						]
 				]
 		],
@@ -8179,9 +9276,70 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'award_ids' => null
 						],
-						'Guildmaster of [Class]' => [
+						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => [189, 190, 191, 192, 193, 194, 195, 196, 197, 199, 200, 201, 210]
+								'award_ids' => null,
+								'award_ids' => [189]
+						],
+						'Guildmaster of Assassins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [190]
+						],
+						'Guildmaster of Barbarians' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [191]
+						],
+						'Guildmaster of Bards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [192]
+						],
+						'Guildmaster of Druids' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [193]
+						],
+						'Guildmaster of Healers' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [194]
+						],
+						'Guildmaster of Monks' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [195]
+						],
+						'Guildmaster of Monsters' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [196]
+						],
+						'Guildmaster of Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [197]
+						],
+						'Guildmaster of Scouts' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [199]
+						],
+						'Guildmaster of Warriors' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [200]
+						],
+						'Guildmaster of Wizards' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [201]
+						],
+						'Guildmaster of Anti-Paladins' => [
+								'duration' => 6,
+								'award_ids' => null,
+								'award_ids' => [210]
 						],
 						'Scribe' => [
 								'duration' => 6,
