@@ -3947,7 +3947,7 @@ $knownRealmChaptertypesOffices = [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => null
 						],
 						'Clerk' => [
 								'duration' => 6,
@@ -4270,12 +4270,12 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [92]
+								'award_ids' => [234]
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [202]
+								'award_ids' => [235]
 						],
 						'Prime Minister' => [
 								'duration' => 6,
@@ -8532,17 +8532,17 @@ $knownRealmChaptertypesOffices = [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => null
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => null
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => null
 						],
 						'Champion' => [
 								'duration' => 6,
@@ -8552,7 +8552,7 @@ $knownRealmChaptertypesOffices = [
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => null
 						]
 				],
 				'Shire' => [
