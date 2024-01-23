@@ -3665,6 +3665,7 @@ class ImportOrk3 extends Command
 					$bar = $this->output->createProgressBar(count($oldConfigurations));
 					$bar->start();
 					foreach ($oldConfigurations as $oldConfiguration) {
+						$realm = null;
 						if($oldConfiguration->key !== 'AccountPointers'){
 							if(array_key_exists($oldConfiguration->id, $knownRealmChaptertypesOffices)){
 								//update the realm
@@ -3674,10 +3675,10 @@ class ImportOrk3 extends Command
 									$transRealms = $this->getTrans('realms');
 								}
 								DB::reconnect("mysqlBak");
-								$realm = Realm::where('id', $transRealms[$oldConfiguration->id])->first();
-								//this shouldn't happen
-								if(!$realm){
-									throw new \Exception('oldConfiguration ' . $oldConfiguration->configuration_id . ' has no Realm');
+								while(!$realm){
+									$this->info('waiting for Realm ' . $oldConfiguration->id);
+									sleep(5);
+									$realm = Realm::where('id', $transRealms[$oldConfiguration->id])->first();
 								}
 								$cleanValue = utf8_encode(stripslashes($oldConfiguration->value));
 								$cleanNoQuotes = str_replace('"', '', $cleanValue);
