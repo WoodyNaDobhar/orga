@@ -652,7 +652,6 @@ return new class extends Migration
         });
 
         Schema::table('meetups', function (Blueprint $table) {
-            $table->foreign(['alt_location_id'], 'meetups_alt_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['created_by'], 'meetups_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['deleted_by'], 'meetups_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['location_id'], 'meetups_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -946,7 +945,6 @@ return new class extends Migration
         });
 
         Schema::table('meetups', function (Blueprint $table) {
-            $table->dropForeign('meetups_alt_location_id');
             $table->dropForeign('meetups_created_by');
             $table->dropForeign('meetups_deleted_by');
             $table->dropForeign('meetups_location_id');
