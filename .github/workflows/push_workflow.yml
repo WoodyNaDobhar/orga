@@ -21,7 +21,6 @@ jobs:
         with:
           name: assets
           path: public
-          retention-days: 3
   deploy-development:
     name: Deploy Project to Development Server
     runs-on: ubuntu-latest

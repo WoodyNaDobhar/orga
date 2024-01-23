@@ -6481,6 +6481,7 @@ class ImportOrk3 extends Command
 	private function getOrSetLocation($location, $countries)
 	{
 		//TODO: Check to make sure this update prevents the blank location from being reused.
+		$existingLocation = null;
 		if($this->locationClean($location['address']) && $this->locationClean($location['province']) && $this->locationClean($location['postal_code']) && $this->locationClean($location['city'])){
 			$existingLocation = Location::where('address', $this->locationClean($location['address']))
 				->where('province', $this->locationClean($location['province']))
