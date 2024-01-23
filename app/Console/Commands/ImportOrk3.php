@@ -1038,7 +1038,7 @@ class ImportOrk3 extends Command
 										$realmId = DB::table('realms')->insertGetId([
 												'parent_id' => null,
 												'name' => 'Deleted Realm ' . $oldChaptertype->kingdom_id,
-												'abbreviation' => 'DK' . $oldChaptertype->kingdom_id,
+												'abbreviation' => 'DR' . $oldChaptertype->kingdom_id,
 												'heraldry' => null,
 												'is_active' => 0
 										]);
@@ -1175,7 +1175,7 @@ class ImportOrk3 extends Command
 								$realmId = DB::table('realms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Realm ' . $oldChapter->kingdom_id,
-									'abbreviation' => 'DK' . $oldChapter->kingdom_id,
+									'abbreviation' => 'DR' . $oldChapter->kingdom_id,
 									'heraldry' => null,
 									'is_active' => 0
 								]);
@@ -1189,18 +1189,17 @@ class ImportOrk3 extends Command
 							}
 						}
 						$locationID = $this->getOrSetLocation([
-							'address' => $this->locationClean($oldChapter->address),
-							'city' => $this->locationClean($oldChapter->city),
-							'province' => $this->locationClean($oldChapter->province),
-							'postal_code' => $this->locationClean($oldChapter->postal_code),
-							'country' => $this->getCountryCode((string) substr($oldChapter->address, strrpos("/$oldChapter->address", ', ') + 1), $countries),
-							'google_geocode' => $this->geocodeClean($oldChapter->google_geocode),
-							'latitude' => $this->locationClean($oldChapter->latitude),
-							'longitude' => $this->locationClean($oldChapter->longitude),
-							'location' => $this->locationClean($oldChapter->location),
-							'map_url' => $this->cleanUrl($this->locationClean($oldChapter->map_url)),
-							'description' => $this->locationClean($oldChapter->description),
-							'directions' => $this->locationClean($oldChapter->directions)
+							'address' => $oldChapter->address,
+							'city' => $oldChapter->city,
+							'province' => $oldChapter->province,
+							'postal_code' => $oldChapter->postal_code,
+							'google_geocode' => $oldChapter->google_geocode,
+							'latitude' => $oldChapter->latitude,
+							'longitude' => $oldChapter->longitude,
+							'location' => $oldChapter->location,
+							'map_url' => $oldChapter->map_url,
+							'description' => $oldChapter->description,
+							'directions' => $oldChapter->directions
 						], $countries);
 						
 						while(!array_key_exists($oldChapter->kingdom_id, $transRealms)){
@@ -1516,6 +1515,8 @@ class ImportOrk3 extends Command
 									if(strpos($cleanName, 'Master ') > -1){
 										$peerage = 'Master';
 									}else if($cleanName === 'Apprentice'){
+										//TOOD: make sure Apprentice gets the Persona type
+										$titleableType = 'Persona';
 										$peerage = 'Retainer';
 									}else{
 										$peerage = 'None';
@@ -2545,7 +2546,7 @@ class ImportOrk3 extends Command
 								$realmId = DB::table('realms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Realm ' . $oldEvent->kingdom_id,
-									'abbreviation' => 'DK' . $oldEvent->kingdom_id,
+									'abbreviation' => 'DR' . $oldEvent->kingdom_id,
 									'heraldry' => null,
 									'is_active' => 0
 								]);
@@ -2648,20 +2649,17 @@ class ImportOrk3 extends Command
 						}
 						if(($oldEvent->address != '' && $oldEvent->address != '1') || ($oldEvent->province != '' && $oldEvent->province != '1') || ($oldEvent->postal_code != '' && $oldEvent->postal_code != '1') || ($oldEvent->city != '' && $oldEvent->city != '1') || ($oldEvent->country != '' && $oldEvent->country != '1') || ($oldEvent->map_url != '' && $oldEvent->map_url != '1')){
 							$locationID = $this->getOrSetLocation([
-								'address' => $this->locationClean($oldEvent->address),
-								'city' => $this->locationClean($oldEvent->city),
-								'province' => $this->locationClean($oldEvent->province),
-								'postal_code' => $this->locationClean($oldEvent->postal_code),
-								'country' => $this->getCountryCode((string) substr($oldEvent->address, strrpos("/$oldEvent->address", ', ') + 1), $countries),
-								'google_geocode' => $this->geocodeClean($oldEvent->google_geocode),
-								'latitude' => $this->locationClean($oldEvent->latitude),
-								'longitude' => $this->locationClean($oldEvent->longitude),
-								'location' => $this->locationClean($oldEvent->location),
-								'map_url' => $this->locationClean($oldEvent->map_url),
-								'description' => $this->locationClean($oldEvent->map_url_name),
-								'directions' => null,
-								'created_at' => min($oldEvent->modified_1, $oldEvent->modified_2),
-								'updated_at' => max($oldEvent->modified_1, $oldEvent->modified_2)
+								'address' => $oldEvent->address,
+								'city' => $oldEvent->city,
+								'province' => $oldEvent->province,
+								'postal_code' => $oldEvent->postal_code,
+								'google_geocode' => $oldEvent->google_geocode,
+								'latitude' => $oldEvent->latitude,
+								'longitude' => $oldEvent->longitude,
+								'location' => $oldEvent->location,
+								'map_url' => $oldEvent->map_url,
+								'description' => $oldEvent->map_url_name,
+								'directions' => null
 							], $countries);
 						}
 						$eventId = DB::table('events')->insertGetId([
@@ -2828,17 +2826,16 @@ class ImportOrk3 extends Command
 					];
 					foreach ($oldMeetups as $oldMeetup) {
 						$locationID = $this->getOrSetLocation([
-							'address' => $this->locationClean($oldMeetup->address),
-							'city' => $this->locationClean($oldMeetup->city),
-							'province' => $this->locationClean($oldMeetup->province),
-							'postal_code' => $this->locationClean($oldMeetup->postal_code),
-							'country' => $this->getCountryCode((string) substr($oldMeetup->address, strrpos("/$oldMeetup->address", ', ') + 1), $countries),
-							'google_geocode' => $this->geocodeClean($oldMeetup->google_geocode),
-							'latitude' => $this->locationClean($oldMeetup->latitude),
-							'longitude' => $this->locationClean($oldMeetup->longitude),
-							'location' => $this->locationClean($oldMeetup->location),
-							'map_url' => $this->locationClean($oldMeetup->map_url),
-							'description' => $this->locationClean($oldMeetup->description),
+							'address' => $oldMeetup->address,
+							'city' => $oldMeetup->city,
+							'province' => $oldMeetup->province,
+							'postal_code' => $oldMeetup->postal_code,
+							'google_geocode' => $oldMeetup->google_geocode,
+							'latitude' => $oldMeetup->latitude,
+							'longitude' => $oldMeetup->longitude,
+							'location' => $oldMeetup->location,
+							'map_url' => $oldMeetup->map_url,
+							'description' => $oldMeetup->description,
 							'directions' => null
 						], $countries);
 						
@@ -2848,49 +2845,25 @@ class ImportOrk3 extends Command
 							$transChapters = $this->getTrans('chapters');
 						}
 						DB::reconnect("mysqlBak");
-						$alternateMeetupsChecks = Meetup::where('chapter_id', $transChapters[$oldMeetup->park_id])
-							->where('recurrence', $oldMeetup->recurrence)
-							->where('week_of_month', $oldMeetup->week_of_month)
-							->where('week_day', $oldMeetup->week_day)
-							->where('month_day', $oldMeetup->month_day)
-							->where('occurs_at', $oldMeetup->time)
-							->where('purpose', $oldMeetup->purpose)
-							->whereHas('location', function ($query) use($oldMeetup) {
-								$query->where('address', '!=', $oldMeetup->address);
-							})
-							->get()
-							->toArray();
-						//we might have duplicate meetups.  If it already exists, update the alt_location
-						if(count($alternateMeetupsChecks) > 0){
-							$meetup = array_shift($alternateMeetupsChecks);
-							$meetup->alt_location_id = $locationID;
-							$meetup->save();
-							DB::table('crypt')->insert([
-								'model' 		=> 'Meetup',
-								'cause' 		=> 'Unused',
-								'model_id'		=> $oldMeetup->parkday_id,
-								'model_value'	=> json_encode($oldMeetup)
-							]);
-						}else{
-							$meetupId = DB::table('meetups')->insertGetId([
-								'chapter_id' => $transChapters[$oldMeetup->park_id],
-								'location_id' => $locationID,
-								'alt_location_id' => null,
-								'recurrence' => $meetupMap[$oldMeetup->recurrence],
-								'week_of_month' => $oldMeetup->week_of_month > 0 ? $oldMeetup->week_of_month : null,
-								'week_day' => $oldMeetup->week_day,
-								'month_day' => $oldMeetup->month_day > 0 ? $oldMeetup->month_day : null,
-								'occurs_at' => $oldMeetup->time,
-								'purpose' => $meetupMap[$oldMeetup->purpose],
-								'description' => trim($oldMeetup->description) != '' ? trim($oldMeetup->description) : null
-							]);
-							DB::table('trans')->insert([
-								'array' => 'meetups',
-								'oldID' => $oldMeetup->parkday_id,
-								'newID' => $meetupId
-							]);
-							$transMeetups[$oldMeetup->parkday_id] = $meetupId;
-						}
+						//TODO: check the removal of alt_location_id and adding of is_active.  Check meetups for redundancies.
+						$meetupId = DB::table('meetups')->insertGetId([
+							'chapter_id' => $transChapters[$oldMeetup->park_id],
+							'location_id' => $locationID,
+							'is_active' => ($oldMeetup->alternate_location == 1 ? 0 : 1),
+							'recurrence' => $meetupMap[$oldMeetup->recurrence],
+							'week_of_month' => ($oldMeetup->week_of_month > 0 ? $oldMeetup->week_of_month : null),
+							'week_day' => $oldMeetup->week_day,
+							'month_day' => ($oldMeetup->month_day > 0 ? $oldMeetup->month_day : null),
+							'occurs_at' => $oldMeetup->time,
+							'purpose' => $meetupMap[$oldMeetup->purpose],
+							'description' => (trim($oldMeetup->description) != '' ? trim($oldMeetup->description) : null)
+						]);
+						DB::table('trans')->insert([
+							'array' => 'meetups',
+							'oldID' => $oldMeetup->parkday_id,
+							'newID' => $meetupId
+						]);
+						$transMeetups[$oldMeetup->parkday_id] = $meetupId;
 						$bar->advance();
 					}
 					break;
@@ -3195,11 +3168,17 @@ class ImportOrk3 extends Command
 													'oldID' => $oldAttendance->mundane_id,
 													'newID' => $personaID
 											]);
-											//TODO: check trans personas oldID = 0.  Might have been events, might be here, might be elsewhere (probably previous section, maybe elsewhere)
+											//TODO: check trans personas oldID = 0.  Might have been events, might be here, might be elsewhere (probably previous section)
 											//TODO: also check for duplicates in transPersona (157).  Probably a deleted persona being remade over and over again.
 											$transPersonas[$oldAttendance->mundane_id] = $personaID;
 										}
 									}else{
+										while(!array_key_exists($oldAttendance->mundane_id, $transPersonas)){
+											$this->info('waiting for persona ' . $oldAttendance->mundane_id);
+											sleep(5);
+											$transPersonas = $this->getTrans('personas');
+											DB::reconnect("mysqlBak");
+										}
 										$personaID = $transPersonas[$oldAttendance->mundane_id];
 									}
 								}else{
@@ -3343,7 +3322,7 @@ class ImportOrk3 extends Command
 													$query->whereNull('location_id');
 												}
 											})
-											->whereNull('alt_location_id')
+											->where('is_active', 0)
 											->where('recurrence', 'Weekly')
 											->whereNull('week_of_month')
 											->where('week_day', date('l', strtotime($oldAttendance->date)))
@@ -3361,7 +3340,7 @@ class ImportOrk3 extends Command
 														$query->whereNull('location_id');
 													}
 												})
-												->whereNull('alt_location_id')
+												->where('is_active', 0)
 												->where('recurrence', 'Weekly')
 												->whereNull('week_of_month')
 												->where('week_day', date('l', strtotime($oldAttendance->date)))
@@ -3376,7 +3355,7 @@ class ImportOrk3 extends Command
 											$meetupId = DB::table('meetups')->insertGetId([
 												'chapter_id' => $transChapters[$oldAttendance->park_id],
 												'location_id' => $locationID ? $locationID : null,
-												'alt_location_id' => null,
+												'is_active' => 0,
 												'recurrence' => 'Weekly',
 												'week_of_month' => null,
 												'week_day' => date('l', strtotime($oldAttendance->date)),
@@ -3686,14 +3665,7 @@ class ImportOrk3 extends Command
 					$bar = $this->output->createProgressBar(count($oldConfigurations));
 					$bar->start();
 					foreach ($oldConfigurations as $oldConfiguration) {
-						if($oldConfiguration->key === 'AccountPointers'){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Configuration',
-									'cause' 		=> 'AccountPointer',
-									'model_id'		=> $oldConfiguration->configuration_id,
-									'model_value'	=> json_encode($oldConfiguration)
-							]);
-						}else{
+						if($oldConfiguration->key !== 'AccountPointers'){
 							if(array_key_exists($oldConfiguration->id, $knownRealmChaptertypesOffices)){
 								//update the realm
 								while(!array_key_exists($oldConfiguration->id, $transRealms)){
@@ -3758,6 +3730,7 @@ class ImportOrk3 extends Command
 					$bar = $this->output->createProgressBar(count($oldTransactions));
 					$bar->start();
 					foreach ($oldTransactions as $oldTransaction) {
+						$userId = null;
 						if($oldTransaction->recorded_by != 0){
 							if(in_array($oldTransaction->recorded_by, $oldPersonas)){
 								while(!array_key_exists($oldTransaction->recorded_by, $transPersonas)){
@@ -3863,6 +3836,7 @@ class ImportOrk3 extends Command
 					$transAccounts = $this->getTrans('accounts');
 					$transTransactions = $this->getTrans('transactions');
 					$transPersonas = $this->getTrans('personas');
+					$transChapters = $this->getTrans('chapters');
 					$oldAccounts = $backupConnect->table('ork_account')->pluck('account_id')->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->pluck('transaction_id')->toArray();
 					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
@@ -3914,25 +3888,25 @@ class ImportOrk3 extends Command
 							$transTransactions = $this->getTrans('transactions');
 						}
 						DB::reconnect("mysqlBak");
-						while(!array_key_exists($oldSplit->src_mundane_id, $transPersonas)){
-							$this->info('waiting for persona ' . $oldSplit->src_mundane_id);
-							sleep(5);
-							$transPersonas = $this->getTrans('personas');
-						}
-						DB::reconnect("mysqlBak");
 						//persona was deleted
 						if(!in_array($oldSplit->src_mundane_id, $oldPersonas)){
 							$transPersonas = $this->getTrans('personas');
 							if(!array_key_exists($oldSplit->src_mundane_id, $transPersonas)){
 								$personaMakeCheck = Persona::where('name', 'Deleted Persona ' . $oldSplit->src_mundane_id)->first();
 								if($personaMakeCheck){
-									$personaId = $personaMakeCheck->id;
+									$transPersonas[$oldSplit->src_mundane_id] =  $personaMakeCheck->id;
 								}elseif($oldSplit->account_id != 0){
 									$oldAccountCheck = $backupConnect->table('ork_account')->where('account_id', $oldSplit->account_id)->first();
+									while(!array_key_exists($oldAccountCheck->park_id, $transChapters)){
+										$this->info('waiting for chapter ' . $oldAccountCheck->park_id);
+										sleep(5);
+										$transChapters = $this->getTrans('chapters');
+									}
+									DB::reconnect("mysqlBak");
 									if($oldAccountCheck->park_id != 0){
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $transChapters[$oldAccountCheck->park_id],
-											'user_id' => $userId,
+											'user_id' => null,
 											'pronoun_id' => null,
 											'mundane' => 'Deleted Persona ' . $oldSplit->src_mundane_id,
 											'name' => 'Deleted Persona ' . $oldSplit->src_mundane_id,
@@ -3944,11 +3918,20 @@ class ImportOrk3 extends Command
 											'newID' => $personaId
 										]);
 										$transPersonas[$oldSplit->src_mundane_id] = $personaId;
+									}else{
+										DB::table('crypt')->insert([
+												'model' 		=> 'Split',
+												'cause' 		=> 'GonePersonaNoPark',
+												'model_id'		=> $oldSplit->split_id,
+												'model_value'	=> json_encode($oldSplit)
+										]);
+										$bar->advance();
+										continue;
 									}
 								}else{
 									DB::table('crypt')->insert([
 										'model' 		=> 'Split',
-										'cause' 		=> 'GonePersona',
+										'cause' 		=> 'GonePersonaNoAccount',
 										'model_id'		=> $oldSplit->split_id,
 										'model_value'	=> json_encode($oldSplit)
 									]);
@@ -3956,6 +3939,13 @@ class ImportOrk3 extends Command
 									continue;
 								}
 							}
+						}else{
+							while(!array_key_exists($oldSplit->src_mundane_id, $transPersonas)){
+								$this->info('waiting for persona ' . $oldSplit->src_mundane_id);
+								sleep(5);
+								$transPersonas = $this->getTrans('personas');
+							}
+							DB::reconnect("mysqlBak");
 						}
 						DB::table('splits')->insert([
 							'account_id' => $oldSplit->account_id != '0' ? $transAccounts[$oldSplit->account_id] : null,
@@ -4000,7 +3990,7 @@ class ImportOrk3 extends Command
 									if($oldDue->park_id != '0'){
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $transChapters[$oldDue->park_id],
-											'user_id' => $userId,
+											'user_id' => null,
 											'pronoun_id' => null,
 											'mundane' => 'Deleted Persona ' . $oldDue->mundane_id,
 											'name' => 'Deleted Persona ' . $oldDue->mundane_id,
@@ -4130,7 +4120,7 @@ class ImportOrk3 extends Command
 									'newID' => $transactionId
 								]);
 							}else{
-								$transactionId = $transactionMakeCheck;
+								$transactionId = $transactionMakeCheck->id;
 							}
 						}else{
 							while(!array_key_exists($oldDue->import_transaction_id, $transTransactions)){
@@ -4295,6 +4285,7 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
+						$transUnits = $this->getTrans('units');
 						if(in_array($oldMember->unit_id, $oldUnits)){
 							while(!array_key_exists($oldMember->unit_id, $transUnits)){
 								$this->info('waiting for unit ' . $oldMember->unit_id);
@@ -4374,6 +4365,7 @@ class ImportOrk3 extends Command
 							]);
 						}
 						//check to see if entry exists already, and if so, update
+						$transUnits = $this->getTrans('units');
 						$memberCheck = Member::where('unit_id', $transUnits[$oldMember->unit_id])->where('persona_id', $personaId)->first();
 						if($memberCheck){
 							$memberCheck->is_head = $oldMember->role === 'captain' || $oldMember->role === 'lord' ? 1 : 0;
@@ -4425,7 +4417,7 @@ class ImportOrk3 extends Command
 						$label = null;
 						$order = null;
 						$personaId = null;
-						$authPersonaId = null;
+						$authPersonaId = 1;
 						$realmId = null;
 						switch($oldOfficer->role){
 							case 'Monarch':
@@ -4518,14 +4510,15 @@ class ImportOrk3 extends Command
 											}
 										}
 									}
+								}else{
+									while(!array_key_exists($oldOfficer->authorization_id, $transPersonas)){
+										$this->info('waiting for auth persona ' . $oldOfficer->authorization_id);
+										sleep(5);
+										$transPersonas = $this->getTrans('personas');
+									}
+									DB::reconnect("mysqlBak");
+									$authPersonaId = $transPersonas[$oldOfficer->authorization_id];
 								}
-								while(!array_key_exists($oldOfficer->authorization_id, $transPersonas)){
-									$this->info('waiting for auth persona ' . $oldOfficer->authorization_id);
-									sleep(5);
-									$transPersonas = $this->getTrans('personas');
-								}
-								DB::reconnect("mysqlBak");
-								$authPersonaId = $transPersonas[$oldOfficer->authorization_id];
 							}
 							
 							//realm check
@@ -4538,7 +4531,7 @@ class ImportOrk3 extends Command
 										$realmId = DB::table('realms')->insertGetId([
 												'parent_id' => null,
 												'name' => 'Deleted Realm ' . $oldOfficer->kingdom_id,
-												'abbreviation' => 'DK' . $oldOfficer->kingdom_id,
+												'abbreviation' => 'DR' . $oldOfficer->kingdom_id,
 												'heraldry' => null,
 												'is_active' => 0
 										]);
@@ -4561,15 +4554,14 @@ class ImportOrk3 extends Command
 									}
 								}
 							}else{
+								while(!array_key_exists($oldOfficer->kingdom_id, $transRealms)){
+									$this->info('waiting for realm ' . $oldOfficer->kingdom_id);
+									sleep(5);
+									$transRealms = $this->getTrans('realms');
+								}
+								DB::reconnect("mysqlBak");
 								$realmId = $transRealms[$oldOfficer->kingdom_id];
 							}
-							
-							while(!array_key_exists($oldOfficer->kingdom_id, $transRealms)){
-								$this->info('waiting for realm ' . $oldOfficer->kingdom_id);
-								sleep(5);
-								$transRealms = $this->getTrans('realms');
-							}
-							DB::reconnect("mysqlBak");
 							
 							//chapter check
 							if($oldOfficer->park_id != 0){
@@ -4734,7 +4726,7 @@ class ImportOrk3 extends Command
 							'label' => $label ? $label : null,
 							'starts_on' => null,
 							'ends_on' => null,
-							'created_by' => $oldOfficer->authorization_id != '0' ? $authPersonaId : 1
+							'created_by' => $authPersonaId
 						]);
 						$bar->advance();
 					}
@@ -5312,9 +5304,9 @@ class ImportOrk3 extends Command
 												$transPersonas[$oldIssuance->mundane_id] = $personaId;
 											}else{
 												DB::table('crypt')->insert([
-													'model' 		=> 'Officer',
+													'model' 		=> 'Issuance',
 													'cause' 		=> 'PersonaGone',
-													'model_id'		=> $oldIssuance->officer_id,
+													'model_id'		=> $oldIssuance->awards_id,
 													'model_value'	=> json_encode($oldIssuance)
 												]);
 												$bar->advance();
@@ -6199,6 +6191,7 @@ class ImportOrk3 extends Command
 					break;
 				//TODO: run and check results when a full rotation is complete
 				//TODO: it should only include unused stuff.  Process stuff like 'DPfL' and 'x Qualified'.
+				//TODO: review 'crypt' and remove any causes that absolutely can't or don't need to be worked.
 				//TODO: a process that goes thru where crypt cause is 'PersonaGone' (or whatever), sees if they were since made, and add the record as appropriate.
 // 				Due
 // 				Member
@@ -6485,14 +6478,19 @@ class ImportOrk3 extends Command
 		return $mundaneName;
 	}
 	
-	private function getOrSetLocation($location, $countries){
-		$locationID = Location::where('address', $location['address'])
-			->where('province', $location['province'])
-			->where('postal_code', $location['postal_code'])
-			->where('city', $location['city'])
-			->first();
-		if(!$locationID){
-			$locationID = DB::table('locations')->insertGetId([
+	private function getOrSetLocation($location, $countries)
+	{
+		//TODO: Check to make sure this update prevents the blank location from being reused.
+		if($this->locationClean($location['address']) && $this->locationClean($location['province']) && $this->locationClean($location['postal_code']) && $this->locationClean($location['city'])){
+			$existingLocation = Location::where('address', $this->locationClean($location['address']))
+				->where('province', $this->locationClean($location['province']))
+				->where('postal_code', $this->locationClean($location['postal_code']))
+				->where('city', $this->locationClean($location['city']))
+				->first();
+		}
+		if (!$existingLocation) {
+			$newLocationId = DB::table('locations')->insertGetId([
+				'label' => (strlen($this->locationClean($location['description'])) < 50 ? $this->locationClean($location['description']) : null),
 				'address' => $this->locationClean($location['address']),
 				'city' => $this->locationClean($location['city']),
 				'province' => $this->locationClean($location['province']),
@@ -6503,14 +6501,17 @@ class ImportOrk3 extends Command
 				'longitude' => $this->locationClean($location['longitude']),
 				'location' => $this->locationClean($location['location']),
 				'map_url' => $this->cleanUrl($this->locationClean($location['map_url'])),
-				'description' => $this->locationClean($location['description']),
 				'directions' => $this->locationClean($location['directions'])
 			]);
+			return $newLocationId;
 		}
-		return $locationID;
+		
+		return $existingLocation->id;
 	}
 	
 	private function locationClean($value){
+		$value = str_replace('\n', '', $value);
+		$value = trim($value);
 		return $value === '' || $value === 'null' || $value === '1' || $value === 1 || $value === '0'|| $value === 0 || $value === 'Google Maps' || $value === 'google' || $value === 'na' || $value === 'n/a' ? null : $value;
 	}
 	

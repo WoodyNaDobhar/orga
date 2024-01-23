@@ -200,7 +200,8 @@ return new class extends Migration
 
         Schema::create('locations', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
+        	$table->bigIncrements('id');
+        	$table->string('label', 50)->nullable();
             $table->string('address')->nullable();
             $table->string('city', 50)->nullable();
             $table->string('province', 35)->nullable();
@@ -211,7 +212,6 @@ return new class extends Migration
             $table->double('longitude')->nullable();
             $table->mediumText('location')->nullable();
             $table->mediumText('map_url')->nullable();
-            $table->mediumText('description')->nullable();
             $table->mediumText('directions')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
@@ -226,13 +226,13 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('chapter_id')->index('chapter_id');
             $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
-            $table->unsignedBigInteger('alt_location_id')->nullable()->index('alt_location_id');
+            $table->boolean('is_active')->default(true);
+            $table->enum('purpose', ['Park Day', 'Fighter Practice', 'A&S Gathering', 'Other']);
             $table->enum('recurrence', ['Weekly', 'Monthly', 'Week-of-Month']);
             $table->smallInteger('week_of_month')->nullable();
             $table->enum('week_day', ['None', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
             $table->smallInteger('month_day')->nullable();
             $table->time('occurs_at');
-            $table->enum('purpose', ['Park Day', 'Fighter Practice', 'A&S Gathering', 'Other']);
             $table->string('description')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
