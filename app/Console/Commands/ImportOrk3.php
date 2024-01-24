@@ -3675,6 +3675,7 @@ class ImportOrk3 extends Command
 									$transRealms = $this->getTrans('realms');
 								}
 								DB::reconnect("mysqlBak");
+								$realm = Realm::where('id', $transRealms[$oldConfiguration->id])->first();
 								while(!$realm){
 									$this->info('waiting for Realm ' . $oldConfiguration->id);
 									sleep(5);
@@ -6237,9 +6238,6 @@ class ImportOrk3 extends Command
 			//clean up
 			$bar->finish();
 			Schema::enableForeignKeyConstraints();
-			
-			//TODO: tell chapter pms to adjust their reign dates
-			//TODO: tell pms they'll need to review their awards/titles
 			
 			$this->info('All done!');
 			Log::info($step . ' is complete.');
