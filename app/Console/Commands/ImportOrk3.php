@@ -1175,6 +1175,13 @@ class ImportOrk3 extends Command
 					$transChaptertypes = $this->getTrans('chaptertypes');
 					$oldRealms = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
+					$chaptersWithoutAccount = $backupConnect->table('ork_park')
+						->leftJoin('ork_account', function ($join) {
+							$join->on('ork_account.park_id', 'ork_park.park_id');
+						})
+						->whereNull('ork_account.account_id')
+						->pluck('ork_park.park_id')
+						->toArray();
 					$bar = $this->output->createProgressBar(count($oldChapters));
 					$bar->start();
 					foreach ($oldChapters as $oldChapter) {
@@ -1257,6 +1264,9 @@ class ImportOrk3 extends Command
 								'value' => $url
 							]);
 						}
+						if(in_array($oldChapter->park_id, $chaptersWithoutAccount)){
+							$this->addChapterAccounts($chapterID);
+						}
 						$bar->advance();
 					}
 					break;
@@ -1295,7 +1305,6 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Awards':
-					//TODO: work out those wacky other things
 					$this->info('Importing Awards...');
 					DB::table('awards')->truncate();
 					DB::table('trans')->where('array', 'LIKE', '%awards')->delete();
@@ -1367,7 +1376,6 @@ class ImportOrk3 extends Command
 							'newID' => $awardId
 						]);
 						//go thru the realmawards that use this award, and add them to the trans and processed arrays
-						//TODO: some of those (name = 'Order of the x') have different, deleted award_id's.  Check those guys.
 						$realmawards = $backupConnect->table('ork_kingdomaward')->where('name', $nameClean)->get()->toArray();
 						foreach($realmawards as $realmaward){
 							DB::table('trans')->insert([
@@ -2501,7 +2509,7 @@ class ImportOrk3 extends Command
 								}
 							}else{
 								DB::table('crypt')->insert([
-									'model' 		=> 'Personas',
+									'model' 		=> 'Persona',
 									'cause' 		=> 'Demo',
 									'model_id'		=> $oldUser->mundane_id,
 									'model_value'	=> json_encode($oldUser)
@@ -3777,8 +3785,8 @@ class ImportOrk3 extends Command
 										$realm->dues_intervals_type = $data->Type != '' ? ucfirst($data->Type) : null;
 										$realm->dues_intervals = $data->Period != 'null' && $data->Period != '' ? ucfirst($data->Period) : null;
 										break;
-									case 'realmDuesTake':
-										$realm->dues_take = $cleanNoQuotes;
+									case 'KingdomDuesTake':
+										$realm->dues_take = $cleanNoQuotes > 0 ? $cleanNoQuotes : null;
 										break;
 									case 'MonthlyCreditMaximum':
 										$realm->credit_maximum = $cleanNoQuotes === 'null' || $cleanNoQuotes > 100 ? null : $cleanNoQuotes;
@@ -3887,7 +3895,7 @@ class ImportOrk3 extends Command
 						}
 						$transactionId = DB::table('transactions')->insertGetId([
 							'description' => $oldTransaction->description,
-							'memo' => $oldTransaction->memo,
+							'memo' => ($oldTransaction->memo !== $oldTransaction->description ? $oldTransaction->memo : null),
 							'transaction_at' => $oldTransaction->transaction_date <= '1969-12-31' ? $oldTransaction->date_created : $oldTransaction->transaction_date,
 							'created_by' => $oldTransaction->recorded_by != 0 ? $transUsers[$oldTransaction->recorded_by] : 1,
 							'created_at' => $oldTransaction->date_created
@@ -4032,6 +4040,7 @@ class ImportOrk3 extends Command
 					$transTransactions = $this->getTrans('transactions');
 					$transUsers = $this->getTrans('users');
 					$transChapters = $this->getTrans('chapters');
+					$transRealms = $this->getTrans('realms');
 					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
 					$oldTransactions = $backupConnect->table('ork_transaction')->get()->toArray();
 					$oldDues = $backupConnect->table('ork_dues')->get()->toArray();
@@ -4051,7 +4060,21 @@ class ImportOrk3 extends Command
 							]);
 							$bar->advance();
 							continue;
+						}else{
+							while(!array_key_exists($oldDue->kingdom_id, $transRealms)){
+								$this->info('waiting for realm ' . $oldDue->kingdom_id);
+								sleep(5);
+								$transRealms = $this->getTrans('realms');
+							}
+							DB::reconnect("mysqlBak");
 						}
+						while(!array_key_exists($oldDue->park_id, $transChapters)){
+							$this->info('waiting for chapter ' . $oldDue->park_id);
+							sleep(5);
+							$transChapters = $this->getTrans('chapters');
+							DB::reconnect("mysqlBak");
+						}
+						DB::reconnect("mysqlBak");
 						if(!in_array($oldDue->mundane_id, $oldPersonas)){
 							$transPersonas = $this->getTrans('personas');
 							if(!array_key_exists($oldDue->mundane_id, $transPersonas)){
@@ -4164,7 +4187,7 @@ class ImportOrk3 extends Command
 						}
 						
 						//transactions
-						//TODO: check the generated transactions
+						//TODO: check the generated transactions & splits (check former for dupes [(John) Sam Butler])
 						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
 							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
 							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
@@ -4179,27 +4202,88 @@ class ImportOrk3 extends Command
 								DB::reconnect("mysqlBak");
 								$createdBy = $transUsers[$oldDue->created_by];
 							}
-							$transactionMakeCheck = Transaction::where('description', 'Dues Paid for ' . $persona->mundane)
-								->where('memo', 'This transaction has been generated.  Please check.')
-								->where('transaction_at', $dueCreatedOn)
-								->where('created_by', $createdBy ? $createdBy : 1)
-								->where('created_at', $duesFrom)
+							//check to see if we can work out the old transaction first
+							$oldTransaction = $backupConnect->table('ork_transaction')
+								->where('description', 'Dues Paid for ' . $persona->mundane)
+								->where('transaction_date', $oldDue->created_on)
+								->where('recorded_by', $oldDue->created_by)
 								->first();
-							if(!$transactionMakeCheck){
-								$transactionId = DB::table('transactions')->insertGetId([
-									'description' => 'Dues Paid for ' . $persona->mundane,
-									'memo' => 'This transaction has been generated.  Please check.',
-									'transaction_at' => $dueCreatedOn,
-									'created_by' => $createdBy ? $createdBy : 1,
-									'created_at' => $duesFrom
-								]);
-								DB::table('trans')->insert([
-									'array' => 'transactions',
-									'oldID' => $oldDue->import_transaction_id,
-									'newID' => $transactionId
-								]);
+							if($oldTransaction){
+								while(!array_key_exists($oldTransaction->transaction_id, $transTransactions)){
+									$this->info('waiting for transaction ' . $oldTransaction->transaction_id);
+									sleep(5);
+									$transTransactions = $this->getTrans('transactions');
+								}
+								DB::reconnect("mysqlBak");
+								$transactionId = $transTransactions[$oldTransaction->transaction_id];
 							}else{
-								$transactionId = $transactionMakeCheck->id;
+								$transactionMakeCheck = Transaction::where('description', 'Dues Paid for ' . $persona->mundane)
+									->where('transaction_at', $dueCreatedOn)
+									->where('created_by', $createdBy ? $createdBy : 1)
+									->where('created_at', $dueCreatedOn)
+									->first();
+								if(!$transactionMakeCheck){
+									$transactionId = DB::table('transactions')->insertGetId([
+										'description' => 'Dues Paid for ' . $persona->mundane,
+										'memo' => 'This transaction has been generated.  Please check.',
+										'transaction_at' => $dueCreatedOn,
+										'created_by' => $createdBy ? $createdBy : 1,
+										'created_at' => $dueCreatedOn
+									]);
+									DB::table('trans')->insert([
+										'array' => 'transactions',
+										'oldID' => $oldDue->import_transaction_id,
+										'newID' => $transactionId
+									]);
+									//make splits for it
+									if($intervals){
+										$realm = Realm::where('id', $transRealms[$oldDue->kingdom_id])->first();
+										$accounts = Account::where('accountable_type', 'Chapter')->where('accountable_id', $transChapters[$oldDue->park_id])->get();
+										$cashAccount = $accounts->filter(function($account) {
+											return $account['name'] === 'Cash';
+										})->first();
+										$paidAccount = $accounts->filter(function($account) {
+											return $account['name'] === 'Dues Paid';
+										})->first();
+										$takeAccount = Account::where('accountable_type', 'Realm')->where('accountable_id', $transRealms[$oldDue->kingdom_id])->where('name', 'Realm Take')->first();
+										$owedAccount = $accounts->filter(function($account) {
+											return $account['name'] === 'Dues Owed';
+										})->first();
+										//TODO: when Dues completes, this is no longer required
+										if(!$cashAccount){
+											dd(array(
+													$oldDue->park_id,
+													$accounts
+											));
+										}
+										DB::table('splits')->insert([
+											'account_id' => $cashAccount->id,
+											'transaction_id' => $transactionId,
+											'persona_id' => $persona->id,
+											'amount' => $realm->dues_amount * $intervals
+										]);
+										DB::table('splits')->insert([
+											'account_id' => $paidAccount->id,
+											'transaction_id' => $transactionId,
+											'persona_id' => $persona->id,
+											'amount' => $realm->dues_amount * $intervals
+										]);
+										DB::table('splits')->insert([
+											'account_id' => $takeAccount->id,
+											'transaction_id' => $transactionId,
+											'persona_id' => $persona->id,
+											'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
+										]);
+										DB::table('splits')->insert([
+											'account_id' => $owedAccount->id,
+											'transaction_id' => $transactionId,
+											'persona_id' => $persona->id,
+											'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
+										]);
+									}
+								}else{
+									$transactionId = $transactionMakeCheck->id;
+								}
 							}
 						}else{
 							while(!array_key_exists($oldDue->import_transaction_id, $transTransactions)){
@@ -4274,12 +4358,6 @@ class ImportOrk3 extends Command
 						if($oldDue->revoked === '1'){
 							$transUsers = $this->getTrans('users');
 							if($oldDue->revoked_by && !in_array($oldDue->revoked_by, $oldPersonas) && !array_key_exists($oldDue->revoked_by, $transUsers)){
-								while(!array_key_exists($oldDue->park_id, $transChapters)){
-									$this->info('waiting for chapter ' . $oldDue->park_id);
-									sleep(5);
-									$transChapters = $this->getTrans('chapters');
-								}
-								DB::reconnect("mysqlBak");
 								$userId = DB::table('users')->insertGetId([
 										'email' => 'deletedUser' . $oldDue->revoked_by . '@nowhere.net',
 										'email_verified_at' => null,
@@ -4337,7 +4415,7 @@ class ImportOrk3 extends Command
 							'transaction_id' => $transactionId,
 							'dues_on' => date('Y-m-d', strtotime($duesFrom)),
 							'intervals' => $intervals ? round($intervals, 3) : null,
-							'created_at' => $duesFrom,
+							'created_at' => date('Y-m-d', strtotime($duesFrom)),
 							'created_by' => $createdBy ? $createdBy : 1,
 							'deleted_at' => $oldDue->revoked === '1' ? date('Y-m-d H:i:s', strtotime($oldDue->revoked_on)) : null,
 							'deleted_by' => $oldDue->revoked === '1' ? $revokedBy : null
@@ -6661,131 +6739,247 @@ class ImportOrk3 extends Command
 		return substr(implode("", $abbreviatedName[0]), 0, 3);
 	}
 	
-	private function addRealmAccounts($oldKingdomID){
-		
-		$assetId = DB::table('accounts')->insertGetId([
-				'parent_id' => null,
-				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Assets',
-				'type' => 'Asset'
-		]);
-		$liabilityId = DB::table('accounts')->insertGetId([
-				'parent_id' => null,
-				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Liability',
-				'type' => 'Liability'
+	//TODO: check this and RealmAccounts
+	private function addChapterAccounts($chapterID){
+		//check for it
+		DB::table('accounts')->insert([
+			'parent_id' => null,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Imbalance',
+			'type' => 'Imbalance'
 		]);
 		DB::table('accounts')->insert([
-				'parent_id' => null,
-				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Equity',
-				'type' => 'Equity'
+			'parent_id' => null,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Equity',
+			'type' => 'Equity'
+		]);
+		$assetId = DB::table('accounts')->insertGetId([
+			'parent_id' => null,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Assets',
+			'type' => 'Asset'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $assetId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Cash',
+			'type' => 'Asset'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $assetId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Checking',
+			'type' => 'Asset'
 		]);
 		$incomeId = DB::table('accounts')->insertGetId([
-				'parent_id' => null,
-				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Income',
-				'type' => 'Income'
+			'parent_id' => null,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Income',
+			'type' => 'Income'
 		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $incomeId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Dues Paid',
+			'type' => 'Income'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $incomeId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Donations',
+			'type' => 'Income'
+		]);
+		$expensesId = DB::table('accounts')->insertGetId([
+			'parent_id' => null,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Expenses',
+			'type' => 'Expense'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $expensesId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Supplies',
+			'type' => 'Expense'
+		]);
+		$eventId = DB::table('accounts')->insert([
+			'parent_id' => $expensesId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Events',
+			'type' => 'Expense'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $eventId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Food',
+			'type' => 'Expense'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $eventId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Site',
+			'type' => 'Expense'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $eventId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Miscellaneous',
+			'type' => 'Expense'
+		]);
+		$liabilityId = DB::table('accounts')->insertGetId([
+			'parent_id' => null,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Liability',
+			'type' => 'Liability'
+		]);
+		DB::table('accounts')->insert([
+			'parent_id' => $liabilityId,
+			'accountable_type' => 'Chapter',
+			'accountable_id' => $chapterID,
+			'name' => 'Dues Owed',
+			'type' => 'Liability'
+		]);
+	}
+	
+	private function addRealmAccounts($realmID){
 		DB::table('accounts')->insert([
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Imbalance',
 				'type' => 'Imbalance'
 		]);
-		$expensesId = DB::table('accounts')->insertGetId([
+		$assetId = DB::table('accounts')->insertGetId([
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Expenses',
-				'type' => 'Expense'
+				'accountable_id' => $realmID,
+				'name' => 'Assets',
+				'type' => 'Asset'
+		]);
+		DB::table('accounts')->insert([
+				'parent_id' => null,
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Equity',
+				'type' => 'Equity'
 		]);
 		DB::table('accounts')->insert([
 				'parent_id' => $assetId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
+				'name' => 'Cash',
+				'type' => 'Asset'
+		]);
+		DB::table('accounts')->insert([
+				'parent_id' => $assetId,
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
 				'name' => 'Checking',
 				'type' => 'Asset'
 		]);
 		DB::table('accounts')->insert([
 				'parent_id' => $assetId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Park Dues',
 				'type' => 'Asset'
 		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $assetId,
+		$incomeId = DB::table('accounts')->insertGetId([
+				'parent_id' => null,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Cash',
-				'type' => 'Asset'
+				'accountable_id' => $realmID,
+				'name' => 'Income',
+				'type' => 'Income'
 		]);
 		DB::table('accounts')->insert([
 				'parent_id' => $incomeId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Dues Paid',
 				'type' => 'Income'
 		]);
 		DB::table('accounts')->insert([
 				'parent_id' => $incomeId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Donations',
 				'type' => 'Income'
 		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
+		$expensesId = DB::table('accounts')->insertGetId([
+				'parent_id' => null,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Realm Take',
+				'accountable_id' => $realmID,
+				'name' => 'Expenses',
 				'type' => 'Expense'
 		]);
 		DB::table('accounts')->insert([
 				'parent_id' => $expensesId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Supplies',
 				'type' => 'Expense'
 		]);
 		DB::table('accounts')->insert([
 				'parent_id' => $expensesId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
+				'name' => 'Realm Take',
+				'type' => 'Expense'
+		]);
+		$eventId = DB::table('accounts')->insert([
+				'parent_id' => $expensesId,
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
 				'name' => 'Events',
 				'type' => 'Expense'
 		]);
 		DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
+				'parent_id' => $eventId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
-				'name' => 'Miscellaneous',
-				'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
-				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Food',
 				'type' => 'Expense'
 		]);
 		DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
+				'parent_id' => $eventId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Site',
 				'type' => 'Expense'
 		]);
 		DB::table('accounts')->insert([
+				'parent_id' => $eventId,
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Miscellaneous',
+				'type' => 'Expense'
+		]);
+		$liabilityId = DB::table('accounts')->insertGetId([
+				'parent_id' => null,
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Liability',
+				'type' => 'Liability'
+		]);
+		DB::table('accounts')->insert([
 				'parent_id' => $liabilityId,
 				'accountable_type' => 'Realm',
-				'accountable_id' => $oldKingdomID,
+				'accountable_id' => $realmID,
 				'name' => 'Dues Owed',
 				'type' => 'Liability'
 		]);

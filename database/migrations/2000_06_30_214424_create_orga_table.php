@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Location;
 
 return new class extends Migration
 {
@@ -501,7 +502,7 @@ return new class extends Migration
         	$table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('description');
-            $table->mediumText('memo');
+            $table->mediumText('memo')->nullable();
             $table->date('transaction_at');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
