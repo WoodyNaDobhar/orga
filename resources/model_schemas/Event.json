@@ -51,7 +51,7 @@
         "name": "name",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "validations": "required|string|max:191|string|max:191|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +63,7 @@
         "name": "description",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "required|string|max:16777215|string|max:16777215|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -85,6 +85,18 @@
     },
     {
         "name": "is_active",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "is_demo",
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",
@@ -124,30 +136,6 @@
         "dbType": "float",
         "htmlType": "number",
         "validations": "nullable|numeric|nullable|numeric|nullable|numeric",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "url",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "url_name",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "nullable|string|max:40|nullable|string|max:40|nullable|string|max:40",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -210,5 +198,9 @@
     {
         "type": "relation",
         "relation": "1tm,Crat,event_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Guest,event_id"
     }
 ]

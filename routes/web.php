@@ -38,8 +38,8 @@ Route::middleware(['verified'])->group(function () {
 	Route::resource('crats', App\Http\Controllers\CratController::class);
     Route::resource('dues', App\Http\Controllers\DueController::class);
     Route::resource('events', App\Http\Controllers\EventController::class);
+	Route::resource('guests', App\Http\Controllers\GuestController::class);
     Route::resource('issuances', App\Http\Controllers\IssuanceController::class);
-    Route::resource('kingdoms', App\Http\Controllers\KingdomController::class);
     Route::resource('locations', App\Http\Controllers\LocationController::class);
     Route::resource('meetups', App\Http\Controllers\MeetupController::class);
     Route::resource('members', App\Http\Controllers\MemberController::class);
@@ -49,7 +49,9 @@ Route::middleware(['verified'])->group(function () {
     Route::resource('pronouns', App\Http\Controllers\PronounController::class);
     Route::resource('recommendations', App\Http\Controllers\RecommendationController::class);
     Route::resource('reconciliations', App\Http\Controllers\ReconciliationController::class);
+	Route::resource('realms', App\Http\Controllers\RealmController::class);
 	Route::resource('reigns', App\Http\Controllers\ReignController::class);
+	Route::resource('socials', App\Http\Controllers\SocialController::class);
     Route::resource('splits', App\Http\Controllers\SplitController::class);
     Route::resource('suspensions', App\Http\Controllers\SuspensionController::class);
     Route::resource('titles', App\Http\Controllers\TitleController::class);

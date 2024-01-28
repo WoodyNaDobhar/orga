@@ -1,3 +1,9 @@
+<!-- Label Field -->
+<div class="col-sm-12">
+    {!! Form::label('label', 'Label:') !!}
+    <p>{{ $location->label }}</p>
+</div>
+
 <!-- Address Field -->
 <div class="col-sm-12">
     {!! Form::label('address', 'Address:') !!}
@@ -56,12 +62,6 @@
 <div class="col-sm-12">
     {!! Form::label('map_url', 'Map Url:') !!}
     <p>{{ $location->map_url }}</p>
-</div>
-
-<!-- Description Field -->
-<div class="col-sm-12">
-    {!! Form::label('description', 'Description:') !!}
-    <p>{{ $location->description }}</p>
 </div>
 
 <!-- Directions Field -->

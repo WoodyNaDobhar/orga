@@ -28,9 +28,3 @@
     <p>{{ $unit->history }}</p>
 </div>
 
-<!-- Url Field -->
-<div class="col-sm-12">
-    {!! Form::label('url', 'Url:') !!}
-    <p>{{ $unit->url }}</p>
-</div>
-

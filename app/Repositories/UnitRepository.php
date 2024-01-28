@@ -12,8 +12,7 @@ class UnitRepository extends BaseRepository
         'name',
         'heraldry',
         'description',
-        'history',
-        'url'
+        'history'
     ];
 
     public function getFieldsSearchable(): array

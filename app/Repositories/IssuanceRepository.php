@@ -20,7 +20,7 @@ class IssuanceRepository extends BaseRepository
         'custom_name',
         'rank',
         'issued_at',
-        'note',
+        'reason',
         'image',
         'revoked_by',
         'revoked_at',

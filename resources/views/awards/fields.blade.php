@@ -24,9 +24,3 @@
         {!! Form::label('is_ladder', 'Is Ladder', ['class' => 'form-check-label']) !!}
     </div>
 </div>
-
-<!-- Limit Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('limit', 'Limit:') !!}
-    {!! Form::number('limit', null, ['class' => 'form-control']) !!}
-</div>

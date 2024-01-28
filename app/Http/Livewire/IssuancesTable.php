@@ -64,7 +64,7 @@ class IssuancesTable extends DataTableComponent
             Column::make("Issued At", "issued_at")
                 ->sortable()
                 ->searchable(),
-            Column::make("Note", "note")
+            Column::make("Reason", "reason")
                 ->sortable()
                 ->searchable(),
             Column::make("Image", "image")

@@ -34,15 +34,14 @@ class MeetupFactory extends Factory
         return [
             'chapter_id' => $this->faker->word,
             'location_id' => $this->faker->word,
-            'alt_location_id' => $this->faker->word,
-            'url' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'is_active' => $this->faker->boolean,
+            'purpose' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'recurrence' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'week_of_month' => $this->faker->word,
             'week_day' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'month_day' => $this->faker->word,
             'occurs_at' => $this->faker->date('H:i:s'),
-            'purpose' => $this->faker->text($this->faker->numberBetween(5, 4096)),
-            'description' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'description' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

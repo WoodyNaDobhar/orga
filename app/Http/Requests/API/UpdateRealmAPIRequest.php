@@ -5,7 +5,7 @@ namespace App\Http\Requests\API;
 use App\Models\Realm;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdateKingdomAPIRequest extends APIRequest
+class UpdateRealmAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.

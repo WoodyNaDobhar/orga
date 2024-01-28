@@ -7,13 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Member",
- *      required={"unit_id","persona_id","role","created_at"},
+ *      required={"unit_id","persona_id","is_head","is_voting","created_at"},
  *      @OA\Property(
- *          property="role",
+ *          property="is_head",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
- *          type="string",
+ *          type="boolean",
+ *      ),
+ *      @OA\Property(
+ *          property="is_voting",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="boolean",
  *      ),
  *      @OA\Property(
  *          property="joined_at",
@@ -70,14 +77,16 @@ use Illuminate\Database\Eloquent\Model;
     public $fillable = [
         'unit_id',
         'persona_id',
-        'role',
+        'is_head',
+        'is_voting',
         'joined_at',
         'left_at',
         'notes'
     ];
 
     protected $casts = [
-        'role' => 'string',
+        'is_head' => 'boolean',
+        'is_voting' => 'boolean',
         'joined_at' => 'date',
         'left_at' => 'date',
         'notes' => 'string'
@@ -86,7 +95,8 @@ use Illuminate\Database\Eloquent\Model;
     public static array $rules = [
         'unit_id' => 'required',
         'persona_id' => 'required',
-        'role' => 'required|string',
+        'is_head' => 'required|boolean',
+        'is_voting' => 'required|boolean',
         'joined_at' => 'nullable',
         'left_at' => 'nullable',
         'notes' => 'nullable|string|max:191',

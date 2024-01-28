@@ -67,10 +67,13 @@ class WaiversTable extends DataTableComponent
             Column::make("Guardian", "guardian")
                 ->sortable()
                 ->searchable(),
-            Column::make("Emergency Contact Name", "emergency_contact_name")
+            Column::make("Emergency Name", "emergency_name")
                 ->sortable()
                 ->searchable(),
-            Column::make("Emergency Contact Phone", "emergency_contact_phone")
+            Column::make("Emergency Relationship", "emergency_relationship")
+                ->sortable()
+                ->searchable(),
+            Column::make("Emergency Phone", "emergency_phone")
                 ->sortable()
                 ->searchable(),
             Column::make("Signed At", "signed_at")

@@ -43,10 +43,10 @@ class TitlesTable extends DataTableComponent
             Column::make("Peerage", "peerage")
                 ->sortable()
                 ->searchable(),
-            Column::make("Is Active", "is_active")
+            Column::make("Is Roaming", "is_roaming")
                 ->sortable()
                 ->searchable(),
-            Column::make("Is Roaming", "is_roaming")
+            Column::make("Is Active", "is_active")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

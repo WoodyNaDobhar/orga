@@ -43,7 +43,7 @@ class IssuanceFactory extends Factory
             'custom_name' => $this->faker->text($this->faker->numberBetween(5, 64)),
             'rank' => $this->faker->word,
             'issued_at' => $this->faker->date('Y-m-d'),
-            'note' => $this->faker->text($this->faker->numberBetween(5, 400)),
+            'reason' => $this->faker->text($this->faker->numberBetween(5, 400)),
             'image' => $this->faker->text($this->faker->numberBetween(5, 255)),
             'revoked_by' => $this->faker->word,
             'revoked_at' => $this->faker->date('Y-m-d'),

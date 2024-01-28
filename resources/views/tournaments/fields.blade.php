@@ -22,12 +22,6 @@
     {!! Form::textarea('description', null, ['class' => 'form-control', 'required', 'maxlength' => 16777215, 'maxlength' => 16777215, 'maxlength' => 16777215]) !!}
 </div>
 
-<!-- Url Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('url', 'Url:') !!}
-    {!! Form::text('url', null, ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
-
 <!-- Occured At Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('occured_at', 'Occured At:') !!}

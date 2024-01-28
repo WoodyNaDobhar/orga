@@ -8,14 +8,14 @@ use App\Repositories\BaseRepository;
 class OfficerRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'officeable_type',
-        'officeable_id',
+        'officerable_type',
+        'officerable_id',
         'office_id',
         'persona_id',
-        'authorized_by',
         'label',
         'starts_on',
-        'ends_on'
+        'ends_on',
+        'notes'
     ];
 
     public function getFieldsSearchable(): array

@@ -32,10 +32,9 @@ class UnitFactory extends Factory
         return [
             'type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'name' => $this->faker->text($this->faker->numberBetween(5, 100)),
-            'heraldry' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'heraldry' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'description' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
             'history' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
-            'url' => $this->faker->text($this->faker->numberBetween(5, 255)),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

@@ -28,7 +28,7 @@ class IssuanceResource extends JsonResource
             'custom_name' => $this->custom_name,
             'rank' => $this->rank,
             'issued_at' => $this->issued_at,
-            'note' => $this->note,
+            'reason' => $this->reason,
             'image' => $this->image,
             'revoked_by' => $this->revoked_by,
             'revoked_at' => $this->revoked_at,

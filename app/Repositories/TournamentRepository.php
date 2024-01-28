@@ -12,7 +12,6 @@ class TournamentRepository extends BaseRepository
         'tournamentable_id',
         'name',
         'description',
-        'url',
         'occured_at'
     ];
 

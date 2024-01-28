@@ -1,7 +1,7 @@
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', 'Email:') !!}
-    {!! Form::email('email', null, ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::email('email', null, ['class' => 'form-control', 'required', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Email Verified At Field -->
@@ -19,7 +19,7 @@
 <!-- password Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('password', 'Password:') !!}
-    {!! Form::password('password', ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::password('password', ['class' => 'form-control', 'required', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Remember Token Field -->

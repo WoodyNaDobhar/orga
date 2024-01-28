@@ -20,7 +20,6 @@ class AwardResource extends JsonResource
             'awarder_id' => $this->awarder_id,
             'name' => $this->name,
             'is_ladder' => $this->is_ladder,
-            'limit' => $this->limit,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

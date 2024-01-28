@@ -46,10 +46,10 @@ Route::resource('dues', App\Http\Controllers\API\DueAPIController::class)
 Route::resource('events', App\Http\Controllers\API\EventAPIController::class)
     ->except(['create', 'edit']);
 
-Route::resource('issuances', App\Http\Controllers\API\IssuanceAPIController::class)
+Route::resource('guests', App\Http\Controllers\API\GuestAPIController::class)
     ->except(['create', 'edit']);
 
-Route::resource('kingdoms', App\Http\Controllers\API\KingdomAPIController::class)
+Route::resource('issuances', App\Http\Controllers\API\IssuanceAPIController::class)
     ->except(['create', 'edit']);
 
 Route::resource('locations', App\Http\Controllers\API\LocationAPIController::class)
@@ -79,8 +79,17 @@ Route::resource('recommendations', App\Http\Controllers\API\RecommendationAPICon
 Route::resource('reconciliations', App\Http\Controllers\API\ReconciliationAPIController::class)
 	->except(['create', 'edit']);
 
+Route::resource('realms', App\Http\Controllers\API\RealmAPIController::class)
+    ->except(['create', 'edit']);
+
+Route::resource('reconciliations', App\Http\Controllers\API\ReconciliationAPIController::class)
+    ->except(['create', 'edit']);
+
 Route::resource('reigns', App\Http\Controllers\API\ReignAPIController::class)
 	->except(['create', 'edit']);
+
+Route::resource('socials', App\Http\Controllers\API\SocialAPIController::class)
+    ->except(['create', 'edit']);
 
 Route::resource('splits', App\Http\Controllers\API\SplitAPIController::class)
     ->except(['create', 'edit']);

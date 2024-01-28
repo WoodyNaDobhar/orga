@@ -16,13 +16,12 @@ class ChapterResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'kingdom_id' => $this->kingdom_id,
+            'realm_id' => $this->realm_id,
             'chaptertype_id' => $this->chaptertype_id,
             'location_id' => $this->location_id,
             'name' => $this->name,
             'abbreviation' => $this->abbreviation,
             'heraldry' => $this->heraldry,
-            'url' => $this->url,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

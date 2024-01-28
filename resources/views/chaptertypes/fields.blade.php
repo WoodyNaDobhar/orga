@@ -1,7 +1,7 @@
 <!-- Realm Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('kingdom_id', 'Realm Id:') !!}
-    {!! Form::number('kingdom_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('realm_id', 'Realm Id:') !!}
+    {!! Form::number('realm_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Name Field -->
@@ -13,7 +13,7 @@
 <!-- Rank Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('rank', 'Rank:') !!}
-    {!! Form::number('rank', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('rank', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Minimumattendance Field -->

@@ -70,10 +70,10 @@
     <p>{{ $issuance->issued_at }}</p>
 </div>
 
-<!-- Note Field -->
+<!-- Reason Field -->
 <div class="col-sm-12">
-    {!! Form::label('note', 'Note:') !!}
-    <p>{{ $issuance->note }}</p>
+    {!! Form::label('reason', 'Reason:') !!}
+    <p>{{ $issuance->reason }}</p>
 </div>
 
 <!-- Image Field -->

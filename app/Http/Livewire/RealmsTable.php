@@ -7,7 +7,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Realm;
 
-class KingdomsTable extends DataTableComponent
+class RealmsTable extends DataTableComponent
 {
     protected $model = Realm::class;
 
@@ -64,13 +64,13 @@ class KingdomsTable extends DataTableComponent
             Column::make("Average Period", "average_period")
                 ->sortable()
                 ->searchable(),
+            Column::make("Dues Amount", "dues_amount")
+                ->sortable()
+                ->searchable(),
             Column::make("Dues Intervals Type", "dues_intervals_type")
                 ->sortable()
                 ->searchable(),
             Column::make("Dues Intervals", "dues_intervals")
-                ->sortable()
-                ->searchable(),
-            Column::make("Dues Amount", "dues_amount")
                 ->sortable()
                 ->searchable(),
             Column::make("Dues Take", "dues_take")
@@ -79,8 +79,8 @@ class KingdomsTable extends DataTableComponent
             Column::make("Actions", 'id')
                 ->format(
                     fn($value, $row, Column $column) => view('common.livewire-tables.actions', [
-                        'showUrl' => route('kingdoms.show', $row->id),
-                        'editUrl' => route('kingdoms.edit', $row->id),
+                        'showUrl' => route('realms.show', $row->id),
+                        'editUrl' => route('realms.edit', $row->id),
                         'recordId' => $row->id,
                     ])
                 )

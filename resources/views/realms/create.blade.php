@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1>
-                    Create Kingdoms
+                    Create Realms
                     </h1>
                 </div>
             </div>
@@ -19,19 +19,19 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'kingdoms.store']) !!}
+            {!! Form::open(['route' => 'realms.store']) !!}
 
             <div class="card-body">
 
                 <div class="row">
-                    @include('kingdoms.fields')
+                    @include('realms.fields')
                 </div>
 
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('kingdoms.index') }}" class="btn btn-default"> Cancel </a>
+                <a href="{{ route('realms.index') }}" class="btn btn-default"> Cancel </a>
             </div>
 
             {!! Form::close() !!}

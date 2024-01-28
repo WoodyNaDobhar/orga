@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "kingdom_id",
+        "name": "realm_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -39,7 +39,7 @@
         "name": "rank",
         "dbType": "integer,false",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -117,7 +117,7 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Realm,kingdom_id"
+        "relation": "mt1,Realm,realm_id"
     },
     {
         "type": "relation",

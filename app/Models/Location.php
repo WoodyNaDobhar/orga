@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Model;
  *      schema="Location",
  *      required={"created_at"},
  *      @OA\Property(
+ *          property="label",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *      ),
+ *      @OA\Property(
  *          property="address",
  *          description="",
  *          readOnly=false,
@@ -81,13 +88,6 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="description",
- *          description="",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *      ),
- *      @OA\Property(
  *          property="directions",
  *          description="",
  *          readOnly=false,
@@ -124,6 +124,7 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'locations';
 
     public $fillable = [
+        'label',
         'address',
         'city',
         'province',
@@ -134,11 +135,11 @@ use Illuminate\Database\Eloquent\Model;
         'longitude',
         'location',
         'map_url',
-        'description',
         'directions'
     ];
 
     protected $casts = [
+        'label' => 'string',
         'address' => 'string',
         'city' => 'string',
         'province' => 'string',
@@ -149,12 +150,12 @@ use Illuminate\Database\Eloquent\Model;
         'longitude' => 'float',
         'location' => 'string',
         'map_url' => 'string',
-        'description' => 'string',
         'directions' => 'string'
     ];
 
     public static array $rules = [
-        'address' => 'nullable|string|max:255',
+        'label' => 'nullable|string|max:50',
+        'address' => 'nullable|string|max:191',
         'city' => 'nullable|string|max:50',
         'province' => 'nullable|string|max:35',
         'postal_code' => 'nullable|string|max:10',
@@ -164,7 +165,6 @@ use Illuminate\Database\Eloquent\Model;
         'longitude' => 'nullable|numeric',
         'location' => 'nullable|string|max:16777215',
         'map_url' => 'nullable|string|max:16777215',
-        'description' => 'nullable|string|max:16777215',
         'directions' => 'nullable|string|max:16777215',
         'created_at' => 'required',
         'updated_at' => 'nullable',
@@ -197,11 +197,6 @@ use Illuminate\Database\Eloquent\Model;
     }
 
     public function meetups(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Meetup::class, 'alt_location_id');
-    }
-
-    public function meetup3s(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Meetup::class, 'location_id');
     }

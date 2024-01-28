@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Waiver",
- *      required={"waiverable_type","waiverable_id","player","created_at"},
+ *      required={"waiverable_type","waiverable_id","player","signed_at","created_at"},
  *      @OA\Property(
  *          property="waiverable_type",
  *          description="",
@@ -67,14 +67,21 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="emergency_contact_name",
+ *          property="emergency_name",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="emergency_contact_phone",
+ *          property="emergency_relationship",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *      ),
+ *      @OA\Property(
+ *          property="emergency_phone",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
@@ -84,7 +91,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="signed_at",
  *          description="",
  *          readOnly=false,
- *          nullable=true,
+ *          nullable=false,
  *          type="string",
  *          format="date"
  *      ),
@@ -131,8 +138,9 @@ use Illuminate\Database\Eloquent\Model;
         'age_verified_at',
         'age_verified_by',
         'guardian',
-        'emergency_contact_name',
-        'emergency_contact_phone',
+        'emergency_name',
+        'emergency_relationship',
+        'emergency_phone',
         'signed_at'
     ];
 
@@ -145,8 +153,9 @@ use Illuminate\Database\Eloquent\Model;
         'dob' => 'date',
         'age_verified_at' => 'date',
         'guardian' => 'string',
-        'emergency_contact_name' => 'string',
-        'emergency_contact_phone' => 'string',
+        'emergency_name' => 'string',
+        'emergency_relationship' => 'string',
+        'emergency_phone' => 'string',
         'signed_at' => 'date'
     ];
 
@@ -155,7 +164,7 @@ use Illuminate\Database\Eloquent\Model;
         'persona_id' => 'nullable',
         'waiverable_type' => 'required|string',
         'waiverable_id' => 'required',
-        'file' => 'nullable|string|max:255',
+        'file' => 'nullable|string|max:191',
         'player' => 'required|string|max:150',
         'email' => 'nullable|string|max:255',
         'phone' => 'nullable|string|max:25',
@@ -164,9 +173,10 @@ use Illuminate\Database\Eloquent\Model;
         'age_verified_at' => 'nullable',
         'age_verified_by' => 'nullable',
         'guardian' => 'nullable|string|max:150',
-        'emergency_contact_name' => 'nullable|string|max:150',
-        'emergency_contact_phone' => 'nullable|string|max:25',
-        'signed_at' => 'nullable',
+        'emergency_name' => 'nullable|string|max:150',
+        'emergency_relationship' => 'nullable|string|max:150',
+        'emergency_phone' => 'nullable|string|max:25',
+        'signed_at' => 'required',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -174,7 +184,7 @@ use Illuminate\Database\Eloquent\Model;
 
     public function ageVerifiedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'age_verified_by');
+        return $this->belongsTo(\App\Models\Persona::class, 'age_verified_by');
     }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -205,5 +215,10 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
+    }
+
+    public function guests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Guest::class, 'waiver_id');
     }
 }

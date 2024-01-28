@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Realm;
 use App\Repositories\BaseRepository;
 
-class KingdomRepository extends BaseRepository
+class RealmRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'parent_id',
@@ -20,9 +20,9 @@ class KingdomRepository extends BaseRepository
         'weekly_minimum',
         'average_period_type',
         'average_period',
+        'dues_amount',
         'dues_intervals_type',
         'dues_intervals',
-        'dues_amount',
         'dues_take'
     ];
 

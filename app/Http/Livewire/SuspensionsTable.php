@@ -31,7 +31,7 @@ class SuspensionsTable extends DataTableComponent
             Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Realm Id", "kingdom_id")
+            Column::make("Realm Id", "realm_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Suspended By", "suspended_by")

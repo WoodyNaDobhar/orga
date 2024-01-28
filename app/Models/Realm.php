@@ -99,9 +99,9 @@ use Illuminate\Database\Eloquent\Model;
         'weekly_minimum',
         'average_period_type',
         'average_period',
+        'dues_amount',
         'dues_intervals_type',
         'dues_intervals',
-        'dues_amount',
         'dues_take'
     ];
 
@@ -120,7 +120,7 @@ use Illuminate\Database\Eloquent\Model;
         'name' => 'required|string|max:100',
         'abbreviation' => 'required|string|max:4',
         'color' => 'required|string|max:6',
-        'heraldry' => 'nullable|string|max:255',
+        'heraldry' => 'nullable|string|max:191',
         'is_active' => 'required|boolean',
         'credit_minimum' => 'nullable',
         'credit_maximum' => 'nullable',
@@ -128,9 +128,9 @@ use Illuminate\Database\Eloquent\Model;
         'weekly_minimum' => 'nullable',
         'average_period_type' => 'nullable|string',
         'average_period' => 'nullable',
+        'dues_amount' => 'nullable',
         'dues_intervals_type' => 'nullable|string',
         'dues_intervals' => 'nullable',
-        'dues_amount' => 'nullable',
         'dues_take' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
@@ -154,16 +154,16 @@ use Illuminate\Database\Eloquent\Model;
 
     public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Chapter::class, 'kingdom_id');
+        return $this->hasMany(\App\Models\Chapter::class, 'realm_id');
     }
 
     public function chaptertypes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Chaptertype::class, 'kingdom_id');
+        return $this->hasMany(\App\Models\Chaptertype::class, 'realm_id');
     }
 
     public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Suspension::class, 'kingdom_id');
+        return $this->hasMany(\App\Models\Suspension::class, 'realm_id');
     }
 }

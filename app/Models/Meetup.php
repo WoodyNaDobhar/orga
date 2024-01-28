@@ -7,12 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Meetup",
- *      required={"chapter_id","recurrence","week_day","occurs_at","purpose","created_at"},
+ *      required={"chapter_id","is_active","purpose","recurrence","week_day","occurs_at","created_at"},
  *      @OA\Property(
- *          property="url",
+ *          property="is_active",
  *          description="",
  *          readOnly=false,
- *          nullable=true,
+ *          nullable=false,
+ *          type="boolean",
+ *      ),
+ *      @OA\Property(
+ *          property="purpose",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -24,13 +31,6 @@ use Illuminate\Database\Eloquent\Model;
  *      ),
  *      @OA\Property(
  *          property="week_day",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="purpose",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
@@ -75,46 +75,39 @@ use Illuminate\Database\Eloquent\Model;
     public $fillable = [
         'chapter_id',
         'location_id',
-        'alt_location_id',
-        'url',
+        'is_active',
+        'purpose',
         'recurrence',
         'week_of_month',
         'week_day',
         'month_day',
         'occurs_at',
-        'purpose',
         'description'
     ];
 
     protected $casts = [
-        'url' => 'string',
+        'is_active' => 'boolean',
+        'purpose' => 'string',
         'recurrence' => 'string',
         'week_day' => 'string',
-        'purpose' => 'string',
         'description' => 'string'
     ];
 
     public static array $rules = [
         'chapter_id' => 'required',
         'location_id' => 'nullable',
-        'alt_location_id' => 'nullable',
-        'url' => 'nullable|string|max:255',
+        'is_active' => 'required|boolean',
+        'purpose' => 'required|string',
         'recurrence' => 'required|string',
         'week_of_month' => 'nullable',
         'week_day' => 'required|string',
         'month_day' => 'nullable',
         'occurs_at' => 'required',
-        'purpose' => 'required|string',
-        'description' => 'nullable|string|max:255',
+        'description' => 'nullable|string|max:191',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
-
-    public function altLocation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Location::class, 'alt_location_id');
-    }
 
     public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

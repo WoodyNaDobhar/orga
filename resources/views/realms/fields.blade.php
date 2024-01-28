@@ -25,7 +25,7 @@
 <!-- Heraldry Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('heraldry', 'Heraldry:') !!}
-    {!! Form::text('heraldry', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('heraldry', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Is Active Field -->
@@ -73,6 +73,12 @@
     {!! Form::number('average_period', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Dues Amount Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('dues_amount', 'Dues Amount:') !!}
+    {!! Form::number('dues_amount', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Dues Intervals Type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('dues_intervals_type', 'Dues Intervals Type:') !!}
@@ -83,12 +89,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('dues_intervals', 'Dues Intervals:') !!}
     {!! Form::number('dues_intervals', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Dues Amount Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('dues_amount', 'Dues Amount:') !!}
-    {!! Form::number('dues_amount', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Dues Take Field -->

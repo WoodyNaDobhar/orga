@@ -40,9 +40,6 @@ class TournamentsTable extends DataTableComponent
             Column::make("Description", "description")
                 ->sortable()
                 ->searchable(),
-            Column::make("Url", "url")
-                ->sortable()
-                ->searchable(),
             Column::make("Occured At", "occured_at")
                 ->sortable()
                 ->searchable(),

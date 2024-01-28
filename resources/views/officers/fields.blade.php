@@ -1,13 +1,13 @@
-<!-- Officeable Type Field -->
+<!-- Officerable Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('officeable_type', 'Officeable Type:') !!}
-    {!! Form::text('officeable_type', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('officerable_type', 'Officerable Type:') !!}
+    {!! Form::text('officerable_type', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Officeable Id Field -->
+<!-- Officerable Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('officeable_id', 'Officeable Id:') !!}
-    {!! Form::number('officeable_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('officerable_id', 'Officerable Id:') !!}
+    {!! Form::number('officerable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Office Id Field -->
@@ -20,12 +20,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('persona_id', 'Persona Id:') !!}
     {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
-<!-- Authorized By Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('authorized_by', 'Authorized By:') !!}
-    {!! Form::number('authorized_by', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Label Field -->
@@ -57,3 +51,9 @@
         $('#ends_on').datepicker()
     </script>
 @endpush
+
+<!-- Notes Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('notes', 'Notes:') !!}
+    {!! Form::text('notes', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
+</div>

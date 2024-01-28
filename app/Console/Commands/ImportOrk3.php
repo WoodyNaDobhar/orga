@@ -6636,7 +6636,7 @@ class ImportOrk3 extends Command
 			$mundaneName = $this->cleanMundane($mundaneName);
 		}
 		if($personaName === $mundaneName && $mundaneName != 'admin'){
-			$personaName = 'Undeclared(' . $personaName . ')';
+			$personaName = 'Undeclared (' . $personaName . ')';
 		}
 		return !$personaName || $personaName === '' ? 'Undeclared (' . $mundaneName . ')' : $personaName;
 	}

@@ -34,10 +34,10 @@ class MeetupsTable extends DataTableComponent
             Column::make("Location Id", "location_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Alt Location Id", "alt_location_id")
+            Column::make("Is Active", "is_active")
                 ->sortable()
                 ->searchable(),
-            Column::make("Url", "url")
+            Column::make("Purpose", "purpose")
                 ->sortable()
                 ->searchable(),
             Column::make("Recurrence", "recurrence")
@@ -53,9 +53,6 @@ class MeetupsTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Occurs At", "occurs_at")
-                ->sortable()
-                ->searchable(),
-            Column::make("Purpose", "purpose")
                 ->sortable()
                 ->searchable(),
             Column::make("Description", "description")

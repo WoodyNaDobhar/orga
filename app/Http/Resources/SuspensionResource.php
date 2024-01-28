@@ -17,7 +17,7 @@ class SuspensionResource extends JsonResource
         return [
             'id' => $this->id,
             'persona_id' => $this->persona_id,
-            'kingdom_id' => $this->kingdom_id,
+            'realm_id' => $this->realm_id,
             'suspended_by' => $this->suspended_by,
             'suspended_at' => $this->suspended_at,
             'expires_at' => $this->expires_at,

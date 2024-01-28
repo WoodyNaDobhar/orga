@@ -62,8 +62,7 @@ use Illuminate\Database\Eloquent\Model;
         'awarder_type',
         'awarder_id',
         'name',
-        'is_ladder',
-        'limit'
+        'is_ladder'
     ];
 
     protected $casts = [
@@ -77,7 +76,6 @@ use Illuminate\Database\Eloquent\Model;
         'awarder_id' => 'nullable',
         'name' => 'required|string|max:100',
         'is_ladder' => 'required|boolean',
-        'limit' => 'nullable',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

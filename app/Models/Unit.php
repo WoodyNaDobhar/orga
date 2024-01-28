@@ -44,13 +44,6 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="url",
- *          description="",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *      ),
- *      @OA\Property(
  *          property="created_at",
  *          description="",
  *          readOnly=true,
@@ -84,8 +77,7 @@ use Illuminate\Database\Eloquent\Model;
         'name',
         'heraldry',
         'description',
-        'history',
-        'url'
+        'history'
     ];
 
     protected $casts = [
@@ -93,17 +85,15 @@ use Illuminate\Database\Eloquent\Model;
         'name' => 'string',
         'heraldry' => 'string',
         'description' => 'string',
-        'history' => 'string',
-        'url' => 'string'
+        'history' => 'string'
     ];
 
     public static array $rules = [
         'type' => 'required|string',
         'name' => 'required|string|max:100',
-        'heraldry' => 'nullable|string|max:255',
+        'heraldry' => 'nullable|string|max:191',
         'description' => 'nullable|string|max:16777215',
         'history' => 'nullable|string|max:16777215',
-        'url' => 'nullable|string|max:255',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

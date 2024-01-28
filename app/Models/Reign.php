@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Reign",
- *      required={"reignable_type","reignable_id","starts_on","ends_on","created_at"},
+ *      required={"reignable_type","starts_on","ends_on","created_at"},
  *      @OA\Property(
  *          property="reignable_type",
  *          description="",
@@ -84,7 +84,7 @@ use Illuminate\Database\Eloquent\Model;
 
     public static array $rules = [
         'reignable_type' => 'required|string',
-        'reignable_id' => 'required',
+        'reignable_id' => 'nullable',
         'name' => 'nullable|string|max:100',
         'starts_on' => 'required',
         'ends_on' => 'required',
@@ -93,5 +93,18 @@ use Illuminate\Database\Eloquent\Model;
         'deleted_at' => 'nullable'
     ];
 
-    
+    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'created_by');
+    }
+
+    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+    }
+
+    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'updated_by');
+    }
 }

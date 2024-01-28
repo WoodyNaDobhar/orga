@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Due",
- *      required={"persona_id","dues_on","created_at"},
+ *      required={"persona_id","transaction_id","dues_on","created_at"},
  *      @OA\Property(
  *          property="dues_on",
  *          description="",
@@ -15,6 +15,14 @@ use Illuminate\Database\Eloquent\Model;
  *          nullable=false,
  *          type="string",
  *          format="date"
+ *      ),
+ *      @OA\Property(
+ *          property="intervals",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="number",
+ *          format="number"
  *      ),
  *      @OA\Property(
  *          property="created_at",
@@ -53,14 +61,15 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     protected $casts = [
-        'dues_on' => 'date'
+        'dues_on' => 'date',
+        'intervals' => 'float'
     ];
 
     public static array $rules = [
         'persona_id' => 'required',
-        'transaction_id' => 'nullable',
+        'transaction_id' => 'required',
         'dues_on' => 'required',
-        'intervals' => 'nullable',
+        'intervals' => 'nullable|numeric',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

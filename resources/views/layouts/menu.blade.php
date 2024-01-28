@@ -201,3 +201,24 @@
         <p>Waivers</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('guests.index') }}" class="nav-link {{ Request::is('guests*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Guests</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('realms.index') }}" class="nav-link {{ Request::is('realms*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Realms</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('socials.index') }}" class="nav-link {{ Request::is('socials*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Socials</p>
+    </a>
+</li>

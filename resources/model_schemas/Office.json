@@ -49,7 +49,7 @@
     },
     {
         "name": "duration",
-        "dbType": "smallInteger,false",
+        "dbType": "integer,false",
         "htmlType": "number",
         "validations": "nullable|nullable|nullable",
         "searchable": true,
@@ -61,7 +61,7 @@
     },
     {
         "name": "order",
-        "dbType": "smallInteger,false",
+        "dbType": "integer,false",
         "htmlType": "number",
         "validations": "nullable|nullable|nullable",
         "searchable": true,

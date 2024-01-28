@@ -22,12 +22,6 @@
     <p>{{ $tournament->description }}</p>
 </div>
 
-<!-- Url Field -->
-<div class="col-sm-12">
-    {!! Form::label('url', 'Url:') !!}
-    <p>{{ $tournament->url }}</p>
-</div>
-
 <!-- Occured At Field -->
 <div class="col-sm-12">
     {!! Form::label('occured_at', 'Occured At:') !!}

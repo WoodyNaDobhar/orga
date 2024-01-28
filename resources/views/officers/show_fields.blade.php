@@ -1,13 +1,13 @@
-<!-- Officeable Type Field -->
+<!-- Officerable Type Field -->
 <div class="col-sm-12">
-    {!! Form::label('officeable_type', 'Officeable Type:') !!}
-    <p>{{ $officer->officeable_type }}</p>
+    {!! Form::label('officerable_type', 'Officerable Type:') !!}
+    <p>{{ $officer->officerable_type }}</p>
 </div>
 
-<!-- Officeable Id Field -->
+<!-- Officerable Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('officeable_id', 'Officeable Id:') !!}
-    <p>{{ $officer->officeable_id }}</p>
+    {!! Form::label('officerable_id', 'Officerable Id:') !!}
+    <p>{{ $officer->officerable_id }}</p>
 </div>
 
 <!-- Office Id Field -->
@@ -20,12 +20,6 @@
 <div class="col-sm-12">
     {!! Form::label('persona_id', 'Persona Id:') !!}
     <p>{{ $officer->persona_id }}</p>
-</div>
-
-<!-- Authorized By Field -->
-<div class="col-sm-12">
-    {!! Form::label('authorized_by', 'Authorized By:') !!}
-    <p>{{ $officer->authorized_by }}</p>
 </div>
 
 <!-- Label Field -->
@@ -44,5 +38,11 @@
 <div class="col-sm-12">
     {!! Form::label('ends_on', 'Ends On:') !!}
     <p>{{ $officer->ends_on }}</p>
+</div>
+
+<!-- Notes Field -->
+<div class="col-sm-12">
+    {!! Form::label('notes', 'Notes:') !!}
+    <p>{{ $officer->notes }}</p>
 </div>
 

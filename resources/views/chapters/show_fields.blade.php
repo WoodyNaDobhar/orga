@@ -1,7 +1,7 @@
 <!-- Realm Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('kingdom_id', 'Realm Id:') !!}
-    <p>{{ $chapter->kingdom_id }}</p>
+    {!! Form::label('realm_id', 'Realm Id:') !!}
+    <p>{{ $chapter->realm_id }}</p>
 </div>
 
 <!-- Chaptertype Id Field -->
@@ -32,12 +32,6 @@
 <div class="col-sm-12">
     {!! Form::label('heraldry', 'Heraldry:') !!}
     <p>{{ $chapter->heraldry }}</p>
-</div>
-
-<!-- Url Field -->
-<div class="col-sm-12">
-    {!! Form::label('url', 'Url:') !!}
-    <p>{{ $chapter->url }}</p>
 </div>
 
 <!-- Is Active Field -->

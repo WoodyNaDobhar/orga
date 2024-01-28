@@ -21,8 +21,9 @@ class WaiverRepository extends BaseRepository
         'age_verified_at',
         'age_verified_by',
         'guardian',
-        'emergency_contact_name',
-        'emergency_contact_phone',
+        'emergency_name',
+        'emergency_relationship',
+        'emergency_phone',
         'signed_at'
     ];
 

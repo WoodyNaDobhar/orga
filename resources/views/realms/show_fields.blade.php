@@ -70,6 +70,12 @@
     <p>{{ $realm->average_period }}</p>
 </div>
 
+<!-- Dues Amount Field -->
+<div class="col-sm-12">
+    {!! Form::label('dues_amount', 'Dues Amount:') !!}
+    <p>{{ $realm->dues_amount }}</p>
+</div>
+
 <!-- Dues Intervals Type Field -->
 <div class="col-sm-12">
     {!! Form::label('dues_intervals_type', 'Dues Intervals Type:') !!}
@@ -80,12 +86,6 @@
 <div class="col-sm-12">
     {!! Form::label('dues_intervals', 'Dues Intervals:') !!}
     <p>{{ $realm->dues_intervals }}</p>
-</div>
-
-<!-- Dues Amount Field -->
-<div class="col-sm-12">
-    {!! Form::label('dues_amount', 'Dues Amount:') !!}
-    <p>{{ $realm->dues_amount }}</p>
 </div>
 
 <!-- Dues Take Field -->

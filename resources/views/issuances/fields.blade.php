@@ -13,13 +13,13 @@
 <!-- Whereable Type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('whereable_type', 'Whereable Type:') !!}
-    {!! Form::text('whereable_type', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::text('whereable_type', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Whereable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('whereable_id', 'Whereable Id:') !!}
-    {!! Form::number('whereable_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('whereable_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Authority Type Field -->
@@ -49,7 +49,7 @@
 <!-- Issuer Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('issuer_id', 'Issuer Id:') !!}
-    {!! Form::number('issuer_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('issuer_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Custom Name Field -->
@@ -76,10 +76,10 @@
     </script>
 @endpush
 
-<!-- Note Field -->
+<!-- Reason Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('note', 'Note:') !!}
-    {!! Form::text('note', null, ['class' => 'form-control', 'maxlength' => 400, 'maxlength' => 400, 'maxlength' => 400]) !!}
+    {!! Form::label('reason', 'Reason:') !!}
+    {!! Form::text('reason', null, ['class' => 'form-control', 'maxlength' => 400, 'maxlength' => 400, 'maxlength' => 400]) !!}
 </div>
 
 <!-- Image Field -->

@@ -76,16 +76,22 @@
     <p>{{ $waiver->guardian }}</p>
 </div>
 
-<!-- Emergency Contact Name Field -->
+<!-- Emergency Name Field -->
 <div class="col-sm-12">
-    {!! Form::label('emergency_contact_name', 'Emergency Contact Name:') !!}
-    <p>{{ $waiver->emergency_contact_name }}</p>
+    {!! Form::label('emergency_name', 'Emergency Name:') !!}
+    <p>{{ $waiver->emergency_name }}</p>
 </div>
 
-<!-- Emergency Contact Phone Field -->
+<!-- Emergency Relationship Field -->
 <div class="col-sm-12">
-    {!! Form::label('emergency_contact_phone', 'Emergency Contact Phone:') !!}
-    <p>{{ $waiver->emergency_contact_phone }}</p>
+    {!! Form::label('emergency_relationship', 'Emergency Relationship:') !!}
+    <p>{{ $waiver->emergency_relationship }}</p>
+</div>
+
+<!-- Emergency Phone Field -->
+<div class="col-sm-12">
+    {!! Form::label('emergency_phone', 'Emergency Phone:') !!}
+    <p>{{ $waiver->emergency_phone }}</p>
 </div>
 
 <!-- Signed At Field -->

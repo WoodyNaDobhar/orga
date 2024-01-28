@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "kingdom_id",
+        "name": "realm_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -75,19 +75,7 @@
         "name": "heraldry",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "url",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "validations": "nullable|string|max:191|nullable|string|max:191|nullable|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -157,15 +145,19 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Realm,kingdom_id"
-    },
-    {
-        "type": "relation",
         "relation": "mt1,Location,location_id"
     },
     {
         "type": "relation",
+        "relation": "mt1,Realm,realm_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,User,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Guest,chapter_id"
     },
     {
         "type": "relation",

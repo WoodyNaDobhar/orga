@@ -63,7 +63,7 @@
         "name": "file",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
+        "validations": "nullable|string|max:191|nullable|string|max:191|nullable|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -168,7 +168,7 @@
         "inView": true
     },
     {
-        "name": "emergency_contact_name",
+        "name": "emergency_name",
         "dbType": "string",
         "htmlType": "text",
         "validations": "nullable|string|max:150|nullable|string|max:150|nullable|string|max:150",
@@ -180,7 +180,19 @@
         "inView": true
     },
     {
-        "name": "emergency_contact_phone",
+        "name": "emergency_relationship",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:150|nullable|string|max:150|nullable|string|max:150",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "emergency_phone",
         "dbType": "string",
         "htmlType": "text",
         "validations": "nullable|string|max:25|nullable|string|max:25|nullable|string|max:25",
@@ -195,7 +207,7 @@
         "name": "signed_at",
         "dbType": "date",
         "htmlType": "date",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -241,7 +253,7 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,User,age_verified_by"
+        "relation": "mt1,Persona,age_verified_by"
     },
     {
         "type": "relation",
@@ -266,5 +278,9 @@
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Guest,waiver_id"
     }
 ]

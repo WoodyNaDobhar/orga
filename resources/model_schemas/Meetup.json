@@ -36,10 +36,10 @@
         "inView": true
     },
     {
-        "name": "alt_location_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
+        "name": "is_active",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -48,10 +48,10 @@
         "inView": true
     },
     {
-        "name": "url",
+        "name": "purpose",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
+        "validations": "required|string|string|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -120,22 +120,10 @@
         "inView": true
     },
     {
-        "name": "purpose",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|string|string",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "description",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
+        "validations": "nullable|string|max:191|nullable|string|max:191|nullable|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -178,10 +166,6 @@
         "inForm": false,
         "inIndex": false,
         "inView": false
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,Location,alt_location_id"
     },
     {
         "type": "relation",

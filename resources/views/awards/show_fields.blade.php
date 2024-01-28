@@ -22,9 +22,3 @@
     <p>{{ $award->is_ladder }}</p>
 </div>
 
-<!-- Limit Field -->
-<div class="col-sm-12">
-    {!! Form::label('limit', 'Limit:') !!}
-    <p>{{ $award->limit }}</p>
-</div>
-

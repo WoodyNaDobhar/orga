@@ -34,7 +34,6 @@ class TournamentFactory extends Factory
             'tournamentable_id' => $this->faker->word,
             'name' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'description' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
-            'url' => $this->faker->text($this->faker->numberBetween(5, 255)),
             'occured_at' => $this->faker->date('Y-m-d H:i:s'),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),

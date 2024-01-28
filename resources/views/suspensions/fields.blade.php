@@ -6,8 +6,8 @@
 
 <!-- Realm Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('kingdom_id', 'Realm Id:') !!}
-    {!! Form::number('kingdom_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('realm_id', 'Realm Id:') !!}
+    {!! Form::number('realm_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Suspended By Field -->
@@ -43,7 +43,7 @@
 <!-- Cause Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('cause', 'Cause:') !!}
-    {!! Form::text('cause', null, ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('cause', null, ['class' => 'form-control', 'required', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Is Propogating Field -->

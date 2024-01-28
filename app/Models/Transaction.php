@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Transaction",
- *      required={"description","memo","transaction_at","created_at"},
+ *      required={"description","transaction_at","created_at"},
  *      @OA\Property(
  *          property="description",
  *          description="",
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="memo",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -72,8 +72,8 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'description' => 'required|string|max:255',
-        'memo' => 'required|string|max:16777215',
+        'description' => 'required|string|max:191',
+        'memo' => 'nullable|string|max:16777215',
         'transaction_at' => 'required',
         'created_at' => 'required',
         'updated_at' => 'nullable',

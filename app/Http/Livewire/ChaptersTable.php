@@ -28,7 +28,7 @@ class ChaptersTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Realm Id", "kingdom_id")
+            Column::make("Realm Id", "realm_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Chaptertype Id", "chaptertype_id")
@@ -44,9 +44,6 @@ class ChaptersTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Heraldry", "heraldry")
-                ->sortable()
-                ->searchable(),
-            Column::make("Url", "url")
                 ->sortable()
                 ->searchable(),
             Column::make("Is Active", "is_active")

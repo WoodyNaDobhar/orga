@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Event",
- *      required={"eventable_type","eventable_id","name","description","is_active","created_at"},
+ *      required={"eventable_type","eventable_id","name","is_active","is_demo","created_at"},
  *      @OA\Property(
  *          property="eventable_type",
  *          description="",
@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="description",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -38,6 +38,13 @@ use Illuminate\Database\Eloquent\Model;
  *      ),
  *      @OA\Property(
  *          property="is_active",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="boolean",
+ *      ),
+ *      @OA\Property(
+ *          property="is_demo",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
@@ -66,20 +73,6 @@ use Illuminate\Database\Eloquent\Model;
  *          nullable=true,
  *          type="number",
  *          format="number"
- *      ),
- *      @OA\Property(
- *          property="url",
- *          description="",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="url_name",
- *          description="",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
  *      ),
  *      @OA\Property(
  *          property="created_at",
@@ -118,11 +111,10 @@ use Illuminate\Database\Eloquent\Model;
         'description',
         'image',
         'is_active',
+        'is_demo',
         'event_start',
         'event_end',
-        'price',
-        'url',
-        'url_name'
+        'price'
     ];
 
     protected $casts = [
@@ -131,26 +123,24 @@ use Illuminate\Database\Eloquent\Model;
         'description' => 'string',
         'image' => 'string',
         'is_active' => 'boolean',
+        'is_demo' => 'boolean',
         'event_start' => 'datetime',
         'event_end' => 'datetime',
-        'price' => 'float',
-        'url' => 'string',
-        'url_name' => 'string'
+        'price' => 'float'
     ];
 
     public static array $rules = [
         'eventable_type' => 'required|string',
         'eventable_id' => 'required',
         'location_id' => 'nullable',
-        'name' => 'required|string|max:255',
-        'description' => 'required|string|max:16777215',
+        'name' => 'required|string|max:191',
+        'description' => 'nullable|string|max:16777215',
         'image' => 'nullable|string|max:255',
         'is_active' => 'required|boolean',
+        'is_demo' => 'required|boolean',
         'event_start' => 'nullable',
         'event_end' => 'nullable',
         'price' => 'nullable|numeric',
-        'url' => 'nullable|string|max:255',
-        'url_name' => 'nullable|string|max:40',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
@@ -179,5 +169,10 @@ use Illuminate\Database\Eloquent\Model;
     public function crats(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Crat::class, 'event_id');
+    }
+
+    public function guests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Guest::class, 'event_id');
     }
 }

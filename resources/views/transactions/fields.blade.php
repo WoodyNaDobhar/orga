@@ -1,13 +1,13 @@
 <!-- Description Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('description', 'Description:') !!}
-    {!! Form::text('description', null, ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('description', null, ['class' => 'form-control', 'required', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Memo Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('memo', 'Memo:') !!}
-    {!! Form::textarea('memo', null, ['class' => 'form-control', 'required', 'maxlength' => 16777215, 'maxlength' => 16777215, 'maxlength' => 16777215]) !!}
+    {!! Form::textarea('memo', null, ['class' => 'form-control', 'maxlength' => 16777215, 'maxlength' => 16777215, 'maxlength' => 16777215]) !!}
 </div>
 
 <!-- Transaction At Field -->

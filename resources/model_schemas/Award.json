@@ -60,18 +60,6 @@
         "inView": true
     },
     {
-        "name": "limit",
-        "dbType": "smallInteger,false",
-        "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "created_at",
         "dbType": "datetime",
         "htmlType": "date",

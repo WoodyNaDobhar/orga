@@ -31,7 +31,7 @@ class ChaptertypeFactory extends Factory
         }
 
         return [
-            'kingdom_id' => $this->faker->word,
+            'realm_id' => $this->faker->word,
             'name' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'rank' => $this->faker->word,
             'minimumattendance' => $this->faker->word,

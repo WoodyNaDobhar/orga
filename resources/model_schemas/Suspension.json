@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "kingdom_id",
+        "name": "realm_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -75,7 +75,7 @@
         "name": "cause",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "validations": "required|string|max:191|string|max:191|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -141,11 +141,11 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Realm,kingdom_id"
+        "relation": "mt1,Persona,persona_id"
     },
     {
         "type": "relation",
-        "relation": "mt1,Persona,persona_id"
+        "relation": "mt1,Realm,realm_id"
     },
     {
         "type": "relation",

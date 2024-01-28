@@ -16,7 +16,7 @@ class ChaptertypeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'kingdom_id' => $this->kingdom_id,
+            'realm_id' => $this->realm_id,
             'name' => $this->name,
             'rank' => $this->rank,
             'minimumattendance' => $this->minimumattendance,

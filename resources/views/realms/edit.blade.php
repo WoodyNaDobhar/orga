@@ -19,17 +19,17 @@
 
         <div class="card">
 
-            {!! Form::model($realm, ['route' => ['kingdoms.update', $realm->id], 'method' => 'patch']) !!}
+            {!! Form::model($realm, ['route' => ['realms.update', $realm->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
-                    @include('kingdoms.fields')
+                    @include('realms.fields')
                 </div>
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('kingdoms.index') }}" class="btn btn-default"> Cancel </a>
+                <a href="{{ route('realms.index') }}" class="btn btn-default"> Cancel </a>
             </div>
 
             {!! Form::close() !!}

@@ -36,10 +36,22 @@
         "inView": true
     },
     {
-        "name": "role",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required|string|string|string",
+        "name": "is_head",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "is_voting",
+        "dbType": "boolean",
+        "htmlType": "checkbox",
+        "validations": "required|boolean|boolean|boolean",
         "searchable": true,
         "fillable": true,
         "primary": false,

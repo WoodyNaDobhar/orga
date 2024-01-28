@@ -10,16 +10,16 @@
     <p>{{ $meetup->location_id }}</p>
 </div>
 
-<!-- Alt Location Id Field -->
+<!-- Is Active Field -->
 <div class="col-sm-12">
-    {!! Form::label('alt_location_id', 'Alt Location Id:') !!}
-    <p>{{ $meetup->alt_location_id }}</p>
+    {!! Form::label('is_active', 'Is Active:') !!}
+    <p>{{ $meetup->is_active }}</p>
 </div>
 
-<!-- Url Field -->
+<!-- Purpose Field -->
 <div class="col-sm-12">
-    {!! Form::label('url', 'Url:') !!}
-    <p>{{ $meetup->url }}</p>
+    {!! Form::label('purpose', 'Purpose:') !!}
+    <p>{{ $meetup->purpose }}</p>
 </div>
 
 <!-- Recurrence Field -->
@@ -50,12 +50,6 @@
 <div class="col-sm-12">
     {!! Form::label('occurs_at', 'Occurs At:') !!}
     <p>{{ $meetup->occurs_at }}</p>
-</div>
-
-<!-- Purpose Field -->
-<div class="col-sm-12">
-    {!! Form::label('purpose', 'Purpose:') !!}
-    <p>{{ $meetup->purpose }}</p>
 </div>
 
 <!-- Description Field -->

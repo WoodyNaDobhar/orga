@@ -10,7 +10,8 @@ class ReconciliationRepository extends BaseRepository
     protected $fieldSearchable = [
         'archetype_id',
         'persona_id',
-        'credits'
+        'credits',
+        'notes'
     ];
 
     public function getFieldsSearchable(): array

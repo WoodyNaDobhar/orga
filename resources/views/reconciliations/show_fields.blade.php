@@ -16,3 +16,9 @@
     <p>{{ $reconciliation->credits }}</p>
 </div>
 
+<!-- Notes Field -->
+<div class="col-sm-12">
+    {!! Form::label('notes', 'Notes:') !!}
+    <p>{{ $reconciliation->notes }}</p>
+</div>
+

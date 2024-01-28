@@ -28,7 +28,7 @@ class ChaptertypesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Realm Id", "kingdom_id")
+            Column::make("Realm Id", "realm_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Name", "name")

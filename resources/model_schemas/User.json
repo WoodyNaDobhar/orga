@@ -15,7 +15,7 @@
         "name": "email",
         "dbType": "string",
         "htmlType": "email",
-        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "validations": "required|string|max:191|string|max:191|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +39,7 @@
         "name": "password",
         "dbType": "string",
         "htmlType": "password",
-        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "validations": "required|string|max:191|string|max:191|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -217,6 +217,18 @@
     },
     {
         "type": "relation",
+        "relation": "1tm,Guest,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Guest,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Guest,updated_by"
+    },
+    {
+        "type": "relation",
         "relation": "1tm,Issuance,created_by"
     },
     {
@@ -226,18 +238,6 @@
     {
         "type": "relation",
         "relation": "1tm,Issuance,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Realm,created_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Realm,deleted_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Realm,updated_by"
     },
     {
         "type": "relation",
@@ -329,6 +329,18 @@
     },
     {
         "type": "relation",
+        "relation": "1tm,Realm,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Realm,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Realm,updated_by"
+    },
+    {
+        "type": "relation",
         "relation": "1tm,Recommendation,created_by"
     },
     {
@@ -350,6 +362,30 @@
     {
         "type": "relation",
         "relation": "1tm,Reconciliation,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reign,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reign,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Reign,updated_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Social,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Social,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Social,updated_by"
     },
     {
         "type": "relation",
@@ -422,10 +458,6 @@
     {
         "type": "relation",
         "relation": "1tm,Unit,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Waiver,age_verified_by"
     },
     {
         "type": "relation",

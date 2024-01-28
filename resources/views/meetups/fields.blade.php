@@ -10,16 +10,19 @@
     {!! Form::number('location_id', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Alt Location Id Field -->
+<!-- Is Active Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('alt_location_id', 'Alt Location Id:') !!}
-    {!! Form::number('alt_location_id', null, ['class' => 'form-control']) !!}
+    <div class="form-check">
+        {!! Form::hidden('is_active', 0, ['class' => 'form-check-input']) !!}
+        {!! Form::checkbox('is_active', '1', null, ['class' => 'form-check-input']) !!}
+        {!! Form::label('is_active', 'Is Active', ['class' => 'form-check-label']) !!}
+    </div>
 </div>
 
-<!-- Url Field -->
+<!-- Purpose Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('url', 'Url:') !!}
-    {!! Form::text('url', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::label('purpose', 'Purpose:') !!}
+    {!! Form::text('purpose', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Recurrence Field -->
@@ -52,14 +55,8 @@
     {!! Form::text('occurs_at', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Purpose Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('purpose', 'Purpose:') !!}
-    {!! Form::text('purpose', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
 <!-- Description Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('description', 'Description:') !!}
-    {!! Form::text('description', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('description', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>

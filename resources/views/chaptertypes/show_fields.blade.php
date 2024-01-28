@@ -1,7 +1,7 @@
 <!-- Realm Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('kingdom_id', 'Realm Id:') !!}
-    <p>{{ $chaptertype->kingdom_id }}</p>
+    {!! Form::label('realm_id', 'Realm Id:') !!}
+    <p>{{ $chaptertype->realm_id }}</p>
 </div>
 
 <!-- Name Field -->

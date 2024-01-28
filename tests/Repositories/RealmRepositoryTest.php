@@ -3,75 +3,75 @@
 namespace Tests\Repositories;
 
 use App\Models\Realm;
-use App\Repositories\KingdomRepository;
+use App\Repositories\RealmRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Tests\ApiTestTrait;
 
-class KingdomRepositoryTest extends TestCase
+class RealmRepositoryTest extends TestCase
 {
     use ApiTestTrait, DatabaseTransactions;
 
-    protected KingdomRepository $kingdomRepo;
+    protected RealmRepository $realmRepo;
 
     public function setUp() : void
     {
         parent::setUp();
-        $this->kingdomRepo = app(KingdomRepository::class);
+        $this->realmRepo = app(RealmRepository::class);
     }
 
     /**
      * @test create
      */
-    public function test_create_kingdom()
+    public function test_create_realm()
     {
         $realm = Realm::factory()->make()->toArray();
 
-        $createdKingdom = $this->kingdomRepo->create($realm);
+        $createdRealm = $this->realmRepo->create($realm);
 
-        $createdKingdom = $createdKingdom->toArray();
-        $this->assertArrayHasKey('id', $createdKingdom);
-        $this->assertNotNull($createdKingdom['id'], 'Created Realm must have id specified');
-        $this->assertNotNull(Realm::find($createdKingdom['id']), 'Realm with given id must be in DB');
-        $this->assertModelData($realm, $createdKingdom);
+        $createdRealm = $createdRealm->toArray();
+        $this->assertArrayHasKey('id', $createdRealm);
+        $this->assertNotNull($createdRealm['id'], 'Created Realm must have id specified');
+        $this->assertNotNull(Realm::find($createdRealm['id']), 'Realm with given id must be in DB');
+        $this->assertModelData($realm, $createdRealm);
     }
 
     /**
      * @test read
      */
-    public function test_read_kingdom()
+    public function test_read_realm()
     {
         $realm = Realm::factory()->create();
 
-        $dbKingdom = $this->kingdomRepo->find($realm->id);
+        $dbRealm = $this->realmRepo->find($realm->id);
 
-        $dbKingdom = $dbKingdom->toArray();
-        $this->assertModelData($realm->toArray(), $dbKingdom);
+        $dbRealm = $dbRealm->toArray();
+        $this->assertModelData($realm->toArray(), $dbRealm);
     }
 
     /**
      * @test update
      */
-    public function test_update_kingdom()
+    public function test_update_realm()
     {
         $realm = Realm::factory()->create();
-        $fakeKingdom = Realm::factory()->make()->toArray();
+        $fakeRealm = Realm::factory()->make()->toArray();
 
-        $updatedKingdom = $this->kingdomRepo->update($fakeKingdom, $realm->id);
+        $updatedRealm = $this->realmRepo->update($fakeRealm, $realm->id);
 
-        $this->assertModelData($fakeKingdom, $updatedKingdom->toArray());
-        $dbKingdom = $this->kingdomRepo->find($realm->id);
-        $this->assertModelData($fakeKingdom, $dbKingdom->toArray());
+        $this->assertModelData($fakeRealm, $updatedRealm->toArray());
+        $dbRealm = $this->realmRepo->find($realm->id);
+        $this->assertModelData($fakeRealm, $dbRealm->toArray());
     }
 
     /**
      * @test delete
      */
-    public function test_delete_kingdom()
+    public function test_delete_realm()
     {
         $realm = Realm::factory()->create();
 
-        $resp = $this->kingdomRepo->delete($realm->id);
+        $resp = $this->realmRepo->delete($realm->id);
 
         $this->assertTrue($resp);
         $this->assertNull(Realm::find($realm->id), 'Realm should not exist in DB');

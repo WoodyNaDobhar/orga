@@ -9,7 +9,7 @@ class SuspensionRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'persona_id',
-        'kingdom_id',
+        'realm_id',
         'suspended_by',
         'suspended_at',
         'expires_at',

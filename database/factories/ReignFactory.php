@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Reign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\User;
 
 class ReignFactory extends Factory
 {
@@ -23,6 +24,11 @@ class ReignFactory extends Factory
     public function definition()
     {
         
+        $user = User::first();
+        if (!$user) {
+            $user = User::factory()->create();
+        }
+
         return [
             'reignable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'reignable_id' => $this->faker->word,

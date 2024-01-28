@@ -40,6 +40,12 @@
     <p>{{ $event->is_active }}</p>
 </div>
 
+<!-- Is Demo Field -->
+<div class="col-sm-12">
+    {!! Form::label('is_demo', 'Is Demo:') !!}
+    <p>{{ $event->is_demo }}</p>
+</div>
+
 <!-- Event Start Field -->
 <div class="col-sm-12">
     {!! Form::label('event_start', 'Event Start:') !!}
@@ -56,17 +62,5 @@
 <div class="col-sm-12">
     {!! Form::label('price', 'Price:') !!}
     <p>{{ $event->price }}</p>
-</div>
-
-<!-- Url Field -->
-<div class="col-sm-12">
-    {!! Form::label('url', 'Url:') !!}
-    <p>{{ $event->url }}</p>
-</div>
-
-<!-- Url Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('url_name', 'Url Name:') !!}
-    <p>{{ $event->url_name }}</p>
 </div>
 

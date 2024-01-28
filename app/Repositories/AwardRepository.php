@@ -11,8 +11,7 @@ class AwardRepository extends BaseRepository
         'awarder_type',
         'awarder_id',
         'name',
-        'is_ladder',
-        'limit'
+        'is_ladder'
     ];
 
     public function getFieldsSearchable(): array

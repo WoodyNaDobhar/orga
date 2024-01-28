@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Tournament",
- *      required={"tournamentable_type","tournamentable_id","name","description","url","occured_at","created_at"},
+ *      required={"tournamentable_type","tournamentable_id","name","description","occured_at","created_at"},
  *      @OA\Property(
  *          property="tournamentable_type",
  *          description="",
@@ -24,13 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  *      ),
  *      @OA\Property(
  *          property="description",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="url",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
@@ -78,7 +71,6 @@ use Illuminate\Database\Eloquent\Model;
         'tournamentable_id',
         'name',
         'description',
-        'url',
         'occured_at'
     ];
 
@@ -86,7 +78,6 @@ use Illuminate\Database\Eloquent\Model;
         'tournamentable_type' => 'string',
         'name' => 'string',
         'description' => 'string',
-        'url' => 'string',
         'occured_at' => 'datetime'
     ];
 
@@ -95,7 +86,6 @@ use Illuminate\Database\Eloquent\Model;
         'tournamentable_id' => 'required',
         'name' => 'required|string|max:50',
         'description' => 'required|string|max:16777215',
-        'url' => 'required|string|max:255',
         'occured_at' => 'required',
         'created_at' => 'required',
         'updated_at' => 'nullable',

@@ -10,10 +10,22 @@
     {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Role Field -->
+<!-- Is Head Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('role', 'Role:') !!}
-    {!! Form::text('role', null, ['class' => 'form-control', 'required']) !!}
+    <div class="form-check">
+        {!! Form::hidden('is_head', 0, ['class' => 'form-check-input']) !!}
+        {!! Form::checkbox('is_head', '1', null, ['class' => 'form-check-input']) !!}
+        {!! Form::label('is_head', 'Is Head', ['class' => 'form-check-label']) !!}
+    </div>
+</div>
+
+<!-- Is Voting Field -->
+<div class="form-group col-sm-6">
+    <div class="form-check">
+        {!! Form::hidden('is_voting', 0, ['class' => 'form-check-input']) !!}
+        {!! Form::checkbox('is_voting', '1', null, ['class' => 'form-check-input']) !!}
+        {!! Form::label('is_voting', 'Is Voting', ['class' => 'form-check-label']) !!}
+    </div>
 </div>
 
 <!-- Joined At Field -->

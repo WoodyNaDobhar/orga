@@ -21,8 +21,8 @@ class TitleResource extends JsonResource
             'name' => $this->name,
             'rank' => $this->rank,
             'peerage' => $this->peerage,
-            'is_active' => $this->is_active,
             'is_roaming' => $this->is_roaming,
+            'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

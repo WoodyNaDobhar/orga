@@ -10,10 +10,16 @@
     <p>{{ $member->persona_id }}</p>
 </div>
 
-<!-- Role Field -->
+<!-- Is Head Field -->
 <div class="col-sm-12">
-    {!! Form::label('role', 'Role:') !!}
-    <p>{{ $member->role }}</p>
+    {!! Form::label('is_head', 'Is Head:') !!}
+    <p>{{ $member->is_head }}</p>
+</div>
+
+<!-- Is Voting Field -->
+<div class="col-sm-12">
+    {!! Form::label('is_voting', 'Is Voting:') !!}
+    <p>{{ $member->is_voting }}</p>
 </div>
 
 <!-- Joined At Field -->

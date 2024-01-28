@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Realm;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateKingdomRequest extends FormRequest
+class UpdateRealmRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

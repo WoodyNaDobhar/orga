@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 class ChaptertypeRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'kingdom_id',
+        'realm_id',
         'name',
         'rank',
         'minimumattendance',

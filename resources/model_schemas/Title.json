@@ -51,7 +51,7 @@
         "name": "rank",
         "dbType": "smallInteger,false,true",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -72,7 +72,7 @@
         "inView": true
     },
     {
-        "name": "is_active",
+        "name": "is_roaming",
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",
@@ -84,7 +84,7 @@
         "inView": true
     },
     {
-        "name": "is_roaming",
+        "name": "is_active",
         "dbType": "boolean",
         "htmlType": "checkbox",
         "validations": "required|boolean|boolean|boolean",

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Persona",
- *      required={"chapter_id","is_active","created_at"},
+ *      required={"chapter_id","name","is_active","created_at"},
  *      @OA\Property(
  *          property="mundane",
  *          description="",
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="name",
  *          description="",
  *          readOnly=false,
- *          nullable=true,
+ *          nullable=false,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -125,10 +125,10 @@ use Illuminate\Database\Eloquent\Model;
         'chapter_id' => 'required',
         'user_id' => 'nullable',
         'pronoun_id' => 'nullable',
-        'mundane' => 'nullable|string|max:255',
-        'name' => 'nullable|string|max:255',
-        'heraldry' => 'nullable|string|max:255',
-        'image' => 'nullable|string|max:255',
+        'mundane' => 'nullable|string|max:191',
+        'name' => 'required|string|max:191',
+        'heraldry' => 'nullable|string|max:191',
+        'image' => 'nullable|string|max:191',
         'is_active' => 'required|boolean',
         'reeve_qualified_expires_at' => 'nullable',
         'corpora_qualified_expires_at' => 'nullable',
@@ -200,11 +200,6 @@ use Illuminate\Database\Eloquent\Model;
 
     public function officers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Officer::class, 'authorized_by');
-    }
-
-    public function officer5s(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
         return $this->hasMany(\App\Models\Officer::class, 'persona_id');
     }
 
@@ -228,12 +223,17 @@ use Illuminate\Database\Eloquent\Model;
         return $this->hasMany(\App\Models\Suspension::class, 'persona_id');
     }
 
-    public function suspension6s(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function suspension5s(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
     }
 
     public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Waiver::class, 'age_verified_by');
+    }
+
+    public function waiver6s(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Waiver::class, 'persona_id');
     }

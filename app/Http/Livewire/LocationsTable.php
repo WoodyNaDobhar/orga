@@ -28,6 +28,9 @@ class LocationsTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make("Label", "label")
+                ->sortable()
+                ->searchable(),
             Column::make("Address", "address")
                 ->sortable()
                 ->searchable(),
@@ -56,9 +59,6 @@ class LocationsTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Map Url", "map_url")
-                ->sortable()
-                ->searchable(),
-            Column::make("Description", "description")
                 ->sortable()
                 ->searchable(),
             Column::make("Directions", "directions")

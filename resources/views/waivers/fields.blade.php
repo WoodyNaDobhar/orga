@@ -25,7 +25,7 @@
 <!-- File Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('file', 'File:') !!}
-    {!! Form::text('file', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('file', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Player Field -->
@@ -88,16 +88,22 @@
     {!! Form::text('guardian', null, ['class' => 'form-control', 'maxlength' => 150, 'maxlength' => 150, 'maxlength' => 150]) !!}
 </div>
 
-<!-- Emergency Contact Name Field -->
+<!-- Emergency Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('emergency_contact_name', 'Emergency Contact Name:') !!}
-    {!! Form::text('emergency_contact_name', null, ['class' => 'form-control', 'maxlength' => 150, 'maxlength' => 150, 'maxlength' => 150]) !!}
+    {!! Form::label('emergency_name', 'Emergency Name:') !!}
+    {!! Form::text('emergency_name', null, ['class' => 'form-control', 'maxlength' => 150, 'maxlength' => 150, 'maxlength' => 150]) !!}
 </div>
 
-<!-- Emergency Contact Phone Field -->
+<!-- Emergency Relationship Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('emergency_contact_phone', 'Emergency Contact Phone:') !!}
-    {!! Form::text('emergency_contact_phone', null, ['class' => 'form-control', 'maxlength' => 25, 'maxlength' => 25, 'maxlength' => 25]) !!}
+    {!! Form::label('emergency_relationship', 'Emergency Relationship:') !!}
+    {!! Form::text('emergency_relationship', null, ['class' => 'form-control', 'maxlength' => 150, 'maxlength' => 150, 'maxlength' => 150]) !!}
+</div>
+
+<!-- Emergency Phone Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('emergency_phone', 'Emergency Phone:') !!}
+    {!! Form::text('emergency_phone', null, ['class' => 'form-control', 'maxlength' => 25, 'maxlength' => 25, 'maxlength' => 25]) !!}
 </div>
 
 <!-- Signed At Field -->

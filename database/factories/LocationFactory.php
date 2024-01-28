@@ -30,7 +30,8 @@ class LocationFactory extends Factory
         }
 
         return [
-            'address' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'label' => $this->faker->text($this->faker->numberBetween(5, 50)),
+            'address' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'city' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'province' => $this->faker->text($this->faker->numberBetween(5, 35)),
             'postal_code' => $this->faker->text($this->faker->numberBetween(5, 10)),
@@ -40,7 +41,6 @@ class LocationFactory extends Factory
             'longitude' => $this->faker->numberBetween(0, 9223372036854775807),
             'location' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
             'map_url' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
-            'description' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
             'directions' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),

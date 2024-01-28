@@ -13,13 +13,13 @@
 <!-- Recommendable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('recommendable_id', 'Recommendable Id:') !!}
-    {!! Form::number('recommendable_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('recommendable_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Rank Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('rank', 'Rank:') !!}
-    {!! Form::number('rank', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('rank', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Is Anonymous Field -->

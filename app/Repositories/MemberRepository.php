@@ -10,7 +10,8 @@ class MemberRepository extends BaseRepository
     protected $fieldSearchable = [
         'unit_id',
         'persona_id',
-        'role',
+        'is_head',
+        'is_voting',
         'joined_at',
         'left_at',
         'notes'

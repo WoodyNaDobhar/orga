@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Chaptertype",
- *      required={"kingdom_id","name","rank","minimumattendance","minimumcutoff","created_at"},
+ *      required={"realm_id","name","minimumattendance","minimumcutoff","created_at"},
  *      @OA\Property(
  *          property="name",
  *          description="",
@@ -45,7 +45,7 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'chaptertypes';
 
     public $fillable = [
-        'kingdom_id',
+        'realm_id',
         'name',
         'rank',
         'minimumattendance',
@@ -57,9 +57,9 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'kingdom_id' => 'required',
+        'realm_id' => 'required',
         'name' => 'required|string|max:50',
-        'rank' => 'required',
+        'rank' => 'nullable',
         'minimumattendance' => 'required',
         'minimumcutoff' => 'required',
         'created_at' => 'required',
@@ -79,7 +79,7 @@ use Illuminate\Database\Eloquent\Model;
 
     public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Realm::class, 'kingdom_id');
+        return $this->belongsTo(\App\Models\Realm::class, 'realm_id');
     }
 
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -32,14 +32,14 @@ class OfficerFactory extends Factory
         }
 
         return [
-            'officeable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
-            'officeable_id' => $this->faker->word,
+            'officerable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
+            'officerable_id' => $this->faker->word,
             'office_id' => $this->faker->word,
             'persona_id' => $this->faker->word,
-            'authorized_by' => $this->faker->word,
             'label' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'starts_on' => $this->faker->date('Y-m-d'),
             'ends_on' => $this->faker->date('Y-m-d'),
+            'notes' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

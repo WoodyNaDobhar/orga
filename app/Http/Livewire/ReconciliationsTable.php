@@ -37,6 +37,9 @@ class ReconciliationsTable extends DataTableComponent
             Column::make("Credits", "credits")
                 ->sortable()
                 ->searchable(),
+            Column::make("Notes", "notes")
+                ->sortable()
+                ->searchable(),
             Column::make("Actions", 'id')
                 ->format(
                     fn($value, $row, Column $column) => view('common.livewire-tables.actions', [

@@ -15,11 +15,10 @@ class EventRepository extends BaseRepository
         'description',
         'image',
         'is_active',
+        'is_demo',
         'event_start',
         'event_end',
-        'price',
-        'url',
-        'url_name'
+        'price'
     ];
 
     public function getFieldsSearchable(): array

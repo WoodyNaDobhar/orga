@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Chapter",
- *      required={"kingdom_id","chaptertype_id","location_id","name","abbreviation","url","is_active","created_at"},
+ *      required={"realm_id","chaptertype_id","location_id","name","abbreviation","is_active","created_at"},
  *      @OA\Property(
  *          property="name",
  *          description="",
@@ -27,13 +27,6 @@ use Illuminate\Database\Eloquent\Model;
  *          description="",
  *          readOnly=false,
  *          nullable=true,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="url",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -73,13 +66,12 @@ use Illuminate\Database\Eloquent\Model;
      use SoftDeletes;    use HasFactory;    public $table = 'chapters';
 
     public $fillable = [
-        'kingdom_id',
+        'realm_id',
         'chaptertype_id',
         'location_id',
         'name',
         'abbreviation',
         'heraldry',
-        'url',
         'is_active'
     ];
 
@@ -87,18 +79,16 @@ use Illuminate\Database\Eloquent\Model;
         'name' => 'string',
         'abbreviation' => 'string',
         'heraldry' => 'string',
-        'url' => 'string',
         'is_active' => 'boolean'
     ];
 
     public static array $rules = [
-        'kingdom_id' => 'required',
+        'realm_id' => 'required',
         'chaptertype_id' => 'required',
         'location_id' => 'required',
         'name' => 'required|string|max:100',
         'abbreviation' => 'required|string|max:3',
-        'heraldry' => 'nullable|string|max:255',
-        'url' => 'required|string|max:255',
+        'heraldry' => 'nullable|string|max:191',
         'is_active' => 'required|boolean',
         'created_at' => 'required',
         'updated_at' => 'nullable',
@@ -120,19 +110,24 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
-    public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Realm::class, 'kingdom_id');
-    }
-
     public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Location::class, 'location_id');
     }
 
+    public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Realm::class, 'realm_id');
+    }
+
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
+    }
+
+    public function guests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Guest::class, 'chapter_id');
     }
 
     public function meetups(): \Illuminate\Database\Eloquent\Relations\HasMany

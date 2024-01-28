@@ -35,7 +35,7 @@ class DueFactory extends Factory
             'persona_id' => $this->faker->word,
             'transaction_id' => $this->faker->word,
             'dues_on' => $this->faker->date('Y-m-d'),
-            'intervals' => $this->faker->word,
+            'intervals' => $this->faker->numberBetween(0, 9223372036854775807),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

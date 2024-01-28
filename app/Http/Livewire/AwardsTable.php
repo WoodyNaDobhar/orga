@@ -40,9 +40,6 @@ class AwardsTable extends DataTableComponent
             Column::make("Is Ladder", "is_ladder")
                 ->sortable()
                 ->searchable(),
-            Column::make("Limit", "limit")
-                ->sortable()
-                ->searchable(),
             Column::make("Actions", 'id')
                 ->format(
                     fn($value, $row, Column $column) => view('common.livewire-tables.actions', [

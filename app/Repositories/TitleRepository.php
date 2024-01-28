@@ -13,8 +13,8 @@ class TitleRepository extends BaseRepository
         'name',
         'rank',
         'peerage',
-        'is_active',
-        'is_roaming'
+        'is_roaming',
+        'is_active'
     ];
 
     public function getFieldsSearchable(): array

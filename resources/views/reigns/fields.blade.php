@@ -7,7 +7,7 @@
 <!-- Reignable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('reignable_id', 'Reignable Id:') !!}
-    {!! Form::number('reignable_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::number('reignable_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Name Field -->

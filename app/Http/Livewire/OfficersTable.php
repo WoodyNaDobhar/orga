@@ -28,19 +28,16 @@ class OfficersTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Officeable Type", "officeable_type")
+            Column::make("Officerable Type", "officerable_type")
                 ->sortable()
                 ->searchable(),
-            Column::make("Officeable Id", "officeable_id")
+            Column::make("Officerable Id", "officerable_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Office Id", "office_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Persona Id", "persona_id")
-                ->sortable()
-                ->searchable(),
-            Column::make("Authorized By", "authorized_by")
                 ->sortable()
                 ->searchable(),
             Column::make("Label", "label")
@@ -50,6 +47,9 @@ class OfficersTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Ends On", "ends_on")
+                ->sortable()
+                ->searchable(),
+            Column::make("Notes", "notes")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

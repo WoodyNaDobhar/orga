@@ -63,7 +63,7 @@
         "name": "heraldry",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "nullable|string|max:255|nullable|string|max:255|nullable|string|max:255",
+        "validations": "nullable|string|max:191|nullable|string|max:191|nullable|string|max:191",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -156,6 +156,18 @@
         "inView": true
     },
     {
+        "name": "dues_amount",
+        "dbType": "smallInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "dues_intervals_type",
         "dbType": "string",
         "htmlType": "text",
@@ -169,18 +181,6 @@
     },
     {
         "name": "dues_intervals",
-        "dbType": "smallInteger,false,true",
-        "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "dues_amount",
         "dbType": "smallInteger,false,true",
         "htmlType": "number",
         "validations": "nullable|nullable|nullable",
@@ -253,14 +253,14 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Chapter,kingdom_id"
+        "relation": "1tm,Chapter,realm_id"
     },
     {
         "type": "relation",
-        "relation": "1tm,Chaptertype,kingdom_id"
+        "relation": "1tm,Chaptertype,realm_id"
     },
     {
         "type": "relation",
-        "relation": "1tm,Suspension,kingdom_id"
+        "relation": "1tm,Suspension,realm_id"
     }
 ]

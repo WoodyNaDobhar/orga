@@ -28,15 +28,15 @@
     <p>{{ $title->peerage }}</p>
 </div>
 
-<!-- Is Active Field -->
-<div class="col-sm-12">
-    {!! Form::label('is_active', 'Is Active:') !!}
-    <p>{{ $title->is_active }}</p>
-</div>
-
 <!-- Is Roaming Field -->
 <div class="col-sm-12">
     {!! Form::label('is_roaming', 'Is Roaming:') !!}
     <p>{{ $title->is_roaming }}</p>
+</div>
+
+<!-- Is Active Field -->
+<div class="col-sm-12">
+    {!! Form::label('is_active', 'Is Active:') !!}
+    <p>{{ $title->is_active }}</p>
 </div>
 

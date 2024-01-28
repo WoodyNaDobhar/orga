@@ -17,6 +17,13 @@ use Illuminate\Database\Eloquent\Model;
  *          format="number"
  *      ),
  *      @OA\Property(
+ *          property="notes",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *      ),
+ *      @OA\Property(
  *          property="created_at",
  *          description="",
  *          readOnly=true,
@@ -48,17 +55,20 @@ use Illuminate\Database\Eloquent\Model;
     public $fillable = [
         'archetype_id',
         'persona_id',
-        'credits'
+        'credits',
+        'notes'
     ];
 
     protected $casts = [
-        'credits' => 'float'
+        'credits' => 'float',
+        'notes' => 'string'
     ];
 
     public static array $rules = [
         'archetype_id' => 'required',
         'persona_id' => 'required',
         'credits' => 'required|numeric',
+        'notes' => 'nullable|string|max:191',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

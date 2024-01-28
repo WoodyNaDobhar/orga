@@ -27,7 +27,7 @@
         "name": "reignable_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -106,5 +106,17 @@
         "inForm": false,
         "inIndex": false,
         "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,User,created_by"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,User,deleted_by"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,User,updated_by"
     }
 ]

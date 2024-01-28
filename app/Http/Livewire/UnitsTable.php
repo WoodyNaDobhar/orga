@@ -43,9 +43,6 @@ class UnitsTable extends DataTableComponent
             Column::make("History", "history")
                 ->sortable()
                 ->searchable(),
-            Column::make("Url", "url")
-                ->sortable()
-                ->searchable(),
             Column::make("Actions", 'id')
                 ->format(
                     fn($value, $row, Column $column) => view('common.livewire-tables.actions', [

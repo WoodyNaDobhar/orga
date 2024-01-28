@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Recommendation",
- *      required={"persona_id","recommendable_type","recommendable_id","rank","is_anonymous","reason","created_at"},
+ *      required={"persona_id","recommendable_type","is_anonymous","reason","created_at"},
  *      @OA\Property(
  *          property="recommendable_type",
  *          description="",
@@ -76,8 +76,8 @@ use Illuminate\Database\Eloquent\Model;
     public static array $rules = [
         'persona_id' => 'required',
         'recommendable_type' => 'required|string',
-        'recommendable_id' => 'required',
-        'rank' => 'required',
+        'recommendable_id' => 'nullable',
+        'rank' => 'nullable',
         'is_anonymous' => 'required|boolean',
         'reason' => 'required|string|max:400',
         'created_at' => 'required',

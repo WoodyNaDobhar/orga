@@ -8,6 +8,7 @@ use App\Repositories\BaseRepository;
 class LocationRepository extends BaseRepository
 {
     protected $fieldSearchable = [
+        'label',
         'address',
         'city',
         'province',
@@ -18,7 +19,6 @@ class LocationRepository extends BaseRepository
         'longitude',
         'location',
         'map_url',
-        'description',
         'directions'
     ];
 

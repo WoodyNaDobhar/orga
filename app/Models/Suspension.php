@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Suspension",
- *      required={"persona_id","kingdom_id","suspended_by","cause","is_propogating","created_at"},
+ *      required={"persona_id","realm_id","suspended_by","cause","is_propogating","created_at"},
  *      @OA\Property(
  *          property="suspended_at",
  *          description="",
@@ -69,7 +69,7 @@ use Illuminate\Database\Eloquent\Model;
 
     public $fillable = [
         'persona_id',
-        'kingdom_id',
+        'realm_id',
         'suspended_by',
         'suspended_at',
         'expires_at',
@@ -86,11 +86,11 @@ use Illuminate\Database\Eloquent\Model;
 
     public static array $rules = [
         'persona_id' => 'required',
-        'kingdom_id' => 'required',
+        'realm_id' => 'required',
         'suspended_by' => 'required',
         'suspended_at' => 'nullable',
         'expires_at' => 'nullable',
-        'cause' => 'required|string|max:255',
+        'cause' => 'required|string|max:191',
         'is_propogating' => 'required|boolean',
         'created_at' => 'required',
         'updated_at' => 'nullable',
@@ -107,14 +107,14 @@ use Illuminate\Database\Eloquent\Model;
         return $this->belongsTo(\App\Models\User::class, 'deleted_by');
     }
 
-    public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Realm::class, 'kingdom_id');
-    }
-
     public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+
+    public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Realm::class, 'realm_id');
     }
 
     public function suspendedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo

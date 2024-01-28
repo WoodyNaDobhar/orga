@@ -20,7 +20,6 @@ class TournamentResource extends JsonResource
             'tournamentable_id' => $this->tournamentable_id,
             'name' => $this->name,
             'description' => $this->description,
-            'url' => $this->url,
             'occured_at' => $this->occured_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -30,7 +30,7 @@ class TransactionFactory extends Factory
         }
 
         return [
-            'description' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'description' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'memo' => $this->faker->text($this->faker->numberBetween(5, 16777215)),
             'transaction_at' => $this->faker->date('Y-m-d'),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),

@@ -21,7 +21,6 @@ class UnitResource extends JsonResource
             'heraldry' => $this->heraldry,
             'description' => $this->description,
             'history' => $this->history,
-            'url' => $this->url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

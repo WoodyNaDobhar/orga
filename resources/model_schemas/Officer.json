@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "officeable_type",
+        "name": "officerable_type",
         "dbType": "string",
         "htmlType": "text",
         "validations": "required|string|string|string",
@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "officeable_id",
+        "name": "officerable_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -49,18 +49,6 @@
     },
     {
         "name": "persona_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "authorized_by",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -108,6 +96,18 @@
         "inView": true
     },
     {
+        "name": "notes",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:191|nullable|string|max:191|nullable|string|max:191",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "created_at",
         "dbType": "datetime",
         "htmlType": "date",
@@ -142,10 +142,6 @@
         "inForm": false,
         "inIndex": false,
         "inView": false
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,Persona,authorized_by"
     },
     {
         "type": "relation",

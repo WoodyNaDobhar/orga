@@ -49,6 +49,9 @@ class EventsTable extends DataTableComponent
             Column::make("Is Active", "is_active")
                 ->sortable()
                 ->searchable(),
+            Column::make("Is Demo", "is_demo")
+                ->sortable()
+                ->searchable(),
             Column::make("Event Start", "event_start")
                 ->sortable()
                 ->searchable(),
@@ -56,12 +59,6 @@ class EventsTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Price", "price")
-                ->sortable()
-                ->searchable(),
-            Column::make("Url", "url")
-                ->sortable()
-                ->searchable(),
-            Column::make("Url Name", "url_name")
                 ->sortable()
                 ->searchable(),
             Column::make("Actions", 'id')

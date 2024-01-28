@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Title",
- *      required={"titleable_type","name","rank","peerage","is_active","is_roaming","created_at"},
+ *      required={"titleable_type","name","peerage","is_roaming","is_active","created_at"},
  *      @OA\Property(
  *          property="titleable_type",
  *          description="",
@@ -30,14 +30,14 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *      ),
  *      @OA\Property(
- *          property="is_active",
+ *          property="is_roaming",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
  *          type="boolean",
  *      ),
  *      @OA\Property(
- *          property="is_roaming",
+ *          property="is_active",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
@@ -78,26 +78,26 @@ use Illuminate\Database\Eloquent\Model;
         'name',
         'rank',
         'peerage',
-        'is_active',
-        'is_roaming'
+        'is_roaming',
+        'is_active'
     ];
 
     protected $casts = [
         'titleable_type' => 'string',
         'name' => 'string',
         'peerage' => 'string',
-        'is_active' => 'boolean',
-        'is_roaming' => 'boolean'
+        'is_roaming' => 'boolean',
+        'is_active' => 'boolean'
     ];
 
     public static array $rules = [
         'titleable_type' => 'required|string',
         'titleable_id' => 'nullable',
         'name' => 'required|string|max:100',
-        'rank' => 'required',
+        'rank' => 'nullable',
         'peerage' => 'required|string',
-        'is_active' => 'required|boolean',
         'is_roaming' => 'required|boolean',
+        'is_active' => 'required|boolean',
         'created_at' => 'required',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

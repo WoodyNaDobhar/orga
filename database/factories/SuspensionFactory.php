@@ -33,11 +33,11 @@ class SuspensionFactory extends Factory
 
         return [
             'persona_id' => $this->faker->word,
-            'kingdom_id' => $this->faker->word,
+            'realm_id' => $this->faker->word,
             'suspended_by' => $this->faker->word,
             'suspended_at' => $this->faker->date('Y-m-d'),
             'expires_at' => $this->faker->date('Y-m-d'),
-            'cause' => $this->faker->text($this->faker->numberBetween(5, 255)),
+            'cause' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'is_propogating' => $this->faker->boolean,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),

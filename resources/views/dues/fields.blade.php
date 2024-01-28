@@ -7,7 +7,7 @@
 <!-- Transaction Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('transaction_id', 'Transaction Id:') !!}
-    {!! Form::number('transaction_id', null, ['class' => 'form-control']) !!}
+    {!! Form::number('transaction_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Dues On Field -->

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Issuance",
- *      required={"issuable_type","issuable_id","whereable_type","whereable_id","authority_type","authority_id","recipient_type","recipient_id","issuer_id","issued_at","created_at"},
+ *      required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_at","created_at"},
  *      @OA\Property(
  *          property="issuable_type",
  *          description="",
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *          property="whereable_type",
  *          description="",
  *          readOnly=false,
- *          nullable=false,
+ *          nullable=true,
  *          type="string",
  *      ),
  *      @OA\Property(
@@ -52,7 +52,7 @@ use Illuminate\Database\Eloquent\Model;
  *          format="date"
  *      ),
  *      @OA\Property(
- *          property="note",
+ *          property="reason",
  *          description="",
  *          readOnly=false,
  *          nullable=true,
@@ -122,7 +122,7 @@ use Illuminate\Database\Eloquent\Model;
         'custom_name',
         'rank',
         'issued_at',
-        'note',
+        'reason',
         'image',
         'revoked_by',
         'revoked_at',
@@ -136,7 +136,7 @@ use Illuminate\Database\Eloquent\Model;
         'recipient_type' => 'string',
         'custom_name' => 'string',
         'issued_at' => 'date',
-        'note' => 'string',
+        'reason' => 'string',
         'image' => 'string',
         'revoked_at' => 'date',
         'revocation' => 'string'
@@ -145,17 +145,17 @@ use Illuminate\Database\Eloquent\Model;
     public static array $rules = [
         'issuable_type' => 'required|string',
         'issuable_id' => 'required',
-        'whereable_type' => 'required|string',
-        'whereable_id' => 'required',
+        'whereable_type' => 'nullable|string',
+        'whereable_id' => 'nullable',
         'authority_type' => 'required|string',
         'authority_id' => 'required',
         'recipient_type' => 'required|string',
         'recipient_id' => 'required',
-        'issuer_id' => 'required',
+        'issuer_id' => 'nullable',
         'custom_name' => 'nullable|string|max:64',
         'rank' => 'nullable',
         'issued_at' => 'required',
-        'note' => 'nullable|string|max:400',
+        'reason' => 'nullable|string|max:400',
         'image' => 'nullable|string|max:255',
         'revoked_by' => 'nullable',
         'revoked_at' => 'nullable',

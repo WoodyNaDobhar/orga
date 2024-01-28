@@ -19,25 +19,25 @@
 <!-- Mundane Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('mundane', 'Mundane:') !!}
-    {!! Form::text('mundane', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('mundane', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Heraldry Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('heraldry', 'Heraldry:') !!}
-    {!! Form::text('heraldry', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('heraldry', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Image Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('image', 'Image:') !!}
-    {!! Form::text('image', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::text('image', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Is Active Field -->
