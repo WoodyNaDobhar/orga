@@ -22,6 +22,12 @@
     <p>{{ $reign->starts_on }}</p>
 </div>
 
+<!-- Starts On Field -->
+<div class="col-sm-12">
+    {!! Form::label('midreign_on', 'Midreign On:') !!}
+    <p>{{ $reign->midreign_on }}</p>
+</div>
+
 <!-- Ends On Field -->
 <div class="col-sm-12">
     {!! Form::label('ends_on', 'Ends On:') !!}

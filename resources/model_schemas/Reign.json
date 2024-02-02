@@ -60,6 +60,18 @@
         "inView": true
     },
     {
+        "name": "midreign_on",
+        "dbType": "date",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "ends_on",
         "dbType": "date",
         "htmlType": "date",

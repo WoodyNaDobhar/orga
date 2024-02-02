@@ -10,8 +10,9 @@ class ReignRepository extends BaseRepository
     protected $fieldSearchable = [
         'reignable_type',
         'reignable_id',
-        'name',
-        'starts_on',
+    	'name',
+    	'starts_on',
+    	'midreign_on',
         'ends_on'
     ];
 

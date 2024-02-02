@@ -28,6 +28,18 @@
     </script>
 @endpush
 
+<!-- Starts On Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('midreign_on', 'Midreign On:') !!}
+    {!! Form::text('midreign_on', null, ['class' => 'form-control','id'=>'starts_on']) !!}
+</div>
+
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#midreign_on').datepicker()
+    </script>
+@endpush
+
 <!-- Ends On Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ends_on', 'Ends On:') !!}

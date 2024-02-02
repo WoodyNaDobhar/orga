@@ -36,10 +36,13 @@ class ReignsTable extends DataTableComponent
                 ->searchable(),
             Column::make("Name", "name")
                 ->sortable()
-                ->searchable(),
-            Column::make("Starts On", "starts_on")
-                ->sortable()
-                ->searchable(),
+        		->searchable(),
+        	Column::make("Starts On", "starts_on")
+        		->sortable()
+        		->searchable(),
+        	Column::make("Midreign On", "midreign_on")
+        		->sortable()
+        		->searchable(),
             Column::make("Ends On", "ends_on")
                 ->sortable()
                 ->searchable(),

@@ -16,7 +16,7 @@
 		"infyomlabs/laravel-ui-adminlte": "^5.1",
 		"laravel/framework": "^9.19",
 		"laravel/sail": "^1.22",
-		"laravel/sanctum": "^3.2",
+		"laravel/sanctum": "^3.3",
 		"laravel/tinker": "^2.7",
 		"rappasoft/laravel-livewire-tables": "^2.14",
 		"spatie/laravel-permission": "^5.10",

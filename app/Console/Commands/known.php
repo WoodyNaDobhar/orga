@@ -9695,13 +9695,13 @@ $knownCurrentReigns = [
 				'label' => null,
 				'begins' => '2023-09-01',
 				'midreign' => '2023-12-01',
-				'ends' => '2023-03-01'
+				'ends' => '2024-03-01'
 		],
 		11 => [
 				'label' => 'Reign #64',
 				'begins' => '2023-09-01',
 				'midreign' => '2023-12-01',
-				'ends' => '2023-03-01'
+				'ends' => '2024-03-01'
 		],
 		12 => [
 				'label' => null,

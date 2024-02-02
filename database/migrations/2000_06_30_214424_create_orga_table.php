@@ -392,6 +392,7 @@ return new class extends Migration
        		$table->unsignedBigInteger('reignable_id')->nullable()->index('reignable_id');
        		$table->string('name', 100)->nullable();
        		$table->date('starts_on');
+       		$table->date('midreign_on');
        		$table->date('ends_on');
        		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
        		$table->timestamp('created_at')->useCurrent();

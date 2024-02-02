@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *      schema="Reign",
- *      required={"reignable_type","starts_on","ends_on","created_at"},
+ *      required={"reignable_type","starts_on","midreign_on","ends_on","created_at"},
  *      @OA\Property(
  *          property="reignable_type",
  *          description="",
@@ -24,6 +24,14 @@ use Illuminate\Database\Eloquent\Model;
  *      ),
  *      @OA\Property(
  *          property="starts_on",
+ *          description="",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *          format="date"
+ *      ),
+ *      @OA\Property(
+ *          property="midreign_on",
  *          description="",
  *          readOnly=false,
  *          nullable=false,
