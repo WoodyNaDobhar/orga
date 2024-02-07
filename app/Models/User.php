@@ -501,11 +501,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(\App\Models\Realm::class, 'updated_by');
     }
-
-    public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Recommendation::class, 'created_by');
-    }
 	
 	public function recommendationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
@@ -560,11 +555,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function socialsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Social::class, 'updated_by');
-    }
-
-    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Split::class, 'created_by');
     }
 	
 	public function splitsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany

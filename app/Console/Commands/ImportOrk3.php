@@ -62,6 +62,9 @@ class ImportOrk3 extends Command
 	 */
 	public function handle()
 	{
+		
+		//TODO: set it up to run it when we're close, logging the last ID in completed.  Then we can move that over and run it again, getting new entries only, which shouldn't take long.
+		
 		//check environment...!production
 		if (app('env') === 'production') {
 			$this->error('This function cannot be run on production.  When you are ready to do this on production, put the site in maintenance mode, copy the latest production data to the development server, and run it there.  You can then export the resulting database to production.  Do not forget to take the site out of maintenance mode when you are done.');
@@ -1390,8 +1393,8 @@ class ImportOrk3 extends Command
 									}
 									DB::reconnect("mysqlBak");
 									$awardId = DB::table('awards')->insertGetId([
-										'awarder_type' => 'Realm',
-										'awarder_id' => $transRealms[$rid],
+										'awardable_type' => 'Realm',
+										'awardable_id' => $transRealms[$rid],
 										'name' => $info['name'],
 										'is_ladder' => $info['is_ladder'],
 										'deleted_by' => null,
@@ -1426,8 +1429,8 @@ class ImportOrk3 extends Command
 							continue;
 						}
 						$awardId = DB::table('awards')->insertGetId([
-							'awarder_type' => 'Realm',
-							'awarder_id' => null,
+							'awardable_type' => 'Realm',
+							'awardable_id' => null,
 							'name' => $nameClean,
 							'is_ladder' => 1,
 							'deleted_by' => $oldAward->deprecate === '1' ? 1 : null,
@@ -1493,11 +1496,11 @@ class ImportOrk3 extends Command
 							$transRealms = $this->getTrans('realms');
 						}
 						DB::reconnect("mysqlBak");
-						$foundAward = DB::table('awards')->where('awarder_type', 'Realm')->where('awarder_id', $transRealms[$oldCustomAward->kingdom_id])->where('name', $oldCustomAward->name)->first();
+						$foundAward = DB::table('awards')->where('awardable_type', 'Realm')->where('awardable_id', $transRealms[$oldCustomAward->kingdom_id])->where('name', $oldCustomAward->name)->first();
 						if(!$foundAward){
 							$customAwardId = DB::table('awards')->insertGetId([
-								'awarder_type' => 'Realm',
-								'awarder_id' => $transRealms[$oldCustomAward->kingdom_id],
+								'awardable_type' => 'Realm',
+								'awardable_id' => $transRealms[$oldCustomAward->kingdom_id],
 								'name' => $cleanName != '' ? $cleanName : 'Unknown Award ' . $oldCustomAward->kingdomaward_id,
 								'is_ladder' => strpos($oldCustomAward->name, 'dreamkeeper') > -1 || strpos($oldCustomAward->name, 'hell') > -1 ? 0 : 1
 							]);
@@ -2487,7 +2490,7 @@ class ImportOrk3 extends Command
 											'model' 		=> 'Title',
 											'cause' 		=> 'JustInName',
 											'model_id'		=> $oldUser->mundane_id,
-											'model_value'	=> $title
+											'model_value'	=> json_encode($title)
 										]);
 									}
 								}
@@ -3285,12 +3288,12 @@ class ImportOrk3 extends Command
 									'persona_id' => $personaID,
 									'credits' => $oldAttendance->credits
 								]);
-								DB::table('crypt')->insert([
-									'model' 		=> 'Attendance',
-									'cause' 		=> 'ReconciledNoPlace',
-									'model_id'		=> $oldAttendance->attendance_id,
-									'model_value'	=> json_encode($oldAttendance)
-								]);
+// 								DB::table('crypt')->insert([
+// 									'model' 		=> 'Attendance',
+// 									'cause' 		=> 'ReconciledNoPlace',
+// 									'model_id'		=> $oldAttendance->attendance_id,
+// 									'model_value'	=> json_encode($oldAttendance)
+// 								]);
 								$bar->advance();
 								continue;
 							//no event and no date (ie, reconciliation)
@@ -3300,12 +3303,12 @@ class ImportOrk3 extends Command
 									'persona_id' => $personaID,
 									'credits' => $oldAttendance->credits
 								]);
-								DB::table('crypt')->insert([
-									'model' 		=> 'Attendance',
-									'cause' 		=> 'ReconciledNoDate',
-									'model_id'		=> $oldAttendance->attendance_id,
-									'model_value'	=> json_encode($oldAttendance)
-								]);
+// 								DB::table('crypt')->insert([
+// 									'model' 		=> 'Attendance',
+// 									'cause' 		=> 'ReconciledNoDate',
+// 									'model_id'		=> $oldAttendance->attendance_id,
+// 									'model_value'	=> json_encode($oldAttendance)
+// 								]);
 								$bar->advance();
 								continue;
 							//if the date is before Feb 01 1983, it's a reconciliation
@@ -3315,12 +3318,12 @@ class ImportOrk3 extends Command
 									'persona_id' => $personaID,
 									'credits' => $oldAttendance->credits
 								]);
-								DB::table('crypt')->insert([
-									'model' 		=> 'Attendance',
-									'cause' 		=> 'ReconciledPreDawnDate',
-									'model_id'		=> $oldAttendance->attendance_id,
-									'model_value'	=> json_encode($oldAttendance)
-								]);
+// 								DB::table('crypt')->insert([
+// 									'model' 		=> 'Attendance',
+// 									'cause' 		=> 'ReconciledPreDawnDate',
+// 									'model_id'		=> $oldAttendance->attendance_id,
+// 									'model_value'	=> json_encode($oldAttendance)
+// 								]);
 								$bar->advance();
 								continue;
 							//if the date is missing the month or day, reconcile it
@@ -3330,12 +3333,12 @@ class ImportOrk3 extends Command
 									'persona_id' => $personaID,
 									'credits' => $oldAttendance->credits
 								]);
-								DB::table('crypt')->insert([
-									'model' 		=> 'Attendance',
-									'cause' 		=> 'ReconciledBadDate',
-									'model_id'		=> $oldAttendance->attendance_id,
-									'model_value'	=> json_encode($oldAttendance)
-								]);
+// 								DB::table('crypt')->insert([
+// 									'model' 		=> 'Attendance',
+// 									'cause' 		=> 'ReconciledBadDate',
+// 									'model_id'		=> $oldAttendance->attendance_id,
+// 									'model_value'	=> json_encode($oldAttendance)
+// 								]);
 								$bar->advance();
 								continue;
 							//if it's more than 4 credits and no event, it's a reconcilliation
@@ -3345,12 +3348,12 @@ class ImportOrk3 extends Command
 										'persona_id' => $personaID,
 										'credits' => $oldAttendance->credits
 								]);
-								DB::table('crypt')->insert([
-										'model' 		=> 'Attendance',
-										'cause' 		=> 'ReconciledTooManyCredits',
-										'model_id'		=> $oldAttendance->attendance_id,
-										'model_value'	=> json_encode($oldAttendance)
-								]);
+// 								DB::table('crypt')->insert([
+// 										'model' 		=> 'Attendance',
+// 										'cause' 		=> 'ReconciledTooManyCredits',
+// 										'model_id'		=> $oldAttendance->attendance_id,
+// 										'model_value'	=> json_encode($oldAttendance)
+// 								]);
 								$bar->advance();
 								continue;
 							}else{
@@ -3782,13 +3785,13 @@ class ImportOrk3 extends Command
 										$realm->color = $cleanNoQuotes;
 										break;
 									case 'AttendanceCreditMinimum':
-										$realm->credit_minimum = $cleanNoQuotes;
+										$realm->credit_minimum = $cleanNoQuotes > 0 ? $cleanNoQuotes : null;
 										break;
 									case 'AttendanceDailyMinimum':
-										$realm->daily_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
+										$realm->daily_minimum = ($cleanNoQuotes === 'null' ? null : ($cleanNoQuotes > 0 ? $cleanNoQuotes : null));
 										break;
 									case 'AttendanceWeeklyMinimum':
-										$realm->weekly_minimum = $cleanNoQuotes === 'null' ? null : $cleanNoQuotes;
+										$realm->weekly_minimum = ($cleanNoQuotes === 'null' ? null : ($cleanNoQuotes > 0 ? $cleanNoQuotes : null));
 										break;
 									case 'AveragePeriod':
 										$data = json_decode($cleanValue);
@@ -4524,11 +4527,11 @@ class ImportOrk3 extends Command
 							DB::table('issuances')->insert([
 								'issuable_type' => 'Title',
 								'issuable_id' => $titleId,
-								'authority_type' => 'Unit',
-								'authority_id' => $transUnits[$oldMember->unit_id],
+								'authorityable_type' => 'Unit',
+								'authorityable_id' => $transUnits[$oldMember->unit_id],
 								'issuer_id' => null,
-								'recipient_type' => 'Persona',
-								'recipient_id' => $personaId,
+								'receivable_type' => 'Persona',
+								'receivable_id' => $personaId,
 								'issued_at' => date('Y-m-d'),
 							]);
 						}
@@ -5885,13 +5888,13 @@ class ImportOrk3 extends Command
 												})
 												->where(function ($query) use ($transRealms, $transChapters, $oldKingdomID, $oldParkID) {
 													$query->where(function ($q) use ($transRealms, $oldKingdomID) {
-														$q->where('awarder_type', 'Realm')->where('awarder_id', $transRealms[$oldKingdomID]);
+														$q->where('awardable_type', 'Realm')->where('awardable_id', $transRealms[$oldKingdomID]);
 													})
 													->orWhere(function ($q) use ($transChapters, $oldParkID) {
 														if ($oldParkID == 0) {
-															$q->where('awarder_type', 'Chapter')->whereNull('awarder_id');
+															$q->where('awardable_type', 'Chapter')->whereNull('awardable_id');
 														} else {
-															$q->where('awarder_type', 'Chapter')->where('awarder_id', $transChapters[$oldParkID]);
+															$q->where('awardable_type', 'Chapter')->where('awardable_id', $transChapters[$oldParkID]);
 														}
 													});
 												})
@@ -5915,8 +5918,8 @@ class ImportOrk3 extends Command
 													->where('custom_name', $customName)
 													->value('park_count');
 												$awardId = DB::table('awards')->insertGetId([
-													'awarder_type' => $parkCount === 1 ? 'Chapter' : 'Realm',
-													'awarder_id' => $parkCount === 1 ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID],
+													'awardable_type' => $parkCount === 1 ? 'Chapter' : 'Realm',
+													'awardable_id' => $parkCount === 1 ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID],
 													'name' => $customName,
 													'is_ladder' => 1
 												]);
@@ -5926,8 +5929,8 @@ class ImportOrk3 extends Command
 												$authority_id = $parkCount === 1 ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID];
 											}
 										//check realm awards for the realm
-										}elseif(Award::where('awarder_type', 'Realm')->where('awarder_id', $oldKingdomID)->where('name', $customName)->exists()){
-											$awardCheck = Award::where('awarder_type', 'Realm')->where('awarder_id', $oldKingdomID)->where('name', $customName)->first();
+										}elseif(Award::where('awardable_type', 'Realm')->where('awardable_id', $oldKingdomID)->where('name', $customName)->exists()){
+											$awardCheck = Award::where('awardable_type', 'Realm')->where('awardable_id', $oldKingdomID)->where('name', $customName)->first();
 											$issuable_type = 'Award';
 											$issuable_id = $awardCheck->id;
 											$authority_type = $awardCheck->titleable_type;
@@ -6330,10 +6333,10 @@ class ImportOrk3 extends Command
 								'issuable_id' => $issuable_id,
 								'whereable_type' => $eventcaldet ? 'Event' : 'Location',
 								'whereable_id' => $eventcaldet ? $transEventDetails[$eventcaldet->event_calendardetail_id] : $defaultLocationId,
-								'authority_type' => $authority_type ? $authority_type : ($oldParkID != '0' ? 'Chapter' : 'Realm'),
-								'authority_id' => $authority_id ? $authority_id : ($oldParkID != '0' ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID]),
-								'recipient_type' => $recipient_type,
-								'recipient_id' => $recipient_id,
+								'authorityable_type' => $authority_type ? $authority_type : ($oldParkID != '0' ? 'Chapter' : 'Realm'),
+								'authorityable_id' => $authority_id ? $authority_id : ($oldParkID != '0' ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID]),
+								'receivable_type' => $recipient_type,
+								'receivable_id' => $recipient_id,
 								'issuer_id' => $oldIssuance->given_by_id != '0' && in_array($oldIssuance->given_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->given_by_id] : null,
 								'custom_name' => $oldIssuance->custom_name != '' ? $oldIssuance->custom_name : null,
 								'rank' => $rank > 0 ? $rank : null,
@@ -6348,13 +6351,8 @@ class ImportOrk3 extends Command
 						}
 					});
 					break;
-				//TODO: run and check results when a full rotation is complete
-				//TODO: it should only include unused stuff.  Process stuff like 'DPfL' and 'x Qualified'.
-				//TODO: review 'crypt' and remove any causes that absolutely can't or don't need to be worked.
-				//TODO: a process that goes thru where crypt cause is 'PersonaGone' (or whatever), sees if they were since made, and add the record as appropriate.
-					
+				
 				case 'CheckAwards':
-					//TODO: found a couple circumstances where processed weren't being set.  Have been set.  Check.
 					$realmawardsProcessed = $this->getTrans('realmawardsprocessed');
 					$processedKeys = array_keys($realmawardsProcessed);
 					
@@ -6752,7 +6750,6 @@ class ImportOrk3 extends Command
 						if($type === 'Realm'){
 							$labelUpdate = $knownCurrentReigns[$oldKingdomID]['label'];
 							if($labelUpdate){
-								//TODO: check this
 								$newNumber = (int)$this->extractNumber($labelUpdate) - $i;
 								//if it's not a roman numeral one...
 								if(strpos($labelUpdate, $this->extractNumber($labelUpdate)) > -1){

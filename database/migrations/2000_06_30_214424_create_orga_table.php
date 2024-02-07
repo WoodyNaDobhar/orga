@@ -17,12 +17,12 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
-            $table->enum('accountable_type', ['Realm', 'Chapter', 'Unit']);
-            $table->unsignedInteger('accountable_id')->index('accountable_id');
-            $table->string('name', 50);
-            $table->enum('type', ['Imbalance', 'Income', 'Expense', 'Asset', 'Liability', 'Equity']);
+        	$table->bigIncrements('id')->comment('Model ID');
+        	$table->unsignedBigInteger('parent_id')->nullable()->index('parent_id')->comment('The superior account ID, if any');
+        	$table->enum('accountable_type', ['Realm', 'Chapter', 'Unit'])->comment('Who owns the account; Realm, Chapter, or Unit');
+        	$table->unsignedInteger('accountable_id')->index('accountable_id')->comment('The ID of the owner of this account');
+        	$table->string('name', 50)->comment('Account label');
+        	$table->enum('type', ['Imbalance', 'Income', 'Expense', 'Asset', 'Liability', 'Equity'])->comment('Imbalance, Income, Expense, Asset, Liability, or Equity');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -33,9 +33,9 @@ return new class extends Migration
 
         Schema::create('archetypes', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->string('name', 50);
-            $table->boolean('is_active')->default(true);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->string('name', 50)->comment('Archetype label');
+            $table->boolean('is_active')->default(true)->comment('Is it (default true) a current option?');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -46,13 +46,13 @@ return new class extends Migration
 
         Schema::create('attendances', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->unsignedBigInteger('archetype_id')->nullable()->index('archetype_id');
-            $table->enum('attendable_type', ['Meetup', 'Event']);
-            $table->unsignedBigInteger('attendable_id')->index('attendable_id');
-            $table->date('attended_at');
-            $table->double('credits', 4, 2)->default(1);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('Attendee Persona ID');
+            $table->unsignedBigInteger('archetype_id')->index('archetype_id')->comment('Selected Archetype for Attendance');
+            $table->enum('attendable_type', ['Meetup', 'Event'])->comment('Where the Attendance occured; Meetup or Event');
+            $table->unsignedBigInteger('attendable_id')->index('attendable_id')->comment('The ID of where the Attendance occured');
+            $table->date('attended_at')->comment('The date of the Attendance');
+            $table->double('credits', 4, 2)->default(1)->comment('Credits (default 1) awarded for the Attendance');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -63,11 +63,11 @@ return new class extends Migration
 
         Schema::create('awards', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->enum('awarder_type', ['Realm', 'Chapter', 'Unit']);
-            $table->unsignedBigInteger('awarder_id')->nullable()->index('awarder_id');
-            $table->string('name', 100);
-            $table->boolean('is_ladder')->default(false);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->enum('awardable_type', ['Realm', 'Chapter', 'Unit'])->comment('Who issues the Award; Realm, Chapter, or Unit');
+            $table->unsignedBigInteger('awardable_id')->nullable()->index('awardable_id')->comment('The ID of the award issuer, null for everybody');
+            $table->string('name', 100)->comment('The Award label, with options for the label seperated with |');
+            $table->boolean('is_ladder')->default(false)->comment('Is this (default false) a ranked/ladder award?');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -78,11 +78,11 @@ return new class extends Migration
         	
        	Schema::create('crats', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-       		$table->bigIncrements('id');
-       		$table->unsignedBigInteger('event_id')->index('event_id');
-       		$table->unsignedBigInteger('persona_id')->index('persona_id');
-       		$table->string('role', 50);
-       		$table->boolean('is_autocrat')->default(false);
+       		$table->bigIncrements('id')->comment('Model ID');
+       		$table->unsignedBigInteger('event_id')->index('event_id')->comment('Event the Persona cratted for');
+       		$table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The Persona cratting the Event');
+       		$table->string('role', 50)->comment('The role of the Crat');
+       		$table->boolean('is_autocrat')->default(false)->comment('Are they (default false) the person in charge?');
        		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
        		$table->timestamp('created_at')->useCurrent();
        		$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -93,11 +93,11 @@ return new class extends Migration
 
         Schema::create('dues', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->unsignedBigInteger('transaction_id')->index('transaction_id');
-            $table->date('dues_on');
-            $table->double('intervals', 7, 4)->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('Persona paying Dues');
+            $table->unsignedBigInteger('transaction_id')->index('transaction_id')->comment('Transaction recording the payment');
+            $table->date('dues_on')->comment('The date the dues period begins, not the date paid');
+            $table->double('intervals', 7, 4)->nullable()->comment('Number of six month periods the payment covers, null for forever');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -108,18 +108,18 @@ return new class extends Migration
 
         Schema::create('events', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->enum('eventable_type', ['Realm', 'Chapter', 'Unit', 'Persona']);
-            $table->unsignedBigInteger('eventable_id')->index('eventable_id');
-            $table->unsignedBigInteger('location_id')->nullable()->index('at_chapter_id');
-            $table->string('name');
-            $table->mediumText('description')->nullable();
-            $table->string('image', 255)->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_demo')->default(false);
-            $table->timestamp('event_start')->nullable();
-            $table->timestamp('event_end')->nullable();
-            $table->float('price', 6)->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->enum('eventable_type', ['Realm', 'Chapter', 'Unit', 'Persona'])->comment('Who sponsors the event; Realm, Chapter, Unit, or Persona');
+            $table->unsignedBigInteger('eventable_id')->index('eventable_id')->comment('The ID of the Event sponsor');
+            $table->unsignedBigInteger('location_id')->nullable()->index('at_chapter_id')->comment('ID of the Location the Event takes place at, if any');
+            $table->string('name')->comment('The name of the Event');
+            $table->mediumText('description')->nullable()->comment('A description of the Event, if any');
+            $table->string('image', 255)->nullable()->comment('A promotional image for the Event, if any');
+            $table->boolean('is_active')->default(true)->comment('Is this (default true) something people should be seeing yet?');
+            $table->boolean('is_demo')->default(false)->comment('Is this (default false) a demo?');
+            $table->timestamp('event_start')->comment('When the Event begins');
+            $table->timestamp('event_end')->comment('When the Event ends');
+            $table->float('price', 6)->nullable()->comment('The cost of the Event, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -130,12 +130,12 @@ return new class extends Migration
         	
         Schema::create('guests', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-        	$table->bigIncrements('id');
-        	$table->unsignedBigInteger('event_id')->index('event_id');
-        	$table->unsignedBigInteger('waiver_id')->index('waiver_id');
-        	$table->unsignedBigInteger('chapter_id')->index('chapter_id')->nullable();
-        	$table->boolean('is_followedup')->default(false);
-        	$table->string('notes')->nullable();
+        	$table->bigIncrements('id')->comment('Model ID');
+        	$table->unsignedBigInteger('event_id')->index('event_id')->comment('ID of the Demo Event they were guests for');
+        	$table->unsignedBigInteger('waiver_id')->index('waiver_id')->comment('ID of the Waiver for the Guest');
+        	$table->unsignedBigInteger('chapter_id')->index('chapter_id')->nullable()->comment('ID of the closest Chapter to the Guest, if known');
+        	$table->boolean('is_followedup')->default(false)->comment('Has this Guest (default false) been followed up with?');
+        	$table->string('notes')->nullable()->comment('Notes about the Guest, if any');
         	$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
         	$table->timestamp('created_at')->useCurrent();
         	$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -146,21 +146,21 @@ return new class extends Migration
 
         Schema::create('issuances', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->enum('issuable_type', ['Award', 'Title']);
-            $table->unsignedBigInteger('issuable_id')->index('issuable_id');
-            $table->enum('whereable_type', ['Event','Meetup','Location'])->nullable();
-            $table->unsignedBigInteger('whereable_id')->index('whereable_id')->nullable();
-            $table->enum('authority_type', ['Chapter', 'Realm', 'Unit', 'Persona']);
-            $table->unsignedBigInteger('authority_id')->index('authority_id');
-            $table->enum('recipient_type', ['Persona', 'Unit']);
-            $table->unsignedBigInteger('recipient_id')->index('recipient_id');
-            $table->unsignedBigInteger('issuer_id')->nullable()->index('issuer_id');
-            $table->string('custom_name', 64)->nullable();
-            $table->unsignedInteger('rank')->nullable();
-            $table->date('issued_at');
-            $table->string('reason', 400)->nullable();
-            $table->string('image', 255)->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->enum('issuable_type', ['Award', 'Title'])->comment('The Issuance type; Award or Title');
+            $table->unsignedBigInteger('issuable_id')->index('issuable_id')->comment('The ID of the Issuance');
+            $table->enum('whereable_type', ['Event','Meetup','Location'])->nullable()->comment('Where it was Issued, if known; Event, Meetup, or Location');
+            $table->unsignedBigInteger('whereable_id')->index('whereable_id')->nullable()->comment('The ID of where it was Issued');
+            $table->enum('authorityable_type', ['Chapter', 'Realm', 'Unit', 'Persona'])->comment('Issuing authority; Chapter, Realm, Unit, or Persona');
+            $table->unsignedBigInteger('authorityable_id')->index('authorityable_id')->comment('The ID of the Issuing authority');
+            $table->enum('receivable_type', ['Persona', 'Unit'])->comment('Who recieved the Issuance; Persona or Unit');
+            $table->unsignedBigInteger('receivable_id')->index('receivable_id')->comment('The ID of the Issuance recipient');
+            $table->unsignedBigInteger('issuer_id')->nullable()->index('issuer_id')->comment('Persona signing the Issuance, if any');
+            $table->string('custom_name', 64)->nullable()->comment('Where label options are avaiable, or customization allowed, the chosen label, else null');
+            $table->unsignedInteger('rank')->nullable()->comment('For laddered Issuances, the order number, else null');
+            $table->date('issued_at')->comment('When the Issuance was made or is to be made public (if in the future)');
+            $table->string('reason', 400)->nullable()->comment('A historical record of what the Issuance was for');
+            $table->string('image', 255)->nullable()->comment('An internal link to an image of the Issuance phyrep, if any');
             $table->unsignedBigInteger('revoked_by')->nullable()->index('revoked_by');
             $table->date('revoked_at')->nullable();
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
@@ -174,23 +174,23 @@ return new class extends Migration
 
         Schema::create('realms', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id');
-            $table->string('name', 100);
-            $table->string('abbreviation', 4);
-            $table->string('color', 6)->default('FACADE');
-            $table->string('heraldry')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->unsignedSmallInteger('credit_minimum')->nullable();
-            $table->unsignedSmallInteger('credit_maximum')->nullable();
-            $table->unsignedSmallInteger('daily_minimum')->nullable();
-            $table->unsignedSmallInteger('weekly_minimum')->nullable();
-            $table->enum('average_period_type', ['Week','Month'])->nullable();
-            $table->unsignedSmallInteger('average_period')->nullable();
-            $table->unsignedSmallInteger('dues_amount')->nullable();
-            $table->enum('dues_intervals_type', ['Week','Month'])->nullable();
-            $table->unsignedSmallInteger('dues_intervals')->nullable();
-            $table->unsignedSmallInteger('dues_take')->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('parent_id')->nullable()->index('parent_id')->comment('If sponsored by another Realm, that Realm ID');
+            $table->string('name', 100)->comment('The label for the Realm');
+            $table->string('abbreviation', 4)->comment('A simple, unique, usually two letter abbreviation commonly used for the Realm');
+            $table->string('color', 6)->default('FACADE')->comment('The hexidecimal code (default FACADE) for the color used for the Realm on various UIs');
+            $table->string('heraldry')->nullable()->comment('An internal link to the Realm heraldry image');
+            $table->boolean('is_active')->default(true)->comment('Is (default true) the Realm active?');
+            $table->unsignedSmallInteger('credit_minimum')->nullable()->comment('Realm Credit Minimum setting, if any');
+            $table->unsignedSmallInteger('credit_maximum')->nullable()->comment('Realm Credit Maximum setting, if any');
+            $table->unsignedSmallInteger('daily_minimum')->nullable()->comment('Realm Daily Minimum setting, if any');
+            $table->unsignedSmallInteger('weekly_minimum')->nullable()->comment('Realm Weekly Minimum setting, if any');
+            $table->enum('average_period_type', ['Week','Month'])->nullable()->comment('Realm Average Period Type setting, if any');
+            $table->unsignedSmallInteger('average_period')->nullable()->comment('Realm Average Period setting, if any');
+            $table->unsignedSmallInteger('dues_amount')->nullable()->comment('Dues cost per interval for the Realm, if any');
+            $table->enum('dues_intervals_type', ['Week','Month'])->nullable()->comment('Dues intervals type for the Realm, if any');
+            $table->unsignedSmallInteger('dues_intervals')->nullable()->comment('Dues intervals count for the Realm, if any');
+            $table->unsignedSmallInteger('dues_take')->nullable()->comment('Realm take of Dues paid to Chapters, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -201,19 +201,19 @@ return new class extends Migration
 
         Schema::create('locations', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-        	$table->bigIncrements('id');
-        	$table->string('label', 50)->nullable();
-            $table->string('address')->nullable();
-            $table->string('city', 50)->nullable();
-            $table->string('province', 35)->nullable();
-            $table->string('postal_code', 10)->nullable();
-            $table->string('country', 2)->nullable()->default('US');
-            $table->mediumText('google_geocode')->nullable();
-            $table->double('latitude')->nullable();
-            $table->double('longitude')->nullable();
-            $table->mediumText('location')->nullable();
-            $table->mediumText('map_url')->nullable();
-            $table->mediumText('directions')->nullable();
+        	$table->bigIncrements('id')->comment('Model ID');
+        	$table->string('label', 50)->nullable()->comment('The Location label, as it might appear on a map');
+            $table->string('address')->nullable()->comment('The street address of the Location, if any');
+            $table->string('city', 50)->nullable()->comment('The city of the Location, if any');
+            $table->string('province', 35)->nullable()->comment('The state or provice of the Location, if any');
+            $table->string('postal_code', 10)->nullable()->comment('The zip or postal code of the Location, if any');
+            $table->string('country', 2)->nullable()->default('US')->comment('The two letter country code of the Location (default US), if any');
+            $table->mediumText('google_geocode')->nullable()->comment('JSON encoded Google Geocode data of the Location, if any');
+            $table->double('latitude')->nullable()->comment('Latitude of the Location, if any');
+            $table->double('longitude')->nullable()->comment('Longitude of the Location, if any');
+            $table->mediumText('location')->nullable()->comment('JSON encoded Google location services data of the Location, if any');
+            $table->mediumText('map_url')->nullable()->comment('An external map link of the Location, if any');
+            $table->mediumText('directions')->nullable()->comment('Directions required to properly navigate the last part of the journey to, or park at, the Location, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -224,17 +224,17 @@ return new class extends Migration
 
         Schema::create('meetups', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('chapter_id')->index('chapter_id');
-            $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
-            $table->boolean('is_active')->default(true);
-            $table->enum('purpose', ['Park Day', 'Fighter Practice', 'A&S Gathering', 'Other']);
-            $table->enum('recurrence', ['Weekly', 'Monthly', 'Week-of-Month']);
-            $table->smallInteger('week_of_month')->nullable();
-            $table->enum('week_day', ['None', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
-            $table->smallInteger('month_day')->nullable();
-            $table->time('occurs_at');
-            $table->string('description')->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('chapter_id')->index('chapter_id')->comment('The ID of the Chapter hosting the Meetup');
+            $table->unsignedBigInteger('location_id')->nullable()->index('location_id')->comment('The ID of the Location the Meetup occurs at');
+            $table->boolean('is_active')->default(true)->comment('Is (default true) the Meetup still occuring?');
+            $table->enum('purpose', ['Park Day', 'Fighter Practice', 'A&S Gathering', 'Other'])->comment('The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other');
+            $table->enum('recurrence', ['Weekly', 'Monthly', 'Week-of-Month'])->comment('The frequency with which this Meetup occurs');
+            $table->smallInteger('week_of_month')->nullable()->comment('The week of the month the Meetup occurs, if recurrence is Week-of-Month');
+            $table->enum('week_day', ['None', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])->comment('They day of the week the Meetup occurs, if recurrence is Weekly');
+            $table->smallInteger('month_day')->nullable()->comment('The day of the month the Meetup occurs, if recurrence is Monthly');
+            $table->time('occurs_at')->comment('The time of day the Meetup takes place');
+            $table->string('description')->nullable()->comment('A description of the Meetup, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -245,14 +245,14 @@ return new class extends Migration
 
         Schema::create('members', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('unit_id')->index('unit_id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->boolean('is_head')->default(true);
-            $table->boolean('is_voting')->default(true);
-            $table->date('joined_at')->nullable();
-            $table->date('left_at')->nullable();
-            $table->string('notes')->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('unit_id')->index('unit_id')->comment('The ID of the Unit of which they are Members');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The ID of the Persona that has Membership in the given Unit');
+            $table->boolean('is_head')->default(false)->comment('Is (default false) this Persona the single point of contact for the Unit?');
+            $table->boolean('is_voting')->default(false)->comment('Is this Persona (default false) a full voting Member?');
+            $table->date('joined_at')->nullable()->comment('The date this Persona joined the Unit, if known');
+            $table->date('left_at')->nullable()->comment('The date this Persona left the Unit, if they have');
+            $table->string('notes')->nullable()->comment('Notes on the Membership, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -263,15 +263,15 @@ return new class extends Migration
 
         Schema::create('officers', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-        	$table->bigIncrements('id');
-        	$table->enum('officerable_type', ['Reign', 'Unit']);
-        	$table->unsignedBigInteger('officerable_id')->index('officerable_id');
-            $table->unsignedBigInteger('office_id')->index('office_id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->string('label', 50)->nullable();
-            $table->date('starts_on')->nullable();
-            $table->date('ends_on')->nullable();
-            $table->string('notes')->nullable();
+        	$table->bigIncrements('id')->comment('Model ID');
+        	$table->enum('officerable_type', ['Reign', 'Unit'])->comment('Type of that which the Persona is Officer of; Reign or Unit');
+        	$table->unsignedBigInteger('officerable_id')->index('officerable_id')->comment('The ID of the Reign or Unit they are Officer of');
+            $table->unsignedBigInteger('office_id')->index('office_id')->comment('The ID of the Office this Persona held');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The ID of the Persona holding this Office');
+            $table->string('label', 50)->nullable()->comment('If the Office name has options, or allows customization, the selected label, if any');
+            $table->date('starts_on')->nullable()->comment('If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data');
+            $table->date('ends_on')->nullable()->comment('If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data');
+            $table->string('notes')->nullable()->comment('Notes about the Officer or their time in office, or explaining pro-tem, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -282,12 +282,12 @@ return new class extends Migration
 
         Schema::create('offices', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-        	$table->bigIncrements('id');
-        	$table->enum('officeable_type', ['Realm', 'Chaptertype', 'Unit']);
-        	$table->unsignedBigInteger('officeable_id')->nullable()->index('officeable_id');
-        	$table->string('name', 100);
-        	$table->integer('duration')->nullable()->default(6);
-        	$table->integer('order')->nullable();
+        	$table->bigIncrements('id')->comment('Model ID');
+        	$table->enum('officeable_type', ['Realm', 'Chaptertype', 'Unit'])->comment('Type for what the Office is for; Realm, Chaptertype, Unit');
+        	$table->unsignedBigInteger('officeable_id')->nullable()->index('officeable_id')->comment('The ID of what the Office is for');
+        	$table->string('name', 100)->comment('The name of the Office, options delineated with a single |');
+        	$table->integer('duration')->nullable()->default(6)->comment('Duration, in months, of the office (default 6)');
+        	$table->integer('order')->nullable()->comment('If the Realm has an order of prescidence, the office level where Monarch = 1, else null');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -298,12 +298,12 @@ return new class extends Migration
 
         Schema::create('chaptertypes', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('realm_id')->index('realm_id');
-            $table->string('name', 50);
-            $table->integer('rank')->nullable();
-            $table->integer('minimumattendance')->default(5);
-            $table->integer('minimumcutoff')->default(1);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('realm_id')->index('realm_id')->comment('The ID of the Realm that has this Chaptertype');
+            $table->string('name', 50)->comment('The name of the Chaptertype');
+            $table->integer('rank')->nullable()->comment('The rank of the Chaptertype expressed in multiples of 10 where Shire is 20');
+            $table->integer('minimumattendance')->default(5)->comment('Minimum average Attendance required by the Realm to achieve the Chaptertype');
+            $table->integer('minimumcutoff')->default(1)->comment('Minimum average Attendance required by the Realm to maintain the Chaptertype');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -314,14 +314,14 @@ return new class extends Migration
 
         Schema::create('chapters', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('realm_id')->index('realm_id');
-            $table->unsignedBigInteger('chaptertype_id')->default(1)->index('chaptertype_id');
-            $table->unsignedBigInteger('location_id')->index('location_id');
-            $table->string('name', 100);
-            $table->string('abbreviation', 3);
-            $table->string('heraldry')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('realm_id')->index('realm_id')->comment('The ID of the Realm sponsoring the Chapter');
+            $table->unsignedBigInteger('chaptertype_id')->default(1)->index('chaptertype_id')->comment('The ID of the Chaptertype earned by the Chapter');
+            $table->unsignedBigInteger('location_id')->index('location_id')->comment('The ID of the Location that best describes where the Chapter is');
+            $table->string('name', 100)->comment('The Chapter name');
+            $table->string('abbreviation', 3)->comment('A short abbreviation of the Chapter name, unique for the Realm');
+            $table->string('heraldry')->nullable()->comment('An internal link to an image of the Chapter heraldry, if any');
+            $table->boolean('is_active')->default(true)->comment('Is (default true) the Chapter still active?');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -332,18 +332,18 @@ return new class extends Migration
 
         Schema::create('personas', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('chapter_id')->index('chapter_id');
-            $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
-            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
-            $table->string('mundane')->nullable();
-            $table->string('name');
-            $table->string('heraldry')->nullable();
-            $table->string('image')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->date('reeve_qualified_expires_at')->nullable();
-            $table->date('corpora_qualified_expires_at')->nullable();
-            $table->date('joined_chapter_at')->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('chapter_id')->index('chapter_id')->comment('The ID of the Chapter the Persona is Waivered at');
+            $table->unsignedBigInteger('user_id')->nullable()->index('user_id')->comment('The ID of the User associated with this Persona, if any');
+            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id')->comment('The ID of the pronouns associated with this Persona, if known');
+            $table->string('mundane')->nullable()->comment('What the Persona typically enters into the Mundane field of the sign-in');
+            $table->string('name')->comment('The Persona name, without titles or honors, but otherwise in full');
+            $table->string('heraldry')->nullable()->comment('An internal link to an image of the Persona heraldry');
+            $table->string('image')->nullable()->comment('An internal link to an image of the Persona');
+            $table->boolean('is_active')->default(true)->comment('Is (default true) the Persona still active?');
+            $table->date('reeve_qualified_expires_at')->nullable()->comment('If they are Reeve Qualified, when it expires');
+            $table->date('corpora_qualified_expires_at')->nullable()->comment('If they are Corpora Qualified, when it expires');
+            $table->date('joined_chapter_at')->nullable()->comment('The date the Persona joined the Chapter, either as a newb or a transfer');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -354,12 +354,12 @@ return new class extends Migration
 
         Schema::create('pronouns', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->string('subject', 30);
-            $table->string('object', 30);
-            $table->string('possessive', 30);
-            $table->string('possessivepronoun', 30);
-            $table->string('reflexive', 30);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->string('subject', 30)->comment('Pronoun Subject');
+            $table->string('object', 30)->comment('Pronoun Object');
+            $table->string('possessive', 30)->comment('Pronoun Possessive');
+            $table->string('possessivepronoun', 30)->comment('Pronoun Possessive Pronoun');
+            $table->string('reflexive', 30)->comment('Pronoun Reflexive');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -370,13 +370,13 @@ return new class extends Migration
 
         Schema::create('recommendations', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('persona_id')->index('mundane_id');
-            $table->enum('recommendable_type', ['Award', 'Title']);
-            $table->unsignedBigInteger('recommendable_id')->nullable()->index('recommendable_id');
-            $table->integer('rank')->nullable();
-            $table->boolean('is_anonymous')->default(false);
-            $table->string('reason', 400);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('persona_id')->index('mundane_id')->comment('The ID of the Persona the Recommendation is for');
+            $table->enum('recommendable_type', ['Award', 'Title'])->comment('The Type of Issuances being Recommended; Award or Title');
+            $table->unsignedBigInteger('recommendable_id')->index('recommendable_id')->comment('The ID of the Title or Award being Recommended');
+            $table->integer('rank')->nullable()->comment('If a ranked or ladder award, Recommended level');
+            $table->boolean('is_anonymous')->default(false)->comment('Does (default false) the Recommendation creator wish to be anonymous?');
+            $table->string('reason', 400)->comment('What the Recommendation is for');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -387,13 +387,13 @@ return new class extends Migration
         	
        	Schema::create('reigns', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-       		$table->bigIncrements('id');
-       		$table->enum('reignable_type', ['Realm', 'Chapter']);
-       		$table->unsignedBigInteger('reignable_id')->nullable()->index('reignable_id');
-       		$table->string('name', 100)->nullable();
-       		$table->date('starts_on');
-       		$table->date('midreign_on');
-       		$table->date('ends_on');
+       		$table->bigIncrements('id')->comment('Model ID');
+       		$table->enum('reignable_type', ['Realm', 'Chapter'])->comment('The Reign Type; Realm or Chapter');
+       		$table->unsignedBigInteger('reignable_id')->nullable()->index('reignable_id')->comment('The ID of the Realm or Chapter this Reign is for');
+       		$table->string('name', 100)->nullable()->comment('The name of the Reign, if any');
+       		$table->date('starts_on')->comment('Date the Reign begins (coronation)');
+       		$table->date('midreign_on')->comment('Date of the Reign Midreign');
+       		$table->date('ends_on')->comment('Date the next Reign begins, and this one ends');
        		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
        		$table->timestamp('created_at')->useCurrent();
        		$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -404,11 +404,11 @@ return new class extends Migration
 
         Schema::create('reconciliations', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('archetype_id')->index('archetype_id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->double('credits', 6, 2)->default(1);
-            $table->string('notes')->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('archetype_id')->index('archetype_id')->comment('The ID of the Archetype the Reconcilliation credits are for');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The ID of the Persona getting Reconciled');
+            $table->double('credits', 6, 2)->default(1)->comment('The number of credits to be given or removed (with negative value) from the Persona for the Archetype');
+            $table->string('notes')->nullable()->comment('Why the Reconciliation was required, and how they might be removed');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -419,11 +419,11 @@ return new class extends Migration
         	
        	Schema::create('socials', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-       		$table->bigIncrements('id');
-       		$table->enum('sociable_type', ['Realm', 'Chapter', 'Event', 'Unit', 'Persona']);
-       		$table->unsignedBigInteger('sociable_id')->nullable()->index('sociable_id');
-       		$table->enum('media', ['Web', 'Facebook', 'Discord', 'Instagram', 'YouTube', 'TicToc']);
-       		$table->string('value', 255);
+       		$table->bigIncrements('id')->comment('Model ID');
+       		$table->enum('sociable_type', ['Realm', 'Chapter', 'Event', 'Unit', 'Persona'])->comment('The Model for which the Social is for; Realm, Chapter, Event, Unit, or Persona');
+       		$table->unsignedBigInteger('sociable_id')->nullable()->index('sociable_id')->comment('The ID of the entry with this Social');
+       		$table->enum('media', ['Web', 'Facebook', 'Discord', 'Instagram', 'YouTube', 'TicToc'])->comment('The type of Social; Web, Facebook, Discord, Instagram, YouTube, or TicToc');
+       		$table->string('value', 255)->comment('The link, username, or other identifier for the given media');
        		$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
        		$table->timestamp('created_at')->useCurrent();
        		$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -434,11 +434,11 @@ return new class extends Migration
 
         Schema::create('splits', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('account_id')->index('account_id')->nullable();
-            $table->unsignedBigInteger('transaction_id')->index('transaction_id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->double('amount', 10, 4);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('account_id')->index('account_id')->nullable()->comment('The ID of the Account this Split is for');
+            $table->unsignedBigInteger('transaction_id')->index('transaction_id')->comment('The ID of the Transaction being Split');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The ID of the Persona performing the Transaction');
+            $table->double('amount', 10, 4)->comment('How much the Split is for');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -449,14 +449,14 @@ return new class extends Migration
 
         Schema::create('suspensions', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('persona_id')->index('persona_id');
-            $table->unsignedBigInteger('realm_id')->index('realm_id');
-            $table->unsignedBigInteger('suspended_by')->index('suspended_by');
-            $table->date('suspended_at')->nullable();
-            $table->date('expires_at')->nullable();
-            $table->string('cause');
-            $table->boolean('is_propogating')->default(false);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The ID of the Persona that has been Suspended');
+            $table->unsignedBigInteger('realm_id')->index('realm_id')->comment('The ID of the Realm issuing the Suspension');
+            $table->unsignedBigInteger('suspended_by')->index('suspended_by')->comment('The ID of the Persona issuing the Suspension');
+            $table->date('suspended_at')->comment('The date the Suspension begins');
+            $table->date('expires_at')->nullable()->comment('The date the Suspension ends, if any, null for forever');
+            $table->string('cause')->comment('Why the suspension was issued');
+            $table->boolean('is_propogating')->default(false)->comment('Does (default false) the Suspension propogate to all Realms?');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -467,14 +467,14 @@ return new class extends Migration
 
         Schema::create('titles', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-        	$table->bigIncrements('id');
-        	$table->enum('titleable_type', ['Realm', 'Chapter', 'Unit', 'Persona']);
-        	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id');
-            $table->string('name', 100);
-            $table->unsignedSmallInteger('rank')->nullable();
-            $table->enum('peerage', ['Gentry', 'Knight', 'Master', 'Nobility', 'None', 'Retainer', 'Paragon', 'Squire'])->default('None');
-            $table->boolean('is_roaming')->default(0);
-            $table->boolean('is_active')->default(1);
+        	$table->bigIncrements('id')->comment('Model ID');
+        	$table->enum('titleable_type', ['Realm', 'Chapter', 'Unit', 'Persona'])->comment('The Model of who can issue the Title; Realm, Chapter, Unit, or Persona');
+        	$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id')->comment('The ID of the Title issuer');
+            $table->string('name', 100)->comment('The Title name with options seperated by a single |');
+            $table->unsignedSmallInteger('rank')->nullable()->comment('For Realm Titles or where appropriate, their order of prescidence in that Realm expressed (usually) in multiples of 10, where Lord|Lady are typically 30');
+            $table->enum('peerage', ['Gentry', 'Knight', 'Master', 'Nobility', 'None', 'Retainer', 'Paragon', 'Squire'])->default('None')->comment('The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Retainer, Paragon, or Squire');
+            $table->boolean('is_roaming')->default(false)->comment('Is (default false) the Title roaming, such as Dragonmaster?');
+            $table->boolean('is_active')->default(true)->comment('Is (default true) this a Title still being given out?');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -485,12 +485,12 @@ return new class extends Migration
 
         Schema::create('tournaments', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->enum('tournamentable_type', ['Realm', 'Chapter', 'Event']);
-            $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id');
-            $table->string('name', 50);
-            $table->mediumText('description');
-            $table->dateTime('occured_at');
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->enum('tournamentable_type', ['Realm', 'Chapter', 'Event'])->comment('The Tournament sponsor type; Realm, Chapter, or Event');
+            $table->unsignedBigInteger('tournamentable_id')->index('tournamentable_id')->comment('The ID of the Tournament sponsor');
+            $table->string('name', 50)->comment('The name of the Tournament');
+            $table->mediumText('description')->comment('A description of the Tournament');
+            $table->dateTime('occured_at')->comment('Date and time the Tournament occured');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -501,10 +501,10 @@ return new class extends Migration
 
         Schema::create('transactions', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->string('description');
-            $table->mediumText('memo')->nullable();
-            $table->date('transaction_at');
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->string('description')->comment('A description of the Transaction, usually generated');
+            $table->mediumText('memo')->nullable()->comment('A memo for the Transaction, if any');
+            $table->date('transaction_at')->comment('Date the Transaction occured');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -515,12 +515,12 @@ return new class extends Migration
 
         Schema::create('units', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->enum('type', ['Company', 'Household', 'Event'])->default('Household');
-            $table->string('name', 100);
-            $table->string('heraldry')->nullable();
-            $table->mediumText('description')->nullable();
-            $table->mediumText('history')->nullable();
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->enum('type', ['Company', 'Household', 'Event'])->default('Household')->comment('Unit type; Company, Household, or Event');
+            $table->string('name', 100)->comment('Name of the Unit');
+            $table->string('heraldry')->nullable()->comment('An internal link to an image of the Unit heraldry, if any');
+            $table->mediumText('description')->nullable()->comment('A public facing description of the Unit');
+            $table->mediumText('history')->nullable()->comment('For use as the Unit requires, history of the Unit, if any');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -531,12 +531,12 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->boolean('is_restricted')->default(false);
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->string('email')->unique()->comment('Unique email used to identify and communicate with the User');
+            $table->timestamp('email_verified_at')->nullable()->comment('When the User email was verified, if at all');
+            $table->string('password')->comment('Encoded password string');
+            $table->rememberToken()->comment('Encoded string used to maintain login');
+            $table->boolean('is_restricted')->default(false)->comment('Is (default false) the User restricted from using the site?');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -547,24 +547,24 @@ return new class extends Migration
 
         Schema::create('waivers', function (Blueprint $table) {
         	$table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id');
-            $table->unsignedBigInteger('persona_id')->nullable()->index('persona_id');
-            $table->enum('waiverable_type', ['Realm', 'Event']);
-            $table->unsignedBigInteger('waiverable_id')->index('waiverable_id');
-            $table->string('file')->nullable();
-            $table->string('player', 150);
-            $table->string('email', 255)->nullable();
-            $table->string('phone', 25)->nullable();
-            $table->unsignedBigInteger('location_id')->nullable()->index('location_id');
-            $table->date('dob')->nullable();
-            $table->date('age_verified_at')->nullable();
-            $table->unsignedBigInteger('age_verified_by')->nullable()->index('age_verified_by');
-            $table->string('guardian', 150)->nullable();
-            $table->string('emergency_name', 150)->nullable();
-            $table->string('emergency_relationship', 150)->nullable();
-            $table->string('emergency_phone', 25)->nullable();
-            $table->date('signed_at');
+            $table->bigIncrements('id')->comment('Model ID');
+            $table->unsignedBigInteger('pronoun_id')->nullable()->index('pronoun_id')->comment('The ID of the pronoun for the individual being Waivered');
+            $table->unsignedBigInteger('persona_id')->nullable()->index('persona_id')->comment('The ID of the Persona this Waiver is for');
+            $table->enum('waiverable_type', ['Realm', 'Event'])->comment('The type of entity accepting the Waiver; Realm or Event');
+            $table->unsignedBigInteger('waiverable_id')->index('waiverable_id')->comment('The ID of the entity accepting the Waiver');
+            $table->string('file')->nullable()->comment('An internal link to an image of the original physical Waiver');
+            $table->string('player', 150)->comment('The Waiver Mundane name field value');
+            $table->string('email', 255)->nullable()->comment('The Waiver email field value, if any');
+            $table->string('phone', 25)->nullable()->comment('The Waiver phone field value, if any');
+            $table->unsignedBigInteger('location_id')->nullable()->index('location_id')->comment('The Waiver address fields values');
+            $table->date('dob')->nullable()->comment('The Waiver date of birth field value');
+            $table->date('age_verified_at')->nullable()->comment('The date the Waiver signer age is verified, if it has been');
+            $table->unsignedBigInteger('age_verified_by')->nullable()->index('age_verified_by')->comment('The ID of the Persona that verified the Waiver signer age, if it has been');
+            $table->string('guardian', 150)->nullable()->comment('The Waiver guardian name, if any');
+            $table->string('emergency_name', 150)->nullable()->comment('The Waiver emergency contact field, if any');
+            $table->string('emergency_relationship', 150)->nullable()->comment('The Waiver emergency contact relationship field, if any');
+            $table->string('emergency_phone', 25)->nullable()->comment('The Waiver emergency contact phone field, if any');
+            $table->date('signed_at')->comment('Date the Waiver was signed');
             $table->unsignedBigInteger('created_by')->default(1)->index('created_by');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
