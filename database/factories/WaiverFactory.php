@@ -33,6 +33,8 @@ class WaiverFactory extends Factory
         }
 
         return [
+            'guest_id' => $this->faker->word,
+            'location_id' => $this->faker->word,
             'pronoun_id' => $this->faker->word,
             'persona_id' => $this->faker->word,
             'waiverable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
@@ -41,7 +43,6 @@ class WaiverFactory extends Factory
             'player' => $this->faker->text($this->faker->numberBetween(5, 150)),
             'email' => $this->faker->email,
             'phone' => $this->faker->numerify('0##########'),
-            'location_id' => $this->faker->word,
             'dob' => $this->faker->date('Y-m-d'),
             'age_verified_at' => $this->faker->date('Y-m-d'),
             'age_verified_by' => $this->faker->word,

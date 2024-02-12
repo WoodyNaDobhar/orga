@@ -51,7 +51,7 @@
         "name": "suspended_at",
         "dbType": "date",
         "htmlType": "date",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,

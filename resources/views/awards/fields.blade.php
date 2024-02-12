@@ -1,13 +1,13 @@
-<!-- Awarder Type Field -->
+<!-- Awardable Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('awarder_type', 'Awarder Type:') !!}
-    {!! Form::text('awarder_type', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('awardable_type', 'Awardable Type:') !!}
+    {!! Form::text('awardable_type', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Awarder Id Field -->
+<!-- Awardable Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('awarder_id', 'Awarder Id:') !!}
-    {!! Form::number('awarder_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('awardable_id', 'Awardable Id:') !!}
+    {!! Form::number('awardable_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Name Field -->

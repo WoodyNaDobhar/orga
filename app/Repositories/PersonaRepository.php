@@ -9,7 +9,6 @@ class PersonaRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'chapter_id',
-        'user_id',
         'pronoun_id',
         'mundane',
         'name',

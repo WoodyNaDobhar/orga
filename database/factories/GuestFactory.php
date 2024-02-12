@@ -7,10 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Chapter;
 use App\Models\User;
-use App\Models\User;
 use App\Models\Event;
-use App\Models\User;
-use App\Models\Waiver;
 
 class GuestFactory extends Factory
 {
@@ -29,14 +26,13 @@ class GuestFactory extends Factory
     public function definition()
     {
         
-        $waiver = Waiver::first();
-        if (!$waiver) {
-            $waiver = Waiver::factory()->create();
+        $user = User::first();
+        if (!$user) {
+            $user = User::factory()->create();
         }
 
         return [
             'event_id' => $this->faker->word,
-            'waiver_id' => $this->faker->word,
             'chapter_id' => $this->faker->word,
             'is_followedup' => $this->faker->boolean,
             'notes' => $this->faker->text($this->faker->numberBetween(5, 191)),

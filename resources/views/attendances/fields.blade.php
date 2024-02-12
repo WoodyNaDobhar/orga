@@ -1,13 +1,7 @@
-<!-- Persona Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('persona_id', 'Persona Id:') !!}
-    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
 <!-- Archetype Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('archetype_id', 'Archetype Id:') !!}
-    {!! Form::number('archetype_id', null, ['class' => 'form-control']) !!}
+    {!! Form::number('archetype_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Attendable Type Field -->
@@ -20,6 +14,12 @@
 <div class="form-group col-sm-6">
     {!! Form::label('attendable_id', 'Attendable Id:') !!}
     {!! Form::number('attendable_id', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Persona Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Attended At Field -->

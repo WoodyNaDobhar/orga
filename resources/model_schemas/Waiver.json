@@ -12,6 +12,30 @@
         "inView": false
     },
     {
+        "name": "guest_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "location_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "nullable|nullable|nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "pronoun_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
@@ -100,18 +124,6 @@
         "dbType": "string",
         "htmlType": "text",
         "validations": "nullable|string|max:25|nullable|string|max:25|nullable|string|max:25",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "location_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -265,6 +277,10 @@
     },
     {
         "type": "relation",
+        "relation": "mt1,Guest,guest_id"
+    },
+    {
+        "type": "relation",
         "relation": "mt1,Location,location_id"
     },
     {
@@ -278,9 +294,5 @@
     {
         "type": "relation",
         "relation": "mt1,User,updated_by"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Guest,waiver_id"
     }
 ]

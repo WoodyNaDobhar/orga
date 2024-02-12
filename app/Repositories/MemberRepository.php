@@ -8,8 +8,8 @@ use App\Repositories\BaseRepository;
 class MemberRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'unit_id',
         'persona_id',
+        'unit_id',
         'is_head',
         'is_voting',
         'joined_at',

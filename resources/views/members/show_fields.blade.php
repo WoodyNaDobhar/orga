@@ -1,13 +1,13 @@
-<!-- Unit Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('unit_id', 'Unit Id:') !!}
-    <p>{{ $member->unit_id }}</p>
-</div>
-
 <!-- Persona Id Field -->
 <div class="col-sm-12">
     {!! Form::label('persona_id', 'Persona Id:') !!}
     <p>{{ $member->persona_id }}</p>
+</div>
+
+<!-- Unit Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('unit_id', 'Unit Id:') !!}
+    <p>{{ $member->unit_id }}</p>
 </div>
 
 <!-- Is Head Field -->

@@ -51,7 +51,7 @@
         "name": "description",
         "dbType": "text",
         "htmlType": "textarea",
-        "validations": "required|string|max:16777215|string|max:16777215|string|max:16777215",
+        "validations": "nullable|string|max:16777215|nullable|string|max:16777215|nullable|string|max:16777215",
         "searchable": true,
         "fillable": true,
         "primary": false,

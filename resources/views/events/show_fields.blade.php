@@ -46,16 +46,16 @@
     <p>{{ $event->is_demo }}</p>
 </div>
 
-<!-- Event Start Field -->
+<!-- Event Started At Field -->
 <div class="col-sm-12">
-    {!! Form::label('event_start', 'Event Start:') !!}
-    <p>{{ $event->event_start }}</p>
+    {!! Form::label('event_started_at', 'Event Started At:') !!}
+    <p>{{ $event->event_started_at }}</p>
 </div>
 
-<!-- Event End Field -->
+<!-- Event Ended At Field -->
 <div class="col-sm-12">
-    {!! Form::label('event_end', 'Event End:') !!}
-    <p>{{ $event->event_end }}</p>
+    {!! Form::label('event_ended_at', 'Event Ended At:') !!}
+    <p>{{ $event->event_ended_at }}</p>
 </div>
 
 <!-- Price Field -->

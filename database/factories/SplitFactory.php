@@ -34,8 +34,8 @@ class SplitFactory extends Factory
 
         return [
             'account_id' => $this->faker->word,
-            'transaction_id' => $this->faker->word,
             'persona_id' => $this->faker->word,
+            'transaction_id' => $this->faker->word,
             'amount' => $this->faker->numberBetween(0, 9223372036854775807),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),

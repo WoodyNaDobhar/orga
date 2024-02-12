@@ -18,9 +18,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 	
-	
+
 Route::resource('accounts', App\Http\Controllers\API\AccountAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('archetypes', App\Http\Controllers\API\ArchetypeAPIController::class)
     ->except(['create', 'edit']);
@@ -29,16 +29,16 @@ Route::resource('attendances', App\Http\Controllers\API\AttendanceAPIController:
     ->except(['create', 'edit']);
 
 Route::resource('awards', App\Http\Controllers\API\AwardAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('chapters', App\Http\Controllers\API\ChapterAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('chaptertypes', App\Http\Controllers\API\ChaptertypeAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('crats', App\Http\Controllers\API\CratAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('dues', App\Http\Controllers\API\DueAPIController::class)
     ->except(['create', 'edit']);
@@ -65,28 +65,25 @@ Route::resource('officers', App\Http\Controllers\API\OfficerAPIController::class
     ->except(['create', 'edit']);
 
 Route::resource('offices', App\Http\Controllers\API\OfficeAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('personas', App\Http\Controllers\API\PersonaAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('pronouns', App\Http\Controllers\API\PronounAPIController::class)
+    ->except(['create', 'edit']);
+
+Route::resource('realms', App\Http\Controllers\API\RealmAPIController::class)
     ->except(['create', 'edit']);
 
 Route::resource('recommendations', App\Http\Controllers\API\RecommendationAPIController::class)
     ->except(['create', 'edit']);
 
 Route::resource('reconciliations', App\Http\Controllers\API\ReconciliationAPIController::class)
-	->except(['create', 'edit']);
-
-Route::resource('realms', App\Http\Controllers\API\RealmAPIController::class)
-    ->except(['create', 'edit']);
-
-Route::resource('reconciliations', App\Http\Controllers\API\ReconciliationAPIController::class)
     ->except(['create', 'edit']);
 
 Route::resource('reigns', App\Http\Controllers\API\ReignAPIController::class)
-	->except(['create', 'edit']);
+    ->except(['create', 'edit']);
 
 Route::resource('socials', App\Http\Controllers\API\SocialAPIController::class)
     ->except(['create', 'edit']);

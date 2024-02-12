@@ -17,7 +17,6 @@ class GuestResource extends JsonResource
         return [
             'id' => $this->id,
             'event_id' => $this->event_id,
-            'waiver_id' => $this->waiver_id,
             'chapter_id' => $this->chapter_id,
             'is_followedup' => $this->is_followedup,
             'notes' => $this->notes,

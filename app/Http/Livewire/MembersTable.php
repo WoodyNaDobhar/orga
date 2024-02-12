@@ -28,10 +28,10 @@ class MembersTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Unit Id", "unit_id")
+            Column::make("Persona Id", "persona_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Persona Id", "persona_id")
+            Column::make("Unit Id", "unit_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Is Head", "is_head")

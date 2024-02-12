@@ -108,10 +108,10 @@
         "inView": true
     },
     {
-        "name": "event_start",
+        "name": "event_started_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -120,10 +120,10 @@
         "inView": true
     },
     {
-        "name": "event_end",
+        "name": "event_ended_at",
         "dbType": "datetime",
         "htmlType": "date",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,

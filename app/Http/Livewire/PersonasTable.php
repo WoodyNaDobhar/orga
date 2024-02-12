@@ -31,9 +31,6 @@ class PersonasTable extends DataTableComponent
             Column::make("Chapter Id", "chapter_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("User Id", "user_id")
-                ->sortable()
-                ->searchable(),
             Column::make("Pronoun Id", "pronoun_id")
                 ->sortable()
                 ->searchable(),

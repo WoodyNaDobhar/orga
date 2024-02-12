@@ -16,8 +16,8 @@ class MemberResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'unit_id' => $this->unit_id,
             'persona_id' => $this->persona_id,
+            'unit_id' => $this->unit_id,
             'is_head' => $this->is_head,
             'is_voting' => $this->is_voting,
             'joined_at' => $this->joined_at,

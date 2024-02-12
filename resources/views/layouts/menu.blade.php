@@ -63,16 +63,16 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('issuances.index') }}" class="nav-link {{ Request::is('issuances*') ? 'active' : '' }}">
+    <a href="{{ route('guests.index') }}" class="nav-link {{ Request::is('guests*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Issuances</p>
+        <p>Guests</p>
     </a>
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('kingdoms.index') }}" class="nav-link {{ Request::is('kingdoms*') ? 'active' : '' }}">
+    <a href="{{ route('issuances.index') }}" class="nav-link {{ Request::is('issuances*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Kingdoms</p>
+        <p>Issuances</p>
     </a>
 </li>
 
@@ -126,6 +126,13 @@
 </li>
 
 <li class="nav-item">
+    <a href="{{ route('realms.index') }}" class="nav-link {{ Request::is('realms*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Realms</p>
+    </a>
+</li>
+
+<li class="nav-item">
     <a href="{{ route('recommendations.index') }}" class="nav-link {{ Request::is('recommendations*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
         <p>Recommendations</p>
@@ -143,6 +150,13 @@
     <a href="{{ route('reigns.index') }}" class="nav-link {{ Request::is('reigns*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
         <p>Reigns</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('socials.index') }}" class="nav-link {{ Request::is('socials*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Socials</p>
     </a>
 </li>
 
@@ -199,26 +213,5 @@
     <a href="{{ route('waivers.index') }}" class="nav-link {{ Request::is('waivers*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
         <p>Waivers</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('guests.index') }}" class="nav-link {{ Request::is('guests*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Guests</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('realms.index') }}" class="nav-link {{ Request::is('realms*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Realms</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('socials.index') }}" class="nav-link {{ Request::is('socials*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Socials</p>
     </a>
 </li>

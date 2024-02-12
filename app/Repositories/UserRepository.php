@@ -8,10 +8,12 @@ use App\Repositories\BaseRepository;
 class UserRepository extends BaseRepository
 {
     protected $fieldSearchable = [
+        'persona_id',
         'email',
         'email_verified_at',
         'password',
         'remember_token',
+        'api_token',
         'is_restricted'
     ];
 

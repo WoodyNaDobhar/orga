@@ -4,12 +4,6 @@
     <p>{{ $guest->event_id }}</p>
 </div>
 
-<!-- Waiver Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('waiver_id', 'Waiver Id:') !!}
-    <p>{{ $guest->waiver_id }}</p>
-</div>
-
 <!-- Chapter Id Field -->
 <div class="col-sm-12">
     {!! Form::label('chapter_id', 'Chapter Id:') !!}

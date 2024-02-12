@@ -28,6 +28,12 @@ class WaiversTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make("Guest Id", "guest_id")
+                ->sortable()
+                ->searchable(),
+            Column::make("Location Id", "location_id")
+                ->sortable()
+                ->searchable(),
             Column::make("Pronoun Id", "pronoun_id")
                 ->sortable()
                 ->searchable(),
@@ -50,9 +56,6 @@ class WaiversTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Phone", "phone")
-                ->sortable()
-                ->searchable(),
-            Column::make("Location Id", "location_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Dob", "dob")

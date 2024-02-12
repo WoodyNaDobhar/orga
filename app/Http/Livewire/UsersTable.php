@@ -28,6 +28,9 @@ class UsersTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make("Persona Id", "persona_id")
+                ->sortable()
+                ->searchable(),
             Column::make("Email", "email")
                 ->sortable()
                 ->searchable(),
@@ -38,6 +41,9 @@ class UsersTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Remember Token", "remember_token")
+                ->sortable()
+                ->searchable(),
+            Column::make("Api Token", "api_token")
                 ->sortable()
                 ->searchable(),
             Column::make("Is Restricted", "is_restricted")

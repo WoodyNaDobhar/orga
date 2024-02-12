@@ -8,8 +8,8 @@ use App\Repositories\BaseRepository;
 class AwardRepository extends BaseRepository
 {
     protected $fieldSearchable = [
-        'awarder_type',
-        'awarder_id',
+        'awardable_type',
+        'awardable_id',
         'name',
         'is_ladder'
     ];

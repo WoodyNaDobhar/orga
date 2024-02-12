@@ -1,3 +1,9 @@
+<!-- Persona Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', 'Email:') !!}
@@ -26,6 +32,12 @@
 <div class="form-group col-sm-6">
     {!! Form::label('remember_token', 'Remember Token:') !!}
     {!! Form::text('remember_token', null, ['class' => 'form-control', 'maxlength' => 100, 'maxlength' => 100, 'maxlength' => 100]) !!}
+</div>
+
+<!-- Api Token Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('api_token', 'Api Token:') !!}
+    {!! Form::text('api_token', null, ['class' => 'form-control', 'maxlength' => 80, 'maxlength' => 80, 'maxlength' => 80]) !!}
 </div>
 
 <!-- Is Restricted Field -->

@@ -19,10 +19,10 @@ return new class extends Migration
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
 			$table->unsignedBigInteger('parent_id')->nullable()->index('parent_id')->comment('The superior Account ID, if any');
-			$table->enum('accountable_type', ['Realm', 'Chapter', 'Unit'])->comment('Who owns the account; Realm, Chapter, or Unit');
+			$table->enum('accountable_type', ['Chapter', 'Realm', 'Unit'])->comment('Who owns the account; Chapter, Realm, or Unit');
 			$table->unsignedInteger('accountable_id')->index('accountable_id')->comment('The ID of the owner of this account');
 			$table->string('name', 50)->comment('Account label');
-			$table->enum('type', ['Imbalance', 'Income', 'Expense', 'Asset', 'Liability', 'Equity'])->comment('Imbalance, Income, Expense, Asset, Liability, or Equity');
+			$table->enum('type', ['Asset', 'Equity', 'Expense', 'Imbalance', 'Income', 'Liability'])->comment('Asset, Equity, Expense, Imbalance, Income, or Liability');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
 			$table->timestamp('created_at')->useCurrent();
 			$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');
@@ -48,7 +48,7 @@ return new class extends Migration
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
 			$table->unsignedBigInteger('archetype_id')->index('archetype_id')->comment('Selected Archetype for Attendance');
-			$table->enum('attendable_type', ['Meetup', 'Event'])->comment('Where the Attendance occured; Meetup or Event');
+			$table->enum('attendable_type', ['Event', 'Meetup'])->comment('Where the Attendance occured; Event or Meetup');
 			$table->unsignedBigInteger('attendable_id')->index('attendable_id')->comment('The ID of where the Attendance occured');
 			$table->unsignedBigInteger('persona_id')->index('persona_id')->comment('Attendee Persona ID');
 			$table->date('attended_at')->comment('The date of the Attendance');
@@ -64,7 +64,7 @@ return new class extends Migration
 		Schema::create('awards', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
-			$table->enum('awardable_type', ['Realm', 'Chapter', 'Unit'])->comment('Who issues the Award; Realm, Chapter, or Unit');
+			$table->enum('awardable_type', ['Chapter', 'Realm', 'Unit'])->comment('Who issues the Award; Chapter, Realm, or Unit');
 			$table->unsignedBigInteger('awardable_id')->nullable()->index('awardable_id')->comment('The ID of the award issuer, null for everybody');
 			$table->string('name', 100)->comment('The Award label, with options for the label seperated with |');
 			$table->boolean('is_ladder')->default(false)->comment('Is this (default false) a ranked/ladder award?');
@@ -143,7 +143,7 @@ return new class extends Migration
 		Schema::create('events', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
-			$table->enum('eventable_type', ['Realm', 'Chapter', 'Unit', 'Persona'])->comment('Who sponsors the event; Realm, Chapter, Unit, or Persona');
+			$table->enum('eventable_type', ['Chapter', 'Persona', 'Realm', 'Unit'])->comment('Who sponsors the event; Chapter, Persona, Realm, or Unit');
 			$table->unsignedBigInteger('eventable_id')->index('eventable_id')->comment('The ID of the Event sponsor');
 			$table->unsignedBigInteger('location_id')->nullable()->index('at_chapter_id')->comment('ID of the Location the Event takes place at, if any');
 			$table->string('name')->comment('The name of the Event');
@@ -626,7 +626,6 @@ return new class extends Migration
 			
 		Schema::table('guests', function (Blueprint $table) {
 			$table->foreign(['event_id'], 'guests_event_id')->references(['id'])->on('events')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign(['waiver_id'], 'guests_waiver_id')->references(['id'])->on('waivers')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['chapter_id'], 'guests_chapter_id')->references(['id'])->on('chapters')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['created_by'], 'guests_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['deleted_by'], 'guests_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -784,7 +783,7 @@ return new class extends Migration
 		});
 
 		Schema::table('users', function (Blueprint $table) {
-			$table->foreign(['user_id'], 'users_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign(['persona_id'], 'users_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['created_by'], 'users_created_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['deleted_by'], 'users_deleted_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['updated_by'], 'users_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -792,6 +791,7 @@ return new class extends Migration
 
 		Schema::table('waivers', function (Blueprint $table) {
 			$table->foreign(['age_verified_by'], 'waivers_age_verified_by')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign(['guest_id'], 'waivers_guest_id')->references(['id'])->on('guests')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['location_id'], 'waivers_location_id')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['persona_id'], 'waivers_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['pronoun_id'], 'waivers_pronoun_id')->references(['id'])->on('pronouns')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -813,6 +813,7 @@ return new class extends Migration
 			$table->dropForeign('age_verified_by');
 			$table->dropForeign('location_id');
 			$table->dropForeign('persona_id');
+			$table->dropForeign('guest_id');
 			$table->dropForeign('pronoun_id');
 			$table->dropForeign('created_by');
 			$table->dropForeign('deleted_by');
@@ -978,7 +979,6 @@ return new class extends Migration
 			
 		Schema::table('guests', function (Blueprint $table) {
 			$table->dropForeign('guests_event_id');
-			$table->dropForeign('guests_waiver_id');
 			$table->dropForeign('guests_chapter_id');
 			$table->dropForeign('guests_created_by');
 			$table->dropForeign('guests_deleted_by');

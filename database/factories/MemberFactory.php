@@ -32,8 +32,8 @@ class MemberFactory extends Factory
         }
 
         return [
-            'unit_id' => $this->faker->word,
             'persona_id' => $this->faker->word,
+            'unit_id' => $this->faker->word,
             'is_head' => $this->faker->boolean,
             'is_voting' => $this->faker->boolean,
             'joined_at' => $this->faker->date('Y-m-d'),

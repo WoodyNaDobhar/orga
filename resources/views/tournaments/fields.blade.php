@@ -19,7 +19,7 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('description', 'Description:') !!}
-    {!! Form::textarea('description', null, ['class' => 'form-control', 'required', 'maxlength' => 16777215, 'maxlength' => 16777215, 'maxlength' => 16777215]) !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control', 'maxlength' => 16777215, 'maxlength' => 16777215, 'maxlength' => 16777215]) !!}
 </div>
 
 <!-- Occured At Field -->

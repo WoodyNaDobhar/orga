@@ -17,7 +17,6 @@ class PersonaResource extends JsonResource
         return [
             'id' => $this->id,
             'chapter_id' => $this->chapter_id,
-            'user_id' => $this->user_id,
             'pronoun_id' => $this->pronoun_id,
             'mundane' => $this->mundane,
             'name' => $this->name,

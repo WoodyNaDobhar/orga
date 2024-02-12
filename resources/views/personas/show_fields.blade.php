@@ -4,12 +4,6 @@
     <p>{{ $persona->chapter_id }}</p>
 </div>
 
-<!-- User Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $persona->user_id }}</p>
-</div>
-
 <!-- Pronoun Id Field -->
 <div class="col-sm-12">
     {!! Form::label('pronoun_id', 'Pronoun Id:') !!}

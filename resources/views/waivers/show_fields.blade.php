@@ -1,3 +1,15 @@
+<!-- Guest Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('guest_id', 'Guest Id:') !!}
+    <p>{{ $waiver->guest_id }}</p>
+</div>
+
+<!-- Location Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('location_id', 'Location Id:') !!}
+    <p>{{ $waiver->location_id }}</p>
+</div>
+
 <!-- Pronoun Id Field -->
 <div class="col-sm-12">
     {!! Form::label('pronoun_id', 'Pronoun Id:') !!}
@@ -44,12 +56,6 @@
 <div class="col-sm-12">
     {!! Form::label('phone', 'Phone:') !!}
     <p>{{ $waiver->phone }}</p>
-</div>
-
-<!-- Location Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('location_id', 'Location Id:') !!}
-    <p>{{ $waiver->location_id }}</p>
 </div>
 
 <!-- Dob Field -->

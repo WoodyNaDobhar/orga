@@ -1,3 +1,15 @@
+<!-- Guest Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('guest_id', 'Guest Id:') !!}
+    {!! Form::number('guest_id', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Location Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('location_id', 'Location Id:') !!}
+    {!! Form::number('location_id', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Pronoun Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('pronoun_id', 'Pronoun Id:') !!}
@@ -44,12 +56,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('phone', 'Phone:') !!}
     {!! Form::text('phone', null, ['class' => 'form-control', 'maxlength' => 25, 'maxlength' => 25, 'maxlength' => 25]) !!}
-</div>
-
-<!-- Location Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('location_id', 'Location Id:') !!}
-    {!! Form::number('location_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Dob Field -->

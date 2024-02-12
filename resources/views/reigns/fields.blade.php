@@ -7,7 +7,7 @@
 <!-- Reignable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('reignable_id', 'Reignable Id:') !!}
-    {!! Form::number('reignable_id', null, ['class' => 'form-control']) !!}
+    {!! Form::number('reignable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Name Field -->
@@ -28,10 +28,10 @@
     </script>
 @endpush
 
-<!-- Starts On Field -->
+<!-- Midreign On Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('midreign_on', 'Midreign On:') !!}
-    {!! Form::text('midreign_on', null, ['class' => 'form-control','id'=>'starts_on']) !!}
+    {!! Form::text('midreign_on', null, ['class' => 'form-control','id'=>'midreign_on']) !!}
 </div>
 
 @push('page_scripts')

@@ -24,18 +24,6 @@
         "inView": true
     },
     {
-        "name": "user_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "pronoun_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
@@ -201,10 +189,6 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,User,user_id"
-    },
-    {
-        "type": "relation",
         "relation": "1tm,Attendance,persona_id"
     },
     {
@@ -217,11 +201,11 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Issuance,issuer_id"
+        "relation": "1tm,Issuance,revoked_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Issuance,revoked_by"
+        "relation": "1tm,Issuance,signator_id"
     },
     {
         "type": "relation",
@@ -250,6 +234,10 @@
     {
         "type": "relation",
         "relation": "1tm,Suspension,suspended_by"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,User,persona_id"
     },
     {
         "type": "relation",

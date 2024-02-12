@@ -27,7 +27,7 @@
         "name": "officeable_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,

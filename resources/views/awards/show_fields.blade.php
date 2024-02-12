@@ -1,13 +1,13 @@
-<!-- Awarder Type Field -->
+<!-- Awardable Type Field -->
 <div class="col-sm-12">
-    {!! Form::label('awarder_type', 'Awarder Type:') !!}
-    <p>{{ $award->awarder_type }}</p>
+    {!! Form::label('awardable_type', 'Awardable Type:') !!}
+    <p>{{ $award->awardable_type }}</p>
 </div>
 
-<!-- Awarder Id Field -->
+<!-- Awardable Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('awarder_id', 'Awarder Id:') !!}
-    <p>{{ $award->awarder_id }}</p>
+    {!! Form::label('awardable_id', 'Awardable Id:') !!}
+    <p>{{ $award->awardable_id }}</p>
 </div>
 
 <!-- Name Field -->

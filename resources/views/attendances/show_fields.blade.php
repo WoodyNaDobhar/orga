@@ -1,9 +1,3 @@
-<!-- Persona Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('persona_id', 'Persona Id:') !!}
-    <p>{{ $attendance->persona_id }}</p>
-</div>
-
 <!-- Archetype Id Field -->
 <div class="col-sm-12">
     {!! Form::label('archetype_id', 'Archetype Id:') !!}
@@ -20,6 +14,12 @@
 <div class="col-sm-12">
     {!! Form::label('attendable_id', 'Attendable Id:') !!}
     <p>{{ $attendance->attendable_id }}</p>
+</div>
+
+<!-- Persona Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $attendance->persona_id }}</p>
 </div>
 
 <!-- Attended At Field -->

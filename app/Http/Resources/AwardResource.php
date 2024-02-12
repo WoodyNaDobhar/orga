@@ -16,8 +16,8 @@ class AwardResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'awarder_type' => $this->awarder_type,
-            'awarder_id' => $this->awarder_id,
+            'awardable_type' => $this->awardable_type,
+            'awardable_id' => $this->awardable_id,
             'name' => $this->name,
             'is_ladder' => $this->is_ladder,
             'created_at' => $this->created_at,

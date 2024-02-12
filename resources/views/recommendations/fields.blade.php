@@ -13,7 +13,7 @@
 <!-- Recommendable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('recommendable_id', 'Recommendable Id:') !!}
-    {!! Form::number('recommendable_id', null, ['class' => 'form-control']) !!}
+    {!! Form::number('recommendable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Rank Field -->

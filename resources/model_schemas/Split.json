@@ -15,7 +15,7 @@
         "name": "account_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "transaction_id",
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -36,7 +36,7 @@
         "inView": true
     },
     {
-        "name": "persona_id",
+        "name": "transaction_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",

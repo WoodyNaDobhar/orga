@@ -40,10 +40,10 @@ class IssuancesTable extends DataTableComponent
             Column::make("Whereable Id", "whereable_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Authority Type", "authority_type")
+            Column::make("Issuer Type", "issuer_type")
                 ->sortable()
                 ->searchable(),
-            Column::make("Authority Id", "authority_id")
+            Column::make("Issuer Id", "issuer_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Recipient Type", "recipient_type")
@@ -52,7 +52,7 @@ class IssuancesTable extends DataTableComponent
             Column::make("Recipient Id", "recipient_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Issuer Id", "issuer_id")
+            Column::make("Signator Id", "signator_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Custom Name", "custom_name")

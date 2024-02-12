@@ -8,6 +8,8 @@ use App\Repositories\BaseRepository;
 class WaiverRepository extends BaseRepository
 {
     protected $fieldSearchable = [
+        'guest_id',
+        'location_id',
         'pronoun_id',
         'persona_id',
         'waiverable_type',
@@ -16,7 +18,6 @@ class WaiverRepository extends BaseRepository
         'player',
         'email',
         'phone',
-        'location_id',
         'dob',
         'age_verified_at',
         'age_verified_by',

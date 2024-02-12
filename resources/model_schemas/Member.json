@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "unit_id",
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "persona_id",
+        "name": "unit_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",

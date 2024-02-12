@@ -24,18 +24,6 @@
         "inView": true
     },
     {
-        "name": "waiver_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "chapter_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
@@ -129,6 +117,6 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Waiver,waiver_id"
+        "relation": "1tm,Waiver,guest_id"
     }
 ]

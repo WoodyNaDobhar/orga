@@ -1,3 +1,9 @@
+<!-- Persona Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('persona_id', 'Persona Id:') !!}
+    <p>{{ $user->persona_id }}</p>
+</div>
+
 <!-- Email Field -->
 <div class="col-sm-12">
     {!! Form::label('email', 'Email:') !!}
@@ -20,6 +26,12 @@
 <div class="col-sm-12">
     {!! Form::label('remember_token', 'Remember Token:') !!}
     <p>{{ $user->remember_token }}</p>
+</div>
+
+<!-- Api Token Field -->
+<div class="col-sm-12">
+    {!! Form::label('api_token', 'Api Token:') !!}
+    <p>{{ $user->api_token }}</p>
 </div>
 
 <!-- Is Restricted Field -->

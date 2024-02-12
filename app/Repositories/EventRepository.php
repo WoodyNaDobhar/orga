@@ -16,8 +16,8 @@ class EventRepository extends BaseRepository
         'image',
         'is_active',
         'is_demo',
-        'event_start',
-        'event_end',
+        'event_started_at',
+        'event_ended_at',
         'price'
     ];
 

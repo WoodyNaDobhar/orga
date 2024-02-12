@@ -17,8 +17,8 @@ class SplitResource extends JsonResource
         return [
             'id' => $this->id,
             'account_id' => $this->account_id,
-            'transaction_id' => $this->transaction_id,
             'persona_id' => $this->persona_id,
+            'transaction_id' => $this->transaction_id,
             'amount' => $this->amount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

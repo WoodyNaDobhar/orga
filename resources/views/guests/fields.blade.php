@@ -4,12 +4,6 @@
     {!! Form::number('event_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Waiver Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('waiver_id', 'Waiver Id:') !!}
-    {!! Form::number('waiver_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
 <!-- Chapter Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('chapter_id', 'Chapter Id:') !!}

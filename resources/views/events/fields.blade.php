@@ -52,27 +52,27 @@
     </div>
 </div>
 
-<!-- Event Start Field -->
+<!-- Event Started At Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('event_start', 'Event Start:') !!}
-    {!! Form::text('event_start', null, ['class' => 'form-control','id'=>'event_start']) !!}
+    {!! Form::label('event_started_at', 'Event Started At:') !!}
+    {!! Form::text('event_started_at', null, ['class' => 'form-control','id'=>'event_started_at']) !!}
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#event_start').datepicker()
+        $('#event_started_at').datepicker()
     </script>
 @endpush
 
-<!-- Event End Field -->
+<!-- Event Ended At Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('event_end', 'Event End:') !!}
-    {!! Form::text('event_end', null, ['class' => 'form-control','id'=>'event_end']) !!}
+    {!! Form::label('event_ended_at', 'Event Ended At:') !!}
+    {!! Form::text('event_ended_at', null, ['class' => 'form-control','id'=>'event_ended_at']) !!}
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#event_end').datepicker()
+        $('#event_ended_at').datepicker()
     </script>
 @endpush
 

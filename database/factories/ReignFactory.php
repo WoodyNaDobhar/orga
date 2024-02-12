@@ -32,9 +32,9 @@ class ReignFactory extends Factory
         return [
             'reignable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'reignable_id' => $this->faker->word,
-        	'name' => $this->faker->text($this->faker->numberBetween(5, 100)),
-        	'starts_on' => $this->faker->date('Y-m-d'),
-        	'midreign_on' => $this->faker->date('Y-m-d'),
+            'name' => $this->faker->text($this->faker->numberBetween(5, 100)),
+            'starts_on' => $this->faker->date('Y-m-d'),
+            'midreign_on' => $this->faker->date('Y-m-d'),
             'ends_on' => $this->faker->date('Y-m-d'),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),

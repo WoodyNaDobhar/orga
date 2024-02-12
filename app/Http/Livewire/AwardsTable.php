@@ -28,10 +28,10 @@ class AwardsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Awarder Type", "awarder_type")
+            Column::make("Awardable Type", "awardable_type")
                 ->sortable()
                 ->searchable(),
-            Column::make("Awarder Id", "awarder_id")
+            Column::make("Awardable Id", "awardable_id")
                 ->sortable()
                 ->searchable(),
             Column::make("Name", "name")

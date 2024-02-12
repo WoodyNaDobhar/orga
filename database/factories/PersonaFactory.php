@@ -33,7 +33,6 @@ class PersonaFactory extends Factory
 
         return [
             'chapter_id' => $this->faker->word,
-            'user_id' => $this->faker->word,
             'pronoun_id' => $this->faker->word,
             'mundane' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'name' => $this->faker->text($this->faker->numberBetween(5, 191)),

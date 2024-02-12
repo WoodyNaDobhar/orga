@@ -22,16 +22,16 @@
     <p>{{ $issuance->whereable_id }}</p>
 </div>
 
-<!-- Authority Type Field -->
+<!-- Issuer Type Field -->
 <div class="col-sm-12">
-    {!! Form::label('authority_type', 'Authority Type:') !!}
-    <p>{{ $issuance->authority_type }}</p>
+    {!! Form::label('issuer_type', 'Issuer Type:') !!}
+    <p>{{ $issuance->issuer_type }}</p>
 </div>
 
-<!-- Authority Id Field -->
+<!-- Issuer Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('authority_id', 'Authority Id:') !!}
-    <p>{{ $issuance->authority_id }}</p>
+    {!! Form::label('issuer_id', 'Issuer Id:') !!}
+    <p>{{ $issuance->issuer_id }}</p>
 </div>
 
 <!-- Recipient Type Field -->
@@ -46,10 +46,10 @@
     <p>{{ $issuance->recipient_id }}</p>
 </div>
 
-<!-- Issuer Id Field -->
+<!-- Signator Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('issuer_id', 'Issuer Id:') !!}
-    <p>{{ $issuance->issuer_id }}</p>
+    {!! Form::label('signator_id', 'Signator Id:') !!}
+    <p>{{ $issuance->signator_id }}</p>
 </div>
 
 <!-- Custom Name Field -->

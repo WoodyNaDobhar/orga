@@ -7,7 +7,7 @@
 <!-- Officeable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('officeable_id', 'Officeable Id:') !!}
-    {!! Form::number('officeable_id', null, ['class' => 'form-control']) !!}
+    {!! Form::number('officeable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Name Field -->

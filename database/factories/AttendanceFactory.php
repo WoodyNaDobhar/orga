@@ -32,10 +32,10 @@ class AttendanceFactory extends Factory
         }
 
         return [
-            'persona_id' => $this->faker->word,
             'archetype_id' => $this->faker->word,
             'attendable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'attendable_id' => $this->faker->word,
+            'persona_id' => $this->faker->word,
             'attended_at' => $this->faker->date('Y-m-d'),
             'credits' => $this->faker->numberBetween(0, 9223372036854775807),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),

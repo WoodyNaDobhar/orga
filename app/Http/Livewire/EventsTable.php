@@ -52,10 +52,10 @@ class EventsTable extends DataTableComponent
             Column::make("Is Demo", "is_demo")
                 ->sortable()
                 ->searchable(),
-            Column::make("Event Start", "event_start")
+            Column::make("Event Started At", "event_started_at")
                 ->sortable()
                 ->searchable(),
-            Column::make("Event End", "event_end")
+            Column::make("Event Ended At", "event_ended_at")
                 ->sortable()
                 ->searchable(),
             Column::make("Price", "price")

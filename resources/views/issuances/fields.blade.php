@@ -22,16 +22,16 @@
     {!! Form::number('whereable_id', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Authority Type Field -->
+<!-- Issuer Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('authority_type', 'Authority Type:') !!}
-    {!! Form::text('authority_type', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('issuer_type', 'Issuer Type:') !!}
+    {!! Form::text('issuer_type', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Authority Id Field -->
+<!-- Issuer Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('authority_id', 'Authority Id:') !!}
-    {!! Form::number('authority_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('issuer_id', 'Issuer Id:') !!}
+    {!! Form::number('issuer_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Recipient Type Field -->
@@ -46,10 +46,10 @@
     {!! Form::number('recipient_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Issuer Id Field -->
+<!-- Signator Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('issuer_id', 'Issuer Id:') !!}
-    {!! Form::number('issuer_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('signator_id', 'Signator Id:') !!}
+    {!! Form::number('signator_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Custom Name Field -->

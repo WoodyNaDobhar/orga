@@ -1,13 +1,13 @@
-<!-- Unit Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('unit_id', 'Unit Id:') !!}
-    {!! Form::number('unit_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
 <!-- Persona Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('persona_id', 'Persona Id:') !!}
     {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Unit Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('unit_id', 'Unit Id:') !!}
+    {!! Form::number('unit_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Is Head Field -->

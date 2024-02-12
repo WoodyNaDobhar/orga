@@ -9,7 +9,6 @@ class GuestRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'event_id',
-        'waiver_id',
         'chapter_id',
         'is_followedup',
         'notes'

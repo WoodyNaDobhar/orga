@@ -60,7 +60,7 @@
         "inView": true
     },
     {
-        "name": "authority_type",
+        "name": "issuer_type",
         "dbType": "string",
         "htmlType": "text",
         "validations": "required|string|string|string",
@@ -72,7 +72,7 @@
         "inView": true
     },
     {
-        "name": "authority_id",
+        "name": "issuer_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",
@@ -108,7 +108,7 @@
         "inView": true
     },
     {
-        "name": "issuer_id",
+        "name": "signator_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "nullable|nullable|nullable",
@@ -261,11 +261,11 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Persona,issuer_id"
+        "relation": "mt1,Persona,revoked_by"
     },
     {
         "type": "relation",
-        "relation": "mt1,Persona,revoked_by"
+        "relation": "mt1,Persona,signator_id"
     },
     {
         "type": "relation",

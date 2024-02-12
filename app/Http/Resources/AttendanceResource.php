@@ -16,10 +16,10 @@ class AttendanceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'persona_id' => $this->persona_id,
             'archetype_id' => $this->archetype_id,
             'attendable_type' => $this->attendable_type,
             'attendable_id' => $this->attendable_id,
+            'persona_id' => $this->persona_id,
             'attended_at' => $this->attended_at,
             'credits' => $this->credits,
             'created_at' => $this->created_at,

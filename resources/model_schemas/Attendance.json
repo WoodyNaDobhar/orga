@@ -12,22 +12,10 @@
         "inView": false
     },
     {
-        "name": "persona_id",
-        "dbType": "bigInteger,false,true",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "archetype_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
-        "validations": "nullable|nullable|nullable",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -49,6 +37,18 @@
     },
     {
         "name": "attendable_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": "number",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "persona_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "required",

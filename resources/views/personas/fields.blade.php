@@ -4,12 +4,6 @@
     {!! Form::number('chapter_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- User Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Pronoun Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('pronoun_id', 'Pronoun Id:') !!}

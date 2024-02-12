@@ -16,6 +16,8 @@ class WaiverResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'guest_id' => $this->guest_id,
+            'location_id' => $this->location_id,
             'pronoun_id' => $this->pronoun_id,
             'persona_id' => $this->persona_id,
             'waiverable_type' => $this->waiverable_type,
@@ -24,7 +26,6 @@ class WaiverResource extends JsonResource
             'player' => $this->player,
             'email' => $this->email,
             'phone' => $this->phone,
-            'location_id' => $this->location_id,
             'dob' => $this->dob,
             'age_verified_at' => $this->age_verified_at,
             'age_verified_by' => $this->age_verified_by,

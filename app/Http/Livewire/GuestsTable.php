@@ -31,9 +31,6 @@ class GuestsTable extends DataTableComponent
             Column::make("Event Id", "event_id")
                 ->sortable()
                 ->searchable(),
-            Column::make("Waiver Id", "waiver_id")
-                ->sortable()
-                ->searchable(),
             Column::make("Chapter Id", "chapter_id")
                 ->sortable()
                 ->searchable(),
