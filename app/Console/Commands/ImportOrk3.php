@@ -2410,10 +2410,61 @@ class ImportOrk3 extends Command
 							}
 							
 							if(!$isDemo){
+								//clean up the persona name
+								$cleanPersonaName = $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname));
+								$personaName = $this->stripTitles($cleanPersonaName);
+								
+								if($cleanPersonaName != $personaName){
+									$titles = explode(' ', trim(str_replace($personaName, '', $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname)))));
+									foreach($titles as $title){
+										DB::table('crypt')->insert([
+											'model' 		=> 'Title',
+											'cause' 		=> 'JustInName',
+											'model_id'		=> $oldUser->mundane_id,
+											'model_value'	=> json_encode($title)
+										]);
+									}
+								}
+								
+								if($oldUser->park_id == 0){
+									$burningLands = $backupConnect->table('ork_park')->where('name', 'Burning Lands')->first();
+								}
+								
+								//wait for the chapter to exist
+								while(!array_key_exists(($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id), $transChapters)){
+									$this->info('waiting for chapter ' . ($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id));
+									sleep(5);
+									$transChapters = $this->getTrans('chapters');
+								}
+								DB::reconnect("mysqlBak");
+								
+								//persona data
+								$personaId = DB::table('personas')->insertGetId([
+									'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
+									'pronoun_id' => $pronounId,
+									'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
+									'name' => $personaName,
+									'heraldry' => $oldUser->has_heraldry === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+									'image' => $oldUser->has_image === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+									'is_active' => $oldUser->active === '1' ? 1 : 0,
+									'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
+									'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
+									'joined_chapter_at' => $oldUser->park_member_since === '0000-00-00' || $userId === 1 ? null : $oldUser->park_member_since,
+									'created_at' => $oldUser->modified,
+									'updated_at' => $oldUser->modified
+								]);
+								DB::table('trans')->insert([
+									'array' => 'personas',
+									'oldID' => $oldUser->mundane_id,
+									'newID' => $personaId
+								]);
+								$transPersonas[$oldUser->mundane_id] = $personaId;
+								
 								//user data
 								if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
 									if(!in_array(strtolower($oldUser->email), $usedEmails)){
 										$userId = DB::table('users')->insertGetId([
+											'persona_id' => $personaId,
 											'email' => strtolower($oldUser->email),
 											'email_verified_at' => null,
 											'password' => bin2hex(openssl_random_pseudo_bytes(4)),
@@ -2471,64 +2522,13 @@ class ImportOrk3 extends Command
 										$transUsers[$oldUser->mundane_id] = $userId;
 									}else{
 										DB::table('crypt')->insert([
-											'model' 		=> 'User',
-											'cause' 		=> 'DuplicateEmail',
-											'model_id'		=> $oldUser->mundane_id,
-											'model_value'	=> json_encode($oldUser)
+												'model' 		=> 'User',
+												'cause' 		=> 'DuplicateEmail',
+												'model_id'		=> $oldUser->mundane_id,
+												'model_value'	=> json_encode($oldUser)
 										]);
 									}
 								}
-								
-								//clean up the persona name
-								$cleanPersonaName = $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname));
-								$personaName = $this->stripTitles($cleanPersonaName);
-								
-								if($cleanPersonaName != $personaName){
-									$titles = explode(' ', trim(str_replace($personaName, '', $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname)))));
-									foreach($titles as $title){
-										DB::table('crypt')->insert([
-											'model' 		=> 'Title',
-											'cause' 		=> 'JustInName',
-											'model_id'		=> $oldUser->mundane_id,
-											'model_value'	=> json_encode($title)
-										]);
-									}
-								}
-								
-								if($oldUser->park_id == 0){
-									$burningLands = $backupConnect->table('ork_park')->where('name', 'Burning Lands')->first();
-								}
-								
-								//wait for the chapter to exist
-								while(!array_key_exists(($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id), $transChapters)){
-									$this->info('waiting for chapter ' . ($oldUser->park_id == 0 ? $burningLands->park_id : $oldUser->park_id));
-									sleep(5);
-									$transChapters = $this->getTrans('chapters');
-								}
-								DB::reconnect("mysqlBak");
-								
-								//persona data
-								$personaId = DB::table('personas')->insertGetId([
-									'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
-									'user_id' => $userId,
-									'pronoun_id' => $pronounId,
-									'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
-									'name' => $personaName,
-									'heraldry' => $oldUser->has_heraldry === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-									'image' => $oldUser->has_image === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-									'is_active' => $oldUser->active === '1' ? 1 : 0,
-									'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
-									'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
-									'joined_chapter_at' => $oldUser->park_member_since === '0000-00-00' || $userId === 1 ? null : $oldUser->park_member_since,
-									'created_at' => $oldUser->modified,
-									'updated_at' => $oldUser->modified
-								]);
-								DB::table('trans')->insert([
-									'array' => 'personas',
-									'oldID' => $oldUser->mundane_id,
-									'newID' => $personaId
-								]);
-								$transPersonas[$oldUser->mundane_id] = $personaId;
 								
 								//unit membership data
 								if ($oldUser->company_id > 0 && $oldUser->park_id != 0) {
@@ -2815,8 +2815,8 @@ class ImportOrk3 extends Command
 							'is_active' => $oldEvent->current,
 							'is_demo' => str_contains(strtolower(trim($oldEvent->name)), 'demo') ? 1 : 0,
 							'image' => $oldEvent->has_heraldry === '1' ? sprintf('%05d.jpg', $oldEvent->event_id) : null,
-							'event_start' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
-							'event_end' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
+							'event_started_at' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
+							'event_ended_at' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
 							'price' => $oldEvent->price,
 							'created_at' => min($oldEvent->modified_1, $oldEvent->modified_2),
 							'updated_at' => max($oldEvent->modified_1, $oldEvent->modified_2)
@@ -3530,8 +3530,8 @@ class ImportOrk3 extends Command
 														'is_active' => 0,
 														'is_demo' => str_contains(strtolower(trim($parentEvent->name)), 'demo') ? 1 : 0,
 														'image' => null,
-														'event_start' => $oldAttendance->date,
-														'event_end' => $oldAttendance->date,
+														'event_started_at' => $oldAttendance->date,
+														'event_ended_at' => $oldAttendance->date,
 														'price' => null
 												]);
 												DB::table('trans')->insert([
@@ -4527,11 +4527,11 @@ class ImportOrk3 extends Command
 							DB::table('issuances')->insert([
 								'issuable_type' => 'Title',
 								'issuable_id' => $titleId,
-								'authorityable_type' => 'Unit',
-								'authorityable_id' => $transUnits[$oldMember->unit_id],
-								'issuer_id' => null,
-								'receivable_type' => 'Persona',
-								'receivable_id' => $personaId,
+								'issuer_type' => 'Unit',
+								'issuer_id' => $transUnits[$oldMember->unit_id],
+								'signator_id' => null,
+								'recipient_type' => 'Persona',
+								'recipient_id' => $personaId,
 								'issued_at' => date('Y-m-d'),
 							]);
 						}
@@ -6333,11 +6333,11 @@ class ImportOrk3 extends Command
 								'issuable_id' => $issuable_id,
 								'whereable_type' => $eventcaldet ? 'Event' : 'Location',
 								'whereable_id' => $eventcaldet ? $transEventDetails[$eventcaldet->event_calendardetail_id] : $defaultLocationId,
-								'authorityable_type' => $authority_type ? $authority_type : ($oldParkID != '0' ? 'Chapter' : 'Realm'),
-								'authorityable_id' => $authority_id ? $authority_id : ($oldParkID != '0' ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID]),
-								'receivable_type' => $recipient_type,
-								'receivable_id' => $recipient_id,
-								'issuer_id' => $oldIssuance->given_by_id != '0' && in_array($oldIssuance->given_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->given_by_id] : null,
+								'issuer_type' => $authority_type ? $authority_type : ($oldParkID != '0' ? 'Chapter' : 'Realm'),
+								'issuer_id' => $authority_id ? $authority_id : ($oldParkID != '0' ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID]),
+								'recipient_type' => $recipient_type,
+								'recipient_id' => $recipient_id,
+								'signator_id' => $oldIssuance->given_by_id != '0' && in_array($oldIssuance->given_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->given_by_id] : null,
 								'custom_name' => $oldIssuance->custom_name != '' ? $oldIssuance->custom_name : null,
 								'rank' => $rank > 0 ? $rank : null,
 								'issued_at' => $issueDate != '0000-00-00' && $issueDate != '0000-00-00 00:00:00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' && $oldIssuance->entered_at != '0000-00-00 00:00:00' ? $oldIssuance->entered_at : date('Y-m-d')),

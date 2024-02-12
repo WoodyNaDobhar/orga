@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\ProtectFieldsTrait;
 // use App\Traits\CanGetTableNameStatically;
 // use App\Traits\ImageTrait;
 // use App\Traits\NullableTrait;
@@ -12,9 +13,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 // use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Sanctum\HasApiTokens;
 // use OwenIt\Auditing\Contracts\Auditable;
@@ -25,68 +24,342 @@ use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
  *      schema="User",
- *      required={"email","password","is_restricted","created_at"},
+ *      required={"email","password","is_restricted"},
+ *		description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
+ * persona (Persona) (BelongsTo): Persona associated with the User.
+ * createdBy (User) (BelongsTo): User that created it.
+ * updatedBy (User) (BelongsTo): User that last updated it (if any).
+ * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="persona_id",
+ *			description="ID of the User's Persona.",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
  *      @OA\Property(
  *          property="email",
- *          description="",
+ *          description="Unique email used to identify and communicate with the User.",
  *          readOnly=false,
  *          nullable=false,
  *          type="string",
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=191
  *      ),
  *      @OA\Property(
  *          property="email_verified_at",
- *          description="",
+ *          description="When the User email was verified, if at all",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
- *          format="date-time"
+ *			format="date-time",
+ *			example="2023-12-30 23:59:59",
+ *			readOnly=true
  *      ),
  *      @OA\Property(
  *          property="password",
- *          description="",
- *          readOnly=false,
+ *          description="Encoded password string.",
  *          nullable=false,
  *          type="string",
+ *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ *			writeOnly=true
  *      ),
  *      @OA\Property(
- *          property="remember_token",
- *          description="",
- *          readOnly=false,
- *          nullable=true,
+ *          property="api_token",
+ *          description="The API token for authentication",
  *          type="string",
+ *          maxLength=80,
+ *          example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+ *          readOnly=true
  *      ),
  *      @OA\Property(
  *          property="is_restricted",
- *          description="",
+ *          description="Is the User (default false) restricted from using the site?",
  *          readOnly=false,
  *          nullable=false,
- *          type="boolean",
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0
  *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="createdBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that created this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updatedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable last User to update this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deletedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that softdeleted this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="persona",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="Persona",
+ *					description="Attachable Persona for this User."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *			},
+ *			readOnly=true
+ *		)
+ * )
+ */
+
+/**
+ *	@OA\Schema(
+ *		schema="UserSimple",
+ *		@OA\Property(
+ *			property="persona_id",
+ *			description="ID of the User's Persona.",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
  *      @OA\Property(
- *          property="created_at",
- *          description="",
- *          readOnly=true,
+ *          property="email",
+ *          description="Unique email used to identify and communicate with the User.",
+ *          readOnly=false,
  *          nullable=false,
  *          type="string",
- *          format="date-time"
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=191
  *      ),
  *      @OA\Property(
- *          property="updated_at",
- *          description="",
- *          readOnly=true,
+ *          property="email_verified_at",
+ *          description="When the User email was verified, if at all",
+ *          readOnly=false,
  *          nullable=true,
  *          type="string",
- *          format="date-time"
+ *			format="date-time",
+ *			example="2023-12-30 23:59:59",
+ *			readOnly=true
  *      ),
  *      @OA\Property(
- *          property="deleted_at",
- *          description="",
- *          readOnly=true,
+ *          property="password",
+ *          description="Encoded password string.",
+ *          nullable=false,
+ *          type="string",
+ *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ *			writeOnly=true
+ *      ),
+ *      @OA\Property(
+ *          property="is_restricted",
+ *          description="Is the User (default false) restricted from using the site?",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0
+ *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		)
+ */
+
+/**
+ *	@OA\Schema(
+ *		schema="UserSuperSimple",
+ *		@OA\Property(
+ *			property="persona_id",
+ *			description="ID of the User's Persona.",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *      @OA\Property(
+ *          property="email",
+ *          description="Unique email used to identify and communicate with the User.",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=191
+ *      ),
+ *      @OA\Property(
+ *          property="email_verified_at",
+ *          description="When the User email was verified, if at all",
+ *          readOnly=false,
  *          nullable=true,
  *          type="string",
- *          format="date-time"
+ *			format="date-time",
+ *			example="2023-12-30 23:59:59",
+ *			readOnly=true
+ *      ),
+ *      @OA\Property(
+ *          property="password",
+ *          description="Encoded password string.",
+ *          nullable=false,
+ *          type="string",
+ *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ *			writeOnly=true
+ *      ),
+ *      @OA\Property(
+ *          property="is_restricted",
+ *          description="Is the User (default false) restricted from using the site?",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0
  *      )
- * )
+ */
+
+/**
+ *
+ *	@OA\RequestBody(
+ *		request="User",
+ *		description="User object that needs to be added or updated.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(ref="#/components/schemas/UserSimple")
+ *		)
+ *	)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -97,6 +370,7 @@ class User extends Authenticatable implements MustVerifyEmail
 	// 	deleteImage as traitDeleteImage;
 	// }
 	use Userstamps;
+	use ProtectFieldsTrait;
 	// use NullableTrait;
 	// use \OwenIt\Auditing\Auditable;
 	// use PivotEventTrait;
@@ -105,113 +379,108 @@ class User extends Authenticatable implements MustVerifyEmail
 	use HasRoles;
 	use HasApiTokens;
 	
+	//TODO: Audit stuff
+
 	public $table = 'users';
+	public $timestamps = true;
 	
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $protectedFields = ['persona_id'];
 	protected $guard_name = 'api';
+	protected $hidden = ['password','api_token','remember_token'];
 	
-	public $fillable = [
-			'email',
-			'email_verified_at',
-			'password',
-			'remember_token',
-			'is_restricted'
+    public $fillable = [
+        'email',
+        'email_verified_at',
+        'password',
+        'is_restricted'
+    ];
+
+    protected $casts = [
+    	'persona_id' => 'required|exists:personas,id',
+    	'email' => 'required|email|unique:users,email',
+    	'email_verified_at' => 'nullable|datetime',
+    	'password' => 'required|string',
+    	'remember_token' => 'unique:users,remember_token|nullable|string|max:100',
+    	'api_token' => 'unique:users,api_token|nullable|string|max:80',
+    	'is_restricted' => 'boolean'
+    ];
+    public static $createRules = [
+		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
+		'password' => 'min:6|required_with:password_confirmation|same:password_confirmation|max:191',
+		'is_restricted' => 'required|boolean'
+    ];
+
+    public static array $rules = [
+        'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
+        'email_verified_at' => 'nullable',
+    	'password' => 'nullable|min:6|required_with:password_confirmation|same:password_confirmation|max:191',
+		'remember_token' => 'nullable|string|max:100',
+		'api_token' => 'nullable|string|max:80',
+        'is_restricted' => 'required|boolean'
+    ];
+    
+    public static $messages = [
+		'email.regex'	  => 'Please enter a valid email.',
+    ];
+    
+    public static $setPasswordRules = [
+		'user_id'			   => 'required',
+		'password'			  => 'min:6|required_with:password_confirmation|same:password_confirmation',
+		'password_confirmation' => 'min:6',
+    ];
+    
+    /**
+     * Whether a user can impersonate others
+     */
+    public function canImpersonate()
+    {
+    	// For example
+    	return $this->hasRole('admin') ? TRUE : FALSE;
+    }
+    
+    /**
+     * Whether a user can be impersonated
+     */
+    public function canBeImpersonated()
+    {
+    	// For example
+    	return $this->hasRole('admin') ? FALSE : TRUE;
+    }
+    
+    /**
+     * The relationships map for the model.
+     *
+     * @var array
+     */
+	public $relationships = [
+		'persona' => 'BelongsTo',
+		'createdBy' => 'BelongsTo',
+		'updatedBy' => 'BelongsTo',
+		'deletedBy' => 'BelongsTo',
 	];
-	
-	protected $casts = [
-			'email' => 'string',
-			'email_verified_at' => 'datetime',
-			'password' => 'string',
-			'remember_token' => 'string',
-			'is_restricted' => 'boolean'
-	];
-	
-	public static array $rules = [
-        'email' => 'required|string|max:191',
-			'email_verified_at' => 'nullable',
-        'password' => 'required|string|max:191',
-			'remember_token' => 'nullable|string|max:100',
-			'is_restricted' => 'required|boolean',
-			'created_at' => 'required',
-			'updated_at' => 'nullable',
-			'deleted_at' => 'nullable'
-	];
-	
-	public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Attendance::class, 'user_id');
-	}
-	
-	public function duesRevoked(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Due::class, 'revoked_by');
-	}
-	
-	public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Due::class, 'user_id');
-	}
-	
-	public function eventsAutocrated(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Event::class, 'autocrat_id');
-	}
-	
-	public function issuancesIssued(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Issuance::class, 'issuer_id');
-	}
-	
-	public function issuancesRevoked(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Issuance::class, 'revoked_by');
-	}
-	
-	public function issuances(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Issuance::class, 'user_id');
-	}
-	
-	public function memberships(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Member::class, 'user_id');
-	}
-	
-	public function officersAuthorized(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Officer::class, 'authorized_by');
-	}
-	
-	public function officesHeld(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Officer::class, 'user_id');
-	}
-	
-	public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Recommendation::class, 'user_id');
-	}
-	
-	public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Reconciliation::class, 'user_id');
-	}
-	
-	public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Split::class, 'user_id');
-	}
-	
-	public function suspensionsEnforced(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
-	}
-	
-	public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Suspension::class, 'user_id');
-	}
-	
-	//Created/Updated/Deleted relations
+    
+    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+    	return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+    }
+    
+    //CUDs
+    
+    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+    	return $this->belongsTo(\App\Models\User::class, 'created_by');
+    }
+    
+    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+    	return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+    }
+    
+    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+    	return $this->belongsTo(\App\Models\User::class, 'updated_by');
+    }
 	
 	public function accountsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
@@ -348,6 +617,21 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Event::class, 'updated_by');
 	}
 	
+	public function guestsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Guest::class, 'created_by');
+	}
+	
+	public function guestsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Guest::class, 'deleted_by');
+	}
+	
+	public function guestsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Guest::class, 'updated_by');
+	}
+	
 	public function issuancesCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Issuance::class, 'created_by');
@@ -363,32 +647,17 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Issuance::class, 'updated_by');
 	}
 	
-	public function kingdomsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Realm::class, 'created_by');
-	}
-	
-	public function kingdomsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Realm::class, 'deleted_by');
-	}
-	
-	public function kingdomsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Realm::class, 'updated_by');
-	}
-	
 	public function locationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Location::class, 'created_by');
 	}
 	
-	public function location23s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function locationsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Location::class, 'deleted_by');
 	}
 	
-	public function location24s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function locationsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Location::class, 'updated_by');
 	}
@@ -398,12 +667,12 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Meetup::class, 'created_by');
 	}
 	
-	public function meetup25s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function meetupsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Meetup::class, 'deleted_by');
 	}
 	
-	public function meetup26s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function meetupsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Meetup::class, 'updated_by');
 	}
@@ -413,12 +682,12 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Member::class, 'created_by');
 	}
 	
-	public function member27s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function membersDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Member::class, 'deleted_by');
 	}
 	
-	public function member28s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function membersUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Member::class, 'updated_by');
 	}
@@ -428,12 +697,12 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Officer::class, 'created_by');
 	}
 	
-	public function officer29s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function officersDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Officer::class, 'deleted_by');
 	}
 	
-	public function officer30s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function officersUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Officer::class, 'updated_by');
 	}
@@ -443,12 +712,12 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Office::class, 'created_by');
 	}
 	
-	public function office31s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function officesDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Office::class, 'deleted_by');
 	}
 	
-	public function office32s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function officesUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Office::class, 'updated_by');
 	}
@@ -458,19 +727,14 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Persona::class, 'created_by');
 	}
 	
-	public function persona33s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function personasDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Persona::class, 'deleted_by');
 	}
 	
-	public function persona34s(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function personasUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\Persona::class, 'updated_by');
-	}
-	
-	public function personas(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
-		return $this->hasMany(\App\Models\Persona::class, 'user_id');
 	}
 	
 	public function pronounsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -487,14 +751,15 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return $this->hasMany(\App\Models\Pronoun::class, 'updated_by');
 	}
-    public function realms(): \Illuminate\Database\Eloquent\Relations\HasMany
+    
+    public function realmsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Realm::class, 'created_by');
+    	return $this->hasMany(\App\Models\Realm::class, 'created_by');
     }
-
-    public function realsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+    
+    public function realmsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Realm::class, 'deleted_by');
+    	return $this->hasMany(\App\Models\Realm::class, 'deleted_by');
     }
 
     public function realmsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -531,6 +796,11 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return $this->hasMany(\App\Models\Reconciliation::class, 'updated_by');
 	}
+	
+	public function reignsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Reign::class, 'created_by');
+	}
 
     public function reignsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -541,10 +811,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(\App\Models\Reign::class, 'updated_by');
     }
-
-    public function socials(): \Illuminate\Database\Eloquent\Relations\HasMany
+    
+    public function socialsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Social::class, 'created_by');
+    	return $this->hasMany(\App\Models\Social::class, 'created_by');
     }
 
     public function socialsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -647,9 +917,19 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Unit::class, 'updated_by');
 	}
 	
-	public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function usersCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
-		return $this->hasMany(\App\Models\Waiver::class, 'age_verified_by');
+		return $this->hasMany(\App\Models\User::class, 'created_by');
+	}
+	
+	public function usersDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\User::class, 'deleted_by');
+	}
+	
+	public function usersUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\User::class, 'updated_by');
 	}
 	
 	public function waiversCreated(): \Illuminate\Database\Eloquent\Relations\HasMany

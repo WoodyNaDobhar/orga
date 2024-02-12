@@ -3,61 +3,323 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\SoftDeletes; use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Wildside\Userstamps\Userstamps;
+use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
  *      schema="Transaction",
- *      required={"description","transaction_at","created_at"},
+ *      required={"description","transaction_at"},
+ *		description="Accounting Transactions.<br>The following relationships can be attached, and in the case of plural relations, searched:
+ * dues (Due) (HasMany): Dues linked to the Transaction
+ * splits (Split) (HasMany): Splits for the Transaction
+ * createdBy (User) (BelongsTo): User that created it.
+ * updatedBy (User) (BelongsTo): User that last updated it (if any).
+ * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
  *      @OA\Property(
  *          property="description",
- *          description="",
+ *          description="A description of the Transaction.",
  *          readOnly=false,
  *          nullable=false,
  *          type="string",
+ *          format="paragraph",
+ *          example="Dues Paid for Chibasama",
+ *          maxLength=191
  *      ),
  *      @OA\Property(
  *          property="memo",
- *          description="",
+ *          description="A memo for the Transaction, if any",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *          example="Paid in $2 bills.",
+ *          maxLength=191
  *      ),
  *      @OA\Property(
  *          property="transaction_at",
- *          description="",
+ *          description="Date the Transaction occured.",
  *          readOnly=false,
  *          nullable=false,
  *          type="string",
- *          format="date"
+ *          format="date",
+ *			example="2020-12-30"
  *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="createdBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that created this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updatedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable last User to update this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deletedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that softdeleted this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="dues",
+ *			description="Attachable & filterable array of Dues linked to the Transaction.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Due",
+ *				type="object",
+ *				ref="#/components/schemas/Due"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="splits",
+ *			description="Attachable & filterable array of Splits for the Transaction.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Split",
+ *				type="object",
+ *				ref="#/components/schemas/Split"
+ *			),
+ *			readOnly=true
+ *		)
+ * )
+ */
+ 
+/**
+ *	@OA\Schema(
+ *		schema="TransactionSimple",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
  *      @OA\Property(
- *          property="created_at",
- *          description="",
- *          readOnly=true,
+ *          property="description",
+ *          description="A description of the Transaction.",
+ *          readOnly=false,
  *          nullable=false,
  *          type="string",
- *          format="date-time"
+ *          format="paragraph",
+ *          example="Dues Paid for Chibasama",
+ *          maxLength=191
  *      ),
  *      @OA\Property(
- *          property="updated_at",
- *          description="",
- *          readOnly=true,
+ *          property="memo",
+ *          description="A memo for the Transaction, if any",
+ *          readOnly=false,
  *          nullable=true,
  *          type="string",
- *          format="date-time"
+ *          example="Paid in $2 bills.",
+ *          maxLength=191
  *      ),
  *      @OA\Property(
- *          property="deleted_at",
- *          description="",
- *          readOnly=true,
+ *          property="transaction_at",
+ *          description="Date the Transaction occured.",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *          format="date",
+ *			example="2020-12-30"
+ *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		)
+ */
+ 
+/**
+ *	@OA\Schema(
+ *		schema="TransactionSuperSimple",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *      @OA\Property(
+ *          property="description",
+ *          description="A description of the Transaction.",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *          format="paragraph",
+ *          example="Dues Paid for Chibasama",
+ *          maxLength=191
+ *      ),
+ *      @OA\Property(
+ *          property="memo",
+ *          description="A memo for the Transaction, if any",
+ *          readOnly=false,
  *          nullable=true,
  *          type="string",
- *          format="date-time"
+ *          example="Paid in $2 bills.",
+ *          maxLength=191
+ *      ),
+ *      @OA\Property(
+ *          property="transaction_at",
+ *          description="Date the Transaction occured.",
+ *          readOnly=false,
+ *          nullable=false,
+ *          type="string",
+ *          format="date",
+ *			example="2020-12-30"
  *      )
- * )
- */class Transaction extends Model
+ *	)
+ */
+ 
+/**
+ *
+ *	@OA\RequestBody(
+ *		request="Transaction",
+ *		description="Transaction object that needs to be added or updated.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(ref="#/components/schemas/TransactionSimple")
+ *		)
+ *	)
+ */
+
+class Transaction extends Model
 {
-     use SoftDeletes;    use HasFactory;    public $table = 'transactions';
+	use SoftDeletes;
+	use HasFactory;
+	use Userstamps;
+	use ProtectFieldsTrait;
+
+	public $table = 'transactions';
+	public $timestamps = true;
+	
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $protectedFields = [];
 
     public $fillable = [
         'description',
@@ -72,13 +334,25 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'description' => 'required|string|max:191',
-        'memo' => 'nullable|string|max:16777215',
-        'transaction_at' => 'required',
-        'created_at' => 'required',
-        'updated_at' => 'nullable',
-        'deleted_at' => 'nullable'
+    	'description' => 'required|string|max:191',
+    	'memo' => 'nullable|string|max:16777215',
+    	'transaction_at' => 'required|date'
     ];
+    
+    public $relationships = [
+    	'dues' => 'HasMany',
+    	'splits' => 'HasMany'
+    ];
+    
+    public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+    	return $this->hasMany(\App\Models\Due::class, 'transaction_id');
+    }
+    
+    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+    	return $this->hasMany(\App\Models\Split::class, 'transaction_id');
+    }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -93,15 +367,5 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Due::class, 'transaction_id');
-    }
-
-    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Split::class, 'transaction_id');
     }
 }

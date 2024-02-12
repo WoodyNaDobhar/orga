@@ -3,125 +3,617 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\SoftDeletes; use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\ProtectFieldsTrait;
+use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
  *      schema="Location",
  *      required={"created_at"},
+ *		description="Location information for Chapters, Events, Meetups, and Waivers.<br>The following relationships can be attached, and in the case of plural relations, searched:
+ * chapters (Chapter) (HasMany): Chapters using this Location.
+ * events (Event) (HasMany): Events using this Location.
+ * issuances (Issuance) (MorphMany): Issuances made at this Location.
+ * meetups (Meetup) (HasMany): Meetups using this Location.
+ * waivers (Waiver) (HasMany): Waivers using this Location.
+ * createdBy (User) (BelongsTo): User that created it.
+ * updatedBy (User) (BelongsTo): User that last updated it (if any).
+ * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
  *      @OA\Property(
  *          property="label",
- *          description="",
+ *          description="The Location label, as it might appear on a map.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *          format="uppercase first letter",
+ *          example="McCullum Park",
+ *          maxLength=50
  *      ),
  *      @OA\Property(
  *          property="address",
- *          description="",
+ *          description="The street address of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="street",
+ *          example="123 Fake St.",
+ *          maxLength=191
  *      ),
  *      @OA\Property(
  *          property="city",
- *          description="",
+ *          description="The city of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="city",
+ *          example="Seattle",
+ *          maxLength=50
  *      ),
  *      @OA\Property(
  *          property="province",
- *          description="",
+ *          description="The state or provice of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="state",
+ *          example="Texas",
+ *          maxLength=35
  *      ),
  *      @OA\Property(
  *          property="postal_code",
- *          description="",
+ *          description="The zip or postal code of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="zip",
+ *          example="98666",
+ *          maxLength=10
  *      ),
  *      @OA\Property(
  *          property="country",
- *          description="",
+ *          description="The two letter country code of the Location (default US), if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="country",
+ *          example="US",
+ *          maxLength=2,
+ *     		default="US"
  *      ),
  *      @OA\Property(
  *          property="google_geocode",
- *          description="",
+ *          description="JSON encoded Google Geocode data of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="json",
+ *          maxLength=16777215
  *      ),
  *      @OA\Property(
  *          property="latitude",
- *          description="",
+ *          description="Latitude of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="number",
- *          format="number"
+ *          format="double"
  *      ),
  *      @OA\Property(
  *          property="longitude",
- *          description="",
+ *          description="Longitude of the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="number",
- *          format="number"
+ *          format="double"
  *      ),
  *      @OA\Property(
  *          property="location",
- *          description="",
+ *          description="JSON encoded Google location services data of the Location, if any",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="json",
+ *          maxLength=16777215
  *      ),
  *      @OA\Property(
  *          property="map_url",
- *          description="",
+ *          description="An external map link of the Location, if any",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *			format="url",
+ *          maxLength=16777215
  *      ),
  *      @OA\Property(
  *          property="directions",
- *          description="",
+ *          description="Directions required to properly navigate the last part of the journey to, or park at, the Location, if any.",
  *          readOnly=false,
  *          nullable=true,
  *          type="string",
+ *          format="paragraph",
+ *          example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ *          maxLength=16777215
  *      ),
- *      @OA\Property(
- *          property="created_at",
- *          description="",
- *          readOnly=true,
- *          nullable=false,
- *          type="string",
- *          format="date-time"
- *      ),
- *      @OA\Property(
- *          property="updated_at",
- *          description="",
- *          readOnly=true,
- *          nullable=true,
- *          type="string",
- *          format="date-time"
- *      ),
- *      @OA\Property(
- *          property="deleted_at",
- *          description="",
- *          readOnly=true,
- *          nullable=true,
- *          type="string",
- *          format="date-time"
- *      )
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="createdBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that created this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updatedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable last User to update this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deletedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that softdeleted this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="chapters",
+ *			description="Attachable & filterable array of Chapters using this Location.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Chapter",
+ *				type="object",
+ *				ref="#/components/schemas/Chapter"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="events",
+ *			description="Attachable & filterable array of Events using this Location.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Event",
+ *				type="object",
+ *				ref="#/components/schemas/Event"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="issuances",
+ *			description="Attachable & filterable array of Issuances at this Location.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Issuance",
+ *				type="object",
+ *				ref="#/components/schemas/Issuance"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="meetups",
+ *			description="Attachable & filterable array of Meetups using this Location.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Meetup",
+ *				type="object",
+ *				ref="#/components/schemas/Meetup"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="waivers",
+ *			description="Attachable & filterable array of Waivers using this Location.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Waiver",
+ *				type="object",
+ *				ref="#/components/schemas/Waiver"
+ *			),
+ *			readOnly=true
+ *		)
  * )
- */class Location extends Model
+ */
+ 
+/**
+ *	@OA\Schema(
+ *		schema="LocationSimple",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *      @OA\Property(
+ *          property="label",
+ *          description="The Location label, as it might appear on a map.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *          format="uppercase first letter",
+ *          example="McCullum Park",
+ *          maxLength=50
+ *      ),
+ *      @OA\Property(
+ *          property="address",
+ *          description="The street address of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="street",
+ *          example="123 Fake St.",
+ *          maxLength=191
+ *      ),
+ *      @OA\Property(
+ *          property="city",
+ *          description="The city of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="city",
+ *          example="Seattle",
+ *          maxLength=50
+ *      ),
+ *      @OA\Property(
+ *          property="province",
+ *          description="The state or provice of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="state",
+ *          example="Texas",
+ *          maxLength=35
+ *      ),
+ *      @OA\Property(
+ *          property="postal_code",
+ *          description="The zip or postal code of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="zip",
+ *          example="98666",
+ *          maxLength=10
+ *      ),
+ *      @OA\Property(
+ *          property="country",
+ *          description="The two letter country code of the Location (default US), if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="country",
+ *          example="US",
+ *          maxLength=2,
+ *     		default="US"
+ *      ),
+ *      @OA\Property(
+ *          property="google_geocode",
+ *          description="JSON encoded Google Geocode data of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="json",
+ *          maxLength=16777215
+ *      ),
+ *      @OA\Property(
+ *          property="latitude",
+ *          description="Latitude of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="number",
+ *          format="double"
+ *      ),
+ *      @OA\Property(
+ *          property="longitude",
+ *          description="Longitude of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="number",
+ *          format="double"
+ *      ),
+ *      @OA\Property(
+ *          property="location",
+ *          description="JSON encoded Google location services data of the Location, if any",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="json",
+ *          maxLength=16777215
+ *      ),
+ *      @OA\Property(
+ *          property="map_url",
+ *          description="An external map link of the Location, if any",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="url",
+ *          maxLength=16777215
+ *      ),
+ *      @OA\Property(
+ *          property="directions",
+ *          description="Directions required to properly navigate the last part of the journey to, or park at, the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *          format="paragraph",
+ *          example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ *          maxLength=16777215
+ *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		)
+ */
+ 
+/**
+ *	@OA\Schema(
+ *		schema="LocationSuperSimple",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *      @OA\Property(
+ *          property="label",
+ *          description="The Location label, as it might appear on a map.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *          format="uppercase first letter",
+ *          example="McCullum Park",
+ *          maxLength=50
+ *      ),
+ *      @OA\Property(
+ *          property="address",
+ *          description="The street address of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="street",
+ *          example="123 Fake St.",
+ *          maxLength=191
+ *      ),
+ *      @OA\Property(
+ *          property="city",
+ *          description="The city of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="city",
+ *          example="Seattle",
+ *          maxLength=50
+ *      ),
+ *      @OA\Property(
+ *          property="province",
+ *          description="The state or provice of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="state",
+ *          example="Texas",
+ *          maxLength=35
+ *      ),
+ *      @OA\Property(
+ *          property="postal_code",
+ *          description="The zip or postal code of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="zip",
+ *          example="98666",
+ *          maxLength=10
+ *      ),
+ *      @OA\Property(
+ *          property="country",
+ *          description="The two letter country code of the Location (default US), if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="country",
+ *          example="US",
+ *          maxLength=2,
+ *     		default="US"
+ *      ),
+ *      @OA\Property(
+ *          property="google_geocode",
+ *          description="JSON encoded Google Geocode data of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="json",
+ *          maxLength=16777215
+ *      ),
+ *      @OA\Property(
+ *          property="latitude",
+ *          description="Latitude of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="number",
+ *          format="double"
+ *      ),
+ *      @OA\Property(
+ *          property="longitude",
+ *          description="Longitude of the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="number",
+ *          format="double"
+ *      ),
+ *      @OA\Property(
+ *          property="location",
+ *          description="JSON encoded Google location services data of the Location, if any",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="json",
+ *          maxLength=16777215
+ *      ),
+ *      @OA\Property(
+ *          property="map_url",
+ *          description="An external map link of the Location, if any",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *			format="url",
+ *          maxLength=16777215
+ *      ),
+ *      @OA\Property(
+ *          property="directions",
+ *          description="Directions required to properly navigate the last part of the journey to, or park at, the Location, if any.",
+ *          readOnly=false,
+ *          nullable=true,
+ *          type="string",
+ *          format="paragraph",
+ *          example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ *          maxLength=16777215
+ *      )
+ *	)
+ */
+ 
+/**
+ *
+ *	@OA\RequestBody(
+ *		request="Location",
+ *		description="Location object that needs to be added or updated.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(ref="#/components/schemas/LocationSimple")
+ *		)
+ *	)
+ */
+
+class Location extends Model
 {
-     use SoftDeletes;    use HasFactory;    public $table = 'locations';
+	use SoftDeletes;
+	use HasFactory;
+	use Userstamps;
+	use ProtectFieldsTrait;
+
+	public $table = 'locations';
+	public $timestamps = true;
+	
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $protectedFields = [];
 
     public $fillable = [
         'label',
@@ -155,21 +647,51 @@ use Illuminate\Database\Eloquent\Model;
 
     public static array $rules = [
         'label' => 'nullable|string|max:50',
-        'address' => 'nullable|string|max:191',
-        'city' => 'nullable|string|max:50',
-        'province' => 'nullable|string|max:35',
-        'postal_code' => 'nullable|string|max:10',
-        'country' => 'nullable|string|max:2',
-        'google_geocode' => 'nullable|string|max:16777215',
-        'latitude' => 'nullable|numeric',
-        'longitude' => 'nullable|numeric',
-        'location' => 'nullable|string|max:16777215',
-        'map_url' => 'nullable|string|max:16777215',
-        'directions' => 'nullable|string|max:16777215',
-        'created_at' => 'required',
-        'updated_at' => 'nullable',
-        'deleted_at' => 'nullable'
+    	'address' => 'nullable|string|max:191',
+    	'city' => 'nullable|string|max:50',
+    	'province' => 'nullable|string|max:35',
+    	'postal_code' => 'nullable|string|max:10',
+    	'country' => 'nullable|string|max:2|default:US',
+    	'google_geocode' => 'nullable|string|max:16777215',
+    	'latitude' => 'nullable|numeric',
+    	'longitude' => 'nullable|numeric',
+    	'location' => 'nullable|string|max:16777215',
+    	'map_url' => 'nullable|string|max:16777215|active_url',
+    	'directions' => 'nullable|string|max:16777215'
     ];
+    
+    public $relationships = [
+    	'chapters' => 'HasMany',
+    	'events' => 'HasMany',
+    	'issuances' => 'MorphMany',
+    	'meetups' => 'HasMany',
+    	'waivers' => 'HasMany'
+    ];
+    
+    public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+    	return $this->hasMany(\App\Models\Chapter::class, 'location_id');
+    }
+    
+    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+    	return $this->hasMany(\App\Models\Event::class, 'location_id');
+    }
+    
+    public function issuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+    	return $this->morphMany(Issuance::class, 'whereable');
+    }
+    
+    public function meetups(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+    	return $this->hasMany(\App\Models\Meetup::class, 'location_id');
+    }
+    
+    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+    	return $this->hasMany(\App\Models\Waiver::class, 'location_id');
+    }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -184,25 +706,5 @@ use Illuminate\Database\Eloquent\Model;
     public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
-
-    public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Chapter::class, 'location_id');
-    }
-
-    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Event::class, 'location_id');
-    }
-
-    public function meetups(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Meetup::class, 'location_id');
-    }
-
-    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Waiver::class, 'location_id');
     }
 }

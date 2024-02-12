@@ -3,60 +3,353 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\SoftDeletes; use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Wildside\Userstamps\Userstamps;
+use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
  *      schema="Social",
- *      required={"sociable_type","media","value","created_at"},
+ *      required={"sociable_type","media","value"},
+ *		description="asdf<br>The following relationships can be attached, and in the case of plural relations, searched:
+ * sociable (Social) (MorphTo): Model the Social is being attached to.
+ * createdBy (User) (BelongsTo): User that created it.
+ * updatedBy (User) (BelongsTo): User that last updated it (if any).
+ * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
  *      @OA\Property(
  *          property="sociable_type",
- *          description="",
+ *          description="The Model for which the Social is for; Chapter, Event, Persona, Realm, or Unit.",
  *          readOnly=false,
  *          nullable=false,
- *          type="string",
+ *			type="string",
+ *			format="enum",
+ *			enum={"Chapter","Event","Persona","Realm","Unit"},
+ *			example="Chapter"
  *      ),
+ *		@OA\Property(
+ *			property="sociable_id",
+ *			description="The ID of the entry with this Social.",
+ *          readOnly=false,
+ *          nullable=true,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
  *      @OA\Property(
  *          property="media",
- *          description="",
+ *          description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
  *          readOnly=false,
  *          nullable=false,
- *          type="string",
+ *			type="string",
+ *			format="enum",
+ *			enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ *			example="Web"
  *      ),
  *      @OA\Property(
  *          property="value",
- *          description="",
+ *          description="The link, username, or other identifier for the given media.",
  *          readOnly=false,
  *          nullable=false,
  *          type="string",
+ *          example="https://ork.amtgard.com",
+ *          maxLength=255
+ *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="createdBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that created this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updatedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable last User to update this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deletedBy",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="User",
+ *					description="Attachable User that softdeleted this record."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/User"),
+ *			},
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="officers",
+ *			description="Attachable & filterable array of Officers of the Reign.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Officer",
+ *				type="object",
+ *				ref="#/components/schemas/Officer"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="sociable",
+ *			type="object",
+ *			allOf={
+ *				@OA\Property(
+ *					title="Social",
+ *					description="Attachable model the Social is being attached to."
+ *				),
+ *				@OA\Schema(ref="#/components/schemas/Social"),
+ *			},
+ *			readOnly=true
+ *		)
+ * )
+ */
+ 
+/**
+ *	@OA\Schema(
+ *		schema="SocialSimple",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *      @OA\Property(
+ *          property="sociable_type",
+ *          description="The Model for which the Social is for; Chapter, Event, Persona, Realm, or Unit.",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="string",
+ *			format="enum",
+ *			enum={"Chapter","Event","Persona","Realm","Unit"},
+ *			example="Chapter"
+ *      ),
+ *		@OA\Property(
+ *			property="sociable_id",
+ *			description="The ID of the entry with this Social.",
+ *          readOnly=false,
+ *          nullable=true,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *      @OA\Property(
+ *          property="media",
+ *          description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="string",
+ *			format="enum",
+ *			enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ *			example="Web"
  *      ),
  *      @OA\Property(
- *          property="created_at",
- *          description="",
- *          readOnly=true,
+ *          property="value",
+ *          description="The link, username, or other identifier for the given media.",
+ *          readOnly=false,
  *          nullable=false,
  *          type="string",
- *          format="date-time"
+ *          example="https://ork.amtgard.com",
+ *          maxLength=255
+ *      ),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		)
+ */
+ 
+/**
+ *	@OA\Schema(
+ *		schema="SocialSuperSimple",
+ *		@OA\Property(
+ *			property="id",
+ *			description="The entry's ID.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *      @OA\Property(
+ *          property="sociable_type",
+ *          description="The Model for which the Social is for; Chapter, Event, Persona, Realm, or Unit.",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="string",
+ *			format="enum",
+ *			enum={"Chapter","Event","Persona","Realm","Unit"},
+ *			example="Chapter"
+ *      ),
+ *		@OA\Property(
+ *			property="sociable_id",
+ *			description="The ID of the entry with this Social.",
+ *          readOnly=false,
+ *          nullable=true,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *      @OA\Property(
+ *          property="media",
+ *          description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ *          readOnly=false,
+ *          nullable=false,
+ *			type="string",
+ *			format="enum",
+ *			enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ *			example="Web"
  *      ),
  *      @OA\Property(
- *          property="updated_at",
- *          description="",
- *          readOnly=true,
- *          nullable=true,
+ *          property="value",
+ *          description="The link, username, or other identifier for the given media.",
+ *          readOnly=false,
+ *          nullable=false,
  *          type="string",
- *          format="date-time"
- *      ),
- *      @OA\Property(
- *          property="deleted_at",
- *          description="",
- *          readOnly=true,
- *          nullable=true,
- *          type="string",
- *          format="date-time"
+ *          example="https://ork.amtgard.com",
+ *          maxLength=255
  *      )
- * )
- */class Social extends Model
+ *	)
+ */
+ 
+/**
+ *
+ *	@OA\RequestBody(
+ *		request="Social",
+ *		description="Social object that needs to be added or updated.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(ref="#/components/schemas/SocialSimple")
+ *		)
+ *	)
+ */
+
+class Social extends Model
 {
-     use SoftDeletes;    use HasFactory;    public $table = 'socials';
+	use SoftDeletes;
+	use HasFactory;
+	use Userstamps;
+	use ProtectFieldsTrait;
+
+	public $table = 'socials';
+	public $timestamps = true;
+	
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $protectedFields = ['sociable_type'];
 
     public $fillable = [
         'sociable_type',
@@ -72,14 +365,20 @@ use Illuminate\Database\Eloquent\Model;
     ];
 
     public static array $rules = [
-        'sociable_type' => 'required|string',
-        'sociable_id' => 'nullable',
-        'media' => 'required|string',
-        'value' => 'required|string|max:255',
-        'created_at' => 'required',
-        'updated_at' => 'nullable',
-        'deleted_at' => 'nullable'
+    	'sociable_type' => 'required|in:Realm,Chapter,Event,Unit,Persona',
+    	'sociable_id' => 'nullable',
+    	'media' => 'required|in:Web,Facebook,Discord,Instagram,YouTube,TicToc',
+    	'value' => 'required|string|max:255'
     ];
+    
+    public $relationships = [
+		'sociable' => 'MorphTo'
+    ];
+    
+    public function sociable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    {
+    	return $this->morphTo();
+    }
 
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
