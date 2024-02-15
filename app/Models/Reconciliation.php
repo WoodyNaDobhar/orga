@@ -11,7 +11,7 @@ use App\Traits\ProtectFieldsTrait;
  * @OA\Schema(
  *      schema="Reconciliation",
  *      required={"archetype_id","persona_id","credits"},
- *		description="asdf<br>The following relationships can be attached, and in the case of plural relations, searched:
+ *		description="Reconciliations allow us to make sum adjustments to a Persona's credits.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.
  * persona (Persona) (BelongsTo): Persona credits being Reconciled.
  * createdBy (User) (BelongsTo): User that created it.

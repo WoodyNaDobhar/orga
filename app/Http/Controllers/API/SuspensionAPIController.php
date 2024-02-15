@@ -6,17 +6,26 @@ use App\Http\Requests\API\CreateSuspensionAPIRequest;
 use App\Http\Requests\API\UpdateSuspensionAPIRequest;
 use App\Models\Suspension;
 use App\Repositories\SuspensionRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use app\Helpers\AppHelper;
+use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\SuspensionResource;
 
 /**
  * Class SuspensionController
+ * @package App\Http\Controllers\API
  */
 
 class SuspensionAPIController extends AppBaseController
 {
+	
+	use AuthorizesRequests;
+	
     /** @var  SuspensionRepository */
     private $suspensionRepository;
 
@@ -25,236 +34,769 @@ class SuspensionAPIController extends AppBaseController
         $this->suspensionRepository = $suspensionRepo;
     }
 
-    /**
-     * @OA\Get(
-     *      path="/suspensions",
-     *      summary="getSuspensionList",
-     *      tags={"Suspension"},
-     *      description="Get all Suspensions",
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Suspension")
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $suspensions = $this->suspensionRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/suspensions",
+	 *		summary="Get a listing of the Suspensions.",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Suspension"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		persona (Persona) (BelongsTo): The Persona that has been Suspended.
+	 * 		realm (Realm) (BelongsTo): The Realm issuing the Suspension.
+	 * 		suspendedBy (User) (BelongsTo): The Persona issuing the Suspension.
+	 * 		createdBy (User) (BelongsTo): Suspension that created it.
+	 * 		updatedBy (User) (BelongsTo): Suspension that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): Suspension that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/search"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/limit"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/skip"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/sort"
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Suspensions retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/QueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function index(Request $request): JsonResponse
+	{
+		try {
 
-        return $this->sendResponse(SuspensionResource::collection($suspensions), 'Suspensions retrieved successfully');
-    }
+			$this->authorize('viewAny', Suspension::class);
 
-    /**
-     * @OA\Post(
-     *      path="/suspensions",
-     *      summary="createSuspension",
-     *      tags={"Suspension"},
-     *      description="Create Suspension",
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Suspension")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Suspension"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function store(CreateSuspensionAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+			$suspensions = $this->suspensionRepository->all(
+				$request->has('search') ? $request->get('search') : [],
+				$request->has('skip') && $request->has('limit') ? $request->get('skip') : null,
+				$request->has('limit') ? $request->get('limit') : null,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null,
+				$request->has('sort') ? $request->get('sort') : null
+			);
 
-        $suspension = $this->suspensionRepository->create($input);
+			return $this->sendResponse(new SuspensionResource($suspensions), 'Suspensions retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        return $this->sendResponse(new SuspensionResource($suspension), 'Suspension saved successfully');
-    }
+	/**
+	 * @param CreateSuspensionAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/suspensions",
+	 *		summary="Store a newly created Suspension in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Suspension"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		requestBody={"$ref": "#/components/requestBodies/Suspension"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Suspension saved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function store(CreateSuspensionAPIRequest $request): JsonResponse
+	{
+		try {
 
-    /**
-     * @OA\Get(
-     *      path="/suspensions/{id}",
-     *      summary="getSuspensionItem",
-     *      tags={"Suspension"},
-     *      description="Get Suspension",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Suspension",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Suspension"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function show($id): JsonResponse
-    {
-        /** @var Suspension $suspension */
-        $suspension = $this->suspensionRepository->find($id);
+			$this->authorize('create', Suspension::class);
+			
+			$input = $request->all();
 
-        if (empty($suspension)) {
-            return $this->sendError('Suspension not found');
-        }
+			$suspension = $this->suspensionRepository->create($input);
 
-        return $this->sendResponse(new SuspensionResource($suspension), 'Suspension retrieved successfully');
-    }
+			return $this->sendResponse(new SuspensionResource($suspension), 'Suspension saved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-    /**
-     * @OA\Put(
-     *      path="/suspensions/{id}",
-     *      summary="updateSuspension",
-     *      tags={"Suspension"},
-     *      description="Update Suspension",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Suspension",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Suspension")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Suspension"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function update($id, UpdateSuspensionAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/suspensions/{id}",
+	 *		summary="Display the specified Suspension",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Suspension"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		persona (Persona) (BelongsTo): The Persona that has been Suspended.
+	 * 		realm (Realm) (BelongsTo): The Realm issuing the Suspension.
+	 * 		suspendedBy (User) (BelongsTo): The Persona issuing the Suspension.
+	 * 		createdBy (User) (BelongsTo): User that created it.
+	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Suspension",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Suspension retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SimpleQueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function show($id, Request $request): JsonResponse
+	{
+		try {
+			/** @var Suspension $suspension */
+			$suspension = $this->suspensionRepository->find(
+				$id,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null
+			);
+			
+			if (empty($suspension)) {
+				return $this->sendError('Suspension (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('view', $suspension);
 
-        /** @var Suspension $suspension */
-        $suspension = $this->suspensionRepository->find($id);
+			return $this->sendResponse(new SuspensionResource($suspension), 'Suspension retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        if (empty($suspension)) {
-            return $this->sendError('Suspension not found');
-        }
+	/**
+	 * @param int $id
+	 * @param UpdateSuspensionAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/suspensions/{id}",
+	 *		summary="Update the specified Suspension in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Suspension"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Suspension",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="query",
+	 *			name="_method",
+	 *			description="This is a patch for swagger-ui, to send form data.  If you're sending json content, and using PUT method, it's not really required.",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			required=true,
+	 *			example="Put"
+	 *		),
+	 *		requestBody={"$ref": "#/components/requestBodies/Suspension"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Suspension updated successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function update($id, UpdateSuspensionAPIRequest $request): JsonResponse
+	{
+		try {
+			$input = $request->all();
 
-        $suspension = $this->suspensionRepository->update($input, $id);
+			/** @var Suspension $Suspension */
+			$Suspension = $this->SuspensionRepository->find($id);
 
-        return $this->sendResponse(new SuspensionResource($suspension), 'Suspension updated successfully');
-    }
+			if (empty($Suspension)) {
+				return $this->sendError('Suspension (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('update', $Suspension);
 
-    /**
-     * @OA\Delete(
-     *      path="/suspensions/{id}",
-     *      summary="deleteSuspension",
-     *      tags={"Suspension"},
-     *      description="Delete Suspension",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Suspension",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function destroy($id): JsonResponse
-    {
-        /** @var Suspension $suspension */
-        $suspension = $this->suspensionRepository->find($id);
+			$Suspension = $this->SuspensionRepository->update($input, $id);
 
-        if (empty($suspension)) {
-            return $this->sendError('Suspension not found');
-        }
+			return $this->sendResponse(new SuspensionResource($Suspension), 'Suspension updated successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        $suspension->delete();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Delete(
+	 *		path="/suspensions/{id}",
+	 *		summary="Remove the specified Suspension from storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Suspension"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Suspension",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SuspensionSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Suspension deleted successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								@OA\Property(
+	 *									property="id",
+	 *									description="The entry's ID.",
+	 *									type="integer",
+	 *									format="int32",
+	 *									example=42
+	 *								)
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function destroy($id): JsonResponse
+	{
+		try {
+			/** @var Suspension $suspension */
+			$suspension = $this->suspensionRepository->find($id);
 
-        return $this->sendSuccess('Suspension deleted successfully');
-    }
+			if (empty($suspension)) {
+				return $this->sendError('Suspension (' . $id . ') not found.', ['id' => $id], 404);
+			}
+		
+			$this->authorize('delete', $suspension);
+
+			$suspension->delete();
+
+			return $this->sendSuccess('Suspension deleted successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 }

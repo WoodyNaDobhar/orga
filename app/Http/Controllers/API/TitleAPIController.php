@@ -6,17 +6,26 @@ use App\Http\Requests\API\CreateTitleAPIRequest;
 use App\Http\Requests\API\UpdateTitleAPIRequest;
 use App\Models\Title;
 use App\Repositories\TitleRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use app\Helpers\AppHelper;
+use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\TitleResource;
 
 /**
  * Class TitleController
+ * @package App\Http\Controllers\API
  */
 
 class TitleAPIController extends AppBaseController
 {
+	
+	use AuthorizesRequests;
+	
     /** @var  TitleRepository */
     private $titleRepository;
 
@@ -25,236 +34,765 @@ class TitleAPIController extends AppBaseController
         $this->titleRepository = $titleRepo;
     }
 
-    /**
-     * @OA\Get(
-     *      path="/titles",
-     *      summary="getTitleList",
-     *      tags={"Title"},
-     *      description="Get all Titles",
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Title")
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $titles = $this->titleRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/titles",
+	 *		summary="Get a listing of the Titles.",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Title"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		issuances (Issuance) (MorphMany): Issuances of this Title.
+	 * 		createdBy (User) (BelongsTo): Title that created it.
+	 * 		updatedBy (User) (BelongsTo): Title that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): Title that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/search"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/limit"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/skip"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/sort"
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Titles retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/QueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function index(Request $request): JsonResponse
+	{
+		try {
 
-        return $this->sendResponse(TitleResource::collection($titles), 'Titles retrieved successfully');
-    }
+			$this->authorize('viewAny', Title::class);
 
-    /**
-     * @OA\Post(
-     *      path="/titles",
-     *      summary="createTitle",
-     *      tags={"Title"},
-     *      description="Create Title",
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Title")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Title"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function store(CreateTitleAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+			$titles = $this->titleRepository->all(
+				$request->has('search') ? $request->get('search') : [],
+				$request->has('skip') && $request->has('limit') ? $request->get('skip') : null,
+				$request->has('limit') ? $request->get('limit') : null,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null,
+				$request->has('sort') ? $request->get('sort') : null
+			);
 
-        $title = $this->titleRepository->create($input);
+			return $this->sendResponse(new TitleResource($titles), 'Titles retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        return $this->sendResponse(new TitleResource($title), 'Title saved successfully');
-    }
+	/**
+	 * @param CreateTitleAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/titles",
+	 *		summary="Store a newly created Title in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Title"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		requestBody={"$ref": "#/components/requestBodies/Title"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Title saved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function store(CreateTitleAPIRequest $request): JsonResponse
+	{
+		try {
 
-    /**
-     * @OA\Get(
-     *      path="/titles/{id}",
-     *      summary="getTitleItem",
-     *      tags={"Title"},
-     *      description="Get Title",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Title",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Title"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function show($id): JsonResponse
-    {
-        /** @var Title $title */
-        $title = $this->titleRepository->find($id);
+			$this->authorize('create', Title::class);
+			
+			$input = $request->all();
 
-        if (empty($title)) {
-            return $this->sendError('Title not found');
-        }
+			$title = $this->titleRepository->create($input);
 
-        return $this->sendResponse(new TitleResource($title), 'Title retrieved successfully');
-    }
+			return $this->sendResponse(new TitleResource($title), 'Title saved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-    /**
-     * @OA\Put(
-     *      path="/titles/{id}",
-     *      summary="updateTitle",
-     *      tags={"Title"},
-     *      description="Update Title",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Title",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Title")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Title"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function update($id, UpdateTitleAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/titles/{id}",
+	 *		summary="Display the specified Title",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Title"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		issuances (Issuance) (MorphMany): Issuances of this Title.
+	 * 		createdBy (User) (BelongsTo): User that created it.
+	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Title",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Title retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SimpleQueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function show($id, Request $request): JsonResponse
+	{
+		try {
+			/** @var Title $title */
+			$title = $this->titleRepository->find(
+				$id,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null
+			);
+			
+			if (empty($title)) {
+				return $this->sendError('Title (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('view', $title);
 
-        /** @var Title $title */
-        $title = $this->titleRepository->find($id);
+			return $this->sendResponse(new TitleResource($title), 'Title retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        if (empty($title)) {
-            return $this->sendError('Title not found');
-        }
+	/**
+	 * @param int $id
+	 * @param UpdateTitleAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/titles/{id}",
+	 *		summary="Update the specified Title in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Title"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Title",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="query",
+	 *			name="_method",
+	 *			description="This is a patch for swagger-ui, to send form data.  If you're sending json content, and using PUT method, it's not really required.",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			required=true,
+	 *			example="Put"
+	 *		),
+	 *		requestBody={"$ref": "#/components/requestBodies/Title"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Title updated successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function update($id, UpdateTitleAPIRequest $request): JsonResponse
+	{
+		try {
+			$input = $request->all();
 
-        $title = $this->titleRepository->update($input, $id);
+			/** @var Title $Title */
+			$Title = $this->TitleRepository->find($id);
 
-        return $this->sendResponse(new TitleResource($title), 'Title updated successfully');
-    }
+			if (empty($Title)) {
+				return $this->sendError('Title (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('update', $Title);
 
-    /**
-     * @OA\Delete(
-     *      path="/titles/{id}",
-     *      summary="deleteTitle",
-     *      tags={"Title"},
-     *      description="Delete Title",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Title",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function destroy($id): JsonResponse
-    {
-        /** @var Title $title */
-        $title = $this->titleRepository->find($id);
+			$Title = $this->TitleRepository->update($input, $id);
 
-        if (empty($title)) {
-            return $this->sendError('Title not found');
-        }
+			return $this->sendResponse(new TitleResource($Title), 'Title updated successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        $title->delete();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Delete(
+	 *		path="/titles/{id}",
+	 *		summary="Remove the specified Title from storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Title"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Title",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/TitleSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Title deleted successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								@OA\Property(
+	 *									property="id",
+	 *									description="The entry's ID.",
+	 *									type="integer",
+	 *									format="int32",
+	 *									example=42
+	 *								)
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function destroy($id): JsonResponse
+	{
+		try {
+			/** @var Title $title */
+			$title = $this->titleRepository->find($id);
 
-        return $this->sendSuccess('Title deleted successfully');
-    }
+			if (empty($title)) {
+				return $this->sendError('Title (' . $id . ') not found.', ['id' => $id], 404);
+			}
+		
+			$this->authorize('delete', $title);
+
+			$title->delete();
+
+			return $this->sendSuccess('Title deleted successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 }

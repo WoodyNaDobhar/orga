@@ -6,17 +6,26 @@ use App\Http\Requests\API\CreateCratAPIRequest;
 use App\Http\Requests\API\UpdateCratAPIRequest;
 use App\Models\Crat;
 use App\Repositories\CratRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use app\Helpers\AppHelper;
+use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\CratResource;
 
 /**
  * Class CratController
+ * @package App\Http\Controllers\API
  */
 
 class CratAPIController extends AppBaseController
 {
+	
+	use AuthorizesRequests;
+	
     /** @var  CratRepository */
     private $cratRepository;
 
@@ -25,236 +34,767 @@ class CratAPIController extends AppBaseController
         $this->cratRepository = $cratRepo;
     }
 
-    /**
-     * @OA\Get(
-     *      path="/crats",
-     *      summary="getCratList",
-     *      tags={"Crat"},
-     *      description="Get all Crats",
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Crat")
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $crats = $this->cratRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/crats",
+	 *		summary="Get a listing of the Crats.",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Crat"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		event (Event) (BelongsTo): Event the Persona cratted for.
+	 * 		persona (Persona) (BelongsTo): The Persona cratting the given Event.
+	 * 		createdBy (User) (BelongsTo): Crat that created it.
+	 * 		updatedBy (User) (BelongsTo): Crat that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): Crat that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/search"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/limit"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/skip"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/sort"
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Crats retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/QueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function index(Request $request): JsonResponse
+	{
+		try {
 
-        return $this->sendResponse(CratResource::collection($crats), 'Crats retrieved successfully');
-    }
+			$this->authorize('viewAny', Crat::class);
 
-    /**
-     * @OA\Post(
-     *      path="/crats",
-     *      summary="createCrat",
-     *      tags={"Crat"},
-     *      description="Create Crat",
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Crat")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Crat"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function store(CreateCratAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+			$crats = $this->cratRepository->all(
+				$request->has('search') ? $request->get('search') : [],
+				$request->has('skip') && $request->has('limit') ? $request->get('skip') : null,
+				$request->has('limit') ? $request->get('limit') : null,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null,
+				$request->has('sort') ? $request->get('sort') : null
+			);
 
-        $crat = $this->cratRepository->create($input);
+			return $this->sendResponse(new CratResource($crats), 'Crats retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        return $this->sendResponse(new CratResource($crat), 'Crat saved successfully');
-    }
+	/**
+	 * @param CreateCratAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/crats",
+	 *		summary="Store a newly created Crat in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Crat"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: none<br>Admins: full
+	 *		requestBody={"$ref": "#/components/requestBodies/Crat"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Crat saved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function store(CreateCratAPIRequest $request): JsonResponse
+	{
+		try {
 
-    /**
-     * @OA\Get(
-     *      path="/crats/{id}",
-     *      summary="getCratItem",
-     *      tags={"Crat"},
-     *      description="Get Crat",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Crat",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Crat"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function show($id): JsonResponse
-    {
-        /** @var Crat $crat */
-        $crat = $this->cratRepository->find($id);
+			$this->authorize('create', Crat::class);
+			
+			$input = $request->all();
 
-        if (empty($crat)) {
-            return $this->sendError('Crat not found');
-        }
+			$crat = $this->cratRepository->create($input);
 
-        return $this->sendResponse(new CratResource($crat), 'Crat retrieved successfully');
-    }
+			return $this->sendResponse(new CratResource($crat), 'Crat saved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-    /**
-     * @OA\Put(
-     *      path="/crats/{id}",
-     *      summary="updateCrat",
-     *      tags={"Crat"},
-     *      description="Update Crat",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Crat",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Crat")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Crat"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function update($id, UpdateCratAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/crats/{id}",
+	 *		summary="Display the specified Crat",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Crat"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		event (Event) (BelongsTo): Event the Persona cratted for.
+	 * 		persona (Persona) (BelongsTo): The Persona cratting the given Event.
+	 * 		createdBy (User) (BelongsTo): User that created it.
+	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Crat",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Crat retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SimpleQueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function show($id, Request $request): JsonResponse
+	{
+		try {
+			/** @var Crat $crat */
+			$crat = $this->cratRepository->find(
+				$id,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null
+			);
+			
+			if (empty($crat)) {
+				return $this->sendError('Crat (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('view', $crat);
 
-        /** @var Crat $crat */
-        $crat = $this->cratRepository->find($id);
+			return $this->sendResponse(new CratResource($crat), 'Crat retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        if (empty($crat)) {
-            return $this->sendError('Crat not found');
-        }
+	/**
+	 * @param int $id
+	 * @param UpdateCratAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/crats/{id}",
+	 *		summary="Update the specified Crat in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Crat"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Crat",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="query",
+	 *			name="_method",
+	 *			description="This is a patch for swagger-ui, to send form data.  If you're sending json content, and using PUT method, it's not really required.",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			required=true,
+	 *			example="Put"
+	 *		),
+	 *		requestBody={"$ref": "#/components/requestBodies/Crat"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Crat updated successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function update($id, UpdateCratAPIRequest $request): JsonResponse
+	{
+		try {
+			$input = $request->all();
 
-        $crat = $this->cratRepository->update($input, $id);
+			/** @var Crat $Crat */
+			$Crat = $this->CratRepository->find($id);
 
-        return $this->sendResponse(new CratResource($crat), 'Crat updated successfully');
-    }
+			if (empty($Crat)) {
+				return $this->sendError('Crat (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('update', $Crat);
 
-    /**
-     * @OA\Delete(
-     *      path="/crats/{id}",
-     *      summary="deleteCrat",
-     *      tags={"Crat"},
-     *      description="Delete Crat",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Crat",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function destroy($id): JsonResponse
-    {
-        /** @var Crat $crat */
-        $crat = $this->cratRepository->find($id);
+			$Crat = $this->CratRepository->update($input, $id);
 
-        if (empty($crat)) {
-            return $this->sendError('Crat not found');
-        }
+			return $this->sendResponse(new CratResource($Crat), 'Crat updated successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        $crat->delete();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Delete(
+	 *		path="/crats/{id}",
+	 *		summary="Remove the specified Crat from storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Crat"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Crat",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/CratSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Crat deleted successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								@OA\Property(
+	 *									property="id",
+	 *									description="The entry's ID.",
+	 *									type="integer",
+	 *									format="int32",
+	 *									example=42
+	 *								)
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function destroy($id): JsonResponse
+	{
+		try {
+			/** @var Crat $crat */
+			$crat = $this->cratRepository->find($id);
 
-        return $this->sendSuccess('Crat deleted successfully');
-    }
+			if (empty($crat)) {
+				return $this->sendError('Crat (' . $id . ') not found.', ['id' => $id], 404);
+			}
+		
+			$this->authorize('delete', $crat);
+
+			$crat->delete();
+
+			return $this->sendSuccess('Crat deleted successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 }

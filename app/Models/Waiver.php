@@ -11,7 +11,7 @@ use App\Traits\ProtectFieldsTrait;
  * @OA\Schema(
  *      schema="Waiver",
  *      required={"waiverable_type","waiverable_id","player","signed_at"},
- *		description="asdf<br>The following relationships can be attached, and in the case of plural relations, searched:
+ *		description="Digital storage of legal Waivers.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * ageVerifiedBy (Persona) (BelongsTo): The Persona that verified the Waiver signer age, if it has been.
  * guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.
  * location (Location) (BelongsTo): The Waiver address fields values.

@@ -7,6 +7,7 @@ namespace {{ $config->namespaces->apiController }};
 use {{ $config->namespaces->apiRequest }}\Create{{ $config->modelNames->name }}APIRequest;
 use {{ $config->namespaces->apiRequest }}\Update{{ $config->modelNames->name }}APIRequest;
 use {{ $config->namespaces->model }}\{{ $config->modelNames->name }};
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use {{ $config->namespaces->app }}\Http\Controllers\AppBaseController;

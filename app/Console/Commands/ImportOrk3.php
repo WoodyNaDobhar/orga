@@ -335,7 +335,11 @@ class ImportOrk3 extends Command
 					Permission::create(['name' => 'displayOwn chaptertypes', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'displayRelated chaptertypes', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'update chaptertypes', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateOwn chaptertypes', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateRelated chaptertypes', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'remove chaptertypes', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeOwn chaptertypes', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeRelated chaptertypes', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'list crats', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'store crats', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'display crats', 'guard_name' => 'api']);$bar->advance();
@@ -369,6 +373,17 @@ class ImportOrk3 extends Command
 					Permission::create(['name' => 'remove events', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeOwn events', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeRelated events', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'list guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'store guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'display guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'displayOwn guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'displayRelated guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'update guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateOwn guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateRelated guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'remove guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeOwn guests', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeRelated guests', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'list issuances', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'store issuances', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'display issuances', 'guard_name' => 'api']);$bar->advance();
@@ -512,6 +527,17 @@ class ImportOrk3 extends Command
 					Permission::create(['name' => 'remove splits', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeOwn splits', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeRelated splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'list socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'store socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'display socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'displayOwn socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'displayRelated socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'update socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateOwn socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateRelated socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'remove socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeOwn socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeRelated socials', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'list suspensions', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'store suspensions', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'display suspensions', 'guard_name' => 'api']);$bar->advance();
@@ -594,383 +620,225 @@ class ImportOrk3 extends Command
 					$role = Role::create(['name' => 'admin', 'guard_name' => 'api']);$bar->advance();
 					// gets all permissions via Gate::before rule; see AuthServiceProvider
 					
+//everybody can do these
+// 					$role->givePermissionTo('list archetypes');$bar->advance();
+// 					$role->givePermissionTo('display archetypes');$bar->advance();
+// 					$role->givePermissionTo('list attendances');$bar->advance();
+// 					$role->givePermissionTo('display attendances');$bar->advance();
+// 					$role->givePermissionTo('list awards');$bar->advance();
+// 					$role->givePermissionTo('display awards');$bar->advance();
+// 					$role->givePermissionTo('list chapters');$bar->advance();
+// 					$role->givePermissionTo('display chapters');$bar->advance();
+// 					$role->givePermissionTo('list chaptertypes');$bar->advance();
+// 					$role->givePermissionTo('display chaptertypes');$bar->advance();
+// 					$role->givePermissionTo('list crats');$bar->advance();
+// 					$role->givePermissionTo('display crats');$bar->advance();
+// 					$role->givePermissionTo('list dues');$bar->advance();
+// 					$role->givePermissionTo('display dues');$bar->advance();
+// 					$role->givePermissionTo('list events');$bar->advance();
+// 					$role->givePermissionTo('display events');$bar->advance();
+// 					$role->givePermissionTo('list issuances');$bar->advance();
+// 					$role->givePermissionTo('display issuances');$bar->advance();
+// 					$role->givePermissionTo('list locations');$bar->advance();
+// 					$role->givePermissionTo('display locations');$bar->advance();
+// 					$role->givePermissionTo('list meetups');$bar->advance();
+// 					$role->givePermissionTo('display meetups');$bar->advance();
+// 					$role->givePermissionTo('list members');$bar->advance();
+// 					$role->givePermissionTo('display members');$bar->advance();
+// 					$role->givePermissionTo('list officers');$bar->advance();
+// 					$role->givePermissionTo('display officers');$bar->advance();
+// 					$role->givePermissionTo('list offices');$bar->advance();
+// 					$role->givePermissionTo('display offices');$bar->advance();
+// 					$role->givePermissionTo('list personas');$bar->advance();
+// 					$role->givePermissionTo('display personas');$bar->advance();
+// 					$role->givePermissionTo('list pronouns');$bar->advance();
+// 					$role->givePermissionTo('display pronouns');$bar->advance();
+// 					$role->givePermissionTo('list realms');$bar->advance();
+// 					$role->givePermissionTo('display realms');$bar->advance();
+// 					$role->givePermissionTo('list recommendations');$bar->advance();
+// 					$role->givePermissionTo('display recommendations');$bar->advance();
+// 					$role->givePermissionTo('list reconciliations');$bar->advance();
+// 					$role->givePermissionTo('display reconciliations');$bar->advance();
+// 					$role->givePermissionTo('list reigns');$bar->advance();
+// 					$role->givePermissionTo('display reigns');$bar->advance();
+// 					$role->givePermissionTo('list socials');$bar->advance();
+// 					$role->givePermissionTo('display socials');$bar->advance();
+// 					$role->givePermissionTo('list suspensions');$bar->advance();
+// 					$role->givePermissionTo('display suspensions');$bar->advance();
+// 					$role->givePermissionTo('list titles');$bar->advance();
+// 					$role->givePermissionTo('display titles');$bar->advance();
+// 					$role->givePermissionTo('list tournaments');$bar->advance();
+// 					$role->givePermissionTo('display tournaments');$bar->advance();
+// 					$role->givePermissionTo('list units');$bar->advance();
+// 					$role->givePermissionTo('display units');$bar->advance();
+// 					$role->givePermissionTo('list users');$bar->advance();
+// 					$role->givePermissionTo('display users');$bar->advance();
+					
+					//chapter officers
 					$role = Role::create(['name' => 'officer', 'guard_name' => 'api']);$bar->advance();
 					$role->givePermissionTo('list accounts');$bar->advance();
 					$role->givePermissionTo('store accounts');$bar->advance();
-					$role->givePermissionTo('displayOwn accounts');$bar->advance();
 					$role->givePermissionTo('displayRelated accounts');$bar->advance();
-					$role->givePermissionTo('updateOwn accounts');$bar->advance();
 					$role->givePermissionTo('updateRelated accounts');$bar->advance();
-					$role->givePermissionTo('removeOwn accounts');$bar->advance();
 					$role->givePermissionTo('removeRelated accounts');$bar->advance();
-					$role->givePermissionTo('list archetypes');$bar->advance();
-					$role->givePermissionTo('display archetypes');$bar->advance();
-					$role->givePermissionTo('displayOwn archetypes');$bar->advance();
-					$role->givePermissionTo('displayRelated archetypes');$bar->advance();
-					$role->givePermissionTo('list attendances');$bar->advance();
 					$role->givePermissionTo('store attendances');$bar->advance();
-					$role->givePermissionTo('display attendances');$bar->advance();
-					$role->givePermissionTo('displayOwn attendances');$bar->advance();
-					$role->givePermissionTo('displayRelated attendances');$bar->advance();
-					$role->givePermissionTo('updateOwn attendances');$bar->advance();
 					$role->givePermissionTo('updateRelated attendances');$bar->advance();
-					$role->givePermissionTo('removeOwn attendances');$bar->advance();
 					$role->givePermissionTo('removeRelated attendances');$bar->advance();
-					$role->givePermissionTo('list awards');$bar->advance();
 					$role->givePermissionTo('store awards');$bar->advance();
-					$role->givePermissionTo('display awards');$bar->advance();
-					$role->givePermissionTo('displayOwn awards');$bar->advance();
-					$role->givePermissionTo('displayRelated awards');$bar->advance();
-					$role->givePermissionTo('updateOwn awards');$bar->advance();
 					$role->givePermissionTo('updateRelated awards');$bar->advance();
-					$role->givePermissionTo('removeOwn awards');$bar->advance();
 					$role->givePermissionTo('removeRelated awards');$bar->advance();
-					$role->givePermissionTo('list chapters');$bar->advance();
-					$role->givePermissionTo('store chapters');$bar->advance();
-					$role->givePermissionTo('display chapters');$bar->advance();
-					$role->givePermissionTo('displayOwn chapters');$bar->advance();
-					$role->givePermissionTo('displayRelated chapters');$bar->advance();
-					$role->givePermissionTo('updateOwn chapters');$bar->advance();
 					$role->givePermissionTo('updateRelated chapters');$bar->advance();
-					$role->givePermissionTo('removeOwn chapters');$bar->advance();
-					$role->givePermissionTo('removeRelated chapters');$bar->advance();
-					$role->givePermissionTo('list chaptertypes');$bar->advance();
-					$role->givePermissionTo('store chaptertypes');$bar->advance();
-					$role->givePermissionTo('display chaptertypes');$bar->advance();
-					$role->givePermissionTo('displayOwn chaptertypes');$bar->advance();
-					$role->givePermissionTo('displayRelated chaptertypes');$bar->advance();
-					$role->givePermissionTo('list crats');$bar->advance();
-					$role->givePermissionTo('store crats');$bar->advance();
-					$role->givePermissionTo('display crats');$bar->advance();
-					$role->givePermissionTo('displayOwn crats');$bar->advance();
-					$role->givePermissionTo('displayRelated crats');$bar->advance();
-					$role->givePermissionTo('updateOwn crats');$bar->advance();
-					$role->givePermissionTo('updateRelated crats');$bar->advance();
-					$role->givePermissionTo('removeOwn crats');$bar->advance();
-					$role->givePermissionTo('removeRelated crats');$bar->advance();
-					$role->givePermissionTo('list dues');$bar->advance();
-					$role->givePermissionTo('store dues');$bar->advance();
-					$role->givePermissionTo('display dues');$bar->advance();
-					$role->givePermissionTo('displayOwn dues');$bar->advance();
-					$role->givePermissionTo('displayRelated dues');$bar->advance();
-					$role->givePermissionTo('updateOwn dues');$bar->advance();
 					$role->givePermissionTo('updateRelated dues');$bar->advance();
-					$role->givePermissionTo('removeOwn dues');$bar->advance();
 					$role->givePermissionTo('removeRelated dues');$bar->advance();
-					$role->givePermissionTo('list events');$bar->advance();
-					$role->givePermissionTo('store events');$bar->advance();
-					$role->givePermissionTo('display events');$bar->advance();
-					$role->givePermissionTo('displayOwn events');$bar->advance();
-					$role->givePermissionTo('displayRelated events');$bar->advance();
-					$role->givePermissionTo('updateOwn events');$bar->advance();
 					$role->givePermissionTo('updateRelated events');$bar->advance();
-					$role->givePermissionTo('removeOwn events');$bar->advance();
 					$role->givePermissionTo('removeRelated events');$bar->advance();
-					$role->givePermissionTo('list issuances');$bar->advance();
-					$role->givePermissionTo('store issuances');$bar->advance();
-					$role->givePermissionTo('display issuances');$bar->advance();
-					$role->givePermissionTo('displayOwn issuances');$bar->advance();
-					$role->givePermissionTo('displayRelated issuances');$bar->advance();
-					$role->givePermissionTo('updateOwn issuances');$bar->advance();
+					$role->givePermissionTo('store guests');$bar->advance();
+					$role->givePermissionTo('updateRelated guests');$bar->advance();
+					$role->givePermissionTo('removeRelated guests');$bar->advance();
 					$role->givePermissionTo('updateRelated issuances');$bar->advance();
-					$role->givePermissionTo('removeOwn issuances');$bar->advance();
 					$role->givePermissionTo('removeRelated issuances');$bar->advance();
-					$role->givePermissionTo('list realms');$bar->advance();
-					$role->givePermissionTo('display realms');$bar->advance();
-					$role->givePermissionTo('displayOwn realms');$bar->advance();
-					$role->givePermissionTo('displayRelated realms');$bar->advance();
-					$role->givePermissionTo('updateOwn realms');$bar->advance();
 					$role->givePermissionTo('updateRelated realms');$bar->advance();
-					$role->givePermissionTo('list locations');$bar->advance();
-					$role->givePermissionTo('store locations');$bar->advance();
-					$role->givePermissionTo('display locations');$bar->advance();
-					$role->givePermissionTo('displayOwn locations');$bar->advance();
-					$role->givePermissionTo('displayRelated locations');$bar->advance();
-					$role->givePermissionTo('updateOwn locations');$bar->advance();
 					$role->givePermissionTo('updateRelated locations');$bar->advance();
-					$role->givePermissionTo('removeOwn locations');$bar->advance();
 					$role->givePermissionTo('removeRelated locations');$bar->advance();
-					$role->givePermissionTo('list meetups');$bar->advance();
 					$role->givePermissionTo('store meetups');$bar->advance();
-					$role->givePermissionTo('display meetups');$bar->advance();
-					$role->givePermissionTo('displayOwn meetups');$bar->advance();
-					$role->givePermissionTo('displayRelated meetups');$bar->advance();
-					$role->givePermissionTo('updateOwn meetups');$bar->advance();
 					$role->givePermissionTo('updateRelated meetups');$bar->advance();
-					$role->givePermissionTo('removeOwn meetups');$bar->advance();
 					$role->givePermissionTo('removeRelated meetups');$bar->advance();
-					$role->givePermissionTo('list members');$bar->advance();
-					$role->givePermissionTo('store members');$bar->advance();
-					$role->givePermissionTo('display members');$bar->advance();
-					$role->givePermissionTo('displayOwn members');$bar->advance();
-					$role->givePermissionTo('displayRelated members');$bar->advance();
-					$role->givePermissionTo('updateOwn members');$bar->advance();
-					$role->givePermissionTo('updateRelated members');$bar->advance();
-					$role->givePermissionTo('removeOwn members');$bar->advance();
-					$role->givePermissionTo('removeRelated members');$bar->advance();
-					$role->givePermissionTo('list officers');$bar->advance();
 					$role->givePermissionTo('store officers');$bar->advance();
-					$role->givePermissionTo('display officers');$bar->advance();
-					$role->givePermissionTo('displayOwn officers');$bar->advance();
-					$role->givePermissionTo('displayRelated officers');$bar->advance();
-					$role->givePermissionTo('updateOwn officers');$bar->advance();
 					$role->givePermissionTo('updateRelated officers');$bar->advance();
-					$role->givePermissionTo('removeOwn officers');$bar->advance();
 					$role->givePermissionTo('removeRelated officers');$bar->advance();
-					$role->givePermissionTo('list offices');$bar->advance();
 					$role->givePermissionTo('store offices');$bar->advance();
-					$role->givePermissionTo('display offices');$bar->advance();
-					$role->givePermissionTo('displayOwn offices');$bar->advance();
-					$role->givePermissionTo('displayRelated offices');$bar->advance();
-					$role->givePermissionTo('updateOwn offices');$bar->advance();
 					$role->givePermissionTo('updateRelated offices');$bar->advance();
-					$role->givePermissionTo('removeOwn offices');$bar->advance();
 					$role->givePermissionTo('removeRelated offices');$bar->advance();
-					$role->givePermissionTo('list personas');$bar->advance();
 					$role->givePermissionTo('store personas');$bar->advance();
-					$role->givePermissionTo('display personas');$bar->advance();
-					$role->givePermissionTo('displayOwn personas');$bar->advance();
-					$role->givePermissionTo('displayRelated personas');$bar->advance();
-					$role->givePermissionTo('updateOwn personas');$bar->advance();
 					$role->givePermissionTo('updateRelated personas');$bar->advance();
-					$role->givePermissionTo('removeOwn personas');$bar->advance();
 					$role->givePermissionTo('removeRelated personas');$bar->advance();
-					$role->givePermissionTo('list pronouns');$bar->advance();
-					$role->givePermissionTo('display pronouns');$bar->advance();
-					$role->givePermissionTo('displayOwn pronouns');$bar->advance();
-					$role->givePermissionTo('displayRelated pronouns');$bar->advance();
-					$role->givePermissionTo('list recommendations');$bar->advance();
 					$role->givePermissionTo('store recommendations');$bar->advance();
-					$role->givePermissionTo('display recommendations');$bar->advance();
-					$role->givePermissionTo('displayOwn recommendations');$bar->advance();
-					$role->givePermissionTo('displayRelated recommendations');$bar->advance();
-					$role->givePermissionTo('updateOwn recommendations');$bar->advance();
 					$role->givePermissionTo('updateRelated recommendations');$bar->advance();
-					$role->givePermissionTo('removeOwn recommendations');$bar->advance();
 					$role->givePermissionTo('removeRelated recommendations');$bar->advance();
-					$role->givePermissionTo('list reconciliations');$bar->advance();
 					$role->givePermissionTo('store reconciliations');$bar->advance();
-					$role->givePermissionTo('display reconciliations');$bar->advance();
-					$role->givePermissionTo('displayOwn reconciliations');$bar->advance();
-					$role->givePermissionTo('displayRelated reconciliations');$bar->advance();
-					$role->givePermissionTo('updateOwn reconciliations');$bar->advance();
 					$role->givePermissionTo('updateRelated reconciliations');$bar->advance();
-					$role->givePermissionTo('removeOwn reconciliations');$bar->advance();
 					$role->givePermissionTo('removeRelated reconciliations');$bar->advance();
-					$role->givePermissionTo('list reigns');$bar->advance();
 					$role->givePermissionTo('store reigns');$bar->advance();
-					$role->givePermissionTo('display reigns');$bar->advance();
-					$role->givePermissionTo('displayOwn reigns');$bar->advance();
-					$role->givePermissionTo('displayRelated reigns');$bar->advance();
-					$role->givePermissionTo('updateOwn reigns');$bar->advance();
 					$role->givePermissionTo('updateRelated reigns');$bar->advance();
-					$role->givePermissionTo('removeOwn reigns');$bar->advance();
 					$role->givePermissionTo('removeRelated reigns');$bar->advance();
-					$role->givePermissionTo('list splits');$bar->advance();
+					$role->givePermissionTo('updateRelated socials');$bar->advance();
+					$role->givePermissionTo('removeRelated socials');$bar->advance();
 					$role->givePermissionTo('store splits');$bar->advance();
-					$role->givePermissionTo('display splits');$bar->advance();
-					$role->givePermissionTo('displayOwn splits');$bar->advance();
 					$role->givePermissionTo('displayRelated splits');$bar->advance();
-					$role->givePermissionTo('updateOwn splits');$bar->advance();
 					$role->givePermissionTo('updateRelated splits');$bar->advance();
-					$role->givePermissionTo('removeOwn splits');$bar->advance();
 					$role->givePermissionTo('removeRelated splits');$bar->advance();
-					$role->givePermissionTo('list suspensions');$bar->advance();
 					$role->givePermissionTo('store suspensions');$bar->advance();
-					$role->givePermissionTo('display suspensions');$bar->advance();
-					$role->givePermissionTo('displayOwn suspensions');$bar->advance();
-					$role->givePermissionTo('displayRelated suspensions');$bar->advance();
-					$role->givePermissionTo('updateOwn suspensions');$bar->advance();
 					$role->givePermissionTo('updateRelated suspensions');$bar->advance();
-					$role->givePermissionTo('removeOwn suspensions');$bar->advance();
 					$role->givePermissionTo('removeRelated suspensions');$bar->advance();
-					$role->givePermissionTo('list titles');$bar->advance();
 					$role->givePermissionTo('store titles');$bar->advance();
-					$role->givePermissionTo('display titles');$bar->advance();
-					$role->givePermissionTo('displayOwn titles');$bar->advance();
-					$role->givePermissionTo('displayRelated titles');$bar->advance();
-					$role->givePermissionTo('updateOwn titles');$bar->advance();
 					$role->givePermissionTo('updateRelated titles');$bar->advance();
-					$role->givePermissionTo('removeOwn titles');$bar->advance();
 					$role->givePermissionTo('removeRelated titles');$bar->advance();
-					$role->givePermissionTo('list tournaments');$bar->advance();
 					$role->givePermissionTo('store tournaments');$bar->advance();
-					$role->givePermissionTo('display tournaments');$bar->advance();
-					$role->givePermissionTo('displayOwn tournaments');$bar->advance();
-					$role->givePermissionTo('displayRelated tournaments');$bar->advance();
-					$role->givePermissionTo('updateOwn tournaments');$bar->advance();
 					$role->givePermissionTo('updateRelated tournaments');$bar->advance();
-					$role->givePermissionTo('removeOwn tournaments');$bar->advance();
 					$role->givePermissionTo('removeRelated tournaments');$bar->advance();
 					$role->givePermissionTo('list transactions');$bar->advance();
 					$role->givePermissionTo('store transactions');$bar->advance();
-					$role->givePermissionTo('displayOwn transactions');$bar->advance();
 					$role->givePermissionTo('displayRelated transactions');$bar->advance();
-					$role->givePermissionTo('updateOwn transactions');$bar->advance();
 					$role->givePermissionTo('updateRelated transactions');$bar->advance();
-					$role->givePermissionTo('removeOwn transactions');$bar->advance();
 					$role->givePermissionTo('removeRelated transactions');$bar->advance();
-					$role->givePermissionTo('list units');$bar->advance();
-					$role->givePermissionTo('store units');$bar->advance();
-					$role->givePermissionTo('display units');$bar->advance();
-					$role->givePermissionTo('displayOwn units');$bar->advance();
-					$role->givePermissionTo('displayRelated units');$bar->advance();
-					$role->givePermissionTo('updateOwn units');$bar->advance();
-					$role->givePermissionTo('updateRelated units');$bar->advance();
-					$role->givePermissionTo('removeOwn units');$bar->advance();
-					$role->givePermissionTo('removeRelated units');$bar->advance();
-					$role->givePermissionTo('list users');$bar->advance();
-					$role->givePermissionTo('store users');$bar->advance();
-					$role->givePermissionTo('display users');$bar->advance();
-					$role->givePermissionTo('displayOwn users');$bar->advance();
-					$role->givePermissionTo('displayRelated users');$bar->advance();
-					$role->givePermissionTo('updateOwn users');$bar->advance();
 					$role->givePermissionTo('updateRelated users');$bar->advance();
-					$role->givePermissionTo('removeOwn users');$bar->advance();
 					$role->givePermissionTo('removeRelated users');$bar->advance();
 					$role->givePermissionTo('list waivers');$bar->advance();
 					$role->givePermissionTo('store waivers');$bar->advance();
-					$role->givePermissionTo('display waivers');$bar->advance();
-					$role->givePermissionTo('displayOwn waivers');$bar->advance();
 					$role->givePermissionTo('displayRelated waivers');$bar->advance();
-					$role->givePermissionTo('updateOwn waivers');$bar->advance();
 					$role->givePermissionTo('updateRelated waivers');$bar->advance();
-					$role->givePermissionTo('removeOwn waivers');$bar->advance();
-					$role->givePermissionTo('removeRelated waivers');
+					$role->givePermissionTo('removeRelated waivers');$bar->advance();
 					
-					$role = Role::create(['name' => 'player', 'guard_name' => 'api']);$bar->advance();
-					$role->givePermissionTo('list archetypes');$bar->advance();
-					$role->givePermissionTo('display archetypes');$bar->advance();
-					$role->givePermissionTo('list attendances');$bar->advance();
-					$role->givePermissionTo('store attendances');$bar->advance();
-					$role->givePermissionTo('display attendances');$bar->advance();
-					$role->givePermissionTo('displayOwn attendances');$bar->advance();
-					$role->givePermissionTo('displayRelated attendances');$bar->advance();
-					$role->givePermissionTo('list awards');$bar->advance();
-					$role->givePermissionTo('display awards');$bar->advance();
-					$role->givePermissionTo('displayOwn awards');$bar->advance();
-					$role->givePermissionTo('displayRelated awards');$bar->advance();
-					$role->givePermissionTo('list chaptertypes');$bar->advance();
-					$role->givePermissionTo('list chapters');$bar->advance();
-					$role->givePermissionTo('display chapters');$bar->advance();
-					$role->givePermissionTo('displayOwn chapters');$bar->advance();
-					$role->givePermissionTo('displayRelated chapters');$bar->advance();
-					$role->givePermissionTo('display chaptertypes');$bar->advance();
-					$role->givePermissionTo('displayOwn chaptertypes');$bar->advance();
-					$role->givePermissionTo('displayRelated chaptertypes');$bar->advance();
-					$role->givePermissionTo('list crats');$bar->advance();
+					//event crats
+					$role = Role::create(['name' => 'crat', 'guard_name' => 'api']);$bar->advance();
 					$role->givePermissionTo('store crats');$bar->advance();
-					$role->givePermissionTo('display crats');$bar->advance();
-					$role->givePermissionTo('displayOwn crats');$bar->advance();
-					$role->givePermissionTo('displayRelated crats');$bar->advance();
-					$role->givePermissionTo('updateOwn crats');$bar->advance();
-					$role->givePermissionTo('removeOwn crats');$bar->advance();
-					$role->givePermissionTo('list dues');$bar->advance();
-					$role->givePermissionTo('display dues');$bar->advance();
-					$role->givePermissionTo('displayOwn dues');$bar->advance();
-					$role->givePermissionTo('displayRelated dues');$bar->advance();
-					$role->givePermissionTo('list events');$bar->advance();
-					$role->givePermissionTo('display events');$bar->advance();
-					$role->givePermissionTo('displayOwn events');$bar->advance();
-					$role->givePermissionTo('displayRelated events');$bar->advance();
+					$role->givePermissionTo('updateRelated crats');$bar->advance();
+					$role->givePermissionTo('removeRelated crats');$bar->advance();
+					$role->givePermissionTo('updateRelated events');$bar->advance();
+					$role->givePermissionTo('removeRelated events');$bar->advance();
+					$role->givePermissionTo('store guests');$bar->advance();
+					$role->givePermissionTo('updateRelated guests');$bar->advance();
+					$role->givePermissionTo('removeRelated guests');$bar->advance();
+					$role->givePermissionTo('updateRelated socials');$bar->advance();
+					$role->givePermissionTo('removeRelated socials');$bar->advance();
+					$role->givePermissionTo('store tournaments');$bar->advance();
+					$role->givePermissionTo('updateRelated tournaments');$bar->advance();
+					$role->givePermissionTo('removeRelated tournaments');$bar->advance();
+					$role->givePermissionTo('store waivers');$bar->advance();
+					$role->givePermissionTo('displayRelated waivers');$bar->advance();
+					$role->givePermissionTo('updateRelated waivers');$bar->advance();
+					$role->givePermissionTo('removeRelated waivers');$bar->advance();
+					
+					//unit officers
+					$role = Role::create(['name' => 'commander', 'guard_name' => 'api']);$bar->advance();
+					$role->givePermissionTo('list accounts');$bar->advance();
+					$role->givePermissionTo('store accounts');$bar->advance();
+					$role->givePermissionTo('displayRelated accounts');$bar->advance();
+					$role->givePermissionTo('updateRelated accounts');$bar->advance();
+					$role->givePermissionTo('removeRelated accounts');$bar->advance();
+					$role->givePermissionTo('store awards');$bar->advance();
+					$role->givePermissionTo('updateRelated awards');$bar->advance();
+					$role->givePermissionTo('removeRelated awards');$bar->advance();
+					$role->givePermissionTo('updateRelated events');$bar->advance();
+					$role->givePermissionTo('removeRelated events');$bar->advance();
+					$role->givePermissionTo('updateRelated issuances');$bar->advance();
+					$role->givePermissionTo('removeRelated issuances');$bar->advance();
+					$role->givePermissionTo('store members');$bar->advance();
+					$role->givePermissionTo('updateRelated members');$bar->advance();
+					$role->givePermissionTo('removeRelated members');$bar->advance();
+					$role->givePermissionTo('store officers');$bar->advance();
+					$role->givePermissionTo('updateRelated officers');$bar->advance();
+					$role->givePermissionTo('removeRelated officers');$bar->advance();
+					$role->givePermissionTo('store offices');$bar->advance();
+					$role->givePermissionTo('updateRelated offices');$bar->advance();
+					$role->givePermissionTo('removeRelated offices');$bar->advance();
+					$role->givePermissionTo('updateRelated socials');$bar->advance();
+					$role->givePermissionTo('removeRelated socials');$bar->advance();
+					$role->givePermissionTo('list splits');$bar->advance();
+					$role->givePermissionTo('store splits');$bar->advance();
+					$role->givePermissionTo('displayRelated splits');$bar->advance();
+					$role->givePermissionTo('updateRelated splits');$bar->advance();
+					$role->givePermissionTo('removeRelated splits');$bar->advance();
+					$role->givePermissionTo('store titles');$bar->advance();
+					$role->givePermissionTo('updateRelated titles');$bar->advance();
+					$role->givePermissionTo('removeRelated titles');$bar->advance();
+					$role->givePermissionTo('list transactions');$bar->advance();
+					$role->givePermissionTo('store transactions');$bar->advance();
+					$role->givePermissionTo('displayRelated transactions');$bar->advance();
+					$role->givePermissionTo('updateRelated transactions');$bar->advance();
+					$role->givePermissionTo('removeRelated transactions');$bar->advance();
+					$role->givePermissionTo('updateRelated units');$bar->advance();
+					
+					//users
+					$role = Role::create(['name' => 'player', 'guard_name' => 'api']);$bar->advance();
+					$role->givePermissionTo('store events');$bar->advance();
 					$role->givePermissionTo('updateOwn events');$bar->advance();
-					$role->givePermissionTo('list issuances');$bar->advance();
-					$role->givePermissionTo('display issuances');$bar->advance();
-					$role->givePermissionTo('displayOwn issuances');$bar->advance();
-					$role->givePermissionTo('displayRelated issuances');$bar->advance();
-					$role->givePermissionTo('list realms');$bar->advance();
-					$role->givePermissionTo('display realms');$bar->advance();
-					$role->givePermissionTo('list locations');$bar->advance();
+					$role->givePermissionTo('removeOwn events');$bar->advance();
+					$role->givePermissionTo('store issuances');$bar->advance();
+					$role->givePermissionTo('updateOwn issuances');$bar->advance();
+					$role->givePermissionTo('removeOwn issuances');$bar->advance();
 					$role->givePermissionTo('store locations');$bar->advance();
-					$role->givePermissionTo('display locations');$bar->advance();
-					$role->givePermissionTo('displayOwn locations');$bar->advance();
-					$role->givePermissionTo('displayRelated locations');$bar->advance();
 					$role->givePermissionTo('updateOwn locations');$bar->advance();
 					$role->givePermissionTo('removeOwn locations');$bar->advance();
-					$role->givePermissionTo('list meetups');$bar->advance();
-					$role->givePermissionTo('display meetups');$bar->advance();
-					$role->givePermissionTo('displayOwn meetups');$bar->advance();
-					$role->givePermissionTo('displayRelated meetups');$bar->advance();
-					$role->givePermissionTo('list members');$bar->advance();
-					$role->givePermissionTo('store members');$bar->advance();
-					$role->givePermissionTo('display members');$bar->advance();
-					$role->givePermissionTo('displayOwn members');$bar->advance();
-					$role->givePermissionTo('displayRelated members');$bar->advance();
-					$role->givePermissionTo('updateOwn members');$bar->advance();
-					$role->givePermissionTo('removeOwn members');$bar->advance();
-					$role->givePermissionTo('list officers');$bar->advance();
-					$role->givePermissionTo('display officers');$bar->advance();
-					$role->givePermissionTo('displayOwn officers');$bar->advance();
-					$role->givePermissionTo('displayRelated officers');$bar->advance();
-					$role->givePermissionTo('list offices');$bar->advance();
-					$role->givePermissionTo('display offices');$bar->advance();
-					$role->givePermissionTo('displayOwn offices');$bar->advance();
-					$role->givePermissionTo('displayRelated offices');$bar->advance();
-					$role->givePermissionTo('list personas');$bar->advance();
-					$role->givePermissionTo('display personas');$bar->advance();
-					$role->givePermissionTo('displayOwn personas');$bar->advance();
-					$role->givePermissionTo('displayRelated personas');$bar->advance();
 					$role->givePermissionTo('updateOwn personas');$bar->advance();
-					$role->givePermissionTo('list pronouns');$bar->advance();
-					$role->givePermissionTo('display pronouns');$bar->advance();
-					$role->givePermissionTo('displayOwn pronouns');$bar->advance();
-					$role->givePermissionTo('displayRelated pronouns');$bar->advance();
-					$role->givePermissionTo('updateOwn pronouns');$bar->advance();
-					$role->givePermissionTo('removeOwn pronouns');$bar->advance();
-					$role->givePermissionTo('list recommendations');$bar->advance();
 					$role->givePermissionTo('store recommendations');$bar->advance();
-					$role->givePermissionTo('display recommendations');$bar->advance();
-					$role->givePermissionTo('displayOwn recommendations');$bar->advance();
-					$role->givePermissionTo('displayRelated recommendations');$bar->advance();
 					$role->givePermissionTo('updateOwn recommendations');$bar->advance();
 					$role->givePermissionTo('removeOwn recommendations');$bar->advance();
-					$role->givePermissionTo('list reconciliations');$bar->advance();
-					$role->givePermissionTo('display reconciliations');$bar->advance();
-					$role->givePermissionTo('displayOwn reconciliations');$bar->advance();
-					$role->givePermissionTo('displayRelated reconciliations');$bar->advance();
-					$role->givePermissionTo('list reigns');$bar->advance();
-					$role->givePermissionTo('display reigns');$bar->advance();
-					$role->givePermissionTo('displayOwn reigns');$bar->advance();
-					$role->givePermissionTo('displayRelated reigns');$bar->advance();
-					$role->givePermissionTo('list suspensions');$bar->advance();
-					$role->givePermissionTo('display suspensions');$bar->advance();
-					$role->givePermissionTo('displayOwn suspensions');$bar->advance();
-					$role->givePermissionTo('displayRelated suspensions');$bar->advance();
-					$role->givePermissionTo('list titles');$bar->advance();
-					$role->givePermissionTo('display titles');$bar->advance();
-					$role->givePermissionTo('displayOwn titles');$bar->advance();
-					$role->givePermissionTo('displayRelated titles');$bar->advance();
-					$role->givePermissionTo('list tournaments');$bar->advance();
-					$role->givePermissionTo('store tournaments');$bar->advance();
-					$role->givePermissionTo('display tournaments');$bar->advance();
-					$role->givePermissionTo('displayOwn tournaments');$bar->advance();
-					$role->givePermissionTo('displayRelated tournaments');$bar->advance();
-					$role->givePermissionTo('updateOwn tournaments');$bar->advance();
-					$role->givePermissionTo('removeOwn tournaments');$bar->advance();
-					$role->givePermissionTo('list units');$bar->advance();
+					$role->givePermissionTo('store socials');$bar->advance();
+					$role->givePermissionTo('updateRelated socials');$bar->advance();
+					$role->givePermissionTo('removeRelated socials');$bar->advance();
+					$role->givePermissionTo('displayOwn transactions');$bar->advance();
 					$role->givePermissionTo('store units');$bar->advance();
-					$role->givePermissionTo('display units');$bar->advance();
-					$role->givePermissionTo('displayOwn units');$bar->advance();
-					$role->givePermissionTo('displayRelated units');$bar->advance();
-					$role->givePermissionTo('update units');$bar->advance();
 					$role->givePermissionTo('updateOwn units');$bar->advance();
-					$role->givePermissionTo('remove units');$bar->advance();
 					$role->givePermissionTo('removeOwn units');$bar->advance();
-					$role->givePermissionTo('list users');$bar->advance();
-					$role->givePermissionTo('store users');$bar->advance();
-					$role->givePermissionTo('display users');$bar->advance();
-					$role->givePermissionTo('displayOwn users');$bar->advance();
-					$role->givePermissionTo('displayRelated users');$bar->advance();
 					$role->givePermissionTo('updateOwn users');$bar->advance();
 					$role->givePermissionTo('removeOwn users');$bar->advance();
-					$role->givePermissionTo('list waivers');$bar->advance();
-					$role->givePermissionTo('display waivers');$bar->advance();
+					$role->givePermissionTo('store waivers');$bar->advance();
 					$role->givePermissionTo('displayOwn waivers');$bar->advance();
-					$role->givePermissionTo('displayRelated waivers');$bar->advance();
 					
 					app('cache')
-					->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
-					->forget(config('permission.cache.key'));
+						->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
+						->forget(config('permission.cache.key'));
 					break;
 				case 'Archetypes':
 					$this->info('Importing Archetypes...');
@@ -2732,7 +2600,6 @@ class ImportOrk3 extends Command
 									}else{
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $oldEvent->park_id == '0' ? $burningLands->id : $transChapters[$oldEvent->park_id],
-											'user_id' => null,
 											'pronoun_id' => null,
 											'mundane' => null,
 											'name' => 'Deleted Persona ' . $oldEvent->mundane_id,
@@ -3244,7 +3111,6 @@ class ImportOrk3 extends Command
 										}else{
 											$personaID = DB::table('personas')->insertGetId([
 													'chapter_id' => $chapterID,
-													'user_id' => null,
 													'pronoun_id' => null,
 													'mundane' => null,
 													'name' => 'Deleted Persona ' . $oldAttendance->mundane_id,
@@ -3573,6 +3439,7 @@ class ImportOrk3 extends Command
 											}
 											if(!$userId){
 												$userId = DB::table('users')->insertGetId([
+													'persona_id' => $transPersonas[$oldAttendance->by_whom_id],
 													'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
 													'email_verified_at' => null,
 													'password' => 'generated',
@@ -3586,31 +3453,8 @@ class ImportOrk3 extends Command
 												'newID' => $userId
 											]);
 											$transUsers[$oldAttendance->by_whom_id] = $userId;
-											Persona::where('id', $transPersonas[$oldAttendance->by_whom_id])->update([
-												'user_id' => $userId
-											]);
 										}
 									}elseif($oldAttendance->park_id != '0'){
-										$userCheck = User::where('email', 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net')->select('id')->first();
-										if($userCheck){
-											$userId = $userCheck->id;
-										}
-										if(!$userId){
-											$userId = DB::table('users')->insertGetId([
-												'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
-												'email_verified_at' => null,
-												'password' => 'generated',
-												'remember_token' => null,
-												'is_restricted' => 1
-											]);
-										}
-										DB::table('trans')->insert([
-											'array' => 'users',
-											'oldID' => $oldAttendance->by_whom_id,
-											'newID' => $userId
-										]);
-										$transUsers[$oldAttendance->by_whom_id] = $userId;
-										
 										$transPersonas = $this->getTrans('personas');
 										if(!array_key_exists($oldAttendance->by_whom_id, $transPersonas)){
 											$personaMakeCheck = Persona::where('name', 'Deleted Persona ' . $oldAttendance->by_whom_id)->first();
@@ -3619,7 +3463,6 @@ class ImportOrk3 extends Command
 											}else{
 												$byWhomPersonaId = DB::table('personas')->insertGetId([
 													'chapter_id' => $transChapters[$oldAttendance->park_id],
-													'user_id' => $userId,
 													'pronoun_id' => null,
 													'mundane' => null,
 													'name' => 'Deleted Persona ' . $oldAttendance->by_whom_id,
@@ -3632,6 +3475,26 @@ class ImportOrk3 extends Command
 												]);
 												$transPersonas[$oldAttendance->by_whom_id] = $byWhomPersonaId;
 											}
+											$userCheck = User::where('email', 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net')->select('id')->first();
+											if($userCheck){
+												$userId = $userCheck->id;
+											}
+											if(!$userId){
+												$userId = DB::table('users')->insertGetId([
+														'persona_id' => $byWhomPersonaId,
+														'email' => 'deletedUser' . $oldAttendance->by_whom_id . '@nowhere.net',
+														'email_verified_at' => null,
+														'password' => 'generated',
+														'remember_token' => null,
+														'is_restricted' => 1
+												]);
+											}
+											DB::table('trans')->insert([
+													'array' => 'users',
+													'oldID' => $oldAttendance->by_whom_id,
+													'newID' => $userId
+											]);
+											$transUsers[$oldAttendance->by_whom_id] = $userId;
 										}
 									}
 								}
@@ -3847,6 +3710,7 @@ class ImportOrk3 extends Command
 									}
 									if(!$userId){
 										$userId = DB::table('users')->insertGetId([
+											'persona_id' => $transPersonas[$oldTransaction->recorded_by],
 											'email' => 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net',
 											'email_verified_at' => null,
 											'password' => 'generated',
@@ -3860,30 +3724,8 @@ class ImportOrk3 extends Command
 											'newID' => $userId
 									]);
 									$transUsers[$oldTransaction->recorded_by] = $userId;
-									Persona::where('id', $transPersonas[$oldTransaction->recorded_by])->update([
-											'user_id' => $userId
-									]);
 								}
 							}else{
-								$userCheck = User::where('email', 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net')->select('id')->first();
-								if($userCheck){
-									$userId = $userCheck->id;
-								}
-								if(!$userId){
-									$userId = DB::table('users')->insertGetId([
-										'email' => 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net',
-										'email_verified_at' => null,
-										'password' => 'generated',
-										'remember_token' => null,
-										'is_restricted' => 1
-									]);
-								}
-								DB::table('trans')->insert([
-										'array' => 'users',
-										'oldID' => $oldTransaction->recorded_by,
-										'newID' => $userId
-								]);
-								$transUsers[$oldTransaction->recorded_by] = $userId;
 								
 								//to get the chapter id required to make a persona, dig into the splits that reference this transaction to get the mundane id, and from it, maybe get the park
 								$oldTransactionSplit = $backupConnect->table('ork_split')->where('transaction_id', $oldTransaction->transaction_id)->where('src_mundane_id', '!=', 0)->first();
@@ -3891,13 +3733,12 @@ class ImportOrk3 extends Command
 								if($oldRelatedPersona){
 									$transPersonas = $this->getTrans('personas');
 									if(!array_key_exists($oldRelatedPersona->recorded_by, $transPersonas)){
-										$personaMakeCheck = Persona::where('name', 'Deleted Persona ' . $oldRelatedPersona->recorded_by)->first();
+										$personaMakeCheck = Persona::where('name', 'Deleted Persona ' . $oldTransaction->recorded_by)->first();
 										if($personaMakeCheck){
 											$personaId = $personaMakeCheck->id;
 										}else{
 											$personaId = DB::table('personas')->insertGetId([
 												'chapter_id' => $oldRelatedPersona->park_id,
-												'user_id' => $userId,
 												'pronoun_id' => null,
 												'mundane' => null,
 												'name' => 'Deleted Persona ' . $oldTransaction->recorded_by,
@@ -3910,6 +3751,27 @@ class ImportOrk3 extends Command
 											]);
 											$transPersonas[$oldTransaction->recorded_by] = $personaId;
 										}
+										
+										$userCheck = User::where('email', 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net')->select('id')->first();
+										if($userCheck){
+											$userId = $userCheck->id;
+										}
+										if(!$userId){
+											$userId = DB::table('users')->insertGetId([
+												'persona_id' => $transPersonas[$oldTransaction->recorded_by],
+												'email' => 'deletedUser' . $oldTransaction->recorded_by . '@nowhere.net',
+												'email_verified_at' => null,
+												'password' => 'generated',
+												'remember_token' => null,
+												'is_restricted' => 1
+											]);
+										}
+										DB::table('trans')->insert([
+											'array' => 'users',
+											'oldID' => $oldTransaction->recorded_by,
+											'newID' => $userId
+										]);
+										$transUsers[$oldTransaction->recorded_by] = $userId;
 									}
 								}
 							}
@@ -3918,7 +3780,7 @@ class ImportOrk3 extends Command
 							'description' => $oldTransaction->description,
 							'memo' => ($oldTransaction->memo !== $oldTransaction->description ? $oldTransaction->memo : null),
 							'transaction_at' => $oldTransaction->transaction_date <= '1969-12-31' ? $oldTransaction->date_created : $oldTransaction->transaction_date,
-							'created_by' => $oldTransaction->recorded_by != 0 ? $transUsers[$oldTransaction->recorded_by] : 1,
+							'created_by' => $oldTransaction->recorded_by != 0 && array_key_exists($oldTransaction->recorded_by, $transUsers)? $transUsers[$oldTransaction->recorded_by] : 1,
 							'created_at' => $oldTransaction->date_created
 						]);
 						DB::table('trans')->insert([
@@ -4005,7 +3867,6 @@ class ImportOrk3 extends Command
 									if($oldAccountCheck->park_id != 0){
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $transChapters[$oldAccountCheck->park_id],
-											'user_id' => null,
 											'pronoun_id' => null,
 											'mundane' => null,
 											'name' => 'Deleted Persona ' . $oldSplit->src_mundane_id,
@@ -4104,7 +3965,6 @@ class ImportOrk3 extends Command
 									if($oldDue->park_id != '0'){
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $transChapters[$oldDue->park_id],
-											'user_id' => null,
 											'pronoun_id' => null,
 											'mundane' => null,
 											'name' => 'Deleted Persona ' . $oldDue->mundane_id,
@@ -4281,12 +4141,14 @@ class ImportOrk3 extends Command
 											'persona_id' => $persona->id,
 											'amount' => $realm->dues_amount * $intervals
 										]);
-										DB::table('splits')->insert([
-											'account_id' => $takeAccount->id,
-											'transaction_id' => $transactionId,
-											'persona_id' => $persona->id,
-											'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
-										]);
+										if($takeAccount){
+											DB::table('splits')->insert([
+												'account_id' => $takeAccount->id,
+												'transaction_id' => $transactionId,
+												'persona_id' => $persona->id,
+												'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
+											]);
+										}
 										DB::table('splits')->insert([
 											'account_id' => $owedAccount->id,
 											'transaction_id' => $transactionId,
@@ -4317,20 +4179,6 @@ class ImportOrk3 extends Command
 						DB::reconnect("mysqlBak");
 						$transUsers = $this->getTrans('users');
 						if(!in_array($oldDue->created_by, $oldPersonas) && !array_key_exists($oldDue->created_by, $transUsers)){
-							$userId = DB::table('users')->insertGetId([
-									'email' => 'deletedUser' . $oldDue->created_by . '@nowhere.net',
-									'email_verified_at' => null,
-									'password' => 'generated',
-									'remember_token' => null,
-									'is_restricted' => 1
-							]);
-							DB::table('trans')->insert([
-									'array' => 'users',
-									'oldID' => $oldDue->created_by,
-									'newID' => $userId
-							]);
-							$transUsers[$oldDue->created_by] = $userId;
-							$createdBy = $userId;
 							
 							$transPersonas = $this->getTrans('personas');
 							if(!array_key_exists($oldDue->created_by, $transPersonas)){
@@ -4340,7 +4188,6 @@ class ImportOrk3 extends Command
 								}else{
 									$creatingPersonaId = DB::table('personas')->insertGetId([
 										'chapter_id' => $transChapters[$oldDue->park_id],
-										'user_id' => $userId,
 										'pronoun_id' => null,
 										'mundane' => null,
 										'name' => 'Deleted Persona ' . $oldDue->created_by,
@@ -4353,6 +4200,21 @@ class ImportOrk3 extends Command
 									]);
 									$transPersonas[$oldDue->created_by] = $creatingPersonaId;
 								}
+								$userId = DB::table('users')->insertGetId([
+									'persona_id' => $creatingPersonaId,
+									'email' => 'deletedUser' . $oldDue->created_by . '@nowhere.net',
+									'email_verified_at' => null,
+									'password' => 'generated',
+									'remember_token' => null,
+									'is_restricted' => 1
+								]);
+								DB::table('trans')->insert([
+									'array' => 'users',
+									'oldID' => $oldDue->created_by,
+									'newID' => $userId
+								]);
+								$transUsers[$oldDue->created_by] = $userId;
+								$createdBy = $userId;
 							}
 						}else{
 							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
@@ -4371,20 +4233,6 @@ class ImportOrk3 extends Command
 						if($oldDue->revoked === '1'){
 							$transUsers = $this->getTrans('users');
 							if($oldDue->revoked_by && !in_array($oldDue->revoked_by, $oldPersonas) && !array_key_exists($oldDue->revoked_by, $transUsers)){
-								$userId = DB::table('users')->insertGetId([
-										'email' => 'deletedUser' . $oldDue->revoked_by . '@nowhere.net',
-										'email_verified_at' => null,
-										'password' => 'generated',
-										'remember_token' => null,
-										'is_restricted' => 1
-								]);
-								DB::table('trans')->insert([
-										'array' => 'users',
-										'oldID' => $oldDue->revoked_by,
-										'newID' => $userId
-								]);
-								$transUsers[$oldDue->revoked_by] = $userId;
-								$revokedBy = $userId;
 								$transPersonas = $this->getTrans('personas');
 								if(!array_key_exists($oldDue->revoked_by, $transPersonas)){
 									$personaMakeCheck = Persona::where('name', 'Deleted Persona ' . $oldDue->revoked_by)->first();
@@ -4393,7 +4241,6 @@ class ImportOrk3 extends Command
 									}else{
 										$revokingPersonaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $transChapters[$oldDue->park_id],
-											'user_id' => $userId,
 											'pronoun_id' => null,
 											'mundane' => null,
 											'name' => 'Deleted Persona ' . $oldDue->revoked_by,
@@ -4406,6 +4253,21 @@ class ImportOrk3 extends Command
 										]);
 										$transPersonas[$oldDue->revoked_by] = $revokingPersonaId;
 									}
+									$userId = DB::table('users')->insertGetId([
+										'persona_id' => $revokingPersonaId,
+										'email' => 'deletedUser' . $oldDue->revoked_by . '@nowhere.net',
+										'email_verified_at' => null,
+										'password' => 'generated',
+										'remember_token' => null,
+										'is_restricted' => 1
+									]);
+									DB::table('trans')->insert([
+										'array' => 'users',
+										'oldID' => $oldDue->revoked_by,
+										'newID' => $userId
+									]);
+									$transUsers[$oldDue->revoked_by] = $userId;
+									$revokedBy = $userId;
 								}
 							}elseif($oldDue->revoked_by){
 								$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->revoked_by)->first();
@@ -4616,7 +4478,6 @@ class ImportOrk3 extends Command
 										if($oldOfficer->park_id != '0'){
 											$personaId = DB::table('personas')->insertGetId([
 												'chapter_id' => $transChapters[$oldOfficer->park_id],
-												'user_id' => null,
 												'pronoun_id' => null,
 												'mundane' => null,
 												'name' => 'Deleted Persona ' . $oldOfficer->mundane_id,
@@ -4660,7 +4521,6 @@ class ImportOrk3 extends Command
 											if($oldOfficer->park_id != '0'){
 												$personaId = DB::table('personas')->insertGetId([
 													'chapter_id' => $transChapters[$oldOfficer->park_id],
-													'user_id' => null,
 													'pronoun_id' => null,
 													'mundane' => null,
 													'name' => 'Deleted Persona ' . $oldOfficer->authorization_id,
@@ -5461,7 +5321,6 @@ class ImportOrk3 extends Command
 											if($oldIssuance->park_id != '0'){
 												$personaId = DB::table('personas')->insertGetId([
 													'chapter_id' => $transChapters[$oldIssuance->park_id],
-													'user_id' => null,
 													'pronoun_id' => null,
 													'mundane' => null,
 													'name' => 'Deleted Persona ' . $oldIssuance->mundane_id,

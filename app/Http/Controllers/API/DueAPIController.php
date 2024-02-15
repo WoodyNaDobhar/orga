@@ -6,17 +6,26 @@ use App\Http\Requests\API\CreateDueAPIRequest;
 use App\Http\Requests\API\UpdateDueAPIRequest;
 use App\Models\Due;
 use App\Repositories\DueRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use app\Helpers\AppHelper;
+use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\DueResource;
 
 /**
  * Class DueController
+ * @package App\Http\Controllers\API
  */
 
 class DueAPIController extends AppBaseController
 {
+	
+	use AuthorizesRequests;
+	
     /** @var  DueRepository */
     private $dueRepository;
 
@@ -25,236 +34,767 @@ class DueAPIController extends AppBaseController
         $this->dueRepository = $dueRepo;
     }
 
-    /**
-     * @OA\Get(
-     *      path="/dues",
-     *      summary="getDueList",
-     *      tags={"Due"},
-     *      description="Get all Dues",
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Due")
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $dues = $this->dueRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/dues",
+	 *		summary="Get a listing of the Dues.",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Due"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		persona (Persona) (BelongsTo): Persona paying Dues.
+	 * 		transaction (Transaction) (BelongsTo): Transaction recording the payment.
+	 * 		createdBy (User) (BelongsTo): Due that created it.
+	 * 		updatedBy (User) (BelongsTo): Due that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): Due that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/search"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/limit"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/skip"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/sort"
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Dues retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/QueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function index(Request $request): JsonResponse
+	{
+		try {
 
-        return $this->sendResponse(DueResource::collection($dues), 'Dues retrieved successfully');
-    }
+			$this->authorize('viewAny', Due::class);
 
-    /**
-     * @OA\Post(
-     *      path="/dues",
-     *      summary="createDue",
-     *      tags={"Due"},
-     *      description="Create Due",
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Due")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Due"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function store(CreateDueAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+			$dues = $this->dueRepository->all(
+				$request->has('search') ? $request->get('search') : [],
+				$request->has('skip') && $request->has('limit') ? $request->get('skip') : null,
+				$request->has('limit') ? $request->get('limit') : null,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null,
+				$request->has('sort') ? $request->get('sort') : null
+			);
 
-        $due = $this->dueRepository->create($input);
+			return $this->sendResponse(new DueResource($dues), 'Dues retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        return $this->sendResponse(new DueResource($due), 'Due saved successfully');
-    }
+	/**
+	 * @param CreateDueAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/dues",
+	 *		summary="Store a newly created Due in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Due"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		requestBody={"$ref": "#/components/requestBodies/Due"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Due saved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function store(CreateDueAPIRequest $request): JsonResponse
+	{
+		try {
 
-    /**
-     * @OA\Get(
-     *      path="/dues/{id}",
-     *      summary="getDueItem",
-     *      tags={"Due"},
-     *      description="Get Due",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Due",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Due"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function show($id): JsonResponse
-    {
-        /** @var Due $due */
-        $due = $this->dueRepository->find($id);
+			$this->authorize('create', Due::class);
+			
+			$input = $request->all();
 
-        if (empty($due)) {
-            return $this->sendError('Due not found');
-        }
+			$due = $this->dueRepository->create($input);
 
-        return $this->sendResponse(new DueResource($due), 'Due retrieved successfully');
-    }
+			return $this->sendResponse(new DueResource($due), 'Due saved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-    /**
-     * @OA\Put(
-     *      path="/dues/{id}",
-     *      summary="updateDue",
-     *      tags={"Due"},
-     *      description="Update Due",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Due",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Due")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Due"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function update($id, UpdateDueAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/dues/{id}",
+	 *		summary="Display the specified Due",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Due"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		persona (Persona) (BelongsTo): Persona paying Dues.
+	 * 		transaction (Transaction) (BelongsTo): Transaction recording the payment.
+	 * 		createdBy (User) (BelongsTo): User that created it.
+	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Due",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Due retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SimpleQueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function show($id, Request $request): JsonResponse
+	{
+		try {
+			/** @var Due $due */
+			$due = $this->dueRepository->find(
+				$id,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null
+			);
+			
+			if (empty($due)) {
+				return $this->sendError('Due (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('view', $due);
 
-        /** @var Due $due */
-        $due = $this->dueRepository->find($id);
+			return $this->sendResponse(new DueResource($due), 'Due retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        if (empty($due)) {
-            return $this->sendError('Due not found');
-        }
+	/**
+	 * @param int $id
+	 * @param UpdateDueAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/dues/{id}",
+	 *		summary="Update the specified Due in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Due"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Due",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="query",
+	 *			name="_method",
+	 *			description="This is a patch for swagger-ui, to send form data.  If you're sending json content, and using PUT method, it's not really required.",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			required=true,
+	 *			example="Put"
+	 *		),
+	 *		requestBody={"$ref": "#/components/requestBodies/Due"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Due updated successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function update($id, UpdateDueAPIRequest $request): JsonResponse
+	{
+		try {
+			$input = $request->all();
 
-        $due = $this->dueRepository->update($input, $id);
+			/** @var Due $Due */
+			$Due = $this->DueRepository->find($id);
 
-        return $this->sendResponse(new DueResource($due), 'Due updated successfully');
-    }
+			if (empty($Due)) {
+				return $this->sendError('Due (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('update', $Due);
 
-    /**
-     * @OA\Delete(
-     *      path="/dues/{id}",
-     *      summary="deleteDue",
-     *      tags={"Due"},
-     *      description="Delete Due",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Due",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function destroy($id): JsonResponse
-    {
-        /** @var Due $due */
-        $due = $this->dueRepository->find($id);
+			$Due = $this->DueRepository->update($input, $id);
 
-        if (empty($due)) {
-            return $this->sendError('Due not found');
-        }
+			return $this->sendResponse(new DueResource($Due), 'Due updated successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        $due->delete();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Delete(
+	 *		path="/dues/{id}",
+	 *		summary="Remove the specified Due from storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Due"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Due",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/DueSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Due deleted successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								@OA\Property(
+	 *									property="id",
+	 *									description="The entry's ID.",
+	 *									type="integer",
+	 *									format="int32",
+	 *									example=42
+	 *								)
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function destroy($id): JsonResponse
+	{
+		try {
+			/** @var Due $due */
+			$due = $this->dueRepository->find($id);
 
-        return $this->sendSuccess('Due deleted successfully');
-    }
+			if (empty($due)) {
+				return $this->sendError('Due (' . $id . ') not found.', ['id' => $id], 404);
+			}
+		
+			$this->authorize('delete', $due);
+
+			$due->delete();
+
+			return $this->sendSuccess('Due deleted successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 }

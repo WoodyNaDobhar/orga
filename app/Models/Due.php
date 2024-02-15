@@ -11,7 +11,7 @@ use Wildside\Userstamps\Userstamps;
  * @OA\Schema(
  *      schema="Due",
  *      required={"persona_id","transaction_id","dues_on"},
- *		description="asdf<br>The following relationships can be attached, and in the case of plural relations, searched:
+ *		description="Membership Dues.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * persona (Persona) (BelongsTo): Persona paying Dues.
  * transaction (Transaction) (BelongsTo): Transaction recording the payment.
  * createdBy (User) (BelongsTo): User that created it.

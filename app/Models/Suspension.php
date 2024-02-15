@@ -14,7 +14,7 @@ use App\Traits\ProtectFieldsTrait;
  *		description="On the occasion when an Amtgarder must be disciplined, we record it here.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * persona (Persona) (BelongsTo): The Persona that has been Suspended.
  * realm (Realm) (BelongsTo): The Realm issuing the Suspension.
- * suspendedBy (Persona) (BelongsTo): The Persona issuing the Suspension.
+ * suspendedBy (User) (BelongsTo): The Persona issuing the Suspension.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
  * deletedBy (User) (BelongsTo): User that deleted it (if any).",

@@ -6,17 +6,26 @@ use App\Http\Requests\API\CreateUnitAPIRequest;
 use App\Http\Requests\API\UpdateUnitAPIRequest;
 use App\Models\Unit;
 use App\Repositories\UnitRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use app\Helpers\AppHelper;
+use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\UnitResource;
 
 /**
  * Class UnitController
+ * @package App\Http\Controllers\API
  */
 
 class UnitAPIController extends AppBaseController
 {
+	
+	use AuthorizesRequests;
+	
     /** @var  UnitRepository */
     private $unitRepository;
 
@@ -25,236 +34,787 @@ class UnitAPIController extends AppBaseController
         $this->unitRepository = $unitRepo;
     }
 
-    /**
-     * @OA\Get(
-     *      path="/units",
-     *      summary="getUnitList",
-     *      tags={"Unit"},
-     *      description="Get all Units",
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Unit")
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $units = $this->unitRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/units",
+	 *		summary="Get a listing of the Units.",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Unit"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		accounts (Account) (MorphMany): Accounts held by the Unit.
+	 * 		awards (Award) (MorphMany): Awards Unit can Issue.
+	 * 		awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.
+	 * 		events (Event) (MorphMany): Events run by this Unit.
+	 * 		issuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.
+	 * 		issuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.
+	 * 		members (Member) (HasMany): Unit Members.
+	 * 		officers (Officer) (MorphMany): Officers of the Unit.
+	 * 		offices (Office) (MorphMany): Unit Offices.
+	 * 		socials (Social) (MorphMany): Social media links or IDs.
+	 * 		titles (Title) (MorphMany): Titles Unit can Issue.
+	 * 		titleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.
+	 * 		createdBy (User) (BelongsTo): Unit that created it.
+	 * 		updatedBy (User) (BelongsTo): Unit that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): Unit that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/search"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/limit"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/skip"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/sort"
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Units retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/QueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function index(Request $request): JsonResponse
+	{
+		try {
 
-        return $this->sendResponse(UnitResource::collection($units), 'Units retrieved successfully');
-    }
+			$this->authorize('viewAny', Unit::class);
 
-    /**
-     * @OA\Post(
-     *      path="/units",
-     *      summary="createUnit",
-     *      tags={"Unit"},
-     *      description="Create Unit",
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Unit")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Unit"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function store(CreateUnitAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+			$units = $this->unitRepository->all(
+				$request->has('search') ? $request->get('search') : [],
+				$request->has('skip') && $request->has('limit') ? $request->get('skip') : null,
+				$request->has('limit') ? $request->get('limit') : null,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null,
+				$request->has('sort') ? $request->get('sort') : null
+			);
 
-        $unit = $this->unitRepository->create($input);
+			return $this->sendResponse(new UnitResource($units), 'Units retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        return $this->sendResponse(new UnitResource($unit), 'Unit saved successfully');
-    }
+	/**
+	 * @param CreateUnitAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/units",
+	 *		summary="Store a newly created Unit in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Unit"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		requestBody={"$ref": "#/components/requestBodies/Unit"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unit saved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function store(CreateUnitAPIRequest $request): JsonResponse
+	{
+		try {
 
-    /**
-     * @OA\Get(
-     *      path="/units/{id}",
-     *      summary="getUnitItem",
-     *      tags={"Unit"},
-     *      description="Get Unit",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Unit",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Unit"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function show($id): JsonResponse
-    {
-        /** @var Unit $unit */
-        $unit = $this->unitRepository->find($id);
+			$this->authorize('create', Unit::class);
+			
+			$input = $request->all();
 
-        if (empty($unit)) {
-            return $this->sendError('Unit not found');
-        }
+			$unit = $this->unitRepository->create($input);
 
-        return $this->sendResponse(new UnitResource($unit), 'Unit retrieved successfully');
-    }
+			return $this->sendResponse(new UnitResource($unit), 'Unit saved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-    /**
-     * @OA\Put(
-     *      path="/units/{id}",
-     *      summary="updateUnit",
-     *      tags={"Unit"},
-     *      description="Update Unit",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Unit",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\RequestBody(
-     *        required=true,
-     *        @OA\JsonContent(ref="#/components/schemas/Unit")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Unit"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function update($id, UpdateUnitAPIRequest $request): JsonResponse
-    {
-        $input = $request->all();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Get(
+	 *		path="/units/{id}",
+	 *		summary="Display the specified Unit",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Unit"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 * 		accounts (Account) (MorphMany): Accounts held by the Unit.
+	 * 		awards (Award) (MorphMany): Awards Unit can Issue.
+	 * 		awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.
+	 * 		events (Event) (MorphMany): Events run by this Unit.
+	 * 		issuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.
+	 * 		issuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.
+	 * 		members (Member) (HasMany): Unit Members.
+	 * 		officers (Officer) (MorphMany): Officers of the Unit.
+	 * 		offices (Office) (MorphMany): Unit Offices.
+	 * 		socials (Social) (MorphMany): Social media links or IDs.
+	 * 		titles (Title) (MorphMany): Titles Unit can Issue.
+	 * 		titleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.
+	 * 		createdBy (User) (BelongsTo): User that created it.
+	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
+	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/columns"
+	 *		),
+	 *		@OA\Parameter(
+	 *			ref="#/components/parameters/with"
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Unit",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unit retrieved successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/SimpleQueryParameters"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function show($id, Request $request): JsonResponse
+	{
+		try {
+			/** @var Unit $unit */
+			$unit = $this->unitRepository->find(
+				$id,
+				$request->has('columns') ? $request->get('columns') : ['*'],
+				$request->has('with') ? $request->get('with') : null
+			);
+			
+			if (empty($unit)) {
+				return $this->sendError('Unit (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('view', $unit);
 
-        /** @var Unit $unit */
-        $unit = $this->unitRepository->find($id);
+			return $this->sendResponse(new UnitResource($unit), 'Unit retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        if (empty($unit)) {
-            return $this->sendError('Unit not found');
-        }
+	/**
+	 * @param int $id
+	 * @param UpdateUnitAPIRequest $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/units/{id}",
+	 *		summary="Update the specified Unit in storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Unit"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Unit",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Parameter(
+	 *			in="query",
+	 *			name="_method",
+	 *			description="This is a patch for swagger-ui, to send form data.  If you're sending json content, and using PUT method, it's not really required.",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			required=true,
+	 *			example="Put"
+	 *		),
+	 *		requestBody={"$ref": "#/components/requestBodies/Unit"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unit updated successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSuperSimple"
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function update($id, UpdateUnitAPIRequest $request): JsonResponse
+	{
+		try {
+			$input = $request->all();
 
-        $unit = $this->unitRepository->update($input, $id);
+			/** @var Unit $Unit */
+			$Unit = $this->UnitRepository->find($id);
 
-        return $this->sendResponse(new UnitResource($unit), 'Unit updated successfully');
-    }
+			if (empty($Unit)) {
+				return $this->sendError('Unit (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
+			}
+		
+			$this->authorize('update', $Unit);
 
-    /**
-     * @OA\Delete(
-     *      path="/units/{id}",
-     *      summary="deleteUnit",
-     *      tags={"Unit"},
-     *      description="Delete Unit",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="id of Unit",
-     *           @OA\Schema(
-     *             type="integer"
-     *          ),
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function destroy($id): JsonResponse
-    {
-        /** @var Unit $unit */
-        $unit = $this->unitRepository->find($id);
+			$Unit = $this->UnitRepository->update($input, $id);
 
-        if (empty($unit)) {
-            return $this->sendError('Unit not found');
-        }
+			return $this->sendResponse(new UnitResource($Unit), 'Unit updated successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 
-        $unit->delete();
+	/**
+	 * @param int $id
+	 * @return Response
+	 *
+	 * @OA\Delete(
+	 *		path="/units/{id}",
+	 *		summary="Remove the specified Unit from storage",
+	 *		security={{"bearer_token":{}}},
+	 *		tags={"Unit"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		@OA\Parameter(
+	 *			in="path",
+	 *			name="id",
+	 *			description="ID of Unit",
+	 *			@OA\Schema(
+	 *				type="integer"
+	 *			),
+	 *			required=true,
+	 *			example=42
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								ref="#/components/schemas/UnitSimple"
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unit deleted successfully."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="array",
+	 *							@OA\Items(
+	 *								@OA\Property(
+	 *									property="id",
+	 *									description="The entry's ID.",
+	 *									type="integer",
+	 *									format="int32",
+	 *									example=42
+	 *								)
+	 *							)
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="unauthenticated",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Unauthenticated."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function destroy($id): JsonResponse
+	{
+		try {
+			/** @var Unit $unit */
+			$unit = $this->unitRepository->find($id);
 
-        return $this->sendSuccess('Unit deleted successfully');
-    }
+			if (empty($unit)) {
+				return $this->sendError('Unit (' . $id . ') not found.', ['id' => $id], 404);
+			}
+		
+			$this->authorize('delete', $unit);
+
+			$unit->delete();
+
+			return $this->sendSuccess('Unit deleted successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), null, $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
 }

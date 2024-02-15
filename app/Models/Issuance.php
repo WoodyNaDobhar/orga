@@ -15,7 +15,7 @@ use Wildside\Userstamps\Userstamps;
  * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
  * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
- * revokedBy (Persona) (BelongsTo): If revoked, who authorized the revocation.
+ * revokedBy (User) (BelongsTo): If revoked, who authorized the revocation.
  * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
  * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
  * createdBy (User) (BelongsTo): User that created it.
@@ -41,7 +41,7 @@ use Wildside\Userstamps\Userstamps;
  *      ),
  *		@OA\Property(
  *			property="issuable_id",
- *			description="asdf",
+ *			description="The ID of the Issuance.",
  *          readOnly=false,
  *          nullable=false,
  *			type="integer",
@@ -408,7 +408,7 @@ use Wildside\Userstamps\Userstamps;
  *      ),
  *		@OA\Property(
  *			property="issuable_id",
- *			description="asdf",
+ *			description="The ID of the Issuance.",
  *          readOnly=false,
  *          nullable=false,
  *			type="integer",
@@ -631,7 +631,7 @@ use Wildside\Userstamps\Userstamps;
  *      ),
  *		@OA\Property(
  *			property="issuable_id",
- *			description="asdf",
+ *			description="The ID of the Issuance.",
  *          readOnly=false,
  *          nullable=false,
  *			type="integer",

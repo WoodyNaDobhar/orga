@@ -11,7 +11,7 @@ use App\Traits\ProtectFieldsTrait;
  * @OA\Schema(
  *      schema="Social",
  *      required={"sociable_type","media","value"},
- *		description="asdf<br>The following relationships can be attached, and in the case of plural relations, searched:
+ *		description="Various web and app accounts and links associated with a Chapter, Event, Persona, Realm, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * sociable (Social) (MorphTo): Model the Social is being attached to.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).

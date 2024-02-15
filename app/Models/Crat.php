@@ -11,7 +11,7 @@ use Wildside\Userstamps\Userstamps;
  * @OA\Schema(
  *      schema="Crat",
  *      required={"event_id","persona_id","role","is_autocrat"},
- *		description="asdf<br>The following relationships can be attached, and in the case of plural relations, searched:
+ *		description="Those running things at Events.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * event (Event) (BelongsTo): Event the Persona cratted for.
  * persona (Persona) (BelongsTo): The Persona cratting the given Event.
  * createdBy (User) (BelongsTo): User that created it.

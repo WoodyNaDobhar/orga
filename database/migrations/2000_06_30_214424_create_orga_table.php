@@ -151,8 +151,8 @@ return new class extends Migration
 			$table->string('image', 255)->nullable()->comment('A promotional image for the Event, if any');
 			$table->boolean('is_active')->default(true)->comment('Is this (default true) something people should be seeing yet?');
 			$table->boolean('is_demo')->default(false)->comment('Is this (default false) a demo?');
-			$table->timestamp('event_started_at')->comment('When the Event begins');
-			$table->timestamp('event_ended_at')->comment('When the Event ends');
+			$table->timestamp('event_started_at')->useCurrent()->comment('When the Event begins');
+			$table->timestamp('event_ended_at')->useCurrent()->comment('When the Event ends');
 			$table->float('price', 6)->nullable()->comment('The cost of the Event, if any');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
 			$table->timestamp('created_at')->useCurrent();
