@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\SocialResource;
@@ -43,11 +43,11 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Get a listing of the Socials.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		sociable (Social) (MorphTo): Model the Social is being attached to.
-	 * 		createdBy (User) (BelongsTo): Social that created it.
-	 * 		updatedBy (User) (BelongsTo): Social that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Social that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			sociable (Social) (MorphTo): Model the Social is being attached to.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -174,7 +174,7 @@ class SocialAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Social::class);
+// 			$this->authorize('viewAny', Social::class);
 
 			$socials = $this->socialRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -185,7 +185,7 @@ class SocialAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new SocialResource($socials), 'Socials retrieved successfully.');
+			return $this->sendResponse(SocialResource::collection($socials), 'Socials retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -202,7 +202,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Store a newly created Social in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Social"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,11 +335,11 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Display the specified Social",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		sociable (Social) (MorphTo): Model the Social is being attached to.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			sociable (Social) (MorphTo): Model the Social is being attached to.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -474,7 +474,7 @@ class SocialAPIController extends AppBaseController
 				return $this->sendError('Social (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $social);
+// 			$this->authorize('view', $social);
 
 			return $this->sendResponse(new SocialResource($social), 'Social retrieved successfully.');
 		} catch (Throwable $e) {
@@ -494,7 +494,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Update the specified Social in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: related<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +653,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Remove the specified Social from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: related<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

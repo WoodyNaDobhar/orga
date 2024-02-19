@@ -32,8 +32,9 @@ class SuspensionFactory extends Factory
         }
 
         return [
-            'persona_id' => $this->faker->word,
-            'realm_id' => $this->faker->word,
+        	'persona_id' => $this->faker->word,
+        	'suspendable_type' => $this->faker->word,
+        	'suspendable_id' => $this->faker->word,
             'suspended_by' => $this->faker->word,
             'suspended_at' => $this->faker->date('Y-m-d'),
             'expires_at' => $this->faker->date('Y-m-d'),

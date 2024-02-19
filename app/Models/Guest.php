@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
- *      schema="Guest",
- *      required={"event_id","waiver_id","is_followedup"},
+ *		schema="Guest",
+ *		required={"event_id","waiver_id","is_followedup"},
  *		description="Visitors that play with us at demo Events.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * event (Event) (BelongsTo): Demo Event they played at.
  * chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known
@@ -29,8 +28,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="event_id",
  *			description="ID of the Demo Event they were Guests for.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -38,8 +37,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="ID of the closest Chapter to the Guest, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -47,32 +46,33 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="waiver_id",
  *			description="ID of the Waiver for the Guest.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="is_followedup",
- *          description="Has this Guest (default false) been followed up with?",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="is_followedup",
+ *			description="Has this Guest (default false) been followed up with?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="notes",
- *          description="Notes about the Guest, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="sentence",
- *          maxLength=191,
- *          example="They are interested in A&S"
- *      ),
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="notes",
+ *			description="Notes about the Guest, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="sentence",
+ *			maxLength=191,
+ *			example="They are interested in A&S"
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -90,7 +90,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -110,7 +110,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -130,7 +130,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -166,7 +166,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="Event",
  *					description="Attachable Demo Event they played at."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Event"),
+ *				@OA\Schema(ref="#/components/schemas/EventSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -178,7 +178,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="Chapter",
  *					description="Attachable closest Chapter to the Guest."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Chapter"),
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -190,14 +190,11 @@ use Wildside\Userstamps\Userstamps;
  *					title="Waiver",
  *					description="Attachable Waiver for the Guest."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Waiver"),
+ *				@OA\Schema(ref="#/components/schemas/WaiverSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="GuestSimple",
  *		@OA\Property(
@@ -211,8 +208,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="event_id",
  *			description="ID of the Demo Event they were Guests for.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -220,8 +217,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="ID of the closest Chapter to the Guest, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -229,31 +226,32 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="waiver_id",
  *			description="ID of the Waiver for the Guest.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="is_followedup",
- *          description="Has this Guest (default false) been followed up with?",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="is_followedup",
+ *			description="Has this Guest (default false) been followed up with?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="notes",
- *          description="Notes about the Guest, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=191,
- *          example="They are interested in A&S"
- *      ),
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="notes",
+ *			description="Notes about the Guest, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=191,
+ *			example="They are interested in A&S"
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -303,9 +301,7 @@ use Wildside\Userstamps\Userstamps;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="GuestSuperSimple",
  *		@OA\Property(
@@ -319,8 +315,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="event_id",
  *			description="ID of the Demo Event they were Guests for.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -328,8 +324,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="ID of the closest Chapter to the Guest, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -337,36 +333,33 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="waiver_id",
  *			description="ID of the Waiver for the Guest.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="is_followedup",
- *          description="Has this Guest (default false) been followed up with?",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="is_followedup",
+ *			description="Has this Guest (default false) been followed up with?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="notes",
- *          description="Notes about the Guest, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=191,
- *          example="They are interested in A&S"
- *      )
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="notes",
+ *			description="Notes about the Guest, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=191,
+ *			example="They are interested in A&S"
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Guest",
  *		description="Guest object that needs to be added or updated.",
@@ -378,7 +371,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  */
 
-class Guest extends Model
+class Guest extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -391,60 +384,60 @@ class Guest extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['event_id', 'waiver_id'];
 
-    public $fillable = [
-        'event_id',
-        'waiver_id',
-        'chapter_id',
-        'is_followedup',
-        'notes'
-    ];
+	public $fillable = [
+		  'event_id',
+		  'waiver_id',
+		  'chapter_id',
+		  'is_followedup',
+		  'notes'
+	];
 
-    protected $casts = [
-        'is_followedup' => 'boolean',
-        'notes' => 'string'
-    ];
+	protected $casts = [
+		  'is_followedup' => 'boolean',
+		  'notes' => 'string'
+	];
 
-    public static array $rules = [
-    	'event_id' => 'required|exists:events,id',
-    	'chapter_id' => 'nullable|exists:chapters,id',
-    	'waiver_id' => 'required|exists:waivers,id',
-    	'is_followedup' => 'boolean',
-    	'notes' => 'nullable|string',
-    ];
-    
-    public $relationships = [
-    	'event' => 'BelongsTo',
-    	'chapter' => 'BelongsTo',
-    	'waiver' => 'BelongsTo'
-    ];
-    
-    public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Event::class, 'event_id');
-    }
+	public static array $rules = [
+		'event_id' => 'required|exists:events,id',
+		'chapter_id' => 'nullable|exists:chapters,id',
+		'waiver_id' => 'required|exists:waivers,id',
+		'is_followedup' => 'boolean',
+		'notes' => 'nullable|string',
+	];
+	
+	public $relationships = [
+		'event' => 'BelongsTo',
+		'chapter' => 'BelongsTo',
+		'waiver' => 'BelongsTo'
+	];
+	
+	public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Event::class, 'event_id');
+	}
 
-    public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
-    }
-    
-    public function waiver(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Waiver::class, 'waiver_id');
-    }
+	public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
+	}
+	
+	public function waiver(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Waiver::class, 'waiver_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

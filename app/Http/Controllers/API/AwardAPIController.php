@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\AwardResource;
@@ -43,13 +43,13 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Get a listing of the Awards.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.
-	 * 		issuances (Issuance) (MorphMany): Issuances of this Award.
-	 * 		recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.
-	 * 		createdBy (User) (BelongsTo): Award that created it.
-	 * 		updatedBy (User) (BelongsTo): Award that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Award that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>
+			issuances (Issuance) (MorphMany): Issuances of this Award.<br>
+			recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -176,8 +176,7 @@ class AwardAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Award::class);
-
+// 			$this->authorize('viewAny', Award::class);
 			$awards = $this->awardRepository->all(
 				$request->has('search') ? $request->get('search') : [],
 				$request->has('skip') && $request->has('limit') ? $request->get('skip') : null,
@@ -187,7 +186,7 @@ class AwardAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new AwardResource($awards), 'Awards retrieved successfully.');
+			return $this->sendResponse(AwardResource::collection($awards), 'Awards retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +203,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Store a newly created Award in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Award"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +336,13 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Display the specified Award",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.
-	 * 		issuances (Issuance) (MorphMany): Issuances of this Award.
-	 * 		recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>
+			issuances (Issuance) (MorphMany): Issuances of this Award.<br>
+			recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -478,7 +477,7 @@ class AwardAPIController extends AppBaseController
 				return $this->sendError('Award (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $award);
+// 			$this->authorize('view', $award);
 
 			return $this->sendResponse(new AwardResource($award), 'Award retrieved successfully.');
 		} catch (Throwable $e) {
@@ -498,7 +497,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Update the specified Award in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +656,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Remove the specified Award from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

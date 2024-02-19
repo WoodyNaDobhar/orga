@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
- *      schema="Due",
- *      required={"persona_id","transaction_id","dues_on"},
+ *		schema="Due",
+ *		required={"persona_id","transaction_id","dues_on"},
  *		description="Membership Dues.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * persona (Persona) (BelongsTo): Persona paying Dues.
  * transaction (Transaction) (BelongsTo): Transaction recording the payment.
@@ -28,8 +27,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the Persona paying Dues.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -37,30 +36,30 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="transaction_id",
  *			description="ID of the Transaction recording the payment.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="dues_on",
- *          description="The date the dues period begins, not the date paid",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="dues_on",
+ *			description="The date the dues period begins, not the date paid",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="intervals",
- *          description="Number of six month periods the payment covers, null for forever.",
- *          readOnly=false,
- *          nullable=true,
- *     		type="number",
- *     		format="float",
- *     		example=1
- *      ),
+ *		),
+ *		@OA\Property(
+ *			property="intervals",
+ *			description="Number of six month periods the payment covers, null for forever.",
+ *			readOnly=false,
+ *			nullable=true,
+ *	 		type="number",
+ *	 		format="float",
+ *	 		example=1
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -78,7 +77,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -98,7 +97,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -118,7 +117,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -154,7 +153,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="Persona",
  *					description="Attachable Persona paying Dues."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -166,14 +165,11 @@ use Wildside\Userstamps\Userstamps;
  *					title="Transaction",
  *					description="Attachable Transaction recording the payment."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Transaction"),
+ *				@OA\Schema(ref="#/components/schemas/TransactionSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="DueSimple",
  *		@OA\Property(
@@ -187,8 +183,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the Persona paying Dues.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -196,30 +192,30 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="transaction_id",
  *			description="ID of the Transaction recording the payment.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="dues_on",
- *          description="The date the dues period begins, not the date paid",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="dues_on",
+ *			description="The date the dues period begins, not the date paid",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="intervals",
- *          description="Number of six month periods the payment covers, null for forever.",
- *          readOnly=false,
- *          nullable=true,
- *     		type="number",
- *     		format="float",
- *     		example=1
- *      )
+ *		),
+ *		@OA\Property(
+ *			property="intervals",
+ *			description="Number of six month periods the payment covers, null for forever.",
+ *			readOnly=false,
+ *			nullable=true,
+ *	 		type="number",
+ *	 		format="float",
+ *	 		example=1
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -269,9 +265,7 @@ use Wildside\Userstamps\Userstamps;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="DueSuperSimple",
  *		@OA\Property(
@@ -285,8 +279,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the Persona paying Dues.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -294,35 +288,31 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="transaction_id",
  *			description="ID of the Transaction recording the payment.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="dues_on",
- *          description="The date the dues period begins, not the date paid",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="dues_on",
+ *			description="The date the dues period begins, not the date paid",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="intervals",
- *          description="Number of six month periods the payment covers, null for forever.",
- *          readOnly=false,
- *          nullable=true,
- *     		type="number",
- *     		format="float",
- *     		example=1
- *      )
+ *		),
+ *		@OA\Property(
+ *			property="intervals",
+ *			description="Number of six month periods the payment covers, null for forever.",
+ *			readOnly=false,
+ *			nullable=true,
+ *	 		type="number",
+ *	 		format="float",
+ *	 		example=1
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Due",
  *		description="Due object that needs to be added or updated.",
@@ -334,7 +324,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  */
 
-class Due extends Model
+class Due extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -347,52 +337,52 @@ class Due extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['persona_id', 'transaction_id', 'intervals'];
 
-    public $fillable = [
-        'persona_id',
-        'transaction_id',
-        'dues_on',
-        'intervals'
-    ];
+	public $fillable = [
+		  'persona_id',
+		  'transaction_id',
+		  'dues_on',
+		  'intervals'
+	];
 
-    protected $casts = [
-        'dues_on' => 'date',
-        'intervals' => 'float'
-    ];
+	protected $casts = [
+		  'dues_on' => 'date',
+		  'intervals' => 'float'
+	];
 
-    public static array $rules = [
-        'persona_id' => 'required|exists:personas,id',
-    	'transaction_id' => 'required|exists:transactions,id',
-    	'dues_on' => 'required|date',
-    	'intervals' => 'nullable|numeric',
-    ];
-    
-    public $relationships = [
+	public static array $rules = [
+		  'persona_id' => 'required|exists:personas,id',
+		'transaction_id' => 'required|exists:transactions,id',
+		'dues_on' => 'required|date',
+		'intervals' => 'nullable|numeric',
+	];
+	
+	public $relationships = [
 		'persona' => 'BelongsTo',
 		'transaction' => 'BelongsTo'
-    ];
-    
-    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
-    }
-    
-    public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Transaction::class, 'transaction_id');
-    }
+	];
+	
+	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+	}
+	
+	public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Transaction::class, 'transaction_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

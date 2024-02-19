@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\UserResource;
@@ -43,11 +43,12 @@ class UserAPIController extends AppBaseController
 	 *		summary="Get a listing of the Users.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): Persona associated with the User.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): Persona associated with the User.<br>
+			passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -174,7 +175,7 @@ class UserAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', User::class);
+// 			$this->authorize('viewAny', User::class);
 
 			$users = $this->userRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -185,7 +186,7 @@ class UserAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new UserResource($users), 'Users retrieved successfully.');
+			return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -202,7 +203,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Store a newly created User in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/User"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,11 +336,12 @@ class UserAPIController extends AppBaseController
 	 *		summary="Display the specified User",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): Persona associated with the User.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): Persona associated with the User.<br>
+			passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -474,7 +476,7 @@ class UserAPIController extends AppBaseController
 				return $this->sendError('User (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $user);
+// 			$this->authorize('view', $user);
 
 			return $this->sendResponse(new UserResource($user), 'User retrieved successfully.');
 		} catch (Throwable $e) {
@@ -494,7 +496,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Update the specified User in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +655,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Remove the specified User from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

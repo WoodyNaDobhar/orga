@@ -4,10 +4,16 @@
     <p>{{ $suspension->persona_id }}</p>
 </div>
 
-<!-- Realm Id Field -->
+<!-- Suspendable Type Field -->
 <div class="col-sm-12">
-    {!! Form::label('realm_id', 'Realm Id:') !!}
-    <p>{{ $suspension->realm_id }}</p>
+    {!! Form::label('suspendable_type', 'Suspendable Type:') !!}
+    <p>{{ $suspension->suspendable_type }}</p>
+</div>
+
+<!-- Suspendable Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('suspendable_id', 'Suspendable Id:') !!}
+    <p>{{ $suspension->suspendable_id }}</p>
 </div>
 
 <!-- Suspended By Field -->

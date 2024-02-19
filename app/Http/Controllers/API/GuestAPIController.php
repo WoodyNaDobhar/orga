@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\GuestResource;
@@ -43,13 +43,13 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Get a listing of the Guests.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
-	 * event (Event) (BelongsTo): Demo Event they played at.
-	 * chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known
-	 * waiver (Waiver) (BelongsTo): Waiver for the Guest.
-	 * createdBy (User) (BelongsTo): Guest that created it.
-	 * updatedBy (User) (BelongsTo): Guest that last updated it (if any).
-	 * deletedBy (User) (BelongsTo): Guest that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			event (Event) (BelongsTo): Demo Event they played at.<br>
+			chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>
+			waiver (Waiver) (BelongsTo): Waiver for the Guest.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -176,7 +176,7 @@ class GuestAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Guest::class);
+// 			$this->authorize('viewAny', Guest::class);
 
 			$guests = $this->guestRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -187,7 +187,7 @@ class GuestAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new GuestResource($guests), 'Guests retrieved successfully.');
+			return $this->sendResponse(GuestResource::collection($guests), 'Guests retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Store a newly created Guest in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Guest"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Display the specified Guest",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
-	 * event (Event) (BelongsTo): Demo Event they played at.
-	 * chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known
-	 * waiver (Waiver) (BelongsTo): Waiver for the Guest.
-	 * createdBy (User) (BelongsTo): User that created it.
-	 * updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			event (Event) (BelongsTo): Demo Event they played at.<br>
+			chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>
+			waiver (Waiver) (BelongsTo): Waiver for the Guest.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -478,7 +478,7 @@ class GuestAPIController extends AppBaseController
 				return $this->sendError('Guest (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $guest);
+// 			$this->authorize('view', $guest);
 
 			return $this->sendResponse(new GuestResource($guest), 'Guest retrieved successfully.');
 		} catch (Throwable $e) {
@@ -498,7 +498,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Update the specified Guest in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Remove the specified Guest from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

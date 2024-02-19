@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\TournamentResource;
@@ -43,11 +43,11 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Get a listing of the Tournaments.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		tournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.
-	 * 		createdBy (User) (BelongsTo): Tournament that created it.
-	 * 		updatedBy (User) (BelongsTo): Tournament that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Tournament that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			tournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -174,7 +174,7 @@ class TournamentAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Tournament::class);
+// 			$this->authorize('viewAny', Tournament::class);
 
 			$tournaments = $this->tournamentRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -185,7 +185,7 @@ class TournamentAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new TournamentResource($tournaments), 'Tournaments retrieved successfully.');
+			return $this->sendResponse(TournamentResource::collection($tournaments), 'Tournaments retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -202,7 +202,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Store a newly created Tournament in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Tournament"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,11 +335,11 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Display the specified Tournament",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		tournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			tournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -474,7 +474,7 @@ class TournamentAPIController extends AppBaseController
 				return $this->sendError('Tournament (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $tournament);
+// 			$this->authorize('view', $tournament);
 
 			return $this->sendResponse(new TournamentResource($tournament), 'Tournament retrieved successfully.');
 		} catch (Throwable $e) {
@@ -494,7 +494,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Update the specified Tournament in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +653,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Remove the specified Tournament from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

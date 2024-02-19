@@ -10,6 +10,18 @@
     <p>{{ $event->eventable_id }}</p>
 </div>
 
+<!-- Sponsorable Type Field -->
+<div class="col-sm-12">
+    {!! Form::label('sponsorable_type', 'Sponsorable Type:') !!}
+    <p>{{ $event->sponsorable_type }}</p>
+</div>
+
+<!-- Sponsorable Id Field -->
+<div class="col-sm-12">
+    {!! Form::label('sponsorable_id', 'Sponsorable Id:') !!}
+    <p>{{ $event->sponsorable_id }}</p>
+</div>
+
 <!-- Location Id Field -->
 <div class="col-sm-12">
     {!! Form::label('location_id', 'Location Id:') !!}

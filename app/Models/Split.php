@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Split",
- *      required={"transaction_id","persona_id","amount"},
+ *		schema="Split",
+ *		required={"transaction_id","persona_id","amount"},
  *		description="Splits are individual dollar amounts associated with a Transaction.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * account (Account) (BelongsTo): Account this Split is for.
  * persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.
@@ -29,8 +28,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="account_id",
  *			description="The ID of the Account this Split is for.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -38,8 +37,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona performing the Transaction.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -47,21 +46,21 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="transaction_id",
  *			description="The ID of the Transaction being Split.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="amount",
- *          description="How much the Split is for.",
- *          readOnly=false,
- *          nullable=false,
- *          type="number",
- *          format="float",
- *          example=12
- *      ),
+ *		@OA\Property(
+ *			property="amount",
+ *			description="How much the Split is for.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="number",
+ *			format="float",
+ *			example=12
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -79,7 +78,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -99,7 +98,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -119,7 +118,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -155,7 +154,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Account",
  *					description="Attachable Account this Split is for."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Account"),
+ *				@OA\Schema(ref="#/components/schemas/AccountSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -167,7 +166,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Persona",
  *					description="Attachable Persona performing the Transaction this Split is for."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -179,14 +178,11 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Transaction",
  *					description="Attachable Transaction being Split."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Transaction"),
+ *				@OA\Schema(ref="#/components/schemas/TransactionSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="SplitSimple",
  *		@OA\Property(
@@ -200,8 +196,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="account_id",
  *			description="The ID of the Account this Split is for.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -209,8 +205,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona performing the Transaction.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -218,21 +214,21 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="transaction_id",
  *			description="The ID of the Transaction being Split.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="amount",
- *          description="How much the Split is for.",
- *          readOnly=false,
- *          nullable=false,
- *          type="number",
- *          format="float",
- *          example=12
- *      ),
+ *		@OA\Property(
+ *			property="amount",
+ *			description="How much the Split is for.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="number",
+ *			format="float",
+ *			example=12
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -282,9 +278,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="SplitSuperSimple",
  *		@OA\Property(
@@ -298,8 +292,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="account_id",
  *			description="The ID of the Account this Split is for.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -307,8 +301,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona performing the Transaction.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -316,26 +310,22 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="transaction_id",
  *			description="The ID of the Transaction being Split.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="amount",
- *          description="How much the Split is for.",
- *          readOnly=false,
- *          nullable=false,
- *          type="number",
- *          format="float",
- *          example=12
- *      )
+ *		@OA\Property(
+ *			property="amount",
+ *			description="How much the Split is for.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="number",
+ *			format="float",
+ *			example=12
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Split",
  *		description="Split object that needs to be added or updated.",
@@ -347,7 +337,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Split extends Model
+class Split extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -360,57 +350,57 @@ class Split extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['account_id','transaction_id','persona_id'];
 
-    public $fillable = [
-        'account_id',
-        'transaction_id',
-        'persona_id',
-        'amount'
-    ];
+	public $fillable = [
+		  'account_id',
+		  'transaction_id',
+		  'persona_id',
+		  'amount'
+	];
 
-    protected $casts = [
-        'amount' => 'float'
-    ];
+	protected $casts = [
+		  'amount' => 'float'
+	];
 
-    public static array $rules = [
-    	'account_id' => 'nullable|exists:accounts,id',
-    	'transaction_id' => 'required|exists:transactions,id',
-    	'persona_id' => 'required|exists:personas,id',
-    	'amount' => 'required|numeric|min:0'
-    ];
-    
-    public $relationships = [
-    	'account' => 'BelongsTo',
-    	'persona' => 'BelongsTo',
-    	'transaction' => 'BelongsTo'
-    ];
+	public static array $rules = [
+		'account_id' => 'nullable|exists:accounts,id',
+		'transaction_id' => 'required|exists:transactions,id',
+		'persona_id' => 'required|exists:personas,id',
+		'amount' => 'required|numeric|min:0'
+	];
+	
+	public $relationships = [
+		'account' => 'BelongsTo',
+		'persona' => 'BelongsTo',
+		'transaction' => 'BelongsTo'
+	];
 
-    public function account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Account::class, 'account_id');
-    }
-    
-    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
-    }
-    
-    public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Transaction::class, 'transaction_id');
-    }
+	public function account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Account::class, 'account_id');
+	}
+	
+	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+	}
+	
+	public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Transaction::class, 'transaction_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

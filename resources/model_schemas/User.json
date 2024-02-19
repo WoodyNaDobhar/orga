@@ -137,6 +137,10 @@
     },
     {
         "type": "relation",
+        "relation": "1tm,PasswordHistory,user_id"
+    },
+    {
+        "type": "relation",
         "relation": "1tm,Account,created_by"
     },
     {

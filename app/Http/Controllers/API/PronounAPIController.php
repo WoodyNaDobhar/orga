@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\PronounResource;
@@ -43,12 +43,12 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Get a listing of the Pronouns.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		personas (Persona) (HasMany): Personas using the Pronoun.
-	 * 		waivers (Waivers) (HasMany): Waivers using the Pronoun.
-	 * 		createdBy (User) (BelongsTo): Pronoun that created it.
-	 * 		updatedBy (User) (BelongsTo): Pronoun that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Pronoun that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			personas (Persona) (HasMany): Personas using the Pronoun.<br>
+			waivers (Waivers) (HasMany): Waivers using the Pronoun.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class PronounAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Pronoun::class);
+// 			$this->authorize('viewAny', Pronoun::class);
 
 			$pronouns = $this->pronounRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class PronounAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new PronounResource($pronouns), 'Pronouns retrieved successfully.');
+			return $this->sendResponse(PronounResource::collection($pronouns), 'Pronouns retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Store a newly created Pronoun in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Pronoun"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Display the specified Pronoun",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		personas (Persona) (HasMany): Personas using the Pronoun.
-	 * 		waivers (Waivers) (HasMany): Waivers using the Pronoun.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			personas (Persona) (HasMany): Personas using the Pronoun.<br>
+			waivers (Waivers) (HasMany): Waivers using the Pronoun.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class PronounAPIController extends AppBaseController
 				return $this->sendError('Pronoun (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $pronoun);
+// 			$this->authorize('view', $pronoun);
 
 			return $this->sendResponse(new PronounResource($pronoun), 'Pronoun retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Update the specified Pronoun in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Remove the specified Pronoun from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

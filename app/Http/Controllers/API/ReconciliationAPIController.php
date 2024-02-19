@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ReconciliationResource;
@@ -43,12 +43,12 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Get a listing of the Reconciliations.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.
-	 * 		persona (Persona) (BelongsTo): Persona credits being Reconciled.
-	 * 		createdBy (User) (BelongsTo): Reconciliation that created it.
-	 * 		updatedBy (User) (BelongsTo): Reconciliation that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Reconciliation that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>
+			persona (Persona) (BelongsTo): Persona credits being Reconciled.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class ReconciliationAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Reconciliation::class);
+// 			$this->authorize('viewAny', Reconciliation::class);
 
 			$reconciliations = $this->reconciliationRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class ReconciliationAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new ReconciliationResource($reconciliations), 'Reconciliations retrieved successfully.');
+			return $this->sendResponse(ReconciliationResource::collection($reconciliations), 'Reconciliations retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Store a newly created Reconciliation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Reconciliation"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Display the specified Reconciliation",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.
-	 * 		persona (Persona) (BelongsTo): Persona credits being Reconciled.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>
+			persona (Persona) (BelongsTo): Persona credits being Reconciled.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class ReconciliationAPIController extends AppBaseController
 				return $this->sendError('Reconciliation (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $reconciliation);
+// 			$this->authorize('view', $reconciliation);
 
 			return $this->sendResponse(new ReconciliationResource($reconciliation), 'Reconciliation retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Update the specified Reconciliation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Remove the specified Reconciliation from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

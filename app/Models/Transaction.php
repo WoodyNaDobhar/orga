@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Transaction",
- *      required={"description","transaction_at"},
+ *		schema="Transaction",
+ *		required={"description","transaction_at"},
  *		description="Accounting Transactions.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * dues (Due) (HasMany): Dues linked to the Transaction
  * splits (Split) (HasMany): Splits for the Transaction
@@ -25,34 +24,34 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="description",
- *          description="A description of the Transaction.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="paragraph",
- *          example="Dues Paid for Chibasama",
- *          maxLength=191
- *      ),
- *      @OA\Property(
- *          property="memo",
- *          description="A memo for the Transaction, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          example="Paid in $2 bills.",
- *          maxLength=191
- *      ),
- *      @OA\Property(
- *          property="transaction_at",
- *          description="Date the Transaction occured.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="description",
+ *			description="A description of the Transaction.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Dues Paid for Chibasama",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="memo",
+ *			description="A memo for the Transaction, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			example="Paid in $2 bills.",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="transaction_at",
+ *			description="Date the Transaction occured.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -70,7 +69,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -90,7 +89,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -110,7 +109,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -145,7 +144,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Due",
  *				type="object",
- *				ref="#/components/schemas/Due"
+ *				ref="#/components/schemas/DueSimple"
  *			),
  *			readOnly=true
  *		),
@@ -156,14 +155,11 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Split",
  *				type="object",
- *				ref="#/components/schemas/Split"
+ *				ref="#/components/schemas/SplitSimple"
  *			),
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="TransactionSimple",
  *		@OA\Property(
@@ -174,34 +170,34 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="description",
- *          description="A description of the Transaction.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="paragraph",
- *          example="Dues Paid for Chibasama",
- *          maxLength=191
- *      ),
- *      @OA\Property(
- *          property="memo",
- *          description="A memo for the Transaction, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          example="Paid in $2 bills.",
- *          maxLength=191
- *      ),
- *      @OA\Property(
- *          property="transaction_at",
- *          description="Date the Transaction occured.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="description",
+ *			description="A description of the Transaction.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Dues Paid for Chibasama",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="memo",
+ *			description="A memo for the Transaction, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			example="Paid in $2 bills.",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="transaction_at",
+ *			description="Date the Transaction occured.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -251,9 +247,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="TransactionSuperSimple",
  *		@OA\Property(
@@ -264,39 +258,35 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="description",
- *          description="A description of the Transaction.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="paragraph",
- *          example="Dues Paid for Chibasama",
- *          maxLength=191
- *      ),
- *      @OA\Property(
- *          property="memo",
- *          description="A memo for the Transaction, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          example="Paid in $2 bills.",
- *          maxLength=191
- *      ),
- *      @OA\Property(
- *          property="transaction_at",
- *          description="Date the Transaction occured.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="description",
+ *			description="A description of the Transaction.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Dues Paid for Chibasama",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="memo",
+ *			description="A memo for the Transaction, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			example="Paid in $2 bills.",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="transaction_at",
+ *			description="Date the Transaction occured.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      )
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Transaction",
  *		description="Transaction object that needs to be added or updated.",
@@ -308,7 +298,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Transaction extends Model
+class Transaction extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -321,51 +311,51 @@ class Transaction extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = [];
 
-    public $fillable = [
-        'description',
-        'memo',
-        'transaction_at'
-    ];
+	public $fillable = [
+		  'description',
+		  'memo',
+		  'transaction_at'
+	];
 
-    protected $casts = [
-        'description' => 'string',
-        'memo' => 'string',
-        'transaction_at' => 'date'
-    ];
+	protected $casts = [
+		  'description' => 'string',
+		  'memo' => 'string',
+		  'transaction_at' => 'date'
+	];
 
-    public static array $rules = [
-    	'description' => 'required|string|max:191',
-    	'memo' => 'nullable|string|max:16777215',
-    	'transaction_at' => 'required|date'
-    ];
-    
-    public $relationships = [
-    	'dues' => 'HasMany',
-    	'splits' => 'HasMany'
-    ];
-    
-    public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Due::class, 'transaction_id');
-    }
-    
-    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Split::class, 'transaction_id');
-    }
+	public static array $rules = [
+		'description' => 'required|string|max:191',
+		'memo' => 'nullable|string|max:16777215',
+		'transaction_at' => 'required|date'
+	];
+	
+	public $relationships = [
+		'dues' => 'HasMany',
+		'splits' => 'HasMany'
+	];
+	
+	public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Due::class, 'transaction_id');
+	}
+	
+	public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Split::class, 'transaction_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

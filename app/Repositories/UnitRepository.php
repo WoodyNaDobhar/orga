@@ -7,21 +7,21 @@ use App\Repositories\BaseRepository;
 
 class UnitRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'type',
-        'name',
-        'heraldry',
-        'description',
-        'history'
-    ];
+	protected $fieldSearchable = [
+		'type',
+		'name',
+		'heraldry',
+		'description',
+		'history'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Unit::class;
-    }
+	public function model(): string
+	{
+		return Unit::class;
+	}
 }

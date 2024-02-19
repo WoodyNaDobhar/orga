@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use App\Helpers\AppHelper;
 
 return [
 
@@ -180,7 +181,7 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
+    	Illuminate\View\ViewServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -193,7 +194,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+    	App\Providers\RouteServiceProvider::class,
+    	L5Swagger\L5SwaggerServiceProvider::class,
 
     ],
 
@@ -208,8 +210,8 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+	'aliases' => Facade::defaultAliases()->merge([
+		'AppHelper'    => AppHelper::class,
     ])->toArray(),
 
 ];

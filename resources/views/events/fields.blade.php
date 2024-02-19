@@ -10,6 +10,18 @@
     {!! Form::number('eventable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
+<!-- Sponsorable Type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('sponsorable_type', 'Sponsorable Type:') !!}
+    {!! Form::text('sponsorable_type', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Sponsorable Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label(sponsorable_id', 'Sponsorable Id:') !!}
+    {!! Form::number('sponsorable_id', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Location Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('location_id', 'Location Id:') !!}

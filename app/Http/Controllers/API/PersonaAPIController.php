@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\PersonaResource;
@@ -43,33 +43,34 @@ class PersonaAPIController extends AppBaseController
 	 *		summary="Get a listing of the Personas.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Persona"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (HasMany): Attendances for the Persona.
-	 * 		awards (Issuance) {MorphMany): Awards received by the Persona.
-	 * 		chapter (Chapter) (BelongsTo): Chapter the Persona calls home.
-	 * 		crats (Crat) (HasMany): Crat positions held by the Persona.
-	 * 		dues (Due) (HasMany): Dues paid by the Persona.
-	 * 		events (Event) (MorphMany): Events sponsored by the Persona.
-	 * 		issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
-	 * 		issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
-	 * 		issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
-	 * 		members (Member) (HasMany): Memberships in Units the Persona has had.
-	 * 		officers (Officer) (HasMany): Officer positions held by the Persona.
-	 * 		pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.
-	 * 		recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.
-	 * 		reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.
-	 * 		socials (Social) (MorphMany): Socials for the Persona.
-	 * 		splits (Split) (HasMany): Splits this Persona took part in.
-	 * 		suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.
-	 * 		suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
-	 * 		titles (Issuance) {MorphMany): Titles received by the Persona.
-	 * 		titleIssuables (Title) (MorphMany): Titles the Persona can Issue.
-	 * 		user (User) (BelongsTo): The User for the Persona.
-	 * 		waivers (Waiver) (HasMany): The Waivers for the Persona.
-	 * 		waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.
-	 * 		createdBy (User) (BelongsTo): Persona that created it.
-	 * 		updatedBy (User) (BelongsTo): Persona that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Persona that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (HasMany): Attendances for the Persona.<br>
+			awards (Issuance) {MorphMany): Awards received by the Persona.<br>
+			chapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>
+			crats (Crat) (HasMany): Crat positions held by the Persona.<br>
+			dues (Due) (HasMany): Dues paid by the Persona.<br>
+			events (Event) (MorphMany): Events sponsored by the Persona.<br>
+			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
+			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
+			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
+			members (Member) (HasMany): Memberships in Units the Persona has had.<br>
+			officers (Officer) (HasMany): Officer positions held by the Persona.<br>
+			pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>
+			recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>
+			reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>
+			socials (Social) (MorphMany): Socials for the Persona.<br>
+			splits (Split) (HasMany): Splits this Persona took part in.<br>
+			suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>
+			suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>
+			titles (Issuance) {MorphMany): Titles received by the Persona.<br>
+			titleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>
+			units (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>
+			user (User) (BelongsTo): The User for the Persona.<br>
+			waivers (Waiver) (HasMany): The Waivers for the Persona.<br>
+			waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -196,7 +197,7 @@ class PersonaAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Persona::class);
+// 			$this->authorize('viewAny', Persona::class);
 
 			$personas = $this->personaRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -207,7 +208,7 @@ class PersonaAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new PersonaResource($personas), 'Personas retrieved successfully.');
+			return $this->sendResponse(PersonaResource::collection($personas), 'Personas retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -224,7 +225,7 @@ class PersonaAPIController extends AppBaseController
 	 *		summary="Store a newly created Persona in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Persona"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Persona"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -357,33 +358,34 @@ class PersonaAPIController extends AppBaseController
 	 *		summary="Display the specified Persona",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Persona"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (HasMany): Attendances for the Persona.
-	 * 		awards (Issuance) {MorphMany): Awards received by the Persona.
-	 * 		chapter (Chapter) (BelongsTo): Chapter the Persona calls home.
-	 * 		crats (Crat) (HasMany): Crat positions held by the Persona.
-	 * 		dues (Due) (HasMany): Dues paid by the Persona.
-	 * 		events (Event) (MorphMany): Events sponsored by the Persona.
-	 * 		issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
-	 * 		issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
-	 * 		issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
-	 * 		members (Member) (HasMany): Memberships in Units the Persona has had.
-	 * 		officers (Officer) (HasMany): Officer positions held by the Persona.
-	 * 		pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.
-	 * 		recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.
-	 * 		reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.
-	 * 		socials (Social) (MorphMany): Socials for the Persona.
-	 * 		splits (Split) (HasMany): Splits this Persona took part in.
-	 * 		suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.
-	 * 		suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
-	 * 		titles (Issuance) {MorphMany): Titles received by the Persona.
-	 * 		titleIssuables (Title) (MorphMany): Titles the Persona can Issue.
-	 * 		user (User) (BelongsTo): The User for the Persona.
-	 * 		waivers (Waiver) (HasMany): The Waivers for the Persona.
-	 * 		waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (HasMany): Attendances for the Persona.<br>
+			awards (Issuance) {MorphMany): Awards received by the Persona.<br>
+			chapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>
+			crats (Crat) (HasMany): Crat positions held by the Persona.<br>
+			dues (Due) (HasMany): Dues paid by the Persona.<br>
+			events (Event) (MorphMany): Events sponsored by the Persona.<br>
+			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
+			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
+			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
+			members (Member) (HasMany): Memberships in Units the Persona has had.<br>
+			officers (Officer) (HasMany): Officer positions held by the Persona.<br>
+			pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>
+			recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>
+			reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>
+			socials (Social) (MorphMany): Socials for the Persona.<br>
+			splits (Split) (HasMany): Splits this Persona took part in.<br>
+			suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>
+			suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>
+			titles (Issuance) {MorphMany): Titles received by the Persona.<br>
+			titleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>
+			units (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>
+			user (User) (BelongsTo): The User for the Persona.<br>
+			waivers (Waiver) (HasMany): The Waivers for the Persona.<br>
+			waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -518,7 +520,7 @@ class PersonaAPIController extends AppBaseController
 				return $this->sendError('Persona (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $persona);
+// 			$this->authorize('view', $persona);
 
 			return $this->sendResponse(new PersonaResource($persona), 'Persona retrieved successfully.');
 		} catch (Throwable $e) {
@@ -538,7 +540,7 @@ class PersonaAPIController extends AppBaseController
 	 *		summary="Update the specified Persona in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Persona"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -697,7 +699,7 @@ class PersonaAPIController extends AppBaseController
 	 *		summary="Remove the specified Persona from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Persona"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Console\Commands;
+namespace App\Console\Commands;
 
 use App\Models\Account;
 use App\Models\Archetype;
@@ -516,17 +516,6 @@ class ImportOrk3 extends Command
 					Permission::create(['name' => 'remove reigns', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeOwn reigns', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeRelated reigns', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'list splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'store splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'display splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'displayOwn splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'displayRelated splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'update splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'updateOwn splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'updateRelated splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'remove splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'removeOwn splits', 'guard_name' => 'api']);$bar->advance();
-					Permission::create(['name' => 'removeRelated splits', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'list socials', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'store socials', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'display socials', 'guard_name' => 'api']);$bar->advance();
@@ -538,6 +527,17 @@ class ImportOrk3 extends Command
 					Permission::create(['name' => 'remove socials', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeOwn socials', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'removeRelated socials', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'list splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'store splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'display splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'displayOwn splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'displayRelated splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'update splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateOwn splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'updateRelated splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'remove splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeOwn splits', 'guard_name' => 'api']);$bar->advance();
+					Permission::create(['name' => 'removeRelated splits', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'list suspensions', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'store suspensions', 'guard_name' => 'api']);$bar->advance();
 					Permission::create(['name' => 'display suspensions', 'guard_name' => 'api']);$bar->advance();
@@ -637,6 +637,8 @@ class ImportOrk3 extends Command
 // 					$role->givePermissionTo('display dues');$bar->advance();
 // 					$role->givePermissionTo('list events');$bar->advance();
 // 					$role->givePermissionTo('display events');$bar->advance();
+// 					$role->givePermissionTo('list guests');$bar->advance();
+// 					$role->givePermissionTo('display guests');$bar->advance();
 // 					$role->givePermissionTo('list issuances');$bar->advance();
 // 					$role->givePermissionTo('display issuances');$bar->advance();
 // 					$role->givePermissionTo('list locations');$bar->advance();
@@ -751,6 +753,8 @@ class ImportOrk3 extends Command
 					
 					//event crats
 					$role = Role::create(['name' => 'crat', 'guard_name' => 'api']);$bar->advance();
+					$role->givePermissionTo('updateRelated attendances');$bar->advance();
+					$role->givePermissionTo('removeRelated attendances');$bar->advance();
 					$role->givePermissionTo('store crats');$bar->advance();
 					$role->givePermissionTo('updateRelated crats');$bar->advance();
 					$role->givePermissionTo('removeRelated crats');$bar->advance();
@@ -759,6 +763,8 @@ class ImportOrk3 extends Command
 					$role->givePermissionTo('store guests');$bar->advance();
 					$role->givePermissionTo('updateRelated guests');$bar->advance();
 					$role->givePermissionTo('removeRelated guests');$bar->advance();
+					$role->givePermissionTo('updateRelated locations');$bar->advance();
+					$role->givePermissionTo('removeRelated locations');$bar->advance();
 					$role->givePermissionTo('updateRelated socials');$bar->advance();
 					$role->givePermissionTo('removeRelated socials');$bar->advance();
 					$role->givePermissionTo('store tournaments');$bar->advance();
@@ -781,8 +787,13 @@ class ImportOrk3 extends Command
 					$role->givePermissionTo('removeRelated awards');$bar->advance();
 					$role->givePermissionTo('updateRelated events');$bar->advance();
 					$role->givePermissionTo('removeRelated events');$bar->advance();
+					$role->givePermissionTo('store guests');$bar->advance();
+					$role->givePermissionTo('updateRelated guests');$bar->advance();
+					$role->givePermissionTo('removeRelated guests');$bar->advance();
 					$role->givePermissionTo('updateRelated issuances');$bar->advance();
 					$role->givePermissionTo('removeRelated issuances');$bar->advance();
+					$role->givePermissionTo('updateRelated locations');$bar->advance();
+					$role->givePermissionTo('removeRelated locations');$bar->advance();
 					$role->givePermissionTo('store members');$bar->advance();
 					$role->givePermissionTo('updateRelated members');$bar->advance();
 					$role->givePermissionTo('removeRelated members');$bar->advance();
@@ -825,12 +836,10 @@ class ImportOrk3 extends Command
 					$role->givePermissionTo('updateOwn recommendations');$bar->advance();
 					$role->givePermissionTo('removeOwn recommendations');$bar->advance();
 					$role->givePermissionTo('store socials');$bar->advance();
-					$role->givePermissionTo('updateRelated socials');$bar->advance();
-					$role->givePermissionTo('removeRelated socials');$bar->advance();
+					$role->givePermissionTo('updateOwn socials');$bar->advance();
+					$role->givePermissionTo('removeOwn socials');$bar->advance();
 					$role->givePermissionTo('displayOwn transactions');$bar->advance();
 					$role->givePermissionTo('store units');$bar->advance();
-					$role->givePermissionTo('updateOwn units');$bar->advance();
-					$role->givePermissionTo('removeOwn units');$bar->advance();
 					$role->givePermissionTo('updateOwn users');$bar->advance();
 					$role->givePermissionTo('removeOwn users');$bar->advance();
 					$role->givePermissionTo('store waivers');$bar->advance();
@@ -1261,8 +1270,8 @@ class ImportOrk3 extends Command
 									}
 									DB::reconnect("mysqlBak");
 									$awardId = DB::table('awards')->insertGetId([
-										'awardable_type' => 'Realm',
-										'awardable_id' => $transRealms[$rid],
+										'awarder_type' => 'Realm',
+										'awarder_id' => $transRealms[$rid],
 										'name' => $info['name'],
 										'is_ladder' => $info['is_ladder'],
 										'deleted_by' => null,
@@ -1297,8 +1306,8 @@ class ImportOrk3 extends Command
 							continue;
 						}
 						$awardId = DB::table('awards')->insertGetId([
-							'awardable_type' => 'Realm',
-							'awardable_id' => null,
+							'awarder_type' => 'Realm',
+							'awarder_id' => null,
 							'name' => $nameClean,
 							'is_ladder' => 1,
 							'deleted_by' => $oldAward->deprecate === '1' ? 1 : null,
@@ -1364,11 +1373,11 @@ class ImportOrk3 extends Command
 							$transRealms = $this->getTrans('realms');
 						}
 						DB::reconnect("mysqlBak");
-						$foundAward = DB::table('awards')->where('awardable_type', 'Realm')->where('awardable_id', $transRealms[$oldCustomAward->kingdom_id])->where('name', $oldCustomAward->name)->first();
+						$foundAward = DB::table('awards')->where('awarder_type', 'Realm')->where('awarder_id', $transRealms[$oldCustomAward->kingdom_id])->where('name', $oldCustomAward->name)->first();
 						if(!$foundAward){
 							$customAwardId = DB::table('awards')->insertGetId([
-								'awardable_type' => 'Realm',
-								'awardable_id' => $transRealms[$oldCustomAward->kingdom_id],
+								'awarder_type' => 'Realm',
+								'awarder_id' => $transRealms[$oldCustomAward->kingdom_id],
 								'name' => $cleanName != '' ? $cleanName : 'Unknown Award ' . $oldCustomAward->kingdomaward_id,
 								'is_ladder' => strpos($oldCustomAward->name, 'dreamkeeper') > -1 || strpos($oldCustomAward->name, 'hell') > -1 ? 0 : 1
 							]);
@@ -2440,7 +2449,8 @@ class ImportOrk3 extends Command
 									if (!$oldUser->suspended_by_id || array_key_exists($oldUser->suspended_by_id, $transPersonas)) {
 										DB::table('suspensions')->insertGetId([
 											'persona_id' => $personaId,
-											'realm_id' => $transRealms[$oldUser->kingdom_id],
+											'suspendable_type' => 'Realm',
+											'suspendable_id' => $transRealms[$oldUser->kingdom_id],
 											'suspended_by' => $oldUser->suspended_by_id ? $transPersonas[$oldUser->suspended_by_id] : 1,
 											'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
 											'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
@@ -2532,6 +2542,8 @@ class ImportOrk3 extends Command
 					$burningLands = Chapter::where('name', 'Burning Lands')->first();
 					foreach ($oldEvents as $oldEvent) {
 						$locationID = null;
+						$sponsorable_type = null;
+						$sponsorable_id = null;
 						$eventable_type = $oldEvent->unit_id > 0 ? 'Unit' : ($oldEvent->mundane_id > 0 && ($oldEvent->kingdom_id == 0 && $oldEvent->park_id == 0) ? 'Persona' : ($oldEvent->park_id > 0 && $oldEvent->kingdom_id == 0 ? 'Chapter' : 'Realm'));
 						if($oldEvent->kingdom_id && $oldEvent->kingdom_id != 0 && array_key_exists($oldEvent->kingdom_id, $knownRealmChaptertypesOffices)){
 							while(!array_key_exists($oldEvent->kingdom_id, $transRealms)){
@@ -2626,6 +2638,15 @@ class ImportOrk3 extends Command
 								}
 								DB::reconnect("mysqlBak");
 								$eventable_id = $transUnits[$oldEvent->unit_id];
+								if($mundaneCheck){
+									if($mundaneCheck->kingdom_id != 0){
+										$sponsorable_type = 'Realm';
+										$sponsorable_id = $transRealms[$mundaneCheck->kingdom_id];
+									}elseif($mundaneCheck->park_id != 0){
+										$sponsorable_type = 'Chapter';
+										$sponsorable_id = $transChapters[$mundaneCheck->park_id];
+									}
+								}
 								break;
 							case 'Persona':
 								while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
@@ -2635,6 +2656,15 @@ class ImportOrk3 extends Command
 								}
 								DB::reconnect("mysqlBak");
 								$eventable_id = $transPersonas[$oldEvent->mundane_id];
+								if($mundaneCheck){
+									if($mundaneCheck->kingdom_id != 0){
+										$sponsorable_type = 'Realm';
+										$sponsorable_id = $transRealms[$mundaneCheck->kingdom_id];
+									}elseif($mundaneCheck->park_id != 0){
+										$sponsorable_type = 'Chapter';
+										$sponsorable_id = $transChapters[$mundaneCheck->park_id];
+									}
+								}
 								break;
 							case 'Chapter':
 								while(!array_key_exists($oldEvent->park_id, $transChapters)){
@@ -2676,6 +2706,8 @@ class ImportOrk3 extends Command
 						$eventId = DB::table('events')->insertGetId([
 							'eventable_type' => $eventable_type,
 							'eventable_id' => $eventable_id,
+							'sponsorable_type' => $sponsorable_type,
+							'sponsorable_id' => $sponsorable_id,
 							'location_id' => $locationID ? $locationID : null,
 							'name' => trim($oldEvent->name),
 							'description' => trim($oldEvent->description) != '' ? trim($oldEvent->description) : null,
@@ -5747,13 +5779,13 @@ class ImportOrk3 extends Command
 												})
 												->where(function ($query) use ($transRealms, $transChapters, $oldKingdomID, $oldParkID) {
 													$query->where(function ($q) use ($transRealms, $oldKingdomID) {
-														$q->where('awardable_type', 'Realm')->where('awardable_id', $transRealms[$oldKingdomID]);
+														$q->where('awarder_type', 'Realm')->where('awarder_id', $transRealms[$oldKingdomID]);
 													})
 													->orWhere(function ($q) use ($transChapters, $oldParkID) {
 														if ($oldParkID == 0) {
-															$q->where('awardable_type', 'Chapter')->whereNull('awardable_id');
+															$q->where('awarder_type', 'Chapter')->whereNull('awarder_id');
 														} else {
-															$q->where('awardable_type', 'Chapter')->where('awardable_id', $transChapters[$oldParkID]);
+															$q->where('awarder_type', 'Chapter')->where('awarder_id', $transChapters[$oldParkID]);
 														}
 													});
 												})
@@ -5777,8 +5809,8 @@ class ImportOrk3 extends Command
 													->where('custom_name', $customName)
 													->value('park_count');
 												$awardId = DB::table('awards')->insertGetId([
-													'awardable_type' => $parkCount === 1 ? 'Chapter' : 'Realm',
-													'awardable_id' => $parkCount === 1 ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID],
+													'awarder_type' => $parkCount === 1 ? 'Chapter' : 'Realm',
+													'awarder_id' => $parkCount === 1 ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID],
 													'name' => $customName,
 													'is_ladder' => 1
 												]);
@@ -5788,8 +5820,8 @@ class ImportOrk3 extends Command
 												$authority_id = $parkCount === 1 ? $transChapters[$oldParkID] : $transRealms[$oldKingdomID];
 											}
 										//check realm awards for the realm
-										}elseif(Award::where('awardable_type', 'Realm')->where('awardable_id', $oldKingdomID)->where('name', $customName)->exists()){
-											$awardCheck = Award::where('awardable_type', 'Realm')->where('awardable_id', $oldKingdomID)->where('name', $customName)->first();
+										}elseif(Award::where('awarder_type', 'Realm')->where('awarder_id', $oldKingdomID)->where('name', $customName)->exists()){
+											$awardCheck = Award::where('awarder_type', 'Realm')->where('awarder_id', $oldKingdomID)->where('name', $customName)->first();
 											$issuable_type = 'Award';
 											$issuable_id = $awardCheck->id;
 											$authority_type = $awardCheck->titleable_type;

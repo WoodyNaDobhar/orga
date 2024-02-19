@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\TransactionResource;
@@ -43,12 +43,12 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Get a listing of the Transactions.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
-	 * 		dues (Due) (HasMany): Dues linked to the Transaction
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			dues (Due) (HasMany): Dues linked to the Transaction
 	 * 		splits (Split) (HasMany): Splits for the Transaction
-	 * 		createdBy (User) (BelongsTo): Transaction that created it.
-	 * 		updatedBy (User) (BelongsTo): Transaction that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Transaction that deleted it (if any).",
+	 * 		createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -186,7 +186,7 @@ class TransactionAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new TransactionResource($transactions), 'Transactions retrieved successfully.');
+			return $this->sendResponse(TransactionResource::collection($transactions), 'Transactions retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Store a newly created Transaction in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Transaction"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Display the specified Transaction",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
-	 * 		dues (Due) (HasMany): Dues linked to the Transaction
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			dues (Due) (HasMany): Dues linked to the Transaction
 	 * 		splits (Split) (HasMany): Splits for the Transaction
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 * 		createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -496,7 +496,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Update the specified Transaction in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Remove the specified Transaction from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

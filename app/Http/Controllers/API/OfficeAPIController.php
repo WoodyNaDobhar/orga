@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\OfficeResource;
@@ -43,12 +43,12 @@ class OfficeAPIController extends AppBaseController
 	 *		summary="Get a listing of the Offices.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Office"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		officeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.
-	 * 		officers (Officer) (HasMany): Officers having held this Office.
-	 * 		createdBy (User) (BelongsTo): Office that created it.
-	 * 		updatedBy (User) (BelongsTo): Office that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Office that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			officeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.<br>
+			officers (Officer) (HasMany): Officers having held this Office.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class OfficeAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Office::class);
+// 			$this->authorize('viewAny', Office::class);
 
 			$offices = $this->officeRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class OfficeAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new OfficeResource($offices), 'Offices retrieved successfully.');
+			return $this->sendResponse(OfficeResource::collection($offices), 'Offices retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class OfficeAPIController extends AppBaseController
 	 *		summary="Store a newly created Office in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Office"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Office"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class OfficeAPIController extends AppBaseController
 	 *		summary="Display the specified Office",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Office"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		officeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.
-	 * 		officers (Officer) (HasMany): Officers having held this Office.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			officeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.<br>
+			officers (Officer) (HasMany): Officers having held this Office.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class OfficeAPIController extends AppBaseController
 				return $this->sendError('Office (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $office);
+// 			$this->authorize('view', $office);
 
 			return $this->sendResponse(new OfficeResource($office), 'Office retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class OfficeAPIController extends AppBaseController
 	 *		summary="Update the specified Office in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Office"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class OfficeAPIController extends AppBaseController
 	 *		summary="Remove the specified Office from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Office"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: Full<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

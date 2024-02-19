@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\LocationResource;
@@ -43,15 +43,15 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Get a listing of the Locations.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		chapters (Chapter) (HasMany): Chapters using this Location.
-	 * 		events (Event) (HasMany): Events using this Location.
-	 * 		issuances (Issuance) (MorphMany): Issuances made at this Location.
-	 * 		meetups (Meetup) (HasMany): Meetups using this Location.
-	 * 		waivers (Waiver) (HasMany): Waivers using this Location.
-	 * 		createdBy (User) (BelongsTo): Location that created it.
-	 * 		updatedBy (User) (BelongsTo): Location that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Location that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			chapters (Chapter) (HasMany): Chapters using this Location.<br>
+			events (Event) (HasMany): Events using this Location.<br>
+			issuances (Issuance) (MorphMany): Issuances made at this Location.<br>
+			meetups (Meetup) (HasMany): Meetups using this Location.<br>
+			waivers (Waiver) (HasMany): Waivers using this Location.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -178,7 +178,7 @@ class LocationAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Location::class);
+// 			$this->authorize('viewAny', Location::class);
 
 			$locations = $this->locationRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -189,7 +189,7 @@ class LocationAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new LocationResource($locations), 'Locations retrieved successfully.');
+			return $this->sendResponse(LocationResource::collection($locations), 'Locations retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -206,7 +206,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Store a newly created Location in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Location"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -339,15 +339,15 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Display the specified Location",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		chapters (Chapter) (HasMany): Chapters using this Location.
-	 * 		events (Event) (HasMany): Events using this Location.
-	 * 		issuances (Issuance) (MorphMany): Issuances made at this Location.
-	 * 		meetups (Meetup) (HasMany): Meetups using this Location.
-	 * 		waivers (Waiver) (HasMany): Waivers using this Location.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			chapters (Chapter) (HasMany): Chapters using this Location.<br>
+			events (Event) (HasMany): Events using this Location.<br>
+			issuances (Issuance) (MorphMany): Issuances made at this Location.<br>
+			meetups (Meetup) (HasMany): Meetups using this Location.<br>
+			waivers (Waiver) (HasMany): Waivers using this Location.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -482,7 +482,7 @@ class LocationAPIController extends AppBaseController
 				return $this->sendError('Location (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $location);
+// 			$this->authorize('view', $location);
 
 			return $this->sendResponse(new LocationResource($location), 'Location retrieved successfully.');
 		} catch (Throwable $e) {
@@ -502,7 +502,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Update the specified Location in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -661,7 +661,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Remove the specified Location from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

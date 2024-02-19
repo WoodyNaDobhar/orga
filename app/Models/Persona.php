@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Persona",
- *      required={"chapter_id","name","is_active"},
+ *		schema="Persona",
+ *		required={"chapter_id","name","is_active"},
  *		description="Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (HasMany): Attendances for the Persona.
  * awards (Issuance) {MorphMany): Awards received by the Persona.
@@ -32,6 +31,7 @@ use App\Traits\ProtectFieldsTrait;
  * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
  * titles (Issuance) {MorphMany): Titles received by the Persona.
  * titleIssuables (Title) (MorphMany): Titles the Persona can Issue.
+ * units (Unit) (HasManyThrough): Companies and Households the Persona is in.
  * user (User) (BelongsTo): The User for the Persona.
  * waivers (Waiver) (HasMany): The Waivers for the Persona.
  * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.
@@ -49,8 +49,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="The ID of the Chapter the Persona is Waivered at.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -58,89 +58,90 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the pronouns associated with this Persona, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="mundane",
- *          description="What the Persona typically enters into the Mundane field of the sign-in.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="John Smith",
+ *		@OA\Property(
+ *			property="mundane",
+ *			description="What the Persona typically enters into the Mundane field of the sign-in.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="John Smith",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="name",
- *          description="The Persona name, without titles or honors, but otherwise in full.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="The Persona name, without titles or honors, but otherwise in full.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Color Animal",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="heraldry",
- *          description="An internal link to an image of the Persona heraldry.",
- *          readOnly=false,
- *          nullable=true,
+ *		),
+ *		@OA\Property(
+ *			property="heraldry",
+ *			description="An internal link to an image of the Persona heraldry.",
+ *			readOnly=false,
+ *			nullable=true,
  *			type="string",
  *			format="filename",
  *			example="images/personaHeraldries/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="image",
- *          description="An internal link to an image of the Persona",
- *          readOnly=false,
- *          nullable=true,
+ *		),
+ *		@OA\Property(
+ *			property="image",
+ *			description="An internal link to an image of the Persona",
+ *			readOnly=false,
+ *			nullable=true,
  *			type="string",
  *			format="filename",
  *			example="images/personas/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is (default true) the Persona still active?",
- *          readOnly=false,
- *          nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is (default true) the Persona still active?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="reeve_qualified_expires_at",
- *          description="If they are Reeve Qualified, when it expires.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="reeve_qualified_expires_at",
+ *			description="If they are Reeve Qualified, when it expires.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="corpora_qualified_expires_at",
- *          description="If they are Corpora Qualified, when it expires.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="corpora_qualified_expires_at",
+ *			description="If they are Corpora Qualified, when it expires.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="joined_chapter_at",
- *          description="The date the Persona joined the Chapter, either as a newb or a transfer.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="joined_chapter_at",
+ *			description="The date the Persona joined the Chapter, either as a newb or a transfer.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -158,7 +159,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -178,7 +179,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -198,7 +199,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -233,7 +234,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Attendance",
  *				type="object",
- *				ref="#/components/schemas/Attendance"
+ *				ref="#/components/schemas/AttendanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -244,7 +245,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
- *				ref="#/components/schemas/Issuance"
+ *				ref="#/components/schemas/IssuanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -256,7 +257,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Chapter",
  *					description="Attachable Chapter the Persona calls home."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Chapter"),
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -267,7 +268,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Crat",
  *				type="object",
- *				ref="#/components/schemas/Crat"
+ *				ref="#/components/schemas/CratSimple"
  *			),
  *			readOnly=true
  *		),
@@ -278,7 +279,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Due",
  *				type="object",
- *				ref="#/components/schemas/Officer"
+ *				ref="#/components/schemas/OfficerSimple"
  *			),
  *			readOnly=true
  *		),
@@ -289,7 +290,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Event",
  *				type="object",
- *				ref="#/components/schemas/Event"
+ *				ref="#/components/schemas/EventSimple"
  *			),
  *			readOnly=true
  *		),
@@ -300,7 +301,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
- *				ref="#/components/schemas/Issuance"
+ *				ref="#/components/schemas/IssuanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -311,7 +312,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
- *				ref="#/components/schemas/Issuance"
+ *				ref="#/components/schemas/IssuanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -322,7 +323,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
- *				ref="#/components/schemas/Issuance"
+ *				ref="#/components/schemas/IssuanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -333,7 +334,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Member",
  *				type="object",
- *				ref="#/components/schemas/Member"
+ *				ref="#/components/schemas/MemberSimple"
  *			),
  *			readOnly=true
  *		),
@@ -344,7 +345,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Officer",
  *				type="object",
- *				ref="#/components/schemas/Officer"
+ *				ref="#/components/schemas/OfficerSimple"
  *			),
  *			readOnly=true
  *		),
@@ -356,7 +357,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Pronoun",
  *					description="Attachable selected pronouns for the Persona."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Pronoun"),
+ *				@OA\Schema(ref="#/components/schemas/PronounSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -367,7 +368,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Recommendation",
  *				type="object",
- *				ref="#/components/schemas/Recommendation"
+ *				ref="#/components/schemas/RecommendationSimple"
  *			),
  *			readOnly=true
  *		),
@@ -378,7 +379,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Reconciliation",
  *				type="object",
- *				ref="#/components/schemas/Reconciliation"
+ *				ref="#/components/schemas/ReconciliationSimple"
  *			),
  *			readOnly=true
  *		),
@@ -389,7 +390,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Split",
  *				type="object",
- *				ref="#/components/schemas/Split"
+ *				ref="#/components/schemas/SplitSimple"
  *			),
  *			readOnly=true
  *		),
@@ -400,7 +401,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Social",
  *				type="object",
- *				ref="#/components/schemas/Social"
+ *				ref="#/components/schemas/SocialSimple"
  *			),
  *			readOnly=true
  *		),
@@ -411,7 +412,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Suspension",
  *				type="object",
- *				ref="#/components/schemas/Suspension"
+ *				ref="#/components/schemas/SuspensionSimple"
  *			),
  *			readOnly=true
  *		),
@@ -422,7 +423,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Suspension",
  *				type="object",
- *				ref="#/components/schemas/Suspension"
+ *				ref="#/components/schemas/SuspensionSimple"
  *			),
  *			readOnly=true
  *		),
@@ -433,7 +434,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
- *				ref="#/components/schemas/Issuance"
+ *				ref="#/components/schemas/IssuanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -444,7 +445,18 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Title",
  *				type="object",
- *				ref="#/components/schemas/Title"
+ *				ref="#/components/schemas/TitleSimple"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="units",
+ *			description="Attachable & filterable array of the Companies and Households the Persona is in.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Unit",
+ *				type="object",
+ *				ref="#/components/schemas/UnitSimple"
  *			),
  *			readOnly=true
  *		),
@@ -456,7 +468,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User for the Persona."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -467,7 +479,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Waiver",
  *				type="object",
- *				ref="#/components/schemas/Waiver"
+ *				ref="#/components/schemas/WaiverSimple"
  *			),
  *			readOnly=true
  *		),
@@ -478,14 +490,11 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Waiver",
  *				type="object",
- *				ref="#/components/schemas/Waiver"
+ *				ref="#/components/schemas/WaiverSimple"
  *			),
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="PersonaSimple",
  *		@OA\Property(
@@ -499,8 +508,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="The ID of the Chapter the Persona is Waivered at.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -508,89 +517,90 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the pronouns associated with this Persona, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="mundane",
- *          description="What the Persona typically enters into the Mundane field of the sign-in.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="John Smith",
+ *		@OA\Property(
+ *			property="mundane",
+ *			description="What the Persona typically enters into the Mundane field of the sign-in.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="John Smith",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="name",
- *          description="The Persona name, without titles or honors, but otherwise in full.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="The Persona name, without titles or honors, but otherwise in full.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Color Animal",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="heraldry",
- *          description="An internal link to an image of the Persona heraldry.",
- *          readOnly=false,
- *          nullable=true,
+ *		),
+ *		@OA\Property(
+ *			property="heraldry",
+ *			description="An internal link to an image of the Persona heraldry.",
+ *			readOnly=false,
+ *			nullable=true,
  *			type="string",
  *			format="filename",
  *			example="images/personaHeraldries/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="image",
- *          description="An internal link to an image of the Persona",
- *          readOnly=false,
- *          nullable=true,
+ *		),
+ *		@OA\Property(
+ *			property="image",
+ *			description="An internal link to an image of the Persona",
+ *			readOnly=false,
+ *			nullable=true,
  *			type="string",
  *			format="filename",
  *			example="images/personas/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is (default true) the Persona still active?",
- *          readOnly=false,
- *          nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is (default true) the Persona still active?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="reeve_qualified_expires_at",
- *          description="If they are Reeve Qualified, when it expires.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="reeve_qualified_expires_at",
+ *			description="If they are Reeve Qualified, when it expires.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="corpora_qualified_expires_at",
- *          description="If they are Corpora Qualified, when it expires.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="corpora_qualified_expires_at",
+ *			description="If they are Corpora Qualified, when it expires.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="joined_chapter_at",
- *          description="The date the Persona joined the Chapter, either as a newb or a transfer.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="joined_chapter_at",
+ *			description="The date the Persona joined the Chapter, either as a newb or a transfer.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -640,9 +650,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="PersonaSuperSimple",
  *		@OA\Property(
@@ -656,8 +664,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="The ID of the Chapter the Persona is Waivered at.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -665,94 +673,91 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the pronouns associated with this Persona, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="mundane",
- *          description="What the Persona typically enters into the Mundane field of the sign-in.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="John Smith",
+ *		@OA\Property(
+ *			property="mundane",
+ *			description="What the Persona typically enters into the Mundane field of the sign-in.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="John Smith",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="name",
- *          description="The Persona name, without titles or honors, but otherwise in full.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="The Persona name, without titles or honors, but otherwise in full.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Color Animal",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="heraldry",
- *          description="An internal link to an image of the Persona heraldry.",
- *          readOnly=false,
- *          nullable=true,
+ *		),
+ *		@OA\Property(
+ *			property="heraldry",
+ *			description="An internal link to an image of the Persona heraldry.",
+ *			readOnly=false,
+ *			nullable=true,
  *			type="string",
  *			format="filename",
  *			example="images/personaHeraldries/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="image",
- *          description="An internal link to an image of the Persona",
- *          readOnly=false,
- *          nullable=true,
+ *		),
+ *		@OA\Property(
+ *			property="image",
+ *			description="An internal link to an image of the Persona",
+ *			readOnly=false,
+ *			nullable=true,
  *			type="string",
  *			format="filename",
  *			example="images/personas/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is (default true) the Persona still active?",
- *          readOnly=false,
- *          nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is (default true) the Persona still active?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="reeve_qualified_expires_at",
- *          description="If they are Reeve Qualified, when it expires.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="reeve_qualified_expires_at",
+ *			description="If they are Reeve Qualified, when it expires.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="corpora_qualified_expires_at",
- *          description="If they are Corpora Qualified, when it expires.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="corpora_qualified_expires_at",
+ *			description="If they are Corpora Qualified, when it expires.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="joined_chapter_at",
- *          description="The date the Persona joined the Chapter, either as a newb or a transfer.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="joined_chapter_at",
+ *			description="The date the Persona joined the Chapter, either as a newb or a transfer.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      )
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Persona",
  *		description="Persona object that needs to be added or updated.",
@@ -764,7 +769,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Persona extends Model
+class Persona extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -777,197 +782,203 @@ class Persona extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = [];
 
-    public $fillable = [
-        'chapter_id',
-        'user_id',
-        'pronoun_id',
-        'mundane',
-        'name',
-        'heraldry',
-        'image',
-        'is_active',
-        'reeve_qualified_expires_at',
-        'corpora_qualified_expires_at',
-        'joined_chapter_at'
-    ];
+	public $fillable = [
+		  'chapter_id',
+		  'user_id',
+		  'pronoun_id',
+		  'mundane',
+		  'name',
+		  'heraldry',
+		  'image',
+		  'is_active',
+		  'reeve_qualified_expires_at',
+		  'corpora_qualified_expires_at',
+		  'joined_chapter_at'
+	];
 
-    protected $casts = [
-        'mundane' => 'string',
-        'name' => 'string',
-        'heraldry' => 'string',
-        'image' => 'string',
-        'is_active' => 'boolean',
-        'reeve_qualified_expires_at' => 'date',
-        'corpora_qualified_expires_at' => 'date',
-        'joined_chapter_at' => 'date'
-    ];
+	protected $casts = [
+		  'mundane' => 'string',
+		  'name' => 'string',
+		  'heraldry' => 'string',
+		  'image' => 'string',
+		  'is_active' => 'boolean',
+		  'reeve_qualified_expires_at' => 'date',
+		  'corpora_qualified_expires_at' => 'date',
+		  'joined_chapter_at' => 'date'
+	];
 
-    public static array $rules = [
-    	'chapter_id' => 'required|exists:chapters,id',
-    	'pronoun_id' => 'nullable|exists:pronouns,id',
-    	'mundane' => 'nullable|string|max:191',
-    	'name' => 'required|string|max:191',
-    	'heraldry' => 'nullable|string|max:191',
-    	'image' => 'nullable|string|max:191',
-    	'is_active' => 'required|boolean',
-    	'reeve_qualified_expires_at' => 'nullable|date',
-    	'corpora_qualified_expires_at' => 'nullable|date',
-    	'joined_chapter_at' => 'nullable|date'
-    ];
-    
-    public $relationships = [
-    	'attendances' => 'HasMany',
-    	'awards' => 'MorphMany',
+	public static array $rules = [
+		'chapter_id' => 'required|exists:chapters,id',
+		'pronoun_id' => 'nullable|exists:pronouns,id',
+		'mundane' => 'nullable|string|max:191',
+		'name' => 'required|string|max:191',
+		'heraldry' => 'nullable|string|max:191',
+		'image' => 'nullable|string|max:191',
+		'is_active' => 'required|boolean',
+		'reeve_qualified_expires_at' => 'nullable|date',
+		'corpora_qualified_expires_at' => 'nullable|date',
+		'joined_chapter_at' => 'nullable|date'
+	];
+	
+	public $relationships = [
+		'attendances' => 'HasMany',
+		'awards' => 'MorphMany',
 		'chapter' => 'BelongsTo',
 		'crats' => 'HasMany',
 		'dues' => 'HasMany',
 		'events' => 'MorphMany',
-    	'issuanceGivens' => 'MorphMany',
+		'issuanceGivens' => 'MorphMany',
 		'issuanceRevokeds' => 'HasMany',
 		'issuanceSigneds' => 'HasMany',
 		'members' => 'HasMany',
 		'officers' => 'HasMany',
 		'pronoun' => 'BelongsTo',
 		'recommendations' => 'HasMany',
-    	'reconciliations' => 'HasMany',
-    	'socials' => 'MorphMany',
+		'reconciliations' => 'HasMany',
+		'socials' => 'MorphMany',
 		'splits' => 'HasMany',
 		'suspensions' => 'HasMany',
-    	'suspensionIssueds' => 'HasMany',
-    	'titles' => 'MorphMany',
-    	'titleIssuables' => 'MorphMany',
+		'suspensionIssueds' => 'HasMany',
+		'titles' => 'MorphMany',
+		'titleIssuables' => 'MorphMany',
+		'units' => 'hasManyThrough',
 		'user' => 'BelongsTo',
 		'waivers' => 'HasMany',
 		'waiverVerifieds' => 'HasMany'
-    ];
-    
-    public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Attendance::class, 'persona_id');
-    }
-    
-    public function awards(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Award');
-    }
-    
-    public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
-    }
-    
-    public function crats(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Crat::class, 'persona_id');
-    }
-    
-    public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Due::class, 'persona_id');
-    }
-    
-    public function events(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Event::class, 'eventable');
-    }
-    
-    public function issuanceGivens(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Issuance::class, 'issuer');
-    }
-    
-    public function issuanceRevokeds(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Issuance::class, 'revoked_by');
-    }
-    
-    public function issuanceSigneds(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Issuance::class, 'signator_id');
-    }
-    
-    public function members(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Member::class, 'persona_id');
-    }
-    
-    public function officers(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Officer::class, 'persona_id');
-    }
-    
-    public function pronoun(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Pronoun::class, 'pronoun_id');
-    }
-    
-    public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Recommendation::class, 'persona_id');
-    }
-    
-    public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Reconciliation::class, 'persona_id');
-    }
-    
-    public function socials(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Social::class, 'sociables');
-    }
-    
-    public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Split::class, 'persona_id');
-    }
-    
-    public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Suspension::class, 'persona_id');
-    }
-    
-    public function suspensionIssueds(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
-    }
-    
-    public function titles(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Title');
-    }
-    
-    public function titleIssuables(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Title::class, 'titleable');
-    }
-    
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'user_id');
-    }
-    
-    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Waiver::class, 'persona_id');
-    }
-    
-    public function waiverVerifieds(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Waiver::class, 'age_verified_by');
-    }
+	];
+	
+	public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Attendance::class, 'persona_id');
+	}
+	
+	public function awards(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Award');
+	}
+	
+	public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
+	}
+	
+	public function crats(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Crat::class, 'persona_id');
+	}
+	
+	public function dues(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Due::class, 'persona_id');
+	}
+	
+	public function events(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Event::class, 'eventable');
+	}
+	
+	public function issuanceGivens(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Issuance::class, 'issuer');
+	}
+	
+	public function issuanceRevokeds(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Issuance::class, 'revoked_by');
+	}
+	
+	public function issuanceSigneds(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Issuance::class, 'signator_id');
+	}
+	
+	public function members(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Member::class, 'persona_id');
+	}
+	
+	public function officers(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Officer::class, 'persona_id');
+	}
+	
+	public function pronoun(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Pronoun::class, 'pronoun_id');
+	}
+	
+	public function recommendations(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Recommendation::class, 'persona_id');
+	}
+	
+	public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Reconciliation::class, 'persona_id');
+	}
+	
+	public function socials(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Social::class, 'sociable');
+	}
+	
+	public function splits(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Split::class, 'persona_id');
+	}
+	
+	public function suspensions(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Suspension::class, 'persona_id');
+	}
+	
+	public function suspensionIssueds(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
+	}
+	
+	public function titles(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Title');
+	}
+	
+	public function titleIssuables(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Title::class, 'titleable');
+	}
+	
+	public function units(): \Illuminate\Database\Eloquent\Relations\hasManyThrough
+	{
+		return $this->hasManyThrough(\App\Models\Unit::class, \App\Models\Member::class, 'persona_id');
+	}
+	
+	public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'user_id');
+	}
+	
+	public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Waiver::class, 'persona_id');
+	}
+	
+	public function waiverVerifieds(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Waiver::class, 'age_verified_by');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

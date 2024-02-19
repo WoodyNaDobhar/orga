@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "awardable_type",
+        "name": "awarder_type",
         "dbType": "string",
         "htmlType": "text",
         "validations": "required|string|string|string",
@@ -24,7 +24,7 @@
         "inView": true
     },
     {
-        "name": "awardable_id",
+        "name": "awarder_id",
         "dbType": "bigInteger,false,true",
         "htmlType": "number",
         "validations": "nullable|nullable|nullable",

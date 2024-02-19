@@ -4,10 +4,16 @@
     {!! Form::number('persona_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
-<!-- Realm Id Field -->
+<!-- Suspendable Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('realm_id', 'Realm Id:') !!}
-    {!! Form::number('realm_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('suspendable_type', 'Suspendable Type:') !!}
+    {!! Form::number('suspendable_type', null, ['class' => 'form-control', 'required']) !!}
+</div>
+
+<!-- Suspendable Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('suspendable_id', 'Suspendable Id:') !!}
+    {!! Form::number('suspendable_id', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Suspended By Field -->

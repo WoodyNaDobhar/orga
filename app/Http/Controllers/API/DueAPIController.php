@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\DueResource;
@@ -43,12 +43,12 @@ class DueAPIController extends AppBaseController
 	 *		summary="Get a listing of the Dues.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): Persona paying Dues.
-	 * 		transaction (Transaction) (BelongsTo): Transaction recording the payment.
-	 * 		createdBy (User) (BelongsTo): Due that created it.
-	 * 		updatedBy (User) (BelongsTo): Due that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Due that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): Persona paying Dues.<br>
+			transaction (Transaction) (BelongsTo): Transaction recording the payment.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class DueAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Due::class);
+// 			$this->authorize('viewAny', Due::class);
 
 			$dues = $this->dueRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class DueAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new DueResource($dues), 'Dues retrieved successfully.');
+			return $this->sendResponse(DueResource::collection($dues), 'Dues retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Store a newly created Due in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Due"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class DueAPIController extends AppBaseController
 	 *		summary="Display the specified Due",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): Persona paying Dues.
-	 * 		transaction (Transaction) (BelongsTo): Transaction recording the payment.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): Persona paying Dues.<br>
+			transaction (Transaction) (BelongsTo): Transaction recording the payment.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class DueAPIController extends AppBaseController
 				return $this->sendError('Due (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $due);
+// 			$this->authorize('view', $due);
 
 			return $this->sendResponse(new DueResource($due), 'Due retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Update the specified Due in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Remove the specified Due from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

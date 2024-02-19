@@ -7,23 +7,23 @@ use App\Repositories\BaseRepository;
 
 class ChapterRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'realm_id',
-        'chaptertype_id',
-        'location_id',
-        'name',
-        'abbreviation',
-        'heraldry',
-        'is_active'
-    ];
+	protected $fieldSearchable = [
+		'realm_id',
+		'chaptertype_id',
+		'location_id',
+		'name',
+		'abbreviation',
+		'heraldry',
+		'is_active'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Chapter::class;
-    }
+	public function model(): string
+	{
+		return Chapter::class;
+	}
 }

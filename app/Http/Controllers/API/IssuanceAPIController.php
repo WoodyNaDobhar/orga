@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\IssuanceResource;
@@ -43,16 +43,16 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Get a listing of the Issuances.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
-	 * 		issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
-	 * 		recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
-	 * 		revokedBy (User) (BelongsTo): If revoked, who authorized the revocation.
-	 * 		signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
-	 * 		whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
-	 * 		createdBy (User) (BelongsTo): Issuance that created it.
-	 * 		updatedBy (User) (BelongsTo): Issuance that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Issuance that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>
+			issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>
+			recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>
+			revokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>
+			signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>
+			whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -179,7 +179,7 @@ class IssuanceAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Issuance::class);
+// 			$this->authorize('viewAny', Issuance::class);
 
 			$issuances = $this->issuanceRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -190,7 +190,7 @@ class IssuanceAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new IssuanceResource($issuances), 'Issuances retrieved successfully.');
+			return $this->sendResponse(IssuanceResource::collection($issuances), 'Issuances retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -207,7 +207,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Store a newly created Issuance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Issuance"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -340,16 +340,16 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Display the specified Issuance",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
-	 * 		issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
-	 * 		recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
-	 * 		revokedBy (User) (BelongsTo): If revoked, who authorized the revocation.
-	 * 		signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
-	 * 		whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>
+			issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>
+			recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>
+			revokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>
+			signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>
+			whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -484,7 +484,7 @@ class IssuanceAPIController extends AppBaseController
 				return $this->sendError('Issuance (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $issuance);
+// 			$this->authorize('view', $issuance);
 
 			return $this->sendResponse(new IssuanceResource($issuance), 'Issuance retrieved successfully.');
 		} catch (Throwable $e) {
@@ -504,7 +504,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Update the specified Issuance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -663,7 +663,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Remove the specified Issuance from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

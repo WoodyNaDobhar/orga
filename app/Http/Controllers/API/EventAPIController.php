@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\EventResource;
@@ -43,17 +43,18 @@ class EventAPIController extends AppBaseController
 	 *		summary="Get a listing of the Events.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.
-	 * 		crats (Crat) (HasMany): Crats for the Event.
-	 * 		eventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit sponsoring the Event.
-	 * 		guests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.
-	 * 		issuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.
-	 * 		location (Location) (BelongsTo): Location of the Event.
-	 * 		socials (Social) (MorphMany): Socials for the Event.
-	 * 		createdBy (User) (BelongsTo): Event that created it.
-	 * 		updatedBy (User) (BelongsTo): Event that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Event that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>
+			crats (Crat) (HasMany): Crats for the Event.<br>
+			eventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit running the Event.<br>
+			guests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.<br>
+			issuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.<br>
+			location (Location) (BelongsTo): Location of the Event.<br>
+			sponsorable (Chapter or Realm) (MorphTo): In the case of Persona or Unit Events, Chapter or Realm sponsoring the Event.<br>
+			socials (Social) (MorphMany): Socials for the Event.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -180,7 +181,7 @@ class EventAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Event::class);
+// 			$this->authorize('viewAny', Event::class);
 
 			$events = $this->eventRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -191,7 +192,7 @@ class EventAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new EventResource($events), 'Events retrieved successfully.');
+			return $this->sendResponse(EventResource::collection($events), 'Events retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -208,7 +209,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Store a newly created Event in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Event"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -341,17 +342,18 @@ class EventAPIController extends AppBaseController
 	 *		summary="Display the specified Event",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.
-	 * 		crats (Crat) (HasMany): Crats for the Event.
-	 * 		eventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit sponsoring the Event.
-	 * 		guests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.
-	 * 		issuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.
-	 * 		location (Location) (BelongsTo): Location of the Event.
-	 * 		socials (Social) (MorphMany): Socials for the Event.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>
+			crats (Crat) (HasMany): Crats for the Event.<br>
+			eventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit sponsoring the Event.<br>
+			guests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.<br>
+			issuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.<br>
+			location (Location) (BelongsTo): Location of the Event.<br>
+			socials (Social) (MorphMany): Socials for the Event.<br>
+			sponsorable (Chapter or Realm) (MorphTo): In the case of Persona or Unit Events, Chapter or Realm sponsoring the Event.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -486,7 +488,7 @@ class EventAPIController extends AppBaseController
 				return $this->sendError('Event (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $event);
+// 			$this->authorize('view', $event);
 
 			return $this->sendResponse(new EventResource($event), 'Event retrieved successfully.');
 		} catch (Throwable $e) {
@@ -506,7 +508,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Update the specified Event in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -665,7 +667,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Remove the specified Event from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

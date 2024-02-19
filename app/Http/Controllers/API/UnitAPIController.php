@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\UnitResource;
@@ -43,22 +43,22 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Get a listing of the Units.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		accounts (Account) (MorphMany): Accounts held by the Unit.
-	 * 		awards (Award) (MorphMany): Awards Unit can Issue.
-	 * 		awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.
-	 * 		events (Event) (MorphMany): Events run by this Unit.
-	 * 		issuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.
-	 * 		issuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.
-	 * 		members (Member) (HasMany): Unit Members.
-	 * 		officers (Officer) (MorphMany): Officers of the Unit.
-	 * 		offices (Office) (MorphMany): Unit Offices.
-	 * 		socials (Social) (MorphMany): Social media links or IDs.
-	 * 		titles (Title) (MorphMany): Titles Unit can Issue.
-	 * 		titleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.
-	 * 		createdBy (User) (BelongsTo): Unit that created it.
-	 * 		updatedBy (User) (BelongsTo): Unit that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Unit that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accounts (Account) (MorphMany): Accounts held by the Unit.<br>
+			awards (Award) (MorphMany): Awards Unit can Issue.<br>
+			awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>
+			events (Event) (MorphMany): Events run by this Unit.<br>
+			issuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.<br>
+			issuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.<br>
+			members (Member) (HasMany): Unit Members.<br>
+			officers (Officer) (MorphMany): Officers of the Unit.<br>
+			offices (Office) (MorphMany): Unit Offices.<br>
+			socials (Social) (MorphMany): Social media links or IDs.<br>
+			titles (Title) (MorphMany): Titles Unit can Issue.<br>
+			titleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -185,7 +185,7 @@ class UnitAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Unit::class);
+// 			$this->authorize('viewAny', Unit::class);
 
 			$units = $this->unitRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -196,7 +196,7 @@ class UnitAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new UnitResource($units), 'Units retrieved successfully.');
+			return $this->sendResponse(UnitResource::collection($units), 'Units retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -213,7 +213,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Store a newly created Unit in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Unit"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -346,22 +346,22 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Display the specified Unit",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		accounts (Account) (MorphMany): Accounts held by the Unit.
-	 * 		awards (Award) (MorphMany): Awards Unit can Issue.
-	 * 		awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.
-	 * 		events (Event) (MorphMany): Events run by this Unit.
-	 * 		issuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.
-	 * 		issuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.
-	 * 		members (Member) (HasMany): Unit Members.
-	 * 		officers (Officer) (MorphMany): Officers of the Unit.
-	 * 		offices (Office) (MorphMany): Unit Offices.
-	 * 		socials (Social) (MorphMany): Social media links or IDs.
-	 * 		titles (Title) (MorphMany): Titles Unit can Issue.
-	 * 		titleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accounts (Account) (MorphMany): Accounts held by the Unit.<br>
+			awards (Award) (MorphMany): Awards Unit can Issue.<br>
+			awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>
+			events (Event) (MorphMany): Events run by this Unit.<br>
+			issuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.<br>
+			issuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.<br>
+			members (Member) (HasMany): Unit Members.<br>
+			officers (Officer) (MorphMany): Officers of the Unit.<br>
+			offices (Office) (MorphMany): Unit Offices.<br>
+			socials (Social) (MorphMany): Social media links or IDs.<br>
+			titles (Title) (MorphMany): Titles Unit can Issue.<br>
+			titleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -496,7 +496,7 @@ class UnitAPIController extends AppBaseController
 				return $this->sendError('Unit (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $unit);
+// 			$this->authorize('view', $unit);
 
 			return $this->sendResponse(new UnitResource($unit), 'Unit retrieved successfully.');
 		} catch (Throwable $e) {
@@ -516,7 +516,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Update the specified Unit in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -675,7 +675,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Remove the specified Unit from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

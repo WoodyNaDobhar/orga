@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
- *      schema="Archetype",
- *      required={"name","is_active"},
+ *		schema="Archetype",
+ *		required={"name","is_active"},
  *		description="Archetypes (Classes) one could take credits in.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (HasMany): Attendances with this Archetype.
  * reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.
@@ -25,26 +24,27 @@ use Wildside\Userstamps\Userstamps;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="name",
- *          description="Archetype label.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		@OA\Property(
+ *			property="name",
+ *			description="Archetype label.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Barbarian",
  *			maxLength=50
- *      ),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is it (default true) a current option?",
- *          readOnly=false,
- *          nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is it (default true) a current option?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
+ *			example=0,
+ *			default=1
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -62,7 +62,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -82,7 +82,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -102,7 +102,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -137,7 +137,7 @@ use Wildside\Userstamps\Userstamps;
  *			@OA\Items(
  *				title="Attendance",
  *				type="object",
- *				ref="#/components/schemas/Attendance"
+ *				ref="#/components/schemas/AttendanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -148,14 +148,12 @@ use Wildside\Userstamps\Userstamps;
  *			@OA\Items(
  *				title="Reconciliation",
  *				type="object",
- *				ref="#/components/schemas/Reconciliation"
+ *				ref="#/components/schemas/ReconciliationSimple"
  *			),
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="ArchetypeSimple",
  *		@OA\Property(
@@ -166,26 +164,27 @@ use Wildside\Userstamps\Userstamps;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="name",
- *          description="Archetype label.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		@OA\Property(
+ *			property="name",
+ *			description="Archetype label.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Barbarian",
  *			maxLength=50
- *      ),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is it (default true) a current option?",
- *          readOnly=false,
- *          nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is it (default true) a current option?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      )
+ *			example=0,
+ *			default=1
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -235,9 +234,7 @@ use Wildside\Userstamps\Userstamps;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="ArchetypeSuperSimple",
  *		@OA\Property(
@@ -248,31 +245,28 @@ use Wildside\Userstamps\Userstamps;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="name",
- *          description="Archetype label.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		@OA\Property(
+ *			property="name",
+ *			description="Archetype label.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Barbarian",
  *			maxLength=50
- *      ),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is it (default true) a current option?",
- *          readOnly=false,
- *          nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is it (default true) a current option?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      )
+ *			example=0,
+ *			default=1
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Archetype",
  *		description="Archetype object that needs to be added or updated.",
@@ -284,7 +278,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  */
 
-class Archetype extends Model
+class Archetype extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -297,48 +291,48 @@ class Archetype extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['name'];
 
-    public $fillable = [
-        'name',
-        'is_active'
-    ];
+	public $fillable = [
+		'name',
+		'is_active'
+	];
 
-    protected $casts = [
-        'name' => 'string',
-        'is_active' => 'boolean'
-    ];
+	protected $casts = [
+		'name' => 'string',
+		'is_active' => 'boolean'
+	];
 
-    public static array $rules = [
-    	'name' => 'required|string|max:50',
-    	'is_active' => 'boolean'
-    ];
-    
-    public $relationships = [
-    	'attendances' => 'HasMany',
-    	'reconciliations' => 'HasMany'
-    ];
-    
-    public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Attendance::class, 'archetype_id');
-    }
-    
-    public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Reconciliation::class, 'archetype_id');
-    }
+	public static array $rules = [
+		'name' => 'required|string|max:50',
+		'is_active' => 'boolean'
+	];
+	
+	public $relationships = [
+		'attendances' => 'HasMany',
+		'reconciliations' => 'HasMany'
+	];
+	
+	public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Attendance::class, 'archetype_id');
+	}
+	
+	public function reconciliations(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Reconciliation::class, 'archetype_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

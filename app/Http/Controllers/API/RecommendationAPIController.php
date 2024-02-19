@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\RecommendationResource;
@@ -43,12 +43,12 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Get a listing of the Recommendations.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): Persona the Recommendation is for.
-	 * 		recommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.
-	 * 		createdBy (User) (BelongsTo): Recommendation that created it.
-	 * 		updatedBy (User) (BelongsTo): Recommendation that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Recommendation that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): Persona the Recommendation is for.<br>
+			recommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class RecommendationAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Recommendation::class);
+// 			$this->authorize('viewAny', Recommendation::class);
 
 			$recommendations = $this->recommendationRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class RecommendationAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new RecommendationResource($recommendations), 'Recommendations retrieved successfully.');
+			return $this->sendResponse(RecommendationResource::collection($recommendations), 'Recommendations retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Store a newly created Recommendation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Recommendation"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Display the specified Recommendation",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): Persona the Recommendation is for.
-	 * 		recommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): Persona the Recommendation is for.<br>
+			recommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class RecommendationAPIController extends AppBaseController
 				return $this->sendError('Recommendation (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $recommendation);
+// 			$this->authorize('view', $recommendation);
 
 			return $this->sendResponse(new RecommendationResource($recommendation), 'Recommendation retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Update the specified Recommendation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: own<br>Crats: own<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Remove the specified Recommendation from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: own<br>Crats: own<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

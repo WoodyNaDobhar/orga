@@ -2,31 +2,27 @@
 
 namespace App\Models;
 
-// use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\NullableTrait;
 use App\Traits\ProtectFieldsTrait;
-// use App\Traits\CanGetTableNameStatically;
-// use App\Traits\ImageTrait;
-// use App\Traits\NullableTrait;
-// use GeneaLabs\LaravelPivotEvents\Traits\PivotEventTrait;
+use GeneaLabs\LaravelPivotEvents\Traits\PivotEventTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
-// use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Sanctum\HasApiTokens;
-// use OwenIt\Auditing\Contracts\Auditable;
-// use OwenIt\Auditing\Models\Audit;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 use Wildside\Userstamps\Userstamps;
 
 /**
  * @OA\Schema(
- *      schema="User",
- *      required={"email","password","is_restricted"},
+ *	  schema="User",
+ *	  required={"email","password","is_restricted"},
  *		description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
  * persona (Persona) (BelongsTo): Persona associated with the User.
+ * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
  * deletedBy (User) (BelongsTo): User that deleted it (if any).",
@@ -41,59 +37,60 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
- *          readOnly=false,
- *          nullable=false,
+ *		  readOnly=false,
+ *		  nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="email",
- *          description="Unique email used to identify and communicate with the User.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *	  @OA\Property(
+ *		  property="email",
+ *		  description="Unique email used to identify and communicate with the User.",
+ *		  readOnly=false,
+ *		  nullable=false,
+ *		  type="string",
  *			format="email",
  *			example="nobody@nowhere.net",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="email_verified_at",
- *          description="When the User email was verified, if at all",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
+ *	  ),
+ *	  @OA\Property(
+ *		  property="email_verified_at",
+ *		  description="When the User email was verified, if at all",
+ *		  readOnly=false,
+ *		  nullable=true,
+ *		  type="string",
  *			format="date-time",
  *			example="2023-12-30 23:59:59",
  *			readOnly=true
- *      ),
- *      @OA\Property(
- *          property="password",
- *          description="Encoded password string.",
- *          nullable=false,
- *          type="string",
+ *	  ),
+ *	  @OA\Property(
+ *		  property="password",
+ *		  description="Encoded password string.",
+ *		  nullable=false,
+ *		  type="string",
  *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  *			writeOnly=true
- *      ),
- *      @OA\Property(
- *          property="api_token",
- *          description="The API token for authentication",
- *          type="string",
- *          maxLength=80,
- *          example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
- *          readOnly=true
- *      ),
- *      @OA\Property(
- *          property="is_restricted",
- *          description="Is the User (default false) restricted from using the site?",
- *          readOnly=false,
- *          nullable=false,
+ *	  ),
+ *	  @OA\Property(
+ *		  property="api_token",
+ *		  description="The API token for authentication",
+ *		  type="string",
+ *		  maxLength=80,
+ *		  example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+ *		  readOnly=true
+ *	  ),
+ *	  @OA\Property(
+ *		  property="is_restricted",
+ *		  description="Is the User (default false) restricted from using the site?",
+ *		  readOnly=false,
+ *		  nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=0
- *      ),
+ *			example=0,
+ *			default=0
+ *	  ),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -111,7 +108,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -131,7 +128,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -151,7 +148,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -187,64 +184,62 @@ use Wildside\Userstamps\Userstamps;
  *					title="Persona",
  *					description="Attachable Persona for this User."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
  *			},
  *			readOnly=true
  *		)
- * )
- */
-
-/**
+ *	)
  *	@OA\Schema(
  *		schema="UserSimple",
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
- *          readOnly=false,
- *          nullable=false,
+ *		  readOnly=false,
+ *		  nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="email",
- *          description="Unique email used to identify and communicate with the User.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *	  @OA\Property(
+ *		  property="email",
+ *		  description="Unique email used to identify and communicate with the User.",
+ *		  readOnly=false,
+ *		  nullable=false,
+ *		  type="string",
  *			format="email",
  *			example="nobody@nowhere.net",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="email_verified_at",
- *          description="When the User email was verified, if at all",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
+ *	  ),
+ *	  @OA\Property(
+ *		  property="email_verified_at",
+ *		  description="When the User email was verified, if at all",
+ *		  readOnly=false,
+ *		  nullable=true,
+ *		  type="string",
  *			format="date-time",
  *			example="2023-12-30 23:59:59",
  *			readOnly=true
- *      ),
- *      @OA\Property(
- *          property="password",
- *          description="Encoded password string.",
- *          nullable=false,
- *          type="string",
+ *	  ),
+ *	  @OA\Property(
+ *		  property="password",
+ *		  description="Encoded password string.",
+ *		  nullable=false,
+ *		  type="string",
  *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  *			writeOnly=true
- *      ),
- *      @OA\Property(
- *          property="is_restricted",
- *          description="Is the User (default false) restricted from using the site?",
- *          readOnly=false,
- *          nullable=false,
+ *	  ),
+ *	  @OA\Property(
+ *		  property="is_restricted",
+ *		  description="Is the User (default false) restricted from using the site?",
+ *		  readOnly=false,
+ *		  nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=0
- *      ),
+ *			example=0,
+ *			default=0
+ *	  ),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -294,63 +289,59 @@ use Wildside\Userstamps\Userstamps;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
-
-/**
+ *	)
  *	@OA\Schema(
  *		schema="UserSuperSimple",
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
- *          readOnly=false,
- *          nullable=false,
+ *		  readOnly=false,
+ *		  nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="email",
- *          description="Unique email used to identify and communicate with the User.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *	  @OA\Property(
+ *		  property="email",
+ *		  description="Unique email used to identify and communicate with the User.",
+ *		  readOnly=false,
+ *		  nullable=false,
+ *		  type="string",
  *			format="email",
  *			example="nobody@nowhere.net",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="email_verified_at",
- *          description="When the User email was verified, if at all",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
+ *	  ),
+ *	  @OA\Property(
+ *		  property="email_verified_at",
+ *		  description="When the User email was verified, if at all",
+ *		  readOnly=false,
+ *		  nullable=true,
+ *		  type="string",
  *			format="date-time",
  *			example="2023-12-30 23:59:59",
  *			readOnly=true
- *      ),
- *      @OA\Property(
- *          property="password",
- *          description="Encoded password string.",
- *          nullable=false,
- *          type="string",
+ *	  ),
+ *	  @OA\Property(
+ *		  property="password",
+ *		  description="Encoded password string.",
+ *		  nullable=false,
+ *		  type="string",
  *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  *			writeOnly=true
- *      ),
- *      @OA\Property(
- *          property="is_restricted",
- *          description="Is the User (default false) restricted from using the site?",
- *          readOnly=false,
- *          nullable=false,
+ *	  ),
+ *	  @OA\Property(
+ *		  property="is_restricted",
+ *		  description="Is the User (default false) restricted from using the site?",
+ *		  readOnly=false,
+ *		  nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=0
- *      )
- */
-
-/**
- *
+ *			example=0,
+ *			default=0
+ *	  )
+ *	)
  *	@OA\RequestBody(
  *		request="User",
  *		description="User object that needs to be added or updated.",
@@ -361,7 +352,7 @@ use Wildside\Userstamps\Userstamps;
  *		)
  *	)
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements Auditable, MustVerifyEmail
 {
 	use HasFactory;
 	use SoftDeletes;
@@ -371,15 +362,13 @@ class User extends Authenticatable implements MustVerifyEmail
 	// }
 	use Userstamps;
 	use ProtectFieldsTrait;
-	// use NullableTrait;
-	// use \OwenIt\Auditing\Auditable;
-	// use PivotEventTrait;
+	use NullableTrait;
+	use PivotEventTrait;
 	// use Impersonate;
 	// use CanGetTableNameStatically;
 	use HasRoles;
 	use HasApiTokens;
-	
-	//TODO: Audit stuff
+	use \OwenIt\Auditing\Auditable;
 
 	public $table = 'users';
 	public $timestamps = true;
@@ -389,98 +378,104 @@ class User extends Authenticatable implements MustVerifyEmail
 	protected $guard_name = 'api';
 	protected $hidden = ['password','api_token','remember_token'];
 	
-    public $fillable = [
-        'email',
-        'email_verified_at',
-        'password',
-        'is_restricted'
-    ];
+	public $fillable = [
+		'email',
+		'email_verified_at',
+		'password',
+		'is_restricted'
+	];
 
-    protected $casts = [
-    	'persona_id' => 'required|exists:personas,id',
-    	'email' => 'required|email|unique:users,email',
-    	'email_verified_at' => 'nullable|datetime',
-    	'password' => 'required|string',
-    	'remember_token' => 'unique:users,remember_token|nullable|string|max:100',
-    	'api_token' => 'unique:users,api_token|nullable|string|max:80',
-    	'is_restricted' => 'boolean'
-    ];
-    public static $createRules = [
+	protected $casts = [
+		'email_verified_at' => 'datetime',
+		'password' => 'string',
+		'remember_token' => 'string',
+		'api_token' => 'string',
+		'is_restricted' => 'boolean'
+	];
+	
+	public static $createRules = [
 		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
 		'password' => 'min:6|required_with:password_confirmation|same:password_confirmation|max:191',
 		'is_restricted' => 'required|boolean'
-    ];
+	];
 
-    public static array $rules = [
-        'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
-        'email_verified_at' => 'nullable',
-    	'password' => 'nullable|min:6|required_with:password_confirmation|same:password_confirmation|max:191',
+	public static array $rules = [
+		'persona_id' => 'required|exists:personas,id',
+		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
+		'email_verified_at' => 'nullable|datetime',
+		'password' => 'nullable|min:6|required_with:password_confirmation|same:password_confirmation|max:191',
 		'remember_token' => 'nullable|string|max:100',
 		'api_token' => 'nullable|string|max:80',
-        'is_restricted' => 'required|boolean'
-    ];
-    
-    public static $messages = [
+		'is_restricted' => 'required|boolean'
+	];
+	
+	public static $messages = [
 		'email.regex'	  => 'Please enter a valid email.',
-    ];
-    
-    public static $setPasswordRules = [
+	];
+	
+	public static $setPasswordRules = [
 		'user_id'			   => 'required',
 		'password'			  => 'min:6|required_with:password_confirmation|same:password_confirmation',
 		'password_confirmation' => 'min:6',
-    ];
-    
-    /**
-     * Whether a user can impersonate others
-     */
-    public function canImpersonate()
-    {
-    	// For example
-    	return $this->hasRole('admin') ? TRUE : FALSE;
-    }
-    
-    /**
-     * Whether a user can be impersonated
-     */
-    public function canBeImpersonated()
-    {
-    	// For example
-    	return $this->hasRole('admin') ? FALSE : TRUE;
-    }
-    
-    /**
-     * The relationships map for the model.
-     *
-     * @var array
-     */
+	];
+	
+	/**
+	 * Whether a user can impersonate others
+	 */
+	public function canImpersonate()
+	{
+		// For example
+		return $this->hasRole('admin') ? TRUE : FALSE;
+	}
+	
+	/**
+	 * Whether a user can be impersonated
+	 */
+	public function canBeImpersonated()
+	{
+		// For example
+		return $this->hasRole('admin') ? FALSE : TRUE;
+	}
+	
+	/**
+	 * The relationships map for the model.
+	 *
+	 * @var array
+	 */
 	public $relationships = [
 		'persona' => 'BelongsTo',
+		'passwordHistories' => 'HasMany',
 		'createdBy' => 'BelongsTo',
 		'updatedBy' => 'BelongsTo',
 		'deletedBy' => 'BelongsTo',
 	];
-    
-    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
-    }
-    
-    //CUDs
-    
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
-    
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
-    
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	
+	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+	}
+	
+	public function passwordHistories(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\PasswordHistory::class, 'user_id');
+	}
+	
+	//CUDs
+	
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
+	
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
+	
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 	
 	public function accountsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
@@ -751,21 +746,21 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return $this->hasMany(\App\Models\Pronoun::class, 'updated_by');
 	}
-    
-    public function realmsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Realm::class, 'created_by');
-    }
-    
-    public function realmsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Realm::class, 'deleted_by');
-    }
+	
+	public function realmsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Realm::class, 'created_by');
+	}
+	
+	public function realmsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Realm::class, 'deleted_by');
+	}
 
-    public function realmsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Realm::class, 'updated_by');
-    }
+	public function realmsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Realm::class, 'updated_by');
+	}
 	
 	public function recommendationsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
@@ -802,30 +797,30 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(\App\Models\Reign::class, 'created_by');
 	}
 
-    public function reignsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Reign::class, 'deleted_by');
-    }
+	public function reignsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Reign::class, 'deleted_by');
+	}
 
-    public function reignsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Reign::class, 'updated_by');
-    }
-    
-    public function socialsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Social::class, 'created_by');
-    }
+	public function reignsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Reign::class, 'updated_by');
+	}
+	
+	public function socialsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Social::class, 'created_by');
+	}
 
-    public function socialsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Social::class, 'deleted_by');
-    }
+	public function socialsDeleted(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Social::class, 'deleted_by');
+	}
 
-    public function socialsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\Social::class, 'updated_by');
-    }
+	public function socialsUpdated(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Social::class, 'updated_by');
+	}
 	
 	public function splitsCreated(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{

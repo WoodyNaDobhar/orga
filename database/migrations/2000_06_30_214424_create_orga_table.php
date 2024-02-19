@@ -64,8 +64,8 @@ return new class extends Migration
 		Schema::create('awards', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
-			$table->enum('awardable_type', ['Chapter', 'Realm', 'Unit'])->comment('Who issues the Award; Chapter, Realm, or Unit');
-			$table->unsignedBigInteger('awardable_id')->nullable()->index('awardable_id')->comment('The ID of the award issuer, null for everybody');
+			$table->enum('awarder_type', ['Chapter', 'Realm', 'Unit'])->comment('Who issues the Award; Chapter, Realm, or Unit');
+			$table->unsignedBigInteger('awarder_id')->nullable()->index('awarder_id')->comment('The ID of the award issuer, null for everybody');
 			$table->string('name', 100)->comment('The Award label, with options for the label seperated with |');
 			$table->boolean('is_ladder')->default(false)->comment('Is this (default false) a ranked/ladder award?');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
@@ -143,8 +143,10 @@ return new class extends Migration
 		Schema::create('events', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
-			$table->enum('eventable_type', ['Chapter', 'Persona', 'Realm', 'Unit'])->comment('Who sponsors the event; Chapter, Persona, Realm, or Unit');
-			$table->unsignedBigInteger('eventable_id')->index('eventable_id')->comment('The ID of the Event sponsor');
+			$table->enum('eventable_type', ['Chapter', 'Persona', 'Realm', 'Unit'])->comment('Who made and runs the Event; Chapter, Persona, Realm, or Unit');
+			$table->unsignedBigInteger('eventable_id')->index('eventable_id')->comment('The ID of who made and runs the Event');
+			$table->enum('sponsorable_type', ['Chapter', 'Realm'])->nullable()->comment('Who is agreeing to accept Attendances for the Event in the case of Persona or Unit types, if any; Chapter or Realm');
+			$table->unsignedBigInteger('sponsorable_id')->nullable()->index('sponsorable_id')->comment('ID of the Realm or Chapter agreeing to accept Attendances for the Event in the case of Persona or Unit types, if any.');
 			$table->unsignedBigInteger('location_id')->nullable()->index('at_chapter_id')->comment('ID of the Location the Event takes place at, if any');
 			$table->string('name')->comment('The name of the Event');
 			$table->mediumText('description')->nullable()->comment('A description of the Event, if any');
@@ -449,7 +451,8 @@ return new class extends Migration
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->comment('Model ID');
 			$table->unsignedBigInteger('persona_id')->index('persona_id')->comment('The ID of the Persona that has been Suspended');
-			$table->unsignedBigInteger('realm_id')->index('realm_id')->comment('The ID of the Realm issuing the Suspension');
+			$table->enum('suspendable_type', ['Chapter', 'Realm'])->comment('The Model that levied the Suspension; Chapter or Realm');
+			$table->unsignedBigInteger('suspendable_id')->index('suspendable_id')->comment('The ID of the entry that levied the Suspension');
 			$table->unsignedBigInteger('suspended_by')->index('suspended_by')->comment('The ID of the Persona issuing the Suspension');
 			$table->date('suspended_at')->comment('The date the Suspension begins');
 			$table->date('expires_at')->nullable()->comment('The date the Suspension ends, if any, null for forever');
@@ -755,7 +758,6 @@ return new class extends Migration
 			$table->foreign(['suspended_by'], 'suspensions_suspended_by')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['updated_by'], 'suspensions_updated_by')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign(['persona_id'], 'suspensions_persona_id')->references(['id'])->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign(['realm_id'], 'suspensions_realm_id')->references(['id'])->on('realms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 
 		Schema::table('titles', function (Blueprint $table) {
@@ -856,7 +858,6 @@ return new class extends Migration
 			$table->dropForeign('suspensions_deleted_by');
 			$table->dropForeign('suspensions_suspended_by');
 			$table->dropForeign('suspensions_updated_by');
-			$table->dropForeign('suspensions_realm_id');
 			$table->dropForeign('suspensions_persona_id');
 		});
 

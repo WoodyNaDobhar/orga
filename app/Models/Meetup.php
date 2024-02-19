@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Meetup",
- *      required={"chapter_id","is_active","purpose","recurrence","week_day","occurs_at"},
+ *		schema="Meetup",
+ *		required={"chapter_id","is_active","purpose","recurrence","week_day","occurs_at"},
  *		description="Regular gatherings for a given Chapter.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (MorphMany): Attendances for the Meetup.
  * chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.
@@ -30,8 +29,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="The ID of the Chapter hosting the Meetup.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -39,86 +38,87 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="location_id",
  *			description="The ID of the Location the Meetup occurs at.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is the Meetup (default true) still occuring?",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is the Meetup (default true) still occuring?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="purpose",
- *          description="The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other.",
- *          readOnly=false,
- *          nullable=false,
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="purpose",
+ *			description="The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Park Day","Fighter Practice","A&S Gathering","Other"},
  *			example="Park Day"
- *      ),
- *      @OA\Property(
- *          property="recurrence",
- *          description="The frequency with which this Meetup occurs",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="recurrence",
+ *			description="The frequency with which this Meetup occurs",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="enum",
  *			enum={"Weekly","Monthly","Week-of-Month"},
  *			example="Weekly"
- *      ),
- *      @OA\Property(
- *          property="week_of_month",
- *          description="The week of the month the Meetup occurs, if recurrence is Week-of-Month",
- *          readOnly=false,
- *          nullable=true,
- *          type="integer",
- *          example=2
- *      ),
- *      @OA\Property(
- *          property="week_day",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="week_of_month",
+ *			description="The week of the month the Meetup occurs, if recurrence is Week-of-Month",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			example=2
+ *		),
+ *		@OA\Property(
+ *			property="week_day",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="enum",
  *			enum={"None","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"},
  *			example="Sunday"
- *      ),
- *      @OA\Property(
- *          property="month_day",
- *          description="The day of the month the Meetup occurs, if recurrence is Monthly",
- *          readOnly=false,
- *          nullable=true,
- *          type="integer",
- *          example=2
- *      ),
- *      @OA\Property(
- *          property="occurs_at",
- *          description="The time of day the Meetup takes place.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="time",
+ *		),
+ *		@OA\Property(
+ *			property="month_day",
+ *			description="The day of the month the Meetup occurs, if recurrence is Monthly",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			example=2
+ *		),
+ *		@OA\Property(
+ *			property="occurs_at",
+ *			description="The time of day the Meetup takes place.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="time",
  *			example="12:00:00"
- *      ),
- *      @OA\Property(
- *          property="description",
- *          description="A description of the Meetup, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="paragraph",
- *          example="Join us for whacks!"
- *      ),
+ *		),
+ *		@OA\Property(
+ *			property="description",
+ *			description="A description of the Meetup, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Join us for whacks!"
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -136,7 +136,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -156,7 +156,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -176,7 +176,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -211,7 +211,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Attendance",
  *				type="object",
- *				ref="#/components/schemas/Attendance"
+ *				ref="#/components/schemas/AttendanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -223,7 +223,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Chapter",
  *					description="Attachable Chapter that sponsors the Meetup."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Chapter"),
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -234,7 +234,7 @@ use App\Traits\ProtectFieldsTrait;
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
- *				ref="#/components/schemas/Issuance"
+ *				ref="#/components/schemas/IssuanceSimple"
  *			),
  *			readOnly=true
  *		),
@@ -246,14 +246,11 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Location",
  *					description="Attachable Location of the Meetup."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Location"),
+ *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="MeetupSimple",
  *		@OA\Property(
@@ -267,8 +264,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="The ID of the Chapter hosting the Meetup.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -276,86 +273,87 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="location_id",
  *			description="The ID of the Location the Meetup occurs at.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is the Meetup (default true) still occuring?",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is the Meetup (default true) still occuring?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="purpose",
- *          description="The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other.",
- *          readOnly=false,
- *          nullable=false,
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="purpose",
+ *			description="The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Park Day","Fighter Practice","A&S Gathering","Other"},
  *			example="Park Day"
- *      ),
- *      @OA\Property(
- *          property="recurrence",
- *          description="The frequency with which this Meetup occurs",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="recurrence",
+ *			description="The frequency with which this Meetup occurs",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="enum",
  *			enum={"Weekly","Monthly","Week-of-Month"},
  *			example="Weekly"
- *      ),
- *      @OA\Property(
- *          property="week_of_month",
- *          description="The week of the month the Meetup occurs, if recurrence is Week-of-Month",
- *          readOnly=false,
- *          nullable=true,
- *          type="integer",
- *          example=2
- *      ),
- *      @OA\Property(
- *          property="week_day",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="week_of_month",
+ *			description="The week of the month the Meetup occurs, if recurrence is Week-of-Month",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			example=2
+ *		),
+ *		@OA\Property(
+ *			property="week_day",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="enum",
  *			enum={"None","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"},
  *			example="Sunday"
- *      ),
- *      @OA\Property(
- *          property="month_day",
- *          description="The day of the month the Meetup occurs, if recurrence is Monthly",
- *          readOnly=false,
- *          nullable=true,
- *          type="integer",
- *          example=2
- *      ),
- *      @OA\Property(
- *          property="occurs_at",
- *          description="The time of day the Meetup takes place.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="time",
+ *		),
+ *		@OA\Property(
+ *			property="month_day",
+ *			description="The day of the month the Meetup occurs, if recurrence is Monthly",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			example=2
+ *		),
+ *		@OA\Property(
+ *			property="occurs_at",
+ *			description="The time of day the Meetup takes place.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="time",
  *			example="12:00:00"
- *      ),
- *      @OA\Property(
- *          property="description",
- *          description="A description of the Meetup, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="paragraph",
- *          example="Join us for whacks!"
- *      ),
+ *		),
+ *		@OA\Property(
+ *			property="description",
+ *			description="A description of the Meetup, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Join us for whacks!"
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -405,9 +403,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="MeetupSuperSimple",
  *		@OA\Property(
@@ -421,8 +417,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter_id",
  *			description="The ID of the Chapter hosting the Meetup.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -430,91 +426,88 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="location_id",
  *			description="The ID of the Location the Meetup occurs at.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="is_active",
- *          description="Is the Meetup (default true) still occuring?",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is the Meetup (default true) still occuring?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
- *			example=1
- *      ),
- *      @OA\Property(
- *          property="purpose",
- *          description="The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other.",
- *          readOnly=false,
- *          nullable=false,
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="purpose",
+ *			description="The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Park Day","Fighter Practice","A&S Gathering","Other"},
  *			example="Park Day"
- *      ),
- *      @OA\Property(
- *          property="recurrence",
- *          description="The frequency with which this Meetup occurs",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="recurrence",
+ *			description="The frequency with which this Meetup occurs",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="enum",
  *			enum={"Weekly","Monthly","Week-of-Month"},
  *			example="Weekly"
- *      ),
- *      @OA\Property(
- *          property="week_of_month",
- *          description="The week of the month the Meetup occurs, if recurrence is Week-of-Month",
- *          readOnly=false,
- *          nullable=true,
- *          type="integer",
- *          example=2
- *      ),
- *      @OA\Property(
- *          property="week_day",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="week_of_month",
+ *			description="The week of the month the Meetup occurs, if recurrence is Week-of-Month",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			example=2
+ *		),
+ *		@OA\Property(
+ *			property="week_day",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="enum",
  *			enum={"None","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"},
  *			example="Sunday"
- *      ),
- *      @OA\Property(
- *          property="month_day",
- *          description="The day of the month the Meetup occurs, if recurrence is Monthly",
- *          readOnly=false,
- *          nullable=true,
- *          type="integer",
- *          example=2
- *      ),
- *      @OA\Property(
- *          property="occurs_at",
- *          description="The time of day the Meetup takes place.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="time",
+ *		),
+ *		@OA\Property(
+ *			property="month_day",
+ *			description="The day of the month the Meetup occurs, if recurrence is Monthly",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			example=2
+ *		),
+ *		@OA\Property(
+ *			property="occurs_at",
+ *			description="The time of day the Meetup takes place.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="time",
  *			example="12:00:00"
- *      ),
- *      @OA\Property(
- *          property="description",
- *          description="A description of the Meetup, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="paragraph",
- *          example="Join us for whacks!"
- *      )
+ *		),
+ *		@OA\Property(
+ *			property="description",
+ *			description="A description of the Meetup, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Join us for whacks!"
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Meetup",
  *		description="Meetup object that needs to be added or updated.",
@@ -526,7 +519,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Meetup extends Model
+class Meetup extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -539,79 +532,79 @@ class Meetup extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['chapter_id', 'location_id', 'recurrence', 'week_of_month', 'week_day', 'month_day'];
 
-    public $fillable = [
-        'chapter_id',
-        'location_id',
-        'is_active',
-        'purpose',
-        'recurrence',
-        'week_of_month',
-        'week_day',
-        'month_day',
-        'occurs_at',
-        'description'
-    ];
+	public $fillable = [
+		  'chapter_id',
+		  'location_id',
+		  'is_active',
+		  'purpose',
+		  'recurrence',
+		  'week_of_month',
+		  'week_day',
+		  'month_day',
+		  'occurs_at',
+		  'description'
+	];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-        'purpose' => 'string',
-        'recurrence' => 'string',
-        'week_day' => 'string',
-        'description' => 'string'
-    ];
+	protected $casts = [
+		  'is_active' => 'boolean',
+		  'purpose' => 'string',
+		  'recurrence' => 'string',
+		  'week_day' => 'string',
+		  'description' => 'string'
+	];
 
-    public static array $rules = [
-    	'chapter_id' => 'required|exists:chapters,id',
-    	'location_id' => 'nullable|exists:locations,id',
-    	'is_active' => 'required|boolean',
-    	'purpose' => 'required|in:Park Day,Fighter Practice,A&S Gathering,Other',
-    	'recurrence' => 'required|in:Weekly,Monthly,Week-of-Month',
-    	'week_of_month' => 'nullable|integer|min:1|max:5',
-    	'week_day' => 'required_if:recurrence,Weekly|in:None,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-    	'month_day' => 'nullable|integer|min:1|max:31',
-    	'occurs_at' => 'required|date_format:H:i',
-    	'description' => 'nullable|string|max:191'
-    ];
-    
-    public $relationships = [
-    	'attendances' => 'MorphMany',
-    	'chapter' => 'BelongsTo',
-    	'issuances' => 'MorphMany',
-    	'location' => 'BelongsTo'
-    ];
-    
-    public function attendances(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Attendance::class, 'attendable');
-    }
+	public static array $rules = [
+		'chapter_id' => 'required|exists:chapters,id',
+		'location_id' => 'nullable|exists:locations,id',
+		'is_active' => 'required|boolean',
+		'purpose' => 'required|in:Park Day,Fighter Practice,A&S Gathering,Other',
+		'recurrence' => 'required|in:Weekly,Monthly,Week-of-Month',
+		'week_of_month' => 'nullable|integer|min:1|max:5',
+		'week_day' => 'required_if:recurrence,Weekly|in:None,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+		'month_day' => 'nullable|integer|min:1|max:31',
+		'occurs_at' => 'required|date_format:H:i',
+		'description' => 'nullable|string|max:191'
+	];
+	
+	public $relationships = [
+		'attendances' => 'MorphMany',
+		'chapter' => 'BelongsTo',
+		'issuances' => 'MorphMany',
+		'location' => 'BelongsTo'
+	];
+	
+	public function attendances(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Attendance::class, 'attendable');
+	}
 
-    public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
-    }
-    
-    public function issuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Issuance::class, 'whereable');
-    }
-    
-    public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Location::class, 'location_id');
-    }
+	public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
+	}
+	
+	public function issuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Issuance::class, 'whereable');
+	}
+	
+	public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Location::class, 'location_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

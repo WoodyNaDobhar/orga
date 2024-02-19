@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\SplitResource;
@@ -43,13 +43,13 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Get a listing of the Splits.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
-	 * 		account (Account) (BelongsTo): Account this Split is for.
-	 * 		persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.
-	 * 		transaction (Transaction) (BelongsTo): Transaction being Split.
-	 * 		createdBy (User) (BelongsTo): Split that created it.
-	 * 		updatedBy (User) (BelongsTo): Split that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Split that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			account (Account) (BelongsTo): Account this Split is for.<br>
+			persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>
+			transaction (Transaction) (BelongsTo): Transaction being Split.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -187,7 +187,7 @@ class SplitAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new SplitResource($splits), 'Splits retrieved successfully.');
+			return $this->sendResponse(SplitResource::collection($splits), 'Splits retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Store a newly created Split in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Split"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Display the specified Split",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full
-	 * 		account (Account) (BelongsTo): Account this Split is for.
-	 * 		persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.
-	 * 		transaction (Transaction) (BelongsTo): Transaction being Split.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			account (Account) (BelongsTo): Account this Split is for.<br>
+			persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>
+			transaction (Transaction) (BelongsTo): Transaction being Split.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -498,7 +498,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Update the specified Split in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Remove the specified Split from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

@@ -7,22 +7,22 @@ use App\Repositories\BaseRepository;
 
 class RecommendationRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'persona_id',
-        'recommendable_type',
-        'recommendable_id',
-        'rank',
-        'is_anonymous',
-        'reason'
-    ];
+	protected $fieldSearchable = [
+		'persona_id',
+		'recommendable_type',
+		'recommendable_id',
+		'rank',
+		'is_anonymous',
+		'reason'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Recommendation::class;
-    }
+	public function model(): string
+	{
+		return Recommendation::class;
+	}
 }

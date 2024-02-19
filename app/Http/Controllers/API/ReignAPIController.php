@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ReignResource;
@@ -43,12 +43,12 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Get a listing of the Reigns.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		officers (Officer) (MorphMany): Officers of the Reign.
-	 * 		reignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.
-	 * 		createdBy (User) (BelongsTo): Reign that created it.
-	 * 		updatedBy (User) (BelongsTo): Reign that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Reign that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			officers (Officer) (MorphMany): Officers of the Reign.<br>
+			reignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class ReignAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Reign::class);
+// 			$this->authorize('viewAny', Reign::class);
 
 			$reigns = $this->reignRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class ReignAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new ReignResource($reigns), 'Reigns retrieved successfully.');
+			return $this->sendResponse(ReignResource::collection($reigns), 'Reigns retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Store a newly created Reign in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Reign"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Display the specified Reign",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		officers (Officer) (MorphMany): Officers of the Reign.
-	 * 		reignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			officers (Officer) (MorphMany): Officers of the Reign.<br>
+			reignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class ReignAPIController extends AppBaseController
 				return $this->sendError('Reign (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $reign);
+// 			$this->authorize('view', $reign);
 
 			return $this->sendResponse(new ReignResource($reign), 'Reign retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Update the specified Reign in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Remove the specified Reign from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

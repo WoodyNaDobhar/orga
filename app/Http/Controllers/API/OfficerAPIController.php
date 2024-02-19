@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\OfficerResource;
@@ -43,13 +43,13 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Get a listing of the Officers.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		office (Office) (BelongsTo): Office held.
-	 * 		officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.
-	 * 		persona (Persona) (BelongsTo): Persona holding the given Office.
-	 * 		createdBy (User) (BelongsTo): Officer that created it.
-	 * 		updatedBy (User) (BelongsTo): Officer that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Officer that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			office (Office) (BelongsTo): Office held.<br>
+			officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>
+			persona (Persona) (BelongsTo): Persona holding the given Office.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -176,7 +176,7 @@ class OfficerAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Officer::class);
+// 			$this->authorize('viewAny', Officer::class);
 
 			$officers = $this->officerRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -187,7 +187,7 @@ class OfficerAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new OfficerResource($officers), 'Officers retrieved successfully.');
+			return $this->sendResponse(OfficerResource::collection($officers), 'Officers retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Store a newly created Officer in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Officer"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Display the specified Officer",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		office (Office) (BelongsTo): Office held.
-	 * 		officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.
-	 * 		persona (Persona) (BelongsTo): Persona holding the given Office.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			office (Office) (BelongsTo): Office held.<br>
+			officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>
+			persona (Persona) (BelongsTo): Persona holding the given Office.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -478,7 +478,7 @@ class OfficerAPIController extends AppBaseController
 				return $this->sendError('Officer (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $officer);
+// 			$this->authorize('view', $officer);
 
 			return $this->sendResponse(new OfficerResource($officer), 'Officer retrieved successfully.');
 		} catch (Throwable $e) {
@@ -498,7 +498,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Update the specified Officer in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Remove the specified Officer from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

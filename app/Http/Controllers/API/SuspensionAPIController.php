@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\SuspensionResource;
@@ -43,13 +43,13 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Get a listing of the Suspensions.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): The Persona that has been Suspended.
-	 * 		realm (Realm) (BelongsTo): The Realm issuing the Suspension.
-	 * 		suspendedBy (User) (BelongsTo): The Persona issuing the Suspension.
-	 * 		createdBy (User) (BelongsTo): Suspension that created it.
-	 * 		updatedBy (User) (BelongsTo): Suspension that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Suspension that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): The Persona that has been Suspended.<br>
+			realm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>
+			suspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -176,7 +176,7 @@ class SuspensionAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Suspension::class);
+// 			$this->authorize('viewAny', Suspension::class);
 
 			$suspensions = $this->suspensionRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -187,7 +187,7 @@ class SuspensionAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new SuspensionResource($suspensions), 'Suspensions retrieved successfully.');
+			return $this->sendResponse(SuspensionResource::collection($suspensions), 'Suspensions retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Store a newly created Suspension in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Suspension"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Display the specified Suspension",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		persona (Persona) (BelongsTo): The Persona that has been Suspended.
-	 * 		realm (Realm) (BelongsTo): The Realm issuing the Suspension.
-	 * 		suspendedBy (User) (BelongsTo): The Persona issuing the Suspension.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			persona (Persona) (BelongsTo): The Persona that has been Suspended.<br>
+			realm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>
+			suspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -478,7 +478,7 @@ class SuspensionAPIController extends AppBaseController
 				return $this->sendError('Suspension (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $suspension);
+// 			$this->authorize('view', $suspension);
 
 			return $this->sendResponse(new SuspensionResource($suspension), 'Suspension retrieved successfully.');
 		} catch (Throwable $e) {
@@ -498,7 +498,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Update the specified Suspension in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Remove the specified Suspension from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\TitleResource;
@@ -43,11 +43,11 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Get a listing of the Titles.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		issuances (Issuance) (MorphMany): Issuances of this Title.
-	 * 		createdBy (User) (BelongsTo): Title that created it.
-	 * 		updatedBy (User) (BelongsTo): Title that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Title that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			issuances (Issuance) (MorphMany): Issuances of this Title.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -174,7 +174,7 @@ class TitleAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Title::class);
+// 			$this->authorize('viewAny', Title::class);
 
 			$titles = $this->titleRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -185,7 +185,7 @@ class TitleAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new TitleResource($titles), 'Titles retrieved successfully.');
+			return $this->sendResponse(TitleResource::collection($titles), 'Titles retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -202,7 +202,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Store a newly created Title in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Title"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,11 +335,11 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Display the specified Title",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		issuances (Issuance) (MorphMany): Issuances of this Title.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			issuances (Issuance) (MorphMany): Issuances of this Title.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -474,7 +474,7 @@ class TitleAPIController extends AppBaseController
 				return $this->sendError('Title (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $title);
+// 			$this->authorize('view', $title);
 
 			return $this->sendResponse(new TitleResource($title), 'Title retrieved successfully.');
 		} catch (Throwable $e) {
@@ -494,7 +494,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Update the specified Title in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +653,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Remove the specified Title from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

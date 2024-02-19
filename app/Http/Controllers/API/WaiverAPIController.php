@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\WaiverResource;
@@ -43,15 +43,15 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Get a listing of the Waivers.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
-	 * 		ageVerifiedBy (User) (BelongsTo): The Persona that verified the Waiver signer age, if it has been.
-	 * 		guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.
-	 * 		location (Location) (BelongsTo): The Waiver address fields values.
-	 * 		persona (Persona) (BelongsTo): Persona this Waiver is for, if any.
-	 * 		pronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.
-	 * 		createdBy (User) (BelongsTo): Waiver that created it.
-	 * 		updatedBy (User) (BelongsTo): Waiver that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Waiver that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			ageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>
+			guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>
+			location (Location) (BelongsTo): The Waiver address fields values.<br>
+			persona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>
+			pronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -189,7 +189,7 @@ class WaiverAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new WaiverResource($waivers), 'Waivers retrieved successfully.');
+			return $this->sendResponse(WaiverResource::collection($waivers), 'Waivers retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -206,7 +206,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Store a newly created Waiver in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Waiver"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -339,15 +339,15 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Display the specified Waiver",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
-	 * 		ageVerifiedBy (User) (BelongsTo): The Persona that verified the Waiver signer age, if it has been.
-	 * 		guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.
-	 * 		location (Location) (BelongsTo): The Waiver address fields values.
-	 * 		persona (Persona) (BelongsTo): Persona this Waiver is for, if any.
-	 * 		pronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			ageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>
+			guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>
+			location (Location) (BelongsTo): The Waiver address fields values.<br>
+			persona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>
+			pronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -502,7 +502,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Update the specified Waiver in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -661,7 +661,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Remove the specified Waiver from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

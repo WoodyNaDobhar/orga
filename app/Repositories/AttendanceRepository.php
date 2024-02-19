@@ -7,22 +7,22 @@ use App\Repositories\BaseRepository;
 
 class AttendanceRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'archetype_id',
-        'attendable_type',
-        'attendable_id',
-        'persona_id',
-        'attended_at',
-        'credits'
-    ];
+	protected $fieldSearchable = [
+		'archetype_id',
+		'attendable_type',
+		'attendable_id',
+		'persona_id',
+		'attended_at',
+		'credits'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Attendance::class;
-    }
+	public function model(): string
+	{
+		return Attendance::class;
+	}
 }

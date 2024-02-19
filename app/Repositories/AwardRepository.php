@@ -7,20 +7,20 @@ use App\Repositories\BaseRepository;
 
 class AwardRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'awardable_type',
-        'awardable_id',
-        'name',
-        'is_ladder'
-    ];
+	protected $fieldSearchable = [
+		'awarder_type',
+		'awarder_id',
+		'name',
+		'is_ladder'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Award::class;
-    }
+	public function model(): string
+	{
+		return Award::class;
+	}
 }

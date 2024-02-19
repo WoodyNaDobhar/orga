@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Officer",
- *      required={"officerable_type","officerable_id","office_id","persona_id"},
+ *		schema="Officer",
+ *		required={"officerable_type","officerable_id","office_id","persona_id"},
  *		description="Officers for the given Reign or Unit<br>The following relationships can be attached, and in the case of plural relations, searched:
  * office (Office) (BelongsTo): Office held.
  * officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.
@@ -26,21 +25,21 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="officerable_type",
- *          description="Type of that which the Persona is Officer of; Reign or Unit.",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="officerable_type",
+ *			description="Type of that which the Persona is Officer of; Reign or Unit.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Reign","Unit"},
  *			example="Reign"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="officerable_id",
  *			description="The ID of the Reign or Unit they are Officer of.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -48,8 +47,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="office_id",
  *			description="The ID of the Office this Persona held.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -57,50 +56,50 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona holding this Office.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="label",
- *          description="If the Office name has options, or allows customization, the selected label, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="capitalize first letter",
- *          example="Queen"
- *          maxLength=50
- *      ),
- *      @OA\Property(
- *          property="starts_on",
- *          description="If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="label",
+ *			description="If the Office name has options, or allows customization, the selected label, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="capitalize first letter",
+ *			example="Queen",
+ *			maxLength=50
+ *		),
+ *		@OA\Property(
+ *			property="starts_on",
+ *			description="If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="ends_on",
- *          description="If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="ends_on",
+ *			description="If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="notes",
- *          description="Notes about the Officer or their time in office, or explaining pro-tem, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="paragraph",
- *          example="Took over after the last guy got banned."
- *          maxLength=191
- *      ),
+ *		),
+ *		@OA\Property(
+ *			property="notes",
+ *			description="Notes about the Officer or their time in office, or explaining pro-tem, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Took over after the last guy got banned.",
+ *			maxLength=191
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -118,7 +117,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -138,7 +137,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -158,7 +157,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -194,7 +193,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Office",
  *					description="Attachable Office held."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Office"),
+ *				@OA\Schema(ref="#/components/schemas/OfficeSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -205,12 +204,12 @@ use App\Traits\ProtectFieldsTrait;
  *				@OA\Property(
  *					title="Reign",
  *					description="Attachable Reign the Persona is an Officer of.",
- *					@OA\Schema(ref="#/components/schemas/Reign")
+ *					@OA\Schema(ref="#/components/schemas/ReignSimple")
  *				),
  *				@OA\Property(
  *					title="Unit",
  *					description="Attachable Unit the Persona is an Officer of.",
- *					@OA\Schema(ref="#/components/schemas/Unit")
+ *					@OA\Schema(ref="#/components/schemas/UnitSimple")
  *				)
  *			},
  *			readOnly=true
@@ -223,14 +222,11 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Persona",
  *					description="Attachable Persona holding the given Office."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="OfficerSimple",
  *		@OA\Property(
@@ -241,21 +237,21 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="officerable_type",
- *          description="Type of that which the Persona is Officer of; Reign or Unit.",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="officerable_type",
+ *			description="Type of that which the Persona is Officer of; Reign or Unit.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Reign","Unit"},
  *			example="Reign"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="officerable_id",
  *			description="The ID of the Reign or Unit they are Officer of.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -263,8 +259,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="office_id",
  *			description="The ID of the Office this Persona held.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -272,50 +268,50 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona holding this Office.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="label",
- *          description="If the Office name has options, or allows customization, the selected label, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="capitalize first letter",
- *          example="Queen"
- *          maxLength=50
- *      ),
- *      @OA\Property(
- *          property="starts_on",
- *          description="If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="label",
+ *			description="If the Office name has options, or allows customization, the selected label, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="capitalize first letter",
+ *			example="Queen",
+ *			maxLength=50
+ *		),
+ *		@OA\Property(
+ *			property="starts_on",
+ *			description="If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="ends_on",
- *          description="If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="ends_on",
+ *			description="If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="notes",
- *          description="Notes about the Officer or their time in office, or explaining pro-tem, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="paragraph",
- *          example="Took over after the last guy got banned."
- *          maxLength=191
- *      ),
+ *		),
+ *		@OA\Property(
+ *			property="notes",
+ *			description="Notes about the Officer or their time in office, or explaining pro-tem, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Took over after the last guy got banned.",
+ *			maxLength=191
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -365,9 +361,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="OfficerSuperSimple",
  *		@OA\Property(
@@ -378,21 +372,21 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="officerable_type",
- *          description="Type of that which the Persona is Officer of; Reign or Unit.",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="officerable_type",
+ *			description="Type of that which the Persona is Officer of; Reign or Unit.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Reign","Unit"},
  *			example="Reign"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="officerable_id",
  *			description="The ID of the Reign or Unit they are Officer of.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -400,8 +394,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="office_id",
  *			description="The ID of the Office this Persona held.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -409,55 +403,51 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona holding this Office.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="label",
- *          description="If the Office name has options, or allows customization, the selected label, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="capitalize first letter",
- *          example="Queen"
- *          maxLength=50
- *      ),
- *      @OA\Property(
- *          property="starts_on",
- *          description="If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="label",
+ *			description="If the Office name has options, or allows customization, the selected label, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="capitalize first letter",
+ *			example="Queen",
+ *			maxLength=50
+ *		),
+ *		@OA\Property(
+ *			property="starts_on",
+ *			description="If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="ends_on",
- *          description="If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="ends_on",
+ *			description="If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="notes",
- *          description="Notes about the Officer or their time in office, or explaining pro-tem, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="paragraph",
- *          example="Took over after the last guy got banned."
- *          maxLength=191
- *      )
+ *		),
+ *		@OA\Property(
+ *			property="notes",
+ *			description="Notes about the Officer or their time in office, or explaining pro-tem, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="paragraph",
+ *			example="Took over after the last guy got banned.",
+ *			maxLength=191
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Officer",
  *		description="Officer object that needs to be added or updated.",
@@ -469,7 +459,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Officer extends Model
+class Officer extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -482,69 +472,69 @@ class Officer extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['officerable_type', 'officerable_id', 'office_id', 'persona_id'];
 
-    public $fillable = [
-        'officerable_type',
-        'officerable_id',
-        'office_id',
-        'persona_id',
-        'label',
-        'starts_on',
-        'ends_on',
-        'notes'
-    ];
+	public $fillable = [
+		  'officerable_type',
+		  'officerable_id',
+		  'office_id',
+		  'persona_id',
+		  'label',
+		  'starts_on',
+		  'ends_on',
+		  'notes'
+	];
 
-    protected $casts = [
-        'officerable_type' => 'string',
-        'label' => 'string',
-        'starts_on' => 'date',
-        'ends_on' => 'date',
-        'notes' => 'string'
-    ];
+	protected $casts = [
+		  'officerable_type' => 'string',
+		  'label' => 'string',
+		  'starts_on' => 'date',
+		  'ends_on' => 'date',
+		  'notes' => 'string'
+	];
 
-    public static array $rules = [
-    	'officerable_type' => 'required|in:Reign,Unit',
-    	'officerable_id' => 'required',
-    	'office_id' => 'required|exists:offices,id',
-    	'persona_id' => 'required|exists:personas,id',
-    	'label' => 'nullable|string|max:50',
-    	'starts_on' => 'nullable|date',
-    	'ends_on' => 'nullable|date|after_or_equal:starts_on',
-    	'notes' => 'nullable|string|max:191'
-    ];
-    
-    public $relationships = [
-    	'office' => 'BelongsTo',
-    	'officerable' => 'MorphTo',
-    	'persona' => 'BelongsTo'
-    ];
-    
-    public function office(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Office::class, 'office_id');
-    }
-    
-    public function officerable(): \Illuminate\Database\Eloquent\Relations\MorphTo
-    {
-    	return $this->morphTo();
-    }
-    
-    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
-    }
+	public static array $rules = [
+		'officerable_type' => 'required|in:Reign,Unit',
+		'officerable_id' => 'required',
+		'office_id' => 'required|exists:offices,id',
+		'persona_id' => 'required|exists:personas,id',
+		'label' => 'nullable|string|max:50',
+		'starts_on' => 'nullable|date',
+		'ends_on' => 'nullable|date|after_or_equal:starts_on',
+		'notes' => 'nullable|string|max:191'
+	];
+	
+	public $relationships = [
+		'office' => 'BelongsTo',
+		'officerable' => 'MorphTo',
+		'persona' => 'BelongsTo'
+	];
+	
+	public function office(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Office::class, 'office_id');
+	}
+	
+	public function officerable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+	{
+		return $this->morphTo();
+	}
+	
+	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Pronoun",
- *      required={"subject","object","possessive","possessivepronoun","reflexive"},
+ *		schema="Pronoun",
+ *		required={"subject","object","possessive","possessivepronoun","reflexive"},
  *		description="Pronouns perfered.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * personas (Persona) (HasMany): Personas using the Pronoun.
  * waivers (Waivers) (HasMany): Waivers using the Pronoun.
@@ -25,41 +24,41 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="subject",
- *          description="Pronoun Subject",
- *          readOnly=false,
- *          nullable=false,
- *          type="string"
- *      ),
- *      @OA\Property(
- *          property="object",
- *          description="Pronoun Object",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="possessive",
- *          description="Pronoun Possessive",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="Pronoun Possessive Pronoun",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="Pronoun Reflexive",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
+ *		@OA\Property(
+ *			property="subject",
+ *			description="Pronoun Subject",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string"
+ *		),
+ *		@OA\Property(
+ *			property="object",
+ *			description="Pronoun Object",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="possessive",
+ *			description="Pronoun Possessive",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="Pronoun Possessive Pronoun",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="Pronoun Reflexive",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -77,7 +76,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -97,7 +96,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -117,7 +116,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -145,12 +144,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- * personas (Persona) (HasMany): Personas using the Pronoun.
- * waivers (Waivers) (HasMany): Waivers using the Pronoun.
- * )
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="PronounSimple",
  *		@OA\Property(
@@ -161,41 +155,41 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="subject",
- *          description="Pronoun Subject",
- *          readOnly=false,
- *          nullable=false,
- *          type="string"
- *      ),
- *      @OA\Property(
- *          property="object",
- *          description="Pronoun Object",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="possessive",
- *          description="Pronoun Possessive",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="Pronoun Possessive Pronoun",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="Pronoun Reflexive",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
+ *		@OA\Property(
+ *			property="subject",
+ *			description="Pronoun Subject",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string"
+ *		),
+ *		@OA\Property(
+ *			property="object",
+ *			description="Pronoun Object",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="possessive",
+ *			description="Pronoun Possessive",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="Pronoun Possessive Pronoun",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="Pronoun Reflexive",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -245,9 +239,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="PronounSuperSimple",
  *		@OA\Property(
@@ -258,46 +250,42 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42,
  *			readOnly=true
  *		),
- *      @OA\Property(
- *          property="subject",
- *          description="Pronoun Subject",
- *          readOnly=false,
- *          nullable=false,
- *          type="string"
- *      ),
- *      @OA\Property(
- *          property="object",
- *          description="Pronoun Object",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="possessive",
- *          description="Pronoun Possessive",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="Pronoun Possessive Pronoun",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="Pronoun Reflexive",
- *          description="",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *      )
+ *		@OA\Property(
+ *			property="subject",
+ *			description="Pronoun Subject",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string"
+ *		),
+ *		@OA\Property(
+ *			property="object",
+ *			description="Pronoun Object",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="possessive",
+ *			description="Pronoun Possessive",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="Pronoun Possessive Pronoun",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		),
+ *		@OA\Property(
+ *			property="Pronoun Reflexive",
+ *			description="",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Pronoun",
  *		description="Pronoun object that needs to be added or updated.",
@@ -309,7 +297,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Pronoun extends Model
+class Pronoun extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -322,57 +310,57 @@ class Pronoun extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['subject', 'object', 'possessive', 'possessivepronoun', 'reflexive'];
 
-    public $fillable = [
-        'subject',
-        'object',
-        'possessive',
-        'possessivepronoun',
-        'reflexive'
-    ];
+	public $fillable = [
+		  'subject',
+		  'object',
+		  'possessive',
+		  'possessivepronoun',
+		  'reflexive'
+	];
 
-    protected $casts = [
-        'subject' => 'string',
-        'object' => 'string',
-        'possessive' => 'string',
-        'possessivepronoun' => 'string',
-        'reflexive' => 'string'
-    ];
+	protected $casts = [
+		  'subject' => 'string',
+		  'object' => 'string',
+		  'possessive' => 'string',
+		  'possessivepronoun' => 'string',
+		  'reflexive' => 'string'
+	];
 
-    public static array $rules = [
-    	'subject' => 'required|string|max:30',
-    	'object' => 'required|string|max:30',
-    	'possessive' => 'required|string|max:30',
-    	'possessivepronoun' => 'required|string|max:30',
-    	'reflexive' => 'required|string|max:30'
-    ];
-    
-    public $relationships = [
-    	'personas' => 'HasMany',
-    	'waivers' => 'HasMany'
-    ];
-    
-    public function personas(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Persona::class, 'pronoun_id');
-    }
-    
-    public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Waiver::class, 'pronoun_id');
-    }
+	public static array $rules = [
+		'subject' => 'required|string|max:30',
+		'object' => 'required|string|max:30',
+		'possessive' => 'required|string|max:30',
+		'possessivepronoun' => 'required|string|max:30',
+		'reflexive' => 'required|string|max:30'
+	];
+	
+	public $relationships = [
+		'personas' => 'HasMany',
+		'waivers' => 'HasMany'
+	];
+	
+	public function personas(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Persona::class, 'pronoun_id');
+	}
+	
+	public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Waiver::class, 'pronoun_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

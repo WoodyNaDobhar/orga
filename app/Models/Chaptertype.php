@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
- *      schema="Chaptertype",
- *      required={"realm_id","name","minimumattendance","minimumcutoff"},
+ *		schema="Chaptertype",
+ *		required={"realm_id","name","minimumattendance","minimumcutoff"},
  *		description="Levels available for Chapters by Realm<br>The following relationships can be attached, and in the case of plural relations, searched:
  * chapters (Chapter) (HasMany): Chapters that share this Chaptertype.
  * offices (Office) (MorphMany): Offices for this Chaptertype.
@@ -29,27 +28,27 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="realm_id",
  *			description="The ID of the Realm that has this Chaptertype.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="name",
- *          description="The name of the Chaptertype",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		@OA\Property(
+ *			property="name",
+ *			description="The name of the Chaptertype",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Shire",
  *			maxLength=50
- *      ),
+ *		),
  *		@OA\Property(
  *			property="rank",
  *			description="The order rank of the Chaptertype expressed in multiples of 10 where Shire is 20.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=20
@@ -57,22 +56,22 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="minimumattendance",
  *			description="Minimum (default 5) average Attendance required by the Realm to achieve the Chaptertype.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=5,
- *     		default=5
+ *	 		default=5
  *		),
  *		@OA\Property(
  *			property="minimumcutoff",
  *			description="Minimum (default 1) average Attendance required by the Realm to maintain the Chaptertype.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=1,
- *     		default=1
+ *	 		default=1
  *		),
  *		@OA\Property(
  *			property="created_by",
@@ -91,7 +90,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -111,7 +110,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -131,7 +130,7 @@ use Wildside\Userstamps\Userstamps;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -166,7 +165,7 @@ use Wildside\Userstamps\Userstamps;
  *			@OA\Items(
  *				title="Chapter",
  *				type="object",
- *				ref="#/components/schemas/Chapter"
+ *				ref="#/components/schemas/ChapterSimple"
  *			),
  *			readOnly=true
  *		),
@@ -177,7 +176,7 @@ use Wildside\Userstamps\Userstamps;
  *			@OA\Items(
  *				title="Office",
  *				type="object",
- *				ref="#/components/schemas/Office"
+ *				ref="#/components/schemas/OfficeSimple"
  *			),
  *			readOnly=true
  *		),
@@ -189,14 +188,11 @@ use Wildside\Userstamps\Userstamps;
  *					title="Realm",
  *					description="Attachable Realm this Chaptertype is for."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Realm"),
+ *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="ChaptertypeSimple",
  *		@OA\Property(
@@ -210,27 +206,27 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="realm_id",
  *			description="The ID of the Realm that has this Chaptertype.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="name",
- *          description="The name of the Chaptertype",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		@OA\Property(
+ *			property="name",
+ *			description="The name of the Chaptertype",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Shire",
  *			maxLength=50
- *      ),
+ *		),
  *		@OA\Property(
  *			property="rank",
  *			description="The order rank of the Chaptertype expressed in multiples of 10 where Shire is 20.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=20
@@ -238,22 +234,22 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="minimumattendance",
  *			description="Minimum (default 5) average Attendance required by the Realm to achieve the Chaptertype.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=5,
- *     		default=5
+ *	 		default=5
  *		),
  *		@OA\Property(
  *			property="minimumcutoff",
  *			description="Minimum (default 1) average Attendance required by the Realm to maintain the Chaptertype.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=1,
- *     		default=1
+ *	 		default=1
  *		),
  *		@OA\Property(
  *			property="created_by",
@@ -304,9 +300,7 @@ use Wildside\Userstamps\Userstamps;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="ChaptertypeSuperSimple",
  *		@OA\Property(
@@ -320,27 +314,27 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="realm_id",
  *			description="The ID of the Realm that has this Chaptertype.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="name",
- *          description="The name of the Chaptertype",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		@OA\Property(
+ *			property="name",
+ *			description="The name of the Chaptertype",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="Shire",
  *			maxLength=50
- *      ),
+ *		),
  *		@OA\Property(
  *			property="rank",
  *			description="The order rank of the Chaptertype expressed in multiples of 10 where Shire is 20.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=20
@@ -348,28 +342,24 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="minimumattendance",
  *			description="Minimum (default 5) average Attendance required by the Realm to achieve the Chaptertype.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=5,
- *     		default=5
+ *	 		default=5
  *		),
  *		@OA\Property(
  *			property="minimumcutoff",
  *			description="Minimum (default 1) average Attendance required by the Realm to maintain the Chaptertype.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=1,
- *     		default=1
+ *	 		default=1
  *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Chaptertype",
  *		description="Chaptertype object that needs to be added or updated.",
@@ -381,7 +371,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  */
 
-class Chaptertype extends Model
+class Chaptertype extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -394,59 +384,59 @@ class Chaptertype extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = ['realm_id'];
 
-    public $fillable = [
-        'realm_id',
-        'name',
-        'rank',
-        'minimumattendance',
-        'minimumcutoff'
-    ];
+	public $fillable = [
+		  'realm_id',
+		  'name',
+		  'rank',
+		  'minimumattendance',
+		  'minimumcutoff'
+	];
 
-    protected $casts = [
-        'name' => 'string'
-    ];
+	protected $casts = [
+		  'name' => 'string'
+	];
 
-    public static array $rules = [
-    	'realm_id' => 'required|exists:realms,id',
-    	'name' => 'required|string|max:50',//TODO: unique to Realm
-    	'rank' => 'nullable|integer',
-    	'minimumattendance' => 'integer',
-    	'minimumcutoff' => 'integer'
-    ];
-    
-    public $relationships = [
+	public static array $rules = [
+		'realm_id' => 'required|exists:realms,id',
+		'name' => 'required|string|max:50',//TODO: unique to Realm
+		'rank' => 'nullable|integer',
+		'minimumattendance' => 'integer',
+		'minimumcutoff' => 'integer'
+	];
+	
+	public $relationships = [
 		'chapters' => 'HasMany',
-    	'offices' => 'MorphMany',
+		'offices' => 'MorphMany',
 		'realm' => 'BelongsTo'
-    ];
-    
-    public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-    	return $this->hasMany(\App\Models\Chapter::class, 'chaptertype_id');
-    }
-    
-    public function offices(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-    	return $this->morphMany(Office::class, 'officeable');
-    }
-    
-    public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Realm::class, 'realm_id');
-    }
+	];
+	
+	public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Chapter::class, 'chaptertype_id');
+	}
+	
+	public function offices(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Office::class, 'officeable');
+	}
+	
+	public function realm(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Realm::class, 'realm_id');
+	}
 
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
 
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
 
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

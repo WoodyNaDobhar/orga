@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ChapterResource;
@@ -43,23 +43,24 @@ class ChapterAPIController extends AppBaseController
 	 *		summary="Get a listing of the Chapters.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chapter"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		accounts (Account) (MorphMany): Accounts this Chapter owns.
-	 * 		awards (Award) (MorphMany): Awards this Chapter can Issue.
-	 * 		chaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).
-	 * 		events (Event) (MorphMany): Events this Chapter has sponsored.
-	 * 		issuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.
-	 * 		location (Location) (BelongsTo): The official location for the Chapter.
-	 * 		nearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.
-	 * 		meetups (Meetup) (HasMany): Meetups hosted by this Chapter.
-	 * 		personas (Persona) (HasMany): Personas that claim this as their home.
-	 * 		realm (Realm) (BelongsTo): Realm the Chapter is associated with.
-	 * 		reigns (Reign) (MorphMany): Reigns for the Chapter.
-	 * 		socials (Social) (MorphMany): Socials for the Chapter.
-	 * 		titles (Title) (MorphMany): Titles the Chapter Issues.
-	 * 		createdBy (User) (BelongsTo): Chapter that created it.
-	 * 		updatedBy (User) (BelongsTo): Chapter that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Chapter that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accounts (Account) (MorphMany): Accounts this Chapter owns.<br>
+			awards (Award) (MorphMany): Awards this Chapter can Issue.<br>
+			chaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).<br>
+			events (Event) (MorphMany): Events this Chapter has sponsored.<br>
+			issuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.<br>
+			location (Location) (BelongsTo): The official location for the Chapter.<br>
+			nearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.<br>
+			meetups (Meetup) (HasMany): Meetups hosted by this Chapter.<br>
+			personas (Persona) (HasMany): Personas that claim this as their home.<br>
+			realm (Realm) (BelongsTo): Realm the Chapter is associated with.<br>
+			reign (Reign) (MorphOne): The current Reign of the Chapter.<br>
+			reigns (Reign) (MorphMany): Reigns for the Chapter.<br>
+			socials (Social) (MorphMany): Socials for the Chapter.<br>
+			titles (Title) (MorphMany): Titles the Chapter Issues.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -186,7 +187,7 @@ class ChapterAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Chapter::class);
+// 			$this->authorize('viewAny', Chapter::class);
 
 			$chapters = $this->chapterRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -197,7 +198,7 @@ class ChapterAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new ChapterResource($chapters), 'Chapters retrieved successfully.');
+			return $this->sendResponse(ChapterResource::collection($chapters), 'Chapters retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -214,7 +215,7 @@ class ChapterAPIController extends AppBaseController
 	 *		summary="Store a newly created Chapter in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chapter"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Chapter"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -348,23 +349,24 @@ class ChapterAPIController extends AppBaseController
 	 *		summary="Display the specified Chapter",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chapter"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		accounts (Account) (MorphMany): Accounts this Chapter owns.
-	 * 		awards (Award) (MorphMany): Awards this Chapter can Issue.
-	 * 		chaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).
-	 * 		events (Event) (MorphMany): Events this Chapter has sponsored.
-	 * 		issuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.
-	 * 		location (Location) (BelongsTo): The official location for the Chapter.
-	 * 		nearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.
-	 * 		meetups (Meetup) (HasMany): Meetups hosted by this Chapter.
-	 * 		personas (Persona) (HasMany): Personas that claim this as their home.
-	 * 		realm (Realm) (BelongsTo): Realm the Chapter is associated with.
-	 * 		reigns (Reign) (MorphMany): Reigns for the Chapter.
-	 * 		socials (Social) (MorphMany): Socials for the Chapter.
-	 * 		titles (Title) (MorphMany): Titles the Chapter Issues.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accounts (Account) (MorphMany): Accounts this Chapter owns.<br>
+			awards (Award) (MorphMany): Awards this Chapter can Issue.<br>
+			chaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).<br>
+			events (Event) (MorphMany): Events this Chapter has sponsored.<br>
+			issuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.<br>
+			location (Location) (BelongsTo): The official location for the Chapter.<br>
+			nearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.<br>
+			meetups (Meetup) (HasMany): Meetups hosted by this Chapter.<br>
+			personas (Persona) (HasMany): Personas that claim this as their home.<br>
+			realm (Realm) (BelongsTo): Realm the Chapter is associated with.<br>
+			reign (Reign) (MorphOne): The current Reign of the Chapter.<br>
+			reigns (Reign) (MorphMany): Reigns for the Chapter.<br>
+			socials (Social) (MorphMany): Socials for the Chapter.<br>
+			titles (Title) (MorphMany): Titles the Chapter Issues.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -499,7 +501,7 @@ class ChapterAPIController extends AppBaseController
 				return $this->sendError('Chapter (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $chapter);
+// 			$this->authorize('view', $chapter);
 
 			return $this->sendResponse(new ChapterResource($chapter), 'Chapter retrieved successfully.');
 		} catch (Throwable $e) {
@@ -519,7 +521,7 @@ class ChapterAPIController extends AppBaseController
 	 *		summary="Update the specified Chapter in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chapter"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -678,7 +680,7 @@ class ChapterAPIController extends AppBaseController
 	 *		summary="Remove the specified Chapter from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chapter"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

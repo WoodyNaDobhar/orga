@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
- *      schema="Waiver",
- *      required={"waiverable_type","waiverable_id","player","signed_at"},
+ *		schema="Waiver",
+ *		required={"waiverable_type","waiverable_id","player","signed_at"},
  *		description="Digital storage of legal Waivers.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * ageVerifiedBy (Persona) (BelongsTo): The Persona that verified the Waiver signer age, if it has been.
  * guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.
@@ -31,8 +30,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="guest_id",
  *			description="The ID of the Guest this Waiver is for, if any.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -40,8 +39,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="location_id",
  *			description="The Waiver address fields values.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -49,8 +48,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the Pronoun for the individual being Waivered, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -58,142 +57,142 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona this Waiver is for, if any.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="waiverable_type",
- *          description="The type of entity accepting the Waiver; Realm or Event.",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="waiverable_type",
+ *			description="The type of entity accepting the Waiver; Realm or Event.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Realm","Event"},
  *			example="Realm"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="waiverable_id",
  *			description="The ID of the entity accepting the Waiver.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="file",
- *          description="An internal link to an image of the original physical Waiver.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
+ *		@OA\Property(
+ *			property="file",
+ *			description="An internal link to an image of the original physical Waiver.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
  *			format="filename",
  *			example="images/waivers/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="player",
- *          description="The Waiver Mundane name field value.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="player",
+ *			description="The Waiver Mundane name field value.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="John Smith",
  *			maxLength=150
- *      ),
- *      @OA\Property(
- *          property="email",
- *          description="The Waiver email field value, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="email",
- *          example="nobody@nowhere.net",
- *          maxLength=255
- *      ),
- *      @OA\Property(
- *          property="phone",
- *          description="The Waiver phone field value, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=25,
- *          example="123-456-7890"
- *      ),
- *      @OA\Property(
- *          property="dob",
- *          description="The Waiver date of birth field value.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="email",
+ *			description="The Waiver email field value, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=255
+ *		),
+ *		@OA\Property(
+ *			property="phone",
+ *			description="The Waiver phone field value, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=25,
+ *			example="123-456-7890"
+ *		),
+ *		@OA\Property(
+ *			property="dob",
+ *			description="The Waiver date of birth field value.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="age_verified_at",
- *          description="The date the Waiver signer age is verified, if it has been.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="age_verified_at",
+ *			description="The date the Waiver signer age is verified, if it has been.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="age_verified_by",
  *			description="The ID of the Persona that verified the Waiver signer age, if it has been.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="guardian",
- *          description="The Waiver guardian name, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Richard Smith"
- *      ),
- *      @OA\Property(
- *          property="emergency_name",
- *          description="The Waiver emergency contact field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Becky Smith"
- *      ),
- *      @OA\Property(
- *          property="emergency_relationship",
- *          description="The Waiver emergency contact relationship field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Mom"
- *      ),
- *      @OA\Property(
- *          property="emergency_phone",
- *          description="The Waiver emergency contact phone field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=25,
- *          example="123-456-7890"
- *      ),
- *      @OA\Property(
- *          property="signed_at",
- *          description="Date the Waiver was signed.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="guardian",
+ *			description="The Waiver guardian name, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Richard Smith"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_name",
+ *			description="The Waiver emergency contact field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Becky Smith"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_relationship",
+ *			description="The Waiver emergency contact relationship field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Mom"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_phone",
+ *			description="The Waiver emergency contact phone field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=25,
+ *			example="123-456-7890"
+ *		),
+ *		@OA\Property(
+ *			property="signed_at",
+ *			description="Date the Waiver was signed.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -211,7 +210,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that created this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -231,7 +230,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable last User to update this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -251,7 +250,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="User",
  *					description="Attachable User that softdeleted this record."
  *				),
- *				@OA\Schema(ref="#/components/schemas/User"),
+ *				@OA\Schema(ref="#/components/schemas/UserSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -287,7 +286,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Persona",
  *					description="Attachable Persona the Waiver is for."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -299,7 +298,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Guest",
  *					description="Attachable Guest this Waiver is for."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Guest"),
+ *				@OA\Schema(ref="#/components/schemas/GuestSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -311,7 +310,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Location",
  *					description="Attachable Waiver address fields values."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Location"),
+ *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -323,7 +322,7 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Persona",
  *					description="Attachable Persona this Waiver is for, if any."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Persona"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
  *			},
  *			readOnly=true
  *		),
@@ -335,14 +334,11 @@ use App\Traits\ProtectFieldsTrait;
  *					title="Pronoun",
  *					description="Attachable Pronoun for the individual being Waivered."
  *				),
- *				@OA\Schema(ref="#/components/schemas/Pronoun"),
+ *				@OA\Schema(ref="#/components/schemas/PronounSimple"),
  *			},
  *			readOnly=true
  *		)
  * )
- */
- 
-/**
  *	@OA\Schema(
  *		schema="WaiverSimple",
  *		@OA\Property(
@@ -356,8 +352,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="guest_id",
  *			description="The ID of the Guest this Waiver is for, if any.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -365,8 +361,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="location_id",
  *			description="The Waiver address fields values.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -374,8 +370,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the Pronoun for the individual being Waivered, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -383,142 +379,142 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona this Waiver is for, if any.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="waiverable_type",
- *          description="The type of entity accepting the Waiver; Realm or Event.",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="waiverable_type",
+ *			description="The type of entity accepting the Waiver; Realm or Event.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Realm","Event"},
  *			example="Realm"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="waiverable_id",
  *			description="The ID of the entity accepting the Waiver.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="file",
- *          description="An internal link to an image of the original physical Waiver.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
+ *		@OA\Property(
+ *			property="file",
+ *			description="An internal link to an image of the original physical Waiver.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
  *			format="filename",
  *			example="images/waivers/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="player",
- *          description="The Waiver Mundane name field value.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="player",
+ *			description="The Waiver Mundane name field value.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="John Smith",
  *			maxLength=150
- *      ),
- *      @OA\Property(
- *          property="email",
- *          description="The Waiver email field value, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="email",
- *          example="nobody@nowhere.net",
- *          maxLength=255
- *      ),
- *      @OA\Property(
- *          property="phone",
- *          description="The Waiver phone field value, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=25,
- *          example="123-456-7890"
- *      ),
- *      @OA\Property(
- *          property="dob",
- *          description="The Waiver date of birth field value.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="email",
+ *			description="The Waiver email field value, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=255
+ *		),
+ *		@OA\Property(
+ *			property="phone",
+ *			description="The Waiver phone field value, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=25,
+ *			example="123-456-7890"
+ *		),
+ *		@OA\Property(
+ *			property="dob",
+ *			description="The Waiver date of birth field value.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="age_verified_at",
- *          description="The date the Waiver signer age is verified, if it has been.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="age_verified_at",
+ *			description="The date the Waiver signer age is verified, if it has been.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="age_verified_by",
  *			description="The ID of the Persona that verified the Waiver signer age, if it has been.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="guardian",
- *          description="The Waiver guardian name, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Richard Smith"
- *      ),
- *      @OA\Property(
- *          property="emergency_name",
- *          description="The Waiver emergency contact field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Becky Smith"
- *      ),
- *      @OA\Property(
- *          property="emergency_relationship",
- *          description="The Waiver emergency contact relationship field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Mom"
- *      ),
- *      @OA\Property(
- *          property="emergency_phone",
- *          description="The Waiver emergency contact phone field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=25,
- *          example="123-456-7890"
- *      ),
- *      @OA\Property(
- *          property="signed_at",
- *          description="Date the Waiver was signed.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="guardian",
+ *			description="The Waiver guardian name, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Richard Smith"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_name",
+ *			description="The Waiver emergency contact field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Becky Smith"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_relationship",
+ *			description="The Waiver emergency contact relationship field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Mom"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_phone",
+ *			description="The Waiver emergency contact phone field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=25,
+ *			example="123-456-7890"
+ *		),
+ *		@OA\Property(
+ *			property="signed_at",
+ *			description="Date the Waiver was signed.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -568,9 +564,7 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
  *		)
- */
- 
-/**
+ *	)
  *	@OA\Schema(
  *		schema="WaiverSuperSimple",
  *		@OA\Property(
@@ -584,8 +578,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="guest_id",
  *			description="The ID of the Guest this Waiver is for, if any.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -593,8 +587,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="location_id",
  *			description="The Waiver address fields values.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -602,8 +596,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the Pronoun for the individual being Waivered, if known.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
@@ -611,147 +605,143 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona_id",
  *			description="The ID of the Persona this Waiver is for, if any.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="waiverable_type",
- *          description="The type of entity accepting the Waiver; Realm or Event.",
- *          readOnly=false,
- *          nullable=false,
+ *		@OA\Property(
+ *			property="waiverable_type",
+ *			description="The type of entity accepting the Waiver; Realm or Event.",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="string",
  *			format="enum",
  *			enum={"Realm","Event"},
  *			example="Realm"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="waiverable_id",
  *			description="The ID of the entity accepting the Waiver.",
- *          readOnly=false,
- *          nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="file",
- *          description="An internal link to an image of the original physical Waiver.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
+ *		@OA\Property(
+ *			property="file",
+ *			description="An internal link to an image of the original physical Waiver.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
  *			format="filename",
  *			example="images/waivers/42.jpg",
  *			maxLength=191
- *      ),
- *      @OA\Property(
- *          property="player",
- *          description="The Waiver Mundane name field value.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
+ *		),
+ *		@OA\Property(
+ *			property="player",
+ *			description="The Waiver Mundane name field value.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="uppercase first letter",
  *			example="John Smith",
  *			maxLength=150
- *      ),
- *      @OA\Property(
- *          property="email",
- *          description="The Waiver email field value, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="email",
- *          example="nobody@nowhere.net",
- *          maxLength=255
- *      ),
- *      @OA\Property(
- *          property="phone",
- *          description="The Waiver phone field value, if any",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=25,
- *          example="123-456-7890"
- *      ),
- *      @OA\Property(
- *          property="dob",
- *          description="The Waiver date of birth field value.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="email",
+ *			description="The Waiver email field value, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=255
+ *		),
+ *		@OA\Property(
+ *			property="phone",
+ *			description="The Waiver phone field value, if any",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=25,
+ *			example="123-456-7890"
+ *		),
+ *		@OA\Property(
+ *			property="dob",
+ *			description="The Waiver date of birth field value.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
- *      @OA\Property(
- *          property="age_verified_at",
- *          description="The date the Waiver signer age is verified, if it has been.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="date",
+ *		),
+ *		@OA\Property(
+ *			property="age_verified_at",
+ *			description="The date the Waiver signer age is verified, if it has been.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      ),
+ *		),
  *		@OA\Property(
  *			property="age_verified_by",
  *			description="The ID of the Persona that verified the Waiver signer age, if it has been.",
- *          readOnly=false,
- *          nullable=true,
+ *			readOnly=false,
+ *			nullable=true,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *      @OA\Property(
- *          property="guardian",
- *          description="The Waiver guardian name, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Richard Smith"
- *      ),
- *      @OA\Property(
- *          property="emergency_name",
- *          description="The Waiver emergency contact field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Becky Smith"
- *      ),
- *      @OA\Property(
- *          property="emergency_relationship",
- *          description="The Waiver emergency contact relationship field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          format="uppercase first letter",
- *          example="Mom"
- *      ),
- *      @OA\Property(
- *          property="emergency_phone",
- *          description="The Waiver emergency contact phone field, if any.",
- *          readOnly=false,
- *          nullable=true,
- *          type="string",
- *          maxLength=25,
- *          example="123-456-7890"
- *      ),
- *      @OA\Property(
- *          property="signed_at",
- *          description="Date the Waiver was signed.",
- *          readOnly=false,
- *          nullable=false,
- *          type="string",
- *          format="date",
+ *		@OA\Property(
+ *			property="guardian",
+ *			description="The Waiver guardian name, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Richard Smith"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_name",
+ *			description="The Waiver emergency contact field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Becky Smith"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_relationship",
+ *			description="The Waiver emergency contact relationship field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Mom"
+ *		),
+ *		@OA\Property(
+ *			property="emergency_phone",
+ *			description="The Waiver emergency contact phone field, if any.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			maxLength=25,
+ *			example="123-456-7890"
+ *		),
+ *		@OA\Property(
+ *			property="signed_at",
+ *			description="Date the Waiver was signed.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="date",
  *			example="2020-12-30"
- *      )
+ *		)
  *	)
- */
- 
-/**
- *
  *	@OA\RequestBody(
  *		request="Waiver",
  *		description="Waiver object that needs to be added or updated.",
@@ -763,7 +753,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  */
 
-class Waiver extends Model
+class Waiver extends BaseModel
 {
 	use SoftDeletes;
 	use HasFactory;
@@ -776,106 +766,106 @@ class Waiver extends Model
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = [];
 
-    public $fillable = [
-        'pronoun_id',
-        'persona_id',
-        'waiverable_type',
-        'waiverable_id',
-        'file',
-        'player',
-        'email',
-        'phone',
-        'location_id',
-        'dob',
-        'age_verified_at',
-        'age_verified_by',
-        'guardian',
-        'emergency_name',
-        'emergency_relationship',
-        'emergency_phone',
-        'signed_at'
-    ];
+	public $fillable = [
+		  'pronoun_id',
+		  'persona_id',
+		  'waiverable_type',
+		  'waiverable_id',
+		  'file',
+		  'player',
+		  'email',
+		  'phone',
+		  'location_id',
+		  'dob',
+		  'age_verified_at',
+		  'age_verified_by',
+		  'guardian',
+		  'emergency_name',
+		  'emergency_relationship',
+		  'emergency_phone',
+		  'signed_at'
+	];
 
-    protected $casts = [
-        'waiverable_type' => 'string',
-        'file' => 'string',
-        'player' => 'string',
-        'email' => 'string',
-        'phone' => 'string',
-        'dob' => 'date',
-        'age_verified_at' => 'date',
-        'guardian' => 'string',
-        'emergency_name' => 'string',
-        'emergency_relationship' => 'string',
-        'emergency_phone' => 'string',
-        'signed_at' => 'date'
-    ];
+	protected $casts = [
+		  'waiverable_type' => 'string',
+		  'file' => 'string',
+		  'player' => 'string',
+		  'email' => 'string',
+		  'phone' => 'string',
+		  'dob' => 'date',
+		  'age_verified_at' => 'date',
+		  'guardian' => 'string',
+		  'emergency_name' => 'string',
+		  'emergency_relationship' => 'string',
+		  'emergency_phone' => 'string',
+		  'signed_at' => 'date'
+	];
 
-    public static array $rules = [
-    	'pronoun_id' => 'nullable|exists:pronouns,id',
-    	'persona_id' => 'nullable|exists:personas,id',
-    	'waiverable_type' => 'required|string|in:Realm,Event',
-    	'waiverable_id' => 'required|exists:realms,id',
-    	'file' => 'nullable|string|max:191',
-    	'player' => 'required|string|max:150',
-    	'email' => 'nullable|string|email|max:255',
-    	'phone' => 'nullable|string|max:25',
-    	'location_id' => 'nullable|exists:locations,id',
-    	'dob' => 'nullable|date',
-    	'age_verified_at' => 'nullable|datetime',
-    	'age_verified_by' => 'nullable|exists:personas,id',
-    	'guardian' => 'nullable|string|max:150',
-    	'emergency_name' => 'nullable|string|max:150',
-    	'emergency_relationship' => 'nullable|string|max:150',
-    	'emergency_phone' => 'nullable|string|max:25',
-    	'signed_at' => 'required|date'
-    ];
-    
-    public $relationships = [
-    	'ageVerifiedBy' => 'BelongsTo',
-    	'guest' => 'BelongsTo',
-    	'location' => 'BelongsTo',
-    	'persona' => 'BelongsTo',
-    	'pronoun' => 'BelongsTo'
-    ];
+	public static array $rules = [
+		'pronoun_id' => 'nullable|exists:pronouns,id',
+		'persona_id' => 'nullable|exists:personas,id',
+		'waiverable_type' => 'required|string|in:Realm,Event',
+		'waiverable_id' => 'required|exists:realms,id',
+		'file' => 'nullable|string|max:191',
+		'player' => 'required|string|max:150',
+		'email' => 'nullable|string|email|max:255',
+		'phone' => 'nullable|string|max:25',
+		'location_id' => 'nullable|exists:locations,id',
+		'dob' => 'nullable|date',
+		'age_verified_at' => 'nullable|datetime',
+		'age_verified_by' => 'nullable|exists:personas,id',
+		'guardian' => 'nullable|string|max:150',
+		'emergency_name' => 'nullable|string|max:150',
+		'emergency_relationship' => 'nullable|string|max:150',
+		'emergency_phone' => 'nullable|string|max:25',
+		'signed_at' => 'required|date'
+	];
+	
+	public $relationships = [
+		'ageVerifiedBy' => 'BelongsTo',
+		'guest' => 'BelongsTo',
+		'location' => 'BelongsTo',
+		'persona' => 'BelongsTo',
+		'pronoun' => 'BelongsTo'
+	];
 
-    public function ageVerifiedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Persona::class, 'age_verified_by');
-    }
-    
-    public function guest(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\Persona::class, 'guest_id');
-    }
+	public function ageVerifiedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Persona::class, 'age_verified_by');
+	}
+	
+	public function guest(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Persona::class, 'guest_id');
+	}
 
-    public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Location::class, 'location_id');
-    }
+	public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Location::class, 'location_id');
+	}
 
-    public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
-    }
+	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+	}
 
-    public function pronoun(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Pronoun::class, 'pronoun_id');
-    }
-    
-    public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'created_by');
-    }
-    
-    public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'deleted_by');
-    }
-    
-    public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-    	return $this->belongsTo(\App\Models\User::class, 'updated_by');
-    }
+	public function pronoun(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		  return $this->belongsTo(\App\Models\Pronoun::class, 'pronoun_id');
+	}
+	
+	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
+	}
+	
+	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+	}
+	
+	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
+	}
 }

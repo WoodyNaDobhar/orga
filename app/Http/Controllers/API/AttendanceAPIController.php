@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\AttendanceResource;
@@ -43,13 +43,13 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Get a listing of the Attendances.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.
-	 * 		archetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.
-	 * 		persona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.
-	 * 		createdBy (User) (BelongsTo): Attendance that created it.
-	 * 		updatedBy (User) (BelongsTo): Attendance that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Attendance that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>
+			archetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>
+			persona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -176,7 +176,7 @@ class AttendanceAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Attendance::class);
+// 			$this->authorize('viewAny', Attendance::class);
 
 			$attendances = $this->attendanceRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -187,7 +187,7 @@ class AttendanceAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new AttendanceResource($attendances), 'Attendances retrieved successfully.');
+			return $this->sendResponse(AttendanceResource::collection($attendances), 'Attendances retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Store a newly created Attendance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Attendance"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Display the specified Attendance",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.
-	 * 		archetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.
-	 * 		persona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>
+			archetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>
+			persona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -478,7 +478,7 @@ class AttendanceAPIController extends AppBaseController
 				return $this->sendError('Attendance (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $attendance);
+// 			$this->authorize('view', $attendance);
 
 			return $this->sendResponse(new AttendanceResource($attendance), 'Attendance retrieved successfully.');
 		} catch (Throwable $e) {
@@ -498,7 +498,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Update the specified Attendance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Remove the specified Attendance from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

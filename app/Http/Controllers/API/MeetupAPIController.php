@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\MeetupResource;
@@ -43,14 +43,14 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Get a listing of the Meetups.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (MorphMany): Attendances for the Meetup.
-	 * 		chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.
-	 * 		issuances (Issuance) (MorphMany): Issuances made at the Meetup.
-	 * 		location (Location) (BelongsTo): Location of the Meetup.
-	 * 		createdBy (User) (BelongsTo): Meetup that created it.
-	 * 		updatedBy (User) (BelongsTo): Meetup that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Meetup that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (MorphMany): Attendances for the Meetup.<br>
+			chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>
+			issuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>
+			location (Location) (BelongsTo): Location of the Meetup.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -177,7 +177,7 @@ class MeetupAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Meetup::class);
+// 			$this->authorize('viewAny', Meetup::class);
 
 			$meetups = $this->meetupRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -188,7 +188,7 @@ class MeetupAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new MeetupResource($meetups), 'Meetups retrieved successfully.');
+			return $this->sendResponse(MeetupResource::collection($meetups), 'Meetups retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -205,7 +205,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Store a newly created Meetup in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Meetup"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -338,14 +338,14 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Display the specified Meetup",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (MorphMany): Attendances for the Meetup.
-	 * 		chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.
-	 * 		issuances (Issuance) (MorphMany): Issuances made at the Meetup.
-	 * 		location (Location) (BelongsTo): Location of the Meetup.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (MorphMany): Attendances for the Meetup.<br>
+			chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>
+			issuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>
+			location (Location) (BelongsTo): Location of the Meetup.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -480,7 +480,7 @@ class MeetupAPIController extends AppBaseController
 				return $this->sendError('Meetup (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $meetup);
+// 			$this->authorize('view', $meetup);
 
 			return $this->sendResponse(new MeetupResource($meetup), 'Meetup retrieved successfully.');
 		} catch (Throwable $e) {
@@ -500,7 +500,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Update the specified Meetup in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -659,7 +659,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Remove the specified Meetup from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

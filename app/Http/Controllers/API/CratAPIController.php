@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\CratResource;
@@ -43,12 +43,12 @@ class CratAPIController extends AppBaseController
 	 *		summary="Get a listing of the Crats.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		event (Event) (BelongsTo): Event the Persona cratted for.
-	 * 		persona (Persona) (BelongsTo): The Persona cratting the given Event.
-	 * 		createdBy (User) (BelongsTo): Crat that created it.
-	 * 		updatedBy (User) (BelongsTo): Crat that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Crat that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			event (Event) (BelongsTo): Event the Persona cratted for.<br>
+			persona (Persona) (BelongsTo): The Persona cratting the given Event.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class CratAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Crat::class);
+// 			$this->authorize('viewAny', Crat::class);
 
 			$crats = $this->cratRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -186,7 +186,7 @@ class CratAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new CratResource($crats), 'Crats retrieved successfully.');
+			return $this->sendResponse(CratResource::collection($crats), 'Crats retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Store a newly created Crat in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Crat"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class CratAPIController extends AppBaseController
 	 *		summary="Display the specified Crat",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		event (Event) (BelongsTo): Event the Persona cratted for.
-	 * 		persona (Persona) (BelongsTo): The Persona cratting the given Event.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			event (Event) (BelongsTo): Event the Persona cratted for.<br>
+			persona (Persona) (BelongsTo): The Persona cratting the given Event.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class CratAPIController extends AppBaseController
 				return $this->sendError('Crat (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $crat);
+// 			$this->authorize('view', $crat);
 
 			return $this->sendResponse(new CratResource($crat), 'Crat retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Update the specified Crat in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Remove the specified Crat from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

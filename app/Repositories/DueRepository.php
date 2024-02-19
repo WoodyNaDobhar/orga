@@ -7,20 +7,20 @@ use App\Repositories\BaseRepository;
 
 class DueRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'persona_id',
-        'transaction_id',
-        'dues_on',
-        'intervals'
-    ];
+	protected $fieldSearchable = [
+		'persona_id',
+		'transaction_id',
+		'dues_on',
+		'intervals'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Due::class;
-    }
+	public function model(): string
+	{
+		return Due::class;
+	}
 }

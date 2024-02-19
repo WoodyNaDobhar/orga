@@ -7,21 +7,21 @@ use App\Repositories\BaseRepository;
 
 class OfficeRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'officeable_type',
-        'officeable_id',
-        'name',
-        'duration',
-        'order'
-    ];
+	protected $fieldSearchable = [
+		'officeable_type',
+		'officeable_id',
+		'name',
+		'duration',
+		'order'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Office::class;
-    }
+	public function model(): string
+	{
+		return Office::class;
+	}
 }

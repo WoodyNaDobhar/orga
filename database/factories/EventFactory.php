@@ -32,7 +32,9 @@ class EventFactory extends Factory
 
         return [
             'eventable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
-            'eventable_id' => $this->faker->word,
+        	'eventable_id' => $this->faker->word,
+        	'sponsorable_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
+        	'sponsorable_id' => $this->faker->word,
             'location_id' => $this->faker->word,
             'name' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'description' => $this->faker->text($this->faker->numberBetween(5, 16777215)),

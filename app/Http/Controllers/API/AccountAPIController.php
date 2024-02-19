@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\AccountResource;
@@ -43,13 +43,13 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Get a listing of the Accounts.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
-	 * accountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.
-	 * parent (Account) (BelongsTo): Parent Account, if any.
-	 * splits (Split) (HasMany): Splits for this Account.
-	 * createdBy (User) (BelongsTo): Account that created it.
-	 * updatedBy (User) (BelongsTo): Account that last updated it (if any).
-	 * deletedBy (User) (BelongsTo): Account that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>
+			parent (Account) (BelongsTo): Parent Account, if any.<br>
+			splits (Split) (HasMany): Splits for this Account.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -187,7 +187,7 @@ class AccountAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new AccountResource($accounts), 'Accounts retrieved successfully.');
+			return $this->sendResponse(AccountResource::collection($accounts), 'Accounts retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Store a newly created Account in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Account"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Display the specified Account",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
-	 * accountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.
-	 * parent (Account) (BelongsTo): Parent Account, if any.
-	 * splits (Split) (HasMany): Splits for this Account.
-	 * createdBy (User) (BelongsTo): User that created it.
-	 * updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>
+			parent (Account) (BelongsTo): Parent Account, if any.<br>
+			splits (Split) (HasMany): Splits for this Account.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -498,7 +498,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Update the specified Account in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Remove the specified Account from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

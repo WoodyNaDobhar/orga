@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c9d6eb78e9c626a794a5284c0feafe8",
+    "content-hash": "018d7e65c2e881ed13121819dc6f14fa",
     "packages": [
         {
             "name": "brick/math",
@@ -63,24 +63,25 @@
         },
         {
             "name": "darkaonline/l5-swagger",
-            "version": "8.5.1",
+            "version": "8.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DarkaOnLine/L5-Swagger.git",
-                "reference": "02348149f1833c63bf52764838d5659507857394"
+                "reference": "2558ac430be2f825436267e6774bd407eab95372"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/02348149f1833c63bf52764838d5659507857394",
-                "reference": "02348149f1833c63bf52764838d5659507857394",
+                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/2558ac430be2f825436267e6774bd407eab95372",
+                "reference": "2558ac430be2f825436267e6774bd407eab95372",
                 "shasum": ""
             },
             "require": {
+                "doctrine/annotations": "^1.0 || ^2.0",
                 "ext-json": "*",
                 "laravel/framework": "^10.0 || ^9.0 || >=8.40.0 || ^7.0",
                 "php": "^7.2 || ^8.0",
                 "swagger-api/swagger-ui": "^3.0 || >=4.1.3",
-                "symfony/yaml": "^5.0 || ^6.0",
+                "symfony/yaml": "^5.0 || ^6.0 || ^7.0",
                 "zircote/swagger-php": "^3.2.0 || ^4.0.0"
             },
             "require-dev": {
@@ -130,7 +131,7 @@
             ],
             "support": {
                 "issues": "https://github.com/DarkaOnLine/L5-Swagger/issues",
-                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.5.1"
+                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.5.2"
             },
             "funding": [
                 {
@@ -138,7 +139,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-05T04:21:50+00:00"
+            "time": "2023-12-12T09:53:16+00:00"
         },
         {
             "name": "deployer/deployer",
@@ -1045,6 +1046,61 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "genealabs/laravel-pivot-events",
+            "version": "10.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeneaLabs/laravel-pivot-events.git",
+                "reference": "862371f6f89be296cc026c9cf5b372dca4d7958b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeneaLabs/laravel-pivot-events/zipball/862371f6f89be296cc026c9cf5b372dca4d7958b",
+                "reference": "862371f6f89be296cc026c9cf5b372dca4d7958b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.0|^9.0|^10.0",
+                "illuminate/support": "^8.0|^9.0|^10.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0|^8.0",
+                "symfony/thanks": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GeneaLabs\\LaravelPivotEvents\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Bronner",
+                    "email": "hello@genealabs.com",
+                    "homepage": "https://genealabs.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This package introduces new eloquent events for sync(), attach(), detach() or updateExistingPivot() methods on BelongsToMany relation.",
+            "homepage": "https://github.com/GeneaLabs/laravel-pivot",
+            "keywords": [
+                "eloquent events",
+                "eloquent extra events",
+                "laravel BelongsToMany events",
+                "laravel pivot events",
+                "laravel sync events"
+            ],
+            "support": {
+                "issues": "https://github.com/GeneaLabs/laravel-pivot/issues",
+                "source": "https://github.com/GeneaLabs/laravel-pivot"
+            },
+            "time": "2023-03-22T14:46:23+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -3020,6 +3076,52 @@
             "time": "2023-08-13T19:53:39+00:00"
         },
         {
+            "name": "northox/stupid-password",
+            "version": "v2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/northox/stupid-password.git",
+                "reference": "e9f018e74d704ab2f20c8e62142220c5fdc60ef4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/northox/stupid-password/zipball/e9f018e74d704ab2f20c8e62142220c5fdc60ef4",
+                "reference": "e9f018e74d704ab2f20c8e62142220c5fdc60ef4",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StupidPass\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Danny Fullerton"
+                }
+            ],
+            "description": "Provides a simple way of preventing user from using easy to guess/bruteforce password.",
+            "keywords": [
+                "password",
+                "security"
+            ],
+            "support": {
+                "issues": "https://github.com/northox/stupid-password/issues",
+                "source": "https://github.com/northox/stupid-password/tree/master"
+            },
+            "abandoned": true,
+            "time": "2018-11-24T16:52:46+00:00"
+        },
+        {
             "name": "nunomaduro/termwind",
             "version": "v1.15.1",
             "source": {
@@ -3104,6 +3206,94 @@
                 }
             ],
             "time": "2023-02-08T01:06:31+00:00"
+        },
+        {
+            "name": "owen-it/laravel-auditing",
+            "version": "v13.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/owen-it/laravel-auditing.git",
+                "reference": "42ebec8a5abfcc5d61b563eb95c77dd597be4185"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/42ebec8a5abfcc5d61b563eb95c77dd597be4185",
+                "reference": "42ebec8a5abfcc5d61b563eb95c77dd597be4185",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^7.0|^8.0|^9.0|^10.0",
+                "illuminate/database": "^7.0|^8.0|^9.0|^10.0",
+                "illuminate/filesystem": "^7.0|^8.0|^9.0|^10.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "laravel/legacy-factories": "*",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "irazasyed/larasupport": "Needed to publish the package configuration in Lumen"
+            },
+            "type": "package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "v13-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "OwenIt\\Auditing\\AuditingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OwenIt\\Auditing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antério Vieira",
+                    "email": "anteriovieira@gmail.com"
+                },
+                {
+                    "name": "Raphael França",
+                    "email": "raphaelfrancabsb@gmail.com"
+                },
+                {
+                    "name": "Morten D. Hansen",
+                    "email": "morten@visia.dk"
+                }
+            ],
+            "description": "Audit changes of your Eloquent models in Laravel/Lumen",
+            "homepage": "https://laravel-auditing.com",
+            "keywords": [
+                "Accountability",
+                "Audit",
+                "auditing",
+                "changes",
+                "eloquent",
+                "history",
+                "laravel",
+                "log",
+                "logging",
+                "lumen",
+                "observer",
+                "record",
+                "revision",
+                "tracking"
+            ],
+            "support": {
+                "issues": "https://github.com/owen-it/laravel-auditing/issues",
+                "source": "https://github.com/owen-it/laravel-auditing"
+            },
+            "time": "2023-12-31T09:17:11+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -4162,16 +4352,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.9.1",
+            "version": "v5.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "bb59bcf36dff8b6476299ab7d45cc87957999d36"
+                "reference": "5b3a80c19155d09871538eb34b6fe4c28cd09ab6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/bb59bcf36dff8b6476299ab7d45cc87957999d36",
-                "reference": "bb59bcf36dff8b6476299ab7d45cc87957999d36",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/5b3a80c19155d09871538eb34b6fe4c28cd09ab6",
+                "reference": "5b3a80c19155d09871538eb34b6fe4c28cd09ab6",
                 "shasum": ""
             },
             "type": "library",
@@ -4217,9 +4407,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.9.1"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.11.6"
             },
-            "time": "2023-10-25T08:21:35+00:00"
+            "time": "2024-02-15T10:36:53+00:00"
         },
         {
             "name": "symfony/console",
@@ -6918,21 +7108,67 @@
             "time": "2023-02-15T09:35:24+00:00"
         },
         {
-            "name": "zircote/swagger-php",
-            "version": "4.7.15",
+            "name": "woodynadobhar/laravel-stupid-password",
+            "version": "v1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "df8de8e484003f68cd2fa68db1e6cfb47a3a92cb"
+                "url": "https://github.com/WoodyNaDobhar/laravel-stupid-password.git",
+                "reference": "20e67b667ef669d068b7395c9239a1bbbb8f3cb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/df8de8e484003f68cd2fa68db1e6cfb47a3a92cb",
-                "reference": "df8de8e484003f68cd2fa68db1e6cfb47a3a92cb",
+                "url": "https://api.github.com/repos/WoodyNaDobhar/laravel-stupid-password/zipball/20e67b667ef669d068b7395c9239a1bbbb8f3cb8",
+                "reference": "20e67b667ef669d068b7395c9239a1bbbb8f3cb8",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.7 || ^2.0",
+                "northox/stupid-password": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "WoodyNaDobhar\\LaravelStupidPassword\\LaravelStupidPasswordServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "WoodyNaDobhar\\LaravelStupidPassword\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Woody NaDobhar",
+                    "email": "woodynadobhar@hotmail.com"
+                }
+            ],
+            "description": "A laravel package wrapper for northox/stupid-password",
+            "support": {
+                "issues": "https://github.com/WoodyNaDobhar/laravel-stupid-password/issues",
+                "source": "https://github.com/WoodyNaDobhar/laravel-stupid-password/tree/v1.0"
+            },
+            "time": "2020-06-19T02:06:24+00:00"
+        },
+        {
+            "name": "zircote/swagger-php",
+            "version": "4.8.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zircote/swagger-php.git",
+                "reference": "bdee7f5a9216ce103ba2c953c1c43c4a3e139e4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/bdee7f5a9216ce103ba2c953c1c43c4a3e139e4c",
+                "reference": "bdee7f5a9216ce103ba2c953c1c43c4a3e139e4c",
+                "shasum": ""
+            },
+            "require": {
                 "ext-json": "*",
                 "php": ">=7.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
@@ -6942,10 +7178,14 @@
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11",
-                "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
+                "doctrine/annotations": "^1.7 || ^2.0",
+                "friendsofphp/php-cs-fixer": "^2.17 || ^3.47.1",
                 "phpstan/phpstan": "^1.6",
                 "phpunit/phpunit": ">=8",
                 "vimeo/psalm": "^4.23"
+            },
+            "suggest": {
+                "doctrine/annotations": "^1.7 || ^2.0"
             },
             "bin": [
                 "bin/openapi"
@@ -6991,9 +7231,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.7.15"
+                "source": "https://github.com/zircote/swagger-php/tree/4.8.4"
             },
-            "time": "2023-10-12T20:26:34+00:00"
+            "time": "2024-02-04T21:16:47+00:00"
         }
     ],
     "packages-dev": [

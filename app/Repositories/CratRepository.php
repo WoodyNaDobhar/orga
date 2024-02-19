@@ -7,20 +7,20 @@ use App\Repositories\BaseRepository;
 
 class CratRepository extends BaseRepository
 {
-    protected $fieldSearchable = [
-        'event_id',
-        'persona_id',
-        'role',
-        'is_autocrat'
-    ];
+	protected $fieldSearchable = [
+		'event_id',
+		'persona_id',
+		'role',
+		'is_autocrat'
+	];
 
-    public function getFieldsSearchable(): array
-    {
-        return $this->fieldSearchable;
-    }
+	public function getFieldsSearchable(): array
+	{
+		return $this->fieldSearchable;
+	}
 
-    public function model(): string
-    {
-        return Crat::class;
-    }
+	public function model(): string
+	{
+		return Crat::class;
+	}
 }

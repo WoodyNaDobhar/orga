@@ -16,8 +16,18 @@ class {{ $config->modelNames->name }}Resource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             {!! $fields !!}
         ];
+        
+        //related
+        foreach (array_keys($this->relationships) as $relationship) {
+        	$resourceClass = 'App\\Http\\Resources\\' . ucfirst(Str::singular($relationship)) . 'Resource';
+        	if ($request->has('with') && in_array($relationship, $request->with) && class_exists($resourceClass)) {
+        		$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+        	}
+        }
+        
+        return $data;
     }
 }

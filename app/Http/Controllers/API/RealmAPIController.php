@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\RealmResource;
@@ -43,21 +43,22 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Get a listing of the Realms.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		accounts (Account) (MorphMany): Accounts for the Realm.
-	 * 		awards (Awards) (MorphMany): Awards this Realm can issue.
-	 * 		chapters (Chapter) (HasMany): Chapters of the Realm.
-	 * 		chaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.
-	 * 		events (Event) (MorphMany): Events sponsored by the Realm.
-	 * 		issuances (Issuance) (MorphMany): Issuances made by the Realm.
-	 * 		offices (Office) (MorphMany): Offices of the Realm.
-	 * 		reigns (Reign) (MorphMany): Reigns of the Realm.
-	 * 		socials (Social) (MorphMany): Socials for the Realm.
-	 * 		suspensions (Suspension) (HasMany): Suspensions levied by the Realm.
-	 * 		titles (Title) (MorphMany): Titles the Realm Issues.
-	 * 		createdBy (User) (BelongsTo): Realm that created it.
-	 * 		updatedBy (User) (BelongsTo): Realm that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Realm that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accounts (Account) (MorphMany): Accounts for the Realm.<br>
+			awards (Awards) (MorphMany): Awards this Realm can issue.<br>
+			chapters (Chapter) (HasMany): Chapters of the Realm.<br>
+			chaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.<br>
+			events (Event) (MorphMany): Events sponsored by the Realm.<br>
+			issuances (Issuance) (MorphMany): Issuances made by the Realm.<br>
+			offices (Office) (MorphMany): Offices of the Realm.<br>
+			reign (Reign) (MorphOne): The current Reign of the Realm.<br>
+			reigns (Reign) (MorphMany): Reigns of the Realm.<br>
+			socials (Social) (MorphMany): Socials for the Realm.<br>
+			suspensions (Suspension) (HasMany): Suspensions levied by the Realm.<br>
+			titles (Title) (MorphMany): Titles the Realm Issues.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -184,7 +185,7 @@ class RealmAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Realm::class);
+// 			$this->authorize('viewAny', Realm::class);
 
 			$realms = $this->realmRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -195,7 +196,7 @@ class RealmAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new RealmResource($realms), 'Realms retrieved successfully.');
+			return $this->sendResponse(RealmResource::collection($realms), 'Realms retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -212,7 +213,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Store a newly created Realm in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Realm"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -345,21 +346,22 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Display the specified Realm",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		accounts (Account) (MorphMany): Accounts for the Realm.
-	 * 		awards (Awards) (MorphMany): Awards this Realm can issue.
-	 * 		chapters (Chapter) (HasMany): Chapters of the Realm.
-	 * 		chaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.
-	 * 		events (Event) (MorphMany): Events sponsored by the Realm.
-	 * 		issuances (Issuance) (MorphMany): Issuances made by the Realm.
-	 * 		offices (Office) (MorphMany): Offices of the Realm.
-	 * 		reigns (Reign) (MorphMany): Reigns of the Realm.
-	 * 		socials (Social) (MorphMany): Socials for the Realm.
-	 * 		suspensions (Suspension) (HasMany): Suspensions levied by the Realm.
-	 * 		titles (Title) (MorphMany): Titles the Realm Issues.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			accounts (Account) (MorphMany): Accounts for the Realm.<br>
+			awards (Awards) (MorphMany): Awards this Realm can issue.<br>
+			chapters (Chapter) (HasMany): Chapters of the Realm.<br>
+			chaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.<br>
+			events (Event) (MorphMany): Events sponsored by the Realm.<br>
+			issuances (Issuance) (MorphMany): Issuances made by the Realm.<br>
+			offices (Office) (MorphMany): Offices of the Realm.<br>
+			reign (Reign) (MorphOne): The current Reign of the Realm.<br>
+			reigns (Reign) (MorphMany): Reigns of the Realm.<br>
+			socials (Social) (MorphMany): Socials for the Realm.<br>
+			suspensions (Suspension) (HasMany): Suspensions levied by the Realm.<br>
+			titles (Title) (MorphMany): Titles the Realm Issues.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -494,7 +496,7 @@ class RealmAPIController extends AppBaseController
 				return $this->sendError('Realm (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $realm);
+// 			$this->authorize('view', $realm);
 
 			return $this->sendResponse(new RealmResource($realm), 'Realm retrieved successfully.');
 		} catch (Throwable $e) {
@@ -514,7 +516,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Update the specified Realm in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -673,7 +675,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Remove the specified Realm from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

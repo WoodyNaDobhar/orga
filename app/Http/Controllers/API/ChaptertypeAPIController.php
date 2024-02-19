@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ChaptertypeResource;
@@ -43,13 +43,13 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Get a listing of the Chaptertypes.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		chapters (Chapter) (HasMany): Chapters that share this Chaptertype.
-	 * 		offices (Office) (MorphMany): Offices for this Chaptertype.
-	 * 		realm (Realm) (BelongsTo): Realm for the Chaptertype.
-	 * 		createdBy (User) (BelongsTo): Chaptertype that created it.
-	 * 		updatedBy (User) (BelongsTo): Chaptertype that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Chaptertype that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			chapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>
+			offices (Office) (MorphMany): Offices for this Chaptertype.<br>
+			realm (Realm) (BelongsTo): Realm for the Chaptertype.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -176,7 +176,7 @@ class ChaptertypeAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Chaptertype::class);
+// 			$this->authorize('viewAny', Chaptertype::class);
 
 			$chaptertypes = $this->chaptertypeRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -187,7 +187,7 @@ class ChaptertypeAPIController extends AppBaseController
 				$request->has('sort') ? $request->get('sort') : null
 			);
 
-			return $this->sendResponse(new ChaptertypeResource($chaptertypes), 'Chaptertypes retrieved successfully.');
+			return $this->sendResponse(ChaptertypeResource::collection($chaptertypes), 'Chaptertypes retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -204,7 +204,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Store a newly created Chaptertype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Chaptertype"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,13 +337,13 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Display the specified Chaptertype",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		chapters (Chapter) (HasMany): Chapters that share this Chaptertype.
-	 * 		offices (Office) (MorphMany): Offices for this Chaptertype.
-	 * 		realm (Realm) (BelongsTo): Realm for the Chaptertype.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			chapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>
+			offices (Office) (MorphMany): Offices for this Chaptertype.<br>
+			realm (Realm) (BelongsTo): Realm for the Chaptertype.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -478,7 +478,7 @@ class ChaptertypeAPIController extends AppBaseController
 				return $this->sendError('Chaptertype (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $chaptertype);
+// 			$this->authorize('view', $chaptertype);
 
 			return $this->sendResponse(new ChaptertypeResource($chaptertype), 'Chaptertype retrieved successfully.');
 		} catch (Throwable $e) {
@@ -498,7 +498,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Update the specified Chaptertype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Remove the specified Chaptertype from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use app\Helpers\AppHelper;
+use App\Helpers\AppHelper;
 use Throwable;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ArchetypeResource;
@@ -43,12 +43,12 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Get a listing of the Archetypes.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (HasMany): Attendances with this Archetype.
-	 * 		reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.
-	 * 		createdBy (User) (BelongsTo): Archetype that created it.
-	 * 		updatedBy (User) (BelongsTo): Archetype that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): Archetype that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (HasMany): Attendances with this Archetype.<br>
+			reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/search"
 	 *		),
@@ -175,7 +175,7 @@ class ArchetypeAPIController extends AppBaseController
 	{
 		try {
 
-			$this->authorize('viewAny', Archetype::class);
+// 			$this->authorize('viewAny', Archetype::class);
 
 			$archetypes = $this->archetypeRepository->all(
 				$request->has('search') ? $request->get('search') : [],
@@ -185,8 +185,8 @@ class ArchetypeAPIController extends AppBaseController
 				$request->has('with') ? $request->get('with') : null,
 				$request->has('sort') ? $request->get('sort') : null
 			);
-
-			return $this->sendResponse(new ArchetypeResource($archetypes), 'Archetypes retrieved successfully.');
+			
+			return $this->sendResponse(ArchetypeResource::collection($archetypes), 'Archetypes retrieved successfully.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -203,7 +203,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Store a newly created Archetype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Archetype"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,12 +336,12 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Display the specified Archetype",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full
-	 * 		attendances (Attendance) (HasMany): Attendances with this Archetype.
-	 * 		reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.
-	 * 		createdBy (User) (BelongsTo): User that created it.
-	 * 		updatedBy (User) (BelongsTo): User that last updated it (if any).
-	 * 		deletedBy (User) (BelongsTo): User that deleted it (if any).",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+			attendances (Attendance) (HasMany): Attendances with this Archetype.<br>
+			reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),
@@ -476,7 +476,7 @@ class ArchetypeAPIController extends AppBaseController
 				return $this->sendError('Archetype (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
 			}
 		
-			$this->authorize('view', $archetype);
+// 			$this->authorize('view', $archetype);
 
 			return $this->sendResponse(new ArchetypeResource($archetype), 'Archetype retrieved successfully.');
 		} catch (Throwable $e) {
@@ -496,7 +496,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Update the specified Archetype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Remove the specified Archetype from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
