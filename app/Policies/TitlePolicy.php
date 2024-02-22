@@ -84,13 +84,13 @@ class TitlePolicy
 												(
 														$user->persona->chapter_id === $title->titleable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $title->titleable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -99,14 +99,14 @@ class TitlePolicy
 										$title->titleable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $title->titleable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$title->titleable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($title, $user) {
 											return $unit->id === $title->titleable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)
@@ -136,13 +136,13 @@ class TitlePolicy
 												(
 														$user->persona->chapter_id === $title->titleable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $title->titleable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -151,14 +151,14 @@ class TitlePolicy
 										$title->titleable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $title->titleable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$title->titleable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($title, $user) {
 											return $unit->id === $title->titleable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Meetup;
-use App\Repositories\BaseRepository;
 
 class MeetupRepository extends BaseRepository
 {

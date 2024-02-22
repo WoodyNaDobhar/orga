@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Due;
-use App\Repositories\BaseRepository;
 
 class DueRepository extends BaseRepository
 {

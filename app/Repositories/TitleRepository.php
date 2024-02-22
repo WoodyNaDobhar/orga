@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Title;
-use App\Repositories\BaseRepository;
 
 class TitleRepository extends BaseRepository
 {

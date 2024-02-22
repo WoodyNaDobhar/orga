@@ -73,6 +73,17 @@ class PersonaPolicy
 	 */
 	public function update(User $user, Persona $persona)
 	{
+// 		$user->givePermissionTo('updateRelated personas');
+// 		$user->assignRole('officer');
+// 		dd(
+// 				array(
+// 						$user->persona->id,
+// 						$user->persona->chapter->reign->officers->toArray(),
+// 						$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
+// 							return $item->persona_id === $user->persona->id;
+// 						})
+// 				)
+// 		);
 		if (
 				$user->can('update personas') ||
 				(
@@ -85,13 +96,13 @@ class PersonaPolicy
 								(
 										$user->persona->chapter_id === $persona->chapter_id &&
 										$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$user->persona->chapter->realm_id === $persona->chapter->realm_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -119,13 +130,13 @@ class PersonaPolicy
 								(
 										$user->persona->chapter_id === $persona->chapter_id &&
 										$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$user->persona->chapter->realm_id === $persona->chapter->realm_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

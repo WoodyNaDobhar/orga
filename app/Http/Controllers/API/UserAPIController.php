@@ -628,7 +628,7 @@ class UserAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var User $User */
-			$User = $this->UserRepository->find($id);
+			$User = $this->userRepository->find($id);
 
 			if (empty($User)) {
 				return $this->sendError('User (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class UserAPIController extends AppBaseController
 		
 			$this->authorize('update', $User);
 
-			$User = $this->UserRepository->update($input, $id);
+			$User = $this->userRepository->update($input, $id);
 
 			return $this->sendResponse(new UserResource($User), 'User updated successfully.');
 		} catch (Throwable $e) {

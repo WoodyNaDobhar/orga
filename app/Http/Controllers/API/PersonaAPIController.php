@@ -672,7 +672,7 @@ class PersonaAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Persona $Persona */
-			$Persona = $this->PersonaRepository->find($id);
+			$Persona = $this->personaRepository->find($id);
 
 			if (empty($Persona)) {
 				return $this->sendError('Persona (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -680,7 +680,7 @@ class PersonaAPIController extends AppBaseController
 		
 			$this->authorize('update', $Persona);
 
-			$Persona = $this->PersonaRepository->update($input, $id);
+			$Persona = $this->personaRepository->update($input, $id);
 
 			return $this->sendResponse(new PersonaResource($Persona), 'Persona updated successfully.');
 		} catch (Throwable $e) {

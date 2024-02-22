@@ -90,13 +90,13 @@ class RecommendationPolicy
 														(
 																$user->persona->chapter_id === $recommendation->recommendable->awarder_id &&
 																$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														) ||
 														(
 																$user->persona->chapter->realm_id === $recommendation->recommendable->awarder->realm_id &&
 																$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												)
@@ -105,14 +105,14 @@ class RecommendationPolicy
 												$recommendation->recommendable->awarder_type === 'Realm' &&
 												$user->persona->chapter->realm_id === $recommendation->recommendable->awarder_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										) ||
 										(
 												$recommendation->recommendable->awarder_type === 'Unit' &&
 												$user->persona->units->first(function ($unit) use ($recommendation, $user) {
 													return $unit->id === $recommendation->recommendable->awarder_id &&
-													$unit->officers->contains('persona_id', $user->persona_id);
+													$unit->officers->contains('persona_id', $user->persona->id);
 												}) !== null
 										)
 								) ||
@@ -124,33 +124,33 @@ class RecommendationPolicy
 														(
 																$user->persona->chapter_id === $recommendation->recommendable->titleable_id &&
 																$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														) ||
 														(
 																$user->persona->chapter->realm_id === $recommendation->recommendable->titleable->realm_id &&
 																$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												)
 										) ||
 										(
 												$recommendation->recommendable->titleable_type === 'Persona' &&
-												$user->persona_id === $recommendation->recommendable->titleable_id
+												$user->persona->id === $recommendation->recommendable->titleable_id
 										)||
 										(
 												$recommendation->recommendable->titleable_type === 'Realm' &&
 												$user->persona->chapter->realm_id === $recommendation->recommendable->titleable_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										) ||
 										(
 												$recommendation->recommendable->titleable_type === 'Unit' &&
 												$user->persona->units->first(function ($unit) use ($recommendation, $user) {
 													return $unit->id === $recommendation->recommendable->titleable_id &&
-													$unit->officers->contains('persona_id', $user->persona_id);
+													$unit->officers->contains('persona_id', $user->persona->id);
 												}) !== null
 										)
 								)
@@ -187,13 +187,13 @@ class RecommendationPolicy
 														(
 																$user->persona->chapter_id === $recommendation->recommendable->awarder_id &&
 																$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														) ||
 														(
 																$user->persona->chapter->realm_id === $recommendation->recommendable->awarder->realm_id &&
 																$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												)
@@ -202,14 +202,14 @@ class RecommendationPolicy
 												$recommendation->recommendable->awarder_type === 'Realm' &&
 												$user->persona->chapter->realm_id === $recommendation->recommendable->awarder_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										) ||
 										(
 												$recommendation->recommendable->awarder_type === 'Unit' &&
 												$user->persona->units->first(function ($unit) use ($recommendation, $user) {
 													return $unit->id === $recommendation->recommendable->awarder_id &&
-													$unit->officers->contains('persona_id', $user->persona_id);
+													$unit->officers->contains('persona_id', $user->persona->id);
 												}) !== null
 										)
 								) ||
@@ -221,33 +221,33 @@ class RecommendationPolicy
 														(
 																$user->persona->chapter_id === $recommendation->recommendable->titleable_id &&
 																$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														) ||
 														(
 																$user->persona->chapter->realm_id === $recommendation->recommendable->titleable->realm_id &&
 																$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												)
 										) ||
 										(
 												$recommendation->recommendable->titleable_type === 'Persona' &&
-												$user->persona_id === $recommendation->recommendable->titleable_id
+												$user->persona->id === $recommendation->recommendable->titleable_id
 										)||
 										(
 												$recommendation->recommendable->titleable_type === 'Realm' &&
 												$user->persona->chapter->realm_id === $recommendation->recommendable->titleable_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										) ||
 										(
 												$recommendation->recommendable->titleable_type === 'Unit' &&
 												$user->persona->units->first(function ($unit) use ($recommendation, $user) {
 													return $unit->id === $recommendation->recommendable->titleable_id &&
-													$unit->officers->contains('persona_id', $user->persona_id);
+													$unit->officers->contains('persona_id', $user->persona->id);
 												}) !== null
 										)
 								)

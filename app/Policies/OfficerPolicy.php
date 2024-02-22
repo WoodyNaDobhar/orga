@@ -85,14 +85,14 @@ class OfficerPolicy
 														$officer->officerable->reignable_type === 'Chapter' &&
 														$user->persona->chapter_id === $officer->officerable->reignable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$officer->officerable->reignable_type === 'Realm' &&
 														$user->persona->chapter->realm_id === $officer->officerable->reignable_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -101,7 +101,7 @@ class OfficerPolicy
 										$officer->officerable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($officer, $user) {
 											return $unit->id === $officer->officerable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)
@@ -132,14 +132,14 @@ class OfficerPolicy
 														$officer->officerable->reignable_type === 'Chapter' &&
 														$user->persona->chapter_id === $officer->officerable->reignable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$officer->officerable->reignable_type === 'Realm' &&
 														$user->persona->chapter->realm_id === $officer->officerable->reignable_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -148,7 +148,7 @@ class OfficerPolicy
 										$officer->officerable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($officer, $user) {
 											return $unit->id === $officer->officerable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)

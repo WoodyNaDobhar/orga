@@ -55,7 +55,6 @@ class UserRepository extends BaseRepository
 		
 		$input['password'] = Hash::make($password);
 		$input['api_token'] = Str::random(80);
-		
 		$model = parent::create($input);
 		
 		//roles
@@ -78,19 +77,19 @@ class UserRepository extends BaseRepository
 			'password' => $input['password']
 		]);
 		
-   		//send a welcome email
-   		$emailData = [];
-   		$emailData['from_email'] = config('app.site.contact.email');
-   		$emailData['from_name'] = config('app.site.contact.name');
-   		$emailData['subject'] = 'Welcome to ORK4!';
-   		$emailData['content'] = $model;
-   		Log::info('About to send a welcome email to: ' . $emailData['content']['email']);
-   		Mail::send('emails.welcome', ['data' => $emailData], function ($message) use ($emailData) {
-   			$message->from(config('app.site.contact.email'), config('app.site.contact.name'));
-   			$message->to($emailData['content']['email']);
-   			$message->replyTo($emailData['from_email'], $emailData['from_name']);
-   			$message->subject($emailData['subject']);
-   		});
+		//send a welcome email
+		$emailData = [];
+		$emailData['from_email'] = config('mail.from.address');
+		$emailData['from_name'] = config('mail.from.name');
+		$emailData['subject'] = 'Welcome to ORK4!';
+		$emailData['content'] = $model;
+		Log::info('About to send a welcome email to: ' . $emailData['content']['email']);
+		Mail::send('emails.welcome', ['data' => $emailData], function ($message) use ($emailData) {
+			$message->from($emailData['from_email']);
+			$message->to($emailData['content']['email']);
+			$message->replyTo($emailData['from_email'], $emailData['from_name']);
+			$message->subject($emailData['subject']);
+		});
 					
 		return $model;
 	}

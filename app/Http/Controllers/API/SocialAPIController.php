@@ -626,7 +626,7 @@ class SocialAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Social $Social */
-			$Social = $this->SocialRepository->find($id);
+			$Social = $this->socialRepository->find($id);
 
 			if (empty($Social)) {
 				return $this->sendError('Social (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -634,7 +634,7 @@ class SocialAPIController extends AppBaseController
 		
 			$this->authorize('update', $Social);
 
-			$Social = $this->SocialRepository->update($input, $id);
+			$Social = $this->socialRepository->update($input, $id);
 
 			return $this->sendResponse(new SocialResource($Social), 'Social updated successfully.');
 		} catch (Throwable $e) {

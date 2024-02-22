@@ -648,7 +648,7 @@ class UnitAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Unit $Unit */
-			$Unit = $this->UnitRepository->find($id);
+			$Unit = $this->unitRepository->find($id);
 
 			if (empty($Unit)) {
 				return $this->sendError('Unit (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -656,7 +656,7 @@ class UnitAPIController extends AppBaseController
 		
 			$this->authorize('update', $Unit);
 
-			$Unit = $this->UnitRepository->update($input, $id);
+			$Unit = $this->unitRepository->update($input, $id);
 
 			return $this->sendResponse(new UnitResource($Unit), 'Unit updated successfully.');
 		} catch (Throwable $e) {

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Suspension;
-use App\Repositories\BaseRepository;
 
 class SuspensionRepository extends BaseRepository
 {

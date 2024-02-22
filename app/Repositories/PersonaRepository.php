@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Persona;
-use App\Repositories\BaseRepository;
 
 class PersonaRepository extends BaseRepository
 {

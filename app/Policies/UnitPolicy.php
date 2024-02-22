@@ -80,7 +80,7 @@ class UnitPolicy
 						(
 								$user->persona->units->first(function ($item) use ($unit, $user) {
 									return $item->id === $unit->id &&
-									$unit->officers->contains('persona_id', $user->persona_id);
+									$unit->officers->contains('persona_id', $user->persona->id);
 								}) !== null
 						)
 				)

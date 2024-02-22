@@ -21,7 +21,7 @@ use Wildside\Userstamps\Userstamps;
  *	  schema="User",
  *	  required={"email","password","is_restricted"},
  *		description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
- * persona (Persona) (BelongsTo): Persona associated with the User.
+ * persona (Persona) (HasOne): Persona associated with the User.
  * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -377,12 +377,14 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	protected $protectedFields = ['persona_id'];
 	protected $guard_name = 'api';
 	protected $hidden = ['password','api_token','remember_token'];
+	protected function getDefaultGuardName(): string { return 'api'; }
 	
 	public $fillable = [
 		'email',
 		'email_verified_at',
 		'password',
-		'is_restricted'
+		'is_restricted',
+		'created_by'
 	];
 
 	protected $casts = [
@@ -396,7 +398,20 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	public static $createRules = [
 		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
 		'password' => 'min:6|required_with:password_confirmation|same:password_confirmation|max:191',
-		'is_restricted' => 'required|boolean'
+		'password_confirmation' => 'required|min:6',
+		'invite_token' => 'required|string',
+		'device_name' => 'required|string',
+		'is_agreed' => 'required|boolean|in:1',
+		'is_verified' => 'boolean',
+		'invite_token' => 'required|string'
+	];
+	
+	public static $setPasswordRules = [
+		'password_token' => 'required|string',
+		'email' => 'required',
+		'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+		'password_confirmation' => 'min:6',
+		'device_name' => 'required'
 	];
 
 	public static array $rules = [
@@ -406,17 +421,13 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 		'password' => 'nullable|min:6|required_with:password_confirmation|same:password_confirmation|max:191',
 		'remember_token' => 'nullable|string|max:100',
 		'api_token' => 'nullable|string|max:80',
-		'is_restricted' => 'required|boolean'
+		'is_restricted' => 'boolean'
 	];
 	
 	public static $messages = [
 		'email.regex'	  => 'Please enter a valid email.',
-	];
-	
-	public static $setPasswordRules = [
-		'user_id'			   => 'required',
-		'password'			  => 'min:6|required_with:password_confirmation|same:password_confirmation',
-		'password_confirmation' => 'min:6',
+		'is_agreed' => 'You must agree to the Terms of Service before you can sign up for the ORK.',
+		'invite_token' => 'The provided credentials are incorrect.',
 	];
 	
 	/**
@@ -443,16 +454,16 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	 * @var array
 	 */
 	public $relationships = [
-		'persona' => 'BelongsTo',
+		'persona' => 'HasOne',
 		'passwordHistories' => 'HasMany',
 		'createdBy' => 'BelongsTo',
 		'updatedBy' => 'BelongsTo',
 		'deletedBy' => 'BelongsTo',
 	];
 	
-	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	public function persona(): \Illuminate\Database\Eloquent\Relations\HasOne
 	{
-		return $this->belongsTo(\App\Models\Persona::class, 'persona_id');
+		return $this->hasOne(\App\Models\Persona::class, 'user_id');
 	}
 	
 	public function passwordHistories(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -267,8 +267,9 @@ class ImportOrk3 extends Command
 					break;
 				case 'Permissions':
 					$this->info('Setting Roles & Permissions...');
+					DB::table('roles')->truncate();
 					DB::table('permissions')->truncate();
-					$bar = $this->output->createProgressBar(687);
+					$bar = $this->output->createProgressBar(557);
 					$bar->start();
 					// Reset cached roles and permissions
 					app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
@@ -676,7 +677,7 @@ class ImportOrk3 extends Command
 // 					$role->givePermissionTo('list users');$bar->advance();
 // 					$role->givePermissionTo('display users');$bar->advance();
 					
-					//chapter officers
+					//chapter/realm officers
 					$role = Role::create(['name' => 'officer', 'guard_name' => 'api']);$bar->advance();
 					$role->givePermissionTo('list accounts');$bar->advance();
 					$role->givePermissionTo('store accounts');$bar->advance();
@@ -844,6 +845,10 @@ class ImportOrk3 extends Command
 					$role->givePermissionTo('removeOwn users');$bar->advance();
 					$role->givePermissionTo('store waivers');$bar->advance();
 					$role->givePermissionTo('displayOwn waivers');$bar->advance();
+					
+					//not sure why it's giving me the whole deal here
+					//TODO: when this is running, check it to make sure it's necessary.
+					DB::statement("UPDATE model_has_roles SET model_type = REPLACE(model_type, 'App\\Models\\', '')");
 					
 					app('cache')
 						->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
@@ -2362,6 +2367,7 @@ class ImportOrk3 extends Command
 											$query2->where('park_id', $oldUser->park_id)
 											->where('mundane_id', $oldUser->mundane_id);
 										})->get()->toArray();
+										
 										if($userId === 1){
 											$roleExists = Role::where('name', 'admin')->exists();
 											while(!$roleExists){
@@ -2371,7 +2377,9 @@ class ImportOrk3 extends Command
 											}
 											DB::reconnect("mysqlBak");
 											$user->assignRole('admin');
-										}else if(count($offices) > 0){
+										}
+										
+										if(count($offices) > 0){
 											$roleExists = Role::where('name', 'officer')->exists();
 											while(!$roleExists){
 												$this->info('waiting for role officer');
@@ -2380,16 +2388,17 @@ class ImportOrk3 extends Command
 											}
 											DB::reconnect("mysqlBak");
 											$user->assignRole('officer');
-										}else{
-											$roleExists = Role::where('name', 'player')->exists();
-											while(!$roleExists){
-												$this->info('waiting for role player');
-												sleep(5);
-												$roleExists = Role::where('name', 'player')->exists();
-											}
-											DB::reconnect("mysqlBak");
-											$user->assignRole('player');
 										}
+										
+										$roleExists = Role::where('name', 'player')->exists();
+										while(!$roleExists){
+											$this->info('waiting for role player');
+											sleep(5);
+											$roleExists = Role::where('name', 'player')->exists();
+										}
+										DB::reconnect("mysqlBak");
+										$user->assignRole('player');
+										
 										$usedEmails[] = strtolower($oldUser->email);
 										DB::table('trans')->insert([
 												'array' => 'users',
@@ -4480,7 +4489,6 @@ class ImportOrk3 extends Command
 						$label = null;
 						$order = null;
 						$personaId = null;
-						$authPersonaId = 1;
 						$realmId = null;
 						switch($oldOfficer->role){
 							case 'Monarch':
@@ -4542,45 +4550,6 @@ class ImportOrk3 extends Command
 								$transPersonas = $this->getTrans('personas');
 							}
 							DB::reconnect("mysqlBak");
-							if($oldOfficer->authorization_id != '0'){
-								if(!in_array($oldOfficer->authorization_id, $personaCheck)){
-									$transPersonas = $this->getTrans('personas');
-									if(!array_key_exists($oldOfficer->authorization_id, $transPersonas)){
-										$personaMakeCheck = Persona::where('name', 'Deleted Persona ' . $oldOfficer->authorization_id)->first();
-										if($personaMakeCheck){
-											$authPersonaId = $personaMakeCheck->id;
-										}else{
-											if($oldOfficer->park_id != '0'){
-												$personaId = DB::table('personas')->insertGetId([
-													'chapter_id' => $transChapters[$oldOfficer->park_id],
-													'pronoun_id' => null,
-													'mundane' => null,
-													'name' => 'Deleted Persona ' . $oldOfficer->authorization_id,
-													'heraldry' => null,
-													'image' => null,
-													'is_active' => 0
-												]);
-												DB::table('trans')->insert([
-													'array' => 'personas',
-													'oldID' => $oldOfficer->authorization_id,
-													'newID' => $personaId
-												]);
-												$transPersonas[$oldOfficer->authorization_id] = $personaId;
-											}else{
-												$authPersonaId = 1;
-											}
-										}
-									}
-								}else{
-									while(!array_key_exists($oldOfficer->authorization_id, $transPersonas)){
-										$this->info('waiting for auth persona ' . $oldOfficer->authorization_id);
-										sleep(5);
-										$transPersonas = $this->getTrans('personas');
-									}
-									DB::reconnect("mysqlBak");
-									$authPersonaId = $transPersonas[$oldOfficer->authorization_id];
-								}
-							}
 							
 							//realm check
 							if(!in_array($oldOfficer->kingdom_id, $oldRealmCheck)){
@@ -4713,10 +4682,8 @@ class ImportOrk3 extends Command
 											$label = $officeNames[0];
 										}
 									}
-								}else{
-									$label = $office->name;
 								}
-								//no park
+							//no park
 							}else{
 								if(!array_key_exists($oldOfficer->kingdom_id, $knownRealmChaptertypesOffices)){
 									DB::table('crypt')->insert([
@@ -4755,8 +4722,6 @@ class ImportOrk3 extends Command
 									}else{
 										$label = $officeNames[0];
 									}
-								}else{
-									$label = $office->name;
 								}
 							}
 						}else{
@@ -4790,8 +4755,7 @@ class ImportOrk3 extends Command
 							'persona_id' => ($personaId ? $personaId : $transPersonas[$oldOfficer->mundane_id]),
 							'label' => $label ? $label : null,
 							'starts_on' => null,
-							'ends_on' => null,
-							'created_by' => $authPersonaId
+							'ends_on' => null
 						]);
 						$bar->advance();
 					}

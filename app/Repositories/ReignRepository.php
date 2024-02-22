@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Reign;
-use App\Repositories\BaseRepository;
 
 class ReignRepository extends BaseRepository
 {

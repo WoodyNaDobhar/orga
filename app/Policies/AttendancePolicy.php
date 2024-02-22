@@ -87,13 +87,13 @@ class AttendancePolicy
 																(
 																		$user->persona->chapter_id === $attendance->eventable_id &&
 																		$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																			return $item->persona_id === $user->persona_id;
+																			return $item->persona_id === $user->persona->id;
 																		})
 																) ||
 																(
 																		$user->persona->chapter->realm_id === $attendance->eventable->realm_id &&
 																		$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																			return $item->persona_id === $user->persona_id;
+																			return $item->persona_id === $user->persona->id;
 																		})
 																)
 														)
@@ -103,7 +103,7 @@ class AttendancePolicy
 														(
 																$user->persona->chapter->realm_id === $attendance->eventable_id &&
 																$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												)||
@@ -119,13 +119,13 @@ class AttendancePolicy
 																				(
 																						$user->persona->chapter_id === $attendance->attendable->sponsorable_id &&
 																						$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																							return $item->persona_id === $user->persona_id;
+																							return $item->persona_id === $user->persona->id;
 																						})
 																				) ||
 																				(
 																						$user->persona->chapter->realm_id === $attendance->sponsorable->realm_id &&
 																						$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																							return $item->persona_id === $user->persona_id;
+																							return $item->persona_id === $user->persona->id;
 																						})
 																				)
 																		)
@@ -135,7 +135,7 @@ class AttendancePolicy
 																		(
 																				$user->persona->chapter->realm_id === $attendance->attendable->sponsorable_id &&
 																				$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																					return $item->persona_id === $user->persona_id;
+																					return $item->persona_id === $user->persona->id;
 																				})
 																		)
 																)
@@ -148,7 +148,7 @@ class AttendancePolicy
 										(
 												$user->persona->chapter_id === $attendance->meetup->chapter_id &&
 												$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								)
@@ -181,7 +181,7 @@ class AttendancePolicy
 														(
 																$user->persona->chapter_id === $attendance->eventable_id &&
 																$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												) ||
@@ -190,7 +190,7 @@ class AttendancePolicy
 														(
 																$user->persona->chapter->realm_id === $attendance->eventable_id &&
 																$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												) ||
@@ -206,13 +206,13 @@ class AttendancePolicy
 																				(
 																						$user->persona->chapter_id === $attendance->attendable->sponsorable_id &&
 																						$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																							return $item->persona_id === $user->persona_id;
+																							return $item->persona_id === $user->persona->id;
 																						})
 																				) ||
 																				(
 																						$user->persona->chapter->realm_id === $attendance->sponsorable->realm_id &&
 																						$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																							return $item->persona_id === $user->persona_id;
+																							return $item->persona_id === $user->persona->id;
 																						})
 																				)
 																		)
@@ -222,7 +222,7 @@ class AttendancePolicy
 																		(
 																				$user->persona->chapter->realm_id === $attendance->attendable->sponsorable_id &&
 																				$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																					return $item->persona_id === $user->persona_id;
+																					return $item->persona_id === $user->persona->id;
 																				})
 																		)
 																)
@@ -235,7 +235,7 @@ class AttendancePolicy
 										(
 											$user->persona->chapter_id === $attendance->meetup->chapter_id &&
 											$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											})
 										)
 								)

@@ -636,7 +636,7 @@ class IssuanceAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Issuance $Issuance */
-			$Issuance = $this->IssuanceRepository->find($id);
+			$Issuance = $this->issuanceRepository->find($id);
 
 			if (empty($Issuance)) {
 				return $this->sendError('Issuance (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -644,7 +644,7 @@ class IssuanceAPIController extends AppBaseController
 		
 			$this->authorize('update', $Issuance);
 
-			$Issuance = $this->IssuanceRepository->update($input, $id);
+			$Issuance = $this->issuanceRepository->update($input, $id);
 
 			return $this->sendResponse(new IssuanceResource($Issuance), 'Issuance updated successfully.');
 		} catch (Throwable $e) {

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Recommendation;
-use App\Repositories\BaseRepository;
 
 class RecommendationRepository extends BaseRepository
 {

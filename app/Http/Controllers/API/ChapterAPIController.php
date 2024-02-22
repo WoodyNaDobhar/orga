@@ -653,7 +653,7 @@ class ChapterAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Chapter $Chapter */
-			$Chapter = $this->ChapterRepository->find($id);
+			$Chapter = $this->chapterRepository->find($id);
 
 			if (empty($Chapter)) {
 				return $this->sendError('Chapter (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -661,7 +661,7 @@ class ChapterAPIController extends AppBaseController
 		
 			$this->authorize('update', $Chapter);
 
-			$Chapter = $this->ChapterRepository->update($input, $id);
+			$Chapter = $this->chapterRepository->update($input, $id);
 
 			return $this->sendResponse(new ChapterResource($Chapter), 'Chapter updated successfully.');
 		} catch (Throwable $e) {

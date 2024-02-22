@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Tournament;
-use App\Repositories\BaseRepository;
 
 class TournamentRepository extends BaseRepository
 {

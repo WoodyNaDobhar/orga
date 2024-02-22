@@ -648,7 +648,7 @@ class RealmAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Realm $Realm */
-			$Realm = $this->RealmRepository->find($id);
+			$Realm = $this->realmRepository->find($id);
 
 			if (empty($Realm)) {
 				return $this->sendError('Realm (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -656,7 +656,7 @@ class RealmAPIController extends AppBaseController
 		
 			$this->authorize('update', $Realm);
 
-			$Realm = $this->RealmRepository->update($input, $id);
+			$Realm = $this->realmRepository->update($input, $id);
 
 			return $this->sendResponse(new RealmResource($Realm), 'Realm updated successfully.');
 		} catch (Throwable $e) {

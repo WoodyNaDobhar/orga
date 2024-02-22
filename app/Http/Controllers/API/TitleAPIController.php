@@ -626,7 +626,7 @@ class TitleAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Title $Title */
-			$Title = $this->TitleRepository->find($id);
+			$Title = $this->titleRepository->find($id);
 
 			if (empty($Title)) {
 				return $this->sendError('Title (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -634,7 +634,7 @@ class TitleAPIController extends AppBaseController
 		
 			$this->authorize('update', $Title);
 
-			$Title = $this->TitleRepository->update($input, $id);
+			$Title = $this->titleRepository->update($input, $id);
 
 			return $this->sendResponse(new TitleResource($Title), 'Title updated successfully.');
 		} catch (Throwable $e) {

@@ -80,13 +80,13 @@ class DuePolicy
 						(
 								$user->persona->chapter_id === $due->chapter_id &&
 								$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-									return $item->persona_id === $user->persona_id;
+									return $item->persona_id === $user->persona->id;
 								})
 						) ||
 						(
 								$user->persona->chapter->realm_id === $due->realm_id &&
 								$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-									return $item->persona_id === $user->persona_id;
+									return $item->persona_id === $user->persona->id;
 								})
 						)
 				)
@@ -111,13 +111,13 @@ class DuePolicy
 						(
 								$user->persona->chapter_id === $due->chapter_id &&
 								$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-									return $item->persona_id === $user->persona_id;
+									return $item->persona_id === $user->persona->id;
 								})
 						) ||
 						(
 								$user->persona->chapter->realm_id === $due->realm_id &&
 								$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-									return $item->persona_id === $user->persona_id;
+									return $item->persona_id === $user->persona->id;
 								})
 						)
 				)

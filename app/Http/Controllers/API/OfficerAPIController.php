@@ -630,7 +630,7 @@ class OfficerAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Officer $Officer */
-			$Officer = $this->OfficerRepository->find($id);
+			$Officer = $this->officerRepository->find($id);
 
 			if (empty($Officer)) {
 				return $this->sendError('Officer (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class OfficerAPIController extends AppBaseController
 		
 			$this->authorize('update', $Officer);
 
-			$Officer = $this->OfficerRepository->update($input, $id);
+			$Officer = $this->officerRepository->update($input, $id);
 
 			return $this->sendResponse(new OfficerResource($Officer), 'Officer updated successfully.');
 		} catch (Throwable $e) {

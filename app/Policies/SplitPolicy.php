@@ -84,13 +84,13 @@ class SplitPolicy
 												(
 														$user->persona->chapter_id === $split->account->accountable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $split->account->accountable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -99,14 +99,14 @@ class SplitPolicy
 										$split->account->accountable_type === 'Realm' &&
 										$user->persona->chapter->realm === $split->account->accountable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$split->account->accountable_type === 'Unit' &&
 										$user->persona->chapter === $split->account->accountable_id &&
 										$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -136,13 +136,13 @@ class SplitPolicy
 												(
 														$user->persona->chapter_id === $split->account->accountable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $split->account->accountable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -151,14 +151,14 @@ class SplitPolicy
 										$split->account->accountable_type === 'Realm' &&
 										$user->persona->chapter->realm === $split->account->accountable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$split->account->accountable_type === 'Unit' &&
 										$user->persona->chapter === $split->account->accountable_id &&
 										$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

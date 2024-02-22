@@ -628,7 +628,7 @@ class CratAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Crat $Crat */
-			$Crat = $this->CratRepository->find($id);
+			$Crat = $this->cratRepository->find($id);
 
 			if (empty($Crat)) {
 				return $this->sendError('Crat (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class CratAPIController extends AppBaseController
 		
 			$this->authorize('update', $Crat);
 
-			$Crat = $this->CratRepository->update($input, $id);
+			$Crat = $this->cratRepository->update($input, $id);
 
 			return $this->sendResponse(new CratResource($Crat), 'Crat updated successfully.');
 		} catch (Throwable $e) {

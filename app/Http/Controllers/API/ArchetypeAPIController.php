@@ -628,7 +628,7 @@ class ArchetypeAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Archetype $Archetype */
-			$Archetype = $this->ArchetypeRepository->find($id);
+			$Archetype = $this->archetypeRepository->find($id);
 
 			if (empty($Archetype)) {
 				return $this->sendError('Archetype (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class ArchetypeAPIController extends AppBaseController
 		
 			$this->authorize('update', $Archetype);
 
-			$Archetype = $this->ArchetypeRepository->update($input, $id);
+			$Archetype = $this->archetypeRepository->update($input, $id);
 
 			return $this->sendResponse(new ArchetypeResource($Archetype), 'Archetype updated successfully.');
 		} catch (Throwable $e) {

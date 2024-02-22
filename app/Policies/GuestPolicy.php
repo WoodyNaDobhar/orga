@@ -84,13 +84,13 @@ class GuestPolicy
 												(
 														$user->persona->chapter_id === $guest->event->eventable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $guest->event->chapter->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -100,7 +100,7 @@ class GuestPolicy
 										(
 												$user->persona->chapter->realm_id === $guest->event->eventable_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								) ||
@@ -108,12 +108,12 @@ class GuestPolicy
 										$guest->event->eventable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($guest, $user) {
 											return $unit->id === $guest->event->eventable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								) ||
 								(
 										$guest->event->crats->contains(function ($crat) use ($user) {
-											return $crat->persona_id === $user->persona_id && $crat->is_autocrat === 1;
+											return $crat->persona_id === $user->persona->id && $crat->is_autocrat === 1;
 										})
 								)
 						)
@@ -143,13 +143,13 @@ class GuestPolicy
 												(
 														$user->persona->chapter_id === $guest->event->eventable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $guest->event->chapter->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -159,7 +159,7 @@ class GuestPolicy
 										(
 												$user->persona->chapter->realm_id === $guest->event->eventable_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								) ||
@@ -167,12 +167,12 @@ class GuestPolicy
 										$guest->event->eventable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($guest, $user) {
 											return $unit->id === $guest->event->eventable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								) ||
 								(
 										$guest->event->crats->contains(function ($crat) use ($user) {
-											return $crat->persona_id === $user->persona_id && $crat->is_autocrat === 1;
+											return $crat->persona_id === $user->persona->id && $crat->is_autocrat === 1;
 										})
 								)
 						)

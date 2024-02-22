@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Officer;
-use App\Repositories\BaseRepository;
 
 class OfficerRepository extends BaseRepository
 {

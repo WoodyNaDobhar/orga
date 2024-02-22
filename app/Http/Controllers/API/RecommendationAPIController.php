@@ -628,7 +628,7 @@ class RecommendationAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Recommendation $Recommendation */
-			$Recommendation = $this->RecommendationRepository->find($id);
+			$Recommendation = $this->recommendationRepository->find($id);
 
 			if (empty($Recommendation)) {
 				return $this->sendError('Recommendation (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class RecommendationAPIController extends AppBaseController
 		
 			$this->authorize('update', $Recommendation);
 
-			$Recommendation = $this->RecommendationRepository->update($input, $id);
+			$Recommendation = $this->recommendationRepository->update($input, $id);
 
 			return $this->sendResponse(new RecommendationResource($Recommendation), 'Recommendation updated successfully.');
 		} catch (Throwable $e) {

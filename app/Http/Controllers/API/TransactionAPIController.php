@@ -628,7 +628,7 @@ class TransactionAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Transaction $Transaction */
-			$Transaction = $this->TransactionRepository->find($id);
+			$Transaction = $this->transactionRepository->find($id);
 
 			if (empty($Transaction)) {
 				return $this->sendError('Transaction (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class TransactionAPIController extends AppBaseController
 		
 			$this->authorize('update', $Transaction);
 
-			$Transaction = $this->TransactionRepository->update($input, $id);
+			$Transaction = $this->transactionRepository->update($input, $id);
 
 			return $this->sendResponse(new TransactionResource($Transaction), 'Transaction updated successfully.');
 		} catch (Throwable $e) {

@@ -629,7 +629,7 @@ class AwardAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Award $Award */
-			$Award = $this->AwardRepository->find($id);
+			$Award = $this->awardRepository->find($id);
 
 			if (empty($Award)) {
 				return $this->sendError('Award (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -637,7 +637,7 @@ class AwardAPIController extends AppBaseController
 		
 			$this->authorize('update', $Award);
 
-			$Award = $this->AwardRepository->update($input, $id);
+			$Award = $this->awardRepository->update($input, $id);
 
 			return $this->sendResponse(new AwardResource($Award), 'Award updated successfully.');
 		} catch (Throwable $e) {

@@ -82,21 +82,21 @@ class OfficePolicy
 										$office->officerable_type === 'Chaptertype' &&
 										$user->persona->chapter->realm_id === $office->officerable->realm->id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$office->officerable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $office->officerable->id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$office->officerable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($office, $user) {
 											return $unit->id === $office->officerable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)
@@ -124,21 +124,21 @@ class OfficePolicy
 										$office->officerable_type === 'Chaptertype' &&
 										$user->persona->chapter->realm_id === $office->officerable->realm->id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$office->officerable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $office->officerable->id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$office->officerable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($office, $user) {
 											return $unit->id === $office->officerable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)

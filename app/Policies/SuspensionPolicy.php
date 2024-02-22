@@ -84,13 +84,13 @@ class SuspensionPolicy
 												(
 														$user->persona->chapter_id === $suspension->suspendable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $suspension->suspendable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -99,7 +99,7 @@ class SuspensionPolicy
 										$suspension->suspendable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $suspension->suspendable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -129,13 +129,13 @@ class SuspensionPolicy
 												(
 														$user->persona->chapter_id === $suspension->suspendable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $suspension->suspendable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -144,7 +144,7 @@ class SuspensionPolicy
 										$suspension->suspendable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $suspension->suspendable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

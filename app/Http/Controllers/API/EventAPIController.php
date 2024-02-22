@@ -640,7 +640,7 @@ class EventAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Event $Event */
-			$Event = $this->EventRepository->find($id);
+			$Event = $this->eventRepository->find($id);
 
 			if (empty($Event)) {
 				return $this->sendError('Event (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -648,7 +648,7 @@ class EventAPIController extends AppBaseController
 		
 			$this->authorize('update', $Event);
 
-			$Event = $this->EventRepository->update($input, $id);
+			$Event = $this->eventRepository->update($input, $id);
 
 			return $this->sendResponse(new EventResource($Event), 'Event updated successfully.');
 		} catch (Throwable $e) {

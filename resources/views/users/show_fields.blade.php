@@ -1,9 +1,3 @@
-<!-- Persona Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('persona_id', 'Persona Id:') !!}
-    <p>{{ $user->persona_id }}</p>
-</div>
-
 <!-- Email Field -->
 <div class="col-sm-12">
     {!! Form::label('email', 'Email:') !!}

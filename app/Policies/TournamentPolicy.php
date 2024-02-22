@@ -84,13 +84,13 @@ class TournamentPolicy
 												(
 														$user->persona->chapter_id === $tournament->tourmentable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $tournament->tourmentable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -98,14 +98,14 @@ class TournamentPolicy
 								(
 										$tournament->tourmentable_type === 'Event' &&
 										$tournament->tourmentable->crats->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$tournament->tourmentable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $tournament->tourmentable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -135,13 +135,13 @@ class TournamentPolicy
 												(
 														$user->persona->chapter_id === $tournament->tourmentable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $tournament->tourmentable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -149,14 +149,14 @@ class TournamentPolicy
 								(
 										$tournament->tourmentable_type === 'Event' &&
 										$tournament->tourmentable->crats->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$tournament->tourmentable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $tournament->tourmentable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

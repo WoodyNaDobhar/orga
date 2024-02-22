@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Split;
-use App\Repositories\BaseRepository;
 
 class SplitRepository extends BaseRepository
 {

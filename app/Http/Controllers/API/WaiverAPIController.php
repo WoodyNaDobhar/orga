@@ -634,7 +634,7 @@ class WaiverAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Waiver $Waiver */
-			$Waiver = $this->WaiverRepository->find($id);
+			$Waiver = $this->waiverRepository->find($id);
 
 			if (empty($Waiver)) {
 				return $this->sendError('Waiver (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -642,7 +642,7 @@ class WaiverAPIController extends AppBaseController
 		
 			$this->authorize('update', $Waiver);
 
-			$Waiver = $this->WaiverRepository->update($input, $id);
+			$Waiver = $this->waiverRepository->update($input, $id);
 
 			return $this->sendResponse(new WaiverResource($Waiver), 'Waiver updated successfully.');
 		} catch (Throwable $e) {

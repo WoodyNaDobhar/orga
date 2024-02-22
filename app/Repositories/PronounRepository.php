@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Pronoun;
-use App\Repositories\BaseRepository;
 
 class PronounRepository extends BaseRepository
 {

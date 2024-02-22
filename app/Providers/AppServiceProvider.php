@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
 			'Member' => 'App\Models\Member',
 			'Officer' => 'App\Models\Officer',
 			'Office' => 'App\Models\Office',
+			'PasswordHistory' => 'App\Models\PasswordHistory',
 			'Persona' => 'App\Models\Persona',
 			'Pronoun' => 'App\Models\Pronoun',
 			'Realm' => 'App\Models\Realm',

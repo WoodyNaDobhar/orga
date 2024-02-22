@@ -2724,9 +2724,9 @@
                 "tags": [
                     "Base"
                 ],
-                "summary": "Reset user password.",
+                "summary": "Send reset password email to user.  May only be accessed once every five minutes.",
                 "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
-                "operationId": "48545f4587fe2c1305775fd41e0f53d5",
+                "operationId": "ed493dbac1a5a434d687ef59fb5ae380",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/email"
@@ -2826,12 +2826,240 @@
                 }
             }
         },
+        "/update": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Change User password.  Returns auth token (as per login).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "operationId": "9878c488f22112fef0176802e8f34db0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/password_token"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email"
+                    },
+                    {
+                        "$ref": "#/components/parameters/password"
+                    },
+                    {
+                        "$ref": "#/components/parameters/password_confirmation"
+                    },
+                    {
+                        "$ref": "#/components/parameters/device_name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "A password reset link has been sent to the given email address."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sendInvite": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Accept invitation. Invite tokens are generated for Officers in the invitePersona method.",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "operationId": "c150f3801e830b99b7d8cff1b2009baa",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/email"
+                    },
+                    {
+                        "$ref": "#/components/parameters/persona_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login Successful."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/register": {
             "post": {
                 "tags": [
                     "Base"
                 ],
-                "summary": "Register new user or accept mobile invitation. For normal users, simply query the user for the required information and post it.  For invitees, the following link should be published to the invitees: http://market.android.com/details?id=<our.package.name>&referrer=<invitation_id>||<invitation_email> .  The application should use that to, upon first boot, call up this function, passing it the com.android.vending.INSTALL_REFERRER as the invite_token and email parameters (after exploding via ||).",
+                "summary": "Accept invitation. Invite tokens are generated for Officers in the sendInvite method. Returns auth token (as per login).",
                 "description": "<b>Access</b>:<br>Visitors: full<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: none",
                 "operationId": "05daa2d54de69ecdd3f7052bbb25b6f6",
                 "parameters": [
@@ -2845,7 +3073,7 @@
                         "$ref": "#/components/parameters/password"
                     },
                     {
-                        "$ref": "#/components/parameters/invite_token"
+                        "$ref": "#/components/parameters/password_confirmation"
                     },
                     {
                         "$ref": "#/components/parameters/is_agreed"
@@ -31789,7 +32017,7 @@
                 "type": "object"
             },
             "User": {
-                "description": "People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:\r\n * persona (Persona) (BelongsTo): Persona associated with the User.\r\n * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:\r\n * persona (Persona) (HasOne): Persona associated with the User.\r\n * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "email",
                     "password",
@@ -32887,10 +33115,30 @@
                     "format": "email"
                 }
             },
+            "persona_id": {
+                "name": "persona_id",
+                "in": "query",
+                "description": "The User's persona id.",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
             "password": {
                 "name": "password",
                 "in": "query",
                 "description": "The User's password.",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "password"
+                }
+            },
+            "password_confirmation": {
+                "name": "password_confirmation",
+                "in": "query",
+                "description": "The User's password, confirmed.",
                 "required": true,
                 "schema": {
                     "type": "string",
@@ -32909,7 +33157,16 @@
             "invite_token": {
                 "name": "invite_token",
                 "in": "query",
-                "description": "The invitation id passed to the app upon installation.",
+                "description": "The invitation id passed to the user.",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "password_token": {
+                "name": "password_token",
+                "in": "query",
+                "description": "The password reset token passed to the user.",
                 "required": false,
                 "schema": {
                     "type": "string"
@@ -32921,7 +33178,14 @@
                 "description": "If the User has agreed to the terms and conditions.",
                 "required": true,
                 "schema": {
-                    "type": "boolean"
+                    "type": "integer",
+                    "format": "enum",
+                    "default": 0,
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": 0
                 }
             }
         },

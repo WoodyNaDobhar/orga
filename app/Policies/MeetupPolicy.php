@@ -81,13 +81,13 @@ class MeetupPolicy
 								(
 										$user->persona->chapter_id === $meetup->chapter_id &&
 										$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$user->persona->chapter->realm_id === $meetup->chapter->realm_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -114,13 +114,13 @@ class MeetupPolicy
 								(
 										$user->persona->chapter_id === $meetup->chapter_id &&
 										$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$user->persona->chapter->realm_id === $meetup->chapter->realm_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

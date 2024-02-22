@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Office;
-use App\Repositories\BaseRepository;
 
 class OfficeRepository extends BaseRepository
 {

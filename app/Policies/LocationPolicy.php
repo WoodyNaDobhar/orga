@@ -89,10 +89,10 @@ class LocationPolicy
 										$location->chapters->count() > 0 &&
 										$location->chapters->every(function ($chapter) use ($user) {
 											return $chapter->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											}) ||
 											$chapter->realm->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											});
 										})
 								) ||
@@ -100,7 +100,7 @@ class LocationPolicy
 										$location->events->count() > 0 &&
 										$location->events->every(function ($event) use ($user) {
 											return $event->crats->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											});
 										})
 								) ||
@@ -113,10 +113,10 @@ class LocationPolicy
 														}) &&
 														$location->issuances->every(function ($issuance) use ($user) {
 															return $issuance->issuer->reign->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															}) ||
 															$issuance->issuer->realm->reign->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															});
 														})
 												) ||
@@ -126,7 +126,7 @@ class LocationPolicy
 														}) &&
 														$location->issuances->every(function ($issuance) use ($user) {
 															return $issuance->issuer->reign->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															});
 														})
 												) ||
@@ -136,7 +136,7 @@ class LocationPolicy
 														}) &&
 														$location->issuances->every(function ($issuance) use ($user) {
 															return $issuance->issuer->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															});
 														})
 												)
@@ -146,10 +146,10 @@ class LocationPolicy
 										$location->meetups->count() > 0 &&
 										$location->meetups->every(function ($meetup) use ($user) {
 											return $meetup->chapter->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											}) ||
 											$meetup->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											});
 										})
 								) ||
@@ -161,23 +161,23 @@ class LocationPolicy
 														$waiver->persona_id &&
 														(
 																$waiver->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																}) ||
 																$waiver->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 																)
 												) ||
 												(
 														$waiver->waiverable_type === 'Realm' &&
 														$waiver->waiverable->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$waiver->waiverable_type === 'Event' &&
 														$waiver->waiverable->crats->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 											);
@@ -215,10 +215,10 @@ class LocationPolicy
 										$location->chapters->count() > 0 &&
 										$location->chapters->every(function ($chapter) use ($user) {
 											return $chapter->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											}) ||
 											$chapter->realm->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											});
 										})
 								) ||
@@ -226,7 +226,7 @@ class LocationPolicy
 										$location->events->count() > 0 &&
 										$location->events->every(function ($event) use ($user) {
 											return $event->crats->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											});
 										})
 								) ||
@@ -239,10 +239,10 @@ class LocationPolicy
 														}) &&
 														$location->issuances->every(function ($issuance) use ($user) {
 															return $issuance->issuer->reign->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															}) ||
 															$issuance->issuer->realm->reign->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															});
 														})
 												) ||
@@ -252,7 +252,7 @@ class LocationPolicy
 														}) &&
 														$location->issuances->every(function ($issuance) use ($user) {
 															return $issuance->issuer->reign->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															});
 														})
 												) ||
@@ -262,7 +262,7 @@ class LocationPolicy
 														}) &&
 														$location->issuances->every(function ($issuance) use ($user) {
 															return $issuance->issuer->officers->contains(function ($item) use ($user) {
-																return $item->persona_id === $user->persona_id;
+																return $item->persona_id === $user->persona->id;
 															});
 														})
 												)
@@ -272,10 +272,10 @@ class LocationPolicy
 										$location->meetups->count() > 0 &&
 										$location->meetups->every(function ($meetup) use ($user) {
 											return $meetup->chapter->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											}) ||
 											$meetup->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-												return $item->persona_id === $user->persona_id;
+												return $item->persona_id === $user->persona->id;
 											});
 										})
 								) ||
@@ -287,23 +287,23 @@ class LocationPolicy
 														$waiver->persona_id &&
 														(
 																$waiver->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																}) ||
 																$waiver->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-																	return $item->persona_id === $user->persona_id;
+																	return $item->persona_id === $user->persona->id;
 																})
 														)
 												) ||
 												(
 														$waiver->waiverable_type === 'Realm' &&
 														$waiver->waiverable->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$waiver->waiverable_type === 'Event' &&
 														$waiver->waiverable->crats->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 											);

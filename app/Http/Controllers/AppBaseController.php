@@ -206,6 +206,17 @@ use Illuminate\Support\Facades\Response;
  *		required=true
  *	),
  *	@OA\Parameter(
+ *		parameter="persona_id",
+ *		name="persona_id",
+ *		in="query",
+ *		@OA\Schema(
+ *			type="integer",
+ *			format="int32",
+ *		),
+ *		description="The User's persona id.",
+ *		required=false
+ *	),
+ *	@OA\Parameter(
  *		parameter="password",
  *		name="password",
  *		in="query",
@@ -214,6 +225,17 @@ use Illuminate\Support\Facades\Response;
  *			format="password",
  *		),
  *		description="The User's password.",
+ *		required=true
+ *	),
+ *	@OA\Parameter(
+ *		parameter="password_confirmation",
+ *		name="password_confirmation",
+ *		in="query",
+ *		@OA\Schema(
+ *			type="string",
+ *			format="password",
+ *		),
+ *		description="The User's password, confirmed.",
  *		required=true
  *	),
  *	@OA\Parameter(
@@ -233,7 +255,17 @@ use Illuminate\Support\Facades\Response;
  *		@OA\Schema(
  *			type="string"
  *		),
- *		description="The invitation id passed to the app upon installation.",
+ *		description="The invitation id passed to the user.",
+ *		required=false
+ *	),
+ *	@OA\Parameter(
+ *		parameter="password_token",
+ *		name="password_token",
+ *		in="query",
+ *		@OA\Schema(
+ *			type="string"
+ *		),
+ *		description="The password reset token passed to the user.",
  *		required=false
  *	),
  *	@OA\Parameter(
@@ -241,7 +273,11 @@ use Illuminate\Support\Facades\Response;
  *		name="is_agreed",
  *		in="query",
  *		@OA\Schema(
- *			type="boolean"
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
  *		),
  *		description="If the User has agreed to the terms and conditions.",
  *		required=true

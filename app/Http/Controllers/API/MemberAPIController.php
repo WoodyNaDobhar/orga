@@ -628,7 +628,7 @@ class MemberAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Member $Member */
-			$Member = $this->MemberRepository->find($id);
+			$Member = $this->memberRepository->find($id);
 
 			if (empty($Member)) {
 				return $this->sendError('Member (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class MemberAPIController extends AppBaseController
 		
 			$this->authorize('update', $Member);
 
-			$Member = $this->MemberRepository->update($input, $id);
+			$Member = $this->memberRepository->update($input, $id);
 
 			return $this->sendResponse(new MemberResource($Member), 'Member updated successfully.');
 		} catch (Throwable $e) {

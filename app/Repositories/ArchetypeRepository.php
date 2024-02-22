@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Archetype;
-use App\Repositories\BaseRepository;
 
 class ArchetypeRepository extends BaseRepository
 {

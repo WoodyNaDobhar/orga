@@ -628,7 +628,7 @@ class OfficeAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Office $Office */
-			$Office = $this->OfficeRepository->find($id);
+			$Office = $this->officeRepository->find($id);
 
 			if (empty($Office)) {
 				return $this->sendError('Office (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class OfficeAPIController extends AppBaseController
 		
 			$this->authorize('update', $Office);
 
-			$Office = $this->OfficeRepository->update($input, $id);
+			$Office = $this->officeRepository->update($input, $id);
 
 			return $this->sendResponse(new OfficeResource($Office), 'Office updated successfully.');
 		} catch (Throwable $e) {

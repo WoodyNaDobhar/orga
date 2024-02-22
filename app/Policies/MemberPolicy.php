@@ -79,7 +79,7 @@ class MemberPolicy
 						$user->can('updateRelated members') &&
 						$user->persona->units->first(function ($unit) use ($member, $user) {
 							return $unit->id === $member->unit_id &&
-							$unit->officers->contains('persona_id', $user->persona_id);
+							$unit->officers->contains('persona_id', $user->persona->id);
 						}) !== null
 				)
 		) {
@@ -103,7 +103,7 @@ class MemberPolicy
 						$user->can('removeRelated members') &&
 						$user->persona->units->first(function ($unit) use ($member, $user) {
 							return $unit->id === $member->unit_id &&
-							$unit->officers->contains('persona_id', $user->persona_id);
+							$unit->officers->contains('persona_id', $user->persona->id);
 						}) !== null
 				)
 		) {

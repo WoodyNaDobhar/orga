@@ -630,7 +630,7 @@ class SplitAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Split $Split */
-			$Split = $this->SplitRepository->find($id);
+			$Split = $this->splitRepository->find($id);
 
 			if (empty($Split)) {
 				return $this->sendError('Split (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class SplitAPIController extends AppBaseController
 		
 			$this->authorize('update', $Split);
 
-			$Split = $this->SplitRepository->update($input, $id);
+			$Split = $this->splitRepository->update($input, $id);
 
 			return $this->sendResponse(new SplitResource($Split), 'Split updated successfully.');
 		} catch (Throwable $e) {

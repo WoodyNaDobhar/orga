@@ -626,7 +626,7 @@ class TournamentAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Tournament $Tournament */
-			$Tournament = $this->TournamentRepository->find($id);
+			$Tournament = $this->tournamentRepository->find($id);
 
 			if (empty($Tournament)) {
 				return $this->sendError('Tournament (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -634,7 +634,7 @@ class TournamentAPIController extends AppBaseController
 		
 			$this->authorize('update', $Tournament);
 
-			$Tournament = $this->TournamentRepository->update($input, $id);
+			$Tournament = $this->tournamentRepository->update($input, $id);
 
 			return $this->sendResponse(new TournamentResource($Tournament), 'Tournament updated successfully.');
 		} catch (Throwable $e) {

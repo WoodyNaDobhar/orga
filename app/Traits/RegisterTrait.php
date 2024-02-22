@@ -6,7 +6,6 @@ use Throwable;
 use App\Exceptions\ApiOperationFailedException;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 /**
  * Trait RegisterTrait.

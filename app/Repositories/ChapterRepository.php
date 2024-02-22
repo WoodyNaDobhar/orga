@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Chapter;
-use App\Repositories\BaseRepository;
 
 class ChapterRepository extends BaseRepository
 {

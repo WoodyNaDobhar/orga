@@ -82,23 +82,23 @@ class WaiverPolicy
 										$waiver->persona_id &&
 										(
 												$waiver->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												}) ||
 												$waiver->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								) ||
 								(
 										$waiver->waiverable_type === 'Realm' &&
 										$waiver->waiverable->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$waiver->waiverable_type === 'Event' &&
 										$waiver->waiverable->crats->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -126,23 +126,23 @@ class WaiverPolicy
 										$waiver->persona_id &&
 										(
 												$waiver->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												}) ||
 												$waiver->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								) ||
 								(
 										$waiver->waiverable_type === 'Realm' &&
 										$waiver->waiverable->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$waiver->waiverable_type === 'Event' &&
 										$waiver->waiverable->crats->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

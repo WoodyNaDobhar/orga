@@ -630,7 +630,7 @@ class SuspensionAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Suspension $Suspension */
-			$Suspension = $this->SuspensionRepository->find($id);
+			$Suspension = $this->suspensionRepository->find($id);
 
 			if (empty($Suspension)) {
 				return $this->sendError('Suspension (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class SuspensionAPIController extends AppBaseController
 		
 			$this->authorize('update', $Suspension);
 
-			$Suspension = $this->SuspensionRepository->update($input, $id);
+			$Suspension = $this->suspensionRepository->update($input, $id);
 
 			return $this->sendResponse(new SuspensionResource($Suspension), 'Suspension updated successfully.');
 		} catch (Throwable $e) {

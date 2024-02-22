@@ -634,7 +634,7 @@ class LocationAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Location $Location */
-			$Location = $this->LocationRepository->find($id);
+			$Location = $this->locationRepository->find($id);
 
 			if (empty($Location)) {
 				return $this->sendError('Location (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -642,7 +642,7 @@ class LocationAPIController extends AppBaseController
 		
 			$this->authorize('update', $Location);
 
-			$Location = $this->LocationRepository->update($input, $id);
+			$Location = $this->locationRepository->update($input, $id);
 
 			return $this->sendResponse(new LocationResource($Location), 'Location updated successfully.');
 		} catch (Throwable $e) {

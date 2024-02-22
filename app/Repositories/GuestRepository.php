@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Guest;
-use App\Repositories\BaseRepository;
 
 class GuestRepository extends BaseRepository
 {

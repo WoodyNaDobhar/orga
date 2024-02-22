@@ -89,13 +89,13 @@ class IssuancePolicy
 												(
 														$user->persona->chapter_id === $issuance->issuer_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $issuance->issuer->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -105,7 +105,7 @@ class IssuancePolicy
 										(
 												$user->persona->chapter->realm_id === $issuance->issuer_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								) ||
@@ -113,7 +113,7 @@ class IssuancePolicy
 										$issuance->issuer_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($issuance, $user) {
 											return $unit->id === $issuance->issuer_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)
@@ -148,13 +148,13 @@ class IssuancePolicy
 												(
 														$user->persona->chapter_id === $issuance->issuer_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $issuance->issuer->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -164,7 +164,7 @@ class IssuancePolicy
 										(
 												$user->persona->chapter->realm_id === $issuance->issuer_id &&
 												$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-													return $item->persona_id === $user->persona_id;
+													return $item->persona_id === $user->persona->id;
 												})
 										)
 								) ||
@@ -172,7 +172,7 @@ class IssuancePolicy
 										$issuance->issuer_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($issuance, $user) {
 											return $unit->id === $issuance->issuer_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)

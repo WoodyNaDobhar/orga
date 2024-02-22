@@ -630,7 +630,7 @@ class AttendanceAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Attendance $Attendance */
-			$Attendance = $this->AttendanceRepository->find($id);
+			$Attendance = $this->attendanceRepository->find($id);
 
 			if (empty($Attendance)) {
 				return $this->sendError('Attendance (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class AttendanceAPIController extends AppBaseController
 		
 			$this->authorize('update', $Attendance);
 
-			$Attendance = $this->AttendanceRepository->update($input, $id);
+			$Attendance = $this->attendanceRepository->update($input, $id);
 
 			return $this->sendResponse(new AttendanceResource($Attendance), 'Attendance updated successfully.');
 		} catch (Throwable $e) {

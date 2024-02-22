@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Unit;
-use App\Repositories\BaseRepository;
 
 class UnitRepository extends BaseRepository
 {

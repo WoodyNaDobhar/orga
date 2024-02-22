@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Waiver;
-use App\Repositories\BaseRepository;
 
 class WaiverRepository extends BaseRepository
 {

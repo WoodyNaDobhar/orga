@@ -628,7 +628,7 @@ class ReconciliationAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Reconciliation $Reconciliation */
-			$Reconciliation = $this->ReconciliationRepository->find($id);
+			$Reconciliation = $this->reconciliationRepository->find($id);
 
 			if (empty($Reconciliation)) {
 				return $this->sendError('Reconciliation (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class ReconciliationAPIController extends AppBaseController
 		
 			$this->authorize('update', $Reconciliation);
 
-			$Reconciliation = $this->ReconciliationRepository->update($input, $id);
+			$Reconciliation = $this->reconciliationRepository->update($input, $id);
 
 			return $this->sendResponse(new ReconciliationResource($Reconciliation), 'Reconciliation updated successfully.');
 		} catch (Throwable $e) {

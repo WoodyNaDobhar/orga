@@ -628,7 +628,7 @@ class PronounAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Pronoun $Pronoun */
-			$Pronoun = $this->PronounRepository->find($id);
+			$Pronoun = $this->pronounRepository->find($id);
 
 			if (empty($Pronoun)) {
 				return $this->sendError('Pronoun (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class PronounAPIController extends AppBaseController
 		
 			$this->authorize('update', $Pronoun);
 
-			$Pronoun = $this->PronounRepository->update($input, $id);
+			$Pronoun = $this->pronounRepository->update($input, $id);
 
 			return $this->sendResponse(new PronounResource($Pronoun), 'Pronoun updated successfully.');
 		} catch (Throwable $e) {

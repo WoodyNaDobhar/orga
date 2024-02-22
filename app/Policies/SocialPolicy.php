@@ -88,13 +88,13 @@ class SocialPolicy
 												(
 														$user->persona->chapter_id === $social->sociable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $social->sociable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -102,21 +102,21 @@ class SocialPolicy
 								(
 										$social->sociable_type === 'Event' &&
 										$social->sociable->crats->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$social->sociable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $social->sociable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$social->sociable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($social, $user) {
 											return $unit->id === $social->sociable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)
@@ -150,13 +150,13 @@ class SocialPolicy
 												(
 														$user->persona->chapter_id === $social->sociable_id &&
 														$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												) ||
 												(
 														$user->persona->chapter->realm_id === $social->sociable->realm_id &&
 														$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-															return $item->persona_id === $user->persona_id;
+															return $item->persona_id === $user->persona->id;
 														})
 												)
 										)
@@ -164,21 +164,21 @@ class SocialPolicy
 								(
 										$social->sociable_type === 'Event' &&
 										$social->sociable->crats->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$social->sociable_type === 'Realm' &&
 										$user->persona->chapter->realm_id === $social->sociable_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$social->sociable_type === 'Unit' &&
 										$user->persona->units->first(function ($unit) use ($social, $user) {
 											return $unit->id === $social->sociable_id &&
-											$unit->officers->contains('persona_id', $user->persona_id);
+											$unit->officers->contains('persona_id', $user->persona->id);
 										}) !== null
 								)
 						)

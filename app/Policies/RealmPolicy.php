@@ -81,14 +81,14 @@ class RealmPolicy
 								(
 										$user->persona->chapter->realm_id === $realm->id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$realm->parent_id !== null &&
 										$user->persona->chapter->realm_id === $realm->parent_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)
@@ -115,14 +115,14 @@ class RealmPolicy
 								(
 										$user->persona->chapter->realm_id === $realm->id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								) ||
 								(
 										$realm->parent_id !== null &&
 										$user->persona->chapter->realm_id === $realm->parent_id &&
 										$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
-											return $item->persona_id === $user->persona_id;
+											return $item->persona_id === $user->persona->id;
 										})
 								)
 						)

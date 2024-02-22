@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Social;
-use App\Repositories\BaseRepository;
 
 class SocialRepository extends BaseRepository
 {

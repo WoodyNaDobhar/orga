@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Award;
-use App\Repositories\BaseRepository;
 
 class AwardRepository extends BaseRepository
 {

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Realm;
-use App\Repositories\BaseRepository;
 
 class RealmRepository extends BaseRepository
 {

@@ -628,7 +628,7 @@ class ReignAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Reign $Reign */
-			$Reign = $this->ReignRepository->find($id);
+			$Reign = $this->reignRepository->find($id);
 
 			if (empty($Reign)) {
 				return $this->sendError('Reign (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class ReignAPIController extends AppBaseController
 		
 			$this->authorize('update', $Reign);
 
-			$Reign = $this->ReignRepository->update($input, $id);
+			$Reign = $this->reignRepository->update($input, $id);
 
 			return $this->sendResponse(new ReignResource($Reign), 'Reign updated successfully.');
 		} catch (Throwable $e) {

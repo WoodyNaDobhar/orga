@@ -630,7 +630,7 @@ class GuestAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Guest $Guest */
-			$Guest = $this->GuestRepository->find($id);
+			$Guest = $this->guestRepository->find($id);
 
 			if (empty($Guest)) {
 				return $this->sendError('Guest (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class GuestAPIController extends AppBaseController
 		
 			$this->authorize('update', $Guest);
 
-			$Guest = $this->GuestRepository->update($input, $id);
+			$Guest = $this->guestRepository->update($input, $id);
 
 			return $this->sendResponse(new GuestResource($Guest), 'Guest updated successfully.');
 		} catch (Throwable $e) {

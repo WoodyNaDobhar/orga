@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Reconciliation;
-use App\Repositories\BaseRepository;
 
 class ReconciliationRepository extends BaseRepository
 {

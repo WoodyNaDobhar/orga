@@ -628,7 +628,7 @@ class DueAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Due $Due */
-			$Due = $this->DueRepository->find($id);
+			$Due = $this->dueRepository->find($id);
 
 			if (empty($Due)) {
 				return $this->sendError('Due (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -636,7 +636,7 @@ class DueAPIController extends AppBaseController
 		
 			$this->authorize('update', $Due);
 
-			$Due = $this->DueRepository->update($input, $id);
+			$Due = $this->dueRepository->update($input, $id);
 
 			return $this->sendResponse(new DueResource($Due), 'Due updated successfully.');
 		} catch (Throwable $e) {

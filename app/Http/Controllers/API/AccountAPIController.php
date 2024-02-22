@@ -630,7 +630,7 @@ class AccountAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Account $Account */
-			$Account = $this->AccountRepository->find($id);
+			$Account = $this->accountRepository->find($id);
 
 			if (empty($Account)) {
 				return $this->sendError('Account (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class AccountAPIController extends AppBaseController
 		
 			$this->authorize('update', $Account);
 
-			$Account = $this->AccountRepository->update($input, $id);
+			$Account = $this->accountRepository->update($input, $id);
 
 			return $this->sendResponse(new AccountResource($Account), 'Account updated successfully.');
 		} catch (Throwable $e) {

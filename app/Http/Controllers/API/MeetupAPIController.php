@@ -632,7 +632,7 @@ class MeetupAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Meetup $Meetup */
-			$Meetup = $this->MeetupRepository->find($id);
+			$Meetup = $this->meetupRepository->find($id);
 
 			if (empty($Meetup)) {
 				return $this->sendError('Meetup (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -640,7 +640,7 @@ class MeetupAPIController extends AppBaseController
 		
 			$this->authorize('update', $Meetup);
 
-			$Meetup = $this->MeetupRepository->update($input, $id);
+			$Meetup = $this->meetupRepository->update($input, $id);
 
 			return $this->sendResponse(new MeetupResource($Meetup), 'Meetup updated successfully.');
 		} catch (Throwable $e) {

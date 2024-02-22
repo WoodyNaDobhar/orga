@@ -630,7 +630,7 @@ class ChaptertypeAPIController extends AppBaseController
 			$input = $request->all();
 
 			/** @var Chaptertype $Chaptertype */
-			$Chaptertype = $this->ChaptertypeRepository->find($id);
+			$Chaptertype = $this->chaptertypeRepository->find($id);
 
 			if (empty($Chaptertype)) {
 				return $this->sendError('Chaptertype (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);
@@ -638,7 +638,7 @@ class ChaptertypeAPIController extends AppBaseController
 		
 			$this->authorize('update', $Chaptertype);
 
-			$Chaptertype = $this->ChaptertypeRepository->update($input, $id);
+			$Chaptertype = $this->chaptertypeRepository->update($input, $id);
 
 			return $this->sendResponse(new ChaptertypeResource($Chaptertype), 'Chaptertype updated successfully.');
 		} catch (Throwable $e) {

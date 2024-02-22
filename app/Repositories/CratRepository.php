@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Crat;
-use App\Repositories\BaseRepository;
 
 class CratRepository extends BaseRepository
 {
