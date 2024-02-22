@@ -9,7 +9,15 @@ use Illuminate\Support\Facades\Response;
  *	@OA\OpenApi(
  *		@OA\Info(
  *			title="ORK4 API",
- *			version="1.0.0"
+ *			version="1.0.0",
+ *			description="This page serves as both documentation of the ORK's API structure as well as a place to test it.<br>
+ *	To access routes/methods that require permissions, you'll need to send a bearer_token for the User.  That token can be retrieved by either logging in or changing your password, which you will need to do the first time you use ORK4.  The various login functions can be found below under the heading 'Base'.  When you have your bearer token, you can apply it for use in these tools by hitting that Authorize button below.  Otherwise, you'll need to add it to your headers in your RESTful client: 'Authorization: Bearer asdf'.
+ *	Most of the functions below work just fine on this UI, but some don't.  If you get unexpected results in a search, or if you want a better testing mechanism, I suggest a browser RESTful client.  I use the Firefox browser extension RESTclient.  The tools below, at least, will get you started, and expose everything you'll need to know to develop with the ORK4 API.",
+ *			termsOfService="https://dev.ork4.org/terms",
+ *			contact={
+ *				"name"="ORK4 Support (Chiba)",
+ *				"email"="support@ork4.org",
+ *			}
  *		)
  *	),
  *	@OA\Server(url="/api"),
