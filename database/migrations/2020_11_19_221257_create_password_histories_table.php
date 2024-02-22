@@ -16,7 +16,7 @@ class CreatePasswordHistoriesTable extends Migration
 		Schema::disableForeignKeyConstraints();
 		Schema::create('password_histories', function (Blueprint $table) {
 			$table->id();
-			$table->unsignedInteger('user_id')->index('user_id');
+			$table->unsignedBigInteger('user_id')->index('user_id');
 			$table->string('password');
 			$table->timestamp('created_at')->useCurrent();
 		});

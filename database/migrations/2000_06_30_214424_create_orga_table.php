@@ -18,7 +18,7 @@ return new class extends Migration
 			$table->bigIncrements('id')->comment('Model ID');
 			$table->unsignedBigInteger('parent_id')->nullable()->index('parent_id')->comment('The superior Account ID, if any');
 			$table->enum('accountable_type', ['Chapter', 'Realm', 'Unit'])->comment('Who owns the account; Chapter, Realm, or Unit');
-			$table->unsignedInteger('accountable_id')->index('accountable_id')->comment('The ID of the owner of this account');
+			$table->unsignedBigInteger('accountable_id')->index('accountable_id')->comment('The ID of the owner of this account');
 			$table->string('name', 50)->comment('Account label');
 			$table->enum('type', ['Asset', 'Equity', 'Expense', 'Imbalance', 'Income', 'Liability'])->comment('Asset, Equity, Expense, Imbalance, Income, or Liability');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
