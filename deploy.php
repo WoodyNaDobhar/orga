@@ -36,8 +36,8 @@ task('deploy:secrets', function () {
 });
 
 //generate swagger
-task('generate-swagger', function () {
-	run('php artisan l5-swagger:generate');
+	task('generate-swagger', function () {
+		run('{{bin/php}} {{release_path}}/artisan l5-swagger:generate');
 });
 
 // Hosts
