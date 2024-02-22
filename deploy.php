@@ -35,6 +35,11 @@ task('deploy:secrets', function () {
 	upload('.env', get('deploy_path') . '/shared');
 });
 
+//generate swagger
+task('generate-swagger', function () {
+	run('php artisan l5-swagger:generate');
+});
+
 // Hosts
 set('forward_agent', false);
 set('http_user', 'orkorg');
@@ -48,5 +53,5 @@ host('dev')
 	->set('writable_mode', 'chmod');
 
 // Hooks
-
 after('deploy:failed', 'deploy:unlock');
+after('deploy', 'generate-swagger');
