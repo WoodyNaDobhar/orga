@@ -43,7 +43,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Get a listing of the Socials.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			sociable (Social) (MorphTo): Model the Social is being attached to.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -202,7 +202,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Store a newly created Social in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Social"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,7 +335,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Display the specified Social",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			sociable (Social) (MorphTo): Model the Social is being attached to.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -494,7 +494,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Update the specified Social in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +653,7 @@ class SocialAPIController extends AppBaseController
 	 *		summary="Remove the specified Social from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Social"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

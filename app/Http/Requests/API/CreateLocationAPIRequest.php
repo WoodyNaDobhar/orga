@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Location;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateLocationAPIRequest extends APIRequest
 {

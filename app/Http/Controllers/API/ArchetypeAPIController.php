@@ -43,7 +43,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Get a listing of the Archetypes.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendances (Attendance) (HasMany): Attendances with this Archetype.<br>
 			reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Store a newly created Archetype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Archetype"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Display the specified Archetype",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendances (Attendance) (HasMany): Attendances with this Archetype.<br>
 			reconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Update the specified Archetype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class ArchetypeAPIController extends AppBaseController
 	 *		summary="Remove the specified Archetype from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Archetype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

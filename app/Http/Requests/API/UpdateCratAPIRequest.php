@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Crat;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateCratAPIRequest extends APIRequest
 {

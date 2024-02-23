@@ -22,7 +22,7 @@
                     "Account"
                 ],
                 "summary": "Get a listing of the Accounts.",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>\r\n\t\t\tparent (Account) (BelongsTo): Parent Account, if any.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits for this Account.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>\r\n\t\t\tparent (Account) (BelongsTo): Parent Account, if any.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits for this Account.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "20f6d7795269a1a567b9f0d8d1338dd5",
                 "parameters": [
                     {
@@ -149,7 +149,7 @@
                     "Account"
                 ],
                 "summary": "Store a newly created Account in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "1f50468200a29198f9ecc0fcae98eff0",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Account"
@@ -261,7 +261,7 @@
                     "Account"
                 ],
                 "summary": "Display the specified Account",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>\r\n\t\t\tparent (Account) (BelongsTo): Parent Account, if any.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits for this Account.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>\r\n\t\t\tparent (Account) (BelongsTo): Parent Account, if any.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits for this Account.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "79ec64efaf9880099af5a9bb51b492e9",
                 "parameters": [
                     {
@@ -386,7 +386,7 @@
                     "Account"
                 ],
                 "summary": "Update the specified Account in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "42975803a9be2ee8ba078aa40bb5243a",
                 "parameters": [
                     {
@@ -518,7 +518,7 @@
                     "Account"
                 ],
                 "summary": "Remove the specified Account from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "8ac421261b91b0e12bc83765f0ebcffd",
                 "parameters": [
                     {
@@ -647,7 +647,7 @@
                     "Archetype"
                 ],
                 "summary": "Get a listing of the Archetypes.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances with this Archetype.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances with this Archetype.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "a72f65efc6a2d9254cc3ebb9a14c4be2",
                 "parameters": [
                     {
@@ -774,7 +774,7 @@
                     "Archetype"
                 ],
                 "summary": "Store a newly created Archetype in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "9afa651ffab08e8e1cb62d7f2d717a53",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Archetype"
@@ -886,7 +886,7 @@
                     "Archetype"
                 ],
                 "summary": "Display the specified Archetype",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances with this Archetype.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances with this Archetype.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Reconciliations with this Archetype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "30f60e9b9363b6cb540e88e128a07a1f",
                 "parameters": [
                     {
@@ -1011,7 +1011,7 @@
                     "Archetype"
                 ],
                 "summary": "Update the specified Archetype in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "e832dd49023931996beba77927d79176",
                 "parameters": [
                     {
@@ -1143,7 +1143,7 @@
                     "Archetype"
                 ],
                 "summary": "Remove the specified Archetype from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "ea8ebea63eb19f3ea33a08f37a569d98",
                 "parameters": [
                     {
@@ -1272,7 +1272,7 @@
                     "Attendance"
                 ],
                 "summary": "Get a listing of the Attendances.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "372379b867231a83c5a67daa74c790e1",
                 "parameters": [
                     {
@@ -1399,7 +1399,7 @@
                     "Attendance"
                 ],
                 "summary": "Store a newly created Attendance in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "d73397659f450225abf63c1be0e8c329",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Attendance"
@@ -1511,7 +1511,7 @@
                     "Attendance"
                 ],
                 "summary": "Display the specified Attendance",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "8bbd87a0b0d8f33ece640a93de8f11c0",
                 "parameters": [
                     {
@@ -1636,7 +1636,7 @@
                     "Attendance"
                 ],
                 "summary": "Update the specified Attendance in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "4a1e1a84140e74a41eafe385aa8f1c33",
                 "parameters": [
                     {
@@ -1768,7 +1768,7 @@
                     "Attendance"
                 ],
                 "summary": "Remove the specified Attendance from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "737cf46af46fb9cd27ab1c18a57e97c1",
                 "parameters": [
                     {
@@ -1897,7 +1897,7 @@
                     "Award"
                 ],
                 "summary": "Get a listing of the Awards.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tawarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Award.<br>\r\n\t\t\trecommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tawarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Award.<br>\r\n\t\t\trecommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "a41bad5867b86ff5d9a2622dfd60aa2a",
                 "parameters": [
                     {
@@ -2024,7 +2024,7 @@
                     "Award"
                 ],
                 "summary": "Store a newly created Award in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "3356bc31718980fb1a1b63944f2afd79",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Award"
@@ -2136,7 +2136,7 @@
                     "Award"
                 ],
                 "summary": "Display the specified Award",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tawarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Award.<br>\r\n\t\t\trecommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tawarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Award.<br>\r\n\t\t\trecommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "3cbeffaa017a3c862d3aa9060e4e0583",
                 "parameters": [
                     {
@@ -2261,7 +2261,7 @@
                     "Award"
                 ],
                 "summary": "Update the specified Award in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "2369745cb1f57f100ff1e8be02d35f85",
                 "parameters": [
                     {
@@ -2393,7 +2393,7 @@
                     "Award"
                 ],
                 "summary": "Remove the specified Award from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "1820b8433afb92f8cd914339a96d98b8",
                 "parameters": [
                     {
@@ -2522,7 +2522,7 @@
                     "Base"
                 ],
                 "summary": "Get a listing of the images in the public folder.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "113e8567e379aabf9d2303ef692d1582",
                 "responses": {
                     "200": {
@@ -2621,7 +2621,7 @@
                     "Base"
                 ],
                 "summary": "Get auth token.  This token should be passed in the Authorization header as a bearer token with every request.  The token will expire in 8 hours, and a new login will be required.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "d71a75f2bffb6278e33f4933745e4d35",
                 "parameters": [
                     {
@@ -2731,7 +2731,7 @@
                     "Base"
                 ],
                 "summary": "Send reset password email to user.  May only be accessed once every five minutes.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "ed493dbac1a5a434d687ef59fb5ae380",
                 "parameters": [
                     {
@@ -2838,7 +2838,7 @@
                     "Base"
                 ],
                 "summary": "Change User password.  Returns auth token (as per login).",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "9878c488f22112fef0176802e8f34db0",
                 "parameters": [
                     {
@@ -2953,8 +2953,8 @@
                 "tags": [
                     "Base"
                 ],
-                "summary": "Accept invitation. Invite tokens are generated for Officers in the invitePersona method.",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "summary": "Send a Persona a registration invitation. Invite tokens are generated for Officers in the invitePersona method.  This is the only way to register a new User.",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "c150f3801e830b99b7d8cff1b2009baa",
                 "parameters": [
                     {
@@ -3066,7 +3066,7 @@
                     "Base"
                 ],
                 "summary": "Accept invitation. Invite tokens are generated for Officers in the sendInvite method. Returns auth token (as per login).",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: none",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: none",
                 "operationId": "05daa2d54de69ecdd3f7052bbb25b6f6",
                 "parameters": [
                     {
@@ -3185,7 +3185,7 @@
                     "Chapter"
                 ],
                 "summary": "Get a listing of the Chapters.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts this Chapter owns.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards this Chapter can Issue.<br>\r\n\t\t\tchaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).<br>\r\n\t\t\tevents (Event) (MorphMany): Events this Chapter has sponsored.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The official location for the Chapter.<br>\r\n\t\t\tnearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups hosted by this Chapter.<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas that claim this as their home.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm the Chapter is associated with.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Chapter.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns for the Chapter.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Chapter.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Chapter Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts this Chapter owns.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards this Chapter can Issue.<br>\r\n\t\t\tchaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).<br>\r\n\t\t\tevents (Event) (MorphMany): Events this Chapter has sponsored.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The official location for the Chapter.<br>\r\n\t\t\tnearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups hosted by this Chapter.<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas that claim this as their home.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm the Chapter is associated with.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Chapter.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns for the Chapter.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Chapter.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Chapter Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "da22f7a78e50f13306d4e3d8ff0531ad",
                 "parameters": [
                     {
@@ -3312,7 +3312,7 @@
                     "Chapter"
                 ],
                 "summary": "Store a newly created Chapter in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "5dc98632da30e143b317c278b3dada58",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Chapter"
@@ -3424,7 +3424,7 @@
                     "Chapter"
                 ],
                 "summary": "Display the specified Chapter",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts this Chapter owns.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards this Chapter can Issue.<br>\r\n\t\t\tchaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).<br>\r\n\t\t\tevents (Event) (MorphMany): Events this Chapter has sponsored.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The official location for the Chapter.<br>\r\n\t\t\tnearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups hosted by this Chapter.<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas that claim this as their home.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm the Chapter is associated with.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Chapter.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns for the Chapter.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Chapter.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Chapter Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts this Chapter owns.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards this Chapter can Issue.<br>\r\n\t\t\tchaptertype (Chaptertype) (BelongsTo): The level of the Chapter (Shire, etc).<br>\r\n\t\t\tevents (Event) (MorphMany): Events this Chapter has sponsored.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued by this Chapter.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The official location for the Chapter.<br>\r\n\t\t\tnearbyGuests (Guest) (HasMany): Guests at Demos that live near this Chapter.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups hosted by this Chapter.<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas that claim this as their home.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm the Chapter is associated with.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Chapter.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns for the Chapter.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Chapter.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Chapter Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "6675c20e7b5a08ffdc365e49e8ae79d8",
                 "parameters": [
                     {
@@ -3549,7 +3549,7 @@
                     "Chapter"
                 ],
                 "summary": "Update the specified Chapter in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "41156851eadfd488d35bd052682c8824",
                 "parameters": [
                     {
@@ -3681,7 +3681,7 @@
                     "Chapter"
                 ],
                 "summary": "Remove the specified Chapter from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "32e4b9ebce8a670698adc577a84726de",
                 "parameters": [
                     {
@@ -3810,7 +3810,7 @@
                     "Chaptertype"
                 ],
                 "summary": "Get a listing of the Chaptertypes.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices for this Chaptertype.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm for the Chaptertype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices for this Chaptertype.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm for the Chaptertype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "fd1a8d66946c4c03fbeab6aff03d3675",
                 "parameters": [
                     {
@@ -3937,7 +3937,7 @@
                     "Chaptertype"
                 ],
                 "summary": "Store a newly created Chaptertype in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "d1bbdf219b43c983004187b0dbffea62",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Chaptertype"
@@ -4049,7 +4049,7 @@
                     "Chaptertype"
                 ],
                 "summary": "Display the specified Chaptertype",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices for this Chaptertype.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm for the Chaptertype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices for this Chaptertype.<br>\r\n\t\t\trealm (Realm) (BelongsTo): Realm for the Chaptertype.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "9384238e9384183eb74630b6bee1443e",
                 "parameters": [
                     {
@@ -4174,7 +4174,7 @@
                     "Chaptertype"
                 ],
                 "summary": "Update the specified Chaptertype in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "d2d33aa9bea46c4741a5f0f20b0f0948",
                 "parameters": [
                     {
@@ -4306,7 +4306,7 @@
                     "Chaptertype"
                 ],
                 "summary": "Remove the specified Chaptertype from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "0970c29b63b76719e477ae1fac21e76c",
                 "parameters": [
                     {
@@ -4435,7 +4435,7 @@
                     "Crat"
                 ],
                 "summary": "Get a listing of the Crats.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Event the Persona cratted for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona cratting the given Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Event the Persona cratted for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona cratting the given Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "4971a78f03284d23d1613d1a020a2b6d",
                 "parameters": [
                     {
@@ -4562,7 +4562,7 @@
                     "Crat"
                 ],
                 "summary": "Store a newly created Crat in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Officers: none<br>Admins: full",
                 "operationId": "4f3889eb793b00343ecf4074648c568c",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Crat"
@@ -4674,7 +4674,7 @@
                     "Crat"
                 ],
                 "summary": "Display the specified Crat",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Event the Persona cratted for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona cratting the given Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Event the Persona cratted for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona cratting the given Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "cad5da31759a95b6abafaf23ca3636ad",
                 "parameters": [
                     {
@@ -4799,7 +4799,7 @@
                     "Crat"
                 ],
                 "summary": "Update the specified Crat in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: none<br>Admins: full",
                 "operationId": "f7ad54b98d42e8398702f887ac3f933e",
                 "parameters": [
                     {
@@ -4931,7 +4931,7 @@
                     "Crat"
                 ],
                 "summary": "Remove the specified Crat from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: none<br>Admins: full",
                 "operationId": "bbec51eb736d8beeae034a65623dcfb8",
                 "parameters": [
                     {
@@ -5060,7 +5060,7 @@
                     "Due"
                 ],
                 "summary": "Get a listing of the Dues.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona paying Dues.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction recording the payment.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona paying Dues.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction recording the payment.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "77d9f6d6f06bf2fdf062232b005334c3",
                 "parameters": [
                     {
@@ -5187,7 +5187,7 @@
                     "Due"
                 ],
                 "summary": "Store a newly created Due in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "4ade84c3be2e833fff782a6443d2c1cf",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Due"
@@ -5299,7 +5299,7 @@
                     "Due"
                 ],
                 "summary": "Display the specified Due",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona paying Dues.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction recording the payment.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona paying Dues.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction recording the payment.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "b6352616dc1702a5afebc3255f8ce27a",
                 "parameters": [
                     {
@@ -5424,7 +5424,7 @@
                     "Due"
                 ],
                 "summary": "Update the specified Due in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "a8df4c46aed705fbabb144e85b0febd3",
                 "parameters": [
                     {
@@ -5556,7 +5556,7 @@
                     "Due"
                 ],
                 "summary": "Remove the specified Due from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "302cdbe173a60dafdf79bd24e0a7adaa",
                 "parameters": [
                     {
@@ -5685,7 +5685,7 @@
                     "Event"
                 ],
                 "summary": "Get a listing of the Events.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crats for the Event.<br>\r\n\t\t\teventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit running the Event.<br>\r\n\t\t\tguests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Event.<br>\r\n\t\t\tsponsorable (Chapter or Realm) (MorphTo): In the case of Persona or Unit Events, Chapter or Realm sponsoring the Event.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crats for the Event.<br>\r\n\t\t\teventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit running the Event.<br>\r\n\t\t\tguests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Event.<br>\r\n\t\t\tsponsorable (Chapter or Realm) (MorphTo): In the case of Persona or Unit Events, Chapter or Realm sponsoring the Event.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "ced2264d3017047b4f645ed75990dff5",
                 "parameters": [
                     {
@@ -5812,7 +5812,7 @@
                     "Event"
                 ],
                 "summary": "Store a newly created Event in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "ee8595c7000ac495de5576085fa24948",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Event"
@@ -5924,7 +5924,7 @@
                     "Event"
                 ],
                 "summary": "Display the specified Event",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crats for the Event.<br>\r\n\t\t\teventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit sponsoring the Event.<br>\r\n\t\t\tguests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Event.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Event.<br>\r\n\t\t\tsponsorable (Chapter or Realm) (MorphTo): In the case of Persona or Unit Events, Chapter or Realm sponsoring the Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crats for the Event.<br>\r\n\t\t\teventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit sponsoring the Event.<br>\r\n\t\t\tguests (Guest) (HasMany): If the Event is a demo, those who came to play with us but are not established members.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Awards and Titles Issued at the Event.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Event.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Event.<br>\r\n\t\t\tsponsorable (Chapter or Realm) (MorphTo): In the case of Persona or Unit Events, Chapter or Realm sponsoring the Event.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "d46ba280c6dec8c616c36f5956e11276",
                 "parameters": [
                     {
@@ -6049,7 +6049,7 @@
                     "Event"
                 ],
                 "summary": "Update the specified Event in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "183558d8b021f045b273de9d232dc5da",
                 "parameters": [
                     {
@@ -6181,7 +6181,7 @@
                     "Event"
                 ],
                 "summary": "Remove the specified Event from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "096532845f55af838b6ed9645dd8b8ae",
                 "parameters": [
                     {
@@ -6310,7 +6310,7 @@
                     "Guest"
                 ],
                 "summary": "Get a listing of the Guests.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Demo Event they played at.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>\r\n\t\t\twaiver (Waiver) (BelongsTo): Waiver for the Guest.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Demo Event they played at.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>\r\n\t\t\twaiver (Waiver) (BelongsTo): Waiver for the Guest.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "50dd402a6529aa7fba2b6f21a85d2d7e",
                 "parameters": [
                     {
@@ -6437,7 +6437,7 @@
                     "Guest"
                 ],
                 "summary": "Store a newly created Guest in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "a45c6d19fdf82c51e9f0f2895f8f964c",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Guest"
@@ -6549,7 +6549,7 @@
                     "Guest"
                 ],
                 "summary": "Display the specified Guest",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Demo Event they played at.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>\r\n\t\t\twaiver (Waiver) (BelongsTo): Waiver for the Guest.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tevent (Event) (BelongsTo): Demo Event they played at.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>\r\n\t\t\twaiver (Waiver) (BelongsTo): Waiver for the Guest.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "07d4a0f2f3e57968feb1c8c6289cb3bf",
                 "parameters": [
                     {
@@ -6674,7 +6674,7 @@
                     "Guest"
                 ],
                 "summary": "Update the specified Guest in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "71d57c69c65e9a79224ea4b381003166",
                 "parameters": [
                     {
@@ -6806,7 +6806,7 @@
                     "Guest"
                 ],
                 "summary": "Remove the specified Guest from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "ae20c247ae62103cb13e895c22820f1a",
                 "parameters": [
                     {
@@ -6935,7 +6935,7 @@
                     "Issuance"
                 ],
                 "summary": "Get a listing of the Issuances.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>\r\n\t\t\tissuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>\r\n\t\t\trecipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>\r\n\t\t\trevokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>\r\n\t\t\tsignator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>\r\n\t\t\twhereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>\r\n\t\t\tissuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>\r\n\t\t\trecipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>\r\n\t\t\trevokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>\r\n\t\t\tsignator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>\r\n\t\t\twhereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "6426571f2062d8e5cb000c2b74cfc055",
                 "parameters": [
                     {
@@ -7062,7 +7062,7 @@
                     "Issuance"
                 ],
                 "summary": "Store a newly created Issuance in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "3deb590c10e23fa75e6f5655caf2be89",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Issuance"
@@ -7174,7 +7174,7 @@
                     "Issuance"
                 ],
                 "summary": "Display the specified Issuance",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>\r\n\t\t\tissuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>\r\n\t\t\trecipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>\r\n\t\t\trevokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>\r\n\t\t\tsignator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>\r\n\t\t\twhereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>\r\n\t\t\tissuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>\r\n\t\t\trecipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>\r\n\t\t\trevokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>\r\n\t\t\tsignator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>\r\n\t\t\twhereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "2e92c1b1022b1ced52546e6b57a3bb86",
                 "parameters": [
                     {
@@ -7299,7 +7299,7 @@
                     "Issuance"
                 ],
                 "summary": "Update the specified Issuance in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "197a409656a44053f1d2a168b6f40581",
                 "parameters": [
                     {
@@ -7431,7 +7431,7 @@
                     "Issuance"
                 ],
                 "summary": "Remove the specified Issuance from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "200dd79066d4e7b29dfa10d360ffe3fc",
                 "parameters": [
                     {
@@ -7560,7 +7560,7 @@
                     "Location"
                 ],
                 "summary": "Get a listing of the Locations.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters using this Location.<br>\r\n\t\t\tevents (Event) (HasMany): Events using this Location.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at this Location.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups using this Location.<br>\r\n\t\t\twaivers (Waiver) (HasMany): Waivers using this Location.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters using this Location.<br>\r\n\t\t\tevents (Event) (HasMany): Events using this Location.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at this Location.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups using this Location.<br>\r\n\t\t\twaivers (Waiver) (HasMany): Waivers using this Location.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "4bdbf5d3d08dfb368d7e3807db5185a3",
                 "parameters": [
                     {
@@ -7687,7 +7687,7 @@
                     "Location"
                 ],
                 "summary": "Store a newly created Location in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "499353c092695cc7b7a616ba60c72539",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Location"
@@ -7799,7 +7799,7 @@
                     "Location"
                 ],
                 "summary": "Display the specified Location",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters using this Location.<br>\r\n\t\t\tevents (Event) (HasMany): Events using this Location.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at this Location.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups using this Location.<br>\r\n\t\t\twaivers (Waiver) (HasMany): Waivers using this Location.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters using this Location.<br>\r\n\t\t\tevents (Event) (HasMany): Events using this Location.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at this Location.<br>\r\n\t\t\tmeetups (Meetup) (HasMany): Meetups using this Location.<br>\r\n\t\t\twaivers (Waiver) (HasMany): Waivers using this Location.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "2103c35d4716c50a7f70ce3bd5416e21",
                 "parameters": [
                     {
@@ -7924,7 +7924,7 @@
                     "Location"
                 ],
                 "summary": "Update the specified Location in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "d9a74c07d5a2b521328b8d2b189b1fd8",
                 "parameters": [
                     {
@@ -8056,7 +8056,7 @@
                     "Location"
                 ],
                 "summary": "Remove the specified Location from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "e7abf997bbf00ffc6a76bf39bcbfbd4c",
                 "parameters": [
                     {
@@ -8185,7 +8185,7 @@
                     "Meetup"
                 ],
                 "summary": "Get a listing of the Meetups.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Meetup.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Meetup.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "697d569145466e5051b16b7cd948c4bf",
                 "parameters": [
                     {
@@ -8312,7 +8312,7 @@
                     "Meetup"
                 ],
                 "summary": "Store a newly created Meetup in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "881bb324fcd113d6e9ec2efce3186349",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Meetup"
@@ -8424,7 +8424,7 @@
                     "Meetup"
                 ],
                 "summary": "Display the specified Meetup",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Meetup.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (MorphMany): Attendances for the Meetup.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>\r\n\t\t\tlocation (Location) (BelongsTo): Location of the Meetup.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "8d660e48097cf9312dc4fa96853c6dac",
                 "parameters": [
                     {
@@ -8549,7 +8549,7 @@
                     "Meetup"
                 ],
                 "summary": "Update the specified Meetup in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "5ad3fdb978421fdee89040bcd02da4ad",
                 "parameters": [
                     {
@@ -8681,7 +8681,7 @@
                     "Meetup"
                 ],
                 "summary": "Remove the specified Meetup from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "ac4c86da306601ffb392ea8c78b88f37",
                 "parameters": [
                     {
@@ -8810,7 +8810,7 @@
                     "Member"
                 ],
                 "summary": "Get a listing of the Members.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona in the Unit.<br>\r\n\t\t\tunit (Unit) (BelongsTo): The Unit the Persona is in.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona in the Unit.<br>\r\n\t\t\tunit (Unit) (BelongsTo): The Unit the Persona is in.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "524e1f23d5c8416cc0328f786ab2f693",
                 "parameters": [
                     {
@@ -8937,7 +8937,7 @@
                     "Member"
                 ],
                 "summary": "Store a newly created Member in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "0c0d7ea0996d9aadc7db3f0fd1302995",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Member"
@@ -9049,7 +9049,7 @@
                     "Member"
                 ],
                 "summary": "Display the specified Member",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona in the Unit.<br>\r\n\t\t\tunit (Unit) (BelongsTo): The Unit the Persona is in.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona in the Unit.<br>\r\n\t\t\tunit (Unit) (BelongsTo): The Unit the Persona is in.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "b6abbdd7a18da54e89d0b16b0713bf23",
                 "parameters": [
                     {
@@ -9174,7 +9174,7 @@
                     "Member"
                 ],
                 "summary": "Update the specified Member in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "fa3aa462e403723a9925a2f4e8e65ca6",
                 "parameters": [
                     {
@@ -9306,7 +9306,7 @@
                     "Member"
                 ],
                 "summary": "Remove the specified Member from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "3fb0c9df62fa82dccca5a22ce4c1528d",
                 "parameters": [
                     {
@@ -9435,7 +9435,7 @@
                     "Office"
                 ],
                 "summary": "Get a listing of the Offices.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officers having held this Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officers having held this Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "432ba0e84b04bb7620c1c26da5eb0d38",
                 "parameters": [
                     {
@@ -9562,7 +9562,7 @@
                     "Office"
                 ],
                 "summary": "Store a newly created Office in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "cf692e9e73fca80cb28df34c424808b1",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Office"
@@ -9674,7 +9674,7 @@
                     "Office"
                 ],
                 "summary": "Display the specified Office",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officers having held this Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficeable (Chaptertype, Realm, or Unit) (MorphTo): Type for what the Office is for; Chaptertype, Realm, or Unit.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officers having held this Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "da907e722ecefba99802cee3439ceb07",
                 "parameters": [
                     {
@@ -9799,7 +9799,7 @@
                     "Office"
                 ],
                 "summary": "Update the specified Office in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "07243b4ce2199fa5b16640dd21555c8b",
                 "parameters": [
                     {
@@ -9931,7 +9931,7 @@
                     "Office"
                 ],
                 "summary": "Remove the specified Office from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "294fd00b9e62408facdbed37e85a33c1",
                 "parameters": [
                     {
@@ -10060,7 +10060,7 @@
                     "Officer"
                 ],
                 "summary": "Get a listing of the Officers.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\toffice (Office) (BelongsTo): Office held.<br>\r\n\t\t\tofficerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona holding the given Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\toffice (Office) (BelongsTo): Office held.<br>\r\n\t\t\tofficerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona holding the given Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "eee1d31865b797ec8f099d515d2d857e",
                 "parameters": [
                     {
@@ -10187,7 +10187,7 @@
                     "Officer"
                 ],
                 "summary": "Store a newly created Officer in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "7339747ead6b39910a00710f419ebb51",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Officer"
@@ -10299,7 +10299,7 @@
                     "Officer"
                 ],
                 "summary": "Display the specified Officer",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\toffice (Office) (BelongsTo): Office held.<br>\r\n\t\t\tofficerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona holding the given Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\toffice (Office) (BelongsTo): Office held.<br>\r\n\t\t\tofficerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona holding the given Office.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "4fd019d201b7a140f9c52a7b88bd132b",
                 "parameters": [
                     {
@@ -10424,7 +10424,7 @@
                     "Officer"
                 ],
                 "summary": "Update the specified Officer in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "98e3630e075ac1ad465ba236838177fc",
                 "parameters": [
                     {
@@ -10556,7 +10556,7 @@
                     "Officer"
                 ],
                 "summary": "Remove the specified Officer from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "ecf9cfb9582b95d05ac6b07f7c956a9d",
                 "parameters": [
                     {
@@ -10685,7 +10685,7 @@
                     "Persona"
                 ],
                 "summary": "Get a listing of the Personas.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmembers (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmembers (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "871cc1b3dad20fab9eb18bb254753234",
                 "parameters": [
                     {
@@ -10812,7 +10812,7 @@
                     "Persona"
                 ],
                 "summary": "Store a newly created Persona in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "3a5f6a0bf82681d792147e22fc387f3c",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Persona"
@@ -10924,7 +10924,7 @@
                     "Persona"
                 ],
                 "summary": "Display the specified Persona",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmembers (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmembers (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "90d8456d0ffc4bbc7bcb4855290cacc3",
                 "parameters": [
                     {
@@ -11049,7 +11049,7 @@
                     "Persona"
                 ],
                 "summary": "Update the specified Persona in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "b121f0c25b1cff41343460c05785e9fa",
                 "parameters": [
                     {
@@ -11181,7 +11181,7 @@
                     "Persona"
                 ],
                 "summary": "Remove the specified Persona from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "b303903d7b49afb83287c298499eba67",
                 "parameters": [
                     {
@@ -11310,7 +11310,7 @@
                     "Pronoun"
                 ],
                 "summary": "Get a listing of the Pronouns.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas using the Pronoun.<br>\r\n\t\t\twaivers (Waivers) (HasMany): Waivers using the Pronoun.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas using the Pronoun.<br>\r\n\t\t\twaivers (Waivers) (HasMany): Waivers using the Pronoun.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "b8d1daee59ffcaca23bc3b4c8c041613",
                 "parameters": [
                     {
@@ -11437,7 +11437,7 @@
                     "Pronoun"
                 ],
                 "summary": "Store a newly created Pronoun in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "2b2249cef61bc79b5160640cd6859260",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Pronoun"
@@ -11549,7 +11549,7 @@
                     "Pronoun"
                 ],
                 "summary": "Display the specified Pronoun",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas using the Pronoun.<br>\r\n\t\t\twaivers (Waivers) (HasMany): Waivers using the Pronoun.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersonas (Persona) (HasMany): Personas using the Pronoun.<br>\r\n\t\t\twaivers (Waivers) (HasMany): Waivers using the Pronoun.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "1aab65e5c10c88ddeda2ad9958f9a649",
                 "parameters": [
                     {
@@ -11674,7 +11674,7 @@
                     "Pronoun"
                 ],
                 "summary": "Update the specified Pronoun in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "2c570c96673dd9832e76bd117547ce01",
                 "parameters": [
                     {
@@ -11806,7 +11806,7 @@
                     "Pronoun"
                 ],
                 "summary": "Remove the specified Pronoun from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "217e55d65e27250e172057ac25bb99ad",
                 "parameters": [
                     {
@@ -11935,7 +11935,7 @@
                     "Realm"
                 ],
                 "summary": "Get a listing of the Realms.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts for the Realm.<br>\r\n\t\t\tawards (Awards) (MorphMany): Awards this Realm can issue.<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters of the Realm.<br>\r\n\t\t\tchaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Realm.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made by the Realm.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices of the Realm.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Realm.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns of the Realm.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Realm.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions levied by the Realm.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Realm Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts for the Realm.<br>\r\n\t\t\tawards (Awards) (MorphMany): Awards this Realm can issue.<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters of the Realm.<br>\r\n\t\t\tchaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Realm.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made by the Realm.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices of the Realm.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Realm.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns of the Realm.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Realm.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions levied by the Realm.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Realm Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "fa41cf05b95e51bcba94fe0f0b680e0d",
                 "parameters": [
                     {
@@ -12062,7 +12062,7 @@
                     "Realm"
                 ],
                 "summary": "Store a newly created Realm in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "da5afc57141ed8c969f2e7078cb3fff8",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Realm"
@@ -12174,7 +12174,7 @@
                     "Realm"
                 ],
                 "summary": "Display the specified Realm",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts for the Realm.<br>\r\n\t\t\tawards (Awards) (MorphMany): Awards this Realm can issue.<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters of the Realm.<br>\r\n\t\t\tchaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Realm.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made by the Realm.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices of the Realm.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Realm.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns of the Realm.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Realm.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions levied by the Realm.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Realm Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts for the Realm.<br>\r\n\t\t\tawards (Awards) (MorphMany): Awards this Realm can issue.<br>\r\n\t\t\tchapters (Chapter) (HasMany): Chapters of the Realm.<br>\r\n\t\t\tchaptertypes (Chaptertype) (HasMany): Chaptertypes the Realm uses.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Realm.<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances made by the Realm.<br>\r\n\t\t\toffices (Office) (MorphMany): Offices of the Realm.<br>\r\n\t\t\treign (Reign) (MorphOne): The current Reign of the Realm.<br>\r\n\t\t\treigns (Reign) (MorphMany): Reigns of the Realm.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Realm.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions levied by the Realm.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles the Realm Issues.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "e577a1baedc8d1bf52c45535926e1d40",
                 "parameters": [
                     {
@@ -12299,7 +12299,7 @@
                     "Realm"
                 ],
                 "summary": "Update the specified Realm in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "00d2f07a041d1fd68e294e97ae949a88",
                 "parameters": [
                     {
@@ -12431,7 +12431,7 @@
                     "Realm"
                 ],
                 "summary": "Remove the specified Realm from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "1dd1f1d8f608077ed4da974c8732aa71",
                 "parameters": [
                     {
@@ -12560,7 +12560,7 @@
                     "Recommendation"
                 ],
                 "summary": "Get a listing of the Recommendations.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona the Recommendation is for.<br>\r\n\t\t\trecommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona the Recommendation is for.<br>\r\n\t\t\trecommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "7ba4da845868c542ce3b9532da234e59",
                 "parameters": [
                     {
@@ -12687,7 +12687,7 @@
                     "Recommendation"
                 ],
                 "summary": "Store a newly created Recommendation in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "25dee38fd9c6e1b31d690d298b307a04",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Recommendation"
@@ -12799,7 +12799,7 @@
                     "Recommendation"
                 ],
                 "summary": "Display the specified Recommendation",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona the Recommendation is for.<br>\r\n\t\t\trecommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona the Recommendation is for.<br>\r\n\t\t\trecommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "82e69796418c09bc44ad35e44d984fb6",
                 "parameters": [
                     {
@@ -12924,7 +12924,7 @@
                     "Recommendation"
                 ],
                 "summary": "Update the specified Recommendation in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "76f69e019fb4e6b38a71355496d2b66a",
                 "parameters": [
                     {
@@ -13056,7 +13056,7 @@
                     "Recommendation"
                 ],
                 "summary": "Remove the specified Recommendation from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "47ced06e39272d3b1438948764e62757",
                 "parameters": [
                     {
@@ -13185,7 +13185,7 @@
                     "Reconciliation"
                 ],
                 "summary": "Get a listing of the Reconciliations.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona credits being Reconciled.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona credits being Reconciled.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "af5f84d5d7982fca02c560694aae9ee7",
                 "parameters": [
                     {
@@ -13312,7 +13312,7 @@
                     "Reconciliation"
                 ],
                 "summary": "Store a newly created Reconciliation in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "f44bf99f99aed083c7245ba35390862e",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Reconciliation"
@@ -13424,7 +13424,7 @@
                     "Reconciliation"
                 ],
                 "summary": "Display the specified Reconciliation",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona credits being Reconciled.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tarchetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona credits being Reconciled.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "7871f1cd4947aa3247911ed1839fc684",
                 "parameters": [
                     {
@@ -13549,7 +13549,7 @@
                     "Reconciliation"
                 ],
                 "summary": "Update the specified Reconciliation in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "c938af0c48ec4a78de6b6ef249264a7c",
                 "parameters": [
                     {
@@ -13681,7 +13681,7 @@
                     "Reconciliation"
                 ],
                 "summary": "Remove the specified Reconciliation from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "76c82bdf3d4521854a303a5c07c1a7a3",
                 "parameters": [
                     {
@@ -13810,7 +13810,7 @@
                     "Reign"
                 ],
                 "summary": "Get a listing of the Reigns.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Reign.<br>\r\n\t\t\treignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Reign.<br>\r\n\t\t\treignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "bc14495b4057aa087e13e1d7517d0216",
                 "parameters": [
                     {
@@ -13937,7 +13937,7 @@
                     "Reign"
                 ],
                 "summary": "Store a newly created Reign in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "a07ea431d55417794db0989e7b9a7332",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Reign"
@@ -14049,7 +14049,7 @@
                     "Reign"
                 ],
                 "summary": "Display the specified Reign",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Reign.<br>\r\n\t\t\treignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Reign.<br>\r\n\t\t\treignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "f71d78debf2113c070e653876946328e",
                 "parameters": [
                     {
@@ -14174,7 +14174,7 @@
                     "Reign"
                 ],
                 "summary": "Update the specified Reign in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "0a677043700bec595dde529165e0fb06",
                 "parameters": [
                     {
@@ -14306,7 +14306,7 @@
                     "Reign"
                 ],
                 "summary": "Remove the specified Reign from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "d82cda77ad5455b4bb6c4e5a1162cbbb",
                 "parameters": [
                     {
@@ -14435,7 +14435,7 @@
                     "Social"
                 ],
                 "summary": "Get a listing of the Socials.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tsociable (Social) (MorphTo): Model the Social is being attached to.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tsociable (Social) (MorphTo): Model the Social is being attached to.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "7330fdb41b392e2c2e5b53f47d21cb3c",
                 "parameters": [
                     {
@@ -14562,7 +14562,7 @@
                     "Social"
                 ],
                 "summary": "Store a newly created Social in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "9fd03a075c9d5ef1c27cb61bee208718",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Social"
@@ -14674,7 +14674,7 @@
                     "Social"
                 ],
                 "summary": "Display the specified Social",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tsociable (Social) (MorphTo): Model the Social is being attached to.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tsociable (Social) (MorphTo): Model the Social is being attached to.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "2e501a51e18e624a94f9674a3cf7f7c1",
                 "parameters": [
                     {
@@ -14799,7 +14799,7 @@
                     "Social"
                 ],
                 "summary": "Update the specified Social in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "0afffe0b3083dd8eaeda4ef63f3a57d1",
                 "parameters": [
                     {
@@ -14931,7 +14931,7 @@
                     "Social"
                 ],
                 "summary": "Remove the specified Social from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "a38af0204131ad05d9524531593a3efc",
                 "parameters": [
                     {
@@ -15060,7 +15060,7 @@
                     "Split"
                 ],
                 "summary": "Get a listing of the Splits.",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccount (Account) (BelongsTo): Account this Split is for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction being Split.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccount (Account) (BelongsTo): Account this Split is for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction being Split.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "64c2683171f8895c3e67badba52f435d",
                 "parameters": [
                     {
@@ -15187,7 +15187,7 @@
                     "Split"
                 ],
                 "summary": "Store a newly created Split in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "ef978af74b725c81276a9053d52634e7",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Split"
@@ -15299,7 +15299,7 @@
                     "Split"
                 ],
                 "summary": "Display the specified Split",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccount (Account) (BelongsTo): Account this Split is for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction being Split.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccount (Account) (BelongsTo): Account this Split is for.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>\r\n\t\t\ttransaction (Transaction) (BelongsTo): Transaction being Split.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "b8cb239462eda62d36e9641c4ac7c707",
                 "parameters": [
                     {
@@ -15424,7 +15424,7 @@
                     "Split"
                 ],
                 "summary": "Update the specified Split in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "207d972e79d49775740e3170a61faac2",
                 "parameters": [
                     {
@@ -15556,7 +15556,7 @@
                     "Split"
                 ],
                 "summary": "Remove the specified Split from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "597fa4e041e990205a23528d4259314f",
                 "parameters": [
                     {
@@ -15685,7 +15685,7 @@
                     "Suspension"
                 ],
                 "summary": "Get a listing of the Suspensions.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona that has been Suspended.<br>\r\n\t\t\trealm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>\r\n\t\t\tsuspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona that has been Suspended.<br>\r\n\t\t\trealm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>\r\n\t\t\tsuspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "78150bdc07316738b2df5c80e8f27f87",
                 "parameters": [
                     {
@@ -15812,7 +15812,7 @@
                     "Suspension"
                 ],
                 "summary": "Store a newly created Suspension in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "9cfb349c39326941d95bbf2104c9d978",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Suspension"
@@ -15924,7 +15924,7 @@
                     "Suspension"
                 ],
                 "summary": "Display the specified Suspension",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona that has been Suspended.<br>\r\n\t\t\trealm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>\r\n\t\t\tsuspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): The Persona that has been Suspended.<br>\r\n\t\t\trealm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>\r\n\t\t\tsuspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "a396f0cb79fdbd0f72bd7b75c068bfc9",
                 "parameters": [
                     {
@@ -16049,7 +16049,7 @@
                     "Suspension"
                 ],
                 "summary": "Update the specified Suspension in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "4a3c737360215624810c56656bc7cbab",
                 "parameters": [
                     {
@@ -16181,7 +16181,7 @@
                     "Suspension"
                 ],
                 "summary": "Remove the specified Suspension from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "5b93ddef9f01cb5d5ef1382d4ff9fe3f",
                 "parameters": [
                     {
@@ -16310,7 +16310,7 @@
                     "Title"
                 ],
                 "summary": "Get a listing of the Titles.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "6fdafbb1d780a672a5784422f313e1e3",
                 "parameters": [
                     {
@@ -16437,7 +16437,7 @@
                     "Title"
                 ],
                 "summary": "Store a newly created Title in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "0a37bdd574da963931e5935c6f2b4c54",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Title"
@@ -16549,7 +16549,7 @@
                     "Title"
                 ],
                 "summary": "Display the specified Title",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tissuances (Issuance) (MorphMany): Issuances of this Title.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "4ef132dd2b627649dc8bb507829d6667",
                 "parameters": [
                     {
@@ -16674,7 +16674,7 @@
                     "Title"
                 ],
                 "summary": "Update the specified Title in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "659894e989866f266fa1aaa88282ba79",
                 "parameters": [
                     {
@@ -16806,7 +16806,7 @@
                     "Title"
                 ],
                 "summary": "Remove the specified Title from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "a14cc6721d6470f636f1d731192ede72",
                 "parameters": [
                     {
@@ -16935,7 +16935,7 @@
                     "Tournament"
                 ],
                 "summary": "Get a listing of the Tournaments.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\ttournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\ttournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "f84dab1842f560f09e29fb1473d74efa",
                 "parameters": [
                     {
@@ -17062,7 +17062,7 @@
                     "Tournament"
                 ],
                 "summary": "Store a newly created Tournament in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "441a93614ff459dba8c2393d5204388f",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Tournament"
@@ -17174,7 +17174,7 @@
                     "Tournament"
                 ],
                 "summary": "Display the specified Tournament",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\ttournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\ttournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "73081006f3208d0618a43acf7e470c5e",
                 "parameters": [
                     {
@@ -17299,7 +17299,7 @@
                     "Tournament"
                 ],
                 "summary": "Update the specified Tournament in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "d93b563870f1493067829c292ac65894",
                 "parameters": [
                     {
@@ -17431,7 +17431,7 @@
                     "Tournament"
                 ],
                 "summary": "Remove the specified Tournament from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "719d4100bd77216a1e8aa45654b50f40",
                 "parameters": [
                     {
@@ -17560,7 +17560,7 @@
                     "Transaction"
                 ],
                 "summary": "Get a listing of the Transactions.",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tdues (Due) (HasMany): Dues linked to the Transaction\r\n\t * \t\tsplits (Split) (HasMany): Splits for the Transaction\r\n\t * \t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tdues (Due) (HasMany): Dues linked to the Transaction\r\n\t * \t\tsplits (Split) (HasMany): Splits for the Transaction\r\n\t * \t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "3fd1f8d3c6601e0ffd07e6b6cbcff9cf",
                 "parameters": [
                     {
@@ -17687,7 +17687,7 @@
                     "Transaction"
                 ],
                 "summary": "Store a newly created Transaction in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
                 "operationId": "0f290b58c6bab4729d0dde1a1d51bff3",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Transaction"
@@ -17799,7 +17799,7 @@
                     "Transaction"
                 ],
                 "summary": "Display the specified Transaction",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tdues (Due) (HasMany): Dues linked to the Transaction\r\n\t * \t\tsplits (Split) (HasMany): Splits for the Transaction\r\n\t * \t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tdues (Due) (HasMany): Dues linked to the Transaction\r\n\t * \t\tsplits (Split) (HasMany): Splits for the Transaction\r\n\t * \t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "adef18e3ac1ce974513830381518cf5f",
                 "parameters": [
                     {
@@ -17924,7 +17924,7 @@
                     "Transaction"
                 ],
                 "summary": "Update the specified Transaction in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "8e8c50149ec8ad953aa07b004cbc7fd8",
                 "parameters": [
                     {
@@ -18056,7 +18056,7 @@
                     "Transaction"
                 ],
                 "summary": "Remove the specified Transaction from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "975bc05349a883fc69d5602fbfb9099b",
                 "parameters": [
                     {
@@ -18185,7 +18185,7 @@
                     "Unit"
                 ],
                 "summary": "Get a listing of the Units.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts held by the Unit.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards Unit can Issue.<br>\r\n\t\t\tawardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>\r\n\t\t\tevents (Event) (MorphMany): Events run by this Unit.<br>\r\n\t\t\tissuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.<br>\r\n\t\t\tissuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.<br>\r\n\t\t\tmembers (Member) (HasMany): Unit Members.<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Unit.<br>\r\n\t\t\toffices (Office) (MorphMany): Unit Offices.<br>\r\n\t\t\tsocials (Social) (MorphMany): Social media links or IDs.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles Unit can Issue.<br>\r\n\t\t\ttitleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts held by the Unit.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards Unit can Issue.<br>\r\n\t\t\tawardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>\r\n\t\t\tevents (Event) (MorphMany): Events run by this Unit.<br>\r\n\t\t\tissuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.<br>\r\n\t\t\tissuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.<br>\r\n\t\t\tmembers (Member) (HasMany): Unit Members.<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Unit.<br>\r\n\t\t\toffices (Office) (MorphMany): Unit Offices.<br>\r\n\t\t\tsocials (Social) (MorphMany): Social media links or IDs.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles Unit can Issue.<br>\r\n\t\t\ttitleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "1397445b0aabd921f5b9fa886f6ad780",
                 "parameters": [
                     {
@@ -18312,7 +18312,7 @@
                     "Unit"
                 ],
                 "summary": "Store a newly created Unit in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "f5a228c20d33b5375ccb5a92efdf9686",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Unit"
@@ -18424,7 +18424,7 @@
                     "Unit"
                 ],
                 "summary": "Display the specified Unit",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts held by the Unit.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards Unit can Issue.<br>\r\n\t\t\tawardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>\r\n\t\t\tevents (Event) (MorphMany): Events run by this Unit.<br>\r\n\t\t\tissuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.<br>\r\n\t\t\tissuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.<br>\r\n\t\t\tmembers (Member) (HasMany): Unit Members.<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Unit.<br>\r\n\t\t\toffices (Office) (MorphMany): Unit Offices.<br>\r\n\t\t\tsocials (Social) (MorphMany): Social media links or IDs.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles Unit can Issue.<br>\r\n\t\t\ttitleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\taccounts (Account) (MorphMany): Accounts held by the Unit.<br>\r\n\t\t\tawards (Award) (MorphMany): Awards Unit can Issue.<br>\r\n\t\t\tawardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>\r\n\t\t\tevents (Event) (MorphMany): Events run by this Unit.<br>\r\n\t\t\tissuanceGivens (Issuance) (MorphMany): All Issuances made by the Unit.<br>\r\n\t\t\tissuanceReceived (Issuance) (MorphMany): All Issuances received by the Unit.<br>\r\n\t\t\tmembers (Member) (HasMany): Unit Members.<br>\r\n\t\t\tofficers (Officer) (MorphMany): Officers of the Unit.<br>\r\n\t\t\toffices (Office) (MorphMany): Unit Offices.<br>\r\n\t\t\tsocials (Social) (MorphMany): Social media links or IDs.<br>\r\n\t\t\ttitles (Title) (MorphMany): Titles Unit can Issue.<br>\r\n\t\t\ttitleIssuances (Issuance) (MorphMany): Titles Unit has been Issued.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "f187f0319df2138e4b948de2d5404b21",
                 "parameters": [
                     {
@@ -18549,7 +18549,7 @@
                     "Unit"
                 ],
                 "summary": "Update the specified Unit in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "b6cd0ccd4daa136841d1a51b77063402",
                 "parameters": [
                     {
@@ -18681,7 +18681,7 @@
                     "Unit"
                 ],
                 "summary": "Remove the specified Unit from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "cef2675f6bb362d0ccb3418ac71e38d2",
                 "parameters": [
                     {
@@ -18810,7 +18810,7 @@
                     "User"
                 ],
                 "summary": "Get a listing of the Users.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona associated with the User.<br>\r\n\t\t\tpasswordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona associated with the User.<br>\r\n\t\t\tpasswordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "1df092f5eddb2e29c3c5aa8043dd6d44",
                 "parameters": [
                     {
@@ -18937,7 +18937,7 @@
                     "User"
                 ],
                 "summary": "Store a newly created User in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "3465c05467f56755d8fde6dfe336f784",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/User"
@@ -19049,7 +19049,7 @@
                     "User"
                 ],
                 "summary": "Display the specified User",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona associated with the User.<br>\r\n\t\t\tpasswordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona associated with the User.<br>\r\n\t\t\tpasswordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "ca775ff26d0144e4b01abbd8c926f7c3",
                 "parameters": [
                     {
@@ -19174,7 +19174,7 @@
                     "User"
                 ],
                 "summary": "Update the specified User in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "92043c1137b37a84944b0d9a7f0ea5e8",
                 "parameters": [
                     {
@@ -19306,7 +19306,7 @@
                     "User"
                 ],
                 "summary": "Remove the specified User from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
                 "operationId": "b3671c968c691df9358298f3a285c767",
                 "parameters": [
                     {
@@ -19435,7 +19435,7 @@
                     "Waiver"
                 ],
                 "summary": "Get a listing of the Waivers.",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "ffdecfbce492c5ed40fe3ca27e65f1e4",
                 "parameters": [
                     {
@@ -19562,7 +19562,7 @@
                     "Waiver"
                 ],
                 "summary": "Store a newly created Waiver in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: none<br>Crats: full<br>Officers: full<br>Admins: full",
                 "operationId": "745bc06932189ca0bb03f99077573a93",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Waiver"
@@ -19674,7 +19674,7 @@
                     "Waiver"
                 ],
                 "summary": "Display the specified Waiver",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "5d4edc7532bf8d696d77aadbd99e5baf",
                 "parameters": [
                     {
@@ -19799,7 +19799,7 @@
                     "Waiver"
                 ],
                 "summary": "Update the specified Waiver in storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "0e0d2096dfa43f3d85cfff879a368015",
                 "parameters": [
                     {
@@ -19931,7 +19931,7 @@
                     "Waiver"
                 ],
                 "summary": "Remove the specified Waiver from storage",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
                 "operationId": "6ce0494f95cd6590cf194fbca9d1ebc7",
                 "parameters": [
                     {

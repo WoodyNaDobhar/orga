@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Officer;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateOfficerAPIRequest extends APIRequest
 {

@@ -10,7 +10,6 @@ use App\Models\Persona;
 use App\Models\User;
 use App\Traits\RegisterTrait;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
@@ -32,7 +31,6 @@ class BaseAPIController extends AppBaseController
 {
 
 	use RegisterTrait;
-	use ResetsPasswords;
 
 	/**
 	 * @param Request $request
@@ -42,7 +40,7 @@ class BaseAPIController extends AppBaseController
 	 *		path="/images",
 	 *		summary="Get a listing of the images in the public folder.",
 	 *		tags={"Base"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="successful operation",
@@ -163,7 +161,7 @@ class BaseAPIController extends AppBaseController
 	 *		path="/login",
 	 *		summary="Get auth token.  This token should be passed in the Authorization header as a bearer token with every request.  The token will expire in 8 hours, and a new login will be required.",
 	 *		tags={"Base"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/email"
 	 *		),
@@ -322,7 +320,7 @@ class BaseAPIController extends AppBaseController
 	 *		path="/reset",
 	 *		summary="Send reset password email to user.  May only be accessed once every five minutes.",
 	 *		tags={"Base"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/email"
 	 *		),
@@ -479,7 +477,7 @@ class BaseAPIController extends AppBaseController
 	 *		path="/update",
 	 *		summary="Change User password.  Returns auth token (as per login).",
 	 *		tags={"Base"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/password_token"
 	 *		),
@@ -643,10 +641,10 @@ class BaseAPIController extends AppBaseController
 	 *
 	 * @OA\Post(
 	 *		path="/sendInvite",
-	 *		summary="Accept invitation. Invite tokens are generated for Officers in the invitePersona method.",
+	 *		summary="Send a Persona a registration invitation. Invite tokens are generated for Officers in the invitePersona method.  This is the only way to register a new User.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Base"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/email"
 	 *		),
@@ -804,7 +802,7 @@ class BaseAPIController extends AppBaseController
 	 *		path="/register",
 	 *		summary="Accept invitation. Invite tokens are generated for Officers in the sendInvite method. Returns auth token (as per login).",
 	 *		tags={"Base"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: none",
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: none",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/invite_token"
 	 *		),

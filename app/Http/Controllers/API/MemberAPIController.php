@@ -43,7 +43,7 @@ class MemberAPIController extends AppBaseController
 	 *		summary="Get a listing of the Members.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Member"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): The Persona in the Unit.<br>
 			unit (Unit) (BelongsTo): The Unit the Persona is in.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class MemberAPIController extends AppBaseController
 	 *		summary="Store a newly created Member in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Member"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Member"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class MemberAPIController extends AppBaseController
 	 *		summary="Display the specified Member",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Member"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): The Persona in the Unit.<br>
 			unit (Unit) (BelongsTo): The Unit the Persona is in.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class MemberAPIController extends AppBaseController
 	 *		summary="Update the specified Member in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Member"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class MemberAPIController extends AppBaseController
 	 *		summary="Remove the specified Member from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Member"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

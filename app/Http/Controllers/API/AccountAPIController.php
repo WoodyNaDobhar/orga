@@ -43,7 +43,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Get a listing of the Accounts.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			accountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>
 			parent (Account) (BelongsTo): Parent Account, if any.<br>
 			splits (Split) (HasMany): Splits for this Account.<br>
@@ -204,7 +204,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Store a newly created Account in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Account"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Display the specified Account",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			accountable (Realm, Chapter, or Unit) (MorphTo): Realm, Chapter, or Unit that owns this Account.<br>
 			parent (Account) (BelongsTo): Parent Account, if any.<br>
 			splits (Split) (HasMany): Splits for this Account.<br>
@@ -498,7 +498,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Update the specified Account in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class AccountAPIController extends AppBaseController
 	 *		summary="Remove the specified Account from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Account"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

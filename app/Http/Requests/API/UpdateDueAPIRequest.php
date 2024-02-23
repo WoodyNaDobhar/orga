@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Due;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateDueAPIRequest extends APIRequest
 {

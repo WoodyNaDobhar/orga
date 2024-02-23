@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Suspension;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateSuspensionAPIRequest extends APIRequest
 {

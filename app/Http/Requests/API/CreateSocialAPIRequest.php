@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Social;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateSocialAPIRequest extends APIRequest
 {

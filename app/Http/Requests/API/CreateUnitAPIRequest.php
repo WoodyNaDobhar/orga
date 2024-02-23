@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Unit;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateUnitAPIRequest extends APIRequest
 {

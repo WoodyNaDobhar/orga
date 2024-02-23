@@ -43,7 +43,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Get a listing of the Tournaments.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			tournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -202,7 +202,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Store a newly created Tournament in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Tournament"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,7 +335,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Display the specified Tournament",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			tournamentable (Chapter, Event, or Realm) (MorphTo): The Tournament sponsor type; Chapter, Event, or Realm.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -494,7 +494,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Update the specified Tournament in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +653,7 @@ class TournamentAPIController extends AppBaseController
 	 *		summary="Remove the specified Tournament from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Tournament"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

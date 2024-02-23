@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Meetup;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateMeetupAPIRequest extends APIRequest
 {

@@ -43,7 +43,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Get a listing of the Splits.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			account (Account) (BelongsTo): Account this Split is for.<br>
 			persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>
 			transaction (Transaction) (BelongsTo): Transaction being Split.<br>
@@ -204,7 +204,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Store a newly created Split in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Split"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Display the specified Split",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			account (Account) (BelongsTo): Account this Split is for.<br>
 			persona (Persona) (BelongsTo): Persona performing the Transaction this Split is for.<br>
 			transaction (Transaction) (BelongsTo): Transaction being Split.<br>
@@ -498,7 +498,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Update the specified Split in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class SplitAPIController extends AppBaseController
 	 *		summary="Remove the specified Split from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Split"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

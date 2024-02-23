@@ -43,7 +43,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Get a listing of the Crats.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			event (Event) (BelongsTo): Event the Persona cratted for.<br>
 			persona (Persona) (BelongsTo): The Persona cratting the given Event.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Store a newly created Crat in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: full<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Crat"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Display the specified Crat",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			event (Event) (BelongsTo): Event the Persona cratted for.<br>
 			persona (Persona) (BelongsTo): The Persona cratting the given Event.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Update the specified Crat in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class CratAPIController extends AppBaseController
 	 *		summary="Remove the specified Crat from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Crat"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

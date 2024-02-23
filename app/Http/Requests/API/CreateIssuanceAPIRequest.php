@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Issuance;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateIssuanceAPIRequest extends APIRequest
 {

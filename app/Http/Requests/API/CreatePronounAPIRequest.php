@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Pronoun;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreatePronounAPIRequest extends APIRequest
 {

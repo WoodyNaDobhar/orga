@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Tournament;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateTournamentAPIRequest extends APIRequest
 {

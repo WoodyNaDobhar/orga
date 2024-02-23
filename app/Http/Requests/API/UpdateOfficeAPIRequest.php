@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Office;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateOfficeAPIRequest extends APIRequest
 {

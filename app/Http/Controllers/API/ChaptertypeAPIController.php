@@ -43,7 +43,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Get a listing of the Chaptertypes.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			chapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>
 			offices (Office) (MorphMany): Offices for this Chaptertype.<br>
 			realm (Realm) (BelongsTo): Realm for the Chaptertype.<br>
@@ -204,7 +204,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Store a newly created Chaptertype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Chaptertype"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Display the specified Chaptertype",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			chapters (Chapter) (HasMany): Chapters that share this Chaptertype.<br>
 			offices (Office) (MorphMany): Offices for this Chaptertype.<br>
 			realm (Realm) (BelongsTo): Realm for the Chaptertype.<br>
@@ -498,7 +498,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Update the specified Chaptertype in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class ChaptertypeAPIController extends AppBaseController
 	 *		summary="Remove the specified Chaptertype from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Chaptertype"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

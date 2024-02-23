@@ -43,7 +43,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Get a listing of the Users.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): Persona associated with the User.<br>
 			passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Store a newly created User in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/User"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Display the specified User",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): Persona associated with the User.<br>
 			passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Update the specified User in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class UserAPIController extends AppBaseController
 	 *		summary="Remove the specified User from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"User"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

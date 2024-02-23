@@ -43,7 +43,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Get a listing of the Events.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>
 			crats (Crat) (HasMany): Crats for the Event.<br>
 			eventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit running the Event.<br>
@@ -209,7 +209,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Store a newly created Event in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Event"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -342,7 +342,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Display the specified Event",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendances (Attendance) (MorphMany): Attendances for the Event, not including demo Guests.<br>
 			crats (Crat) (HasMany): Crats for the Event.<br>
 			eventable (Chapter, Realm, Persona, or Unit) (MorphTo): Chapter, Realm, Persona, or Unit sponsoring the Event.<br>
@@ -508,7 +508,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Update the specified Event in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -667,7 +667,7 @@ class EventAPIController extends AppBaseController
 	 *		summary="Remove the specified Event from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Event"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

@@ -43,7 +43,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Get a listing of the Realms.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			accounts (Account) (MorphMany): Accounts for the Realm.<br>
 			awards (Awards) (MorphMany): Awards this Realm can issue.<br>
 			chapters (Chapter) (HasMany): Chapters of the Realm.<br>
@@ -213,7 +213,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Store a newly created Realm in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Realm"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -346,7 +346,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Display the specified Realm",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			accounts (Account) (MorphMany): Accounts for the Realm.<br>
 			awards (Awards) (MorphMany): Awards this Realm can issue.<br>
 			chapters (Chapter) (HasMany): Chapters of the Realm.<br>
@@ -516,7 +516,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Update the specified Realm in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -675,7 +675,7 @@ class RealmAPIController extends AppBaseController
 	 *		summary="Remove the specified Realm from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Realm"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

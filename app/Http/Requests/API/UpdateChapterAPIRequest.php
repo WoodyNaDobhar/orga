@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Chapter;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateChapterAPIRequest extends APIRequest
 {

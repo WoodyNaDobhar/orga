@@ -43,7 +43,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Get a listing of the Pronouns.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			personas (Persona) (HasMany): Personas using the Pronoun.<br>
 			waivers (Waivers) (HasMany): Waivers using the Pronoun.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Store a newly created Pronoun in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Pronoun"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Display the specified Pronoun",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			personas (Persona) (HasMany): Personas using the Pronoun.<br>
 			waivers (Waivers) (HasMany): Waivers using the Pronoun.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Update the specified Pronoun in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class PronounAPIController extends AppBaseController
 	 *		summary="Remove the specified Pronoun from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Pronoun"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

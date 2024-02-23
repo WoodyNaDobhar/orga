@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Reign;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateReignAPIRequest extends APIRequest
 {

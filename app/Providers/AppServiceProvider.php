@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
 		//
 		$this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
 	}
-
+	
 	/**
 	 * Bootstrap any application services.
 	 *
@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
 			'Archetype' => 'App\Models\Archetype',
 			'Attendance' => 'App\Models\Attendance',
 			'Award' => 'App\Models\Award',
+			'BaseModel' => 'App\Models\BaseModel',
 			'Chapter' => 'App\Models\Chapter',
 			'Chaptertype' => 'App\Models\Chaptertype',
 			'Crat' => 'App\Models\Crat',

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Realm;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateRealmAPIRequest extends APIRequest
 {

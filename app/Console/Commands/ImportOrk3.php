@@ -2408,10 +2408,10 @@ class ImportOrk3 extends Command
 										$transUsers[$oldUser->mundane_id] = $userId;
 									}else{
 										DB::table('crypt')->insert([
-												'model' 		=> 'User',
-												'cause' 		=> 'DuplicateEmail',
-												'model_id'		=> $oldUser->mundane_id,
-												'model_value'	=> json_encode($oldUser)
+											'model' 		=> 'User',
+											'cause' 		=> 'DuplicateEmail',
+											'model_id'		=> $oldUser->mundane_id,
+											'model_value'	=> json_encode($oldUser)
 										]);
 									}
 								}

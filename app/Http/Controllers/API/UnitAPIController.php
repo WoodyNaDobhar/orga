@@ -43,7 +43,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Get a listing of the Units.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			accounts (Account) (MorphMany): Accounts held by the Unit.<br>
 			awards (Award) (MorphMany): Awards Unit can Issue.<br>
 			awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>
@@ -213,7 +213,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Store a newly created Unit in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Unit"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -346,7 +346,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Display the specified Unit",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			accounts (Account) (MorphMany): Accounts held by the Unit.<br>
 			awards (Award) (MorphMany): Awards Unit can Issue.<br>
 			awardIssuances (Issuance) (MorphMany): Awards Unit has been Issued.<br>
@@ -516,7 +516,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Update the specified Unit in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -675,7 +675,7 @@ class UnitAPIController extends AppBaseController
 	 *		summary="Remove the specified Unit from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Unit"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

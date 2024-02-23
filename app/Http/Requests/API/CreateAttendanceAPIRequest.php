@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Attendance;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateAttendanceAPIRequest extends APIRequest
 {

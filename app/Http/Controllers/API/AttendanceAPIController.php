@@ -43,7 +43,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Get a listing of the Attendances.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>
 			archetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>
 			persona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>
@@ -204,7 +204,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Store a newly created Attendance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Attendance"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Display the specified Attendance",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendable (Event or Meetup) (MorphTo): Event or Meetup the Attendance is for.<br>
 			archetype (Archetype) (BelongsTo): Selected Archetype for the Attendance.<br>
 			persona (Persona) (BelongsTo): Selected Persona receiveing the Attendance credit.<br>
@@ -498,7 +498,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Update the specified Attendance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class AttendanceAPIController extends AppBaseController
 	 *		summary="Remove the specified Attendance from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Attendance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

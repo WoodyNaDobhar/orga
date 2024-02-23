@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Split;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateSplitAPIRequest extends APIRequest
 {

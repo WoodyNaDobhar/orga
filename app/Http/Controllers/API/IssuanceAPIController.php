@@ -43,7 +43,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Get a listing of the Issuances.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>
 			issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>
 			recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>
@@ -207,7 +207,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Store a newly created Issuance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Issuance"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -340,7 +340,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Display the specified Issuance",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>
 			issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>
 			recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>
@@ -504,7 +504,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Update the specified Issuance in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -663,7 +663,7 @@ class IssuanceAPIController extends AppBaseController
 	 *		summary="Remove the specified Issuance from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Issuance"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

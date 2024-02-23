@@ -43,7 +43,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Get a listing of the Waivers.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			ageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>
 			guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>
 			location (Location) (BelongsTo): The Waiver address fields values.<br>
@@ -206,7 +206,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Store a newly created Waiver in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: none<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: none<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Waiver"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -339,7 +339,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Display the specified Waiver",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			ageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>
 			guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>
 			location (Location) (BelongsTo): The Waiver address fields values.<br>
@@ -502,7 +502,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Update the specified Waiver in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -661,7 +661,7 @@ class WaiverAPIController extends AppBaseController
 	 *		summary="Remove the specified Waiver from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Waiver"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

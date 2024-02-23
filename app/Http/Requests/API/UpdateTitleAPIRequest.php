@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Title;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateTitleAPIRequest extends APIRequest
 {

@@ -43,7 +43,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Get a listing of the Suspensions.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): The Persona that has been Suspended.<br>
 			realm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>
 			suspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>
@@ -204,7 +204,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Store a newly created Suspension in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Suspension"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Display the specified Suspension",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): The Persona that has been Suspended.<br>
 			realm (Realm) (BelongsTo): The Realm issuing the Suspension.<br>
 			suspendedBy (User) (BelongsTo): User Persona issuing the Suspension.<br>
@@ -498,7 +498,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Update the specified Suspension in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class SuspensionAPIController extends AppBaseController
 	 *		summary="Remove the specified Suspension from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Suspension"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

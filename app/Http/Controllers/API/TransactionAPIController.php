@@ -43,7 +43,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Get a listing of the Transactions.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			dues (Due) (HasMany): Dues linked to the Transaction
 	 * 		splits (Split) (HasMany): Splits for the Transaction
 	 * 		createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Store a newly created Transaction in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Transaction"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Display the specified Transaction",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			dues (Due) (HasMany): Dues linked to the Transaction
 	 * 		splits (Split) (HasMany): Splits for the Transaction
 	 * 		createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Update the specified Transaction in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class TransactionAPIController extends AppBaseController
 	 *		summary="Remove the specified Transaction from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Transaction"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

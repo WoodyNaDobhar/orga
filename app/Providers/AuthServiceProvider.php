@@ -44,7 +44,7 @@ class AuthServiceProvider extends ServiceProvider
 		'App\Models\User' => 'App\Policies\UserPolicy',
 		'App\Models\Waiver' => 'App\Policies\WaiverPolicy'
 	];
-
+	
 	/**
 	 * Register any authentication / authorization services.
 	 *

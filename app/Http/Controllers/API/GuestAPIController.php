@@ -43,7 +43,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Get a listing of the Guests.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			event (Event) (BelongsTo): Demo Event they played at.<br>
 			chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>
 			waiver (Waiver) (BelongsTo): Waiver for the Guest.<br>
@@ -204,7 +204,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Store a newly created Guest in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Guest"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Display the specified Guest",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			event (Event) (BelongsTo): Demo Event they played at.<br>
 			chapter (Chapter) (BelongsTo): The closest Chapter to the Guest, if known.<br>
 			waiver (Waiver) (BelongsTo): Waiver for the Guest.<br>
@@ -498,7 +498,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Update the specified Guest in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class GuestAPIController extends AppBaseController
 	 *		summary="Remove the specified Guest from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Guest"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

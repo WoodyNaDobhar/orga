@@ -43,7 +43,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Get a listing of the Awards.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>
 			issuances (Issuance) (MorphMany): Issuances of this Award.<br>
 			recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>
@@ -203,7 +203,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Store a newly created Award in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Award"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Display the specified Award",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.<br>
 			issuances (Issuance) (MorphMany): Issuances of this Award.<br>
 			recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.<br>
@@ -497,7 +497,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Update the specified Award in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -656,7 +656,7 @@ class AwardAPIController extends AppBaseController
 	 *		summary="Remove the specified Award from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Award"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

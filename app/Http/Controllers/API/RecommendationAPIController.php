@@ -43,7 +43,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Get a listing of the Recommendations.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): Persona the Recommendation is for.<br>
 			recommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Store a newly created Recommendation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Recommendation"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Display the specified Recommendation",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): Persona the Recommendation is for.<br>
 			recommendable (Award or Title) (MorphTo): The Type of Issuances being Recommended; Award or Title.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Update the specified Recommendation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class RecommendationAPIController extends AppBaseController
 	 *		summary="Remove the specified Recommendation from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Recommendation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

@@ -43,7 +43,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Get a listing of the Officers.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			office (Office) (BelongsTo): Office held.<br>
 			officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>
 			persona (Persona) (BelongsTo): Persona holding the given Office.<br>
@@ -204,7 +204,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Store a newly created Officer in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Officer"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -337,7 +337,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Display the specified Officer",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			office (Office) (BelongsTo): Office held.<br>
 			officerable (Reign or Unit) (MorphTo): Reign or Unit the Persona is an Officer of.<br>
 			persona (Persona) (BelongsTo): Persona holding the given Office.<br>
@@ -498,7 +498,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Update the specified Officer in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -657,7 +657,7 @@ class OfficerAPIController extends AppBaseController
 	 *		summary="Remove the specified Officer from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Officer"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

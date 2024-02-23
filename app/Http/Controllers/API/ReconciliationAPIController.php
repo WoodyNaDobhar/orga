@@ -43,7 +43,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Get a listing of the Reconciliations.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>
 			persona (Persona) (BelongsTo): Persona credits being Reconciled.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Store a newly created Reconciliation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Reconciliation"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Display the specified Reconciliation",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			archetype (Archetype) (BelongsTo): Archetype credits being Reconciled.<br>
 			persona (Persona) (BelongsTo): Persona credits being Reconciled.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Update the specified Reconciliation in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class ReconciliationAPIController extends AppBaseController
 	 *		summary="Remove the specified Reconciliation from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reconciliation"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

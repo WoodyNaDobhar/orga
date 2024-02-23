@@ -43,7 +43,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Get a listing of the Locations.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			chapters (Chapter) (HasMany): Chapters using this Location.<br>
 			events (Event) (HasMany): Events using this Location.<br>
 			issuances (Issuance) (MorphMany): Issuances made at this Location.<br>
@@ -206,7 +206,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Store a newly created Location in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Location"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -339,7 +339,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Display the specified Location",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			chapters (Chapter) (HasMany): Chapters using this Location.<br>
 			events (Event) (HasMany): Events using this Location.<br>
 			issuances (Issuance) (MorphMany): Issuances made at this Location.<br>
@@ -502,7 +502,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Update the specified Location in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -661,7 +661,7 @@ class LocationAPIController extends AppBaseController
 	 *		summary="Remove the specified Location from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Location"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: related<br>Crats: related<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

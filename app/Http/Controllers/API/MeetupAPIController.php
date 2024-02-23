@@ -43,7 +43,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Get a listing of the Meetups.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendances (Attendance) (MorphMany): Attendances for the Meetup.<br>
 			chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>
 			issuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>
@@ -205,7 +205,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Store a newly created Meetup in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Meetup"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -338,7 +338,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Display the specified Meetup",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			attendances (Attendance) (MorphMany): Attendances for the Meetup.<br>
 			chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.<br>
 			issuances (Issuance) (MorphMany): Issuances made at the Meetup.<br>
@@ -500,7 +500,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Update the specified Meetup in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -659,7 +659,7 @@ class MeetupAPIController extends AppBaseController
 	 *		summary="Remove the specified Meetup from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Meetup"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

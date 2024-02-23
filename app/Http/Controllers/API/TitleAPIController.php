@@ -43,7 +43,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Get a listing of the Titles.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			issuances (Issuance) (MorphMany): Issuances of this Title.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -202,7 +202,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Store a newly created Title in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: full<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Title"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -335,7 +335,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Display the specified Title",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			issuances (Issuance) (MorphMany): Issuances of this Title.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -494,7 +494,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Update the specified Title in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -653,7 +653,7 @@ class TitleAPIController extends AppBaseController
 	 *		summary="Remove the specified Title from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Title"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: related<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

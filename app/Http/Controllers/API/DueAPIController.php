@@ -43,7 +43,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Get a listing of the Dues.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): Persona paying Dues.<br>
 			transaction (Transaction) (BelongsTo): Transaction recording the payment.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Store a newly created Due in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: none<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Due"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Display the specified Due",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			persona (Persona) (BelongsTo): Persona paying Dues.<br>
 			transaction (Transaction) (BelongsTo): Transaction recording the payment.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Update the specified Due in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class DueAPIController extends AppBaseController
 	 *		summary="Remove the specified Due from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",

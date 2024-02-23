@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Chaptertype;
-use InfyOm\Generator\Request\APIRequest;
 
 class CreateChaptertypeAPIRequest extends APIRequest
 {

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Award;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateAwardAPIRequest extends APIRequest
 {

@@ -43,7 +43,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Get a listing of the Reigns.",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			officers (Officer) (MorphMany): Officers of the Reign.<br>
 			reignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -203,7 +203,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Store a newly created Reign in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: full<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full",
 	 *		requestBody={"$ref": "#/components/requestBodies/Reign"},
 	 *		@OA\Response(
 	 *			response=200,
@@ -336,7 +336,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Display the specified Reign",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Chapter Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
 			officers (Officer) (MorphMany): Officers of the Reign.<br>
 			reignable (Chapter or Realm) (MorphTo): The Reign type; Realm or Chapter.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -496,7 +496,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Update the specified Reign in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
@@ -655,7 +655,7 @@ class ReignAPIController extends AppBaseController
 	 *		summary="Remove the specified Reign from storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Reign"},
-	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Chapter Officers: related<br>Admins: full",
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: related<br>Admins: full",
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
