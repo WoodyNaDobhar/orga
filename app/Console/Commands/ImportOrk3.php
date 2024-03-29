@@ -2522,7 +2522,8 @@ class ImportOrk3 extends Command
 							DB::reconnect("mysqlBak");
 							DB::table('suspensions')->insertGetId([
 								'persona_id' => $transPersonas[$oldUser->mundane_id],
-								'realm_id' => $transRealms[$oldUser->kingdom_id],
+								'suspendable_type' => 'Realm',
+								'suspendable_id' => $transRealms[$oldUser->kingdom_id],
 								'suspended_by' => $oldUser->suspended_by_id ? (array_key_exists($oldUser->suspended_by_id, $transPersonas) ? $transPersonas[$oldUser->suspended_by_id] : 1) : 1,
 								'suspended_at' => !$oldUser->suspended_at || $oldUser->suspended_at === '0000-00-00' ? $oldUser->modified : $oldUser->suspended_at,
 								'expires_at' => $oldUser->suspended_until && $oldUser->suspended_until > date('Y-m-d', strtotime('+5 years')) ? null : $oldUser->suspended_until,
@@ -4768,6 +4769,7 @@ class ImportOrk3 extends Command
 					$transTitles = $this->getTrans('titles');
 					$transRealmawards = $this->getTrans('realmawards');
 					$transPersonas = $this->getTrans('personas');
+					$transUsers = $this->getTrans('users');
 					$transRealmTitles = $this->getTrans('realmtitles');
 					$oldTitles = $backupConnect->table('ork_award')->where('is_title', 1)->pluck('award_id')->toArray();
 					$oldKingdomawards = $backupConnect->table('ork_kingdomaward')->pluck('kingdomaward_id')->toArray();
@@ -4794,27 +4796,27 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						$recommendingPersona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
-						if(!$recommendingPersona){
+						while(!array_key_exists($oldRecommendation->mundane_id, $transPersonas)){
+							$this->info('waiting for persona ' . $oldRecommendation->mundane_id);
+							sleep(5);
+							$transPersonas = $this->getTrans('personas');
+						}
+						DB::reconnect("mysqlBak");
+						$recommendingUser = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
+						if(!$recommendingUser || $recommendingUser->email === '' || $recommendingUser->email === '~'){
 							DB::table('crypt')->insert([
 									'model' 		=> 'Recommendation',
-									'cause' 		=> 'NoByPersona',
+									'cause' 		=> 'NoByUser',
 									'model_id'		=> $oldRecommendation->recommendations_id,
 									'model_value'	=> json_encode($oldRecommendation)
 							]);
 							$bar->advance();
 							continue;
 						}
-						while(!array_key_exists($oldRecommendation->recommended_by_id, $transPersonas)){
-							$this->info('waiting for persona1 ' . $oldRecommendation->recommended_by_id);
+						while(!array_key_exists($oldRecommendation->recommended_by_id, $transUsers)){
+							$this->info('waiting for user ' . $oldRecommendation->recommended_by_id);
 							sleep(5);
-							$transPersonas = $this->getTrans('personas');
-						}
-						DB::reconnect("mysqlBak");
-						while(!array_key_exists($oldRecommendation->mundane_id, $transPersonas)){
-							$this->info('waiting for persona2 ' . $oldRecommendation->mundane_id);
-							sleep(5);
-							$transPersonas = $this->getTrans('personas');
+							$transUsers = $this->getTrans('users');
 						}
 						DB::reconnect("mysqlBak");
 						$isTitle = in_array($oldRecommendation->award_id, $oldTitles) ? true : false;
@@ -5066,23 +5068,23 @@ class ImportOrk3 extends Command
 							}
 						}
 						DB::table('recommendations')->insert([
-								'persona_id' => $transPersonas[$oldRecommendation->mundane_id],
-								'recommendable_type' => $isTitle ? 'Title' : 'Award',
-								'recommendable_id' => $isTitle ? (
-										$isCustomTitle ? 
-											$transRealmTitles[$persona->kingdom_id][$oldRecommendation->kingdomaward_id][$titleAwardId] :
-											$transTitles[(
-												in_array($oldRecommendation->award_id, $ropTitles) ?
-													0 :
-													$persona->kingdom_id
-												)][$titleAwardId]
-										) :
-										$transRealmawards[(int)$oldRecommendation->kingdomaward_id],
-								'rank' => $oldRecommendation->rank > 0 ? $oldRecommendation->rank : null,
-								'is_anonymous' => $oldRecommendation->mask_giver,
-								'reason' => $oldRecommendation->reason,
-								'created_by' => $transPersonas[$oldRecommendation->recommended_by_id],
-								'created_at' => $oldRecommendation->date_recommended
+							'persona_id' => $transPersonas[$oldRecommendation->mundane_id],
+							'recommendable_type' => $isTitle ? 'Title' : 'Award',
+							'recommendable_id' => $isTitle ? (
+									$isCustomTitle ? 
+										$transRealmTitles[$persona->kingdom_id][$oldRecommendation->kingdomaward_id][$titleAwardId] :
+										$transTitles[(
+											in_array($oldRecommendation->award_id, $ropTitles) ?
+												0 :
+												$persona->kingdom_id
+											)][$titleAwardId]
+									) :
+									$transRealmawards[(int)$oldRecommendation->kingdomaward_id],
+							'rank' => $oldRecommendation->rank > 0 ? $oldRecommendation->rank : null,
+							'is_anonymous' => $oldRecommendation->mask_giver,
+							'reason' => $oldRecommendation->reason,
+							'created_by' => $transUsers[$oldRecommendation->recommended_by_id],
+							'created_at' => $oldRecommendation->date_recommended
 						]);
 						$bar->advance();
 					}
@@ -6161,8 +6163,7 @@ class ImportOrk3 extends Command
 									'persona_id' => $persona->id,
 									'label' => $label ? $label : null,
 									'starts_on' => null,
-									'ends_on' => null,
-									'created_by' => $transPersonas[$fromID]
+									'ends_on' => null
 								]);
 								//all done with this offices held
 								$bar->advance();

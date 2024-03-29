@@ -44,7 +44,7 @@ const switchDarkMode = (darkMode: boolean) => {
 };
 setDarkModeClass();
 
-const themes: Array<Themes["name"]> = ["rubick", "icewall", "tinker", "enigma"];
+const themes: Array<Themes["name"]> = ["icewall"];
 const layouts: Array<Themes["layout"]> = [
     "side-menu",
     "simple-menu",

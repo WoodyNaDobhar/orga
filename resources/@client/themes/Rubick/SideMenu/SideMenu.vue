@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import "@/assets/css/themes/rubick/side-nav.css";
 import { useRoute, useRouter } from "vue-router";
-import logoUrl from "@/assets/images/logo.svg";
+import logoUrl from "@/assets/images/logo.png";
 import Tippy from "@/components/Base/Tippy";
 import Lucide from "@/components/Base/Lucide";
 import TopBar from "@/components/Themes/Rubick/TopBar";
@@ -74,11 +74,11 @@ onMounted(() => {
           class="flex items-center pt-4 pl-5 intro-x"
         >
           <img
-            alt="Midone - Tailwind Admin Dashboard Template"
-            class="w-6"
+            alt="Amtgard Online Record Keeper v4"
+            class="w-40"
             :src="logoUrl"
           />
-          <span class="hidden ml-3 text-lg text-white xl:block"> Rubick </span>
+          <span class="hidden ml-3 text-lg text-white xl:block"></span>
         </RouterLink>
         <div class="my-6 side-nav__divider"></div>
         <ul>

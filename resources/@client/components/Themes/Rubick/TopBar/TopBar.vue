@@ -24,8 +24,8 @@ const hideSearchDropdown = () => {
   >
     <!-- BEGIN: Breadcrumb -->
     <Breadcrumb class="hidden mr-auto -intro-x sm:flex">
-      <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
-      <Breadcrumb.Link to="/" :active="true"> Dashboard </Breadcrumb.Link>
+	  <a :href="'https://www.amtgard.com'" target="_blank">Amtgard</a>
+      <Breadcrumb.Link to="/" :active="true"> ORK4 Dashboard </Breadcrumb.Link>
     </Breadcrumb>
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->

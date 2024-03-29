@@ -18,10 +18,10 @@ use Wildside\Userstamps\Userstamps;
 
 /**
  * @OA\Schema(
- *	  schema="User",
- *	  required={"email","password","is_restricted"},
+ *		schema="User",
+ *		required={"email","password","is_restricted"},
  *		description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
- * persona (Persona) (HasOne): Persona associated with the User.
+ * persona (Persona) (BelongsTo): Persona associated with the User.
  * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -37,60 +37,60 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
- *		  readOnly=false,
- *		  nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *	  @OA\Property(
- *		  property="email",
- *		  description="Unique email used to identify and communicate with the User.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
+ *		@OA\Property(
+ *			property="email",
+ *			description="Unique email used to identify and communicate with the User.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="email",
  *			example="nobody@nowhere.net",
  *			maxLength=191
- *	  ),
- *	  @OA\Property(
- *		  property="email_verified_at",
- *		  description="When the User email was verified, if at all",
- *		  readOnly=false,
- *		  nullable=true,
- *		  type="string",
+ *		),
+ *		@OA\Property(
+ *			property="email_verified_at",
+ *			description="When the User email was verified, if at all",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
  *			format="date-time",
  *			example="2023-12-30 23:59:59",
  *			readOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="password",
- *		  description="Encoded password string.",
- *		  nullable=false,
- *		  type="string",
+ *		),
+ *		@OA\Property(
+ *			property="password",
+ *			description="Encoded password string.",
+ *			nullable=false,
+ *			type="string",
  *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  *			writeOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="api_token",
- *		  description="The API token for authentication",
- *		  type="string",
- *		  maxLength=80,
- *		  example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
- *		  readOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="is_restricted",
- *		  description="Is the User (default false) restricted from using the site?",
- *		  readOnly=false,
- *		  nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="api_token",
+ *			description="The API token for authentication",
+ *			type="string",
+ *			maxLength=80,
+ *			example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="is_restricted",
+ *			description="Is the User (default false) restricted from using the site?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
  *			example=0,
  *			default=0
- *	  ),
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -194,52 +194,161 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
- *		  readOnly=false,
- *		  nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *	  @OA\Property(
- *		  property="email",
- *		  description="Unique email used to identify and communicate with the User.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
+ *		@OA\Property(
+ *			property="email",
+ *			description="Unique email used to identify and communicate with the User.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="email",
  *			example="nobody@nowhere.net",
  *			maxLength=191
- *	  ),
- *	  @OA\Property(
- *		  property="email_verified_at",
- *		  description="When the User email was verified, if at all",
- *		  readOnly=false,
- *		  nullable=true,
- *		  type="string",
+ *		),
+ *		@OA\Property(
+ *			property="email_verified_at",
+ *			description="When the User email was verified, if at all",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
  *			format="date-time",
  *			example="2023-12-30 23:59:59",
  *			readOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="password",
- *		  description="Encoded password string.",
- *		  nullable=false,
- *		  type="string",
+ *		),
+ *		@OA\Property(
+ *			property="password",
+ *			description="Encoded password string.",
+ *			nullable=false,
+ *			type="string",
  *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  *			writeOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="is_restricted",
- *		  description="Is the User (default false) restricted from using the site?",
- *		  readOnly=false,
- *		  nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_restricted",
+ *			description="Is the User (default false) restricted from using the site?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
  *			example=0,
  *			default=0
- *	  ),
+ *		),
+ *		@OA\Property(
+ *			property="created_by",
+ *			description="The User that created this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true,
+ *			default=1
+ *		),
+ *		@OA\Property(
+ *			property="updated_by",
+ *			description="The last User to update this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_by",
+ *			description="The User that softdeleted this record.",
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="created_at",
+ *			description="When the entry was created.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="updated_at",
+ *			description="When the entry was last updated.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="deleted_at",
+ *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *			readOnly=true
+ *		)
+ *	)
+ *	@OA\Schema(
+ *		schema="UserLogin",
+ *		@OA\Property(
+ *			property="persona_id",
+ *			description="ID of the User's Persona.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *		@OA\Property(
+ *			property="token",
+ *			description="Login token for the User.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			example="yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+ *		),
+ *		@OA\Property(
+ *			property="email",
+ *			description="Unique email used to identify and communicate with the User.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="email",
+ *			example="nobody@nowhere.net",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
+ *			property="email_verified_at",
+ *			description="When the User email was verified, if at all",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="date-time",
+ *			example="2023-12-30 23:59:59",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="password",
+ *			description="Encoded password string.",
+ *			nullable=false,
+ *			type="string",
+ *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ *			writeOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="is_restricted",
+ *			description="Is the User (default false) restricted from using the site?",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
  *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
@@ -295,52 +404,52 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
- *		  readOnly=false,
- *		  nullable=false,
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="int32",
  *			example=42
  *		),
- *	  @OA\Property(
- *		  property="email",
- *		  description="Unique email used to identify and communicate with the User.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
+ *		@OA\Property(
+ *			property="email",
+ *			description="Unique email used to identify and communicate with the User.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
  *			format="email",
  *			example="nobody@nowhere.net",
  *			maxLength=191
- *	  ),
- *	  @OA\Property(
- *		  property="email_verified_at",
- *		  description="When the User email was verified, if at all",
- *		  readOnly=false,
- *		  nullable=true,
- *		  type="string",
+ *		),
+ *		@OA\Property(
+ *			property="email_verified_at",
+ *			description="When the User email was verified, if at all",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
  *			format="date-time",
  *			example="2023-12-30 23:59:59",
  *			readOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="password",
- *		  description="Encoded password string.",
- *		  nullable=false,
- *		  type="string",
+ *		),
+ *		@OA\Property(
+ *			property="password",
+ *			description="Encoded password string.",
+ *			nullable=false,
+ *			type="string",
  *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  *			writeOnly=true
- *	  ),
- *	  @OA\Property(
- *		  property="is_restricted",
- *		  description="Is the User (default false) restricted from using the site?",
- *		  readOnly=false,
- *		  nullable=false,
+ *		),
+ *		@OA\Property(
+ *			property="is_restricted",
+ *			description="Is the User (default false) restricted from using the site?",
+ *			readOnly=false,
+ *			nullable=false,
  *			type="integer",
  *			format="enum",
  *			enum={0, 1},
  *			example=0,
  *			default=0
- *	  )
+ *		)
  *	)
  *	@OA\RequestBody(
  *		request="User",
@@ -380,6 +489,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	protected function getDefaultGuardName(): string { return 'api'; }
 	
 	public $fillable = [
+		'persona_id',
 		'email',
 		'email_verified_at',
 		'password',
@@ -397,8 +507,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	
 	public static $createRules = [
 		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
-		'password' => 'min:6|required_with:password_confirmation|same:password_confirmation|max:191',
-		'password_confirmation' => 'required|min:6',
+		'password' => 'min:6|required_with:password_confirm|same:password_confirm|max:191',
+		'password_confirm' => 'required|min:6',
 		'invite_token' => 'required|string',
 		'device_name' => 'required|string',
 		'is_agreed' => 'required|boolean|in:1',
@@ -409,8 +519,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	public static $setPasswordRules = [
 		'password_token' => 'required|string',
 		'email' => 'required',
-		'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
-		'password_confirmation' => 'min:6',
+		'password' => 'min:6|required_with:password_confirm|same:password_confirm',
+		'password_confirm' => 'min:6',
 		'device_name' => 'required'
 	];
 
@@ -418,16 +528,16 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 		'persona_id' => 'required|exists:personas,id',
 		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
 		'email_verified_at' => 'nullable|datetime',
-		'password' => 'nullable|min:6|required_with:password_confirmation|same:password_confirmation|max:191',
+		'password' => 'nullable|min:6|required_with:password_confirm|same:password_confirm|max:191',
 		'remember_token' => 'nullable|string|max:100',
 		'api_token' => 'nullable|string|max:80',
 		'is_restricted' => 'boolean'
 	];
 	
 	public static $messages = [
-		'email.regex'	  => 'Please enter a valid email.',
+		'email.regex'		=> 'Please enter a valid email.',
 		'is_agreed' => 'You must agree to the Terms of Service before you can sign up for the ORK.',
-		'invite_token' => 'The provided credentials are incorrect.',
+		'invite_token' => 'The provided credentials are incorrect2.',
 	];
 	
 	/**
@@ -454,16 +564,16 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	 * @var array
 	 */
 	public $relationships = [
-		'persona' => 'HasOne',
+		'persona' => 'BelongsTo',
 		'passwordHistories' => 'HasMany',
 		'createdBy' => 'BelongsTo',
 		'updatedBy' => 'BelongsTo',
 		'deletedBy' => 'BelongsTo',
 	];
 	
-	public function persona(): \Illuminate\Database\Eloquent\Relations\HasOne
+	public function persona(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		return $this->hasOne(\App\Models\Persona::class, 'user_id');
+		return $this->belongsTo(Persona::class);
 	}
 	
 	public function passwordHistories(): \Illuminate\Database\Eloquent\Relations\HasMany

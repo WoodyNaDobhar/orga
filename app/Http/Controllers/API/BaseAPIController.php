@@ -9,6 +9,7 @@ use App\Models\PasswordHistory;
 use App\Models\Persona;
 use App\Models\User;
 use App\Traits\RegisterTrait;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -188,8 +189,7 @@ class BaseAPIController extends AppBaseController
 	 *							property="data",
 	 *							type="array",
 	 *							@OA\Items(
-	 *								type="string",
-	 *								example="yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+	 *								ref="#/components/schemas/UserLogin"
 	 *							)
 	 *						),
 	 *						@OA\Property(
@@ -304,7 +304,10 @@ class BaseAPIController extends AppBaseController
 // 				Mailchimp::unsubscribe(config('mailchimp.list'), $user->email);
 // 			}
 
-			return $this->sendResponse([explode('|', $user->createToken($request->device_name)->plainTextToken)[1]], 'Login successful.');
+			$userArray = $user->toArray();
+			$userArray['token'] = explode('|', $user->createToken($request->device_name)->plainTextToken)[1];
+
+			return $this->sendResponse($userArray, 'Login successful.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
@@ -488,7 +491,7 @@ class BaseAPIController extends AppBaseController
 	 *			ref="#/components/parameters/password"
 	 *		),
 	 *		@OA\Parameter(
-	 *			ref="#/components/parameters/password_confirmation"
+	 *			ref="#/components/parameters/password_confirm"
 	 *		),
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/device_name"
@@ -813,7 +816,7 @@ class BaseAPIController extends AppBaseController
 	 *			ref="#/components/parameters/password"
 	 *		),
 	 *		@OA\Parameter(
-	 *			ref="#/components/parameters/password_confirmation"
+	 *			ref="#/components/parameters/password_confirm"
 	 *		),
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/is_agreed"
@@ -933,18 +936,20 @@ class BaseAPIController extends AppBaseController
 				}
 				return $this->sendError('Your password is weak:<br \>' . substr($errors, 0, -6), null, 404);
 			}
-
-			$input = $request->all();
 			
 			$invitedPersona = Persona::where('id', Crypt::decryptString($request->input('invite_token')))->first();
-
 			if($invitedPersona){
-				$input['persona_id'] = $invitedPersona->id;
+				$invitedPersona->pronoun_id = $request->input('pronoun_id');
+				$invitedPersona->save();
 			}else{
 				throw ValidationException::withMessages([
 					'invite_token' => ['The provided credentials are incorrect.'],
 				]);
 			}
+			
+			$input = $request->all();
+			$input['persona_id'] = $invitedPersona->id;
+			$input['email_verified_at'] = Carbon::now();
 
 			$this->create($input);
 			

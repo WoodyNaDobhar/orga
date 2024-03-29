@@ -4,7 +4,6 @@ import LeafletMapLoader, {
 } from "@/components/Base/LeafletMapLoader";
 import { getColor } from "@/utils/colors";
 import { useDarkModeStore } from "@/stores/dark-mode";
-import location from "@/assets/json/location.json";
 import { useColorSchemeStore } from "@/stores/color-scheme";
 import { computed, watch } from "vue";
 
@@ -91,7 +90,12 @@ const init: Init = async (initializeMap) => {
               </g>
             </svg>
           `);
-    location.map(function (markerElem) {
+    const locations = [
+    	{"name":"Official Store 1","latitude":"-6.1852503","longitude":"106.874831"},
+    	{"name":"Official Store 2","latitude":"-6.183166","longitude":"106.927962"},
+    	{"name":"Official Store 3","latitude":"-6.1441182","longitude":"106.8838333"}
+    ];
+    locations.map(function (markerElem) {
       const marker = leaflet.marker(
         {
           lat: parseFloat(markerElem.latitude),

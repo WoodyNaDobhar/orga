@@ -2648,8 +2648,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "type": "string",
-                                                "example": "yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+                                                "$ref": "#/components/schemas/UserLogin"
                                             }
                                         },
                                         "message": {
@@ -2851,7 +2850,7 @@
                         "$ref": "#/components/parameters/password"
                     },
                     {
-                        "$ref": "#/components/parameters/password_confirmation"
+                        "$ref": "#/components/parameters/password_confirm"
                     },
                     {
                         "$ref": "#/components/parameters/device_name"
@@ -3079,7 +3078,7 @@
                         "$ref": "#/components/parameters/password"
                     },
                     {
-                        "$ref": "#/components/parameters/password_confirmation"
+                        "$ref": "#/components/parameters/password_confirm"
                     },
                     {
                         "$ref": "#/components/parameters/is_agreed"
@@ -10924,7 +10923,7 @@
                     "Persona"
                 ],
                 "summary": "Display the specified Persona",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmembers (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t        attendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t        awards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t        chapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t        crats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t        dues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t        events (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t        issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t        issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t        issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t        members (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t        officers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t        pronoun (Pronoun) (BelongsTo): Preferred selected pronouns for the Persona.<br>\r\n\t        recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t        reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t        socials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t        splits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t        suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t        suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t        titles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t        titleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t        units (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t        user (User) (BelongsTo): The User for the Persona.<br>\r\n\t        waivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t        waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t        createdBy (User) (BelongsTo): User that created it.<br>\r\n\t        updatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t        deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "90d8456d0ffc4bbc7bcb4855290cacc3",
                 "parameters": [
                     {
@@ -32286,6 +32285,107 @@
                 },
                 "type": "object"
             },
+            "UserLogin": {
+                "properties": {
+                    "persona_id": {
+                        "description": "ID of the User's Persona.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": false,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "token": {
+                        "description": "Login token for the User.",
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12",
+                        "nullable": false
+                    },
+                    "email": {
+                        "description": "Unique email used to identify and communicate with the User.",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "nobody@nowhere.net",
+                        "nullable": false
+                    },
+                    "email_verified_at": {
+                        "description": "When the User email was verified, if at all",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2023-12-30 23:59:59",
+                        "nullable": true
+                    },
+                    "password": {
+                        "description": "Encoded password string.",
+                        "type": "string",
+                        "format": "8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+                        "writeOnly": true,
+                        "example": "$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+                        "nullable": false
+                    },
+                    "is_restricted": {
+                        "description": "Is the User (default false) restricted from using the site?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": false,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "created_by": {
+                        "description": "The User that created this record.",
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 1,
+                        "readOnly": true,
+                        "example": 42
+                    },
+                    "updated_by": {
+                        "description": "The last User to update this record.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42
+                    },
+                    "deleted_by": {
+                        "description": "The User that softdeleted this record.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42
+                    },
+                    "created_at": {
+                        "description": "When the entry was created.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
+                    },
+                    "updated_at": {
+                        "description": "When the entry was last updated.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
+                    },
+                    "deleted_at": {
+                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
+                    }
+                },
+                "type": "object"
+            },
             "UserSuperSimple": {
                 "properties": {
                     "persona_id": {
@@ -33141,8 +33241,8 @@
                     "format": "password"
                 }
             },
-            "password_confirmation": {
-                "name": "password_confirmation",
+            "password_confirm": {
+                "name": "password_confirm",
                 "in": "query",
                 "description": "The User's password, confirmed.",
                 "required": true,

@@ -79,11 +79,11 @@ onMounted(() => {
           class="hidden -intro-x md:flex"
         >
           <img
-            alt="Midone Tailwind HTML Admin Template"
-            class="w-6"
+            alt="Amtgard Online Record Keeper v4"
+            class="w-40"
             :src="logoUrl"
           />
-          <span class="ml-3 text-lg text-white"> Rubick </span>
+          <span class="ml-3 text-lg text-white"></span>
         </RouterLink>
         <!-- END: Logo -->
         <!-- BEGIN: Breadcrumb -->
@@ -91,8 +91,8 @@ onMounted(() => {
           light
           class="h-full md:ml-10 md:pl-10 md:border-l border-white/[0.08] mr-auto -intro-x"
         >
-          <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
-          <Breadcrumb.Link to="/" :active="true"> Dashboard </Breadcrumb.Link>
+	      <a :href="'https://www.amtgard.com'" target="_blank">Amtgard</a>
+          <Breadcrumb.Link to="/" :active="true"> ORK4 Dashboard </Breadcrumb.Link>
         </Breadcrumb>
         <!-- END: Breadcrumb -->
         <!-- BEGIN: Search -->

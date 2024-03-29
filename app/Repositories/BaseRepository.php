@@ -169,7 +169,7 @@ abstract class BaseRepository
 	public function create(array $input): Model
 	{
 		$model = $this->model->newInstance($input);
-		
+
 		// $model->save();
 		$this->relatedSave($this->model, $input, $model);
 		
@@ -311,7 +311,7 @@ abstract class BaseRepository
 							}
 						}
 			}
-
+			
 			$parent->save();
 			
 			//for the post-save items

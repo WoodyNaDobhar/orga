@@ -3,7 +3,7 @@ import "@/assets/css/vendors/simplebar.css";
 import "@/assets/css/components/mobile-menu.css";
 import { useRoute, useRouter } from "vue-router";
 import { twMerge } from "tailwind-merge";
-import logoUrl from "@/assets/images/logo.svg";
+import logoUrl from "@/assets/images/logo.png";
 import Lucide from "@/components/Base/Lucide";
 import { useMenuStore } from "@/stores/menu";
 import { useThemeStore } from "@/stores/theme";

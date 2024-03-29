@@ -38,11 +38,13 @@ trait RegisterTrait
 			$user = [
 				'persona_id' => $data['persona_id'],
 				'email' => $data['email'],
+				'email_verified_at' => $data['email_verified_at'],
 				'password' => $data['password'],
+				'password_confirm' => $data['password_confirm'],
 				'created_by' => array_key_exists('created_by', $data) ? $data['created_by'] : 1,
 				'updated_by' => array_key_exists('created_by', $data) ? $data['created_by'] : null
 			];
-	
+
 			$newUser = $this->userRepository->create($user);
 	
 			return $newUser;

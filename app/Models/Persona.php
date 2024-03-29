@@ -954,7 +954,7 @@ class Persona extends BaseModel
 	
 	public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		return $this->belongsTo(\App\Models\User::class, 'user_id');
+		return $this->hasOne(User::class);
 	}
 	
 	public function waivers(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -15,9 +15,7 @@ return [
         'ork4'
     ]),
     'options' => env('PASSWORD_OPTIONS', [
-        'disable' => [
-            'special'
-        ]
+        'disable' => []
     ]),
 
 ];

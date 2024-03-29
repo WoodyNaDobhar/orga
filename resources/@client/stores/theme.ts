@@ -118,7 +118,7 @@ export const useThemeStore = defineStore("theme", {
   getters: {
     theme(state) {
       if (localStorage.getItem("theme") === null) {
-        localStorage.setItem("theme", "rubick");
+        localStorage.setItem("theme", "icewall");
       }
 
       if (localStorage.getItem("layout") === null) {

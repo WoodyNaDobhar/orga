@@ -55,43 +55,45 @@ class UserRepository extends BaseRepository
 		
 		$input['password'] = Hash::make($password);
 		$input['api_token'] = Str::random(80);
-		$model = parent::create($input);
+		$user = parent::create($input);
 		
 		//roles
-		$model->assignRole('player');
+		$user->assignRole('player');
 		if(array_key_exists('is_admin', $input) && $input['is_admin'] == 1){
-			$model->assignRole('admin');
+			$user->assignRole('admin');
 		}
 		if(array_key_exists('is_officer', $input) && $input['is_sales'] == 1){
-			$model->assignRole('officer');
+			$user->assignRole('officer');
 		}
 		if(array_key_exists('is_crat', $input) && $input['is_coach'] == 1){
-			$model->assignRole('crat');
+			$user->assignRole('crat');
 		}
 		if(array_key_exists('is_commander', $input) && $input['is_trainer'] == 1){
-			$model->assignRole('commander');
+			$user->assignRole('commander');
 		}
 		
 		PasswordHistory::create([
-			'user_id' => $model->id,
+			'user_id' => $user->id,
 			'password' => $input['password']
 		]);
 		
 		//send a welcome email
 		$emailData = [];
+		$emailData['to_email'] = $user->email;
 		$emailData['from_email'] = config('mail.from.address');
 		$emailData['from_name'] = config('mail.from.name');
 		$emailData['subject'] = 'Welcome to ORK4!';
-		$emailData['content'] = $model;
-		Log::info('About to send a welcome email to: ' . $emailData['content']['email']);
+		$emailData['persona'] = $user->persona->name;
+		$emailData['action'] = config('app.url') . "/login";
+		Log::info('About to send a welcome email to: ' . $emailData['to_email']);
 		Mail::send('emails.welcome', ['data' => $emailData], function ($message) use ($emailData) {
 			$message->from($emailData['from_email']);
-			$message->to($emailData['content']['email']);
+			$message->to($emailData['to_email']);
 			$message->replyTo($emailData['from_email'], $emailData['from_name']);
 			$message->subject($emailData['subject']);
 		});
 					
-		return $model;
+		return $user;
 	}
 	
 	/**

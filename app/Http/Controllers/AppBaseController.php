@@ -235,8 +235,8 @@ use Illuminate\Support\Facades\Response;
  *		required=true
  *	),
  *	@OA\Parameter(
- *		parameter="password_confirmation",
- *		name="password_confirmation",
+ *		parameter="password_confirm",
+ *		name="password_confirm",
  *		in="query",
  *		@OA\Schema(
  *			type="string",
