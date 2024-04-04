@@ -167,13 +167,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -187,13 +181,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -207,13 +195,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -265,27 +247,12 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="eventable",
  *			type="object",
+ *			description="Attachable object that sponsored the Event.",
  *			oneOf={
- *				@OA\Property(
- *					title="Chapter",
- *					description="Attachable Chapter that sponsored the Event.",
- *					@OA\Schema(ref="#/components/schemas/ChapterSimple")
- *				),
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm that sponsored the Event.",
- *					@OA\Schema(ref="#/components/schemas/RealmSimple")
- *				),
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona that sponsored the Event.",
- *					@OA\Schema(ref="#/components/schemas/PersonaSimple")
- *				),
- *				@OA\Property(
- *					title="Unit",
- *					description="Attachable Unit that sponsored the Event.",
- *					@OA\Schema(ref="#/components/schemas/UnitSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ *				@OA\Schema(ref="#/components/schemas/UnitSimple")
  *			},
  *			readOnly=true
  *		),
@@ -314,13 +281,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="location",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Location",
- *					description="Attachable Location for this Event."
- *				),
- *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
- *			},
+ *			description="Attachable Location for this Event.",
+ *			ref="#/components/schemas/LocationSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -337,6 +299,8 @@ use Wildside\Userstamps\Userstamps;
  * )
  *	@OA\Schema(
  *		schema="EventSimple",
+ *		title="EventSimple",
+ *		description="Attachable Event object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -523,6 +487,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="EventSuperSimple",
+ *		title="EventSuperSimpleSimple",
+ *		description="Attachable Event object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

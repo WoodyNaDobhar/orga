@@ -201,13 +201,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -221,13 +215,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -241,13 +229,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -277,113 +259,65 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="issuable",
  *			type="object",
+ *			description="Attachable object that was Issued the Award.",
  *			oneOf={
- *				@OA\Property(
- *					title="Award",
- *					description="Attachable Award that was Issued.",
- *					@OA\Schema(ref="#/components/schemas/AwardSimple")
- *				),
- *				@OA\Property(
- *					title="Title",
- *					description="Attachable Title that was Issued.",
- *					@OA\Schema(ref="#/components/schemas/TitleSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/AwardSimple"),
+ *				@OA\Schema(ref="#/components/schemas/TitleSimple")
  *			},
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="issuer",
  *			type="object",
+ *			description="Attachable object that Issues the Award.",
  *			oneOf={
- *				@OA\Property(
- *					title="Chapter",
- *					description="Attachable Chapter that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/ChapterSimple")
- *				),
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/RealmSimple")
- *				),
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/PersonaSimple")
- *				),
- *				@OA\Property(
- *					title="Unit",
- *					description="Attachable Unit that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/UnitSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ *				@OA\Schema(ref="#/components/schemas/UnitSimple")
  *			},
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="recipient",
  *			type="object",
+ *			description="Attachable object that was Issued the Award.",
  *			oneOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona that was Issued the Award.",
- *					@OA\Schema(ref="#/components/schemas/PersonaSimple")
- *				),
- *				@OA\Property(
- *					title="Unit",
- *					description="Attachable Unit that was Issued the Award.",
- *					@OA\Schema(ref="#/components/schemas/UnitSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ *				@OA\Schema(ref="#/components/schemas/UnitSimple")
  *			},
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="revokedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona that revoked the Issuance."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona that revoked the Issuance.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="signator",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona signing the Issuance."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona signing the Issuance.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="whereable",
  *			type="object",
+ *			description="Attachable object that Issues the Award.",
  *			oneOf={
- *				@OA\Property(
- *					title="Event",
- *					description="Attachable Event that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/EventSimple")
- *				),
- *				@OA\Property(
- *					title="Location",
- *					description="Attachable Location that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/LocationSimple")
- *				),
- *				@OA\Property(
- *					title="Meetup",
- *					description="Attachable Meetup that Issues the Award.",
- *					@OA\Schema(ref="#/components/schemas/MeetupSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/EventSimple"),
+ *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
+ *				@OA\Schema(ref="#/components/schemas/MeetupSimple")
  *			},
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="IssuanceSimple",
+ *		title="IssuanceSimple",
+ *		description="Attachable Issuance object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -605,6 +539,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="IssuanceSuperSimple",
+ *		title="IssuanceSuperSimpleSimple",
+ *		description="Attachable Issuance object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

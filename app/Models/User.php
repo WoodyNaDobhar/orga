@@ -11,10 +11,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 use Wildside\Userstamps\Userstamps;
+use App\Notifications\ResetPasswordNotification;
+use App\Notifications\InviteNotification;
 
 /**
  * @OA\Schema(
@@ -103,13 +106,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -123,13 +120,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -143,13 +134,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -179,18 +164,15 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona for this User."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona for this User.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		)
  *	)
  *	@OA\Schema(
  *		schema="UserSimple",
+ *		title="UserSimple",
+ *		description="Attachable User object with no attachments.",
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
@@ -292,6 +274,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="UserLogin",
+ *		title="User",
+ *		description="Attachable User login object with no attachments.",
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
@@ -401,6 +385,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="UserSuperSimple",
+ *		title="UserSuperSimpleSimple",
+ *		description="Attachable User object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="persona_id",
  *			description="ID of the User's Persona.",
@@ -554,8 +540,13 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	 */
 	public function canBeImpersonated()
 	{
-		// For example
 		return $this->hasRole('admin') ? FALSE : TRUE;
+	}
+	
+	public function sendPasswordResetNotification($token): void
+	{
+		$url = config('app.url').'/reset/'.$token;
+		$this->notify(new ResetPasswordNotification($url));
 	}
 	
 	/**

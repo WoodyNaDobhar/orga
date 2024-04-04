@@ -113,13 +113,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -133,13 +127,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -153,13 +141,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -189,42 +171,29 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona that has been Suspended."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona that has been Suspended.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		), 
  *		@OA\Property(
  *			property="realm",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm issuing the Suspension."
- *				),
- *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
- *			},
+ *			description="Attachable Realm issuing the Suspension.",
+ *			ref="#/components/schemas/RealmSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="suspendedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona issuing the Suspension."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona issuing the Suspension.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="SuspensionSimple",
+ *		title="SuspensionSimple",
+ *		description="Attachable Suspension object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -360,6 +329,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="SuspensionSuperSimple",
+ *		title="SuspensionSuperSimpleSimple",
+ *		description="Attachable Suspension object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

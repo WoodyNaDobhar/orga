@@ -94,13 +94,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -114,13 +108,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -134,13 +122,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -170,35 +152,25 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona the Recommendation is for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona the Recommendation is for.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="recommendable",
  *			type="object",
+ *			description="Attachable object being Recommended.",
  *			oneOf={
- *				@OA\Property(
- *					title="Award",
- *					description="Attachable Award being Recommended.",
- *					@OA\Schema(ref="#/components/schemas/AwardSimple")
- *				),
- *				@OA\Property(
- *					title="Title",
- *					description="Attachable Title being Recommended.",
- *					@OA\Schema(ref="#/components/schemas/TitleSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/AwardSimple"),
+ *				@OA\Schema(ref="#/components/schemas/TitleSimple")
  *			},
  *			readOnly=true
  *		)
  *	)
  *	@OA\Schema(
  *		schema="RecommendationSimple",
+ *		title="RecommendationSimple",
+ *		description="Attachable Recommendation object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -317,6 +289,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="RecommendationSuperSimple",
+ *		title="RecommendationSuperSimpleSimple",
+ *		description="Attachable Recommendation object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

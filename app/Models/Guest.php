@@ -85,13 +85,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -105,13 +99,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -125,13 +113,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -161,42 +143,29 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="event",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Event",
- *					description="Attachable Demo Event they played at."
- *				),
- *				@OA\Schema(ref="#/components/schemas/EventSimple"),
- *			},
+ *			description="Attachable Demo Event they played at.",
+ *			ref="#/components/schemas/EventSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="chapter",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Chapter",
- *					description="Attachable closest Chapter to the Guest."
- *				),
- *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
- *			},
+ *			description="Attachable closest Chapter to the Guest.",
+ *			ref="#/components/schemas/ChapterSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="waiver",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Waiver",
- *					description="Attachable Waiver for the Guest."
- *				),
- *				@OA\Schema(ref="#/components/schemas/WaiverSimple"),
- *			},
+ *			description="Attachable Waiver for the Guest.",
+ *			ref="#/components/schemas/WaiverSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="GuestSimple",
+ *		title="GuestSimple",
+ *		description="Attachable Guest object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -304,6 +273,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="GuestSuperSimple",
+ *		title="GuestSuperSimpleSimple",
+ *		description="Attachable Guest object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

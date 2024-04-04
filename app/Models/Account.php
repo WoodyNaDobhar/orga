@@ -85,13 +85,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -105,13 +99,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -125,13 +113,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -161,13 +143,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="parent",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Account",
- *					description="The superior Account."
- *				),
- *				@OA\Schema(ref="#/components/schemas/AccountSimple"),
- *			},
+ *			description="The superior Account.",
+ *			ref="#/components/schemas/AccountSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -184,28 +161,19 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="accountable",
  *			type="object",
+ *			description="Attachable object that owns the Account.",
  *			oneOf={
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm that owns the Account.",
- *					@OA\Schema(ref="#/components/schemas/RealmSimple")
- *				),
- *				@OA\Property(
- *					title="Chapter",
- *					description="Attachable Chapter that owns the Account.",
- *					@OA\Schema(ref="#/components/schemas/ChapterSimple")
- *				),
- *				@OA\Property(
- *					title="Unit",
- *					description="Attachable Unit that owns the Account.",
- *					@OA\Schema(ref="#/components/schemas/UnitSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ *				@OA\Schema(ref="#/components/schemas/UnitSimple")
  *			},
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="AccountSimple",
+ *		title="AccountSimple",
+ *		description="Attachable Account object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -312,6 +280,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="AccountSuperSimple",
+ *		title="AccountSuperSimpleSimple",
+ *		description="Attachable Account object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

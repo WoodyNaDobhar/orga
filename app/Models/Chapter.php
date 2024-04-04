@@ -116,13 +116,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -136,13 +130,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -156,13 +144,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -214,13 +196,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="chaptertype",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Chaptertype",
- *					description="Attachable Chaptertype for this Chapter."
- *				),
- *				@OA\Schema(ref="#/components/schemas/ChaptertypeSimple"),
- *			},
+ *			description="Attachable Chaptertype for this Chapter.",
+ *			ref="#/components/schemas/ChaptertypeSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -248,13 +225,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="location",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Location",
- *					description="Attachable Location for this Chapter."
- *				),
- *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
- *			},
+ *			description="Attachable Location for this Chapter.",
+ *			ref="#/components/schemas/LocationSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -293,13 +265,8 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="realm",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm the Chapter is a member of."
- *				),
- *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
- *			},
+ *			description="Attachable Realm the Chapter is a member of.",
+ *			ref="#/components/schemas/RealmSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -371,6 +338,8 @@ use Wildside\Userstamps\Userstamps;
  * )
  *	@OA\Schema(
  *		schema="ChapterSimple",
+ *		title="ChapterSimple",
+ *		description="Attachable Chapter object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -497,6 +466,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="ChapterSuperSimple",
+ *		title="ChapterSuperSimpleSimple",
+ *		description="Attachable Chapter object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

@@ -3,8 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Crypt;
 use Wildside\Userstamps\Userstamps;
+use App\Notifications\SendInviteNotification;
 use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
@@ -154,13 +159,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -174,13 +173,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -194,13 +187,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -252,13 +239,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="chapter",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Chapter",
- *					description="Attachable Chapter the Persona calls home."
- *				),
- *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
- *			},
+ *			description="Attachable Chapter the Persona calls home.",
+ *			ref="#/components/schemas/ChapterSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -352,13 +334,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="pronoun",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Pronoun",
- *					description="Attachable selected pronouns for the Persona."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PronounSimple"),
- *			},
+ *			description="Attachable selected pronouns for the Persona.",
+ *			ref="#/components/schemas/PronounSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -463,13 +440,8 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="user",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User for the Persona."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			description="Attachable User for the Persona.",
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -497,6 +469,8 @@ use App\Traits\ProtectFieldsTrait;
  * )
  *	@OA\Schema(
  *		schema="PersonaSimple",
+ *		title="PersonaSimple",
+ *		description="Attachable Persona object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -653,6 +627,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="PersonaSuperSimple",
+ *		title="PersonaSuperSimpleSimple",
+ *		description="Attachable Persona object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -775,12 +751,14 @@ class Persona extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Notifiable;
 
 	public $table = 'personas';
 	public $timestamps = true;
 	
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = [];
+	protected $email = null;
 
 	public $fillable = [
 		  'chapter_id',
@@ -846,6 +824,13 @@ class Persona extends BaseModel
 		'waivers' => 'HasMany',
 		'waiverVerifieds' => 'HasMany'
 	];
+	
+	protected function image(): Attribute
+	{
+		return Attribute::make(
+			get: fn (string $value) => 'https://ork.amtgard.com/assets/players/' . $value,
+		);
+	}
 	
 	public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{

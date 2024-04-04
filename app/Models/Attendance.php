@@ -93,13 +93,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -113,13 +107,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -133,13 +121,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -169,47 +151,32 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="attendable",
  *			type="object",
+ *			description="Attachable object that was attended.",
  *			oneOf={
- *				@OA\Property(
- *					title="Meetup",
- *					description="Attachable Meetup that was attended.",
- *					@OA\Schema(ref="#/components/schemas/MeetupSimple")
- *				),
- *				@OA\Property(
- *					title="Event",
- *					description="Attachable Event that was attended.",
- *					@OA\Schema(ref="#/components/schemas/EventSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/MeetupSimple"),
+ *				@OA\Schema(ref="#/components/schemas/EventSimple")
  *			},
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="archetype",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Archetype",
- *					description="Attachable Archetype for the Attendance."
- *				),
- *				@OA\Schema(ref="#/components/schemas/ArchetypeSimple"),
- *			},
+ *			description="Attachable Archetype for the Attendance.",
+ *			ref="#/components/schemas/ArchetypeSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona receiveing the Attendance credit."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona receiveing the Attendance credit.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="AttendanceSimple",
+ *		title="AttendanceSimple",
+ *		description="Attachable Attendance object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -325,6 +292,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="AttendanceSuperSimple",
+ *		title="AttendanceSuperSimpleSimple",
+ *		description="Attachable Attendance object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

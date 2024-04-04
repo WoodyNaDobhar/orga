@@ -205,13 +205,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -225,13 +219,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -245,13 +233,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -281,66 +263,43 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="ageVerifiedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona the Waiver is for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona the Waiver is for.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="guest",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Guest",
- *					description="Attachable Guest this Waiver is for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/GuestSimple"),
- *			},
+ *			description="Attachable Guest this Waiver is for.",
+ *			ref="#/components/schemas/GuestSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="location",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Location",
- *					description="Attachable Waiver address fields values."
- *				),
- *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
- *			},
+ *			description="Attachable Waiver address fields values.",
+ *			ref="#/components/schemas/LocationSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona this Waiver is for, if any."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona this Waiver is for, if any.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="pronoun",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Pronoun",
- *					description="Attachable Pronoun for the individual being Waivered."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PronounSimple"),
- *			},
+ *			description="Attachable Pronoun for the individual being Waivered.",
+ *			ref="#/components/schemas/PronounSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="WaiverSimple",
+ *		title="WaiverSimple",
+ *		description="Attachable Waiver object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -567,6 +526,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="WaiverSuperSimple",
+ *		title="WaiverSuperSimpleSimple",
+ *		description="Attachable Waiver object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

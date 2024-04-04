@@ -72,13 +72,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -92,13 +86,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -112,13 +100,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -148,30 +130,22 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="archetype",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Archetype",
- *					description="Attachable Archetype credits being Reconciled."
- *				),
- *				@OA\Schema(ref="#/components/schemas/ArchetypeSimple"),
- *			},
+ *			description="Attachable Archetype credits being Reconciled.",
+ *			ref="#/components/schemas/ArchetypeSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona credits being Reconciled."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona credits being Reconciled.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="ReconciliationSimple",
+ *		title="ReconciliationSimple",
+ *		description="Attachable Reconciliation object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -268,6 +242,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="ReconciliationSuperSimple",
+ *		title="ReconciliationSuperSimpleSimple",
+ *		description="Attachable Reconciliation object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

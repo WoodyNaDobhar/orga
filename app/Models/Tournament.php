@@ -83,13 +83,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -103,13 +97,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -123,13 +111,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -159,28 +141,19 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="tournamentable",
  *			type="object",
+ *			description="Attachable object that sponsored the Tournament.",
  *			oneOf={
- *				@OA\Property(
- *					title="Chapter",
- *					description="Attachable Chapter that sponsored the Tournament.",
- *					@OA\Schema(ref="#/components/schemas/ChapterSimple")
- *				),
- *				@OA\Property(
- *					title="Event",
- *					description="Attachable Event that sponsored the Tournament.",
- *					@OA\Schema(ref="#/components/schemas/EventSimple")
- *				),
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm that sponsored the Tournament.",
- *					@OA\Schema(ref="#/components/schemas/RealmSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ *				@OA\Schema(ref="#/components/schemas/EventSimple"),
+ *				@OA\Schema(ref="#/components/schemas/RealmSimple")
  *			},
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="TournamentSimple",
+ *		title="TournamentSimple",
+ *		description="Attachable Tournament object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -280,6 +253,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="TournamentSuperSimple",
+ *		title="TournamentSuperSimpleSimple",
+ *		description="Attachable Tournament object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

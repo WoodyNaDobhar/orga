@@ -7,52 +7,66 @@ export const useAuthStore = defineStore("auth", {
 		user: localStorage.getItem('user') || null
 	}),
 	getters: {
-        getUser: state => {
-			return state.user ? state.user : null
-        },
+				getUser: state => {
+			return state.user ? JSON.parse(state.user) : null
+				},
 		getToken: state => {
 			return state.token ? state.token : null
 		},
 		isLoggedIn: state => {
 			return state.token ? true : false
 		},
-		pageInfo: state => {
-			return {
-				STORE_LOGIN: process.env.API_URL + 'api/login',
-				LOGOUT: process.env.API_URL + 'api/logout'
+		getHeaders: state => {
+			if(state.token){
+				return {
+					headers: {
+						Authorization: `Bearer ${state.token}`
+					}
+				}
+			}else{
+				return null
 			}
 		}
 	},
 	actions: {
 		async login (request) {
 			try {
-				await axios.post(this.pageInfo.STORE_LOGIN, request)
+				await axios.post('api/login', request)
 					.then(response => {
-						this.user = response.data.data
+						const token = response.data.data.token
+						const user = response.data.data
+						this.storeLoggedInUser(token, user)
+						return response;
 					})
 			} catch (error) {
 				throw error.response.data
 			}
 		},
-		async logout() {
-			if (!this.user) {
-				return true
-			}
-			// GET THE DATA TO SEND
+		async logout(request) {
 			try {
-				await axios.post(this.pageInfo.LOGOUT)
-				this.user = ''
-				return true
+				await axios.post('api/logout', request, this.getHeaders)
+					.then(response => {
+						this.removeLoggedInUser()
+						return response
+					});
 			} catch (error) {
-				throw error.response.data
+				console.log(error)
+				throw error
 			}
 		},
 		storeLoggedInUser(token, user) {
-            const _this = this;
-		    localStorage.setItem('token', token);
-		    localStorage.setItem('user', JSON.stringify(user));
-		    _this.token = token;
-		    _this.user = JSON.stringify(user);
-        }
+			const _this = this;
+			localStorage.setItem('token', token);
+			localStorage.setItem('user', JSON.stringify(user));
+			_this.token = token;
+			_this.user = JSON.stringify(user);
+		},
+		removeLoggedInUser() {
+			const _this = this;
+			localStorage.setItem('token', '');
+			localStorage.setItem('user', '');
+			_this.token = null;
+			_this.user = null;
+		}
 	},
 });

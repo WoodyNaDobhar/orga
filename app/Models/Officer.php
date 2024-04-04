@@ -112,13 +112,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -132,13 +126,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -152,13 +140,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -188,47 +170,32 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="office",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Office",
- *					description="Attachable Office held."
- *				),
- *				@OA\Schema(ref="#/components/schemas/OfficeSimple"),
- *			},
+ *			description="Attachable Office held.",
+ *			ref="#/components/schemas/OfficeSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="officerable",
  *			type="object",
+ *			description="Attachable object the Persona is an Officer of.",
  *			oneOf={
- *				@OA\Property(
- *					title="Reign",
- *					description="Attachable Reign the Persona is an Officer of.",
- *					@OA\Schema(ref="#/components/schemas/ReignSimple")
- *				),
- *				@OA\Property(
- *					title="Unit",
- *					description="Attachable Unit the Persona is an Officer of.",
- *					@OA\Schema(ref="#/components/schemas/UnitSimple")
- *				)
+ *				@OA\Schema(ref="#/components/schemas/ReignSimple"),
+ *				@OA\Schema(ref="#/components/schemas/UnitSimple")
  *			},
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona holding the given Office."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona holding the given Office.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="OfficerSimple",
+ *		title="OfficerSimple",
+ *		description="Attachable Officer object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -364,6 +331,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="OfficerSuperSimple",
+ *		title="OfficerSuperSimpleSimple",
+ *		description="Attachable Officer object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

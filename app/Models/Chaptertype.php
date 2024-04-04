@@ -85,13 +85,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -105,13 +99,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -125,13 +113,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -183,18 +165,15 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="realm",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Realm",
- *					description="Attachable Realm this Chaptertype is for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
- *			},
+ *			description="Attachable Realm this Chaptertype is for.",
+ *			ref="#/components/schemas/RealmSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="ChaptertypeSimple",
+ *		title="ChaptertypeSimple",
+ *		description="Attachable Chaptertype object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -303,6 +282,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="ChaptertypeSuperSimple",
+ *		title="ChaptertypeSuperSimpleSimple",
+ *		description="Attachable Chaptertype object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

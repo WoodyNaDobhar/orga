@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 	
 	Route::post('sendInvite', 'BaseAPIController@sendInvite');
+	Route::post('logout', 'BaseAPIController@logout');
 	
 	Route::get('accounts', 'AccountAPIController@index');
 	Route::post('accounts', 'AccountAPIController@store');
@@ -154,8 +155,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 Route::get('images', 'BaseAPIController@images');
 Route::post('login', 'BaseAPIController@login');
 Route::middleware(['throttle:1,5'])->group(function () {
-	Route::post('reset', 'BaseAPIController@sendReset');
+	Route::post('forgot', 'BaseAPIController@forgot');
 });
+Route::post('reset', 'BaseAPIController@reset');
 Route::post('update', 'BaseAPIController@updatePassword');
 Route::post('register', 'BaseAPIController@register');
 

@@ -365,6 +365,11 @@ const router = createRouter({
 			name: "forgot",
 			component: () => import("../pages/Forgot.vue"),
 		},
+		{
+			path: "/reset/:password_token",
+			name: "reset",
+			component: () => import("../pages/Reset.vue"),
+		},
 //		{
 //			path: "/unsubscribe",
 //			name: "unsubscribe",

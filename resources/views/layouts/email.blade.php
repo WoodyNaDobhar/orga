@@ -6,7 +6,7 @@
 	<meta name="x-apple-disable-message-reformatting" />
 	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
 	<meta content="telephone=no" name="format-detection" />
-	<title>@yield('subject')</title>
+	<title>{{ config('app.name') }}</title>
 	<!--[if (mso 16)]>
     <style type="text/css">
     a {text-decoration: none;}
@@ -118,7 +118,7 @@ a[x-apple-data-detectors] {
 													<tbody>
 														<tr>
 															<td align="center" class="es-m-txt-c" style="padding:0;Margin:0">
-															<h1 style="Margin:0;line-height:55px;mso-line-height-rule:exactly;font-family:'Barlow Condensed', Arial, sans-serif;font-size:46px;font-style:normal;font-weight:normal;color:#E2CFEA">@yield('subject')</h1>
+															<h1 style="Margin:0;line-height:55px;mso-line-height-rule:exactly;font-family:'Barlow Condensed', Arial, sans-serif;font-size:46px;font-style:normal;font-weight:normal;color:#E2CFEA">$header</h1>
 															</td>
 														</tr>
 														<tr>
@@ -140,57 +140,9 @@ a[x-apple-data-detectors] {
 										<tbody>
 											<tr>
 												<td align="center" style="padding:0;Margin:0;width:600px" valign="top">
-												<table cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-radius:10px" width="100%">
-													<tbody>
-														<tr>
-															<td align="center" style="padding:0;Margin:0;padding-top:15px;padding-bottom:15px;font-size:0">
-															<table border="0" cellpadding="0" cellspacing="0" height="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px" width="100%">
-																<tbody>
-																	<tr>
-																		<td style="padding:0;Margin:0;border-bottom:1px solid #ffffff;background:unset;height:1px;width:100%;margin:0px">&nbsp;</td>
-																	</tr>
-																</tbody>
-															</table>
-															</td>
-														</tr>
-														<tr>
-															<td align="left" style="padding:0;Margin:0;padding-top:20px;padding-bottom:20px">
-															<h2 style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:'Barlow Condensed', Arial, sans-serif;font-size:28px;font-style:normal;font-weight:normal;color:#ffffff">Greetings @yield('persona')!</h2>
+{{ Illuminate\Mail\Markdown::parse($slot) }}
 
-															<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Barlow, sans-serif;line-height:24px;color:#E2CFEA;font-size:16px">&nbsp;</p>
-
-															<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Barlow, sans-serif;line-height:24px;color:#ffffff;font-size:16px">@yield('content')</p>
-															</td>
-														</tr>
-														<tr>
-															<td align="center" style="padding:0;Margin:0;padding-bottom:20px">
-																<!--[if mso]>
-																	<a href="@yield('action')" target="_blank" hidden>
-																	<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href="{{ config('app.url') }}" 
-																			style="height:41px; v-text-anchor:middle; width:224px" arcsize="0%" stroke="f"  fillcolor="#a06cd5">
-																	<w:anchorlock></w:anchorlock>
-																	<center style='color:#ffffff; font-family:Barlow, sans-serif; font-size:15px; font-weight:400; line-height:15px;  mso-text-raise:1px'>Sign in to your account</center>
-																	</v:roundrect></a>
-																<![endif]-->
-																<!--[if !mso]><!-- -->
-																	<span class="es-button-border msohide" style="border-style:solid;border-color:#2CB543;background:#A06CD5;border-width:0px;display:inline-block;border-radius:0px;width:auto;mso-hide:all"><a class="es-button" href="@yield('action')" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#A06CD5;border-radius:0px;font-family:Barlow, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;mso-padding-alt:0;mso-border-alt:10px solid #A06CD5" target="_blank">Sign in to your account</a>
-																</span>
-																<!--<![endif]-->
-															</td>
-														</tr>
-														<tr>
-															<td align="center" style="padding:0;Margin:0;padding-top:15px;padding-bottom:15px;font-size:0">
-															<table border="0" cellpadding="0" cellspacing="0" height="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px" width="100%">
-																<tbody>
-																	<tr>
-																		<td style="padding:0;Margin:0;border-bottom:1px solid #ffffff;background:unset;height:1px;width:100%;margin:0px">&nbsp;</td>
-																	</tr>
-																</tbody>
-															</table>
-															</td>
-														</tr>
-													</tbody>
-												</table>
+{{ $subcopy ?? '' }}
 												</td>
 											</tr>
 										</tbody>
@@ -406,6 +358,7 @@ a[x-apple-data-detectors] {
 									</table>
 									<!--[if mso]></td></tr></table><![endif]--></td>
 								</tr>
+{{ $footer ?? '' }}
 							</tbody>
 						</table>
 						</td>

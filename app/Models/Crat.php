@@ -75,13 +75,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -95,13 +89,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -115,13 +103,7 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -151,30 +133,22 @@ use Wildside\Userstamps\Userstamps;
  *		@OA\Property(
  *			property="event",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Event",
- *					description="Attachable Event the Persona cratted for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/EventSimple"),
- *			},
+ *			description="Attachable Event the Persona cratted for.",
+ *			ref="#/components/schemas/EventSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona cratting the Event."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona cratting the Event.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="CratSimple",
+ *		title="CratSimple",
+ *		description="Attachable Crat object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -274,6 +248,8 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="CratSuperSimple",
+ *		title="CratSuperSimpleSimple",
+ *		description="Attachable Crat object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",

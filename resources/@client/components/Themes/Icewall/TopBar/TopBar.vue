@@ -1,3 +1,84 @@
+<script setup lang="ts">
+	import { ref } from "vue";
+	import logoUrl from "@/assets/images/logo.png";
+	import Lucide from "@/components/Base/Lucide";
+	import Breadcrumb from "@/components/Base/Breadcrumb";
+	import { FormInput } from "@/components/Base/Form";
+	import { Menu, Popover } from "@/components/Base/Headless";
+	import fakerData from "@/utils/faker";
+	import _ from "lodash";
+	import { TransitionRoot } from "@headlessui/vue";
+	import { useAuthStore } from '@/stores/auth';
+	import { useStateStore } from '@/stores/state';
+	import { useRouter } from 'vue-router';
+	import Toastify from "toastify-js";
+	import Notification from "@/components/Base/Notification";
+	
+	const searchDropdown = ref(false);
+	const showSearchDropdown = () => {
+		searchDropdown.value = true;
+	};
+	const hideSearchDropdown = () => {
+		searchDropdown.value = false;
+	};
+	const router = useRouter()
+	const auth = useAuthStore()
+	const user = auth.getUser
+	const state = useStateStore()
+	
+	const logout = async () => {
+		try {
+			auth.logout()
+				.then(response => {
+					console.log('testb');
+					state.storeState('success', 'You have been logged out.');
+					router.push('/');
+				})
+				.catch(error => {
+					state.storeState('error', error);
+					console.log('Error logging out:', error);
+					const toastEl = document
+						.querySelectorAll("#failed-notification-content")[0]
+						.cloneNode(true) as HTMLElement;
+					const messageElement = toastEl.querySelector('.mt-1.text-slate-500');
+					if (messageElement) {
+						messageElement.innerHTML = (error as any).response?.data?.message ?? "Please check the form.";
+					}
+					toastEl.classList.remove("hidden");
+					Toastify({
+						node: toastEl,
+						duration: 10000,
+						newWindow: true,
+						close: true,
+						gravity: "top",
+						position: "right",
+						stopOnFocus: true,
+					}).showToast();
+				});
+		} catch (error) {
+			state.storeState('error', error);
+			console.log('Error logging out:', error);
+			const toastEl = document
+				.querySelectorAll("#failed-notification-content")[0]
+				.cloneNode(true) as HTMLElement;
+			const messageElement = toastEl.querySelector('.mt-1.text-slate-500');
+			if (messageElement) {
+				messageElement.innerHTML = (error as any).response?.data?.message ?? "Please check the form.";
+			}
+			toastEl.classList.remove("hidden");
+			Toastify({
+				node: toastEl,
+				duration: 10000,
+				newWindow: true,
+				close: true,
+				gravity: "top",
+				position: "right",
+				stopOnFocus: true,
+			}).showToast();
+		}
+	};
+</script>
+
 <template>
 	<!-- BEGIN: Top Bar -->
 	<div
@@ -141,20 +222,50 @@
 						<Lucide icon="Bell" class="w-5 h-5 dark:text-slate-500" />
 					</Popover.Button>
 					<Popover.Panel class="w-[280px] sm:w-[350px] p-5 mt-2">
-						<div class="mb-5 font-medium">Notifications</div>
+						<div class="mb-5 font-medium">Messages</div>
+<!--						<div-->
+<!--							v-for="(faker, fakerKey) in _.take(fakerData, 5)"-->
+<!--							:key="fakerKey"-->
+<!--							:class="[-->
+<!--								'cursor-pointer relative flex items-center',-->
+<!--								{ 'mt-5': fakerKey },-->
+<!--							]"-->
+<!--						>-->
+<!--							<div class="relative flex-none w-12 h-12 mr-1 image-fit">-->
+<!--								<img-->
+<!--									alt="faker.users[0].name"-->
+<!--									class="rounded-full"-->
+<!--									:src="faker.photos[0]"-->
+<!--								/>-->
+<!--								<div-->
+<!--									class="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"-->
+<!--								></div>-->
+<!--							</div>-->
+<!--							<div class="ml-2 overflow-hidden">-->
+<!--								<div class="flex items-center">-->
+<!--									<a href="" class="mr-5 font-medium truncate">-->
+<!--										{{ faker.users[0].name }}-->
+<!--									</a>-->
+<!--									<div class="ml-auto text-xs text-slate-400 whitespace-nowrap">-->
+<!--										{{ faker.times[0] }}-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="w-full truncate text-slate-500 mt-0.5">-->
+<!--									{{ faker.news[0].shortContent }}-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
 						<div
-							v-for="(faker, fakerKey) in _.take(fakerData, 5)"
-							:key="fakerKey"
 							:class="[
 								'cursor-pointer relative flex items-center',
-								{ 'mt-5': fakerKey },
+								{ 'mt-5': 0 },
 							]"
 						>
 							<div class="relative flex-none w-12 h-12 mr-1 image-fit">
 								<img
-									alt="Midone Tailwind HTML Admin Template"
+									:alt="user.persona.name"
 									class="rounded-full"
-									:src="faker.photos[0]"
+									:src="user.persona.image"
 								/>
 								<div
 									class="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"
@@ -163,14 +274,14 @@
 							<div class="ml-2 overflow-hidden">
 								<div class="flex items-center">
 									<a href="" class="mr-5 font-medium truncate">
-										{{ faker.users[0].name }}
+										{{ user.persona.name }}
 									</a>
 									<div class="ml-auto text-xs text-slate-400 whitespace-nowrap">
-										{{ faker.times[0] }}
+										3/30/24 9:11am
 									</div>
 								</div>
 								<div class="w-full truncate text-slate-500 mt-0.5">
-									{{ faker.news[0].shortContent }}
+									Coming Soon! Contact players, officers, or admins internally!
 								</div>
 							</div>
 						</div>
@@ -184,16 +295,16 @@
 					>
 						<img
 							alt="Midone Tailwind HTML Admin Template"
-							:src="fakerData[9].photos[0]"
+							:src="user.persona.image"
 						/>
 					</Menu.Button>
 					<Menu.Items
 						class="w-56 mt-px relative bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white"
 					>
 						<Menu.Header class="font-normal">
-							<div class="font-medium">{{ fakerData[0].users[0].name }}</div>
+							<div class="font-medium">{{ user.persona.name }}</div>
 							<div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">
-								{{ fakerData[0].jobs[0] }}
+								{{ user.persona.mundane }}
 							</div>
 						</Menu.Header>
 						<Menu.Divider class="bg-white/[0.08]" />
@@ -210,7 +321,7 @@
 							<Lucide icon="HelpCircle" class="w-4 h-4 mr-2" /> Help
 						</Menu.Item>
 						<Menu.Divider class="bg-white/[0.08]" />
-						<Menu.Item class="hover:bg-white/5">
+						<Menu.Item @click="logout" class="hover:bg-white/5">
 							<Lucide icon="ToggleRight" class="w-4 h-4 mr-2" /> Logout
 						</Menu.Item>
 					</Menu.Items>
@@ -218,29 +329,27 @@
 				<!-- END: Account Menu -->
 				<!-- Login Link -->
 				<router-link v-if="!auth.isLoggedIn" to="/login" class="text-primary dark:text-slate-300 text-white/90">Login</router-link>
+			<!-- BEGIN: Success Notification Content -->
+			<Notification id="success-notification-content" class="flex hidden">
+				<Lucide icon="CheckCircle" class="text-success" />
+				<div class="ml-4 mr-4">
+					<div class="font-medium">Registration success!</div>
+					<div class="mt-1 text-slate-500">
+						Please check your e-mail for further info!
+					</div>
+				</div>
+			</Notification>
+			<!-- END: Success Notification Content -->
+			<!-- BEGIN: Failed Notification Content -->
+			<Notification id="failed-notification-content" class="flex hidden">
+				<Lucide icon="XCircle" class="text-danger" />
+				<div class="ml-4 mr-4">
+					<div class="font-medium">Error!</div>
+					<div class="mt-1 text-slate-500">Please check the form.</div>
+				</div>
+			</Notification>
+			<!-- END: Failed Notification Content -->
 		</div>
 	</div>
 	<!-- END: Top Bar -->
 </template>
-
-<script setup lang="ts">
-	import { ref } from "vue";
-	import logoUrl from "@/assets/images/logo.png";
-	import Lucide from "@/components/Base/Lucide";
-	import Breadcrumb from "@/components/Base/Breadcrumb";
-	import { FormInput } from "@/components/Base/Form";
-	import { Menu, Popover } from "@/components/Base/Headless";
-	import fakerData from "@/utils/faker";
-	import _ from "lodash";
-	import { TransitionRoot } from "@headlessui/vue";
-	import { useAuthStore } from '@/stores/auth';
-	
-	const searchDropdown = ref(false);
-	const showSearchDropdown = () => {
-		searchDropdown.value = true;
-	};
-	const hideSearchDropdown = () => {
-		searchDropdown.value = false;
-	};
-	const auth = useAuthStore();
-</script>

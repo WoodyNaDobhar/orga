@@ -73,13 +73,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="createdBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that created this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -93,13 +87,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="updatedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable last User to update this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -113,13 +101,7 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="deletedBy",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="User",
- *					description="Attachable User that softdeleted this record."
- *				),
- *				@OA\Schema(ref="#/components/schemas/UserSimple"),
- *			},
+ *			ref="#/components/schemas/UserSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -149,42 +131,29 @@ use App\Traits\ProtectFieldsTrait;
  *		@OA\Property(
  *			property="account",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Account",
- *					description="Attachable Account this Split is for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/AccountSimple"),
- *			},
+ *			description="Attachable Account this Split is for.",
+ *			ref="#/components/schemas/AccountSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="persona",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Persona",
- *					description="Attachable Persona performing the Transaction this Split is for."
- *				),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *			},
+ *			description="Attachable Persona performing the Transaction this Split is for.",
+ *			ref="#/components/schemas/PersonaSimple",
  *			readOnly=true
  *		),
  *		@OA\Property(
  *			property="transaction",
  *			type="object",
- *			allOf={
- *				@OA\Property(
- *					title="Transaction",
- *					description="Attachable Transaction being Split."
- *				),
- *				@OA\Schema(ref="#/components/schemas/TransactionSimple"),
- *			},
+ *			description="Attachable Transaction being Split.",
+ *			ref="#/components/schemas/TransactionSimple",
  *			readOnly=true
  *		)
  * )
  *	@OA\Schema(
  *		schema="SplitSimple",
+ *		title="SplitSimple",
+ *		description="Attachable Split object with no attachments.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
@@ -281,6 +250,8 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="SplitSuperSimple",
+ *		title="SplitSuperSimpleSimple",
+ *		description="Attachable Split object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
  *			description="The entry's ID.",
