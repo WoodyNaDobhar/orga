@@ -20,9 +20,9 @@ hosts:
 
 tasks:
   deploy:
-    - artisan:down
     - deploy:prepare
     - deploy:vendors
+    - artisan:down
     - artisan:storage:link
     - artisan:view:cache
     - artisan:config:cache
