@@ -32,10 +32,12 @@ tasks:
     - php-fpm:reload
   build:
     - run: 'cd {{release_path}} && npm run prod'
-
-after:
-  deploy:failed: deploy:unlock
   generate-swagger: 
     - run: '{{bin/php}} {{release_path}}/artisan l5-swagger:generate'
   sync-scout: 
     - run: '{{bin/php}} {{release_path}}/artisan scout:sync-index-settings'
+
+after:
+  deploy:failed: deploy:unlock
+  generate-swagger:
+  sync-scout:
