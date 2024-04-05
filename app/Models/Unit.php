@@ -508,7 +508,7 @@ class Unit extends BaseModel
 	public function toSearchableArray(): array
 	{
 		return [
-			'id' => $this->id,
+			'id' => (int) $this->id,
 			'name' => $this->name
 		];
 	}

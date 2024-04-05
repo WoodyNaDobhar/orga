@@ -497,8 +497,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	public function toSearchableArray(): array
 	{
 		return [
-			'id' => $this->id,
-			'name' => $this->name,
+			'id' => (int) $this->id,
 			'email' => $this->email
 		];
 	}
@@ -568,7 +567,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	protected function name(): Attribute
 	{
 		return Attribute::make(
-			get: fn () => $this->persona->name ? $this->persona->name : 'Unknown',
+			get: fn () => $this->persona && $this->persona->name ? $this->persona->name : 'Unknown',
 		);
 	}
 	

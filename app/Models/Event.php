@@ -682,7 +682,7 @@ class Event extends BaseModel
 	public function toSearchableArray(): array
 	{
 		return [
-			'id' => $this->id,
+			'id' => (int) $this->id,
 			'name' => $this->name,
 			'description' => $this->description
 		];

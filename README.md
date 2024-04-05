@@ -73,6 +73,8 @@ sail yarn run dev
 
 ## Search
 
+Searching is handled using Laravel Scout.  It's configured to use meilisearch for its engine, but can also use database (the former has much better results)
+
 ## Queueing
 
 We're using Redis for handling queues.  On your local machine, upon sailing up, you should run
@@ -84,12 +86,7 @@ sail php artisan queue:work redis
 You'll also need to import the existing records:
 
 ```
-sail php artisan scout:import "App\Models\Chapter"
-sail php artisan scout:import "App\Models\Event"
-sail php artisan scout:import "App\Models\Persona"
-sail php artisan scout:import "App\Models\Realm"
-sail php artisan scout:import "App\Models\User"
-sail php artisan scout:import "App\Models\Unit"
+sail php artisan scout:sync-index-settings
 ```
 
 Production environments require you to have the workers running all the time. queue:work command itself can fail due to many reasons, such as exceeding the maximum timeout. Checking the server manually to make sure if the queue worker is up is not an option. Instead, you’ll use Supervisor, a process monitor for Linux environments.
@@ -99,7 +96,7 @@ After installing the Supervisor on the server, you need to give it a configurati
 ```
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
-command=php /home/project/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+command=php /home/project/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
 autostart=true
 autorestart=true
 stopasgroup=true
