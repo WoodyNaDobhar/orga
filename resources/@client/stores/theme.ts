@@ -107,11 +107,11 @@ export const useThemeStore = defineStore("theme", {
     themeValue: {
       name:
         localStorage.getItem("theme") === null
-          ? themes[0].name
+          ? themes[5].name
           : getTheme().name,
       layout:
         localStorage.getItem("layout") === null
-          ? themes[0].layout
+          ? themes[5].layout
           : getTheme().layout,
     },
   }),
@@ -122,7 +122,7 @@ export const useThemeStore = defineStore("theme", {
       }
 
       if (localStorage.getItem("layout") === null) {
-        localStorage.setItem("layout", "side-menu");
+        localStorage.setItem("layout", "top-menu");
       }
 
       return state.themeValue;

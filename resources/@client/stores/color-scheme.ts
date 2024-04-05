@@ -25,13 +25,13 @@ export const useColorSchemeStore = defineStore("colorScheme", {
   state: (): ColorSchemeState => ({
     colorSchemeValue:
       localStorage.getItem("colorScheme") === null
-        ? "default"
+        ? "theme-4"
         : getColorScheme(),
   }),
   getters: {
     colorScheme(state) {
       if (localStorage.getItem("colorScheme") === null) {
-        localStorage.setItem("colorScheme", "default");
+        localStorage.setItem("colorScheme", "theme-4");
       }
 
       return state.colorSchemeValue;

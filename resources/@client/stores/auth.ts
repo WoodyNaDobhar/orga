@@ -7,9 +7,9 @@ export const useAuthStore = defineStore("auth", {
 		user: localStorage.getItem('user') || null
 	}),
 	getters: {
-				getUser: state => {
+		getUser: state => {
 			return state.user ? JSON.parse(state.user) : null
-				},
+		},
 		getToken: state => {
 			return state.token ? state.token : null
 		},
@@ -24,12 +24,12 @@ export const useAuthStore = defineStore("auth", {
 					}
 				}
 			}else{
-				return null
+				return undefined
 			}
 		}
 	},
 	actions: {
-		async login (request) {
+		async login (request:any) {
 			try {
 				await axios.post('api/login', request)
 					.then(response => {
@@ -38,13 +38,13 @@ export const useAuthStore = defineStore("auth", {
 						this.storeLoggedInUser(token, user)
 						return response;
 					})
-			} catch (error) {
+			} catch (error:any) {
 				throw error.response.data
 			}
 		},
-		async logout(request) {
+		async logout() {
 			try {
-				await axios.post('api/logout', request, this.getHeaders)
+				await axios.post('api/logout', null, this.getHeaders)
 					.then(response => {
 						this.removeLoggedInUser()
 						return response
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", {
 				throw error
 			}
 		},
-		storeLoggedInUser(token, user) {
+		storeLoggedInUser(token:string, user:object) {
 			const _this = this;
 			localStorage.setItem('token', token);
 			localStorage.setItem('user', JSON.stringify(user));
