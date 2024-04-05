@@ -38,6 +38,7 @@ tasks:
     - run: '{{bin/php}} {{release_path}}/artisan scout:sync-index-settings'
 
 after:
+  deploy:
+    - generate-swagger
+    - sync-scout
   deploy:failed: deploy:unlock
-  generate-swagger:
-  sync-scout:
