@@ -29,7 +29,7 @@
 	const deviceName = ref(navigator.userAgent)
 	const state = useStateStore()
 	const auth = useAuthStore()
-	const gRecaptchaResponse = null
+	var gRecaptchaResponse = ref()
 	
 	interface Pronoun {
 		id: number;

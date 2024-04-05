@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
@@ -641,6 +643,7 @@ class Event extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Searchable;
 
 	public $table = 'events';
 	public $timestamps = true;
@@ -675,21 +678,30 @@ class Event extends BaseModel
 		  'event_ended_at' => 'datetime',
 		  'price' => 'float'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'description' => $this->description
+		];
+	}
 
 	public static array $rules = [
-		  'eventable_type' => 'required|string|in:Chapter,Realm,Persona,Unit',
+		'eventable_type' => 'required|string|in:Chapter,Realm,Persona,Unit',
 		'eventable_id' => 'required',
 		'sponsorable_type' => 'nullable|string|in:Chapter,Realm',
 		'sponsorable_id' => 'nullable',
 		'location_id' => 'nullable|exists:locations,id',
-		  'name' => 'required|string|max:191',
-		  'description' => 'nullable|string|max:16777215',
-		  'image' => 'nullable|string|max:255',
-		  'is_active' => 'required|boolean',
-		  'is_demo' => 'required|boolean',
-		  'event_started_at' => 'required|date',
-		  'event_ended_at' => 'required|date|after_or_equal:event_started_at',
-		  'price' => 'nullable|numeric'
+		'name' => 'required|string|max:191',
+		'description' => 'nullable|string|max:16777215',
+		'image' => 'nullable|string|max:255',
+		'is_active' => 'required|boolean',
+		'is_demo' => 'required|boolean',
+		'event_started_at' => 'required|date',
+		'event_ended_at' => 'required|date|after_or_equal:event_started_at',
+		'price' => 'nullable|numeric'
 	];
 	
 	public $relationships = [
@@ -701,6 +713,18 @@ class Event extends BaseModel
 		'location' => 'BelongsTo',
 		'socials' => 'MorphMany'
 	];
+	
+	protected function image(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/players/' . $value;
+			}
+		);
+	}
 	
 	public function attendances(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{

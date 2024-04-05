@@ -5,8 +5,12 @@ namespace App\Http\Controllers\API;
 use Throwable;
 use App\Helpers\AppHelper;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Chapter;
+use App\Models\Event;
 use App\Models\PasswordHistory;
 use App\Models\Persona;
+use App\Models\Realm;
+use App\Models\Unit;
 use App\Models\User;
 use App\Traits\RegisterTrait;
 use Carbon\Carbon;
@@ -903,10 +907,150 @@ class BaseAPIController extends AppBaseController
 			$user->save();
 			event(new PasswordReset($user));
 			PasswordHistory::create([
-					'user_id' => $user->id,
-					'password' => $user->password
+				'user_id' => $user->id,
+				'password' => $user->password
 			]);
 			return $this->login($request);
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
+	
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/search",
+	 *		summary="Search common predetermined models for keywords.  The models that are searched are: Chapter, Event, Persona, Realm, User, Unit.",
+	 *		tags={"Base"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+	 *		requestBody={"$ref": "#/components/requestBodies/search"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="object",
+	 *							@OA\Property(
+	 *								property="Chapters",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/ChapterSimple")
+	 *							),
+	 *							@OA\Property(
+	 *								property="Events",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/EventSimple")
+	 *							),
+	 *							@OA\Property(
+	 *								property="Personas",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/PersonaSimple")
+	 *							),
+	 *							@OA\Property(
+	 *								property="Realms",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/RealmSimple")
+	 *							),
+	 *							@OA\Property(
+	 *								property="Users",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/UserSimple")
+	 *							),
+	 *							@OA\Property(
+	 *								property="Units",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/UnitSimple")
+	 *							)
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Search complete."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function search(Request $request)
+	{
+		try {
+
+			$chapters = Chapter::search($request->search)->get();
+			$events = Event::search($request->search)->get();
+			$personas = Persona::search($request->search)->get();
+			$realms = Realm::search($request->search)->get();
+			$users = User::search($request->search)->get();
+			$units = Unit::search($request->search)->get();
+			
+			$response = [
+				'Chapters' => $chapters,
+				'Events' => $events,
+				'Personas' => $personas,
+				'Realms' => $realms,
+				'Users' => $users,
+				'Units' => $units,
+			];
+			
+			return $this->sendResponse($response, 'Search complete.');
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());

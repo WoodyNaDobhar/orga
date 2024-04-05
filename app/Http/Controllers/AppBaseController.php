@@ -391,6 +391,23 @@ use Illuminate\Support\Facades\Response;
  *				)
  *			)
  *		)
+ *	),
+ *	@OA\RequestBody(
+ *		request="search",
+ *		description="Search Request.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(
+ *				required={"search"},
+ *				@OA\Property(
+ *					property="search",
+ *					description="Term being searched.",
+ *					type="string",
+ *					maxLength=191
+ *				)
+ *			)
+ *		)
  *	)
  * Class AppBaseController
  */

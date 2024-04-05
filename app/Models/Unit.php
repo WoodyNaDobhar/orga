@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
@@ -479,6 +481,7 @@ class Unit extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Searchable;
 
 	public $table = 'units';
 	public $timestamps = true;
@@ -501,6 +504,14 @@ class Unit extends BaseModel
 		  'description' => 'string',
 		  'history' => 'string'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name
+		];
+	}
 
 	public static array $rules = [
 		'type' => 'required|in:Company,Event,Household',
@@ -524,6 +535,18 @@ class Unit extends BaseModel
 		'titles' => 'MorphMany',
 		'titleIssuances' => 'MorphMany'
 	];
+	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/units/' . $value;
+			}
+		);
+	}
 	
 	public function accounts(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{

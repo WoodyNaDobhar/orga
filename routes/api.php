@@ -160,6 +160,7 @@ Route::middleware(['throttle:1,5'])->group(function () {
 Route::post('reset', 'BaseAPIController@reset');
 Route::post('update', 'BaseAPIController@updatePassword');
 Route::post('register', 'BaseAPIController@register');
+Route::post('search', 'BaseAPIController@search');
 
 Route::get('archetypes', 'ArchetypeAPIController@index');
 Route::get('archetypes/{id}', 'ArchetypeAPIController@show');

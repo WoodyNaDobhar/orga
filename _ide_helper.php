@@ -17881,6 +17881,137 @@ namespace Spatie\LaravelIgnition\Facades {
             }
     }
 
+namespace TimeHunter\LaravelGoogleReCaptchaV3\Facades {
+            /**
+     * 
+     *
+     * @see \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3
+     */        class GoogleReCaptchaV3 {
+                    /**
+         * 
+         *
+         * @param $mappers
+         * @return array 
+         * @static 
+         */        public static function prepareViewData($mappers)
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->prepareViewData($mappers);
+        }
+                    /**
+         * 
+         *
+         * @return array 
+         * @static 
+         */        public static function prepareData()
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->prepareData();
+        }
+                    /**
+         * 
+         *
+         * @return array 
+         * @static 
+         */        public static function prepareBackgroundViewData()
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->prepareBackgroundViewData();
+        }
+                    /**
+         * 
+         *
+         * @param array $params
+         * @return \Illuminate\Contracts\View\View|mixed 
+         * @throws \Illuminate\Contracts\Container\BindingResolutionException
+         * @static 
+         */        public static function init($params = [])
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->init($params);
+        }
+                    /**
+         * 
+         *
+         * @param $id
+         * @param $action
+         * @static 
+         */        public static function renderOne($id, $action)
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->renderOne($id, $action);
+        }
+                    /**
+         * 
+         *
+         * @param $id
+         * @param $action
+         * @param string $class
+         * @param string $style
+         * @return \Illuminate\Contracts\View\View|mixed 
+         * @static 
+         */        public static function renderField($id, $action, $class = '', $style = '')
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->renderField($id, $action, $class, $style);
+        }
+                    /**
+         * 
+         *
+         * @param $mappers
+         * @static 
+         */        public static function render($mappers)
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->render($mappers);
+        }
+                    /**
+         * 
+         *
+         * @param $response
+         * @param null $ip
+         * @return \TimeHunter\LaravelGoogleReCaptchaV3\Core\GoogleReCaptchaV3Response 
+         * @static 
+         */        public static function verifyResponse($response, $ip = null)
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->verifyResponse($response, $ip);
+        }
+                    /**
+         * 
+         *
+         * @return \TimeHunter\LaravelGoogleReCaptchaV3\Interfaces\ReCaptchaConfigV3Interface 
+         * @static 
+         */        public static function getConfig()
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->getConfig();
+        }
+                    /**
+         * 
+         *
+         * @param string|null $value
+         * @return \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 
+         * @static 
+         */        public static function setAction($value = null)
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->setAction($value);
+        }
+                    /**
+         * 
+         *
+         * @param string|null $value
+         * @return \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 
+         * @static 
+         */        public static function setScore($value = null)
+        {
+                        /** @var \TimeHunter\LaravelGoogleReCaptchaV3\GoogleReCaptchaV3 $instance */
+                        return $instance->setScore($value);
+        }
+            }
+    }
+
 namespace Illuminate\Http {
             /**
      * 
@@ -21522,6 +21653,7 @@ namespace  {
             class L5Swagger extends \L5Swagger\L5SwaggerFacade {}
             class Livewire extends \Livewire\Livewire {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
+            class GoogleReCaptchaV3 extends \TimeHunter\LaravelGoogleReCaptchaV3\Facades\GoogleReCaptchaV3 {}
     }
 
 

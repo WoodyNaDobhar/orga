@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
@@ -83,6 +85,15 @@ use Wildside\Userstamps\Userstamps;
  *			type="string",
  *			format="uppercase",
  *			maxLength=3,
+ *		),
+ *		@OA\Property(
+ *			property="full_abbreviation",
+ *			description="A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase",
+ *			maxLength=7,
  *		),
  *		@OA\Property(
  *			property="heraldry",
@@ -395,6 +406,15 @@ use Wildside\Userstamps\Userstamps;
  *			maxLength=3,
  *		),
  *		@OA\Property(
+ *			property="full_abbreviation",
+ *			description="A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase",
+ *			maxLength=7,
+ *		),
+ *		@OA\Property(
  *			property="heraldry",
  *			description="An internal link to an image of the Chapter heraldry, if any.",
  *			readOnly=false,
@@ -523,6 +543,15 @@ use Wildside\Userstamps\Userstamps;
  *			maxLength=3,
  *		),
  *		@OA\Property(
+ *			property="full_abbreviation",
+ *			description="A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase",
+ *			maxLength=7,
+ *		),
+ *		@OA\Property(
  *			property="heraldry",
  *			description="An internal link to an image of the Chapter heraldry, if any.",
  *			readOnly=false,
@@ -561,6 +590,7 @@ class Chapter extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Searchable;
 
 	public $table = 'chapters';
 	public $timestamps = true;
@@ -569,21 +599,30 @@ class Chapter extends BaseModel
 	protected $protectedFields = [];
 
 	public $fillable = [
-		  'realm_id',
-		  'chaptertype_id',
-		  'location_id',
-		  'name',
-		  'abbreviation',
-		  'heraldry',
-		  'is_active'
+		'realm_id',
+		'chaptertype_id',
+		'location_id',
+		'name',
+		'abbreviation',
+		'heraldry',
+		'is_active'
 	];
 
 	protected $casts = [
-		  'name' => 'string',
-		  'abbreviation' => 'string',
-		  'heraldry' => 'string',
-		  'is_active' => 'boolean'
+		'name' => 'string',
+		'abbreviation' => 'string',
+		'heraldry' => 'string',
+		'is_active' => 'boolean'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'abbreviation' => $this->abbreviation
+		];
+	}
 
 	public static array $rules = [
 		'realm_id' => 'required|exists:realms,id',
@@ -614,6 +653,29 @@ class Chapter extends BaseModel
 		'titles' => 'MorphMany'
 	];
 	
+	protected $appends = [
+		'full_abbreviation'
+	];
+	
+	protected function fullAbbreviation(): Attribute
+	{
+		return Attribute::make(
+			get: fn () => $this->abbreviation . '/' . $this->realm->abbreviation,
+		);
+	}
+	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/chapters/' . $value;
+			}
+		);
+	}
+	
 	public function accounts(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Account::class, 'accountable');
@@ -626,7 +688,7 @@ class Chapter extends BaseModel
 
 	public function chaptertype(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\Chaptertype::class, 'chaptertype_id');
+		return $this->belongsTo(\App\Models\Chaptertype::class, 'chaptertype_id');
 	}
 	
 	public function events(): \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -701,16 +763,16 @@ class Chapter extends BaseModel
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
 
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
 
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }

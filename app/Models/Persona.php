@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Crypt;
 use Wildside\Userstamps\Userstamps;
-use App\Notifications\SendInviteNotification;
 use App\Traits\ProtectFieldsTrait;
+use Laravel\Scout\Searchable;
+
 /**
  * @OA\Schema(
  *		schema="Persona",
@@ -146,6 +145,15 @@ use App\Traits\ProtectFieldsTrait;
  *			type="string",
  *			format="date",
  *			example="2020-12-30"
+ *		),
+ *		@OA\Property(
+ *			property="chapter_full_abbreviation",
+ *			description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase",
+ *			maxLength=7,
  *		),
  *		@OA\Property(
  *			property="created_by",
@@ -576,6 +584,15 @@ use App\Traits\ProtectFieldsTrait;
  *			example="2020-12-30"
  *		),
  *		@OA\Property(
+ *			property="chapter_full_abbreviation",
+ *			description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase",
+ *			maxLength=7,
+ *		),
+ *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
  *			type="integer",
@@ -732,6 +749,15 @@ use App\Traits\ProtectFieldsTrait;
  *			type="string",
  *			format="date",
  *			example="2020-12-30"
+ *		),
+ *		@OA\Property(
+ *			property="chapter_full_abbreviation",
+ *			description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase",
+ *			maxLength=7,
  *		)
  *	)
  *	@OA\RequestBody(
@@ -752,6 +778,7 @@ class Persona extends BaseModel
 	use Userstamps;
 	use ProtectFieldsTrait;
 	use Notifiable;
+	use Searchable;
 
 	public $table = 'personas';
 	public $timestamps = true;
@@ -784,6 +811,15 @@ class Persona extends BaseModel
 		  'corpora_qualified_expires_at' => 'date',
 		  'joined_chapter_at' => 'date'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'mundane' => $this->mundane
+		];
+	}
 
 	public static array $rules = [
 		'chapter_id' => 'required|exists:chapters,id',
@@ -819,16 +855,44 @@ class Persona extends BaseModel
 		'suspensionIssueds' => 'HasMany',
 		'titles' => 'MorphMany',
 		'titleIssuables' => 'MorphMany',
-		'units' => 'hasManyThrough',
-		'user' => 'BelongsTo',
+		'units' => 'HasManyThrough',
+		'user' => 'HasOne',
 		'waivers' => 'HasMany',
 		'waiverVerifieds' => 'HasMany'
 	];
 	
+	protected $appends = [
+		'chapter_full_abbreviation'
+	];
+	
+	protected function chapterFullAbbreviation(): Attribute
+	{
+		return Attribute::make(
+			get: fn () => $this->chapter->full_abbreviation,
+		);
+	}
+	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/players/heraldry/' . $value;
+			}
+		);
+	}
+	
 	protected function image(): Attribute
 	{
 		return Attribute::make(
-			get: fn (string $value) => 'https://ork.amtgard.com/assets/players/' . $value,
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/players/' . $value;
+			}
 		);
 	}
 	
@@ -937,7 +1001,7 @@ class Persona extends BaseModel
 		return $this->hasManyThrough(\App\Models\Unit::class, \App\Models\Member::class, 'persona_id');
 	}
 	
-	public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
 	{
 		return $this->hasOne(User::class);
 	}

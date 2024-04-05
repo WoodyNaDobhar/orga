@@ -42,7 +42,7 @@ const nextImportantNotes = () => {
         <!-- BEGIN: General Report -->
         <div class="col-span-12 mt-8">
           <div class="flex items-center h-10 intro-y">
-            <h2 class="mr-5 text-lg font-medium truncate">Hello World!</h2>
+            <h2 class="mr-5 text-lg font-medium truncate">Welcome to ORK4!</h2>
             <a href="" class="flex items-center ml-auto text-primary">
               <Lucide icon="RefreshCcw" class="w-4 h-4 mr-3" /> Reload Data
             </a>

@@ -21,7 +21,7 @@
 	const router = useRouter()
 	const state = useStateStore()
 	const auth = useAuthStore()
-	const gRecaptchaResponse = null
+	var gRecaptchaResponse = ref()
 	const deviceName = ref(navigator.userAgent)
 	const formData = reactive({
 		email: "",

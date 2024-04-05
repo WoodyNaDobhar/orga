@@ -93,13 +93,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -113,13 +107,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -133,13 +121,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -169,13 +151,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="parent",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Account",
- * 				description="The superior Account."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/AccountSimple"),
- * 		},
+ * 		description="The superior Account.",
+ * 		ref="#/components/schemas/AccountSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -192,28 +169,19 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="accountable",
  * 		type="object",
+ * 		description="Attachable object that owns the Account.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm that owns the Account.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that owns the Account.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit that owns the Account.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="AccountSimple",
+ * 	title="AccountSimple",
+ * 	description="Attachable Account object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -320,6 +288,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AccountSuperSimple",
+ * 	title="AccountSuperSimpleSimple",
+ * 	description="Attachable Account object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -384,11 +354,23 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/AccountSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int|null $parent_id The superior Account ID, if any
+ * @property string $accountable_type Who owns the account; Chapter, Realm, or Unit
+ * @property int $accountable_id The ID of the owner of this account
+ * @property string $name Account label
+ * @property string $type Asset, Equity, Expense, Imbalance, Income, or Liability
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $accountable
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -401,6 +383,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Account newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Account onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Account query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereAccountableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereAccountableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Account withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Account withoutTrashed()
  */
@@ -461,13 +455,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -481,13 +469,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -501,13 +483,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -560,6 +536,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ArchetypeSimple",
+ * 	title="ArchetypeSimple",
+ * 	description="Attachable Archetype object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -641,6 +619,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ArchetypeSuperSimple",
+ * 	title="ArchetypeSuperSimpleSimple",
+ * 	description="Attachable Archetype object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -680,12 +660,21 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/ArchetypeSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $name Archetype label
+ * @property bool $is_active Is it (default true) a current option?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -697,6 +686,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Archetype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Archetype onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Archetype query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archetype whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Archetype withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Archetype withoutTrashed()
  */
@@ -793,13 +791,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -813,13 +805,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -833,13 +819,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -869,47 +849,32 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="attendable",
  * 		type="object",
+ * 		description="Attachable object that was attended.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Meetup",
- * 				description="Attachable Meetup that was attended.",
- * 				@OA\Schema(ref="#/components/schemas/MeetupSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Event",
- * 				description="Attachable Event that was attended.",
- * 				@OA\Schema(ref="#/components/schemas/EventSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/MeetupSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/EventSimple")
  * 		},
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="archetype",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Archetype",
- * 				description="Attachable Archetype for the Attendance."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/ArchetypeSimple"),
- * 		},
+ * 		description="Attachable Archetype for the Attendance.",
+ * 		ref="#/components/schemas/ArchetypeSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona receiveing the Attendance credit."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona receiveing the Attendance credit.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="AttendanceSimple",
+ * 	title="AttendanceSimple",
+ * 	description="Attachable Attendance object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -1025,6 +990,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AttendanceSuperSimple",
+ * 	title="AttendanceSuperSimpleSimple",
+ * 	description="Attachable Attendance object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -1098,22 +1065,48 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/AttendanceSimple")
  * 	)
  * )
- * @property-read \App\Models\Archetype|null $archetype
+ * @property int $id Model ID
+ * @property int $archetype_id Selected Archetype for Attendance
+ * @property string $attendable_type Where the Attendance occured; Event or Meetup
+ * @property int $attendable_id The ID of where the Attendance occured
+ * @property int $persona_id Attendee Persona ID
+ * @property \Illuminate\Support\Carbon $attended_at The date of the Attendance
+ * @property float $credits Credits (default 1) awarded for the Attendance
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Archetype $archetype
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $attendable
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Persona $persona
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\AttendanceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereArchetypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereAttendableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereAttendableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereAttendedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCredits($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance withoutTrashed()
  */
@@ -1194,13 +1187,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1214,13 +1201,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1234,13 +1215,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1270,22 +1245,11 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="awarder",
  * 		type="object",
+ * 		description="Attachable object that Issues the Award.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	),
@@ -1314,6 +1278,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AwardSimple",
+ * 	title="AwardSimple",
+ * 	description="Attachable Award object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -1414,6 +1380,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AwardSuperSimple",
+ * 	title="AwardSuperSimpleSimple",
+ * 	description="Attachable Award object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -1472,11 +1440,22 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/AwardSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $awarder_type Who issues the Award; Chapter, Realm, or Unit
+ * @property int|null $awarder_id The ID of the award issuer, null for everybody
+ * @property string $name The Award label, with options for the label seperated with |
+ * @property bool $is_ladder Is this (default false) a ranked/ladder award?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $awarder
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -1490,6 +1469,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Award newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Award onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Award query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereAwarderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereAwarderType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereIsLadder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Award withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Award withoutTrashed()
  */
@@ -1622,13 +1612,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1642,13 +1626,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1662,13 +1640,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1720,13 +1692,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="chaptertype",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Chaptertype",
- * 				description="Attachable Chaptertype for this Chapter."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/ChaptertypeSimple"),
- * 		},
+ * 		description="Attachable Chaptertype for this Chapter.",
+ * 		ref="#/components/schemas/ChaptertypeSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1754,13 +1721,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="location",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Location",
- * 				description="Attachable Location for this Chapter."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/LocationSimple"),
- * 		},
+ * 		description="Attachable Location for this Chapter.",
+ * 		ref="#/components/schemas/LocationSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1799,13 +1761,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="realm",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm the Chapter is a member of."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
- * 		},
+ * 		description="Attachable Realm the Chapter is a member of.",
+ * 		ref="#/components/schemas/RealmSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -1877,6 +1834,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ChapterSimple",
+ * 	title="ChapterSimple",
+ * 	description="Attachable Chapter object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -2003,6 +1962,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ChapterSuperSimple",
+ * 	title="ChapterSuperSimpleSimple",
+ * 	description="Attachable Chapter object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -2088,15 +2049,29 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/ChapterSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $realm_id The ID of the Realm sponsoring the Chapter
+ * @property int $chaptertype_id The ID of the Chaptertype earned by the Chapter
+ * @property int $location_id The ID of the Location that best describes where the Chapter is
+ * @property string $name The Chapter name
+ * @property string $abbreviation A short abbreviation of the Chapter name, unique for the Realm
+ * @property string|null $heraldry An internal link to an image of the Chapter heraldry, if any
+ * @property bool $is_active Is (default true) the Chapter still active?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Account> $accounts
  * @property-read int|null $accounts_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Award> $awards
  * @property-read int|null $awards_count
- * @property-read \App\Models\Chaptertype|null $chaptertype
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\Chaptertype $chaptertype
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -2104,14 +2079,14 @@ namespace App\Models{
  * @property-read int|null $events_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuances
  * @property-read int|null $issuances_count
- * @property-read \App\Models\Location|null $location
+ * @property-read \App\Models\Location $location
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Meetup> $meetups
  * @property-read int|null $meetups_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Guest> $nearbyGuests
  * @property-read int|null $nearby_guests_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Persona> $personas
  * @property-read int|null $personas_count
- * @property-read \App\Models\Realm|null $realm
+ * @property-read \App\Models\Realm $realm
  * @property-read \App\Models\Reign|null $reign
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Reign> $reigns
  * @property-read int|null $reigns_count
@@ -2129,6 +2104,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Chapter newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Chapter onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Chapter query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereAbbreviation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereChaptertypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereHeraldry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereLocationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereRealmId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chapter whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Chapter withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Chapter withoutTrashed()
  */
@@ -2217,13 +2206,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2237,13 +2220,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2257,13 +2234,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2315,18 +2286,15 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="realm",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm this Chaptertype is for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
- * 		},
+ * 		description="Attachable Realm this Chaptertype is for.",
+ * 		ref="#/components/schemas/RealmSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="ChaptertypeSimple",
+ * 	title="ChaptertypeSimple",
+ * 	description="Attachable Chaptertype object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -2435,6 +2403,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ChaptertypeSuperSimple",
+ * 	title="ChaptertypeSuperSimpleSimple",
+ * 	description="Attachable Chaptertype object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -2501,24 +2471,48 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/ChaptertypeSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $realm_id The ID of the Realm that has this Chaptertype
+ * @property string $name The name of the Chaptertype
+ * @property int|null $rank The rank of the Chaptertype expressed in multiples of 10 where Shire is 20
+ * @property int $minimumattendance Minimum average Attendance required by the Realm to achieve the Chaptertype
+ * @property int $minimumcutoff Minimum average Attendance required by the Realm to maintain the Chaptertype
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Chapter> $chapters
  * @property-read int|null $chapters_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Office> $offices
  * @property-read int|null $offices_count
- * @property-read \App\Models\Realm|null $realm
+ * @property-read \App\Models\Realm $realm
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\ChaptertypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereMinimumattendance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereMinimumcutoff($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereRank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereRealmId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Chaptertype withoutTrashed()
  */
@@ -2597,13 +2591,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2617,13 +2605,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2637,13 +2619,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2673,30 +2649,22 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="event",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Event",
- * 				description="Attachable Event the Persona cratted for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/EventSimple"),
- * 		},
+ * 		description="Attachable Event the Persona cratted for.",
+ * 		ref="#/components/schemas/EventSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona cratting the Event."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona cratting the Event.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="CratSimple",
+ * 	title="CratSimple",
+ * 	description="Attachable Crat object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -2796,6 +2764,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="CratSuperSimple",
+ * 	title="CratSuperSimpleSimple",
+ * 	description="Attachable Crat object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -2853,21 +2823,43 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/CratSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $event_id Event the Persona cratted for
+ * @property int $persona_id The Persona cratting the Event
+ * @property string $role The role of the Crat
+ * @property bool $is_autocrat Are they (default false) the person in charge?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Event|null $event
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Event $event
+ * @property-read \App\Models\Persona $persona
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\CratFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Crat newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Crat newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Crat onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Crat query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereIsAutocrat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Crat whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Crat withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Crat withoutTrashed()
  */
@@ -2943,13 +2935,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2963,13 +2949,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -2983,13 +2963,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -3019,30 +2993,22 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona paying Dues."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona paying Dues.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="transaction",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Transaction",
- * 				description="Attachable Transaction recording the payment."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/TransactionSimple"),
- * 		},
+ * 		description="Attachable Transaction recording the payment.",
+ * 		ref="#/components/schemas/TransactionSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="DueSimple",
+ * 	title="DueSimple",
+ * 	description="Attachable Due object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -3139,6 +3105,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="DueSuperSimple",
+ * 	title="DueSuperSimpleSimple",
+ * 	description="Attachable Due object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -3193,21 +3161,43 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/DueSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $persona_id Persona paying Dues
+ * @property int $transaction_id Transaction recording the payment
+ * @property \Illuminate\Support\Carbon $dues_on The date the dues period begins, not the date paid
+ * @property float|null $intervals Number of six month periods the payment covers, null for forever
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
- * @property-read \App\Models\Transaction|null $transaction
+ * @property-read \App\Models\Persona $persona
+ * @property-read \App\Models\Transaction $transaction
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\DueFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Due newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Due newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Due onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Due query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereDuesOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereIntervals($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Due whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Due withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Due withoutTrashed()
  */
@@ -3378,13 +3368,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -3398,13 +3382,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -3418,13 +3396,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -3476,27 +3448,12 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="eventable",
  * 		type="object",
+ * 		description="Attachable object that sponsored the Event.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that sponsored the Event.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm that sponsored the Event.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona that sponsored the Event.",
- * 				@OA\Schema(ref="#/components/schemas/PersonaSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit that sponsored the Event.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	),
@@ -3525,13 +3482,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="location",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Location",
- * 				description="Attachable Location for this Event."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/LocationSimple"),
- * 		},
+ * 		description="Attachable Location for this Event.",
+ * 		ref="#/components/schemas/LocationSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -3548,6 +3500,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="EventSimple",
+ * 	title="EventSimple",
+ * 	description="Attachable Event object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -3734,6 +3688,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="EventSuperSimple",
+ * 	title="EventSuperSimpleSimple",
+ * 	description="Attachable Event object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -3878,14 +3834,34 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/EventSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $eventable_type Who made and runs the Event; Chapter, Persona, Realm, or Unit
+ * @property int $eventable_id The ID of who made and runs the Event
+ * @property string|null $sponsorable_type Who is agreeing to accept Attendances for the Event in the case of Persona or Unit types, if any; Chapter or Realm
+ * @property int|null $sponsorable_id ID of the Realm or Chapter agreeing to accept Attendances for the Event in the case of Persona or Unit types, if any.
+ * @property int|null $location_id ID of the Location the Event takes place at, if any
+ * @property string $name The name of the Event
+ * @property string|null $description A description of the Event, if any
+ * @property string|null $image A promotional image for the Event, if any
+ * @property bool $is_active Is this (default true) something people should be seeing yet?
+ * @property bool $is_demo Is this (default false) a demo?
+ * @property \Illuminate\Support\Carbon $event_started_at When the Event begins
+ * @property \Illuminate\Support\Carbon $event_ended_at When the Event ends
+ * @property float|null $price The cost of the Event, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Crat> $crats
  * @property-read int|null $crats_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -3904,6 +3880,26 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Event newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Event onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Event query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEventEndedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEventStartedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEventableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEventableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereIsDemo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereLocationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereSponsorableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereSponsorableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Event withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Event withoutTrashed()
  */
@@ -3992,13 +3988,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -4012,13 +4002,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -4032,13 +4016,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -4068,42 +4046,29 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="event",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Event",
- * 				description="Attachable Demo Event they played at."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/EventSimple"),
- * 		},
+ * 		description="Attachable Demo Event they played at.",
+ * 		ref="#/components/schemas/EventSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="chapter",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable closest Chapter to the Guest."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
- * 		},
+ * 		description="Attachable closest Chapter to the Guest.",
+ * 		ref="#/components/schemas/ChapterSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="waiver",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Waiver",
- * 				description="Attachable Waiver for the Guest."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/WaiverSimple"),
- * 		},
+ * 		description="Attachable Waiver for the Guest.",
+ * 		ref="#/components/schemas/WaiverSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="GuestSimple",
+ * 	title="GuestSimple",
+ * 	description="Attachable Guest object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -4211,6 +4176,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="GuestSuperSimple",
+ * 	title="GuestSuperSimpleSimple",
+ * 	description="Attachable Guest object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -4276,15 +4243,26 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/GuestSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $event_id ID of the Demo Event they were Guests for
+ * @property int|null $chapter_id ID of the closest Chapter to the Guest, if known
+ * @property bool $is_followedup Has this Guest (default false) been followed up with?
+ * @property string|null $notes Notes about the Guest, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \App\Models\Chapter|null $chapter
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Event|null $event
+ * @property-read \App\Models\Event $event
  * @property-read \App\Models\User|null $updatedBy
  * @property-read \App\Models\Waiver|null $waiver
  * @method static \Database\Factories\GuestFactory factory($count = null, $state = [])
@@ -4292,6 +4270,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Guest newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Guest onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Guest query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereChapterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereIsFollowedup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Guest whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Guest withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Guest withoutTrashed()
  */
@@ -4496,13 +4485,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -4516,13 +4499,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -4536,13 +4513,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -4572,113 +4543,65 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="issuable",
  * 		type="object",
+ * 		description="Attachable object that was Issued the Award.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Award",
- * 				description="Attachable Award that was Issued.",
- * 				@OA\Schema(ref="#/components/schemas/AwardSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Title",
- * 				description="Attachable Title that was Issued.",
- * 				@OA\Schema(ref="#/components/schemas/TitleSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/AwardSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/TitleSimple")
  * 		},
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="issuer",
  * 		type="object",
+ * 		description="Attachable object that Issues the Award.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/PersonaSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="recipient",
  * 		type="object",
+ * 		description="Attachable object that was Issued the Award.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona that was Issued the Award.",
- * 				@OA\Schema(ref="#/components/schemas/PersonaSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit that was Issued the Award.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="revokedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona that revoked the Issuance."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona that revoked the Issuance.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="signator",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona signing the Issuance."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona signing the Issuance.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="whereable",
  * 		type="object",
+ * 		description="Attachable object that Issues the Award.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Event",
- * 				description="Attachable Event that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/EventSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Location",
- * 				description="Attachable Location that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/LocationSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Meetup",
- * 				description="Attachable Meetup that Issues the Award.",
- * 				@OA\Schema(ref="#/components/schemas/MeetupSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/EventSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/LocationSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/MeetupSimple")
  * 		},
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="IssuanceSimple",
+ * 	title="IssuanceSimple",
+ * 	description="Attachable Issuance object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -4900,6 +4823,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="IssuanceSuperSimple",
+ * 	title="IssuanceSuperSimpleSimple",
+ * 	description="Attachable Issuance object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -5079,10 +5004,34 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/IssuanceSimple")
  * 	)
  * )
+ * @property int $id
+ * @property string $issuable_type
+ * @property int $issuable_id
+ * @property string|null $whereable_type
+ * @property int|null $whereable_id
+ * @property string $authority_type
+ * @property int $authority_id
+ * @property string $recipient_type
+ * @property int $recipient_id
+ * @property int|null $issuer_id
+ * @property string|null $custom_name
+ * @property int|null $rank
+ * @property \Illuminate\Support\Carbon $issued_at
+ * @property string|null $reason
+ * @property string|null $image
+ * @property int|null $revoked_by
+ * @property \Illuminate\Support\Carbon|null $revoked_at
+ * @property int $created_by
+ * @property string|null $revocation
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -5098,6 +5047,30 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereAuthorityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereAuthorityType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereCustomName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRecipientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRecipientType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereWhereableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereWhereableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance withoutTrashed()
  */
@@ -5254,13 +5227,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5274,13 +5241,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5294,13 +5255,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5385,6 +5340,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="LocationSimple",
+ * 	title="LocationSimple",
+ * 	description="Attachable Location object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -5559,6 +5516,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="LocationSuperSimple",
+ * 	title="LocationSuperSimpleSimple",
+ * 	description="Attachable Location object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -5691,12 +5650,31 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/LocationSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string|null $label The Location label, as it might appear on a map
+ * @property string|null $address The street address of the Location, if any
+ * @property string|null $city The city of the Location, if any
+ * @property string|null $province The state or provice of the Location, if any
+ * @property string|null $postal_code The zip or postal code of the Location, if any
+ * @property string|null $country The two letter country code of the Location (default US), if any
+ * @property string|null $google_geocode JSON encoded Google Geocode data of the Location, if any
+ * @property float|null $latitude Latitude of the Location, if any
+ * @property float|null $longitude Longitude of the Location, if any
+ * @property string|null $location JSON encoded Google location services data of the Location, if any
+ * @property string|null $map_url An external map link of the Location, if any
+ * @property string|null $directions Directions required to properly navigate the last part of the journey to, or park at, the Location, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Chapter> $chapters
  * @property-read int|null $chapters_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -5714,6 +5692,25 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Location newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Location onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Location query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereDirections($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereGoogleGeocode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereMapUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Location withoutTrashed()
  */
@@ -5848,13 +5845,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5868,13 +5859,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5888,13 +5873,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5935,13 +5914,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="chapter",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that sponsors the Meetup."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
- * 		},
+ * 		description="Attachable Chapter that sponsors the Meetup.",
+ * 		ref="#/components/schemas/ChapterSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -5958,18 +5932,15 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="location",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Location",
- * 				description="Attachable Location of the Meetup."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/LocationSimple"),
- * 		},
+ * 		description="Attachable Location of the Meetup.",
+ * 		ref="#/components/schemas/LocationSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="MeetupSimple",
+ * 	title="MeetupSimple",
+ * 	description="Attachable Meetup object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -6123,6 +6094,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="MeetupSuperSimple",
+ * 	title="MeetupSuperSimpleSimple",
+ * 	description="Attachable Meetup object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -6234,13 +6207,30 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/MeetupSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $chapter_id The ID of the Chapter hosting the Meetup
+ * @property int|null $location_id The ID of the Location the Meetup occurs at
+ * @property bool $is_active Is (default true) the Meetup still occuring?
+ * @property string $purpose The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other
+ * @property string $recurrence The frequency with which this Meetup occurs
+ * @property int|null $week_of_month The week of the month the Meetup occurs, if recurrence is Week-of-Month
+ * @property string $week_day They day of the week the Meetup occurs, if recurrence is Weekly
+ * @property int|null $month_day The day of the month the Meetup occurs, if recurrence is Monthly
+ * @property string $occurs_at The time of day the Meetup takes place
+ * @property string|null $description A description of the Meetup, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\Chapter|null $chapter
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\Chapter $chapter
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -6253,6 +6243,23 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereChapterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereLocationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereMonthDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereOccursAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup wherePurpose($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereRecurrence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereWeekDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereWeekOfMonth($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup withoutTrashed()
  */
@@ -6357,13 +6364,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -6377,13 +6378,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -6397,13 +6392,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -6433,30 +6422,22 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona in the Unit."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona in the Unit.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="unit",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit the Persona is in."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UnitSimple"),
- * 		},
+ * 		description="Attachable Unit the Persona is in.",
+ * 		ref="#/components/schemas/UnitSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="MemberSimple",
+ * 	title="MemberSimple",
+ * 	description="Attachable Member object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -6582,6 +6563,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="MemberSuperSimple",
+ * 	title="MemberSuperSimpleSimple",
+ * 	description="Attachable Member object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -6665,21 +6648,49 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/MemberSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $persona_id The ID of the Persona that has Membership in the given Unit
+ * @property int $unit_id The ID of the Unit of which they are Members
+ * @property bool $is_head Is (default false) this Persona the single point of contact for the Unit?
+ * @property bool $is_voting Is this Persona (default false) a full voting Member?
+ * @property \Illuminate\Support\Carbon|null $joined_at The date this Persona joined the Unit, if known
+ * @property \Illuminate\Support\Carbon|null $left_at The date this Persona left the Unit, if they have
+ * @property string|null $notes Notes on the Membership, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
- * @property-read \App\Models\Unit|null $unit
+ * @property-read \App\Models\Persona $persona
+ * @property-read \App\Models\Unit $unit
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\MemberFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Member newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Member newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Member onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Member query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereIsHead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereIsVoting($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereJoinedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereLeftAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereUnitId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Member withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Member withoutTrashed()
  */
@@ -6765,13 +6776,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -6785,13 +6790,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -6805,13 +6804,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -6841,22 +6834,11 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="officeable",
  * 		type="object",
+ * 		description="Attachable object the Office is for.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Chaptertype",
- * 				description="Attachable Chaptertype the Office is for.",
- * 				@OA\Schema(ref="#/components/schemas/ChaptertypeSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm the Office is for.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit the Office is for.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ChaptertypeSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	),
@@ -6874,6 +6856,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="OfficeSimple",
+ * 	title="OfficeSimple",
+ * 	description="Attachable Office object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -6980,6 +6964,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="OfficeSuperSimple",
+ * 	title="OfficeSuperSimpleSimple",
+ * 	description="Attachable Office object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -7044,10 +7030,22 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/OfficeSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $officeable_type Type for what the Office is for; Chaptertype, Realm, or Unit
+ * @property int $officeable_id The ID of what the Office is for
+ * @property string $name The name of the Office, options delineated with a single |
+ * @property int|null $duration Duration, in months, of the office (default 6)
+ * @property int|null $order If the Realm has an order of prescidence, the office level where Monarch = 1, else null
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -7060,6 +7058,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Office newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Office onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Office query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereOfficeableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereOfficeableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Office withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Office withoutTrashed()
  */
@@ -7175,13 +7185,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7195,13 +7199,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7215,13 +7213,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7251,47 +7243,32 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="office",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Office",
- * 				description="Attachable Office held."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/OfficeSimple"),
- * 		},
+ * 		description="Attachable Office held.",
+ * 		ref="#/components/schemas/OfficeSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="officerable",
  * 		type="object",
+ * 		description="Attachable object the Persona is an Officer of.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Reign",
- * 				description="Attachable Reign the Persona is an Officer of.",
- * 				@OA\Schema(ref="#/components/schemas/ReignSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit the Persona is an Officer of.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ReignSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona holding the given Office."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona holding the given Office.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="OfficerSimple",
+ * 	title="OfficerSimple",
+ * 	description="Attachable Officer object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -7427,6 +7404,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="OfficerSuperSimple",
+ * 	title="OfficerSuperSimpleSimple",
+ * 	description="Attachable Officer object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -7520,22 +7499,52 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/OfficerSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $officerable_type Type of that which the Persona is Officer of; Reign or Unit
+ * @property int $officerable_id The ID of the Reign or Unit they are Officer of
+ * @property int $office_id The ID of the Office this Persona held
+ * @property int $persona_id The ID of the Persona holding this Office
+ * @property string|null $label If the Office name has options, or allows customization, the selected label, if any
+ * @property \Illuminate\Support\Carbon|null $starts_on If the Officer is pro-tem, or is for a Unit, when the Office began, otherwise null to use Reign data
+ * @property \Illuminate\Support\Carbon|null $ends_on If the Officer ends their term early, or is for a Unit, when the Office was exited, otherwise null to use Reign data
+ * @property string|null $notes Notes about the Officer or their time in office, or explaining pro-tem, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Office|null $office
+ * @property-read \App\Models\Office $office
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $officerable
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Persona $persona
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\OfficerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Officer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Officer newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Officer onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Officer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereEndsOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereOfficerableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereOfficerableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereStartsOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Officer whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Officer withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Officer withoutTrashed()
  */
@@ -7546,12 +7555,20 @@ namespace App\Models{
 /**
  * App\Models\PasswordHistory
  *
+ * @property int $id
+ * @property int $user_id
+ * @property string $password
+ * @property string $created_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordHistory whereUserId($value)
  */
 	class PasswordHistory extends \Eloquent {}
 }
@@ -7707,13 +7724,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7727,13 +7738,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7747,13 +7752,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7805,13 +7804,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="chapter",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter the Persona calls home."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
- * 		},
+ * 		description="Attachable Chapter the Persona calls home.",
+ * 		ref="#/components/schemas/ChapterSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -7905,13 +7899,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="pronoun",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Pronoun",
- * 				description="Attachable selected pronouns for the Persona."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PronounSimple"),
- * 		},
+ * 		description="Attachable selected pronouns for the Persona.",
+ * 		ref="#/components/schemas/PronounSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8016,13 +8005,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="user",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User for the Persona."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		description="Attachable User for the Persona.",
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8050,6 +8034,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="PersonaSimple",
+ * 	title="PersonaSimple",
+ * 	description="Attachable Persona object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -8206,6 +8192,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="PersonaSuperSimple",
+ * 	title="PersonaSuperSimpleSimple",
+ * 	description="Attachable Persona object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -8320,17 +8308,34 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/PersonaSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $chapter_id The ID of the Chapter the Persona is Waivered at
+ * @property int|null $pronoun_id The ID of the pronouns associated with this Persona, if known
+ * @property string|null $mundane What the Persona typically enters into the Mundane field of the sign-in
+ * @property string $name The Persona name, without titles or honors, but otherwise in full
+ * @property string|null $heraldry An internal link to an image of the Persona heraldry
+ * @property-read string|null $image An internal link to an image of the Persona
+ * @property bool $is_active Is (default true) the Persona still active?
+ * @property \Illuminate\Support\Carbon|null $reeve_qualified_expires_at If they are Reeve Qualified, when it expires
+ * @property \Illuminate\Support\Carbon|null $corpora_qualified_expires_at If they are Corpora Qualified, when it expires
+ * @property \Illuminate\Support\Carbon|null $joined_chapter_at The date the Persona joined the Chapter, either as a newb or a transfer
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $awards
  * @property-read int|null $awards_count
- * @property-read \App\Models\Chapter|null $chapter
+ * @property-read \App\Models\Chapter $chapter
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Crat> $crats
  * @property-read int|null $crats_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Due> $dues
@@ -8346,6 +8351,8 @@ namespace App\Models{
  * @property-read int|null $issuance_signeds_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Member> $members
  * @property-read int|null $members_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Officer> $officers
  * @property-read int|null $officers_count
  * @property-read \App\Models\Pronoun|null $pronoun
@@ -8378,6 +8385,23 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Persona newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Persona onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Persona query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereChapterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereCorporaQualifiedExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereHeraldry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereJoinedChapterAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereMundane($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona wherePronounId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereReeveQualifiedExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Persona withoutTrashed()
  */
@@ -8452,13 +8476,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8472,13 +8490,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8492,13 +8504,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8528,6 +8534,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="PronounSimple",
+ * 	title="PronounSimple",
+ * 	description="Attachable Pronoun object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -8623,6 +8631,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="PronounSuperSimple",
+ * 	title="PronounSuperSimpleSimple",
+ * 	description="Attachable Pronoun object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -8676,10 +8686,22 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/PronounSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $subject Pronoun Subject
+ * @property string $object Pronoun Object
+ * @property string $possessive Pronoun Possessive
+ * @property string $possessivepronoun Pronoun Possessive Pronoun
+ * @property string $reflexive Pronoun Reflexive
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -8693,6 +8715,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Pronoun newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Pronoun onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Pronoun query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereObject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun wherePossessive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun wherePossessivepronoun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereReflexive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereSubject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pronoun whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Pronoun withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Pronoun withoutTrashed()
  */
@@ -8895,13 +8929,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8915,13 +8943,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8935,13 +8957,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -9114,6 +9130,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="RealmSimple",
+ * 	title="RealmSimple",
+ * 	description="Attachable Realm object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -9326,6 +9344,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="RealmSuperSimple",
+ * 	title="RealmSuperSimpleSimple",
+ * 	description="Attachable Realm object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -9496,6 +9516,29 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/RealmSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int|null $parent_id If sponsored by another Realm, that Realm ID
+ * @property string $name The label for the Realm
+ * @property string $abbreviation A simple, unique, usually two letter abbreviation commonly used for the Realm
+ * @property string $color The hexidecimal code (default FACADE) for the color used for the Realm on various UIs
+ * @property string|null $heraldry An internal link to the Realm heraldry image
+ * @property bool $is_active Is (default true) the Realm active?
+ * @property int|null $credit_minimum Realm Credit Minimum setting, if any
+ * @property int|null $credit_maximum Realm Credit Maximum setting, if any
+ * @property int|null $daily_minimum Realm Daily Minimum setting, if any
+ * @property int|null $weekly_minimum Realm Weekly Minimum setting, if any
+ * @property string|null $average_period_type Realm Average Period Type setting, if any
+ * @property int|null $average_period Realm Average Period setting, if any
+ * @property int|null $dues_amount Dues cost per interval for the Realm, if any
+ * @property string|null $dues_intervals_type Dues intervals type for the Realm, if any
+ * @property int|null $dues_intervals Dues intervals count for the Realm, if any
+ * @property int|null $dues_take Realm take of Dues paid to Chapters, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Account> $accounts
  * @property-read int|null $accounts_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
@@ -9506,8 +9549,8 @@ namespace App\Models{
  * @property-read int|null $chapters_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Chaptertype> $chaptertypes
  * @property-read int|null $chaptertypes_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -9534,6 +9577,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Realm newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Realm onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Realm query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereAbbreviation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereAveragePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereAveragePeriodType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereCreditMaximum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereCreditMinimum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDailyMinimum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDuesAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDuesIntervals($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDuesIntervalsType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereDuesTake($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereHeraldry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereWeeklyMinimum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Realm withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Realm withoutTrashed()
  */
@@ -9631,13 +9697,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -9651,13 +9711,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -9671,13 +9725,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -9707,35 +9755,25 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona the Recommendation is for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona the Recommendation is for.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="recommendable",
  * 		type="object",
+ * 		description="Attachable object being Recommended.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Award",
- * 				description="Attachable Award being Recommended.",
- * 				@OA\Schema(ref="#/components/schemas/AwardSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Title",
- * 				description="Attachable Title being Recommended.",
- * 				@OA\Schema(ref="#/components/schemas/TitleSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/AwardSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/TitleSimple")
  * 		},
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="RecommendationSimple",
+ * 	title="RecommendationSimple",
+ * 	description="Attachable Recommendation object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -9854,6 +9892,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="RecommendationSuperSimple",
+ * 	title="RecommendationSuperSimpleSimple",
+ * 	description="Attachable Recommendation object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -9930,14 +9970,27 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/RecommendationSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $persona_id The ID of the Persona the Recommendation is for
+ * @property string $recommendable_type The type of Issuances being Recommended; Award or Title
+ * @property int $recommendable_id The ID of the Title or Award being Recommended
+ * @property int|null $rank If a ranked or ladder award, Recommended level
+ * @property bool $is_anonymous Does (default false) the Recommendation creator wish to be anonymous?
+ * @property string $reason What the Recommendation is for
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Persona $persona
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $recommendable
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\RecommendationFactory factory($count = null, $state = [])
@@ -9945,6 +9998,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereIsAnonymous($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereRank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereRecommendableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereRecommendableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation withoutTrashed()
  */
@@ -10020,13 +10086,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10040,13 +10100,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10060,13 +10114,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10096,30 +10144,22 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="archetype",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Archetype",
- * 				description="Attachable Archetype credits being Reconciled."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/ArchetypeSimple"),
- * 		},
+ * 		description="Attachable Archetype credits being Reconciled.",
+ * 		ref="#/components/schemas/ArchetypeSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona credits being Reconciled."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona credits being Reconciled.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="ReconciliationSimple",
+ * 	title="ReconciliationSimple",
+ * 	description="Attachable Reconciliation object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -10216,6 +10256,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ReconciliationSuperSimple",
+ * 	title="ReconciliationSuperSimpleSimple",
+ * 	description="Attachable Reconciliation object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -10270,21 +10312,43 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/ReconciliationSimple")
  * 	)
  * )
- * @property-read \App\Models\Archetype|null $archetype
+ * @property int $id Model ID
+ * @property int $archetype_id The ID of the Archetype the Reconcilliation credits are for
+ * @property int $persona_id The ID of the Persona getting Reconciled
+ * @property float $credits The number of credits to be given or removed (with negative value) from the Persona for the Archetype
+ * @property string|null $notes Why the Reconciliation was required, and how they might be removed
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Archetype $archetype
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Persona $persona
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\ReconciliationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereArchetypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereCredits($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Reconciliation withoutTrashed()
  */
@@ -10380,13 +10444,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10400,13 +10458,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10420,13 +10472,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10467,23 +10513,18 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="reignable",
  * 		type="object",
+ * 		description="Attachable object the Reign is for.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter for the Reign.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm for the Reign.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple")
  * 		},
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="ReignSimple",
+ * 	title="ReignSimple",
+ * 	description="Attachable Reign object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -10600,6 +10641,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ReignSuperSimple",
+ * 	title="ReignSuperSimpleSimple",
+ * 	description="Attachable Reign object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -10674,10 +10717,23 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/ReignSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $reignable_type The Reign type; Chapter or Realm
+ * @property int $reignable_id The ID of the Realm or Chapter this Reign is for
+ * @property string|null $name The name of the Reign, if any
+ * @property \Illuminate\Support\Carbon $starts_on Date the Reign begins (coronation)
+ * @property string $midreign_on Date of the Reign Midreign
+ * @property \Illuminate\Support\Carbon $ends_on Date the next Reign begins, and this one ends
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -10690,6 +10746,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Reign newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reign onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Reign query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereEndsOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereMidreignOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereReignableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereReignableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereStartsOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reign whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reign withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Reign withoutTrashed()
  */
@@ -10766,13 +10835,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10786,13 +10849,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10806,13 +10863,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -10853,18 +10904,15 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="sociable",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Social",
- * 				description="Attachable model the Social is being attached to."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/SocialSimple"),
- * 		},
+ * 		description="Attachable model the Social is being attached to.",
+ * 		ref="#/components/schemas/SocialSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="SocialSimple",
+ * 	title="SocialSimple",
+ * 	description="Attachable Social object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -10963,6 +11011,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="SocialSuperSimple",
+ * 	title="SocialSuperSimpleSimple",
+ * 	description="Attachable Social object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -11019,10 +11069,21 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/SocialSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $sociable_type The Model for which the Social is for; Chapter, Event, Persona, Realm, or Unit
+ * @property int $sociable_id The ID of the entry with this Social
+ * @property string $media The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web
+ * @property string $value The link, username, or other identifier for the given media
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -11033,6 +11094,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Social newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Social onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Social query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereMedia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereSociableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereSociableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Social whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Social withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Social withoutTrashed()
  */
@@ -11109,13 +11181,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11129,13 +11195,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11149,13 +11209,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11185,42 +11239,29 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="account",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Account",
- * 				description="Attachable Account this Split is for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/AccountSimple"),
- * 		},
+ * 		description="Attachable Account this Split is for.",
+ * 		ref="#/components/schemas/AccountSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona performing the Transaction this Split is for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona performing the Transaction this Split is for.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="transaction",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Transaction",
- * 				description="Attachable Transaction being Split."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/TransactionSimple"),
- * 		},
+ * 		description="Attachable Transaction being Split.",
+ * 		ref="#/components/schemas/TransactionSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="SplitSimple",
+ * 	title="SplitSimple",
+ * 	description="Attachable Split object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -11317,6 +11358,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="SplitSuperSimple",
+ * 	title="SplitSuperSimpleSimple",
+ * 	description="Attachable Split object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -11371,22 +11414,44 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/SplitSimple")
  * 	)
  * )
- * @property-read \App\Models\Account|null $account
+ * @property int $id Model ID
+ * @property int $account_id The ID of the Account this Split is for
+ * @property int $persona_id The ID of the Persona performing the Transaction
+ * @property int $transaction_id The ID of the Transaction being Split
+ * @property float $amount How much the Split is for
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Account $account
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
- * @property-read \App\Models\Transaction|null $transaction
+ * @property-read \App\Models\Persona $persona
+ * @property-read \App\Models\Transaction $transaction
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\SplitFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Split newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Split newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Split onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Split query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Split whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Split withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Split withoutTrashed()
  */
@@ -11503,13 +11568,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11523,13 +11582,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11543,13 +11596,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11579,42 +11626,29 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona that has been Suspended."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona that has been Suspended.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	), 
  * 	@OA\Property(
  * 		property="realm",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm issuing the Suspension."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
- * 		},
+ * 		description="Attachable Realm issuing the Suspension.",
+ * 		ref="#/components/schemas/RealmSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="suspendedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona issuing the Suspension."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona issuing the Suspension.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="SuspensionSimple",
+ * 	title="SuspensionSimple",
+ * 	description="Attachable Suspension object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -11750,6 +11784,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="SuspensionSuperSimple",
+ * 	title="SuspensionSuperSimpleSimple",
+ * 	description="Attachable Suspension object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -11843,22 +11879,52 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/SuspensionSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $persona_id The ID of the Persona that has been Suspended
+ * @property string $suspendable_type The Model that levied the Suspension; Chapter or Realm
+ * @property int $suspendable_id The ID of the entry that levied the Suspension
+ * @property int $suspended_by The ID of the Persona issuing the Suspension
+ * @property \Illuminate\Support\Carbon $suspended_at The date the Suspension begins
+ * @property \Illuminate\Support\Carbon|null $expires_at The date the Suspension ends, if any, null for forever
+ * @property string $cause Why the suspension was issued
+ * @property bool $is_propogating Does (default false) the Suspension propogate to all Realms?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Persona $persona
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $suspendable
- * @property-read \App\Models\Persona|null $suspendedBy
+ * @property-read \App\Models\Persona $suspendedBy
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\SuspensionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereCause($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereIsPropogating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereSuspendableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereSuspendableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereSuspendedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereSuspendedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension withoutTrashed()
  */
@@ -11969,13 +12035,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -11989,13 +12049,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12009,13 +12063,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12056,33 +12104,20 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="titleable",
  * 		type="object",
+ * 		description="Attachable object that can Issue the Title.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that can Issue the Title.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona that can Issue the Title.",
- * 				@OA\Schema(ref="#/components/schemas/PersonaSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm that can Issue the Title.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Unit",
- * 				description="Attachable Unit that can Issue the Title.",
- * 				@OA\Schema(ref="#/components/schemas/UnitSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 		},
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="TitleSimple",
+ * 	title="TitleSimple",
+ * 	description="Attachable Title object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -12214,6 +12249,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TitleSuperSimple",
+ * 	title="TitleSuperSimpleSimple",
+ * 	description="Attachable Title object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -12303,10 +12340,24 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/TitleSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $titleable_type The Model of who can issue the Title; Chapter, Persona, Realm, or Unit
+ * @property int|null $titleable_id The ID of the Title issuer
+ * @property string $name The Title name with options seperated by a single |
+ * @property int|null $rank For Realm Titles or where appropriate, their order of prescidence in that Realm expressed (usually) in multiples of 10, where Lord|Lady are typically 30
+ * @property string $peerage The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, Retainer, or Squire
+ * @property bool $is_roaming Is (default false) the Title roaming, such as Dragonmaster?
+ * @property bool $is_active Is (default true) this Title still being given out?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -12321,6 +12372,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Title newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Title onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Title query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereIsRoaming($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title wherePeerage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereRank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereTitleableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereTitleableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Title whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Title withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Title withoutTrashed()
  */
@@ -12407,13 +12472,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12427,13 +12486,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12447,13 +12500,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12483,28 +12530,19 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="tournamentable",
  * 		type="object",
+ * 		description="Attachable object that sponsored the Tournament.",
  * 		oneOf={
- * 			@OA\Property(
- * 				title="Chapter",
- * 				description="Attachable Chapter that sponsored the Tournament.",
- * 				@OA\Schema(ref="#/components/schemas/ChapterSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Event",
- * 				description="Attachable Event that sponsored the Tournament.",
- * 				@OA\Schema(ref="#/components/schemas/EventSimple")
- * 			),
- * 			@OA\Property(
- * 				title="Realm",
- * 				description="Attachable Realm that sponsored the Tournament.",
- * 				@OA\Schema(ref="#/components/schemas/RealmSimple")
- * 			)
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/EventSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple")
  * 		},
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="TournamentSimple",
+ * 	title="TournamentSimple",
+ * 	description="Attachable Tournament object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -12604,6 +12642,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TournamentSuperSimple",
+ * 	title="TournamentSuperSimpleSimple",
+ * 	description="Attachable Tournament object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -12661,10 +12701,22 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/TournamentSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $tournamentable_type The Tournament sponsor type; Chapter, Event, or Realm
+ * @property int $tournamentable_id The ID of the Tournament sponsor
+ * @property string $name The name of the Tournament
+ * @property string|null $description A description of the Tournament
+ * @property \Illuminate\Support\Carbon $occured_at Date and time the Tournament occured
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -12675,6 +12727,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereOccuredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereTournamentableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereTournamentableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament withoutTrashed()
  */
@@ -12742,13 +12806,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12762,13 +12820,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12782,13 +12834,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -12840,6 +12886,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TransactionSimple",
+ * 	title="TransactionSimple",
+ * 	description="Attachable Transaction object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -12928,6 +12976,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TransactionSuperSimple",
+ * 	title="TransactionSuperSimpleSimple",
+ * 	description="Attachable Transaction object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -12974,10 +13024,20 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/TransactionSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $description A description of the Transaction
+ * @property string|null $memo A memo for the Transaction, if any
+ * @property \Illuminate\Support\Carbon $transaction_at Date the Transaction occured
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Due> $dues
@@ -12991,6 +13051,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereMemo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereTransactionAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction withoutTrashed()
  */
@@ -13091,13 +13161,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -13111,13 +13175,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -13131,13 +13189,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -13299,6 +13351,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="UnitSimple",
+ * 	title="UnitSimple",
+ * 	description="Attachable Unit object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -13410,6 +13464,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="UnitSuperSimple",
+ * 	title="UnitSuperSimpleSimple",
+ * 	description="Attachable Unit object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -13479,6 +13535,18 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/UnitSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property string $type Unit type; Company, Event, or Household
+ * @property string $name Name of the Unit
+ * @property string|null $heraldry An internal link to an image of the Unit heraldry, if any
+ * @property string|null $description A public facing description of the Unit
+ * @property string|null $history For use as the Unit requires, history of the Unit, if any
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Account> $accounts
  * @property-read int|null $accounts_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
@@ -13487,8 +13555,8 @@ namespace App\Models{
  * @property-read int|null $award_issuances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Award> $awards
  * @property-read int|null $awards_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -13514,6 +13582,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Unit newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereHeraldry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereHistory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit withoutTrashed()
  */
@@ -13525,10 +13605,10 @@ namespace App\Models{
  * App\Models\User
  *
  * @OA\Schema (
- *   schema="User",
- *   required={"email","password","is_restricted"},
+ * 	schema="User",
+ * 	required={"email","password","is_restricted"},
  * 	description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
- * persona (Persona) (HasOne): Persona associated with the User.
+ * persona (Persona) (BelongsTo): Persona associated with the User.
  * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -13544,60 +13624,60 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="persona_id",
  * 		description="ID of the User's Persona.",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
  * 	),
- *   @OA\Property(
- * 	  property="email",
- * 	  description="Unique email used to identify and communicate with the User.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
  * 		format="email",
  * 		example="nobody@nowhere.net",
  * 		maxLength=191
- *   ),
- *   @OA\Property(
- * 	  property="email_verified_at",
- * 	  description="When the User email was verified, if at all",
- * 	  readOnly=false,
- * 	  nullable=true,
- * 	  type="string",
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
  * 		format="date-time",
  * 		example="2023-12-30 23:59:59",
  * 		readOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="password",
- * 	  description="Encoded password string.",
- * 	  nullable=false,
- * 	  type="string",
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
  * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  * 		writeOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="api_token",
- * 	  description="The API token for authentication",
- * 	  type="string",
- * 	  maxLength=80,
- * 	  example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
- * 	  readOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="is_restricted",
- * 	  description="Is the User (default false) restricted from using the site?",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 	),
+ * 	@OA\Property(
+ * 		property="api_token",
+ * 		description="The API token for authentication",
+ * 		type="string",
+ * 		maxLength=80,
+ * 		example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="enum",
  * 		enum={0, 1},
  * 		example=0,
  * 		default=0
- *   ),
+ * 	),
  * 	@OA\Property(
  * 		property="created_by",
  * 		description="The User that created this record.",
@@ -13610,13 +13690,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -13630,13 +13704,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -13650,13 +13718,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -13686,67 +13748,175 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona for this User."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona for this User.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="UserSimple",
+ * 	title="UserSimple",
+ * 	description="Attachable User object with no attachments.",
  * 	@OA\Property(
  * 		property="persona_id",
  * 		description="ID of the User's Persona.",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
  * 	),
- *   @OA\Property(
- * 	  property="email",
- * 	  description="Unique email used to identify and communicate with the User.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
  * 		format="email",
  * 		example="nobody@nowhere.net",
  * 		maxLength=191
- *   ),
- *   @OA\Property(
- * 	  property="email_verified_at",
- * 	  description="When the User email was verified, if at all",
- * 	  readOnly=false,
- * 	  nullable=true,
- * 	  type="string",
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
  * 		format="date-time",
  * 		example="2023-12-30 23:59:59",
  * 		readOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="password",
- * 	  description="Encoded password string.",
- * 	  nullable=false,
- * 	  type="string",
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
  * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  * 		writeOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="is_restricted",
- * 	  description="Is the User (default false) restricted from using the site?",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="enum",
  * 		enum={0, 1},
  * 		example=0,
  * 		default=0
- *   ),
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="UserLogin",
+ * 	title="User",
+ * 	description="Attachable User login object with no attachments.",
+ * 	@OA\Property(
+ * 		property="persona_id",
+ * 		description="ID of the User's Persona.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="token",
+ * 		description="Login token for the User.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		example="yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+ * 	),
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="email",
+ * 		example="nobody@nowhere.net",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2023-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ * 		writeOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
  * 	@OA\Property(
  * 		property="created_by",
  * 		description="The User that created this record.",
@@ -13799,55 +13969,57 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="UserSuperSimple",
+ * 	title="UserSuperSimpleSimple",
+ * 	description="Attachable User object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="persona_id",
  * 		description="ID of the User's Persona.",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
  * 	),
- *   @OA\Property(
- * 	  property="email",
- * 	  description="Unique email used to identify and communicate with the User.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
  * 		format="email",
  * 		example="nobody@nowhere.net",
  * 		maxLength=191
- *   ),
- *   @OA\Property(
- * 	  property="email_verified_at",
- * 	  description="When the User email was verified, if at all",
- * 	  readOnly=false,
- * 	  nullable=true,
- * 	  type="string",
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
  * 		format="date-time",
  * 		example="2023-12-30 23:59:59",
  * 		readOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="password",
- * 	  description="Encoded password string.",
- * 	  nullable=false,
- * 	  type="string",
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
  * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
  * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
  * 		writeOnly=true
- *   ),
- *   @OA\Property(
- * 	  property="is_restricted",
- * 	  description="Is the User (default false) restricted from using the site?",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="enum",
  * 		enum={0, 1},
  * 		example=0,
  * 		default=0
- *   )
+ * 	)
  * )
  * @OA\RequestBody (
  * 	request="User",
@@ -13858,6 +14030,20 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/UserSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int $persona_id The ID of the Persona associated with this User
+ * @property string $email Unique email used to identify and communicate with the User
+ * @property \Illuminate\Support\Carbon|null $email_verified_at When the User email was verified, if at all
+ * @property string $password Encoded password string
+ * @property string|null $remember_token Encoded string used to maintain login
+ * @property string|null $api_token
+ * @property bool $is_restricted Is (default false) the User restricted from using the site?
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Account> $accountsCreated
  * @property-read int|null $accounts_created_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Account> $accountsDeleted
@@ -13902,8 +14088,8 @@ namespace App\Models{
  * @property-read int|null $crats_deleted_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Crat> $cratsUpdated
  * @property-read int|null $crats_updated_count
- * @property-read User|null $createdBy
- * @property-read User|null $creator
+ * @property-read User $createdBy
+ * @property-read User $creator
  * @property-read User|null $deletedBy
  * @property-read User|null $destroyer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Due> $duesCreated
@@ -13967,7 +14153,7 @@ namespace App\Models{
  * @property-read int|null $password_histories_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \App\Models\Persona|null $persona
+ * @property-read \App\Models\Persona $persona
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Persona> $personasCreated
  * @property-read int|null $personas_created_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Persona> $personasDeleted
@@ -14070,6 +14256,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereApiToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsRestricted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutTrashed()
  */
@@ -14278,13 +14478,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="createdBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that created this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -14298,13 +14492,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="updatedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable last User to update this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -14318,13 +14506,7 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="deletedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="User",
- * 				description="Attachable User that softdeleted this record."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/UserSimple"),
- * 		},
+ * 		ref="#/components/schemas/UserSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -14354,66 +14536,43 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="ageVerifiedBy",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona the Waiver is for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona the Waiver is for.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="guest",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Guest",
- * 				description="Attachable Guest this Waiver is for."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/GuestSimple"),
- * 		},
+ * 		description="Attachable Guest this Waiver is for.",
+ * 		ref="#/components/schemas/GuestSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="location",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Location",
- * 				description="Attachable Waiver address fields values."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/LocationSimple"),
- * 		},
+ * 		description="Attachable Waiver address fields values.",
+ * 		ref="#/components/schemas/LocationSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Persona",
- * 				description="Attachable Persona this Waiver is for, if any."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- * 		},
+ * 		description="Attachable Persona this Waiver is for, if any.",
+ * 		ref="#/components/schemas/PersonaSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="pronoun",
  * 		type="object",
- * 		allOf={
- * 			@OA\Property(
- * 				title="Pronoun",
- * 				description="Attachable Pronoun for the individual being Waivered."
- * 			),
- * 			@OA\Schema(ref="#/components/schemas/PronounSimple"),
- * 		},
+ * 		description="Attachable Pronoun for the individual being Waivered.",
+ * 		ref="#/components/schemas/PronounSimple",
  * 		readOnly=true
  * 	)
  * )
  * @OA\Schema (
  * 	schema="WaiverSimple",
+ * 	title="WaiverSimple",
+ * 	description="Attachable Waiver object with no attachments.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -14640,6 +14799,8 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="WaiverSuperSimple",
+ * 	title="WaiverSuperSimpleSimple",
+ * 	description="Attachable Waiver object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
  * 		description="The entry's ID.",
@@ -14824,11 +14985,36 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/WaiverSimple")
  * 	)
  * )
+ * @property int $id Model ID
+ * @property int|null $guest_id The ID of the Guest this Waiver is for, if any
+ * @property int|null $location_id The Waiver address fields values
+ * @property int|null $pronoun_id The ID of the Pronoun for the individual being Waivered, if known
+ * @property int|null $persona_id The ID of the Persona this Waiver is for, if any
+ * @property string $waiverable_type The type of entity accepting the Waiver; Realm or Event
+ * @property int $waiverable_id The ID of the entity accepting the Waiver
+ * @property string|null $file An internal link to an image of the original physical Waiver
+ * @property string $player The Waiver Mundane name field value
+ * @property string|null $email The Waiver email field value, if any
+ * @property string|null $phone The Waiver phone field value, if any
+ * @property \Illuminate\Support\Carbon|null $dob The Waiver date of birth field value
+ * @property \Illuminate\Support\Carbon|null $age_verified_at The date the Waiver signer age is verified, if it has been
+ * @property int|null $age_verified_by The ID of the Persona that verified the Waiver signer age, if it has been
+ * @property string|null $guardian The Waiver guardian name, if any
+ * @property string|null $emergency_name The Waiver emergency contact field, if any
+ * @property string|null $emergency_relationship The Waiver emergency contact relationship field, if any
+ * @property string|null $emergency_phone The Waiver emergency contact phone field, if any
+ * @property \Illuminate\Support\Carbon $signed_at Date the Waiver was signed
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Persona|null $ageVerifiedBy
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Models\User|null $createdBy
- * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\User $creator
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
@@ -14842,6 +15028,31 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereAgeVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereAgeVerifiedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereDob($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereEmergencyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereEmergencyPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereEmergencyRelationship($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereGuardian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereGuestId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereLocationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver wherePersonaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver wherePlayer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver wherePronounId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereSignedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereWaiverableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Waiver whereWaiverableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver withoutTrashed()
  */

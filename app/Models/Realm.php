@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
@@ -794,6 +796,7 @@ class Realm extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Searchable;
 
 	public $table = 'realms';
 	public $timestamps = true;
@@ -829,6 +832,15 @@ class Realm extends BaseModel
 		'average_period_type' => 'string',
 		'dues_intervals_type' => 'string'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'abbreviation' => $this->abbreviation
+		];
+	}
 
 	public static array $rules = [
 		'parent_id' => 'nullable|exists:realms,id',
@@ -849,14 +861,6 @@ class Realm extends BaseModel
 		'dues_take' => 'nullable|integer'
 	];
 	
-//	 protected $appends = [
-//	 		'awards'
-//	 ];
-	
-//	 public function getAwardsAttribute(){
-//	 	return Award::where('awarder_type', 'Realm')->whereNull('awarder_id')->get();
-//	 }
-	
 	public $relationships = [
 		'accounts' => 'MorphMany',
 		'awards' => 'MorphMany',
@@ -872,6 +876,18 @@ class Realm extends BaseModel
 		'suspensions' => 'MorphMany',
 		'titles' => 'MorphMany'
 	];
+	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/realms/' . $value;
+			}
+		);
+	}
 	
 	public function accounts(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{

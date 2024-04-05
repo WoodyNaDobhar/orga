@@ -21,6 +21,8 @@ OpenSSL PHP Extension
 PDO PHP Extension
 Tokenizer PHP Extension
 XML PHP Extension
+Composer
+Docker
 ```
 
 ### Installing
@@ -32,36 +34,99 @@ git clone git@github.com:YourForkAccount/orga.git
 ```
 
 Update .env file
-Generate key
-
-```
-php artisan key:generate
-```
-
 Run composer
 
 ```
 composer install
 ```
 
+Install Node dependancies
+
+```
+sail yarn
+```
+
+From the resulting directory command line (in WSL for Windows), start sail.  The first time you run this, it'll take a minute.
+
+```
+sail up
+```
+
+Generate key
+
+```
+sail php artisan key:generate
+```
+
 Run migrations in the root 
 
 ```
-php artisan migrate
+sail php artisan migrate
 ```
 
 Poplulate DB.  If you don't know 'with what', then you can't be doing this.
+Start up yarn
 
 ```
-...
+sail yarn run dev
 ```
+
+## Search
+
+## Queueing
+
+We're using Redis for handling queues.  On your local machine, upon sailing up, you should run
+
+```
+sail php artisan queue:work redis
+```
+
+You'll also need to import the existing records:
+
+```
+sail php artisan scout:import "App\Models\Chapter"
+sail php artisan scout:import "App\Models\Event"
+sail php artisan scout:import "App\Models\Persona"
+sail php artisan scout:import "App\Models\Realm"
+sail php artisan scout:import "App\Models\User"
+sail php artisan scout:import "App\Models\Unit"
+```
+
+Production environments require you to have the workers running all the time. queue:work command itself can fail due to many reasons, such as exceeding the maximum timeout. Checking the server manually to make sure if the queue worker is up is not an option. Instead, you’ll use Supervisor, a process monitor for Linux environments.
+
+After installing the Supervisor on the server, you need to give it a configuration file to interact with Laravel’s queue workers. Let’s create a laravel-worker.conf file that handles the queue:work process.
+
+```
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /home/project/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=root
+numprocs=4
+redirect_stderr=true
+stdout_logfile=/home/project/logs/worker.log
+stopwaitsecs=3600
+```
+
+In this configuration, you should tell the Supervisor to restart the workers automatically and have 4 parallel processes running. Let’s start the processes:
+
+```
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-worker:*
+```
+
+In conclusion, this is as simple as you read it. The Supervisor will keep the workers running. Whenever the queue gets a job, the workers will pick and run it. This way, you ensure the user doesn’t have to wait until PHP processes the task of sending an email and proceeds to the next page by moving this time-consuming job to ‘parallel’ threads.
 
 ## Adding Objects
 
 The site uses Infyom generators to create objects.  To do create the object Test, first make the table w/ its various rows in your local db.  Then, use the following command in the root folder:
 
 ```
-php artisan infyom:api_scaffold Test --fromTable --tableName=tests  --datatables=true --skip=dump-autoload --factory
+sail php artisan infyom:api_scaffold Test --fromTable --tableName=tests  --datatables=true --skip=dump-autoload --factory
 ```
 
 It's not a perfect process, and a number of the resulting files need tweaked to work right.
@@ -612,7 +677,7 @@ Then make the following updates to engage the basic controls.  It'll be differen
 If everything is good, you can then update the schema
 
 ```
-php artisan make:schema Test
+sail php artisan make:schema Test
 ```
 
 ## Running the tests

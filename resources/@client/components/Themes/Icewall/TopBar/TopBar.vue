@@ -11,9 +11,29 @@
 	import { useAuthStore } from '@/stores/auth';
 	import { useStateStore } from '@/stores/state';
 	import { useRouter } from 'vue-router';
-	import Toastify from "toastify-js";
 	import Notification from "@/components/Base/Notification";
+	import debounce from "lodash/debounce";
+	import { showToast } from '@/utils/toast';
+	import axios from 'axios';
+	import dayjs from 'dayjs';
 	
+	const router = useRouter()
+	const auth = useAuthStore()
+	const user = auth.getUser
+	const state = useStateStore()
+	
+	interface SearchResult {
+		id: number;
+		name: string;
+		heraldry?: string;
+		abbreviation?: string;
+		full_abbreviation?: string;
+		chapter_full_abbreviation?: string;
+		image?: string;
+		event_started_at?: string;
+		type?: string;
+		email?: string;
+	}
 	const searchDropdown = ref(false);
 	const showSearchDropdown = () => {
 		searchDropdown.value = true;
@@ -21,60 +41,46 @@
 	const hideSearchDropdown = () => {
 		searchDropdown.value = false;
 	};
-	const router = useRouter()
-	const auth = useAuthStore()
-	const user = auth.getUser
-	const state = useStateStore()
+	const searchText = ref('')
+	const searchData = ref({
+		Chapters: [] as SearchResult[],
+		Events: [] as SearchResult[],
+		Personas: [] as SearchResult[],
+		Realms: [] as SearchResult[],
+		Users: [] as SearchResult[],
+		Units: [] as SearchResult[],
+	});
+	
+	const onInput = debounce(async () => {
+		hideSearchDropdown();
+		try {
+			const response = await axios.post('api/search', { search: searchText.value });
+			console.log(searchDropdown.value)
+			searchData.value = response.data.data;
+			console.log(searchData)
+			showSearchDropdown()
+		} catch (error) {
+			console.error(error);
+			throw error;
+		}
+	}, 300);
 	
 	const logout = async () => {
 		try {
 			auth.logout()
 				.then(response => {
-					console.log('testb');
 					state.storeState('success', 'You have been logged out.');
 					router.push('/');
 				})
 				.catch(error => {
-					state.storeState('error', error);
-					console.log('Error logging out:', error);
-					const toastEl = document
-						.querySelectorAll("#failed-notification-content")[0]
-						.cloneNode(true) as HTMLElement;
-					const messageElement = toastEl.querySelector('.mt-1.text-slate-500');
-					if (messageElement) {
-						messageElement.innerHTML = (error as any).response?.data?.message ?? "Please check the form.";
-					}
-					toastEl.classList.remove("hidden");
-					Toastify({
-						node: toastEl,
-						duration: 10000,
-						newWindow: true,
-						close: true,
-						gravity: "top",
-						position: "right",
-						stopOnFocus: true,
-					}).showToast();
+					state.storeState('error', error)
+					console.log('Error logging out:', error)
+					showToast(false, error.response.data.message)
 				});
-		} catch (error) {
-			state.storeState('error', error);
-			console.log('Error logging out:', error);
-			const toastEl = document
-				.querySelectorAll("#failed-notification-content")[0]
-				.cloneNode(true) as HTMLElement;
-			const messageElement = toastEl.querySelector('.mt-1.text-slate-500');
-			if (messageElement) {
-				messageElement.innerHTML = (error as any).response?.data?.message ?? "Please check the form.";
-			}
-			toastEl.classList.remove("hidden");
-			Toastify({
-				node: toastEl,
-				duration: 10000,
-				newWindow: true,
-				close: true,
-				gravity: "top",
-				position: "right",
-				stopOnFocus: true,
-			}).showToast();
+		} catch (error:any) {
+			state.storeState('error', error)
+			console.log('Error logging out:', error)
+			showToast(false, error)
 		}
 	};
 </script>
@@ -114,7 +120,8 @@
 						type="text"
 						class="border-transparent w-56 shadow-none rounded-full bg-slate-200 pr-8 transition-[width] duration-300 ease-in-out focus:border-transparent focus:w-72 dark:bg-darkmode-400/70"
 						placeholder="Search..."
-						@focus="showSearchDropdown"
+						v-model="searchText"
+						@input="onInput"
 						@blur="hideSearchDropdown"
 					/>
 					<Lucide
@@ -138,77 +145,172 @@
 				>
 					<div class="absolute right-0 z-10 mt-[3px]">
 						<div class="w-[450px] p-5 box">
-							<div class="mb-2 font-medium">Pages</div>
-							<div class="mb-5">
-								<a href="" class="flex items-center">
-									<div
-										class="flex items-center justify-center w-8 h-8 rounded-full bg-success/20 dark:bg-success/10 text-success"
+							<div v-if="searchData.Chapters.length > 0">
+								<div class="mb-2 font-medium">Chapters</div>
+								<div class="mb-5" v-for="chapter in searchData.Chapters" :key="chapter.id">
+									<a
+										:href="`/chapters/${chapter.id}`"
+										class="flex items-center mt-2"
 									>
-										<Lucide icon="Inbox" class="w-4 h-4" />
-									</div>
-									<div class="ml-3">Mail Settings</div>
-								</a>
-								<a href="" class="flex items-center mt-2">
+										<div class="w-8 h-8 image-fit" v-if="chapter.heraldry">
+											<img
+												alt="chapter.name"
+												class="rounded-full"
+												:src="chapter.heraldry"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-pending/20 dark:bg-pending/10 text-dark"
+											v-else
+										>
+											<Lucide icon="Home" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ chapter.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ chapter.realm.name }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Events.length > 0">
+								<div class="mb-2 font-medium">Events</div>
+								<div class="mb-5" v-for="event in searchData.Events" :key="event.id">
+									<a
+										:href="`/events/${event.id}`"
+										class="flex items-center mt-2"
+									>
+										<div class="w-8 h-8 image-fit" v-if="event.image">
+											<img
+												alt="event.name"
+												class="rounded-full"
+												:src="event.image"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-dark dark:bg-dark text-warning"
+											v-else
+										>
+											<Lucide icon="Calendar" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ event.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ dayjs(event.event_started_at).format('MMM DD, YYYY') }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Personas.length > 0">
+								<div class="mb-2 font-medium">Personas</div>
+								<div class="mb-5" v-for="persona in searchData.Personas" :key="persona.id">
+									<a
+										:href="`/personas/${persona.id}`"
+										class="flex items-center mt-2"
+									>
+										<div class="w-8 h-8 image-fit" v-if="persona.heraldry || persona.image">
+											<img
+												alt="persona.name"
+												class="rounded-full"
+												:src="persona.heraldry ? persona.heraldry : persona.image"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-success/20 dark:bg-success/10 text-dark"
+											v-else
+										>
+											<Lucide icon="User" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ persona.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ persona.chapter_full_abbreviation }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Realms.length > 0">
+								<div class="mb-2 font-medium">Realms</div>
+								<div class="mb-5" v-for="realm in searchData.Realms" :key="realm.id">
+									<a
+										:href="`/realms/` + realm.id"
+										class="flex items-center mt-2"
+									>
+										<div class="w-8 h-8 image-fit" v-if="realm.heraldry">
+											<img
+												alt="realm.name"
+												class="rounded-full"
+												:src="realm.heraldry"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-warning/20 dark:bg-warning/10 text-dark"
+											v-else
+										>
+											<Lucide icon="Shield" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ realm.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ realm.abbreviation }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Units.length > 0">
+								<div class="mb-2 font-medium">Units</div>
+								<div class="mb-5" v-for="unit in searchData.Units" :key="unit.id">
+									<a
+										:href="`/units/${unit.id}`"
+										class="flex items-center mt-2"
+									>
+										<div class="w-8 h-8 image-fit" v-if="unit.heraldry">
+											<img
+												alt="unit.name"
+												class="rounded-full"
+												:src="unit.heraldry"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-danger/20 dark:bg-danger/10 text-dark"
+											v-else
+										>
+											<Lucide icon="Link" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ unit.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ unit.type }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Users.length > 0">
+								<div class="mb-2 font-medium">Users</div>
+								<div class="mb-5" v-for="user in searchData.Users" :key="user.id">
+									<a
+										:href="`/users/${user.id}`"
+										class="flex items-center mt-2"
+									>
 									<div
-										class="flex items-center justify-center w-8 h-8 rounded-full bg-pending/10 text-pending"
+										class="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 text-dark"
 									>
 										<Lucide icon="Users" class="w-4 h-4" />
 									</div>
-									<div class="ml-3">Users & Permissions</div>
-								</a>
-								<a href="" class="flex items-center mt-2">
-									<div
-										class="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 text-primary/80"
-									>
-										<Lucide icon="CreditCard" class="w-4 h-4" />
-									</div>
-									<div class="ml-3">Transactions Report</div>
-								</a>
-							</div>
-							<div class="mb-2 font-medium">Users</div>
-							<div class="mb-5">
-								<a
-									v-for="(faker, fakerKey) in _.take(fakerData, 4)"
-									:key="fakerKey"
-									href=""
-									class="flex items-center mt-2"
-								>
-									<div class="w-8 h-8 image-fit">
-										<img
-											alt="Midone Tailwind HTML Admin Template"
-											class="rounded-full"
-											:src="faker.photos[0]"
-										/>
-									</div>
-									<div class="ml-3">{{ faker.users[0].name }}</div>
-									<div
-										class="w-48 ml-auto text-xs text-right truncate text-slate-500"
-									>
-										{{ faker.users[0].email }}
-									</div>
-								</a>
-							</div>
-							<div class="mb-2 font-medium">Products</div>
-							<a
-								v-for="(faker, fakerKey) in _.take(fakerData, 4)"
-								:key="fakerKey"
-								href=""
-								class="flex items-center mt-2"
-							>
-								<div class="w-8 h-8 image-fit">
-									<img
-										alt="Midone Tailwind HTML Admin Template"
-										class="rounded-full"
-										:src="faker.images[0]"
-									/>
+										<div class="ml-3">{{ user.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ user.email }}
+										</div>
+									</a>
 								</div>
-								<div class="ml-3">{{ faker.products[0].name }}</div>
-								<div
-									class="w-48 ml-auto text-xs text-right truncate text-slate-500"
-								>
-									{{ faker.products[0].category }}
-								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 				</TransitionRoot>

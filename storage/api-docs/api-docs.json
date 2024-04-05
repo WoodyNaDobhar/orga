@@ -3126,6 +3126,122 @@
                 }
             }
         },
+        "/search": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Search common predetermined models for keywords.  The models that are searched are: Chapter, Event, Persona, Realm, User, Unit.",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+                "operationId": "fa25275d3d9ef431183a36c42b83f752",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/search"
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "Chapters": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/ChapterSimple"
+                                                    }
+                                                },
+                                                "Events": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EventSimple"
+                                                    }
+                                                },
+                                                "Personas": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PersonaSimple"
+                                                    }
+                                                },
+                                                "Realms": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/RealmSimple"
+                                                    }
+                                                },
+                                                "Users": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/UserSimple"
+                                                    }
+                                                },
+                                                "Units": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/UnitSimple"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Search complete."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/chapters": {
             "get": {
                 "tags": [
@@ -21318,6 +21434,14 @@
                         "readOnly": false,
                         "nullable": false
                     },
+                    "full_abbreviation": {
+                        "description": "A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+                        "type": "string",
+                        "format": "uppercase",
+                        "maxLength": 7,
+                        "readOnly": true,
+                        "nullable": false
+                    },
                     "heraldry": {
                         "description": "An internal link to an image of the Chapter heraldry, if any.",
                         "type": "string",
@@ -21559,6 +21683,14 @@
                         "readOnly": false,
                         "nullable": false
                     },
+                    "full_abbreviation": {
+                        "description": "A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+                        "type": "string",
+                        "format": "uppercase",
+                        "maxLength": 7,
+                        "readOnly": true,
+                        "nullable": false
+                    },
                     "heraldry": {
                         "description": "An internal link to an image of the Chapter heraldry, if any.",
                         "type": "string",
@@ -21676,6 +21808,14 @@
                         "format": "uppercase",
                         "maxLength": 3,
                         "readOnly": false,
+                        "nullable": false
+                    },
+                    "full_abbreviation": {
+                        "description": "A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+                        "type": "string",
+                        "format": "uppercase",
+                        "maxLength": 7,
+                        "readOnly": true,
                         "nullable": false
                     },
                     "heraldry": {
@@ -26136,6 +26276,14 @@
                         "example": "2020-12-30",
                         "nullable": true
                     },
+                    "chapter_full_abbreviation": {
+                        "description": "A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+                        "type": "string",
+                        "format": "uppercase",
+                        "maxLength": 7,
+                        "readOnly": true,
+                        "nullable": false
+                    },
                     "created_by": {
                         "description": "The User that created this record.",
                         "type": "integer",
@@ -26468,6 +26616,14 @@
                         "example": "2020-12-30",
                         "nullable": true
                     },
+                    "chapter_full_abbreviation": {
+                        "description": "A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+                        "type": "string",
+                        "format": "uppercase",
+                        "maxLength": 7,
+                        "readOnly": true,
+                        "nullable": false
+                    },
                     "created_by": {
                         "description": "The User that created this record.",
                         "type": "integer",
@@ -26613,6 +26769,14 @@
                         "readOnly": false,
                         "example": "2020-12-30",
                         "nullable": true
+                    },
+                    "chapter_full_abbreviation": {
+                        "description": "A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+                        "type": "string",
+                        "format": "uppercase",
+                        "maxLength": 7,
+                        "readOnly": true,
+                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -31941,6 +32105,27 @@
                                     "description": "User device information.",
                                     "type": "string",
                                     "example": "Bob'sS22"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "search": {
+                "description": "Search Request.",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "search"
+                            ],
+                            "properties": {
+                                "search": {
+                                    "description": "Term being searched.",
+                                    "type": "string",
+                                    "maxLength": 191
                                 }
                             },
                             "type": "object"

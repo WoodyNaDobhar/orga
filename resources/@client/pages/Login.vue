@@ -23,7 +23,7 @@
 	const deviceName = ref(navigator.userAgent)
 	const state = useStateStore()
 	const auth = useAuthStore()
-	const gRecaptchaResponse = null
+	var gRecaptchaResponse = ref()
 	const formData = reactive({
 		email: "",
 		device_name: deviceName,

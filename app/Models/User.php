@@ -7,12 +7,14 @@ use App\Traits\ProtectFieldsTrait;
 use GeneaLabs\LaravelPivotEvents\Traits\PivotEventTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 use Wildside\Userstamps\Userstamps;
@@ -464,6 +466,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	use HasRoles;
 	use HasApiTokens;
 	use \OwenIt\Auditing\Auditable;
+	use Searchable;
 
 	public $table = 'users';
 	public $timestamps = true;
@@ -490,6 +493,15 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 		'api_token' => 'string',
 		'is_restricted' => 'boolean'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'email' => $this->email
+		];
+	}
 	
 	public static $createRules = [
 		'email' => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/|max:191',
@@ -547,6 +559,17 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	{
 		$url = config('app.url').'/reset/'.$token;
 		$this->notify(new ResetPasswordNotification($url));
+	}
+	
+	protected $appends = [
+		'name'
+	];
+	
+	protected function name(): Attribute
+	{
+		return Attribute::make(
+			get: fn () => $this->persona->name ? $this->persona->name : 'Unknown',
+		);
 	}
 	
 	/**
