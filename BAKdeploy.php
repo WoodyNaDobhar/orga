@@ -16,16 +16,16 @@ set('rsync_src', function () {
 // Configuring the rsync exclusions.
 // You'll want to exclude anything that you don't want on the production server.
 add('rsync', [
-		'exclude' => [
-				'.git',
-				'/.env',
-				'/storage/',
-				'/vendor/',
-				'/node_modules/',
-				'.github',
-				'deploy.php',
-				'/etc/'
-		],
+	'exclude' => [
+		'.git',
+		'/.env',
+		'/storage/',
+		'/vendor/',
+		'/node_modules/',
+		'.github',
+		'deploy.php',
+		'/etc/'
+	],
 ]);
 
 // Set up a deployer task to copy secrets to the server.
@@ -36,8 +36,13 @@ task('deploy:secrets', function () {
 });
 
 //generate swagger
-	task('generate-swagger', function () {
-		run('{{bin/php}} {{release_path}}/artisan l5-swagger:generate');
+task('generate-swagger', function () {
+	run('{{bin/php}} {{release_path}}/artisan l5-swagger:generate');
+});
+	
+//spin up scout
+task('sync-scout', function () {
+	run('{{bin/php}} {{release_path}}/artisan scout:sync-index-settings');
 });
 
 // Hosts
@@ -55,3 +60,4 @@ host('dev')
 // Hooks
 after('deploy:failed', 'deploy:unlock');
 after('deploy', 'generate-swagger');
+after('deploy', 'sync-scout');

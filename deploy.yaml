@@ -1,0 +1,41 @@
+import: 
+  - recipe/laravel.php
+  - contrib/php-fpm.php
+  - contrib/npm.php
+
+config:
+  application: 'orga'
+  repository: 'https://github.com/WoodyNaDobhar/orga.git'
+  php_fpm_version: '8.0'
+
+hosts:
+  dev:
+    remote_user: orkorg
+    deploy_path: '~/www/dev.ork4.org'
+    hostname: 'chi201.greengeeks.net'
+    stage: 'development'
+    branch: 'development'
+
+tasks:
+  deploy:
+    - artisan:down
+    - deploy:prepare
+    - deploy:vendors
+    - artisan:storage:link
+    - artisan:view:cache
+    - artisan:config:cache
+    - artisan:migrate
+    - npm:install
+    - npm:run:prod
+    - deploy:publish
+    - artisan:up
+    - php-fpm:reload
+  build:
+    - run: 'cd {{release_path}} && npm run prod'
+
+after:
+  deploy:failed: deploy:unlock
+  generate-swagger: 
+    - run: '{{bin/php}} {{release_path}}/artisan l5-swagger:generate'
+  sync-scout: 
+    - run: '{{bin/php}} {{release_path}}/artisan scout:sync-index-settings'
