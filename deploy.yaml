@@ -6,7 +6,6 @@ import:
 config:
   application: 'orga'
   repository: 'https://github.com/WoodyNaDobhar/orga.git'
-  php_fpm_version: '8.0'
 
 hosts:
   dev:
@@ -29,7 +28,6 @@ tasks:
     - artisan:migrate
     - deploy:publish
     - artisan:up
-    - php-fpm:reload
   generate-swagger: 
     - run: '{{bin/php}} {{release_path}}/artisan l5-swagger:generate'
   sync-scout: 
