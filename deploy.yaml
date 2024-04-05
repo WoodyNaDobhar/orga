@@ -26,7 +26,7 @@ tasks:
     - artisan:config:cache
     - artisan:migrate
     - npm:install
-    - npm:run:prod
+    - build
     - deploy:publish
     - artisan:up
     - php-fpm:reload
