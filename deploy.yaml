@@ -16,7 +16,6 @@ hosts:
     stage: 'development'
     branch: 'development'
     writable_mode: 'chmod'
-    http_user: 'www-data'
 
 tasks:
   deploy:
