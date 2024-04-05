@@ -27,13 +27,9 @@ tasks:
     - artisan:view:cache
     - artisan:config:cache
     - artisan:migrate
-    - npm:install
-    - build
     - deploy:publish
     - artisan:up
     - php-fpm:reload
-  build:
-    - run: 'cd {{release_path}} && npm run prod'
   generate-swagger: 
     - run: '{{bin/php}} {{release_path}}/artisan l5-swagger:generate'
   sync-scout: 
