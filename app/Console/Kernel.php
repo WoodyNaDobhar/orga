@@ -25,8 +25,16 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function commands()
 	{
-		$this->load(__DIR__.'/Commands');
-
+		$paths = [
+			__DIR__ . '/Commands'
+		];
+		
+		if(app()->environment('local')) {
+			$paths[] = __DIR__ . '/Local';
+		}
+		
+		$this->load($paths);
+		
 		require base_path('routes/console.php');
 	}
 }
