@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Local;
+namespace App\Console\Local;
 
 use InfyOm\Generator\Commands\BaseCommand;
 use Illuminate\Support\Composer;
