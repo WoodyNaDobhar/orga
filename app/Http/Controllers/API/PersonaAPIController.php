@@ -50,6 +50,7 @@ class PersonaAPIController extends AppBaseController
 			crats (Crat) (HasMany): Crat positions held by the Persona.<br>
 			dues (Due) (HasMany): Dues paid by the Persona.<br>
 			events (Event) (MorphMany): Events sponsored by the Persona.<br>
+	        honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
 			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
 			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
 			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
@@ -365,6 +366,7 @@ class PersonaAPIController extends AppBaseController
 	        crats (Crat) (HasMany): Crat positions held by the Persona.<br>
 	        dues (Due) (HasMany): Dues paid by the Persona.<br>
 	        events (Event) (MorphMany): Events sponsored by the Persona.<br>
+	        honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
 	        issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
 	        issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
 	        issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>

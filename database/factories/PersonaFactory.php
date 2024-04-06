@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Chapter;
 use App\Models\User;
 use App\Models\Pronoun;
+use App\Models\Issuance;
 
 class PersonaFactory extends Factory
 {
@@ -30,10 +31,15 @@ class PersonaFactory extends Factory
         if (!$user) {
             $user = User::factory()->create();
         }
+        
+        $chapters = Chapter::all()->pluck('id');
+        $honorifics = Issuance::all()->pluck('id');
+        $pronouns = Pronoun::all()->pluck('id');
 
         return [
-            'chapter_id' => $this->faker->word,
-            'pronoun_id' => $this->faker->word,
+        	'chapter_id' => $this->faker->randomElement($chapters),
+        	'honorific_id' => $this->faker->randomElement($honorifics),
+        	'pronoun_id' => $this->faker->randomElement($pronouns),
             'mundane' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'name' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'heraldry' => $this->faker->text($this->faker->numberBetween(5, 191)),

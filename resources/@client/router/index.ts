@@ -19,6 +19,11 @@ const router = createRouter({
 					component: () => import("../pages/Legal.vue"),
 				},
 				{
+					path: "profile",
+					name: "profile",
+					component: () => import("../pages/Profile.vue"),
+				},
+				{
 					path: "dashboard-overview-1",
 					name: "dashboard-overview-1",
 					component: () => import("../pages/DashboardOverview1.vue"),

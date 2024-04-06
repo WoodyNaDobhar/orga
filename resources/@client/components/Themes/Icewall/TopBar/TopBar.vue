@@ -5,7 +5,6 @@
 	import Breadcrumb from "@/components/Base/Breadcrumb";
 	import { FormInput } from "@/components/Base/Form";
 	import { Menu, Popover } from "@/components/Base/Headless";
-	import fakerData from "@/utils/faker";
 	import _ from "lodash";
 	import { TransitionRoot } from "@headlessui/vue";
 	import { useAuthStore } from '@/stores/auth';
@@ -110,7 +109,11 @@
 				class="h-full md:ml-10 md:pl-10 md:border-l border-white/[0.08] mr-auto -intro-x"
 			>
 				<a :href="'https://www.amtgard.com'" target="_blank">Amtgard</a>
-					<Breadcrumb.Link to="/" :active="true"> ORK4 Dashboard </Breadcrumb.Link>
+				<template v-for="(crumb, index) in state.breadcrumb.crumbs" :key="index">
+					<Breadcrumb.Link :to="crumb.link" :active="index === state.breadcrumb.depth">
+						&nbsp;>&nbsp;{{ crumb.label }}
+					</Breadcrumb.Link>
+				</template>
 			</Breadcrumb>
 			<!-- END: Breadcrumb -->
 			<!-- BEGIN: Search -->
@@ -365,9 +368,9 @@
 						>
 							<div class="relative flex-none w-12 h-12 mr-1 image-fit">
 								<img
-									:alt="user.persona.name"
+									:alt="'Chibasama Ryúichiro'"
 									class="rounded-full"
-									:src="user.persona.image"
+									:src="'https://ork.amtgard.com/assets/players/007947.jpg'"
 								/>
 								<div
 									class="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"
@@ -376,7 +379,7 @@
 							<div class="ml-2 overflow-hidden">
 								<div class="flex items-center">
 									<a href="" class="mr-5 font-medium truncate">
-										{{ user.persona.name }}
+										Chibasama Ryúichiro
 									</a>
 									<div class="ml-auto text-xs text-slate-400 whitespace-nowrap">
 										3/30/24 9:11am
@@ -410,11 +413,8 @@
 							</div>
 						</Menu.Header>
 						<Menu.Divider class="bg-white/[0.08]" />
-						<Menu.Item class="hover:bg-white/5">
+						<Menu.Item @click="router.push('/profile')" class="hover:bg-white/5">
 							<Lucide icon="User" class="w-4 h-4 mr-2" /> Profile
-						</Menu.Item>
-						<Menu.Item class="hover:bg-white/5">
-							<Lucide icon="Edit" class="w-4 h-4 mr-2" /> Add Account
 						</Menu.Item>
 						<Menu.Item class="hover:bg-white/5">
 							<Lucide icon="Lock" class="w-4 h-4 mr-2" /> Reset Password

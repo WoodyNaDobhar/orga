@@ -21,6 +21,7 @@ use Laravel\Scout\Searchable;
  * crats (Crat) (HasMany): Crat positions held by the Persona.
  * dues (Due) (HasMany): Dues paid by the Persona.
  * events (Event) (MorphMany): Events sponsored by the Persona.
+ * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
  * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
@@ -62,6 +63,15 @@ use Laravel\Scout\Searchable;
  *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the pronouns associated with this Persona, if known.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *		@OA\Property(
+ *			property="honorific_id",
+ *			description="The ID of the Title Issuance the Persona considers primary of the Titles they have.",
  *			readOnly=false,
  *			nullable=true,
  *			type="integer",
@@ -285,6 +295,13 @@ use Laravel\Scout\Searchable;
  *			readOnly=true
  *		),
  *		@OA\Property(
+ *			property="honorific",
+ *			type="object",
+ *			description="Attachable ID of the Title Issuance the Persona considers primary of the Titles they have.",
+ *			ref="#/components/schemas/IssuanceSimple",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
  *			property="issuanceGivens",
  *			description="Attachable & filterable array of Issuances made by the Persona, typically retainer and squire Titles.",
  *			type="array",
@@ -497,6 +514,15 @@ use Laravel\Scout\Searchable;
  *			example=42
  *		),
  *		@OA\Property(
+ *			property="honorific_id",
+ *			description="The ID of the Title Issuance the Persona considers primary of the Titles they have.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the pronouns associated with this Persona, if known.",
  *			readOnly=false,
@@ -664,6 +690,15 @@ use Laravel\Scout\Searchable;
  *			example=42
  *		),
  *		@OA\Property(
+ *			property="honorific_id",
+ *			description="The ID of the Title Issuance the Persona considers primary of the Titles they have.",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="integer",
+ *			format="int32",
+ *			example=42
+ *		),
+ *		@OA\Property(
  *			property="pronoun_id",
  *			description="The ID of the pronouns associated with this Persona, if known.",
  *			readOnly=false,
@@ -788,28 +823,31 @@ class Persona extends BaseModel
 	protected $email = null;
 
 	public $fillable = [
-		  'chapter_id',
-		  'user_id',
-		  'pronoun_id',
-		  'mundane',
-		  'name',
-		  'heraldry',
-		  'image',
-		  'is_active',
-		  'reeve_qualified_expires_at',
-		  'corpora_qualified_expires_at',
-		  'joined_chapter_at'
+		'chapter_id',
+		'pronoun_id',
+		'honorific_id',
+		'mundane',
+		'name',
+		'heraldry',
+		'image',
+		'is_active',
+		'reeve_qualified_expires_at',
+		'corpora_qualified_expires_at',
+		'joined_chapter_at'
 	];
 
 	protected $casts = [
-		  'mundane' => 'string',
-		  'name' => 'string',
-		  'heraldry' => 'string',
-		  'image' => 'string',
-		  'is_active' => 'boolean',
-		  'reeve_qualified_expires_at' => 'date',
-		  'corpora_qualified_expires_at' => 'date',
-		  'joined_chapter_at' => 'date'
+		'chapter_id' => 'integer',
+		'pronoun_id' => 'integer',
+		'honorific_id' => 'integer',
+		'mundane' => 'string',
+		'name' => 'string',
+		'heraldry' => 'string',
+		'image' => 'string',
+		'is_active' => 'boolean',
+		'reeve_qualified_expires_at' => 'date',
+		'corpora_qualified_expires_at' => 'date',
+		'joined_chapter_at' => 'date'
 	];
 	
 	public function toSearchableArray(): array
@@ -824,6 +862,7 @@ class Persona extends BaseModel
 	public static array $rules = [
 		'chapter_id' => 'required|exists:chapters,id',
 		'pronoun_id' => 'nullable|exists:pronouns,id',
+		'honorific_id' => 'nullable|exists:issuances,id',
 		'mundane' => 'nullable|string|max:191',
 		'name' => 'required|string|max:191',
 		'heraldry' => 'nullable|string|max:191',
@@ -841,6 +880,7 @@ class Persona extends BaseModel
 		'crats' => 'HasMany',
 		'dues' => 'HasMany',
 		'events' => 'MorphMany',
+		'honorific' => 'BelongsTo',
 		'issuanceGivens' => 'MorphMany',
 		'issuanceRevokeds' => 'HasMany',
 		'issuanceSigneds' => 'HasMany',
@@ -924,6 +964,11 @@ class Persona extends BaseModel
 	public function events(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Event::class, 'eventable');
+	}
+	
+	public function honorific(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Issuance::class, 'honorific_id');
 	}
 	
 	public function issuanceGivens(): \Illuminate\Database\Eloquent\Relations\MorphMany

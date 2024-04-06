@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
@@ -112,6 +113,16 @@ use Wildside\Userstamps\Userstamps;
  *			type="integer",
  *			format="int32",
  *			example=42
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="Computed Issuance name",
+ *			readOnly=false,
+ *			nullable=true,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			maxLength=64,
+ *			example="Sir"
  *		),
  *		@OA\Property(
  *			property="custom_name",
@@ -788,6 +799,17 @@ class Issuance extends BaseModel
 		'created_by' => 'required',
 		'revocation' => 'nullable|string|max:50'
 	];
+	
+	protected $appends = [
+		'name'
+	];
+	
+	protected function name(): Attribute
+	{
+		return Attribute::make(
+			get: fn () => $this->custom_name ? $this->custom_name : (str_contains($this->issuable->name, '|') ? explode('|', $this->issuable->name)[0] : $this->issuable->name),
+		);
+	}
 	
 	public $relationships = [
 		'issuable' => 'MorphTo',

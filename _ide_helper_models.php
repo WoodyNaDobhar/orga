@@ -1581,6 +1581,15 @@ namespace App\Models{
  * 		maxLength=3,
  * 	),
  * 	@OA\Property(
+ * 		property="full_abbreviation",
+ * 		description="A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		maxLength=7,
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Chapter heraldry, if any.",
  * 		readOnly=false,
@@ -1891,6 +1900,15 @@ namespace App\Models{
  * 		maxLength=3,
  * 	),
  * 	@OA\Property(
+ * 		property="full_abbreviation",
+ * 		description="A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		maxLength=7,
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Chapter heraldry, if any.",
  * 		readOnly=false,
@@ -2019,6 +2037,15 @@ namespace App\Models{
  * 		maxLength=3,
  * 	),
  * 	@OA\Property(
+ * 		property="full_abbreviation",
+ * 		description="A short abbreviation of the Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		maxLength=7,
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Chapter heraldry, if any.",
  * 		readOnly=false,
@@ -2055,7 +2082,7 @@ namespace App\Models{
  * @property int $location_id The ID of the Location that best describes where the Chapter is
  * @property string $name The Chapter name
  * @property string $abbreviation A short abbreviation of the Chapter name, unique for the Realm
- * @property string|null $heraldry An internal link to an image of the Chapter heraldry, if any
+ * @property-read string|null $heraldry An internal link to an image of the Chapter heraldry, if any
  * @property bool $is_active Is (default true) the Chapter still active?
  * @property int $created_by
  * @property \Illuminate\Support\Carbon $created_at
@@ -2077,6 +2104,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
  * @property-read int|null $events_count
+ * @property-read mixed $full_abbreviation
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuances
  * @property-read int|null $issuances_count
  * @property-read \App\Models\Location $location
@@ -3842,7 +3870,7 @@ namespace App\Models{
  * @property int|null $location_id ID of the Location the Event takes place at, if any
  * @property string $name The name of the Event
  * @property string|null $description A description of the Event, if any
- * @property string|null $image A promotional image for the Event, if any
+ * @property-read string|null $image A promotional image for the Event, if any
  * @property bool $is_active Is this (default true) something people should be seeing yet?
  * @property bool $is_demo Is this (default false) a demo?
  * @property \Illuminate\Support\Carbon $event_started_at When the Event begins
@@ -7587,6 +7615,7 @@ namespace App\Models{
  * crats (Crat) (HasMany): Crat positions held by the Persona.
  * dues (Due) (HasMany): Dues paid by the Persona.
  * events (Event) (MorphMany): Events sponsored by the Persona.
+ * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
  * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
@@ -7628,6 +7657,15 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="pronoun_id",
  * 		description="The ID of the pronouns associated with this Persona, if known.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="honorific_id",
+ * 		description="The ID of the Title Issuance the Persona considers primary of the Titles they have.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="integer",
@@ -7711,6 +7749,15 @@ namespace App\Models{
  * 		type="string",
  * 		format="date",
  * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="chapter_full_abbreviation",
+ * 		description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		maxLength=7,
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -7839,6 +7886,13 @@ namespace App\Models{
  * 			type="object",
  * 			ref="#/components/schemas/EventSimple"
  * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="honorific",
+ * 		type="object",
+ * 		description="Attachable ID of the Title Issuance the Persona considers primary of the Titles they have.",
+ * 		ref="#/components/schemas/IssuanceSimple",
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8054,6 +8108,15 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="honorific_id",
+ * 		description="The ID of the Title Issuance the Persona considers primary of the Titles they have.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="pronoun_id",
  * 		description="The ID of the pronouns associated with this Persona, if known.",
  * 		readOnly=false,
@@ -8139,6 +8202,15 @@ namespace App\Models{
  * 		type="string",
  * 		format="date",
  * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="chapter_full_abbreviation",
+ * 		description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		maxLength=7,
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -8212,6 +8284,15 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="honorific_id",
+ * 		description="The ID of the Title Issuance the Persona considers primary of the Titles they have.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="pronoun_id",
  * 		description="The ID of the pronouns associated with this Persona, if known.",
  * 		readOnly=false,
@@ -8297,6 +8378,15 @@ namespace App\Models{
  * 		type="string",
  * 		format="date",
  * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="chapter_full_abbreviation",
+ * 		description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		maxLength=7,
  * 	)
  * )
  * @OA\RequestBody (
@@ -8311,9 +8401,10 @@ namespace App\Models{
  * @property int $id Model ID
  * @property int $chapter_id The ID of the Chapter the Persona is Waivered at
  * @property int|null $pronoun_id The ID of the pronouns associated with this Persona, if known
+ * @property int|null $honorific_id The ID of the Title Issuance the Persona considers primary of the Titles they have
  * @property string|null $mundane What the Persona typically enters into the Mundane field of the sign-in
  * @property string $name The Persona name, without titles or honors, but otherwise in full
- * @property string|null $heraldry An internal link to an image of the Persona heraldry
+ * @property-read string|null $heraldry An internal link to an image of the Persona heraldry
  * @property-read string|null $image An internal link to an image of the Persona
  * @property bool $is_active Is (default true) the Persona still active?
  * @property \Illuminate\Support\Carbon|null $reeve_qualified_expires_at If they are Reeve Qualified, when it expires
@@ -8332,6 +8423,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $awards
  * @property-read int|null $awards_count
  * @property-read \App\Models\Chapter $chapter
+ * @property-read mixed $chapter_full_abbreviation
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Crat> $crats
  * @property-read int|null $crats_count
  * @property-read \App\Models\User $createdBy
@@ -8343,6 +8435,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
  * @property-read int|null $events_count
+ * @property-read \App\Models\Issuance|null $honorific
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceGivens
  * @property-read int|null $issuance_givens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceRevokeds
@@ -8392,6 +8485,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereHeraldry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereHonorificId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereIsActive($value)
@@ -9521,7 +9615,7 @@ namespace App\Models{
  * @property string $name The label for the Realm
  * @property string $abbreviation A simple, unique, usually two letter abbreviation commonly used for the Realm
  * @property string $color The hexidecimal code (default FACADE) for the color used for the Realm on various UIs
- * @property string|null $heraldry An internal link to the Realm heraldry image
+ * @property-read string|null $heraldry An internal link to the Realm heraldry image
  * @property bool $is_active Is (default true) the Realm active?
  * @property int|null $credit_minimum Realm Credit Minimum setting, if any
  * @property int|null $credit_maximum Realm Credit Maximum setting, if any
@@ -13538,7 +13632,7 @@ namespace App\Models{
  * @property int $id Model ID
  * @property string $type Unit type; Company, Event, or Household
  * @property string $name Name of the Unit
- * @property string|null $heraldry An internal link to an image of the Unit heraldry, if any
+ * @property-read string|null $heraldry An internal link to an image of the Unit heraldry, if any
  * @property string|null $description A public facing description of the Unit
  * @property string|null $history For use as the Unit requires, history of the Unit, if any
  * @property int $created_by
@@ -14135,6 +14229,7 @@ namespace App\Models{
  * @property-read int|null $members_deleted_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Member> $membersUpdated
  * @property-read int|null $members_updated_count
+ * @property-read mixed $name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Officer> $officersCreated
