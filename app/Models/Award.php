@@ -13,6 +13,7 @@ use Wildside\Userstamps\Userstamps;
  *		description="Awards available in a given (or all) Realm(s), Chapter, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.
  * issuances (Issuance) (MorphMany): Issuances of this Award.
+ * personas (Persona) (MorphMany): Personas that have received this Award.
  * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -346,21 +347,21 @@ class Award extends BaseModel
 	protected $protectedFields = ['awarder_type', 'awarder_id'];
 
 	public $fillable = [
-		  'awarder_type',
-		  'awarder_id',
-		  'name',
-		  'is_ladder'
+		'awarder_type',
+		'awarder_id',
+		'name',
+		'is_ladder'
 	];
 
 	protected $casts = [
 		'awarder_type' => 'string',
 		'awarder_id' => 'integer',
-		  'name' => 'string',
-		  'is_ladder' => 'boolean'
+		'name' => 'string',
+		'is_ladder' => 'boolean'
 	];
 
 	public static array $rules = [
-		  'awarder_type' => 'required|string|in:Realm,Chapter,Unit',
+		'awarder_type' => 'required|string|in:Realm,Chapter,Unit',
 		'awarder_id' => 'nullable',
 		'name' => 'required|string|max:100',
 		'is_ladder' => 'required|boolean'
@@ -369,6 +370,7 @@ class Award extends BaseModel
 	public $relationships = [
 		'awarder' => 'MorphTo',
 		'issuances' => 'MorphMany',
+		'personas' => 'MorphMany',
 		'recommendations' => 'MorphMany'
 	];
 	
@@ -385,6 +387,11 @@ class Award extends BaseModel
 		return $this->morphMany(Issuance::class, 'issuable');
 	}
 	
+	public function personas(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Persona::class, 'issuable', 'issuable_type', 'issuable_id', 'id');
+	}
+	
 	public function recommendations(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Recommendation::class, 'recommendable');
@@ -392,16 +399,16 @@ class Award extends BaseModel
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
 
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
 
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }

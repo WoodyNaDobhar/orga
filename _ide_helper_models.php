@@ -1123,6 +1123,7 @@ namespace App\Models{
  * 	description="Awards available in a given (or all) Realm(s), Chapter, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.
  * issuances (Issuance) (MorphMany): Issuances of this Award.
+ * personas (Persona) (MorphMany): Personas that have received this Award.
  * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -1461,6 +1462,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuances
  * @property-read int|null $issuances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Persona> $personas
+ * @property-read int|null $personas_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recommendation> $recommendations
  * @property-read int|null $recommendations_count
  * @property-read \App\Models\User|null $updatedBy
@@ -4426,6 +4429,16 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="name",
+ * 		description="Computed Issuance name",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		maxLength=64,
+ * 		example="Sir"
+ * 	),
+ * 	@OA\Property(
  * 		property="custom_name",
  * 		description="Where label options are avaiable, or customization allowed, the chosen label, else null",
  * 		readOnly=false,
@@ -5032,25 +5045,25 @@ namespace App\Models{
  * 		@OA\Schema(ref="#/components/schemas/IssuanceSimple")
  * 	)
  * )
- * @property int $id
- * @property string $issuable_type
- * @property int $issuable_id
- * @property string|null $whereable_type
- * @property int|null $whereable_id
- * @property string $authority_type
- * @property int $authority_id
- * @property string $recipient_type
- * @property int $recipient_id
- * @property int|null $issuer_id
- * @property string|null $custom_name
- * @property int|null $rank
- * @property \Illuminate\Support\Carbon $issued_at
- * @property string|null $reason
- * @property string|null $image
- * @property int|null $revoked_by
- * @property \Illuminate\Support\Carbon|null $revoked_at
+ * @property int $id Model ID
+ * @property string $issuable_type The Issuance type; Award or Title
+ * @property int $issuable_id The ID of the Issuance
+ * @property string|null $whereable_type Where it was Issued, if known; Event, Location, or Meetup
+ * @property int|null $whereable_id The ID of where it was Issued
+ * @property string $issuer_type Issuing authority; Chapter, Persona, Realm, or Unit
+ * @property int $issuer_id The ID of the Issuing authority
+ * @property string $recipient_type Who recieved the Issuance; Persona or Unit
+ * @property int $recipient_id The ID of the Issuance recipient
+ * @property int|null $signator_id Persona signing the Issuance, if any
+ * @property string|null $custom_name Where label options are avaiable, or customization allowed, the chosen label, else null
+ * @property int|null $rank For laddered Issuances, the order number, else null
+ * @property \Illuminate\Support\Carbon $issued_at When the Issuance was made or is to be made public (if in the future)
+ * @property string|null $reason A historical record of what the Issuance was for
+ * @property string|null $image An internal link to an image of the Issuance phyrep, if any
+ * @property int|null $revoked_by ID of the Persona that revoked the Issuance, if any
+ * @property \Illuminate\Support\Carbon|null $revoked_at Date the revocation is effective, if any
+ * @property string|null $revocation Cause for the revocation, if any
  * @property int $created_by
- * @property string|null $revocation
  * @property \Illuminate\Support\Carbon $created_at
  * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -5065,6 +5078,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $issuable
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $issuer
+ * @property-read mixed $name
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $recipient
  * @property-read \App\Models\Persona|null $revokedBy
  * @property-read \App\Models\Persona|null $signator
@@ -5075,8 +5089,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance query()
- * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereAuthorityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereAuthorityType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereCustomName($value)
@@ -5088,6 +5100,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRank($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRecipientId($value)
@@ -5095,6 +5108,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevocation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereSignatorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereWhereableId($value)
@@ -7610,12 +7624,14 @@ namespace App\Models{
  * 	required={"chapter_id","name","is_active"},
  * 	description="Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (HasMany): Attendances for the Persona.
- * awards (Issuance) {MorphMany): Awards received by the Persona.
+ * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.
+ * awards (Award) {hasManyThrough): Awards received by the Persona.
  * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.
  * crats (Crat) (HasMany): Crat positions held by the Persona.
  * dues (Due) (HasMany): Dues paid by the Persona.
  * events (Event) (MorphMany): Events sponsored by the Persona.
  * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
+ * issuances (Issuance) {MorphMany): All Issuances received by the Persona.
  * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
@@ -7628,8 +7644,8 @@ namespace App\Models{
  * splits (Split) (HasMany): Splits this Persona took part in.
  * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.
  * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
- * titles (Issuance) {MorphMany): Titles received by the Persona.
- * titleIssuables (Title) (MorphMany): Titles the Persona can Issue.
+ * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.
+ * titles (Title) {hasManyThrough): Titles received by the Persona.
  * units (Unit) (HasManyThrough): Companies and Households the Persona is in.
  * user (User) (BelongsTo): The User for the Persona.
  * waivers (Waiver) (HasMany): The Waivers for the Persona.
@@ -7838,13 +7854,24 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="awards",
- * 		description="Attachable & filterable array of Issuances received by the Persona.",
+ * 		property="awardIssuances",
+ * 		description="Attachable & filterable array of Award Issuances received by the Persona.",
  * 		type="array",
  * 		@OA\Items(
  * 			title="Issuance",
  * 			type="object",
  * 			ref="#/components/schemas/IssuanceSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="awards",
+ * 		description="Attachable & filterable array of Awards received by the Persona.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Award",
+ * 			type="object",
+ * 			ref="#/components/schemas/AwardSimple"
  * 		),
  * 		readOnly=true
  * 	),
@@ -7893,6 +7920,17 @@ namespace App\Models{
  * 		type="object",
  * 		description="Attachable ID of the Title Issuance the Persona considers primary of the Titles they have.",
  * 		ref="#/components/schemas/IssuanceSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuances",
+ * 		description="Attachable & filterable array of all Issuances received by the Persona.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Issuance",
+ * 			type="object",
+ * 			ref="#/components/schemas/IssuanceSimple"
+ * 		),
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
@@ -8024,7 +8062,7 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="titles",
+ * 		property="titleIssuances",
  * 		description="Attachable & filterable array of Title Issuances received by the Persona.",
  * 		type="array",
  * 		@OA\Items(
@@ -8035,8 +8073,8 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="titleIssuables",
- * 		description="Attachable & filterable array of the Titles the Persona can Issue.",
+ * 		property="titles",
+ * 		description="Attachable & filterable array of Titles received by the Persona.",
  * 		type="array",
  * 		@OA\Items(
  * 			title="Title",
@@ -8420,7 +8458,9 @@ namespace App\Models{
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $awards
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $awardIssuances
+ * @property-read int|null $award_issuances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Award> $awards
  * @property-read int|null $awards_count
  * @property-read \App\Models\Chapter $chapter
  * @property-read mixed $chapter_full_abbreviation
@@ -8442,6 +8482,8 @@ namespace App\Models{
  * @property-read int|null $issuance_revokeds_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceSigneds
  * @property-read int|null $issuance_signeds_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuances
+ * @property-read int|null $issuances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Member> $members
  * @property-read int|null $members_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -8461,9 +8503,9 @@ namespace App\Models{
  * @property-read int|null $suspension_issueds_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Suspension> $suspensions
  * @property-read int|null $suspensions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Title> $titleIssuables
- * @property-read int|null $title_issuables_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $titles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $titleIssuances
+ * @property-read int|null $title_issuances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Title> $titles
  * @property-read int|null $titles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Unit> $units
  * @property-read int|null $units_count
@@ -12034,6 +12076,8 @@ namespace App\Models{
  * 	required={"titleable_type","name","peerage","is_roaming","is_active"},
  * 	description="Titles Issued by the Chapter, Persona, Realm, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * issuances (Issuance) (MorphMany): Issuances of this Title.
+ * personas (Issuance) (MorphMany): Personas that have received this Title.
+ * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.
  * titleable (Chapter, Persona, Realm, or Unit) (MorphTo): Who can issue the Title; Chapter, Persona, Realm, or Unit
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -12457,6 +12501,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuances
  * @property-read int|null $issuances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Persona> $personas
+ * @property-read int|null $personas_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recommendation> $recommendations
  * @property-read int|null $recommendations_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $titleable

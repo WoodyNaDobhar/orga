@@ -5166,7 +5166,6 @@ class ImportOrk3 extends Command
 					}
 					break;
 				case 'Issuances':
-					//TODO: this isn't working, I'm being assigned the wrong titles and awards.  The other data seems to be right.
 					//walker in the middle is a title someplaces, and an award others.  work out where, and what they call it
 					//124 Walker in the Middle
 					// 			138 Master Monster
@@ -5493,7 +5492,7 @@ class ImportOrk3 extends Command
 							}
 							
 							//custom awards/titles gets its own handling
-							if($oldKingdomaward->award_id == 94 || $oldKingdomaward->award_id == 0 || $oldKingdomaward->award_id == 187){
+							if($oldIssuance->award_id == 94 || $oldIssuance->award_id == 0 || $oldIssuance->award_id == 187){
 								if($oldKingdomaward->name === 'Master' || $oldKingdomaward->name === 'Mistress'){
 									$titleName = 'Master';
 								}else if($oldKingdomaward->name === 'Lord' || $oldKingdomaward->name === 'Lady' || $oldKingdomaward->name === 'Noble' || $oldKingdomaward->name === 'Liege'){
@@ -5825,7 +5824,7 @@ class ImportOrk3 extends Command
 									continue;
 								}
 							//awards
-							}else if (in_array($oldKingdomaward->award_id, $oldAwardsCheck)) {
+							}else if (in_array($oldIssuance->award_id, $oldAwardsCheck)) {
 								$issuable_type = 'Award';
 								//make sure the $rid/award exists in $knownAwards
 								$selectedAward = array_search($oldKingdomaward->award_id, array_column($oldAwards, 'award_id'));
@@ -5868,23 +5867,23 @@ class ImportOrk3 extends Command
 								$issuable_id = $transRealmawards[(int)$oldKingdomaward->kingdomaward_id];
 								$rank = $oldIssuance->rank != '' ? $oldIssuance->rank : null;
 							//titles
-							}else if(in_array($oldKingdomaward->award_id, $oldTitles)){
+							}else if(in_array($oldIssuance->award_id, $oldTitles)){
 								$issuable_type = 'Title';
 								$rank = null;
-								if(in_array($oldKingdomaward->award_id, $ropTitles)){
+								if(in_array($oldIssuance->award_id, $ropTitles)){
 									//0 is the oldMid for common titles, $transTitles uses oldMid for the first key
 									while(
 										!array_key_exists(0, $transTitles) ||
-										!array_key_exists($oldKingdomaward->award_id, $transTitles[0])
+										!array_key_exists($oldIssuance->award_id, $transTitles[0])
 									){
-										$this->info('waiting for general title ' . $oldKingdomaward->award_id);
+										$this->info('waiting for general title ' . $oldIssuance->award_id);
 										sleep(5);
 										$transTitles = $this->getTrans('titles');
 									}
 									DB::reconnect("mysqlBak");
-									$issuable_id = $transTitles[0][$oldKingdomaward->award_id];
+									$issuable_id = $transTitles[0][$oldIssuance->award_id];
 									//stuff to handle Pages, At-Arms, Squires, and Apprentices
-									if($oldKingdomaward->award_id == 203 || $oldKingdomaward->award_id == 14 || $oldKingdomaward->award_id == 15 || $oldKingdomaward->award_id == 16){
+									if($oldIssuance->award_id == 203 || $oldIssuance->award_id == 14 || $oldIssuance->award_id == 15 || $oldIssuance->award_id == 16){
 										$authority_type = 'Persona';
 										if($oldIssuance->given_by_id == 0){
 											DB::table('crypt')->insert([
@@ -5949,14 +5948,14 @@ class ImportOrk3 extends Command
 									){
 										while(
 											!array_key_exists($oldKingdomID, $transTitles) ||
-											!array_key_exists($oldKingdomaward->award_id, $transTitles[$oldKingdomID])
+											!array_key_exists($oldIssuance->award_id, $transTitles[$oldKingdomID])
 										){
-											$this->info('waiting for realm/title ' . $oldKingdomID . '/' . $oldKingdomaward->award_id);
+											$this->info('waiting for realm/title ' . $oldKingdomID . '/' . $oldIssuance->award_id);
 											sleep(5);
 											$transTitles = $this->getTrans('titles');
 										}
 										DB::reconnect("mysqlBak");
-										$issuable_id = $transTitles[$oldKingdomID][$oldKingdomaward->award_id];
+										$issuable_id = $transTitles[$oldKingdomID][$oldIssuance->award_id];
 									}else{
 										//they don't have that, toss it
 										DB::table('crypt')->insert([
@@ -5971,7 +5970,7 @@ class ImportOrk3 extends Command
 								}
 							}
 							//this one isn't an issuance, it's an office held.  Consider it isolated from here on.
-							else if(in_array($oldKingdomaward->award_id, $oldOffices)){
+							else if(in_array($oldIssuance->award_id, $oldOffices)){
 								if($oldIssuance->mundane_id == '0'){
 									DB::table('crypt')->insert([
 										'model' 		=> 'Issuance',
@@ -6017,7 +6016,7 @@ class ImportOrk3 extends Command
 								if(!$fromCheck){
 									$fromID = 1;
 								}
-								$officeCheck = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldKingdomaward->kingdomaward_id)->first();
+								$officeCheck = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldIssuance->kingdomaward_id)->first();
 								if(!$officeCheck){
 									DB::table('crypt')->insert([
 											'model' 		=> 'Issuance',
@@ -6082,13 +6081,13 @@ class ImportOrk3 extends Command
 									$bar->advance();
 									continue;
 								}
-								while(!array_key_exists($oldKingdomaward->kingdomaward_id, $transOffices)){
-									$this->info('waiting for office ' . $oldKingdomaward->kingdomaward_id);
+								while(!array_key_exists($oldIssuance->kingdomaward_id, $transOffices)){
+									$this->info('waiting for office ' . $oldIssuance->kingdomaward_id);
 									sleep(5);
 									$transOffices = $this->getTrans('offices');
 								}
 								DB::reconnect("mysqlBak");
-								$office = Office::where('id', $transOffices[$oldKingdomaward->kingdomaward_id])->first();
+								$office = Office::where('id', $transOffices[$oldIssuance->kingdomaward_id])->first();
 								//this shouldn't happen.
 								if(!$office){
 									dd($oldIssuance);
@@ -6185,34 +6184,54 @@ class ImportOrk3 extends Command
 							}
 							
 							//custom name
+							//TODO: check my results
 							$customNameFin = null;
 							if($recipient_type === 'Persona' && $issuable_type === 'Title'){
-								$persona = Persona::where('id', $recipient_id)->first();
 								$title = Title::where('id', $issuable_id)->first();
-								$names = explode('|', $title->name);
-								$pipeCount = substr_count($title->name, '|');
-								if($pipeCount === 3){
-									if($persona->pronoun_id === 2){
-										$customNameFin = $names[1];
-									}elseif($persona->pronoun_id === 4){
-										$customNameFin = $names[2];
-									}
-								}elseif($pipeCount > 0){
-									if($persona->pronoun_id === 2){
-										$customNameFin = $names[0];
-									}elseif($persona->pronoun_id === 4){
-										$customNameFin = $names[1];
-									}
-								}
+								$persona = Persona::where('id', $recipient_id)->first();
 								if(!$title->titleable_id && str_contains('Knight', $title->name)){
 									if($persona->pronoun_id === 2){
 										$customNameFin = 'Sir';
 									}elseif($persona->pronoun_id === 4){
 										$customNameFin = 'Dame';
 									}
+								}elseif(trim($oldIssuance->custom_name) != '' && $oldIssuance->custom_name != $title->name){
+									$customNameFin = $oldIssuance->custom_name;
+								}else{
+									$persona = Persona::where('id', $recipient_id)->first();
+									$names = explode('|', $title->name);
+									$pipeCount = substr_count($title->name, '|');
+									if($pipeCount === 6){
+										if($persona->pronoun_id === 2){
+											$customNameFin = $names[1];
+										}elseif($persona->pronoun_id === 4){
+											$customNameFin = $names[2];
+										}elseif($persona->pronoun_id === 5){
+											$customNameFin = $names[0];
+										}
+									}elseif($pipeCount === 2){
+										if($persona->pronoun_id === 2){
+											$customNameFin = $names[0];
+										}elseif($persona->pronoun_id === 4){
+											$customNameFin = $names[1];
+										}elseif($persona->pronoun_id === 5){
+											$customNameFin = $names[2];
+										}
+									}elseif($pipeCount > 0){
+										if($persona->pronoun_id === 2){
+											$customNameFin = $names[0];
+										}elseif($persona->pronoun_id === 4){
+											$customNameFin = $names[1];
+										}
+									}
 								}
 							}
 							
+							//TODO: latest updates above resulted in fewer added records.  Review crypt for differences to resolve.
+							
+							//TODO: the default action for !$authority_type doesn't work.  They just put in a park id.
+							//TODO: figure it out by chapter has authority, if not, then attribute it to the realm or
+							//TODO: figure it out by the issuer...were they officer of a realm or a chapter?
 							//make it
 							DB::table('issuances')->insert([
 								'issuable_type' => $issuable_type,
@@ -6233,15 +6252,19 @@ class ImportOrk3 extends Command
 								'revoked_by' => $oldIssuance->revoked_by_id != '0' && in_array($oldIssuance->revoked_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->revoked_by_id] : null,
 								'revoked_at' => $oldIssuance->revoked_at != '0000-00-00' ? $oldIssuance->revoked_at : null
 							]);
+							
 							$bar->advance();
 						}
 					});
 					
-					//iterate personas with peered titles, finding their highest title, assigning their honorific_id.  
-					$titledPersonas = Persona::whereHas('titles', function ($query) {
+					//iterate personas with peered titles, finding their highest title, assigning their honorific_id.
+					$this->info('');
+					$this->info('Updating Persona Honorifics...');
+					$bar = $this->output->createProgressBar();
+					$titledPersonas = Persona::whereNull('honorific_id')->whereHas('titles', function ($query) {
 						$query->where('peerage', '!=', 'None');
 					})->get();
-					
+					$bar->setMaxSteps($backupConnect->table('ork_awards')->count() + $titledPersonas->count());
 					foreach ($titledPersonas as $titledPersona) {
 						$honorific_id = null;
 						$knightTitles = $titledPersona->titles()
@@ -6250,21 +6273,27 @@ class ImportOrk3 extends Command
 							->get();
 						
 						if ($knightTitles->isNotEmpty()) {
-							$honorific_id = $knightTitles->first()->id;
+							$issuance = $titledPersona->titleIssuances()->where('issuable_type', 'Title')->where('issuable_id', $knightTitles->first()->id)->first();
+							$honorific_id = $issuance->id;
 						} else {
 							$highestRankTitle = $titledPersona->titles()
 								->where('peerage', '!=', 'None')
 								->orderBy('rank', 'desc')
-								->first();
-							if ($highestRankTitle) {
-								$honorific_id = $highestRankTitle->id;
+								->get();
+							if ($highestRankTitle->isNotEmpty()) {
+								$issuance = $titledPersona->titleIssuances()->where('issuable_type', 'Title')->where('issuable_id', $highestRankTitle->first()->id)->first();
+								$honorific_id = $issuance->id;
 							}
 						}
 						
 						if($honorific_id){
-							$titledPersona->update(['honorific_id' => $honorific_id]);
+							DB::table('personas')
+								->where('id', $titledPersona->id)
+								->update(['honorific_id' => $honorific_id]);
+							$bar->advance();
 						}
 					}
+					$this->info('Honorifics done.');
 					break;
 				
 				case 'CheckAwards':
@@ -6303,7 +6332,7 @@ class ImportOrk3 extends Command
 			}
 			
 			//clean up
-			$bar->finish();
+			//$bar->finish();
 			Schema::enableForeignKeyConstraints();
 			
 			$this->info('All done!');
@@ -6607,8 +6636,6 @@ class ImportOrk3 extends Command
 			$i = 0;
 			$skipSome = false;
 			$start = null;
-			$this->info('');
-			$this->info('      Type: ' . $type);
 			if($type === 'Realm'){
 				$start = Carbon::parse($knownCurrentReigns[$oldKingdomID]['begins']);
 			}else{

@@ -12,6 +12,8 @@ use App\Traits\ProtectFieldsTrait;
  *		required={"titleable_type","name","peerage","is_roaming","is_active"},
  *		description="Titles Issued by the Chapter, Persona, Realm, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * issuances (Issuance) (MorphMany): Issuances of this Title.
+ * personas (Issuance) (MorphMany): Personas that have received this Title.
+ * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.
  * titleable (Chapter, Persona, Realm, or Unit) (MorphTo): Who can issue the Title; Chapter, Persona, Realm, or Unit
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -457,6 +459,8 @@ class Title extends BaseModel
 	
 	public $relationships = [
 		'issuances' => 'MorphMany',
+		'personas' => 'MorphMany',
+		'recommendations' => 'MorphMany',
 		'titleable' => 'MorphTo'
 	];
 	
@@ -465,14 +469,19 @@ class Title extends BaseModel
 		return $this->morphMany(Issuance::class, 'issuable');
 	}
 	
-	public function titleable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+	public function personas(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
-		return $this->morphTo();
+		return $this->morphMany(Persona::class, 'issuable', 'issuable_type', 'issuable_id', 'id');
 	}
 	
 	public function recommendations(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Recommendation::class, 'recommendable');
+	}
+	
+	public function titleable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+	{
+		return $this->morphTo();
 	}
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -16,12 +16,14 @@ use Laravel\Scout\Searchable;
  *		required={"chapter_id","name","is_active"},
  *		description="Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (HasMany): Attendances for the Persona.
- * awards (Issuance) {MorphMany): Awards received by the Persona.
+ * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.
+ * awards (Award) {hasManyThrough): Awards received by the Persona.
  * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.
  * crats (Crat) (HasMany): Crat positions held by the Persona.
  * dues (Due) (HasMany): Dues paid by the Persona.
  * events (Event) (MorphMany): Events sponsored by the Persona.
  * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
+ * issuances (Issuance) {MorphMany): All Issuances received by the Persona.
  * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
@@ -34,8 +36,8 @@ use Laravel\Scout\Searchable;
  * splits (Split) (HasMany): Splits this Persona took part in.
  * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.
  * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
- * titles (Issuance) {MorphMany): Titles received by the Persona.
- * titleIssuables (Title) (MorphMany): Titles the Persona can Issue.
+ * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.
+ * titles (Title) {hasManyThrough): Titles received by the Persona.
  * units (Unit) (HasManyThrough): Companies and Households the Persona is in.
  * user (User) (BelongsTo): The User for the Persona.
  * waivers (Waiver) (HasMany): The Waivers for the Persona.
@@ -244,13 +246,24 @@ use Laravel\Scout\Searchable;
  *			readOnly=true
  *		),
  *		@OA\Property(
- *			property="awards",
- *			description="Attachable & filterable array of Issuances received by the Persona.",
+ *			property="awardIssuances",
+ *			description="Attachable & filterable array of Award Issuances received by the Persona.",
  *			type="array",
  *			@OA\Items(
  *				title="Issuance",
  *				type="object",
  *				ref="#/components/schemas/IssuanceSimple"
+ *			),
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="awards",
+ *			description="Attachable & filterable array of Awards received by the Persona.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Award",
+ *				type="object",
+ *				ref="#/components/schemas/AwardSimple"
  *			),
  *			readOnly=true
  *		),
@@ -299,6 +312,17 @@ use Laravel\Scout\Searchable;
  *			type="object",
  *			description="Attachable ID of the Title Issuance the Persona considers primary of the Titles they have.",
  *			ref="#/components/schemas/IssuanceSimple",
+ *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="issuances",
+ *			description="Attachable & filterable array of all Issuances received by the Persona.",
+ *			type="array",
+ *			@OA\Items(
+ *				title="Issuance",
+ *				type="object",
+ *				ref="#/components/schemas/IssuanceSimple"
+ *			),
  *			readOnly=true
  *		),
  *		@OA\Property(
@@ -430,7 +454,7 @@ use Laravel\Scout\Searchable;
  *			readOnly=true
  *		),
  *		@OA\Property(
- *			property="titles",
+ *			property="titleIssuances",
  *			description="Attachable & filterable array of Title Issuances received by the Persona.",
  *			type="array",
  *			@OA\Items(
@@ -441,8 +465,8 @@ use Laravel\Scout\Searchable;
  *			readOnly=true
  *		),
  *		@OA\Property(
- *			property="titleIssuables",
- *			description="Attachable & filterable array of the Titles the Persona can Issue.",
+ *			property="titles",
+ *			description="Attachable & filterable array of Titles received by the Persona.",
  *			type="array",
  *			@OA\Items(
  *				title="Title",
@@ -814,14 +838,14 @@ class Persona extends BaseModel
 	use ProtectFieldsTrait;
 	use Notifiable;
 	use Searchable;
-
+	
 	public $table = 'personas';
 	public $timestamps = true;
 	
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = [];
 	protected $email = null;
-
+	
 	public $fillable = [
 		'chapter_id',
 		'pronoun_id',
@@ -835,7 +859,7 @@ class Persona extends BaseModel
 		'corpora_qualified_expires_at',
 		'joined_chapter_at'
 	];
-
+	
 	protected $casts = [
 		'chapter_id' => 'integer',
 		'pronoun_id' => 'integer',
@@ -858,7 +882,7 @@ class Persona extends BaseModel
 			'mundane' => $this->mundane
 		];
 	}
-
+	
 	public static array $rules = [
 		'chapter_id' => 'required|exists:chapters,id',
 		'pronoun_id' => 'nullable|exists:pronouns,id',
@@ -875,12 +899,14 @@ class Persona extends BaseModel
 	
 	public $relationships = [
 		'attendances' => 'HasMany',
-		'awards' => 'MorphMany',
+		'awardIssuances' => 'MorphMany',
+		'awards' => 'hasManyThrough',
 		'chapter' => 'BelongsTo',
 		'crats' => 'HasMany',
 		'dues' => 'HasMany',
 		'events' => 'MorphMany',
 		'honorific' => 'BelongsTo',
+		'issuances' => 'MorphMany',
 		'issuanceGivens' => 'MorphMany',
 		'issuanceRevokeds' => 'HasMany',
 		'issuanceSigneds' => 'HasMany',
@@ -893,8 +919,8 @@ class Persona extends BaseModel
 		'splits' => 'HasMany',
 		'suspensions' => 'HasMany',
 		'suspensionIssueds' => 'HasMany',
-		'titles' => 'MorphMany',
-		'titleIssuables' => 'MorphMany',
+		'titleIssuances' => 'MorphMany',
+		'titles' => 'hasManyThrough',
 		'units' => 'HasManyThrough',
 		'user' => 'HasOne',
 		'waivers' => 'HasMany',
@@ -941,9 +967,14 @@ class Persona extends BaseModel
 		return $this->hasMany(\App\Models\Attendance::class, 'persona_id');
 	}
 	
-	public function awards(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	public function awardIssuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Award');
+	}
+	
+	public function awards(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+	{
+		return $this->hasManyThrough(Award::class, Issuance::class, 'recipient_id', 'id', 'id', 'issuable_id')->where('issuable_type', 'Award');
 	}
 	
 	public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -969,6 +1000,11 @@ class Persona extends BaseModel
 	public function honorific(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
 		return $this->belongsTo(\App\Models\Issuance::class, 'honorific_id');
+	}
+	
+	public function issuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	{
+		return $this->morphMany(Issuance::class, 'recipient');
 	}
 	
 	public function issuanceGivens(): \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -1031,14 +1067,14 @@ class Persona extends BaseModel
 		return $this->hasMany(\App\Models\Suspension::class, 'suspended_by');
 	}
 	
-	public function titles(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	public function titleIssuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Title');
 	}
 	
-	public function titleIssuables(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	public function titles(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
 	{
-		return $this->morphMany(Title::class, 'titleable');
+		return $this->hasManyThrough(Title::class, Issuance::class, 'recipient_id', 'id', 'id', 'issuable_id')->where('issuable_type', 'Title');
 	}
 	
 	public function units(): \Illuminate\Database\Eloquent\Relations\hasManyThrough
@@ -1060,19 +1096,19 @@ class Persona extends BaseModel
 	{
 		return $this->hasMany(\App\Models\Waiver::class, 'age_verified_by');
 	}
-
+	
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
-
+	
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
-
+	
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }

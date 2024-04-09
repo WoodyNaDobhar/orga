@@ -21074,7 +21074,7 @@
                 "type": "object"
             },
             "Award": {
-                "description": "Awards available in a given (or all) Realm(s), Chapter, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.\r\n * issuances (Issuance) (MorphMany): Issuances of this Award.\r\n * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "Awards available in a given (or all) Realm(s), Chapter, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.\r\n * issuances (Issuance) (MorphMany): Issuances of this Award.\r\n * personas (Persona) (MorphMany): Personas that have received this Award.\r\n * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "awarder_type",
                     "name",
@@ -23618,6 +23618,15 @@
                         "format": "int32",
                         "readOnly": false,
                         "example": 42,
+                        "nullable": true
+                    },
+                    "name": {
+                        "description": "Computed Issuance name",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 64,
+                        "readOnly": false,
+                        "example": "Sir",
                         "nullable": true
                     },
                     "custom_name": {
@@ -26173,7 +26182,7 @@
                 "type": "object"
             },
             "Persona": {
-                "description": "Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * attendances (Attendance) (HasMany): Attendances for the Persona.\r\n * awards (Issuance) {MorphMany): Awards received by the Persona.\r\n * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.\r\n * crats (Crat) (HasMany): Crat positions held by the Persona.\r\n * dues (Due) (HasMany): Dues paid by the Persona.\r\n * events (Event) (MorphMany): Events sponsored by the Persona.\r\n * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.\r\n * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.\r\n * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.\r\n * members (Member) (HasMany): Memberships in Units the Persona has had.\r\n * officers (Officer) (HasMany): Officer positions held by the Persona.\r\n * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.\r\n * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.\r\n * reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.\r\n * socials (Social) (MorphMany): Socials for the Persona.\r\n * splits (Split) (HasMany): Splits this Persona took part in.\r\n * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.\r\n * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.\r\n * titles (Issuance) {MorphMany): Titles received by the Persona.\r\n * titleIssuables (Title) (MorphMany): Titles the Persona can Issue.\r\n * units (Unit) (HasManyThrough): Companies and Households the Persona is in.\r\n * user (User) (BelongsTo): The User for the Persona.\r\n * waivers (Waiver) (HasMany): The Waivers for the Persona.\r\n * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * attendances (Attendance) (HasMany): Attendances for the Persona.\r\n * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.\r\n * awards (Award) {hasManyThrough): Awards received by the Persona.\r\n * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.\r\n * crats (Crat) (HasMany): Crat positions held by the Persona.\r\n * dues (Due) (HasMany): Dues paid by the Persona.\r\n * events (Event) (MorphMany): Events sponsored by the Persona.\r\n * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n * issuances (Issuance) {MorphMany): All Issuances received by the Persona.\r\n * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.\r\n * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.\r\n * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.\r\n * members (Member) (HasMany): Memberships in Units the Persona has had.\r\n * officers (Officer) (HasMany): Officer positions held by the Persona.\r\n * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.\r\n * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.\r\n * reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.\r\n * socials (Social) (MorphMany): Socials for the Persona.\r\n * splits (Split) (HasMany): Splits this Persona took part in.\r\n * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.\r\n * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.\r\n * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.\r\n * titles (Title) {hasManyThrough): Titles received by the Persona.\r\n * units (Unit) (HasManyThrough): Companies and Households the Persona is in.\r\n * user (User) (BelongsTo): The User for the Persona.\r\n * waivers (Waiver) (HasMany): The Waivers for the Persona.\r\n * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "chapter_id",
                     "name",
@@ -26352,11 +26361,19 @@
                         },
                         "readOnly": true
                     },
-                    "awards": {
-                        "description": "Attachable & filterable array of Issuances received by the Persona.",
+                    "awardIssuances": {
+                        "description": "Attachable & filterable array of Award Issuances received by the Persona.",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/IssuanceSimple"
+                        },
+                        "readOnly": true
+                    },
+                    "awards": {
+                        "description": "Attachable & filterable array of Awards received by the Persona.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AwardSimple"
                         },
                         "readOnly": true
                     },
@@ -26389,6 +26406,14 @@
                     },
                     "honorific": {
                         "$ref": "#/components/schemas/IssuanceSimple"
+                    },
+                    "issuances": {
+                        "description": "Attachable & filterable array of all Issuances received by the Persona.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IssuanceSimple"
+                        },
+                        "readOnly": true
                     },
                     "issuanceGivens": {
                         "description": "Attachable & filterable array of Issuances made by the Persona, typically retainer and squire Titles.",
@@ -26481,7 +26506,7 @@
                         },
                         "readOnly": true
                     },
-                    "titles": {
+                    "titleIssuances": {
                         "description": "Attachable & filterable array of Title Issuances received by the Persona.",
                         "type": "array",
                         "items": {
@@ -26489,8 +26514,8 @@
                         },
                         "readOnly": true
                     },
-                    "titleIssuables": {
-                        "description": "Attachable & filterable array of the Titles the Persona can Issue.",
+                    "titles": {
+                        "description": "Attachable & filterable array of Titles received by the Persona.",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TitleSimple"
@@ -29536,7 +29561,7 @@
                 "type": "object"
             },
             "Title": {
-                "description": "Titles Issued by the Chapter, Persona, Realm, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * issuances (Issuance) (MorphMany): Issuances of this Title.\r\n * titleable (Chapter, Persona, Realm, or Unit) (MorphTo): Who can issue the Title; Chapter, Persona, Realm, or Unit\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "Titles Issued by the Chapter, Persona, Realm, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * issuances (Issuance) (MorphMany): Issuances of this Title.\r\n * personas (Issuance) (MorphMany): Personas that have received this Title.\r\n * recommendations (Recommendation) (MorphMany): Recommendations to Issue this Award.\r\n * titleable (Chapter, Persona, Realm, or Unit) (MorphTo): Who can issue the Title; Chapter, Persona, Realm, or Unit\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "titleable_type",
                     "name",
