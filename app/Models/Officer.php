@@ -331,7 +331,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="OfficerSuperSimple",
- *		title="OfficerSuperSimpleSimple",
+ *		title="OfficerSuperSimple",
  *		description="Attachable Officer object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

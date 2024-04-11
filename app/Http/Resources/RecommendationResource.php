@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\AppHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
 class RecommendationResource extends JsonResource
 {
@@ -30,9 +30,13 @@ class RecommendationResource extends JsonResource
 		
 		//related
 		foreach (array_keys($this->relationships) as $relationship) {
-			$resourceClass = 'App\\Http\\Resources\\' . ucfirst(Str::singular($relationship)) . 'Resource';
+			$resourceClass = 'App\\Http\\Resources\\' . AppHelper::instance()->fixEloquentName($relationship) . 'Resource';
 			if ($request->has('with') && in_array($relationship, $request->with) && class_exists($resourceClass)) {
-				$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+				if(substr($relationship, -1) === 's'){
+					$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+				}else{
+					$data[$relationship] = $resourceClass::make($this->whenLoaded($relationship));
+				}
 			}
 		}
 		

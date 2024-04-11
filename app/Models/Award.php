@@ -271,7 +271,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="AwardSuperSimple",
- *		title="AwardSuperSimpleSimple",
+ *		title="AwardSuperSimple",
  *		description="Attachable Award object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

@@ -168,6 +168,33 @@ use Laravel\Scout\Searchable;
  *			maxLength=7,
  *		),
  *		@OA\Property(
+ *			property="attendance_count",
+ *			description="A count of the Persona's Attendances.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
+ *			property="credit_count",
+ *			description="A count of the Persona's Credits.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
+ *			property="score",
+ *			description="An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
  *			type="integer",
@@ -643,6 +670,33 @@ use Laravel\Scout\Searchable;
  *			maxLength=7,
  *		),
  *		@OA\Property(
+ *			property="attendance_count",
+ *			description="A count of the Persona's Attendances.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
+ *			property="credit_count",
+ *			description="A count of the Persona's Credits.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
+ *			property="score",
+ *			description="An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
  *			type="integer",
@@ -694,7 +748,7 @@ use Laravel\Scout\Searchable;
  *	)
  *	@OA\Schema(
  *		schema="PersonaSuperSimple",
- *		title="PersonaSuperSimpleSimple",
+ *		title="PersonaSuperSimple",
  *		description="Attachable Persona object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
@@ -817,6 +871,33 @@ use Laravel\Scout\Searchable;
  *			type="string",
  *			format="uppercase",
  *			maxLength=7,
+ *		),
+ *		@OA\Property(
+ *			property="attendance_count",
+ *			description="A count of the Persona's Attendances.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
+ *			property="credit_count",
+ *			description="A count of the Persona's Credits.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
+ *		),
+ *		@OA\Property(
+ *			property="score",
+ *			description="An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="int32",
+ *			example=42,
  *		)
  *	)
  *	@OA\RequestBody(
@@ -897,6 +978,72 @@ class Persona extends BaseModel
 		'joined_chapter_at' => 'nullable|date'
 	];
 	
+	protected $appends = [
+		'chapter_full_abbreviation',
+		'attendance_count',
+		'credit_count',
+		'score'
+	];
+	
+	protected function chapterFullAbbreviation(): Attribute
+	{
+		return Attribute::make(
+			get: fn () => $this->chapter->full_abbreviation,
+		);
+	}
+	
+	protected function attendanceCount(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				return $this->attendances()->count();
+			}
+		);
+	}
+	
+	protected function creditCount(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				return 42;
+// 				return $this->credits()->count() + $this->attendances()->count();
+			}
+		);
+	}
+	
+	protected function score(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				return 42;
+			}
+		);
+	}
+	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
+				}
+				return 'https://ork.amtgard.com/assets/players/heraldry/' . $value;
+			}
+		);
+	}
+	
+	protected function image(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
+				}
+				return 'https://ork.amtgard.com/assets/players/' . $value;
+			}
+		);
+	}
+	
 	public $relationships = [
 		'attendances' => 'HasMany',
 		'awardIssuances' => 'MorphMany',
@@ -926,41 +1073,6 @@ class Persona extends BaseModel
 		'waivers' => 'HasMany',
 		'waiverVerifieds' => 'HasMany'
 	];
-	
-	protected $appends = [
-		'chapter_full_abbreviation'
-	];
-	
-	protected function chapterFullAbbreviation(): Attribute
-	{
-		return Attribute::make(
-			get: fn () => $this->chapter->full_abbreviation,
-		);
-	}
-	
-	protected function heraldry(): Attribute
-	{
-		return Attribute::make(
-			get: function (?string $value) {
-				if ($value === null) {
-					return null;
-				}
-				return 'https://ork.amtgard.com/assets/players/heraldry/' . $value;
-			}
-		);
-	}
-	
-	protected function image(): Attribute
-	{
-		return Attribute::make(
-			get: function (?string $value) {
-				if ($value === null) {
-					return null;
-				}
-				return 'https://ork.amtgard.com/assets/players/' . $value;
-			}
-		);
-	}
 	
 	public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
@@ -1069,7 +1181,7 @@ class Persona extends BaseModel
 	
 	public function titleIssuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
-		return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Title');
+		return $this->morphMany(Issuance::class, 'recipient')->where('issuable_type', 'Title')->with('issuable');
 	}
 	
 	public function titles(): \Illuminate\Database\Eloquent\Relations\HasManyThrough

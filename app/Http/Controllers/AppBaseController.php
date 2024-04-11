@@ -195,7 +195,7 @@ use Illuminate\Support\Facades\Response;
  *		),
  *		description="Field (key, field name) and direction (value, either 'asc' or 'desc') in which the results should be sorted by column. Ex: direction[column1]=desc&direction[column2]=asc",
  *		required=false
- *	)
+ *	),
  *	@OA\RequestBody(
  *		request="login",
  *		description="Login data.",
@@ -405,6 +405,30 @@ use Illuminate\Support\Facades\Response;
  *					description="Term being searched.",
  *					type="string",
  *					maxLength=191
+ *				)
+ *			)
+ *		)
+ *	),
+ *	@OA\RequestBody(
+ *		request="check",
+ *		description="Active check data.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(
+ *				required={"user_id","device_name"},
+ *				@OA\Property(
+ *					property="user_id",
+ *					description="User being checked.",
+ *					type="integer",
+ *					format="int32",
+ *					example=42
+ *				),
+ *				@OA\Property(
+ *					property="device_name",
+ *					description="Login device information.",
+ *					type="string",
+ *					example="Bob'sS22"
  *				)
  *			)
  *		)

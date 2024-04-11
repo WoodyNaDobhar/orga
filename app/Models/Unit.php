@@ -402,7 +402,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="UnitSuperSimple",
- *		title="UnitSuperSimpleSimple",
+ *		title="UnitSuperSimple",
  *		description="Attachable Unit object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
@@ -521,6 +521,18 @@ class Unit extends BaseModel
 		'history' => 'nullable|string|max:16777215'
 	];
 	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return null;
+				}
+				return 'https://ork.amtgard.com/assets/units/' . $value;
+			}
+		);
+	}
+	
 	public $relationships = [
 		'accounts' => 'MorphMany',
 		'awards' => 'MorphMany',
@@ -535,18 +547,6 @@ class Unit extends BaseModel
 		'titles' => 'MorphMany',
 		'titleIssuances' => 'MorphMany'
 	];
-	
-	protected function heraldry(): Attribute
-	{
-		return Attribute::make(
-			get: function (?string $value) {
-				if ($value === null) {
-					return null;
-				}
-				return 'https://ork.amtgard.com/assets/units/' . $value;
-			}
-		);
-	}
 	
 	public function accounts(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{

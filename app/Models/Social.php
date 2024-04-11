@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
@@ -59,6 +60,15 @@ use App\Traits\ProtectFieldsTrait;
  *			nullable=false,
  *			type="string",
  *			example="https://ork.amtgard.com",
+ *			maxLength=255
+ *		),
+ *		@OA\Property(
+ *			property="link",
+ *			description="The full url to the service/user.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			example="https://www.facebook.com/WoodyNaDobhar",
  *			maxLength=255
  *		),
  *		@OA\Property(
@@ -198,6 +208,15 @@ use App\Traits\ProtectFieldsTrait;
  *			maxLength=255
  *		),
  *		@OA\Property(
+ *			property="link",
+ *			description="The full url to the service/user.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			example="https://www.facebook.com/WoodyNaDobhar",
+ *			maxLength=255
+ *		),
+ *		@OA\Property(
  *			property="created_by",
  *			description="The User that created this record.",
  *			type="integer",
@@ -249,7 +268,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="SocialSuperSimple",
- *		title="SocialSuperSimpleSimple",
+ *		title="SocialSuperSimple",
  *		description="Attachable Social object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
@@ -296,6 +315,15 @@ use App\Traits\ProtectFieldsTrait;
  *			type="string",
  *			example="https://ork.amtgard.com",
  *			maxLength=255
+ *		),
+ *		@OA\Property(
+ *			property="link",
+ *			description="The full url to the service/user.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			example="https://www.facebook.com/WoodyNaDobhar",
+ *			maxLength=255
  *		)
  *	)
  *	@OA\RequestBody(
@@ -341,6 +369,32 @@ class Social extends BaseModel
 		'media' => 'required|in:Web,Facebook,Discord,Instagram,YouTube,TicToc',
 		'value' => 'required|string|max:255'
 	];
+	
+	protected $appends = [
+		'link'
+	];
+	
+	protected function link(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				switch ($this->media) {
+					case 'Facebook':
+						return 'https://www.facebook.com/' . $this->value;
+					case 'Discord':
+						return 'https://discord.com/users/' . $this->value;
+					case 'Instagram':
+						return 'https://www.instagram.com/' . $this->value;
+					case 'YouTube':
+						return 'https://www.youtube.com/' . $this->value;
+					case 'TicToc':
+						return 'https://www.tiktok.com/@' . $this->value;
+					default:
+						return $this->value;
+				}
+			}
+		);
+	}
 	
 	public $relationships = [
 		'sociable' => 'MorphTo'

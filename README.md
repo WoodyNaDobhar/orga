@@ -354,12 +354,12 @@ It's not a perfect process, and a number of the resulting files need tweaked to 
 14. generate & optimize
 
 ```
-    php artisan l5-swagger:generate
-    php artisan ide-helper:generate
-    php artisan ide-helper:models (no)
-    php artisan ide-helper:meta
-    php artisan optimize
-    composer dumpautoload
+sail php artisan l5-swagger:generate
+sail php artisan ide-helper:generate
+sail php artisan ide-helper:models (no)
+sail php artisan ide-helper:meta
+sail php artisan optimize
+sail composer dumpautoload
 ```
 
 ## Adding To Objects
@@ -590,9 +590,16 @@ $tests = App\Models\Test::all()->pluck('id');
 'test' => $this->faker->someFakerFunction(),
 ```
 
-7. Add any required inputs or displays for the new data
+7. resources/@client/interfaces.ts
+    - add relevant field to relevant interface with type
 
-8. If everything is good, you can then update the schema
+```
+    x_id: number;
+```
+
+8. Add any required inputs or displays for the new data
+
+9. If everything is good, you can then update the schema et al
 
 ```
 sail php artisan make:schema Test
@@ -628,7 +635,12 @@ The process for contributing to live code is as follows:
 
 * A branch is made off of development, using the following convention: YY.MM.DD.IssueTitle
 * When development is complete, run the unit tests.
-* When testing comes up green, commit the changes and push the branch to our repo.
+* When testing comes up green, build production resources:
+
+```
+sail npm run build
+```
+* Commit the changes and push the branch to our repo.
 * When the new branch has been reviewed, it'll be checked and tested.
 * When testing is complete, the branch will be added to the Master branch.
 

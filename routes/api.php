@@ -157,6 +157,9 @@ Route::post('login', 'BaseAPIController@login');
 Route::middleware(['throttle:1,5'])->group(function () {
 	Route::post('forgot', 'BaseAPIController@forgot');
 });
+Route::middleware(['throttle:1,1'])->group(function () {
+	Route::post('check', 'BaseAPIController@check');
+});
 Route::post('reset', 'BaseAPIController@reset');
 Route::post('update', 'BaseAPIController@updatePassword');
 Route::post('register', 'BaseAPIController@register');

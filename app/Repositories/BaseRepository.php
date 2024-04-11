@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Exception;
 use Illuminate\Container\Container as Application;
+use App\Helpers\AppHelper;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -197,7 +198,7 @@ abstract class BaseRepository
 				$query->with($with);
 			}
 		}
-
+		
 		return $query->find($id, $columns);
 	}
 	
@@ -280,36 +281,36 @@ abstract class BaseRepository
 			foreach ($model->relationships as $related => $type) {
 				
 				//clean up non-standard relationships
-				$relatedObject = $this->fixEloquentName($related);
+				$relatedObject = AppHelper::instance()->fixEloquentName($related);
 				
 				//BelongsTo
 				if (
-						$type == 'BelongsTo' &&
-						array_key_exists($related, $input)
+					$type == 'BelongsTo' &&
+					array_key_exists($related, $input)
+				) {
+					$thisInput = $input[$related];
+					$thisModelBase = $this->app->make("App\\Models\\" . ucfirst($relatedObject));
+					if ($thisInput) {
+						//exists?
+						if (
+							array_key_exists('id', $thisInput) &&
+							$thisInput['id'] != null
 						) {
-							$thisInput = $input[$related];
-							$thisModelBase = $this->app->make("App\\Models\\" . ucfirst($relatedObject));
-							if ($thisInput) {
-								//exists?
-								if (
-										array_key_exists('id', $thisInput) &&
-										$thisInput['id'] != null
-										) {
-											//update it
-											$thisModel = $thisModelBase->findOrFail($thisInput['id']);
-											$thisModel->fill($thisInput);
-											$thisModel->save();
-											$this->relatedSave($thisModelBase, $thisInput, $thisModel);
-										} elseif (array_filter($thisInput)) {
-											//create and add it to the parent
-											$thisModel = $thisModelBase->newInstance($thisInput);
-											$this->relatedSave($thisModelBase, $thisInput, $thisModel);
-											$thisModel->save();
-											$attribute = $related . '_id';
-											$parent->$attribute = $thisModel->id;
-										}
-							}
+							//update it
+							$thisModel = $thisModelBase->findOrFail($thisInput['id']);
+							$thisModel->fill($thisInput);
+							$thisModel->save();
+							$this->relatedSave($thisModelBase, $thisInput, $thisModel);
+						} elseif (array_filter($thisInput)) {
+							//create and add it to the parent
+							$thisModel = $thisModelBase->newInstance($thisInput);
+							$this->relatedSave($thisModelBase, $thisInput, $thisModel);
+							$thisModel->save();
+							$attribute = $related . '_id';
+							$parent->$attribute = $thisModel->id;
 						}
+					}
+				}
 			}
 			
 			$parent->save();
@@ -318,54 +319,54 @@ abstract class BaseRepository
 			foreach ($model->relationships as $related => $type) {
 				
 				//clean up non-standard relationships
-				$relatedObject = $this->fixEloquentName($related);
+				$relatedObject = AppHelper::instance()->fixEloquentName($related);
 				
 				//BelongsToMany
 				if (
-						($type == 'BelongsToMany' || $type == 'MorphToMany' || $type == 'MorphedByMany') &&
-						array_key_exists($related, $input) &&
-						$parent->id != null
+					($type == 'BelongsToMany' || $type == 'MorphToMany' || $type == 'MorphedByMany') &&
+					array_key_exists($related, $input) &&
+					$parent->id != null
+				) {
+					$thisInput = $input[$related];
+					if ($thisInput && is_array($thisInput)) {
+						if (
+								//TODO: implement for ORK4
+								($parent->table == 'collections' && $related == 'lessons') ||
+								($parent->table == 'assessments' && $related == 'questions')
 						) {
-							$thisInput = $input[$related];
-							if ($thisInput && is_array($thisInput)) {
-								if (
-										//TODO: this sucks, but at least document it.  Handles those entries that have an order.
-										($parent->table == 'collections' && $related == 'lessons') ||
-										($parent->table == 'assessments' && $related == 'questions')
-										) {
-											$pivotData = [];
-											foreach ($thisInput as $key => $value) {
-												if ($value != '') {
-													$pivotData[$value] = ['order' => $key];
-												}
-											}
-											$parent->$related()->sync($pivotData);
-										} else {
-											$pivotData = [];
-											foreach ($thisInput as $key => $value) {
-												if ($value != '') {
-													$pivotData[] = $value;
-												}
-											}
-											$parent->$related()->sync($pivotData);
-										}
+							$pivotData = [];
+							foreach ($thisInput as $key => $value) {
+								if ($value != '') {
+									$pivotData[$value] = ['order' => $key];
+								}
 							}
+							$parent->$related()->sync($pivotData);
+						} else {
+							$pivotData = [];
+							foreach ($thisInput as $key => $value) {
+								if ($value != '') {
+									$pivotData[] = $value;
+								}
+							}
+							$parent->$related()->sync($pivotData);
 						}
+					}
+				}
 						
-						//HasOne
-						// if (
-						//	 $type == 'HasOne' &&
-						//	 array_key_exists($related, $input) &&
-						//	 $input[$related] != null &&
-						//	 $parent->id != null
-						// ) {
-						//	 $thisInput = $input[$related];
-						//	 $thisModelBase = $this->app->make("App\\Models\\" . ucfirst($relatedObject));
-						//	 $thisModel = $thisModelBase->findOrFail($thisInput['id']);
-						//	 $parentIDField = $this->fixEloquentName($parent->table) . '_id';
-						//	 $thisModel->$parentIDField = $parent->id;
-						//	 $thisModel->save();
-						// }
+				//HasOne
+				if (
+					 $type == 'HasOne' &&
+					 array_key_exists($related, $input) &&
+					 $input[$related] != null &&
+					 $parent->id != null
+				) {
+					 $thisInput = $input[$related];
+					 $thisModelBase = $this->app->make("App\\Models\\" . ucfirst($relatedObject));
+					 $thisModel = $thisModelBase->findOrFail($thisInput['id']);
+					 $parentIDField = AppHelper::instance()->fixEloquentName($parent->table) . '_id';
+					 $thisModel->$parentIDField = $parent->id;
+					 $thisModel->save();
+				}
 			}
 		}
 	}
@@ -377,7 +378,7 @@ abstract class BaseRepository
 			foreach($model->relationships as $related => $type){
 				
 				//clean up non-standard relationships
-				$relatedObject = $this->fixEloquentName($related);
+				$relatedObject = AppHelper::instance()->fixEloquentName($related);
 				
 				//hasMany
 				if($type == 'HasMany'){
@@ -399,42 +400,6 @@ abstract class BaseRepository
 			}
 			$parent->delete();
 			return true;
-		}
-	}
-	
-	// private function fixReferenceName($table){
-	//	 return substr($table, -3) == 'zes' ?
-	//		 substr($table, 0, -3) :
-	//		 substr($table, -3) == 'ies' ?
-	//			 substr($table, 0, -3) . 'y' :
-	//				 substr($table, -1) == 's' ?
-	//					 substr($table, 0, -1) :
-	//					 $table;
-	// }
-	
-	private function fixEloquentName($related){
-		switch($related){
-			case 'portal':
-				return 'Collection';
-			case 'portalteams':
-				return 'Team';
-			case 'author':
-			case 'owner' :
-			case 'completes' :
-			case 'createdBy' :
-			case 'updatedBy' :
-			case 'deletedBy' :
-				return 'User';
-			case 'lessonCompletes':
-				return 'Lesson';
-			case 'collectionCompletes':
-				return 'Collection';
-			case 'sold':
-				return 'Roster';
-			case 'owns':
-				return 'Team';
-			default:
-				return Str::singular($related);
 		}
 	}
 }

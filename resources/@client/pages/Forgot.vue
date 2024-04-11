@@ -55,12 +55,12 @@
 					})
 					.catch(error => {
 						state.storeState('error', error.response.data.message)
-						console.log('Error seding login1:', error)
+						console.log('Error sending login1:', error)
 						showToast(false, error.response.data.message)
 					})
-			} catch (error) {
+			} catch (error: any) {
 				state.storeState('error', error)
-				console.log('Error seding login:', error)
+				console.log('Error sennding login:', error)
 				showToast(false, error)
 			}
 		};

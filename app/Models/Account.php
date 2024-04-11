@@ -280,7 +280,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="AccountSuperSimple",
- *		title="AccountSuperSimpleSimple",
+ *		title="AccountSuperSimple",
  *		description="Attachable Account object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

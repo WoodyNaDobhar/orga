@@ -242,7 +242,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="DueSuperSimple",
- *		title="DueSuperSimpleSimple",
+ *		title="DueSuperSimple",
  *		description="Attachable Due object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

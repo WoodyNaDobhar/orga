@@ -300,7 +300,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="MemberSuperSimple",
- *		title="MemberSuperSimpleSimple",
+ *		title="MemberSuperSimple",
  *		description="Attachable Member object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

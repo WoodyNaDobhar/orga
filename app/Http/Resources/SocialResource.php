@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\AppHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
 class SocialResource extends JsonResource
 {
@@ -21,6 +21,7 @@ class SocialResource extends JsonResource
 			'sociable_id' => $this->sociable_id,
 			'media' => $this->media,
 			'value' => $this->value,
+			'link' => $this->link,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 			'deleted_at' => $this->deleted_at
@@ -28,9 +29,13 @@ class SocialResource extends JsonResource
 		
 		//related
 		foreach (array_keys($this->relationships) as $relationship) {
-			$resourceClass = 'App\\Http\\Resources\\' . ucfirst(Str::singular($relationship)) . 'Resource';
+			$resourceClass = 'App\\Http\\Resources\\' . AppHelper::instance()->fixEloquentName($relationship) . 'Resource';
 			if ($request->has('with') && in_array($relationship, $request->with) && class_exists($resourceClass)) {
-				$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+				if(substr($relationship, -1) === 's'){
+					$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+				}else{
+					$data[$relationship] = $resourceClass::make($this->whenLoaded($relationship));
+				}
 			}
 		}
 		

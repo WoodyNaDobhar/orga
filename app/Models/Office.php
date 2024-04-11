@@ -271,7 +271,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="OfficeSuperSimple",
- *		title="OfficeSuperSimpleSimple",
+ *		title="OfficeSuperSimple",
  *		description="Attachable Office object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

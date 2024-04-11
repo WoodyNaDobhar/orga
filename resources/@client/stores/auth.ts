@@ -29,6 +29,19 @@ export const useAuthStore = defineStore("auth", {
 		}
 	},
 	actions: {
+		async check(request:any) {
+			try {
+				const response = await axios.post('api/check', request)
+					.catch(error => {
+						console.error(error);
+						return {data: {data: true}};
+					});
+				return response.data.data;
+			} catch (error:any) {
+				console.error(error);
+				return true;
+			}
+		},
 		async login (request:any) {
 			try {
 				await axios.post('api/login', request)

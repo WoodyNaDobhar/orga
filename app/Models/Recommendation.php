@@ -289,7 +289,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="RecommendationSuperSimple",
- *		title="RecommendationSuperSimpleSimple",
+ *		title="RecommendationSuperSimple",
  *		description="Attachable Recommendation object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

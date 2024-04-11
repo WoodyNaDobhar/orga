@@ -526,7 +526,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="WaiverSuperSimple",
- *		title="WaiverSuperSimpleSimple",
+ *		title="WaiverSuperSimple",
  *		description="Attachable Waiver object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",
@@ -797,7 +797,7 @@ class Waiver extends BaseModel
 	
 	public function guest(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		return $this->belongsTo(\App\Models\Persona::class, 'guest_id');
+		return $this->belongsTo(\App\Models\Guest::class, 'guest_id');
 	}
 
 	public function location(): \Illuminate\Database\Eloquent\Relations\BelongsTo

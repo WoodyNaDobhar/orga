@@ -98,12 +98,12 @@
 					})
 					.catch(error => {
 						state.storeState('error', error.response.data.message);
-						console.log('Error seding registration:', error);
+						console.log('Error sending registration:', error);
 						showToast(false, error.response.data.message)
 					})
-			} catch (error) {
+			} catch (error: any) {
 				state.storeState('error', error);
-				console.log('Error seding registration:', error);
+				console.log('Error sending registration:', error);
 				showToast(false, error)
 			}
 		};

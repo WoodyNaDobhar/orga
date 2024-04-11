@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class AppHelper
@@ -45,6 +46,42 @@ class AppHelper
 			}
 		}
 		return $images;
+	}
+	
+	public function fixEloquentName($related){
+		switch($related){
+			case 'parent':
+				return 'Account';
+			case 'nearbyGuests':
+				return 'Guest';
+			case 'honorific':
+			case 'awardIssuances':
+			case 'issuanceGivens':
+			case 'issuanceReceiveds':
+			case 'issuanceRevokeds':
+			case 'issuanceSigneds':
+			case 'titleIssuances':
+				return 'Issuance';
+			case 'passwordHistories':
+				return 'PasswordHistory';
+			case 'ageVerifiedBy':
+			case 'revokedBy':
+			case 'signator':
+			case 'suspendedBy':
+				return 'Persona';
+			case 'suspensionIssueds':
+				return 'Suspension';
+			case 'portalteams':
+				return 'Team';
+			case 'createdBy' :
+			case 'updatedBy' :
+			case 'deletedBy' :
+				return 'User';
+			case 'waiverVerifieds':
+				return 'Waiver';
+			default:
+				return ucfirst(Str::singular($related));
+		}
 	}
 	
 	public static function instance()

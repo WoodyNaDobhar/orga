@@ -221,7 +221,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="ArchetypeSuperSimple",
- *		title="ArchetypeSuperSimpleSimple",
+ *		title="ArchetypeSuperSimple",
  *		description="Attachable Archetype object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

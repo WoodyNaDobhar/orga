@@ -486,7 +486,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="ChapterSuperSimple",
- *		title="ChapterSuperSimpleSimple",
+ *		title="ChapterSuperSimple",
  *		description="Attachable Chapter object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

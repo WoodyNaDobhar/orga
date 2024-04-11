@@ -226,7 +226,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="PronounSuperSimple",
- *		title="PronounSuperSimpleSimple",
+ *		title="PronounSuperSimple",
  *		description="Attachable Pronoun object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

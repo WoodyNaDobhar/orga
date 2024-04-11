@@ -289,7 +289,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="ReignSuperSimple",
- *		title="ReignSuperSimpleSimple",
+ *		title="ReignSuperSimple",
  *		description="Attachable Reign object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

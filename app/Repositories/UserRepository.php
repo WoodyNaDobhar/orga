@@ -4,11 +4,13 @@ namespace App\Repositories;
 
 use App\Models\PasswordHistory;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use WoodyNaDobhar\LaravelStupidPassword\LaravelStupidPassword;
 use Exception;
 
@@ -78,20 +80,9 @@ class UserRepository extends BaseRepository
 		]);
 		
 		//send a welcome email
-		$emailData = [];
-		$emailData['to_email'] = $user->email;
-		$emailData['from_email'] = config('mail.from.address');
-		$emailData['from_name'] = config('mail.from.name');
-		$emailData['subject'] = 'Welcome to ORK4!';
-		$emailData['persona'] = $user->persona->name;
-		$emailData['action'] = config('app.url') . "/login";
-		Log::info('About to send a welcome email to: ' . $emailData['to_email']);
-		Mail::send('emails.welcome', ['data' => $emailData], function ($message) use ($emailData) {
-			$message->from($emailData['from_email']);
-			$message->to($emailData['to_email']);
-			$message->replyTo($emailData['from_email'], $emailData['from_name']);
-			$message->subject($emailData['subject']);
-		});
+		Notification::route('mail', [
+			$user->email => $user->persona->name,
+		])->notify(new WelcomeNotification($user->persona->name, config('app.url') . "/login"));
 					
 		return $user;
 	}

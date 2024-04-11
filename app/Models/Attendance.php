@@ -292,7 +292,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="AttendanceSuperSimple",
- *		title="AttendanceSuperSimpleSimple",
+ *		title="AttendanceSuperSimple",
  *		description="Attachable Attendance object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

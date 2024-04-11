@@ -489,7 +489,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="EventSuperSimple",
- *		title="EventSuperSimpleSimple",
+ *		title="EventSuperSimple",
  *		description="Attachable Event object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

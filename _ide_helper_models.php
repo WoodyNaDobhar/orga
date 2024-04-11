@@ -288,7 +288,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AccountSuperSimple",
- * 	title="AccountSuperSimpleSimple",
+ * 	title="AccountSuperSimple",
  * 	description="Attachable Account object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -619,7 +619,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ArchetypeSuperSimple",
- * 	title="ArchetypeSuperSimpleSimple",
+ * 	title="ArchetypeSuperSimple",
  * 	description="Attachable Archetype object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -990,7 +990,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AttendanceSuperSimple",
- * 	title="AttendanceSuperSimpleSimple",
+ * 	title="AttendanceSuperSimple",
  * 	description="Attachable Attendance object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -1381,7 +1381,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="AwardSuperSimple",
- * 	title="AwardSuperSimpleSimple",
+ * 	title="AwardSuperSimple",
  * 	description="Attachable Award object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -1983,7 +1983,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ChapterSuperSimple",
- * 	title="ChapterSuperSimpleSimple",
+ * 	title="ChapterSuperSimple",
  * 	description="Attachable Chapter object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -2434,7 +2434,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ChaptertypeSuperSimple",
- * 	title="ChaptertypeSuperSimpleSimple",
+ * 	title="ChaptertypeSuperSimple",
  * 	description="Attachable Chaptertype object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -2795,7 +2795,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="CratSuperSimple",
- * 	title="CratSuperSimpleSimple",
+ * 	title="CratSuperSimple",
  * 	description="Attachable Crat object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -3136,7 +3136,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="DueSuperSimple",
- * 	title="DueSuperSimpleSimple",
+ * 	title="DueSuperSimple",
  * 	description="Attachable Due object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -3719,7 +3719,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="EventSuperSimple",
- * 	title="EventSuperSimpleSimple",
+ * 	title="EventSuperSimple",
  * 	description="Attachable Event object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -4207,7 +4207,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="GuestSuperSimple",
- * 	title="GuestSuperSimpleSimple",
+ * 	title="GuestSuperSimple",
  * 	description="Attachable Guest object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -4864,7 +4864,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="IssuanceSuperSimple",
- * 	title="IssuanceSuperSimpleSimple",
+ * 	title="IssuanceSuperSimple",
  * 	description="Attachable Issuance object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -5558,7 +5558,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="LocationSuperSimple",
- * 	title="LocationSuperSimpleSimple",
+ * 	title="LocationSuperSimple",
  * 	description="Attachable Location object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -6136,7 +6136,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="MeetupSuperSimple",
- * 	title="MeetupSuperSimpleSimple",
+ * 	title="MeetupSuperSimple",
  * 	description="Attachable Meetup object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -6605,7 +6605,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="MemberSuperSimple",
- * 	title="MemberSuperSimpleSimple",
+ * 	title="MemberSuperSimple",
  * 	description="Attachable Member object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -7006,7 +7006,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="OfficeSuperSimple",
- * 	title="OfficeSuperSimpleSimple",
+ * 	title="OfficeSuperSimple",
  * 	description="Attachable Office object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -7446,7 +7446,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="OfficerSuperSimple",
- * 	title="OfficerSuperSimpleSimple",
+ * 	title="OfficerSuperSimple",
  * 	description="Attachable Officer object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -7774,6 +7774,33 @@ namespace App\Models{
  * 		type="string",
  * 		format="uppercase",
  * 		maxLength=7,
+ * 	),
+ * 	@OA\Property(
+ * 		property="attendance_count",
+ * 		description="A count of the Persona's Attendances.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
+ * 		property="credit_count",
+ * 		description="A count of the Persona's Credits.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
+ * 		property="score",
+ * 		description="An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -8251,6 +8278,33 @@ namespace App\Models{
  * 		maxLength=7,
  * 	),
  * 	@OA\Property(
+ * 		property="attendance_count",
+ * 		description="A count of the Persona's Attendances.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
+ * 		property="credit_count",
+ * 		description="A count of the Persona's Credits.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
+ * 		property="score",
+ * 		description="An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
  * 		property="created_by",
  * 		description="The User that created this record.",
  * 		type="integer",
@@ -8302,7 +8356,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="PersonaSuperSimple",
- * 	title="PersonaSuperSimpleSimple",
+ * 	title="PersonaSuperSimple",
  * 	description="Attachable Persona object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -8425,6 +8479,33 @@ namespace App\Models{
  * 		type="string",
  * 		format="uppercase",
  * 		maxLength=7,
+ * 	),
+ * 	@OA\Property(
+ * 		property="attendance_count",
+ * 		description="A count of the Persona's Attendances.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
+ * 		property="credit_count",
+ * 		description="A count of the Persona's Credits.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 	),
+ * 	@OA\Property(
+ * 		property="score",
+ * 		description="An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
  * 	)
  * )
  * @OA\RequestBody (
@@ -8454,6 +8535,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $attendance_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
@@ -8468,6 +8550,7 @@ namespace App\Models{
  * @property-read int|null $crats_count
  * @property-read \App\Models\User $createdBy
  * @property-read \App\Models\User $creator
+ * @property-read mixed $credit_count
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Due> $dues
@@ -8495,6 +8578,7 @@ namespace App\Models{
  * @property-read int|null $recommendations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Reconciliation> $reconciliations
  * @property-read int|null $reconciliations_count
+ * @property-read mixed $score
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Social> $socials
  * @property-read int|null $socials_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Split> $splits
@@ -8767,7 +8851,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="PronounSuperSimple",
- * 	title="PronounSuperSimpleSimple",
+ * 	title="PronounSuperSimple",
  * 	description="Attachable Pronoun object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -9480,7 +9564,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="RealmSuperSimple",
- * 	title="RealmSuperSimpleSimple",
+ * 	title="RealmSuperSimple",
  * 	description="Attachable Realm object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -10028,7 +10112,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="RecommendationSuperSimple",
- * 	title="RecommendationSuperSimpleSimple",
+ * 	title="RecommendationSuperSimple",
  * 	description="Attachable Recommendation object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -10392,7 +10476,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ReconciliationSuperSimple",
- * 	title="ReconciliationSuperSimpleSimple",
+ * 	title="ReconciliationSuperSimple",
  * 	description="Attachable Reconciliation object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -10777,7 +10861,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="ReignSuperSimple",
- * 	title="ReignSuperSimpleSimple",
+ * 	title="ReignSuperSimple",
  * 	description="Attachable Reign object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -10960,6 +11044,15 @@ namespace App\Models{
  * 		maxLength=255
  * 	),
  * 	@OA\Property(
+ * 		property="link",
+ * 		description="The full url to the service/user.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		example="https://www.facebook.com/WoodyNaDobhar",
+ * 		maxLength=255
+ * 	),
+ * 	@OA\Property(
  * 		property="created_by",
  * 		description="The User that created this record.",
  * 		type="integer",
@@ -11096,6 +11189,15 @@ namespace App\Models{
  * 		maxLength=255
  * 	),
  * 	@OA\Property(
+ * 		property="link",
+ * 		description="The full url to the service/user.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		example="https://www.facebook.com/WoodyNaDobhar",
+ * 		maxLength=255
+ * 	),
+ * 	@OA\Property(
  * 		property="created_by",
  * 		description="The User that created this record.",
  * 		type="integer",
@@ -11147,7 +11249,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="SocialSuperSimple",
- * 	title="SocialSuperSimpleSimple",
+ * 	title="SocialSuperSimple",
  * 	description="Attachable Social object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -11194,6 +11296,15 @@ namespace App\Models{
  * 		type="string",
  * 		example="https://ork.amtgard.com",
  * 		maxLength=255
+ * 	),
+ * 	@OA\Property(
+ * 		property="link",
+ * 		description="The full url to the service/user.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		example="https://www.facebook.com/WoodyNaDobhar",
+ * 		maxLength=255
  * 	)
  * )
  * @OA\RequestBody (
@@ -11223,6 +11334,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
+ * @property-read mixed $link
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $sociable
  * @property-read \App\Models\User|null $updatedBy
  * @method static \Database\Factories\SocialFactory factory($count = null, $state = [])
@@ -11494,7 +11606,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="SplitSuperSimple",
- * 	title="SplitSuperSimpleSimple",
+ * 	title="SplitSuperSimple",
  * 	description="Attachable Split object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -11920,7 +12032,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="SuspensionSuperSimple",
- * 	title="SuspensionSuperSimpleSimple",
+ * 	title="SuspensionSuperSimple",
  * 	description="Attachable Suspension object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -12387,7 +12499,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TitleSuperSimple",
- * 	title="TitleSuperSimpleSimple",
+ * 	title="TitleSuperSimple",
  * 	description="Attachable Title object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -12782,7 +12894,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TournamentSuperSimple",
- * 	title="TournamentSuperSimpleSimple",
+ * 	title="TournamentSuperSimple",
  * 	description="Attachable Tournament object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -13116,7 +13228,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="TransactionSuperSimple",
- * 	title="TransactionSuperSimpleSimple",
+ * 	title="TransactionSuperSimple",
  * 	description="Attachable Transaction object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -13604,7 +13716,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="UnitSuperSimple",
- * 	title="UnitSuperSimpleSimple",
+ * 	title="UnitSuperSimple",
  * 	description="Attachable Unit object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -13762,6 +13874,16 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="persona_id",
  * 		description="ID of the User's Persona.",
  * 		readOnly=false,
@@ -13907,6 +14029,16 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="email",
  * 		description="Unique email used to identify and communicate with the User.",
  * 		readOnly=false,
@@ -14010,6 +14142,16 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="token",
  * 		description="Login token for the User.",
  * 		readOnly=true,
@@ -14109,7 +14251,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="UserSuperSimple",
- * 	title="UserSuperSimpleSimple",
+ * 	title="UserSuperSimple",
  * 	description="Attachable User object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="persona_id",
@@ -14119,6 +14261,16 @@ namespace App\Models{
  * 		type="integer",
  * 		format="int32",
  * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
  * 	),
  * 	@OA\Property(
  * 		property="email",
@@ -14940,7 +15092,7 @@ namespace App\Models{
  * )
  * @OA\Schema (
  * 	schema="WaiverSuperSimple",
- * 	title="WaiverSuperSimpleSimple",
+ * 	title="WaiverSuperSimple",
  * 	description="Attachable Waiver object with no attachments or CUD data.",
  * 	@OA\Property(
  * 		property="id",
@@ -15159,7 +15311,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
- * @property-read \App\Models\Persona|null $guest
+ * @property-read \App\Models\Guest|null $guest
  * @property-read \App\Models\Location|null $location
  * @property-read \App\Models\Persona|null $persona
  * @property-read \App\Models\Pronoun|null $pronoun

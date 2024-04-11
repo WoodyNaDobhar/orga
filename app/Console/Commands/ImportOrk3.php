@@ -6184,7 +6184,6 @@ class ImportOrk3 extends Command
 							}
 							
 							//custom name
-							//TODO: check my results
 							$customNameFin = null;
 							if($recipient_type === 'Persona' && $issuable_type === 'Title'){
 								$title = Title::where('id', $issuable_id)->first();
@@ -6197,6 +6196,37 @@ class ImportOrk3 extends Command
 									}
 								}elseif(trim($oldIssuance->custom_name) != '' && $oldIssuance->custom_name != $title->name){
 									$customNameFin = $oldIssuance->custom_name;
+									$customNameFin = str_ireplace('(NON-NOBLE) ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE: ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE:', '', $customNameFin);
+									$customNameFin = str_ireplace('NON NOBLE - ', '', $customNameFin);
+									$customNameFin = str_ireplace(' (NON-NOBLE TITLE)', '', $customNameFin);
+									$customNameFin = str_ireplace('NON NOBLE TITLE OF ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON NOBLE TITLE- ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE TITE: ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE TITLE: ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE TITLE; ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON NOBLE TITLE ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE TITLE ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON NOBLE ', '', $customNameFin);
+									$customNameFin = str_ireplace('NON-NOBLE ', '', $customNameFin);
+									$customNameFin = str_ireplace('(TITLE) ', '', $customNameFin);
+									$customNameFin = str_ireplace(' (TITLE)', '', $customNameFin);
+									$customNameFin = str_ireplace(' TITLE', '', $customNameFin);
+									$customNameFin = str_ireplace('HONORIFIC - ', '', $customNameFin);
+									$customNameFin = str_ireplace('HONORIFIC-', '', $customNameFin);
+									$customNameFin = str_ireplace('HONORIFIC: ', '', $customNameFin);
+									$customNameFin = str_ireplace('HONORIFIC ', '', $customNameFin);
+									$customNameFin = str_ireplace("THE IN'NOBLE TITLE OF ", '', $customNameFin);
+									$customNameFin = str_ireplace('TITLE - ', '', $customNameFin);
+									$customNameFin = str_ireplace('TITLE : ', '', $customNameFin);
+									$customNameFin = str_ireplace('TITLE OF ', '', $customNameFin);
+									$customNameFin = str_ireplace('TITLE. ', '', $customNameFin);
+									$customNameFin = str_ireplace('TITLE: ', '', $customNameFin);
+									$customNameFin = str_ireplace('TITLE ', '', $customNameFin);
+									$customNameFin = trim($customNameFin);
+									$customNameFin = trim($customNameFin, '\'"');
+									$customNameFin = $this->cleanTitle($customNameFin);
 								}else{
 									$persona = Persona::where('id', $recipient_id)->first();
 									$names = explode('|', $title->name);
@@ -6230,8 +6260,8 @@ class ImportOrk3 extends Command
 							//TODO: latest updates above resulted in fewer added records.  Review crypt for differences to resolve.
 							
 							//TODO: the default action for !$authority_type doesn't work.  They just put in a park id.
-							//TODO: figure it out by chapter has authority, if not, then attribute it to the realm or
-							//TODO: figure it out by the issuer...were they officer of a realm or a chapter?
+							//TODO: figure it out by the issuer...were they officer of a realm or a chapter? or
+							//TODO: chapter has authority for that rank, if not, then attribute it to the realm
 							//make it
 							DB::table('issuances')->insert([
 								'issuable_type' => $issuable_type,
@@ -6260,20 +6290,17 @@ class ImportOrk3 extends Command
 					//iterate personas with peered titles, finding their highest title, assigning their honorific_id.
 					$this->info('');
 					$this->info('Updating Persona Honorifics...');
-					$bar = $this->output->createProgressBar();
-					$titledPersonas = Persona::whereNull('honorific_id')->whereHas('titles', function ($query) {
+					$titledPersonas = Persona::whereHas('titles', function ($query) {
 						$query->where('peerage', '!=', 'None');
 					})->get();
-					$bar->setMaxSteps($backupConnect->table('ork_awards')->count() + $titledPersonas->count());
 					foreach ($titledPersonas as $titledPersona) {
 						$honorific_id = null;
 						$knightTitles = $titledPersona->titles()
 							->where('peerage', 'Knight')
 							->orderBy('id', 'desc')
 							->get();
-						
 						if ($knightTitles->isNotEmpty()) {
-							$issuance = $titledPersona->titleIssuances()->where('issuable_type', 'Title')->where('issuable_id', $knightTitles->first()->id)->first();
+							$issuance = $titledPersona->titleIssuances()->where('issuable_id', $knightTitles->first()->id)->first();
 							$honorific_id = $issuance->id;
 						} else {
 							$highestRankTitle = $titledPersona->titles()
@@ -6281,7 +6308,7 @@ class ImportOrk3 extends Command
 								->orderBy('rank', 'desc')
 								->get();
 							if ($highestRankTitle->isNotEmpty()) {
-								$issuance = $titledPersona->titleIssuances()->where('issuable_type', 'Title')->where('issuable_id', $highestRankTitle->first()->id)->first();
+								$issuance = $titledPersona->titleIssuances()->where('issuable_id', $highestRankTitle->first()->id)->first();
 								$honorific_id = $issuance->id;
 							}
 						}
@@ -6290,7 +6317,6 @@ class ImportOrk3 extends Command
 							DB::table('personas')
 								->where('id', $titledPersona->id)
 								->update(['honorific_id' => $honorific_id]);
-							$bar->advance();
 						}
 					}
 					$this->info('Honorifics done.');

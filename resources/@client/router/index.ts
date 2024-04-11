@@ -19,7 +19,7 @@ const router = createRouter({
 					component: () => import("../pages/Legal.vue"),
 				},
 				{
-					path: "profile",
+					path: "profile/:persona_id?",
 					name: "profile",
 					component: () => import("../pages/Profile.vue"),
 				},

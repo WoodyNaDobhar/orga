@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import _ from "lodash";
 	import { ref, provide, onMounted } from "vue";
+	import { useRoute } from 'vue-router';
 	import fakerData from "@/utils/faker";
 	import Button from "@/components/Base/Button";
 	import { FormSwitch } from "@/components/Base/Form";
@@ -12,16 +13,22 @@
 	import { Tab as HeadlessTab } from "@headlessui/vue";
 	import { useStateStore } from '@/stores/state';
 	import { useAuthStore } from '@/stores/auth';
+	import { Persona } from '@/interfaces';
+	import axios from 'axios';
 	
 	const newProductsRef = ref<TinySliderElement>();
 	const newAuthorsRef = ref<TinySliderElement>();
 	const state = useStateStore()
 	const auth = useAuthStore()
 	const user = auth.getUser
+	const route = useRoute()
+	const persona_id = ref(route.params.persona_id)
+	const persona = ref<Persona>();
 	
 	onMounted(() => {
-		state.storeBreadcrumb(1, user ? user.name : 'Profile', '/profile')
-	});
+		state.storeBreadcrumb(1, (user ? user.name : 'Profile'), '/profile')
+		fetchUserData()
+	})
 	
 	provide("bind[newProductsRef]", (el: TinySliderElement) => {
 		newProductsRef.value = el;
@@ -43,11 +50,29 @@
 	const nextNewAuthors = () => {
 		newAuthorsRef.value?.tns.goTo("next");
 	};
+	
+	// Fetch user data based on URL parameter if present, otherwise fallback to auth.getUser
+	const fetchUserData = async () => {
+		try {
+			console.log(persona_id);
+			let id = persona_id.value ? persona_id.value : user.persona.id;
+			state.storeState('loading', 'Page Loading')
+			await axios.get("api/personas/" + id + "?with[]=honorific&with[]=user&with[]=titleIssuances&with[]=socials")
+				.then(response => {
+					console.log(response)
+					state.storeState('ready', 'ORKv4 is ready')
+	  				persona.value = response.data.data;
+				});
+		} catch (error: any) {
+			state.storeState('error', error)
+			console.error('Error fetching user data:', error);
+		}
+	};
 </script>
 
 <template>
 	<div class="flex items-center mt-8 intro-y">
-		<h2 class="mr-auto text-lg font-medium">{{ user.persona.honorific?.name }}{{ user.name }}</h2>
+		<h2 class="mr-auto text-lg font-medium">{{ persona?.honorific?.name + ' ' }}{{ persona?.name }}</h2>
 	</div>
 	<Tab.Group>
 		<!-- BEGIN: Profile Info -->
@@ -62,18 +87,28 @@
 						class="relative flex-none w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 image-fit"
 					>
 						<img
-							alt="user.name"
+							:alt="persona?.name"
 							class="rounded-full"
-							:src="user.persona.image"
+							:src="persona?.image"
 						/>
 					</div>
 					<div class="ml-5">
-						<div
-							class="w-24 text-lg font-medium truncate sm:w-40 sm:whitespace-normal"
-						>
-							noble titles here
+						<div class="w-24 text-lg font-medium truncate sm:w-40 sm:whitespace-normal">
+							<template v-for="(peerage, index) in ['Knight', 'Nobility', 'Squire', 'Retainer']">
+								<template v-if="persona?.titleIssuances?.filter(titleIssuance => titleIssuance.issuable.peerage === peerage).length">
+									<span v-for="(title, titleIndex) in persona.titleIssuances.filter(titleIssuance => titleIssuance.issuable.peerage === peerage)" :key="titleIndex">{{ title.name }}&nbsp;</span>
+								</template>
+							</template>
 						</div>
-						<div class="text-slate-500">non-noble titles here</div>
+						<div class="text-slate-500">
+							<template v-for="(peerage, index) in ['Master', 'Paragon', 'Gentry', 'None']">
+								<template v-if="persona?.titleIssuances?.filter(titleIssuance => titleIssuance.issuable.peerage === peerage).length">
+									<span v-for="(title, titleIndex) in persona.titleIssuances.filter(titleIssuance => titleIssuance.issuable.peerage === peerage)" :key="titleIndex">
+										{{ title.name }}<span v-if="titleIndex !== persona.titleIssuances.filter(titleIssuance => titleIssuance.issuable.peerage === peerage).length - 1 || index !== ['Master', 'Paragon', 'Gentry', 'None'].length - 1">, </span>
+									</span>
+								</template>
+							</template>
+						</div>
 					</div>
 				</div>
 				<div
@@ -85,34 +120,28 @@
 					<div
 						class="flex flex-col items-center justify-center mt-4 lg:items-start"
 					>
-						<div class="flex items-center truncate sm:whitespace-normal">
-							<Lucide icon="Mail" class="w-4 h-4 mr-2" />
-							{{ fakerData[0].users[0].email }}
-						</div>
-						<div class="flex items-center mt-3 truncate sm:whitespace-normal">
-							<Lucide icon="Instagram" class="w-4 h-4 mr-2" /> Instagram
-							{{ fakerData[0].users[0].name }}
-						</div>
-						<div class="flex items-center mt-3 truncate sm:whitespace-normal">
-							<Lucide icon="Twitter" class="w-4 h-4 mr-2" /> Twitter
-							{{ fakerData[0].users[0].name }}
-						</div>
+						<template v-for="(social, index) in persona?.socials">
+							<div class="flex items-center truncate sm:whitespace-normal">
+								<Lucide :icon="social.media" class="w-4 h-4 mr-2" />
+								<a :href="social.link" target="_blank">{{ social.value }}</a>
+							</div>
+						</template>
 					</div>
 				</div>
 				<div
 					class="flex items-center justify-center flex-1 px-5 pt-5 mt-6 border-t lg:mt-0 lg:border-0 border-slate-200/60 dark:border-darkmode-400 lg:pt-0"
 				>
 					<div class="w-20 py-3 text-center rounded-md">
-						<div class="text-xl font-medium text-primary">201</div>
-						<div class="text-slate-500">Orders</div>
+						<div class="text-xl font-medium text-primary">{{ persona?.attendance_count }}</div>
+						<div class="text-slate-500">Attendances</div>
 					</div>
 					<div class="w-20 py-3 text-center rounded-md">
-						<div class="text-xl font-medium text-primary">1k</div>
-						<div class="text-slate-500">Purchases</div>
+						<div class="text-xl font-medium text-primary">{{ persona?.credit_count }}</div>
+						<div class="text-slate-500">Credits</div>
 					</div>
 					<div class="w-20 py-3 text-center rounded-md">
-						<div class="text-xl font-medium text-primary">492</div>
-						<div class="text-slate-500">Reviews</div>
+						<div class="text-xl font-medium text-primary">{{ persona?.score }}</div>
+						<div class="text-slate-500">Score</div>
 					</div>
 				</div>
 			</div>

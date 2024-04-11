@@ -12,14 +12,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Crypt;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 use Wildside\Userstamps\Userstamps;
 use App\Notifications\ResetPasswordNotification;
-use App\Notifications\InviteNotification;
 
 /**
  * @OA\Schema(
@@ -38,6 +36,16 @@ use App\Notifications\InviteNotification;
  *			format="int32",
  *			example=42,
  *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="The User's Persona name or 'Unknown'.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Color Animal",
+ *			maxLength=191
  *		),
  *		@OA\Property(
  *			property="persona_id",
@@ -185,6 +193,16 @@ use App\Notifications\InviteNotification;
  *			example=42
  *		),
  *		@OA\Property(
+ *			property="name",
+ *			description="The User's Persona name or 'Unknown'.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Color Animal",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
  *			property="email",
  *			description="Unique email used to identify and communicate with the User.",
  *			readOnly=false,
@@ -288,6 +306,16 @@ use App\Notifications\InviteNotification;
  *			example=42
  *		),
  *		@OA\Property(
+ *			property="name",
+ *			description="The User's Persona name or 'Unknown'.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Color Animal",
+ *			maxLength=191
+ *		),
+ *		@OA\Property(
  *			property="token",
  *			description="Login token for the User.",
  *			readOnly=true,
@@ -387,7 +415,7 @@ use App\Notifications\InviteNotification;
  *	)
  *	@OA\Schema(
  *		schema="UserSuperSimple",
- *		title="UserSuperSimpleSimple",
+ *		title="UserSuperSimple",
  *		description="Attachable User object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="persona_id",
@@ -397,6 +425,16 @@ use App\Notifications\InviteNotification;
  *			type="integer",
  *			format="int32",
  *			example=42
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="The User's Persona name or 'Unknown'.",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Color Animal",
+ *			maxLength=191
  *		),
  *		@OA\Property(
  *			property="email",

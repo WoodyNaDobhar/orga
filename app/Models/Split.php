@@ -250,7 +250,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="SplitSuperSimple",
- *		title="SplitSuperSimpleSimple",
+ *		title="SplitSuperSimple",
  *		description="Attachable Split object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

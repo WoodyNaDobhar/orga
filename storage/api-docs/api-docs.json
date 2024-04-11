@@ -2962,6 +2962,84 @@
                 ]
             }
         },
+        "/check": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Check to see if a given User's auth token is still active.  Can only be accessed once every minute.",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+                "operationId": "384c8e01722dd24ddc6bd4ae4fc30dd4",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/check"
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "data": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Check Successful."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/forgot": {
             "post": {
                 "tags": [
@@ -20467,7 +20545,7 @@
                 "type": "object"
             },
             "AccountSuperSimple": {
-                "title": "AccountSuperSimpleSimple",
+                "title": "AccountSuperSimple",
                 "description": "Attachable Account object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -20719,7 +20797,7 @@
                 "type": "object"
             },
             "ArchetypeSuperSimple": {
-                "title": "ArchetypeSuperSimpleSimple",
+                "title": "ArchetypeSuperSimple",
                 "description": "Attachable Archetype object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -21008,7 +21086,7 @@
                 "type": "object"
             },
             "AttendanceSuperSimple": {
-                "title": "AttendanceSuperSimpleSimple",
+                "title": "AttendanceSuperSimple",
                 "description": "Attachable Attendance object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -21319,7 +21397,7 @@
                 "type": "object"
             },
             "AwardSuperSimple": {
-                "title": "AwardSuperSimpleSimple",
+                "title": "AwardSuperSimple",
                 "description": "Attachable Award object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -21759,7 +21837,7 @@
                 "type": "object"
             },
             "ChapterSuperSimple": {
-                "title": "ChapterSuperSimpleSimple",
+                "title": "ChapterSuperSimple",
                 "description": "Attachable Chapter object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -22077,7 +22155,7 @@
                 "type": "object"
             },
             "ChaptertypeSuperSimple": {
-                "title": "ChaptertypeSuperSimpleSimple",
+                "title": "ChaptertypeSuperSimple",
                 "description": "Attachable Chaptertype object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -22344,7 +22422,7 @@
                 "type": "object"
             },
             "CratSuperSimple": {
-                "title": "CratSuperSimpleSimple",
+                "title": "CratSuperSimple",
                 "description": "Attachable Crat object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -22593,7 +22671,7 @@
                 "type": "object"
             },
             "DueSuperSimple": {
-                "title": "DueSuperSimpleSimple",
+                "title": "DueSuperSimple",
                 "description": "Attachable Due object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -23084,7 +23162,7 @@
                 "type": "object"
             },
             "EventSuperSimple": {
-                "title": "EventSuperSimpleSimple",
+                "title": "EventSuperSimple",
                 "description": "Attachable Event object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -23452,7 +23530,7 @@
                 "type": "object"
             },
             "GuestSuperSimple": {
-                "title": "GuestSuperSimpleSimple",
+                "title": "GuestSuperSimple",
                 "description": "Attachable Guest object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -24036,7 +24114,7 @@
                 "type": "object"
             },
             "IssuanceSuperSimple": {
-                "title": "IssuanceSuperSimpleSimple",
+                "title": "IssuanceSuperSimple",
                 "description": "Attachable Issuance object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -24578,7 +24656,7 @@
                 "type": "object"
             },
             "LocationSuperSimple": {
-                "title": "LocationSuperSimpleSimple",
+                "title": "LocationSuperSimple",
                 "description": "Attachable Location object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -25054,7 +25132,7 @@
                 "type": "object"
             },
             "MeetupSuperSimple": {
-                "title": "MeetupSuperSimpleSimple",
+                "title": "MeetupSuperSimple",
                 "description": "Attachable Meetup object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -25434,7 +25512,7 @@
                 "type": "object"
             },
             "MemberSuperSimple": {
-                "title": "MemberSuperSimpleSimple",
+                "title": "MemberSuperSimple",
                 "description": "Attachable Member object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -25752,7 +25830,7 @@
                 "type": "object"
             },
             "OfficeSuperSimple": {
-                "title": "OfficeSuperSimpleSimple",
+                "title": "OfficeSuperSimple",
                 "description": "Attachable Office object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -26098,7 +26176,7 @@
                 "type": "object"
             },
             "OfficerSuperSimple": {
-                "title": "OfficerSuperSimpleSimple",
+                "title": "OfficerSuperSimple",
                 "description": "Attachable Officer object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -26299,6 +26377,30 @@
                         "format": "uppercase",
                         "maxLength": 7,
                         "readOnly": true,
+                        "nullable": false
+                    },
+                    "attendance_count": {
+                        "description": "A count of the Persona's Attendances.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "credit_count": {
+                        "description": "A count of the Persona's Credits.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "score": {
+                        "description": "An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
                         "nullable": false
                     },
                     "created_by": {
@@ -26668,6 +26770,30 @@
                         "readOnly": true,
                         "nullable": false
                     },
+                    "attendance_count": {
+                        "description": "A count of the Persona's Attendances.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "credit_count": {
+                        "description": "A count of the Persona's Credits.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "score": {
+                        "description": "An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
                     "created_by": {
                         "description": "The User that created this record.",
                         "type": "integer",
@@ -26715,7 +26841,7 @@
                 "type": "object"
             },
             "PersonaSuperSimple": {
-                "title": "PersonaSuperSimpleSimple",
+                "title": "PersonaSuperSimple",
                 "description": "Attachable Persona object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -26828,6 +26954,30 @@
                         "format": "uppercase",
                         "maxLength": 7,
                         "readOnly": true,
+                        "nullable": false
+                    },
+                    "attendance_count": {
+                        "description": "A count of the Persona's Attendances.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "credit_count": {
+                        "description": "A count of the Persona's Credits.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "score": {
+                        "description": "An open ended scoring of a Persona's entire Amtgard record from 0-infinity.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42,
                         "nullable": false
                     }
                 },
@@ -27023,7 +27173,7 @@
                 "type": "object"
             },
             "PronounSuperSimple": {
-                "title": "PronounSuperSimpleSimple",
+                "title": "PronounSuperSimple",
                 "description": "Attachable Pronoun object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -27589,7 +27739,7 @@
                 "type": "object"
             },
             "RealmSuperSimple": {
-                "title": "RealmSuperSimpleSimple",
+                "title": "RealmSuperSimple",
                 "description": "Attachable Realm object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -28008,7 +28158,7 @@
                 "type": "object"
             },
             "RecommendationSuperSimple": {
-                "title": "RecommendationSuperSimpleSimple",
+                "title": "RecommendationSuperSimple",
                 "description": "Attachable Recommendation object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -28277,7 +28427,7 @@
                 "type": "object"
             },
             "ReconciliationSuperSimple": {
-                "title": "ReconciliationSuperSimpleSimple",
+                "title": "ReconciliationSuperSimple",
                 "description": "Attachable Reconciliation object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -28577,7 +28727,7 @@
                 "type": "object"
             },
             "ReignSuperSimple": {
-                "title": "ReignSuperSimpleSimple",
+                "title": "ReignSuperSimple",
                 "description": "Attachable Reign object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -28705,6 +28855,14 @@
                         "example": "https://ork.amtgard.com",
                         "nullable": false
                     },
+                    "link": {
+                        "description": "The full url to the service/user.",
+                        "type": "string",
+                        "maxLength": 255,
+                        "readOnly": false,
+                        "example": "https://www.facebook.com/WoodyNaDobhar",
+                        "nullable": false
+                    },
                     "created_by": {
                         "description": "The User that created this record.",
                         "type": "integer",
@@ -28829,6 +28987,14 @@
                         "example": "https://ork.amtgard.com",
                         "nullable": false
                     },
+                    "link": {
+                        "description": "The full url to the service/user.",
+                        "type": "string",
+                        "maxLength": 255,
+                        "readOnly": false,
+                        "example": "https://www.facebook.com/WoodyNaDobhar",
+                        "nullable": false
+                    },
                     "created_by": {
                         "description": "The User that created this record.",
                         "type": "integer",
@@ -28876,7 +29042,7 @@
                 "type": "object"
             },
             "SocialSuperSimple": {
-                "title": "SocialSuperSimpleSimple",
+                "title": "SocialSuperSimple",
                 "description": "Attachable Social object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -28931,6 +29097,14 @@
                         "maxLength": 255,
                         "readOnly": false,
                         "example": "https://ork.amtgard.com",
+                        "nullable": false
+                    },
+                    "link": {
+                        "description": "The full url to the service/user.",
+                        "type": "string",
+                        "maxLength": 255,
+                        "readOnly": false,
+                        "example": "https://www.facebook.com/WoodyNaDobhar",
                         "nullable": false
                     }
                 },
@@ -29137,7 +29311,7 @@
                 "type": "object"
             },
             "SplitSuperSimple": {
-                "title": "SplitSuperSimpleSimple",
+                "title": "SplitSuperSimple",
                 "description": "Attachable Split object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -29472,7 +29646,7 @@
                 "type": "object"
             },
             "SuspensionSuperSimple": {
-                "title": "SuspensionSuperSimpleSimple",
+                "title": "SuspensionSuperSimple",
                 "description": "Attachable Suspension object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -29885,7 +30059,7 @@
                 "type": "object"
             },
             "TitleSuperSimple": {
-                "title": "TitleSuperSimpleSimple",
+                "title": "TitleSuperSimple",
                 "description": "Attachable Title object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -30214,7 +30388,7 @@
                 "type": "object"
             },
             "TournamentSuperSimple": {
-                "title": "TournamentSuperSimpleSimple",
+                "title": "TournamentSuperSimple",
                 "description": "Attachable Tournament object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -30459,7 +30633,7 @@
                 "type": "object"
             },
             "TransactionSuperSimple": {
-                "title": "TransactionSuperSimpleSimple",
+                "title": "TransactionSuperSimple",
                 "description": "Attachable Transaction object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -30820,7 +30994,7 @@
                 "type": "object"
             },
             "UnitSuperSimple": {
-                "title": "UnitSuperSimpleSimple",
+                "title": "UnitSuperSimple",
                 "description": "Attachable Unit object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -30897,6 +31071,15 @@
                         "format": "int32",
                         "readOnly": true,
                         "example": 42
+                    },
+                    "name": {
+                        "description": "The User's Persona name or 'Unknown'.",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "Color Animal",
+                        "nullable": false
                     },
                     "persona_id": {
                         "description": "ID of the User's Persona.",
@@ -31021,6 +31204,15 @@
                         "example": 42,
                         "nullable": false
                     },
+                    "name": {
+                        "description": "The User's Persona name or 'Unknown'.",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "Color Animal",
+                        "nullable": false
+                    },
                     "email": {
                         "description": "Unique email used to identify and communicate with the User.",
                         "type": "string",
@@ -31117,6 +31309,15 @@
                         "example": 42,
                         "nullable": false
                     },
+                    "name": {
+                        "description": "The User's Persona name or 'Unknown'.",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "Color Animal",
+                        "nullable": false
+                    },
                     "token": {
                         "description": "Login token for the User.",
                         "type": "string",
@@ -31209,7 +31410,7 @@
                 "type": "object"
             },
             "UserSuperSimple": {
-                "title": "UserSuperSimpleSimple",
+                "title": "UserSuperSimple",
                 "description": "Attachable User object with no attachments or CUD data.",
                 "properties": {
                     "persona_id": {
@@ -31218,6 +31419,15 @@
                         "format": "int32",
                         "readOnly": false,
                         "example": 42,
+                        "nullable": false
+                    },
+                    "name": {
+                        "description": "The User's Persona name or 'Unknown'.",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "Color Animal",
                         "nullable": false
                     },
                     "email": {
@@ -31707,7 +31917,7 @@
                 "type": "object"
             },
             "WaiverSuperSimple": {
-                "title": "WaiverSuperSimpleSimple",
+                "title": "WaiverSuperSimple",
                 "description": "Attachable Waiver object with no attachments or CUD data.",
                 "properties": {
                     "id": {
@@ -32178,6 +32388,34 @@
                                     "description": "Term being searched.",
                                     "type": "string",
                                     "maxLength": 191
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "check": {
+                "description": "Active check data.",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "user_id",
+                                "device_name"
+                            ],
+                            "properties": {
+                                "user_id": {
+                                    "description": "User being checked.",
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "example": 42
+                                },
+                                "device_name": {
+                                    "description": "Login device information.",
+                                    "type": "string",
+                                    "example": "Bob'sS22"
                                 }
                             },
                             "type": "object"

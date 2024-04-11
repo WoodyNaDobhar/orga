@@ -282,7 +282,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="ChaptertypeSuperSimple",
- *		title="ChaptertypeSuperSimpleSimple",
+ *		title="ChaptertypeSuperSimple",
  *		description="Attachable Chaptertype object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

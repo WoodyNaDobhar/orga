@@ -442,7 +442,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="LocationSuperSimple",
- *		title="LocationSuperSimpleSimple",
+ *		title="LocationSuperSimple",
  *		description="Attachable Location object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

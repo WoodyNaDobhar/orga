@@ -253,7 +253,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="TournamentSuperSimple",
- *		title="TournamentSuperSimpleSimple",
+ *		title="TournamentSuperSimple",
  *		description="Attachable Tournament object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

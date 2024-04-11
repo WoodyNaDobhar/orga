@@ -248,7 +248,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="CratSuperSimple",
- *		title="CratSuperSimpleSimple",
+ *		title="CratSuperSimple",
  *		description="Attachable Crat object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

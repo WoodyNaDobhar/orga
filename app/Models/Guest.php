@@ -273,7 +273,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="GuestSuperSimple",
- *		title="GuestSuperSimpleSimple",
+ *		title="GuestSuperSimple",
  *		description="Attachable Guest object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

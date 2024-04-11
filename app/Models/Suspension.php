@@ -329,7 +329,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="SuspensionSuperSimple",
- *		title="SuspensionSuperSimpleSimple",
+ *		title="SuspensionSuperSimple",
  *		description="Attachable Suspension object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

@@ -678,6 +678,116 @@ class BaseAPIController extends AppBaseController
 	 * @return Response
 	 *
 	 * @OA\Post(
+	 *		path="/check",
+	 *		summary="Check to see if a given User's auth token is still active.  Can only be accessed once every minute.",
+	 *		tags={"Base"},
+	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+	 *		requestBody={"$ref": "#/components/requestBodies/check"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Check Successful."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function check(Request $request)
+	{
+		try {
+			
+			$request->validate([
+				'user_id' => 'required',
+				'device_name' => 'required',
+			]);
+			
+			$user = User::where('id', $request->user_id)->first();
+			if (! $user ) {
+				return $this->sendResponse(false, 'Check successful.');
+			}
+			
+			foreach($user->tokens()->get() as $token){
+				if (Carbon::parse($token->created_at)->greaterThan(Carbon::create()->subMinutes(20))) {
+					return $this->sendResponse(true, 'Check successful.');
+				}
+			}
+			
+			return $this->sendResponse(false, 'Check successful.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
+	
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Post(
 	 *		path="/forgot",
 	 *		summary="Send reset password email to user.  May only be accessed once every five minutes.",
 	 *		tags={"Base"},

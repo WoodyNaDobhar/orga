@@ -550,7 +550,7 @@ use Wildside\Userstamps\Userstamps;
  *	)
  *	@OA\Schema(
  *		schema="IssuanceSuperSimple",
- *		title="IssuanceSuperSimpleSimple",
+ *		title="IssuanceSuperSimple",
  *		description="Attachable Issuance object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

@@ -616,7 +616,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="RealmSuperSimple",
- *		title="RealmSuperSimpleSimple",
+ *		title="RealmSuperSimple",
  *		description="Attachable Realm object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

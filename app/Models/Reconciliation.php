@@ -242,7 +242,7 @@ use App\Traits\ProtectFieldsTrait;
  *	)
  *	@OA\Schema(
  *		schema="ReconciliationSuperSimple",
- *		title="ReconciliationSuperSimpleSimple",
+ *		title="ReconciliationSuperSimple",
  *		description="Attachable Reconciliation object with no attachments or CUD data.",
  *		@OA\Property(
  *			property="id",

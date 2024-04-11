@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\AppHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
 class PersonaResource extends JsonResource
 {
@@ -18,7 +18,7 @@ class PersonaResource extends JsonResource
 		$data = [
 			'id' => $this->id,
 			'chapter_id' => $this->chapter_id,
-			'heraldry_id' => $this->heraldry_id,
+			'honorific_id' => $this->honorific_id,
 			'pronoun_id' => $this->pronoun_id,
 			'mundane' => $this->mundane,
 			'name' => $this->name,
@@ -28,6 +28,10 @@ class PersonaResource extends JsonResource
 			'reeve_qualified_expires_at' => $this->reeve_qualified_expires_at,
 			'corpora_qualified_expires_at' => $this->corpora_qualified_expires_at,
 			'joined_chapter_at' => $this->joined_chapter_at,
+			'chapter_full_abbreviation' => $this->chapter_full_abbreviation,
+			'attendance_count' => $this->attendance_count,
+			'credit_count' => $this->credit_count,
+			'score' => $this->score,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 			'deleted_at' => $this->deleted_at
@@ -35,9 +39,13 @@ class PersonaResource extends JsonResource
 		
 		//related
 		foreach (array_keys($this->relationships) as $relationship) {
-			$resourceClass = 'App\\Http\\Resources\\' . ucfirst(Str::singular($relationship)) . 'Resource';
+			$resourceClass = 'App\\Http\\Resources\\' . AppHelper::instance()->fixEloquentName($relationship) . 'Resource';
 			if ($request->has('with') && in_array($relationship, $request->with) && class_exists($resourceClass)) {
-				$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+				if(substr($relationship, -1) === 's'){
+					$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+				}else{
+					$data[$relationship] = $resourceClass::make($this->whenLoaded($relationship));
+				}
 			}
 		}
 		

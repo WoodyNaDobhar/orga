@@ -16,10 +16,22 @@
 	import axios from 'axios';
 	import dayjs from 'dayjs';
 	
-	const router = useRouter()
+	const thisRouter = useRouter()
 	const auth = useAuthStore()
 	const user = auth.getUser
 	const state = useStateStore()
+	
+	interface ChapterSearchResult extends SearchResult {
+		id: number;
+		name: string;
+		heraldry?: string;
+		abbreviation?: string;
+		full_abbreviation?: string;
+		chapter_full_abbreviation?: string;
+		realm: {
+			name: string;
+		};
+	}
 	
 	interface SearchResult {
 		id: number;
@@ -42,7 +54,7 @@
 	};
 	const searchText = ref('')
 	const searchData = ref({
-		Chapters: [] as SearchResult[],
+		Chapters: [] as ChapterSearchResult[],
 		Events: [] as SearchResult[],
 		Personas: [] as SearchResult[],
 		Realms: [] as SearchResult[],
@@ -54,12 +66,9 @@
 		hideSearchDropdown();
 		try {
 			const response = await axios.post('api/search', { search: searchText.value });
-			console.log(searchDropdown.value)
 			searchData.value = response.data.data;
-			console.log(searchData)
 			showSearchDropdown()
 		} catch (error) {
-			console.error(error);
 			throw error;
 		}
 	}, 300);
@@ -69,7 +78,7 @@
 			auth.logout()
 				.then(response => {
 					state.storeState('success', 'You have been logged out.');
-					router.push('/');
+					thisRouter.push('/');
 				})
 				.catch(error => {
 					state.storeState('error', error)
@@ -413,7 +422,7 @@
 							</div>
 						</Menu.Header>
 						<Menu.Divider class="bg-white/[0.08]" />
-						<Menu.Item @click="router.push('/profile')" class="hover:bg-white/5">
+						<Menu.Item @click="thisRouter.push('/profile')" class="hover:bg-white/5">
 							<Lucide icon="User" class="w-4 h-4 mr-2" /> Profile
 						</Menu.Item>
 						<Menu.Item class="hover:bg-white/5">
