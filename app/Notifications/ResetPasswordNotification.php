@@ -21,8 +21,9 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
 	/**
 	 * Create a new notification instance.
 	 */
-	public function __construct(string $url)
+	public function __construct(string $name, string $url)
 	{
+		$this->name = $name;
 		$this->url = $url;
 	}
 
@@ -43,7 +44,7 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
 	{
 		return (new MailMessage)
 			->subject("ORK4 Password Reset Request")
-			->greeting("Hail, and Well Met " . $notifiable->persona->name . "!")
+			->greeting("Hail, and Well Met " . $this->name . "!")
 			->line("We have received a request to reset your password.  If this was you, please click the link below to continue the process.")
 			->action("Reset Password", $this->url)
 			->line("If you did not make this request, please disregard.  If it keeps happening let the ORK4 team know!")

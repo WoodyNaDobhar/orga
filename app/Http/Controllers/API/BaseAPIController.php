@@ -900,7 +900,7 @@ class BaseAPIController extends AppBaseController
 			
 			Notification::route('mail', [
 				$request->email => ($user->persona ? $user->persona->name : $user->name),
-			])->notify(new ResetPasswordNotification(config('app.url') . '/reset/' . $token));
+			])->notify(new ResetPasswordNotification(($user->persona ? $user->persona->name : $user->name), config('app.url') . '/reset/' . $token));
 			
 			return $this->sendSuccess($response);
 		} catch (Throwable $e) {
