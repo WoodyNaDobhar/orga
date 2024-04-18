@@ -162,10 +162,10 @@
 	const recommendFormData = reactive({
 		honor: '1',
 		persona_id: 0,
-	    recommendable_type: null,
-	    recommendable_id: null,
-	    rank: null,
-	    reason: null,
+		recommendable_type: null,
+		recommendable_id: null,
+		rank: null,
+		reason: null,
 	});
 	const recommendFormRules = {
 		honor: {
@@ -276,54 +276,42 @@
 	};
 	const handleHonorSelectChange = (selectedValue:any) => {
 		const valuesArray = selectedValue.split('|')
-	    if (valuesArray.length === 3) {
-	        const [type, value] = valuesArray
-	        for (const collection of honorSelectOptions.value) {
+		if (valuesArray.length === 3) {
+			const [type, value] = valuesArray
+			for (const collection of honorSelectOptions.value) {
 				if(collection.options){
-	           		for (const option of collection.options) {
-			            if (option.type == type && option.value == value) {
+					for (const option of collection.options) {
+						if (option.type == type && option.value == value) {
 							recommendFormData.persona_id = persona?.value?.id ? persona.value.id : 0
 							recommendFormData.recommendable_id = option.value
 							recommendFormData.recommendable_type = option.type
-			                if (option.is_ladder) {
-		                        if (persona?.value?.awards.hasOwnProperty(option.text)) {
-		                            recommendFormData.rank = persona?.value?.awards[option.text].rank + 1
-			                    	showRank.value = true
-		                        }
-			                } else {
-			                    showRank.value = false
-			                }
+							if (option.is_ladder) {
+								if (persona?.value?.awards.hasOwnProperty(option.text)) {
+									recommendFormData.rank = persona?.value?.awards[option.text].rank + 1
+									showRank.value = true
+								}
+							} else {
+								showRank.value = false
+							}
 							console.log(recommendFormData)
-			                break;
-			            }
-		            }
-	            }
-	        }
-	    }
+							break;
+						}
+					}
+				}
+			}
+		}
 		return false;
 	}
 	const sendRecommendation = async () => {
 		recommendValidate.value.$touch();
 		if (recommendValidate.value.$invalid) {
-			const failedEl = document
-				.querySelectorAll("#failed-notification-content")[0]
-				.cloneNode(true) as HTMLElement;
-			failedEl.classList.remove("hidden");
-			Toastify({
-				node: failedEl,
-				duration: 3000,
-				newWindow: true,
-				close: true,
-				gravity: "top",
-				position: "right",
-				stopOnFocus: true,
-			}).showToast();
+			showToast(false, "Please check the form.")
 		} else {
-	        try {
-	            await axios.post('/api/recommendations', recommendFormData)
+			try {
+				await axios.post('/api/recommendations', recommendFormData)
 					.then(response => {
-			            console.log('Recommendation sent:', response.data);
-			            setRecommendModal(false);
+						console.log('Recommendation sent:', response.data);
+						setRecommendModal(false);
 						showToast(true, response.data.message)
 					})
 					.catch(error => {
@@ -337,7 +325,7 @@
 				showToast(false, error)
 			}
 		}
-    }
+	}
 </script>
 
 <template>
@@ -640,7 +628,7 @@
 												:initialFocus="closeRecommendationRef"
 											>
 												<Dialog.Panel>
-            										<form class="validate-form" @submit.prevent="sendRecommendation">
+													<form class="validate-form" @submit.prevent="sendRecommendation">
 														<Dialog.Title>
 															<h2 class="mr-auto text-base font-medium">
 																Recommend Honor
@@ -661,7 +649,7 @@
 																<FormLabel htmlFor="recommendation-form-honor"> Honor </FormLabel>
 																<TomSelect 
 																	id="recommendation-form-honor"
-                  													v-model.trim="recommendValidate.honor.$model"
+																	v-model.trim="recommendValidate.honor.$model"
 																	:options="{
 																		placeholder: 'Select an Honor',
 																	}"

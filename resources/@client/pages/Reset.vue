@@ -12,7 +12,6 @@
 		maxLength,
 		integer,
 		email,
-		minValue,
 		sameAs
 	} from "@vuelidate/validators";
 	import { useVuelidate } from "@vuelidate/core";
@@ -24,25 +23,16 @@
 
 	const route = useRoute()
 	const router = useRouter()
-	const userEmail = ref(route.params.email)
-	const inviteCode = ref(route.params.invite_token)
+	const resetCode = ref(route.params.password_token)
 	const deviceName = ref(navigator.userAgent)
 	const state = useStateStore()
 	const auth = useAuthStore()
 	var gRecaptchaResponse = ref()
-	
-	interface Pronoun {
-		id: number;
-		subject: string;
-		object: string;
-	}
-	const pronouns = ref<Pronoun[]>([]);
 
 	const formData = reactive({
-		email: userEmail.value,
-		invite_token: inviteCode.value,
+		email: "",
+		password_token: resetCode.value,
 		device_name: deviceName,
-		pronoun_id: 0,
 		password: "",
 		password_confirm: "",
 		is_agreed: 0
@@ -55,16 +45,11 @@
 			minLength: minLength(5),
 			maxLength: maxLength(191),
 		},
-		invite_token: {
+		password_token: {
 			required,
 		},
 		device_name: {
 			required,
-		},
-		pronoun_id: {
-			required,
-			integer,
-			minValue: minValue(1),
 		},
 		password: {
 			required,
@@ -88,7 +73,7 @@
 			showToast(false, "Please check the form.")
 		} else {
 			try {
-				axios.post('/api/register', formData)
+				axios.post('/api/reset', formData)
 					.then(response => {
 						state.storeState('success', response.data.message);
 						const token = response.data.data.token;
@@ -175,37 +160,22 @@
 							<h2
 								class="text-2xl font-bold text-center intro-x xl:text-3xl xl:text-left"
 							>
-								Register
+								Reset Password
 							</h2>
 							<div class="mt-8 intro-x">
 								<FormInput
-									id="email"
-									v-model.trim="validate.email.$model"
+									id="password_token"
+									v-model.trim="validate.password_token.$model"
 									type="hidden"
-									name="email"
+									name="password_token"
 								/>
-								<template v-if="validate.email.$error">
+								<template v-if="validate.password_token.$error">
 									<div
-										v-for="(error, index) in validate.email.$errors"
+										v-for="(error, index) in validate.password_token.$errors"
 										:key="index"
 										class="mt-2 text-danger"
 									>
-										No email detected
-									</div>
-								</template>
-								<FormInput
-									id="invite_token"
-									v-model.trim="validate.invite_token.$model"
-									type="hidden"
-									name="invite_token"
-								/>
-								<template v-if="validate.invite_token.$error">
-									<div
-										v-for="(error, index) in validate.invite_token.$errors"
-										:key="index"
-										class="mt-2 text-danger"
-									>
-										No invite token detected
+										No reset token detected
 									</div>
 								</template>
 								<FormInput
@@ -223,32 +193,24 @@
 										Unable to determine device
 									</div>
 								</template>
-								<FormSelect 
-									id="pronoun_id" 
-									v-model.trim="validate.pronoun_id.$model"
-									name="pronoun_id"
-									class="mt-4"
+								<FormInput
+									id="email"
+									v-model.trim="validate.email.$model"
+									type="text"
+									name="email"
+									class="block px-4 py-3 intro-x login__input min-w-full xl:min-w-[350px]"
 									:class="{
-										'border-danger': validate.pronoun_id.$error,
+										'border-danger': validate.email.$error,
 									}"
-									placeholder="Pronouns"
-								>
-									<option value="0" disabled selected>Pronouns</option>
-									<option
-										v-for="(pronoun, pronounKey) in pronouns"
-										:key="pronounKey"
-										:value="pronoun.id"
-									>
-										{{ pronoun.subject + '/' + pronoun.object }}
-									</option>
-								</FormSelect>
-								<template v-if="validate.pronoun_id.$error">
+									placeholder="Email"
+								/>
+								<template v-if="validate.email.$error">
 									<div
-										v-for="(error, index) in validate.pronoun_id.$errors"
+										v-for="(error, index) in validate.email.$errors"
 										:key="index"
 										class="mt-2 text-danger"
 									>
-										This field is required
+										{{ error.$message }}
 									</div>
 								</template>
 								<FormInput
@@ -329,15 +291,15 @@
 									type="submit" 
 									class="w-full px-4 py-3 align-top xl:w-32 xl:mr-3"
 								>
-									Register
+									Update Password
 								</Button>
 								<div style="display: inline">
 									<google-re-captcha-v3
 										v-model="gRecaptchaResponse"
 										ref="captcha"
-										id="register_id"
+										id="reset_id"
 										inline
-										action="register"
+										action="reset"
 										style="display: inline;"
 									></google-re-captcha-v3>
 								</div>
