@@ -883,7 +883,7 @@ class BaseAPIController extends AppBaseController
 			//in order to prevent using this to identify users, the response is always the same from here out
 			$response = "Assuming it's in our system, a password reset link has been sent to the given email address.  Please check your spam folder, and if you like, consider whitelisting amtgard.com!";
 			
-			$user = User::where('email', $request->email)->first();
+			$user = User::where('email', $request->email)->with('persona')->first();
 			
 			if (!$user) {
 				return $this->sendSuccess($response);
@@ -899,8 +899,8 @@ class BaseAPIController extends AppBaseController
 			$token = $passwordBroker->getRepository()->create($user);
 			
 			Notification::route('mail', [
-				$request->email => $user->persona->name,
-			])->notify(new ResetPasswordNotification($user->persona->name, config('app.url') . '/reset/' . $token));
+				$request->email => ($user->persona ? $user->persona->name : $user->name),
+			])->notify(new ResetPasswordNotification(($user->persona ? $user->persona->name : $user->name), config('app.url') . '/reset/' . $token));
 			
 			return $this->sendSuccess($response);
 		} catch (Throwable $e) {
