@@ -8,729 +8,729 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
- * @OA\Schema(
- *		schema="Issuance",
- *		required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_at"},
- *		description="Issuances of Awards or Titles.<br>The following relationships can be attached, and in the case of plural relations, searched:
+ * @OA\Schema (
+ * 	schema="Issuance",
+ * 	required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_at"},
+ * 	description="Issuances of Awards or Titles.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
  * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
- * revokedBy (User) (BelongsTo): User revoked, who authorized the revocation.
+ * revoker (User) (BelongsTo): User revoked, who authorized the revocation.
  * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
  * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
  * deletedBy (User) (BelongsTo): User that deleted it (if any).",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="issuable_type",
- *			description="The Issuance type; Award or Title.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Award","Title"},
- *			example="Realm"
- *		),
- *		@OA\Property(
- *			property="issuable_id",
- *			description="The ID of the Issuance.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="whereable_type",
- *			description="Where it was Issued, if known; Event, Meetup, or Location.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Event","Meetup","Location"},
- *			example="Event"
- *		),
- *		@OA\Property(
- *			property="whereable_id",
- *			description="The ID of where it was Issued.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="issuer_type",
- *			description="Issuing authority; Chapter, Realm, Persona, or Unit.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Chapter","Realm","Persona","Unit"},
- *			example="Chapter"
- *		),
- *		@OA\Property(
- *			property="issuer_id",
- *			description="The ID of the Issuing authority.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="recipient_type",
- *			description="Who recieved the Issuance; Persona or Unit.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Persona","Unit"},
- *			example="Persona"
- *		),
- *		@OA\Property(
- *			property="recipient_id",
- *			description="The ID of the Issuance recipient.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="signator_id",
- *			description="The ID of the Persona signing the Issuance, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="name",
- *			description="Computed Issuance name",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="uppercase first letter",
- *			maxLength=64,
- *			example="Sir"
- *		),
- *		@OA\Property(
- *			property="custom_name",
- *			description="Where label options are avaiable, or customization allowed, the chosen label, else null",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="uppercase first letter",
- *			maxLength=64,
- *			example="Lady"
- *		),
- *		@OA\Property(
- *			property="rank",
- *			description="For laddered Issuances, the order number, else null.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=1
- *		),
- *		@OA\Property(
- *			property="issued_at",
- *			description="When the Issuance was made or is to be made public (if in the future)",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="date",
- *			example="2020-12-30"
- *		),
- *		@OA\Property(
- *			property="reason",
- *			description="A historical record of what the Issuance was for",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="paragraph",
- *			example="For their work feeding everybody.",
- *			maxLength=400
- *		),
- *		@OA\Property(
- *			property="image",
- *			description="An internal link to an image of the Issuance phyrep, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="filename",
- *			example="images/issuances/42.jpg",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="revoked_by",
- *			description="ID of the Persona that revoked the Issuance, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="revoked_at",
- *			description="Date the revocation is effective, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date",
- *			example="2020-12-30"
- *		),
- *		@OA\Property(
- *			property="revocation",
- *			description="Cause for the revocation, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="paragraph",
- *			example="He bought it on Etsy",
- *			maxLength=50
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="createdBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updatedBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deletedBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="issuable",
- *			type="object",
- *			description="Attachable object that was Issued the Award.",
- *			oneOf={
- *				@OA\Schema(ref="#/components/schemas/AwardSimple"),
- *				@OA\Schema(ref="#/components/schemas/TitleSimple")
- *			},
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="issuer",
- *			type="object",
- *			description="Attachable object that Issues the Award.",
- *			oneOf={
- *				@OA\Schema(ref="#/components/schemas/ChapterSimple"),
- *				@OA\Schema(ref="#/components/schemas/RealmSimple"),
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *				@OA\Schema(ref="#/components/schemas/UnitSimple")
- *			},
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="recipient",
- *			type="object",
- *			description="Attachable object that was Issued the Award.",
- *			oneOf={
- *				@OA\Schema(ref="#/components/schemas/PersonaSimple"),
- *				@OA\Schema(ref="#/components/schemas/UnitSimple")
- *			},
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="revokedBy",
- *			type="object",
- *			description="Attachable Persona that revoked the Issuance.",
- *			ref="#/components/schemas/PersonaSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="signator",
- *			type="object",
- *			description="Attachable Persona signing the Issuance.",
- *			ref="#/components/schemas/PersonaSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="whereable",
- *			type="object",
- *			description="Attachable object that Issues the Award.",
- *			oneOf={
- *				@OA\Schema(ref="#/components/schemas/EventSimple"),
- *				@OA\Schema(ref="#/components/schemas/LocationSimple"),
- *				@OA\Schema(ref="#/components/schemas/MeetupSimple")
- *			},
- *			readOnly=true
- *		)
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable_type",
+ * 		description="The Issuance type; Award or Title.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Award","Title"},
+ * 		example="Realm"
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable_id",
+ * 		description="The ID of the Issuance.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable_type",
+ * 		description="Where it was Issued, if known; Event, Meetup, or Location.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Event","Meetup","Location"},
+ * 		example="Event"
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable_id",
+ * 		description="The ID of where it was Issued.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer_type",
+ * 		description="Issuing authority; Chapter, Realm, Persona, or Unit.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Chapter","Realm","Persona","Unit"},
+ * 		example="Chapter"
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer_id",
+ * 		description="The ID of the Issuing authority.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_type",
+ * 		description="Who recieved the Issuance; Persona or Unit.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Persona","Unit"},
+ * 		example="Persona"
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_id",
+ * 		description="The ID of the Issuance recipient.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="signator_id",
+ * 		description="The ID of the Persona signing the Issuance, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="Computed Issuance name",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		maxLength=64,
+ * 		example="Sir"
+ * 	),
+ * 	@OA\Property(
+ * 		property="custom_name",
+ * 		description="Where label options are avaiable, or customization allowed, the chosen label, else null",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		maxLength=64,
+ * 		example="Lady"
+ * 	),
+ * 	@OA\Property(
+ * 		property="rank",
+ * 		description="For laddered Issuances, the order number, else null.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="issued_at",
+ * 		description="When the Issuance was made or is to be made public (if in the future)",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="reason",
+ * 		description="A historical record of what the Issuance was for",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="paragraph",
+ * 		example="For their work feeding everybody.",
+ * 		maxLength=400
+ * 	),
+ * 	@OA\Property(
+ * 		property="image",
+ * 		description="An internal link to an image of the Issuance phyrep, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="filename",
+ * 		example="images/issuances/42.jpg",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoked_by",
+ * 		description="ID of the Persona that revoked the Issuance, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoked_at",
+ * 		description="Date the revocation is effective, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="revocation",
+ * 		description="Cause for the revocation, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="paragraph",
+ * 		example="He bought it on Etsy",
+ * 		maxLength=50
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="createdBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updatedBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deletedBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable",
+ * 		type="object",
+ * 		description="Attachable object that was Issued the Award.",
+ * 		oneOf={
+ * 			@OA\Schema(ref="#/components/schemas/AwardSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/TitleSimple")
+ * 		},
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer",
+ * 		type="object",
+ * 		description="Attachable object that Issues the Award.",
+ * 		oneOf={
+ * 			@OA\Schema(ref="#/components/schemas/ChapterSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/RealmSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
+ * 		},
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient",
+ * 		type="object",
+ * 		description="Attachable object that was Issued the Award.",
+ * 		oneOf={
+ * 			@OA\Schema(ref="#/components/schemas/PersonaSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/UnitSimple")
+ * 		},
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoker",
+ * 		type="object",
+ * 		description="Attachable Persona that revoked the Issuance.",
+ * 		ref="#/components/schemas/PersonaSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="signator",
+ * 		type="object",
+ * 		description="Attachable Persona signing the Issuance.",
+ * 		ref="#/components/schemas/PersonaSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable",
+ * 		type="object",
+ * 		description="Attachable object that Issues the Award.",
+ * 		oneOf={
+ * 			@OA\Schema(ref="#/components/schemas/EventSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/LocationSimple"),
+ * 			@OA\Schema(ref="#/components/schemas/MeetupSimple")
+ * 		},
+ * 		readOnly=true
+ * 	)
  * )
- *	@OA\Schema(
- *		schema="IssuanceSimple",
- *		title="IssuanceSimple",
- *		description="Attachable Issuance object with no attachments.",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="issuable_type",
- *			description="The Issuance type; Award or Title.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Award","Title"},
- *			example="Realm"
- *		),
- *		@OA\Property(
- *			property="issuable_id",
- *			description="The ID of the Issuance.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="whereable_type",
- *			description="Where it was Issued, if known; Event, Meetup, or Location.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Event","Meetup","Location"},
- *			example="Event"
- *		),
- *		@OA\Property(
- *			property="whereable_id",
- *			description="The ID of where it was Issued.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="issuer_type",
- *			description="Issuing authority; Chapter, Realm, Persona, or Unit.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Chapter","Realm","Persona","Unit"},
- *			example="Chapter"
- *		),
- *		@OA\Property(
- *			property="issuer_id",
- *			description="The ID of the Issuing authority.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="recipient_type",
- *			description="Who recieved the Issuance; Persona or Unit.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Persona","Unit"},
- *			example="Persona"
- *		),
- *		@OA\Property(
- *			property="recipient_id",
- *			description="The ID of the Issuance recipient.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="signator_id",
- *			description="The ID of the Persona signing the Issuance, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="custom_name",
- *			description="Where label options are avaiable, or customization allowed, the chosen label, else null",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="uppercase first letter",
- *			maxLength=64,
- *			example="Lady"
- *		),
- *		@OA\Property(
- *			property="rank",
- *			description="For laddered Issuances, the order number, else null.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=1
- *		),
- *		@OA\Property(
- *			property="issued_at",
- *			description="When the Issuance was made or is to be made public (if in the future)",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="date",
- *			example="2020-12-30"
- *		),
- *		@OA\Property(
- *			property="reason",
- *			description="A historical record of what the Issuance was for",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="paragraph",
- *			example="For their work feeding everybody.",
- *			maxLength=400
- *		),
- *		@OA\Property(
- *			property="image",
- *			description="An internal link to an image of the Issuance phyrep, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="filename",
- *			example="images/issuances/42.jpg",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="revoked_by",
- *			description="ID of the Persona that revoked the Issuance, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="revoked_at",
- *			description="Date the revocation is effective, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date",
- *			example="2020-12-30"
- *		),
- *		@OA\Property(
- *			property="revocation",
- *			description="Cause for the revocation, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="paragraph",
- *			example="He bought it on Etsy",
- *			maxLength=50
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		)
- *	)
- *	@OA\Schema(
- *		schema="IssuanceSuperSimple",
- *		title="IssuanceSuperSimple",
- *		description="Attachable Issuance object with no attachments or CUD data.",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="issuable_type",
- *			description="The Issuance type; Award or Title.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Award","Title"},
- *			example="Realm"
- *		),
- *		@OA\Property(
- *			property="issuable_id",
- *			description="The ID of the Issuance.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="whereable_type",
- *			description="Where it was Issued, if known; Event, Meetup, or Location.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Event","Meetup","Location"},
- *			example="Event"
- *		),
- *		@OA\Property(
- *			property="whereable_id",
- *			description="The ID of where it was Issued.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="issuer_type",
- *			description="Issuing authority; Chapter, Realm, Persona, or Unit.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Chapter","Realm","Persona","Unit"},
- *			example="Chapter"
- *		),
- *		@OA\Property(
- *			property="issuer_id",
- *			description="The ID of the Issuing authority.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="recipient_type",
- *			description="Who recieved the Issuance; Persona or Unit.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="enum",
- *			enum={"Persona","Unit"},
- *			example="Persona"
- *		),
- *		@OA\Property(
- *			property="recipient_id",
- *			description="The ID of the Issuance recipient.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="signator_id",
- *			description="The ID of the Persona signing the Issuance, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="custom_name",
- *			description="Where label options are avaiable, or customization allowed, the chosen label, else null",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="uppercase first letter",
- *			maxLength=64,
- *			example="Lady"
- *		),
- *		@OA\Property(
- *			property="rank",
- *			description="For laddered Issuances, the order number, else null.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=1
- *		),
- *		@OA\Property(
- *			property="issued_at",
- *			description="When the Issuance was made or is to be made public (if in the future)",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="date",
- *			example="2020-12-30"
- *		),
- *		@OA\Property(
- *			property="reason",
- *			description="A historical record of what the Issuance was for",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="paragraph",
- *			example="For their work feeding everybody.",
- *			maxLength=400
- *		),
- *		@OA\Property(
- *			property="image",
- *			description="An internal link to an image of the Issuance phyrep, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="filename",
- *			example="images/issuances/42.jpg",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="revoked_by",
- *			description="ID of the Persona that revoked the Issuance, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="revoked_at",
- *			description="Date the revocation is effective, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date",
- *			example="2020-12-30"
- *		),
- *		@OA\Property(
- *			property="revocation",
- *			description="Cause for the revocation, if any.",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="paragraph",
- *			example="He bought it on Etsy",
- *			maxLength=50
- *		)
- *	)
- *	@OA\RequestBody(
- *		request="Issuance",
- *		description="Issuance object that needs to be added or updated.",
- *		required=true,
- *		@OA\MediaType(
- *			mediaType="multipart/form-data",
- *			@OA\Schema(ref="#/components/schemas/IssuanceSimple")
- *		)
- *	)
+ * @OA\Schema (
+ * 	schema="IssuanceSimple",
+ * 	title="IssuanceSimple",
+ * 	description="Attachable Issuance object with no attachments.",
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable_type",
+ * 		description="The Issuance type; Award or Title.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Award","Title"},
+ * 		example="Realm"
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable_id",
+ * 		description="The ID of the Issuance.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable_type",
+ * 		description="Where it was Issued, if known; Event, Meetup, or Location.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Event","Meetup","Location"},
+ * 		example="Event"
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable_id",
+ * 		description="The ID of where it was Issued.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer_type",
+ * 		description="Issuing authority; Chapter, Realm, Persona, or Unit.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Chapter","Realm","Persona","Unit"},
+ * 		example="Chapter"
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer_id",
+ * 		description="The ID of the Issuing authority.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_type",
+ * 		description="Who recieved the Issuance; Persona or Unit.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Persona","Unit"},
+ * 		example="Persona"
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_id",
+ * 		description="The ID of the Issuance recipient.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="signator_id",
+ * 		description="The ID of the Persona signing the Issuance, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="custom_name",
+ * 		description="Where label options are avaiable, or customization allowed, the chosen label, else null",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		maxLength=64,
+ * 		example="Lady"
+ * 	),
+ * 	@OA\Property(
+ * 		property="rank",
+ * 		description="For laddered Issuances, the order number, else null.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="issued_at",
+ * 		description="When the Issuance was made or is to be made public (if in the future)",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="reason",
+ * 		description="A historical record of what the Issuance was for",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="paragraph",
+ * 		example="For their work feeding everybody.",
+ * 		maxLength=400
+ * 	),
+ * 	@OA\Property(
+ * 		property="image",
+ * 		description="An internal link to an image of the Issuance phyrep, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="filename",
+ * 		example="images/issuances/42.jpg",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoked_by",
+ * 		description="ID of the Persona that revoked the Issuance, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoked_at",
+ * 		description="Date the revocation is effective, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="revocation",
+ * 		description="Cause for the revocation, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="paragraph",
+ * 		example="He bought it on Etsy",
+ * 		maxLength=50
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="IssuanceSuperSimple",
+ * 	title="IssuanceSuperSimple",
+ * 	description="Attachable Issuance object with no attachments or CUD data.",
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable_type",
+ * 		description="The Issuance type; Award or Title.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Award","Title"},
+ * 		example="Realm"
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuable_id",
+ * 		description="The ID of the Issuance.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable_type",
+ * 		description="Where it was Issued, if known; Event, Meetup, or Location.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Event","Meetup","Location"},
+ * 		example="Event"
+ * 	),
+ * 	@OA\Property(
+ * 		property="whereable_id",
+ * 		description="The ID of where it was Issued.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer_type",
+ * 		description="Issuing authority; Chapter, Realm, Persona, or Unit.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Chapter","Realm","Persona","Unit"},
+ * 		example="Chapter"
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuer_id",
+ * 		description="The ID of the Issuing authority.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_type",
+ * 		description="Who recieved the Issuance; Persona or Unit.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Persona","Unit"},
+ * 		example="Persona"
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_id",
+ * 		description="The ID of the Issuance recipient.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="signator_id",
+ * 		description="The ID of the Persona signing the Issuance, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="custom_name",
+ * 		description="Where label options are avaiable, or customization allowed, the chosen label, else null",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		maxLength=64,
+ * 		example="Lady"
+ * 	),
+ * 	@OA\Property(
+ * 		property="rank",
+ * 		description="For laddered Issuances, the order number, else null.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="issued_at",
+ * 		description="When the Issuance was made or is to be made public (if in the future)",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="reason",
+ * 		description="A historical record of what the Issuance was for",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="paragraph",
+ * 		example="For their work feeding everybody.",
+ * 		maxLength=400
+ * 	),
+ * 	@OA\Property(
+ * 		property="image",
+ * 		description="An internal link to an image of the Issuance phyrep, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="filename",
+ * 		example="images/issuances/42.jpg",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoked_by",
+ * 		description="ID of the Persona that revoked the Issuance, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="revoked_at",
+ * 		description="Date the revocation is effective, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="revocation",
+ * 		description="Cause for the revocation, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="paragraph",
+ * 		example="He bought it on Etsy",
+ * 		maxLength=50
+ * 	)
+ * )
+ * @OA\RequestBody (
+ * 	request="Issuance",
+ * 	description="Issuance object that needs to be added or updated.",
+ * 	required=true,
+ * 	@OA\MediaType(
+ * 		mediaType="multipart/form-data",
+ * 		@OA\Schema(ref="#/components/schemas/IssuanceSimple")
+ * 	)
+ * )
  */
 
 class Issuance extends BaseModel
@@ -811,11 +811,23 @@ class Issuance extends BaseModel
 		);
 	}
 	
+	protected function image(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
+				}
+				return 'https://ork.amtgard.com/assets/players/awards/' . $value;
+			}
+		);
+	}
+	
 	public $relationships = [
 		'issuable' => 'MorphTo',
 		'issuer' => 'MorphTo',
 		'recipient' => 'MorphTo',
-		'revokedBy' => 'BelongsTo',
+		'revoker' => 'BelongsTo',
 		'signator' => 'BelongsTo',
 		'whereable' => 'MorphTo'
 	];
@@ -835,7 +847,7 @@ class Issuance extends BaseModel
 		return $this->morphTo();
 	}
 	
-	public function revokedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	public function revoker(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
 		return $this->belongsTo(\App\Models\Persona::class, 'revoked_by');
 	}

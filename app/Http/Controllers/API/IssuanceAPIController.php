@@ -47,7 +47,7 @@ class IssuanceAPIController extends AppBaseController
 			issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>
 			issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>
 			recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>
-			revokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>
+			revoker (User) (BelongsTo): User revoked, who authorized the revocation.<br>
 			signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>
 			whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
@@ -344,7 +344,7 @@ class IssuanceAPIController extends AppBaseController
 			issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.<br>
 			issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.<br>
 			recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.<br>
-			revokedBy (User) (BelongsTo): User revoked, who authorized the revocation.<br>
+			revoker (User) (BelongsTo): User revoked, who authorized the revocation.<br>
 			signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.<br>
 			whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>

@@ -45,7 +45,8 @@ class RealmFactory extends Factory
             'dues_amount' => $this->faker->word,
             'dues_intervals_type' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'dues_intervals' => $this->faker->word,
-            'dues_take' => $this->faker->word,
+        	'dues_take' => $this->faker->number,
+        	'waiver_duration' => $this->faker->number,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'deleted_at' => $this->faker->date('Y-m-d H:i:s')

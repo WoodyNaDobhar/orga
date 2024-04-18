@@ -84,11 +84,12 @@ class PersonaPolicy
 // 						})
 // 				)
 // 		);
+
 		if (
 				$user->can('update personas') ||
 				(
 						$user->can('updateOwn personas') &&
-						$persona->id === $user->id
+						$persona->id === $user->persona->id
 				) ||
 				(
 						$user->can('updateRelated personas') &&

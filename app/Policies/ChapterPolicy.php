@@ -85,6 +85,7 @@ class ChapterPolicy
 						) ||
 						(
 								$user->persona->chapter->realm_id === $chapter->realm_id &&
+								$user->persona->chapter->realm->reign &&
 								$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
 									return $item->persona_id === $user->persona->id;
 								})
@@ -116,6 +117,7 @@ class ChapterPolicy
 						) ||
 						(
 								$user->persona->chapter->realm_id === $chapter->realm_id &&
+								$user->persona->chapter->realm->reign &&
 								$user->persona->chapter->realm->reign->officers->contains(function ($item) use ($user) {
 									return $item->persona_id === $user->persona->id;
 								})

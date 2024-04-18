@@ -1488,19 +1488,11 @@ class ImportOrk3 extends Command
 									}
 									break;
 								case 'Lords-Page':
-									$titleableType = 'Persona';
-									$peerage = 'Retainer';
-									break;
 								case 'Man-At-Arms':
-									$titleableType = 'Persona';
-									$peerage = 'Retainer';
-									break;
 								case 'Page':
-									$titleableType = 'Persona';
-									$peerage = 'Retainer';
-									break;
 								case 'Squire':
 									$titleableType = 'Persona';
+									$peerage = 'Retainer';
 									break;
 								default:
 									$peerage = $oldTitle->peerage;
@@ -4110,7 +4102,7 @@ class ImportOrk3 extends Command
 						}
 						
 						//transactions
-						if($oldDue->import_transaction_id == 0 || !in_array($oldDue->import_transaction_id, $oldTransactions)){
+						if($oldDue->import_transaction_id == 0 || !array_key_exists($oldDue->import_transaction_id, $oldTransactions)){
 							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
 							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
 							if(!$mundane || $mundane->email === '' || !filter_var($mundane->email, FILTER_VALIDATE_EMAIL)){
@@ -6188,7 +6180,7 @@ class ImportOrk3 extends Command
 							if($recipient_type === 'Persona' && $issuable_type === 'Title'){
 								$title = Title::where('id', $issuable_id)->first();
 								$persona = Persona::where('id', $recipient_id)->first();
-								if(!$title->titleable_id && str_contains('Knight', $title->name)){
+								if(!$title->peerage === 'Knight'){
 									if($persona->pronoun_id === 2){
 										$customNameFin = 'Sir';
 									}elseif($persona->pronoun_id === 4){

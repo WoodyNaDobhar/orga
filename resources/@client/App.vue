@@ -9,6 +9,7 @@
 	import Loading from 'vue-loading-overlay';
 	import 'vue-loading-overlay/dist/css/index.css';
 	import { getColor } from "@/utils/colors";
+	import axios from 'axios';
 	
 	const router = useRouter()
 	const auth = useAuthStore()
@@ -16,7 +17,7 @@
 	const deviceName = ref(navigator.userAgent)
 	const isLoading = computed(() => state?.status === 'loading');
 	const colorScheme = computed(() => useColorSchemeStore().colorScheme);
-	const iconColor = colorScheme.value ? getColor("primary") : ""
+	const iconColor = colorScheme.value ? getColor("primary") : undefined;
 	
 	onMounted(() => {
 		state.storeState('ready', '')
@@ -33,7 +34,7 @@
 						}
 					}).catch(error => {
 						console.error(error);
-		  				state.storeState('error', error)
+						state.storeState('error', error)
 					})
 			}
 		} catch (error:any) {
@@ -42,9 +43,19 @@
 		}
 	};
 
-	setInterval(checkLoginStatus, 5 * 60 * 1000);
+	setInterval(checkLoginStatus, 3 * 60 * 1000);
 
 	checkLoginStatus();
+	
+	axios.interceptors.request.use(
+		(config) => {
+			const bearerToken = auth.getToken;
+			if (bearerToken) {
+				config.headers.Authorization = `Bearer ${bearerToken}`;
+			}
+			return config;
+		}
+	);
 </script>
 
 <template>

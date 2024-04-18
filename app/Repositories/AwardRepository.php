@@ -10,6 +10,7 @@ class AwardRepository extends BaseRepository
 		'awarder_type',
 		'awarder_id',
 		'name',
+		'is_active',
 		'is_ladder'
 	];
 

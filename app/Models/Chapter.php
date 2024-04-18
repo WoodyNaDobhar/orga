@@ -183,6 +183,83 @@ use Wildside\Userstamps\Userstamps;
  *			readOnly=true
  *		),
  *		@OA\Property(
+ *			property="can_list",
+ *			description="Can the User (default false) perform list actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_view",
+ *			description="Can the User (default false) perform view actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_create",
+ *			description="Can the User (default false) perform create actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_update",
+ *			description="Can the User (default false) perform update actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_delete",
+ *			description="Can the User (default false) perform soft delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_restore",
+ *			description="Can the User (default false) perform restore actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_nuke",
+ *			description="Can the User (default false) perform hard delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
  *			property="accounts",
  *			description="Attachable & filterable array of Accounts this Chapter owns.",
  *			type="array",
@@ -482,6 +559,83 @@ use Wildside\Userstamps\Userstamps;
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="can_list",
+ *			description="Can the User (default false) perform list actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_view",
+ *			description="Can the User (default false) perform view actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_create",
+ *			description="Can the User (default false) perform create actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_update",
+ *			description="Can the User (default false) perform update actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_delete",
+ *			description="Can the User (default false) perform soft delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_restore",
+ *			description="Can the User (default false) perform restore actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_nuke",
+ *			description="Can the User (default false) perform hard delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
  *		)
  *	)
  *	@OA\Schema(

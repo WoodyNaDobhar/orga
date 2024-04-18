@@ -26,13 +26,13 @@ class UnitAPIController extends AppBaseController
 	
 	use AuthorizesRequests;
 	
-    /** @var  UnitRepository */
-    private $unitRepository;
+	/** @var  UnitRepository */
+	private $unitRepository;
 
-    public function __construct(UnitRepository $unitRepo)
-    {
-        $this->unitRepository = $unitRepo;
-    }
+	public function __construct(UnitRepository $unitRepo)
+	{
+		$this->unitRepository = $unitRepo;
+	}
 
 	/**
 	 * @param Request $request

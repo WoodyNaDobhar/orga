@@ -253,11 +253,11 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Issuance,issuer_id"
+        "relation": "1tm,Issuance,revoked_by"
     },
     {
         "type": "relation",
-        "relation": "1tm,Issuance,revoked_by"
+        "relation": "1tm,Issuance,signator_id"
     },
     {
         "type": "relation",

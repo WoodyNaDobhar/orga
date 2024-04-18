@@ -65,7 +65,7 @@ class AppHelper
 			case 'passwordHistories':
 				return 'PasswordHistory';
 			case 'ageVerifiedBy':
-			case 'revokedBy':
+			case 'revoker':
 			case 'signator':
 			case 'suspendedBy':
 				return 'Persona';

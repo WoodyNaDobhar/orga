@@ -11,6 +11,8 @@ class OfficeRepository extends BaseRepository
 		'officeable_id',
 		'name',
 		'duration',
+		'is_forgiven',
+		'is_midreign',
 		'order'
 	];
 

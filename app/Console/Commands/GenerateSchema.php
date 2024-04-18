@@ -8,6 +8,7 @@ use InfyOm\Generator\Common\GeneratorConfig;
 use InfyOm\Generator\Utils\TableFieldsGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Pluralizer;
+use Illuminate\Support\Facades\DB;
 
 class GenerateSchema extends BaseCommand
 {
@@ -79,6 +80,11 @@ class GenerateSchema extends BaseCommand
 	
 	public function getMyFields($model)
 	{
+		DB::connection()
+			->getDoctrineSchemaManager()
+			->getDatabasePlatform()
+			->registerDoctrineTypeMapping('enum', 'string');
+		
 		$tableName = Pluralizer::plural(lcfirst($model));
 		$ignoredFields = [];
 		$tableFieldsGenerator = new TableFieldsGenerator($tableName, $ignoredFields, $this->config->connection);

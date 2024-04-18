@@ -22,7 +22,8 @@ class RealmRepository extends BaseRepository
 		'dues_amount',
 		'dues_intervals_type',
 		'dues_intervals',
-		'dues_take'
+		'dues_take',
+		'waiver_duration'
 	];
 
 	public function getFieldsSearchable(): array

@@ -9,6 +9,7 @@ use App\Repositories\PersonaRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use App\Helpers\AppHelper;
@@ -26,13 +27,13 @@ class PersonaAPIController extends AppBaseController
 	
 	use AuthorizesRequests;
 	
-    /** @var  PersonaRepository */
-    private $personaRepository;
+	/** @var  PersonaRepository */
+	private $personaRepository;
 
-    public function __construct(PersonaRepository $personaRepo)
-    {
-        $this->personaRepository = $personaRepo;
-    }
+	public function __construct(PersonaRepository $personaRepo)
+	{
+		$this->personaRepository = $personaRepo;
+	}
 
 	/**
 	 * @param Request $request
@@ -50,11 +51,11 @@ class PersonaAPIController extends AppBaseController
 			crats (Crat) (HasMany): Crat positions held by the Persona.<br>
 			dues (Due) (HasMany): Dues paid by the Persona.<br>
 			events (Event) (MorphMany): Events sponsored by the Persona.<br>
-	        honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
+			honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
 			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
 			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
 			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
-			members (Member) (HasMany): Memberships in Units the Persona has had.<br>
+			memberships (Member) (HasMany): Memberships in Units the Persona has had.<br>
 			officers (Officer) (HasMany): Officer positions held by the Persona.<br>
 			pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>
 			recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>
@@ -360,34 +361,34 @@ class PersonaAPIController extends AppBaseController
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Persona"},
 	 *		description="<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>
-	        attendances (Attendance) (HasMany): Attendances for the Persona.<br>
-	        awards (Issuance) {MorphMany): Awards received by the Persona.<br>
-	        chapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>
-	        crats (Crat) (HasMany): Crat positions held by the Persona.<br>
-	        dues (Due) (HasMany): Dues paid by the Persona.<br>
-	        events (Event) (MorphMany): Events sponsored by the Persona.<br>
-	        honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
-	        issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
-	        issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
-	        issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
-	        members (Member) (HasMany): Memberships in Units the Persona has had.<br>
-	        officers (Officer) (HasMany): Officer positions held by the Persona.<br>
-	        pronoun (Pronoun) (BelongsTo): Preferred selected pronouns for the Persona.<br>
-	        recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>
-	        reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>
-	        socials (Social) (MorphMany): Socials for the Persona.<br>
-	        splits (Split) (HasMany): Splits this Persona took part in.<br>
-	        suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>
-	        suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>
-	        titles (Issuance) {MorphMany): Titles received by the Persona.<br>
-	        titleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>
-	        units (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>
-	        user (User) (BelongsTo): The User for the Persona.<br>
-	        waivers (Waiver) (HasMany): The Waivers for the Persona.<br>
-	        waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>
-	        createdBy (User) (BelongsTo): User that created it.<br>
-	        updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
-	        deletedBy (User) (BelongsTo): User that deleted it (if any).",
+			attendances (Attendance) (HasMany): Attendances for the Persona.<br>
+			awards (Issuance) {MorphMany): Awards received by the Persona.<br>
+			chapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>
+			crats (Crat) (HasMany): Crat positions held by the Persona.<br>
+			dues (Due) (HasMany): Dues paid by the Persona.<br>
+			events (Event) (MorphMany): Events sponsored by the Persona.<br>
+			honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
+			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
+			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
+			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
+			memberships (Member) (HasMany): Memberships in Units the Persona has had.<br>
+			officers (Officer) (HasMany): Officer positions held by the Persona.<br>
+			pronoun (Pronoun) (BelongsTo): Preferred selected pronouns for the Persona.<br>
+			recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>
+			reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>
+			socials (Social) (MorphMany): Socials for the Persona.<br>
+			splits (Split) (HasMany): Splits this Persona took part in.<br>
+			suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>
+			suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>
+			titles (Issuance) {MorphMany): Titles received by the Persona.<br>
+			titleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>
+			units (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>
+			user (User) (BelongsTo): The User for the Persona.<br>
+			waivers (Waiver) (HasMany): The Waivers for the Persona.<br>
+			waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>
+			createdBy (User) (BelongsTo): User that created it.<br>
+			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
+			deletedBy (User) (BelongsTo): User that deleted it (if any).",
 	 *		@OA\Parameter(
 	 *			ref="#/components/parameters/columns"
 	 *		),

@@ -9,7 +9,7 @@ use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema(
  *		schema="Award",
- *		required={"awarder_type","name","is_ladder"},
+ *		required={"awarder_type","name","is_ladder","is_active"},
  *		description="Awards available in a given (or all) Realm(s), Chapter, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.
  * issuances (Issuance) (MorphMany): Issuances of this Award.
@@ -54,6 +54,17 @@ use Wildside\Userstamps\Userstamps;
  *			format="uppercase first letter",
  *			example="Order of the Rose",
  *			maxLength=100
+ *		),
+ *		@OA\Property(
+ *			property="is_active",
+ *			description="Is this Award (default true) still being given out?",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=1
  *		),
  *		@OA\Property(
  *			property="is_ladder",
@@ -134,6 +145,83 @@ use Wildside\Userstamps\Userstamps;
  *			readOnly=true
  *		),
  *		@OA\Property(
+ *			property="can_list",
+ *			description="Can the User (default false) perform list actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_view",
+ *			description="Can the User (default false) perform view actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_create",
+ *			description="Can the User (default false) perform create actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_update",
+ *			description="Can the User (default false) perform update actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_delete",
+ *			description="Can the User (default false) perform soft delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_restore",
+ *			description="Can the User (default false) perform restore actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_nuke",
+ *			description="Can the User (default false) perform hard delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
  *			property="awarder",
  *			type="object",
  *			description="Attachable object that Issues the Award.",
@@ -209,6 +297,17 @@ use Wildside\Userstamps\Userstamps;
  *			maxLength=100
  *		),
  *		@OA\Property(
+ *			property="is_active",
+ *			description="Is this Award (default true) still being given out?",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
  *			property="is_ladder",
  *			description="Is this (default false) a ranked/ladder award?",
  *			readOnly=false,
@@ -267,6 +366,83 @@ use Wildside\Userstamps\Userstamps;
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
  *			readOnly=true
+ *		),
+ *		@OA\Property(
+ *			property="can_list",
+ *			description="Can the User (default false) perform list actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_view",
+ *			description="Can the User (default false) perform view actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_create",
+ *			description="Can the User (default false) perform create actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_update",
+ *			description="Can the User (default false) perform update actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_delete",
+ *			description="Can the User (default false) perform soft delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_restore",
+ *			description="Can the User (default false) perform restore actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
+ *		),
+ *		@OA\Property(
+ *			property="can_nuke",
+ *			description="Can the User (default false) perform hard delete actions with the entry model?",
+ *			readOnly=true,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=0
  *		)
  *	)
  *	@OA\Schema(
@@ -311,6 +487,17 @@ use Wildside\Userstamps\Userstamps;
  *			maxLength=100
  *		),
  *		@OA\Property(
+ *			property="is_active",
+ *			description="Is this Award (default true) still being given out?",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="integer",
+ *			format="enum",
+ *			enum={0, 1},
+ *			example=0,
+ *			default=1
+ *		),
+ *		@OA\Property(
  *			property="is_ladder",
  *			description="Is this (default false) a ranked/ladder award?",
  *			readOnly=false,
@@ -350,6 +537,7 @@ class Award extends BaseModel
 		'awarder_type',
 		'awarder_id',
 		'name',
+		'is_active',
 		'is_ladder'
 	];
 
@@ -357,6 +545,7 @@ class Award extends BaseModel
 		'awarder_type' => 'string',
 		'awarder_id' => 'integer',
 		'name' => 'string',
+		'is_active' => 'boolean',
 		'is_ladder' => 'boolean'
 	];
 
@@ -364,6 +553,7 @@ class Award extends BaseModel
 		'awarder_type' => 'required|string|in:Realm,Chapter,Unit',
 		'awarder_id' => 'nullable',
 		'name' => 'required|string|max:100',
+		'is_active' => 'required|boolean',
 		'is_ladder' => 'required|boolean'
 	];
 	

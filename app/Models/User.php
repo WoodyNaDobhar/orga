@@ -18,474 +18,482 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 use Wildside\Userstamps\Userstamps;
 use App\Notifications\ResetPasswordNotification;
+use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
 /**
- * @OA\Schema(
- *		schema="User",
- *		required={"email","password","is_restricted"},
- *		description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
+ * @OA\Schema (
+ * 	schema="User",
+ * 	required={"email","password","is_restricted"},
+ * 	description="People signed up to the site.<br>The following relationships can be attached, and in the case of 'many' types, searched:
  * persona (Persona) (BelongsTo): Persona associated with the User.
  * passwordHistories (PasswordHistory) (HasMany): Past passwords (encrypted) this User has used.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
  * deletedBy (User) (BelongsTo): User that deleted it (if any).",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="name",
- *			description="The User's Persona name or 'Unknown'.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="uppercase first letter",
- *			example="Color Animal",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="persona_id",
- *			description="ID of the User's Persona.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="email",
- *			description="Unique email used to identify and communicate with the User.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="email",
- *			example="nobody@nowhere.net",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="email_verified_at",
- *			description="When the User email was verified, if at all",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date-time",
- *			example="2023-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="password",
- *			description="Encoded password string.",
- *			nullable=false,
- *			type="string",
- *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
- *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
- *			writeOnly=true
- *		),
- *		@OA\Property(
- *			property="api_token",
- *			description="The API token for authentication",
- *			type="string",
- *			maxLength=80,
- *			example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="is_restricted",
- *			description="Is the User (default false) restricted from using the site?",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=0
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="createdBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updatedBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deletedBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="persona",
- *			type="object",
- *			description="Attachable Persona for this User.",
- *			ref="#/components/schemas/PersonaSimple",
- *			readOnly=true
- *		)
- *	)
- *	@OA\Schema(
- *		schema="UserSimple",
- *		title="UserSimple",
- *		description="Attachable User object with no attachments.",
- *		@OA\Property(
- *			property="persona_id",
- *			description="ID of the User's Persona.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="name",
- *			description="The User's Persona name or 'Unknown'.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="uppercase first letter",
- *			example="Color Animal",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="email",
- *			description="Unique email used to identify and communicate with the User.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="email",
- *			example="nobody@nowhere.net",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="email_verified_at",
- *			description="When the User email was verified, if at all",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date-time",
- *			example="2023-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="password",
- *			description="Encoded password string.",
- *			nullable=false,
- *			type="string",
- *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
- *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
- *			writeOnly=true
- *		),
- *		@OA\Property(
- *			property="is_restricted",
- *			description="Is the User (default false) restricted from using the site?",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=0
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		)
- *	)
- *	@OA\Schema(
- *		schema="UserLogin",
- *		title="User",
- *		description="Attachable User login object with no attachments.",
- *		@OA\Property(
- *			property="persona_id",
- *			description="ID of the User's Persona.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="name",
- *			description="The User's Persona name or 'Unknown'.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="uppercase first letter",
- *			example="Color Animal",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="token",
- *			description="Login token for the User.",
- *			readOnly=true,
- *			nullable=false,
- *			type="string",
- *			example="yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
- *		),
- *		@OA\Property(
- *			property="email",
- *			description="Unique email used to identify and communicate with the User.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="email",
- *			example="nobody@nowhere.net",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="email_verified_at",
- *			description="When the User email was verified, if at all",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date-time",
- *			example="2023-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="password",
- *			description="Encoded password string.",
- *			nullable=false,
- *			type="string",
- *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
- *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
- *			writeOnly=true
- *		),
- *		@OA\Property(
- *			property="is_restricted",
- *			description="Is the User (default false) restricted from using the site?",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=0
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		)
- *	)
- *	@OA\Schema(
- *		schema="UserSuperSimple",
- *		title="UserSuperSimple",
- *		description="Attachable User object with no attachments or CUD data.",
- *		@OA\Property(
- *			property="persona_id",
- *			description="ID of the User's Persona.",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="name",
- *			description="The User's Persona name or 'Unknown'.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="uppercase first letter",
- *			example="Color Animal",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="email",
- *			description="Unique email used to identify and communicate with the User.",
- *			readOnly=false,
- *			nullable=false,
- *			type="string",
- *			format="email",
- *			example="nobody@nowhere.net",
- *			maxLength=191
- *		),
- *		@OA\Property(
- *			property="email_verified_at",
- *			description="When the User email was verified, if at all",
- *			readOnly=false,
- *			nullable=true,
- *			type="string",
- *			format="date-time",
- *			example="2023-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="password",
- *			description="Encoded password string.",
- *			nullable=false,
- *			type="string",
- *			format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
- *			example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
- *			writeOnly=true
- *		),
- *		@OA\Property(
- *			property="is_restricted",
- *			description="Is the User (default false) restricted from using the site?",
- *			readOnly=false,
- *			nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=0
- *		)
- *	)
- *	@OA\RequestBody(
- *		request="User",
- *		description="User object that needs to be added or updated.",
- *		required=true,
- *		@OA\MediaType(
- *			mediaType="multipart/form-data",
- *			@OA\Schema(ref="#/components/schemas/UserSimple")
- *		)
- *	)
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="persona_id",
+ * 		description="ID of the User's Persona.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="email",
+ * 		example="nobody@nowhere.net",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2023-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ * 		writeOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="api_token",
+ * 		description="The API token for authentication",
+ * 		type="string",
+ * 		maxLength=80,
+ * 		example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="createdBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updatedBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deletedBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="persona",
+ * 		type="object",
+ * 		description="Attachable Persona for this User.",
+ * 		ref="#/components/schemas/PersonaSimple",
+ * 		readOnly=true
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="UserSimple",
+ * 	title="UserSimple",
+ * 	description="Attachable User object with no attachments.",
+ * 	@OA\Property(
+ * 		property="persona_id",
+ * 		description="ID of the User's Persona.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="email",
+ * 		example="nobody@nowhere.net",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2023-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ * 		writeOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="UserLogin",
+ * 	title="User",
+ * 	description="Attachable User login object with no attachments.",
+ * 	@OA\Property(
+ * 		property="persona_id",
+ * 		description="ID of the User's Persona.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="token",
+ * 		description="Login token for the User.",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="string",
+ * 		example="yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
+ * 	),
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="email",
+ * 		example="nobody@nowhere.net",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2023-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ * 		writeOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="jsPermissions",
+ * 		description="JSON encoded Permissions for the User.",
+ * 		type="string",
+ * 		format="json",
+ * 		example="{""roles"":[""player""],""permissions"":[""store events"",""updateOwn events"",""removeOwn events""]}"
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="UserSuperSimple",
+ * 	title="UserSuperSimple",
+ * 	description="Attachable User object with no attachments or CUD data.",
+ * 	@OA\Property(
+ * 		property="persona_id",
+ * 		description="ID of the User's Persona.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="The User's Persona name or 'Unknown'.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email",
+ * 		description="Unique email used to identify and communicate with the User.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="email",
+ * 		example="nobody@nowhere.net",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="email_verified_at",
+ * 		description="When the User email was verified, if at all",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2023-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="password",
+ * 		description="Encoded password string.",
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ * 		example="$2y$10$SoNOPPci0zg2xqBzhvVQN.DvkHLqJEhLAxyqTz85UNzJBdLI9asdf",
+ * 		writeOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_restricted",
+ * 		description="Is the User (default false) restricted from using the site?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	)
+ * )
+ * @OA\RequestBody (
+ * 	request="User",
+ * 	description="User object that needs to be added or updated.",
+ * 	required=true,
+ * 	@OA\MediaType(
+ * 		mediaType="multipart/form-data",
+ * 		@OA\Schema(ref="#/components/schemas/UserSimple")
+ * 	)
+ * )
  */
 class User extends Authenticatable implements Auditable, MustVerifyEmail
 {
@@ -501,6 +509,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 	use PivotEventTrait;
 	// use Impersonate;
 	// use CanGetTableNameStatically;
+	use LaravelPermissionToVueJS;
 	use HasRoles;
 	use HasApiTokens;
 	use \OwenIt\Auditing\Auditable;

@@ -9,6 +9,7 @@
 	"license" : "MIT",
 	"require" : {
 		"php": "^8.1",
+		"ahmedsaoud31/laravel-permission-to-vuejs": "dev-master",
 		"darkaonline/l5-swagger": "*",
 		"deployer/deployer": "^7.0",
 		"doctrine/dbal": "^3.7",

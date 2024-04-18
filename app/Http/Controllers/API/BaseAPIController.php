@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
@@ -500,7 +499,7 @@ class BaseAPIController extends AppBaseController
 			]);
 			
 			$user = User::where('email', $request->email)->with('persona')->first();
-			
+
 			if (! $user || ! Hash::check($request->password, $user->password)) {
 				throw ValidationException::withMessages([
 						'email' => ['The provided credentials are incorrect.'],
@@ -525,6 +524,7 @@ class BaseAPIController extends AppBaseController
 			// 			}
 			
 			$userArray = $user->toArray();
+			$userArray['jsPermissions'] = $user->jsPermissions();
 			$userArray['token'] = explode('|', $user->createToken($request->device_name)->plainTextToken)[1];
 			
 			return $this->sendResponse($userArray, 'Login successful.');
@@ -639,7 +639,7 @@ class BaseAPIController extends AppBaseController
 		try {
 			
 			$user = Auth::user();
-			
+
 			if (! $user ) {
 				throw ValidationException::withMessages([
 						'auth' => ['You are not logged in.'],
@@ -765,12 +765,13 @@ class BaseAPIController extends AppBaseController
 			]);
 			
 			$user = User::where('id', $request->user_id)->first();
+			
 			if (! $user ) {
 				return $this->sendResponse(false, 'Check successful.');
 			}
 			
 			foreach($user->tokens()->get() as $token){
-				if (Carbon::parse($token->created_at)->greaterThan(Carbon::create()->subMinutes(20))) {
+				if (Carbon::parse($token->created_at)->addMinutes(20)->greaterThanOrEqualTo(Carbon::now())) {
 					return $this->sendResponse(true, 'Check successful.');
 				}
 			}

@@ -9,10 +9,10 @@ use Laravel\Scout\Searchable;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
 /**
- * @OA\Schema(
- *	  schema="Realm",
- *	  required={"name","abbreviation","color","is_active"},
- *		description="Collective of Chapters, often Kingdoms, but including Principalities and Grand Duchies.<br>The following relationships can be attached, and in the case of plural relations, searched:
+ * @OA\Schema (
+ *   schema="Realm",
+ *   required={"name","abbreviation","color","is_active"},
+ * 	description="Collective of Chapters, often Kingdoms, but including Principalities and Grand Duchies.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * accounts (Account) (MorphMany): Accounts for the Realm.
  * awards (Awards) (MorphMany): Awards this Realm can issue.
  * chapters (Chapter) (HasMany): Chapters of the Realm.
@@ -29,765 +29,792 @@ use App\Traits\ProtectFieldsTrait;
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
  * deletedBy (User) (BelongsTo): User that deleted it (if any).",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="parent_id",
- *			description="If sponsored by another Realm, that Realm ID.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *	  @OA\Property(
- *		  property="name",
- *		  description="The label for the Realm.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *			format="uppercase first letter",
- *			example="The Republic of Futurama",
- *			maxLength=100
- *	  ),
- *	  @OA\Property(
- *		  property="abbreviation",
- *		  description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *		  format="uppercase",
- *		  example="FR",
- *		  maxLength=4
- *	  ),
- *	  @OA\Property(
- *		  property="color",
- *		  description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *		  format="hexidecimal",
- *		  example="000000",
- *	 		default="FACADE"
- *	  ),
- *	  @OA\Property(
- *		  property="heraldry",
- *		  description="An internal link to an image of the Realm heraldry.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="filename",
- *			example="images/realms/42.jpg",
- *			maxLength=191
- *	  ),
- *	  @OA\Property(
- *		  property="is_active",
- *		  description="Is (default true) the Realm active?",
- *		  readOnly=false,
- *		  nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=1
- *	  ),
- *		@OA\Property(
- *			property="credit_minimum",
- *			description="Realm Credit Minimum setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="credit_maximum",
- *			description="Realm Credit Maximum setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=32
- *		),
- *		@OA\Property(
- *			property="daily_minimum",
- *			description="Realm Daily Minimum setting, if any",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="weekly_minimum",
- *			description="Realm Weekly Minimum setting, if any",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=9
- *		),
- *	  @OA\Property(
- *		  property="average_period_type",
- *		  description="Realm Average Period Type setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Week","Month"},
- *			example="Week"
- *	  ),
- *		@OA\Property(
- *			property="average_period",
- *			description="Realm Average Period setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="dues_amount",
- *			description="Dues cost per interval for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=12
- *		),
- *	  @OA\Property(
- *		  property="dues_intervals_type",
- *		  description="Dues intervals type for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Week","Month"},
- *			example="Week"
- *	  ),
- *		@OA\Property(
- *			property="dues_intervals",
- *			description="Dues intervals count for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="dues_take",
- *			description="Realm take of Dues paid to Chapters, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=5
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="createdBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updatedBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deletedBy",
- *			type="object",
- *			ref="#/components/schemas/UserSimple",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="accounts",
- *			description="Attachable & filterable array of Accounts for the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Account",
- *				type="object",
- *				ref="#/components/schemas/AccountSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="awards",
- *			description="Attachable & filterable array of Awards this Realm can issue.",
- *			type="array",
- *			@OA\Items(
- *				title="Award",
- *				type="object",
- *				ref="#/components/schemas/AwardSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="chapters",
- *			description="Attachable & filterable array of Chapters of the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Chapter",
- *				type="object",
- *				ref="#/components/schemas/ChapterSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="chaptertypes",
- *			description="Attachable & filterable array of Chaptertypes the Realm uses.",
- *			type="array",
- *			@OA\Items(
- *				title="Chaptertype",
- *				type="object",
- *				ref="#/components/schemas/ChaptertypeSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="events",
- *			description="Attachable & filterable array of Events sponsored by the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Event",
- *				type="object",
- *				ref="#/components/schemas/EventSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="issuances",
- *			description="Attachable & filterable array of Issuances made by the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Issuance",
- *				type="object",
- *				ref="#/components/schemas/IssuanceSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="offices",
- *			description="Attachable & filterable array of Offices of the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Office",
- *				type="object",
- *				ref="#/components/schemas/OfficeSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="reign",
- *			description="Attachable & filterable array of the current Reign for the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Reign",
- *				type="object",
- *				ref="#/components/schemas/ReignSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="reigns",
- *			description="Attachable & filterable array of the Reigns of the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Reign",
- *				type="object",
- *				ref="#/components/schemas/ReignSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="socials",
- *			description="Attachable & filterable array of the Socials of the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Social",
- *				type="object",
- *				ref="#/components/schemas/SocialSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="sponsors",
- *			description="Attachable & filterable array of Persona or Unit Events this Realm has sponsored.",
- *			type="array",
- *			@OA\Items(
- *				title="Event",
- *				type="object",
- *				ref="#/components/schemas/EventSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="suspensions",
- *			description="Attachable & filterable array of Suspensions levied by the Realm.",
- *			type="array",
- *			@OA\Items(
- *				title="Suspension",
- *				type="object",
- *				ref="#/components/schemas/SuspensionSimple"
- *			),
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="titles",
- *			description="Attachable & filterable array of the Titles the Realm Issues.",
- *			type="array",
- *			@OA\Items(
- *				title="Title",
- *				type="object",
- *				ref="#/components/schemas/TitleSimple"
- *			),
- *			readOnly=true
- *		)
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="If sponsored by another Realm, that Realm ID.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ *   @OA\Property(
+ * 		property="name",
+ * 		description="The label for the Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="The Republic of Futurama",
+ * 		maxLength=100
+ *   ),
+ *   @OA\Property(
+ * 		property="abbreviation",
+ * 		description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		example="FR",
+ * 		maxLength=4
+ *   ),
+ *   @OA\Property(
+ * 		property="color",
+ * 		description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="hexidecimal",
+ * 		example="000000",
+ *  		default="FACADE"
+ *   ),
+ *   @OA\Property(
+ * 		property="heraldry",
+ * 		description="An internal link to an image of the Realm heraldry.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="filename",
+ * 		example="images/realms/42.jpg",
+ * 		maxLength=191
+ *   ),
+ *   @OA\Property(
+ * 		property="is_active",
+ * 		description="Is (default true) the Realm active?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=1
+ *   ),
+ * 	@OA\Property(
+ * 		property="credit_minimum",
+ * 		description="Realm Credit Minimum setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="credit_maximum",
+ * 		description="Realm Credit Maximum setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=32
+ * 	),
+ * 	@OA\Property(
+ * 		property="daily_minimum",
+ * 		description="Realm Daily Minimum setting, if any",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="weekly_minimum",
+ * 		description="Realm Weekly Minimum setting, if any",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=9
+ * 	),
+ *   @OA\Property(
+ * 		property="average_period_type",
+ * 		description="Realm Average Period Type setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Week","Month"},
+ * 		example="Week"
+ *   ),
+ * 	@OA\Property(
+ * 		property="average_period",
+ * 		description="Realm Average Period setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_amount",
+ * 		description="Dues cost per interval for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
+ * 	),
+ *   @OA\Property(
+ * 		property="dues_intervals_type",
+ * 		description="Dues intervals type for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Week","Month"},
+ * 		example="Week"
+ *   ),
+ * 	@OA\Property(
+ * 		property="dues_intervals",
+ * 		description="Dues intervals count for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_take",
+ * 		description="Realm take of Dues paid to Chapters, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=5
+ * 	),
+ * 	@OA\Property(
+ * 		property="waiver_duration",
+ * 		description="Length of time in months a Realm considers a Waiver valid.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="createdBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updatedBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deletedBy",
+ * 		type="object",
+ * 		ref="#/components/schemas/UserSimple",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="accounts",
+ * 		description="Attachable & filterable array of Accounts for the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Account",
+ * 			type="object",
+ * 			ref="#/components/schemas/AccountSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="awards",
+ * 		description="Attachable & filterable array of Awards this Realm can issue.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Award",
+ * 			type="object",
+ * 			ref="#/components/schemas/AwardSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="chapters",
+ * 		description="Attachable & filterable array of Chapters of the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Chapter",
+ * 			type="object",
+ * 			ref="#/components/schemas/ChapterSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="chaptertypes",
+ * 		description="Attachable & filterable array of Chaptertypes the Realm uses.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Chaptertype",
+ * 			type="object",
+ * 			ref="#/components/schemas/ChaptertypeSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="events",
+ * 		description="Attachable & filterable array of Events sponsored by the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Event",
+ * 			type="object",
+ * 			ref="#/components/schemas/EventSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="issuances",
+ * 		description="Attachable & filterable array of Issuances made by the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Issuance",
+ * 			type="object",
+ * 			ref="#/components/schemas/IssuanceSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="offices",
+ * 		description="Attachable & filterable array of Offices of the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Office",
+ * 			type="object",
+ * 			ref="#/components/schemas/OfficeSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="reign",
+ * 		description="Attachable & filterable array of the current Reign for the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Reign",
+ * 			type="object",
+ * 			ref="#/components/schemas/ReignSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="reigns",
+ * 		description="Attachable & filterable array of the Reigns of the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Reign",
+ * 			type="object",
+ * 			ref="#/components/schemas/ReignSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="socials",
+ * 		description="Attachable & filterable array of the Socials of the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Social",
+ * 			type="object",
+ * 			ref="#/components/schemas/SocialSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="sponsors",
+ * 		description="Attachable & filterable array of Persona or Unit Events this Realm has sponsored.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Event",
+ * 			type="object",
+ * 			ref="#/components/schemas/EventSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="suspensions",
+ * 		description="Attachable & filterable array of Suspensions levied by the Realm.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Suspension",
+ * 			type="object",
+ * 			ref="#/components/schemas/SuspensionSimple"
+ * 		),
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="titles",
+ * 		description="Attachable & filterable array of the Titles the Realm Issues.",
+ * 		type="array",
+ * 		@OA\Items(
+ * 			title="Title",
+ * 			type="object",
+ * 			ref="#/components/schemas/TitleSimple"
+ * 		),
+ * 		readOnly=true
+ * 	)
  * )
- *	@OA\Schema(
- *		schema="RealmSimple",
- *		title="RealmSimple",
- *		description="Attachable Realm object with no attachments.",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="parent_id",
- *			description="If sponsored by another Realm, that Realm ID.",
- *		  readOnly=false,
- *		  nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *	  @OA\Property(
- *		  property="name",
- *		  description="The label for the Realm.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *			format="uppercase first letter",
- *			example="The Republic of Futurama",
- *			maxLength=100
- *	  ),
- *	  @OA\Property(
- *		  property="abbreviation",
- *		  description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *		  format="uppercase",
- *		  example="FR",
- *		  maxLength=4
- *	  ),
- *	  @OA\Property(
- *		  property="color",
- *		  description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *		  format="hexidecimal",
- *		  example="000000",
- *	 		default="FACADE"
- *	  ),
- *	  @OA\Property(
- *		  property="heraldry",
- *		  description="An internal link to an image of the Realm heraldry.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="filename",
- *			example="images/realms/42.jpg",
- *			maxLength=191
- *	  ),
- *	  @OA\Property(
- *		  property="is_active",
- *		  description="Is (default true) the Realm active?",
- *		  readOnly=false,
- *		  nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=1
- *	  ),
- *		@OA\Property(
- *			property="credit_minimum",
- *			description="Realm Credit Minimum setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="credit_maximum",
- *			description="Realm Credit Maximum setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=32
- *		),
- *		@OA\Property(
- *			property="daily_minimum",
- *			description="Realm Daily Minimum setting, if any",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="weekly_minimum",
- *			description="Realm Weekly Minimum setting, if any",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=9
- *		),
- *	  @OA\Property(
- *		  property="average_period_type",
- *		  description="Realm Average Period Type setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Week","Month"},
- *			example="Week"
- *	  ),
- *		@OA\Property(
- *			property="average_period",
- *			description="Realm Average Period setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="dues_amount",
- *			description="Dues cost per interval for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=12
- *		),
- *	  @OA\Property(
- *		  property="dues_intervals_type",
- *		  description="Dues intervals type for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Week","Month"},
- *			example="Week"
- *	  ),
- *		@OA\Property(
- *			property="dues_intervals",
- *			description="Dues intervals count for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="dues_take",
- *			description="Realm take of Dues paid to Chapters, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=5
- *		),
- *		@OA\Property(
- *			property="created_by",
- *			description="The User that created this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true,
- *			default=1
- *		),
- *		@OA\Property(
- *			property="updated_by",
- *			description="The last User to update this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_by",
- *			description="The User that softdeleted this record.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="created_at",
- *			description="When the entry was created.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="updated_at",
- *			description="When the entry was last updated.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
- *			type="string",
- *			format="date-time",
- *			example="2020-12-30 23:59:59",
- *			readOnly=true
- *		)
- *	)
- *	@OA\Schema(
- *		schema="RealmSuperSimple",
- *		title="RealmSuperSimple",
- *		description="Attachable Realm object with no attachments or CUD data.",
- *		@OA\Property(
- *			property="id",
- *			description="The entry's ID.",
- *			type="integer",
- *			format="int32",
- *			example=42,
- *			readOnly=true
- *		),
- *		@OA\Property(
- *			property="parent_id",
- *			description="If sponsored by another Realm, that Realm ID.",
- *		  readOnly=false,
- *		  nullable=false,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *	  @OA\Property(
- *		  property="name",
- *		  description="The label for the Realm.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *			format="uppercase first letter",
- *			example="The Republic of Futurama",
- *			maxLength=100
- *	  ),
- *	  @OA\Property(
- *		  property="abbreviation",
- *		  description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *		  format="uppercase",
- *		  example="FR",
- *		  maxLength=4
- *	  ),
- *	  @OA\Property(
- *		  property="color",
- *		  description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
- *		  readOnly=false,
- *		  nullable=false,
- *		  type="string",
- *		  format="hexidecimal",
- *		  example="000000",
- *	 		default="FACADE"
- *	  ),
- *	  @OA\Property(
- *		  property="heraldry",
- *		  description="An internal link to an image of the Realm heraldry.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="filename",
- *			example="images/realms/42.jpg",
- *			maxLength=191
- *	  ),
- *	  @OA\Property(
- *		  property="is_active",
- *		  description="Is (default true) the Realm active?",
- *		  readOnly=false,
- *		  nullable=false,
- *			type="integer",
- *			format="enum",
- *			enum={0, 1},
- *			example=0,
- *			default=1
- *	  ),
- *		@OA\Property(
- *			property="credit_minimum",
- *			description="Realm Credit Minimum setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="credit_maximum",
- *			description="Realm Credit Maximum setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=32
- *		),
- *		@OA\Property(
- *			property="daily_minimum",
- *			description="Realm Daily Minimum setting, if any",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="weekly_minimum",
- *			description="Realm Weekly Minimum setting, if any",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=9
- *		),
- *	  @OA\Property(
- *		  property="average_period_type",
- *		  description="Realm Average Period Type setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Week","Month"},
- *			example="Week"
- *	  ),
- *		@OA\Property(
- *			property="average_period",
- *			description="Realm Average Period setting, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=42
- *		),
- *		@OA\Property(
- *			property="dues_amount",
- *			description="Dues cost per interval for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=12
- *		),
- *	  @OA\Property(
- *		  property="dues_intervals_type",
- *		  description="Dues intervals type for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="string",
- *			format="enum",
- *			enum={"Week","Month"},
- *			example="Week"
- *	  ),
- *		@OA\Property(
- *			property="dues_intervals",
- *			description="Dues intervals count for the Realm, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=6
- *		),
- *		@OA\Property(
- *			property="dues_take",
- *			description="Realm take of Dues paid to Chapters, if any.",
- *		  readOnly=false,
- *		  nullable=true,
- *			type="integer",
- *			format="int32",
- *			example=5
- *		)
- *	)
- *	@OA\RequestBody(
- *		request="Realm",
- *		description="Realm object that needs to be added or updated.",
- *		required=true,
- *		@OA\MediaType(
- *			mediaType="multipart/form-data",
- *			@OA\Schema(ref="#/components/schemas/RealmSimple")
- *		)
- *	)
+ * @OA\Schema (
+ * 	schema="RealmSimple",
+ * 	title="RealmSimple",
+ * 	description="Attachable Realm object with no attachments.",
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="If sponsored by another Realm, that Realm ID.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ *   @OA\Property(
+ * 		property="name",
+ * 		description="The label for the Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="The Republic of Futurama",
+ * 		maxLength=100
+ *   ),
+ *   @OA\Property(
+ * 		property="abbreviation",
+ * 		description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		example="FR",
+ * 		maxLength=4
+ *   ),
+ *   @OA\Property(
+ * 		property="color",
+ * 		description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="hexidecimal",
+ * 		example="000000",
+ *  		default="FACADE"
+ *   ),
+ *   @OA\Property(
+ * 		property="heraldry",
+ * 		description="An internal link to an image of the Realm heraldry.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="filename",
+ * 		example="images/realms/42.jpg",
+ * 		maxLength=191
+ *   ),
+ *   @OA\Property(
+ * 		property="is_active",
+ * 		description="Is (default true) the Realm active?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=1
+ *   ),
+ * 	@OA\Property(
+ * 		property="credit_minimum",
+ * 		description="Realm Credit Minimum setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="credit_maximum",
+ * 		description="Realm Credit Maximum setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=32
+ * 	),
+ * 	@OA\Property(
+ * 		property="daily_minimum",
+ * 		description="Realm Daily Minimum setting, if any",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="weekly_minimum",
+ * 		description="Realm Weekly Minimum setting, if any",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=9
+ * 	),
+ *   @OA\Property(
+ * 		property="average_period_type",
+ * 		description="Realm Average Period Type setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Week","Month"},
+ * 		example="Week"
+ *   ),
+ * 	@OA\Property(
+ * 		property="average_period",
+ * 		description="Realm Average Period setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_amount",
+ * 		description="Dues cost per interval for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
+ * 	),
+ *   @OA\Property(
+ * 		property="dues_intervals_type",
+ * 		description="Dues intervals type for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Week","Month"},
+ * 		example="Week"
+ *   ),
+ * 	@OA\Property(
+ * 		property="dues_intervals",
+ * 		description="Dues intervals count for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_take",
+ * 		description="Realm take of Dues paid to Chapters, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=5
+ * 	),
+ * 	@OA\Property(
+ * 		property="waiver_duration",
+ * 		description="Length of time in months a Realm considers a Waiver valid.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="RealmSuperSimple",
+ * 	title="RealmSuperSimple",
+ * 	description="Attachable Realm object with no attachments or CUD data.",
+ * 	@OA\Property(
+ * 		property="id",
+ * 		description="The entry's ID.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="If sponsored by another Realm, that Realm ID.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ *   @OA\Property(
+ * 		property="name",
+ * 		description="The label for the Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="The Republic of Futurama",
+ * 		maxLength=100
+ *   ),
+ *   @OA\Property(
+ * 		property="abbreviation",
+ * 		description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		example="FR",
+ * 		maxLength=4
+ *   ),
+ *   @OA\Property(
+ * 		property="color",
+ * 		description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="hexidecimal",
+ * 		example="000000",
+ *  		default="FACADE"
+ *   ),
+ *   @OA\Property(
+ * 		property="heraldry",
+ * 		description="An internal link to an image of the Realm heraldry.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="filename",
+ * 		example="images/realms/42.jpg",
+ * 		maxLength=191
+ *   ),
+ *   @OA\Property(
+ * 		property="is_active",
+ * 		description="Is (default true) the Realm active?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=1
+ *   ),
+ * 	@OA\Property(
+ * 		property="credit_minimum",
+ * 		description="Realm Credit Minimum setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="credit_maximum",
+ * 		description="Realm Credit Maximum setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=32
+ * 	),
+ * 	@OA\Property(
+ * 		property="daily_minimum",
+ * 		description="Realm Daily Minimum setting, if any",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="weekly_minimum",
+ * 		description="Realm Weekly Minimum setting, if any",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=9
+ * 	),
+ *   @OA\Property(
+ * 		property="average_period_type",
+ * 		description="Realm Average Period Type setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Week","Month"},
+ * 		example="Week"
+ *   ),
+ * 	@OA\Property(
+ * 		property="average_period",
+ * 		description="Realm Average Period setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_amount",
+ * 		description="Dues cost per interval for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
+ * 	),
+ *   @OA\Property(
+ * 		property="dues_intervals_type",
+ * 		description="Dues intervals type for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Week","Month"},
+ * 		example="Week"
+ *   ),
+ * 	@OA\Property(
+ * 		property="dues_intervals",
+ * 		description="Dues intervals count for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=6
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_take",
+ * 		description="Realm take of Dues paid to Chapters, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=5
+ * 	),
+ * 	@OA\Property(
+ * 		property="waiver_duration",
+ * 		description="Length of time in months a Realm considers a Waiver valid.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
+ * 	)
+ * )
+ * @OA\RequestBody (
+ * 	request="Realm",
+ * 	description="Realm object that needs to be added or updated.",
+ * 	required=true,
+ * 	@OA\MediaType(
+ * 		mediaType="multipart/form-data",
+ * 		@OA\Schema(ref="#/components/schemas/RealmSimple")
+ * 	)
+ * )
  */
 
 class Realm extends BaseModel
@@ -820,7 +847,8 @@ class Realm extends BaseModel
 		'dues_amount',
 		'dues_intervals_type',
 		'dues_intervals',
-		'dues_take'
+		'dues_take',
+		'waiver_duration'
 	];
 
 	protected $casts = [
@@ -858,8 +886,46 @@ class Realm extends BaseModel
 		'dues_amount' => 'nullable|integer',
 		'dues_intervals_type' => 'nullable|in:Week,Month',
 		'dues_intervals' => 'nullable|integer',
-		'dues_take' => 'nullable|integer'
+		'dues_take' => 'nullable|integer',
+		'waiver_duration' => 'nullable|integer'
 	];
+	
+	protected $appends = [
+		'ropawards',
+		'roptitles'
+	];
+	
+	protected function heraldry(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					'https://ork.amtgard.com/assets/realms/00000.jpg';
+				}
+				return 'https://ork.amtgard.com/assets/realms/' . $value;
+			}
+		);
+	}
+	
+	protected function ropawards(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				$awards = Award::where('awarder_type', 'Realm')->whereNull('awarder_id')->where('is_active', 1)->get();
+				return $awards;
+			}
+		);
+	}
+	
+	protected function roptitles(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				$titles = Title::where('titleable_type', 'Realm')->whereNull('titleable_id')->where('is_active', 1)->get();
+				return $titles;
+			}
+		);
+	}
 	
 	public $relationships = [
 		'accounts' => 'MorphMany',
@@ -876,18 +942,6 @@ class Realm extends BaseModel
 		'suspensions' => 'MorphMany',
 		'titles' => 'MorphMany'
 	];
-	
-	protected function heraldry(): Attribute
-	{
-		return Attribute::make(
-			get: function (?string $value) {
-				if ($value === null) {
-					return null;
-				}
-				return 'https://ork.amtgard.com/assets/realms/' . $value;
-			}
-		);
-	}
 	
 	public function accounts(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{

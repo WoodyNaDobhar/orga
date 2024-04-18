@@ -17,6 +17,13 @@ export interface Account {
 	parent?: AccountSimple;
 	splits?: SplitSimple[];
 	accountable: RealmSimple | ChapterSimple | UnitSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface AccountSimple {
 	id: number;
@@ -31,6 +38,13 @@ export interface AccountSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface AccountSuperSimple {
 	id: number;
@@ -55,6 +69,13 @@ export interface Archetype {
 	deleted_at?: string | null;
 	attendances?: AttendanceSimple[];
 	reconciliations?: ReconciliationSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ArchetypeSimple {
 	id: number;
@@ -66,6 +87,13 @@ export interface ArchetypeSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ArchetypeSuperSimple {
 	id: number;
@@ -92,6 +120,13 @@ export interface Attendance {
 	attendable: MeetupSimple | EventSimple;
 	archetype: ArchetypeSimple;
 	persona: PersonaSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface AttendanceSimple {
 	id: number;
@@ -107,6 +142,13 @@ export interface AttendanceSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface AttendanceSuperSimple {
 	id: number;
@@ -122,6 +164,7 @@ export interface Award {
 	awarder_type: "Realm" | "Chapter" | "Unit";
 	awarder_id?: number | null;
 	name: string;
+	is_active: 0 | 1;
 	is_ladder: 0 | 1;
 	created_by: number;
 	createdBy?: UserSimple;
@@ -135,12 +178,20 @@ export interface Award {
 	awarder: RealmSimple | ChapterSimple | UnitSimple;
 	issuances?: IssuanceSimple[];
 	recommendations?: RecommendationSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface AwardSimple {
 	id: number;
 	awarder_type: "Realm" | "Chapter" | "Unit";
 	awarder_id?: number | null;
 	name: string;
+	is_active: 0 | 1;
 	is_ladder: 0 | 1;
 	created_by: number;
 	updated_by?: number;
@@ -148,12 +199,20 @@ export interface AwardSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface AwardSuperSimple {
 	id: number;
 	awarder_type: "Realm" | "Chapter" | "Unit";
 	awarder_id?: number | null;
 	name: string;
+	is_active: 0 | 1;
 	is_ladder: 0 | 1;
 }
 export interface Chapter {
@@ -181,8 +240,8 @@ export interface Chapter {
 	meetups?: Meetup[];
 	nearbyGuests?: Guest[];
 	personas?: Persona[];
-	realm?: RealmSimple;
-	reign?: Reign[];
+	realm?: Realm;
+	reign?: Reign;
 	reigns?: Reign[];
 	socials?: Social[];
 	sponsors?: Event[];
@@ -191,6 +250,13 @@ export interface Chapter {
 	createdBy?: UserSimple;
 	updatedBy?: UserSimple;
 	deletedBy?: UserSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ChapterSimple {
 	id: number;
@@ -208,6 +274,13 @@ export interface ChapterSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ChapterSuperSimple {
 	id: number;
@@ -239,6 +312,13 @@ export interface Chaptertype {
 	createdBy?: UserSimple;
 	updatedBy?: UserSimple;
 	deletedBy?: UserSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ChaptertypeSimple {
 	id: number;
@@ -253,6 +333,13 @@ export interface ChaptertypeSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ChaptertypeSuperSimple {
 	id: number;
@@ -267,7 +354,7 @@ export interface Crat {
 	event_id: number;
 	persona_id: number;
 	name: string;
-	is_autocrat: number;
+	is_autocrat: 0 | 1;
 	created_by: number;
 	updated_by: number;
 	deleted_by: number;
@@ -279,26 +366,40 @@ export interface Crat {
 	createdBy?: UserSimple;
 	updatedBy?: UserSimple;
 	deletedBy?: UserSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface CratSimple {
 	id: number;
 	event_id: number;
 	persona_id: number;
 	name: string;
-	is_autocrat: number;
+	is_autocrat: 0 | 1;
 	created_by: number;
 	updated_by: number;
 	deleted_by: number;
 	created_at: string;
 	updated_at: string;
 	deleted_at: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface CratSuperSimple {
 	id: number;
 	event_id: number;
 	persona_id: number;
 	name: string;
-	is_autocrat: number;
+	is_autocrat: 0 | 1;
 }
 export interface Due {
 	id: number;
@@ -317,6 +418,13 @@ export interface Due {
 	createdBy?: UserSimple;
 	updatedBy?: UserSimple;
 	deletedBy?: UserSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface DueSimple {
 	id: number;
@@ -330,6 +438,13 @@ export interface DueSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface DueSuperSimple {
 	id: number;
@@ -350,8 +465,8 @@ export interface Event {
 	image?: string;
 	is_active: 0 | 1;
 	is_demo: 0 | 1;
-	event_started_at: string; // Format: date-time
-	event_ended_at: string; // Format: date-time
+	event_started_at: string;
+	event_ended_at: string;
 	price?: number;
 	created_by: number;
 	createdBy: UserSimple;
@@ -359,9 +474,9 @@ export interface Event {
 	updatedBy?: UserSimple;
 	deleted_by?: number;
 	deletedBy?: UserSimple;
-	created_at: string; // Format: date-time
-	updated_at?: string; // Format: date-time
-	deleted_at?: string; // Format: date-time
+	created_at: string;
+	updated_at?: string;
+	deleted_at?: string;
 	attendances?: AttendanceSimple[];
 	crats?: CratSimple[];
 	eventable: ChapterSimple | RealmSimple | PersonaSimple | UnitSimple;
@@ -369,6 +484,13 @@ export interface Event {
 	issuances?: IssuanceSimple[];
 	location?: LocationSimple;
 	socials?: SocialSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface EventSimple {
 	id: number;
@@ -382,15 +504,22 @@ export interface EventSimple {
 	image?: string;
 	is_active: 0 | 1;
 	is_demo: 0 | 1;
-	event_started_at: string; // Format: date-time
-	event_ended_at: string; // Format: date-time
+	event_started_at: string;
+	event_ended_at: string;
 	price?: number;
 	created_by: number;
 	updated_by?: number;
 	deleted_by?: number;
-	created_at: string; // Format: date-time
-	updated_at?: string; // Format: date-time
-	deleted_at?: string; // Format: date-time
+	created_at: string;
+	updated_at?: string;
+	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface EventSuperSimple {
 	id: number;
@@ -404,8 +533,8 @@ export interface EventSuperSimple {
 	image?: string;
 	is_active: 0 | 1;
 	is_demo: 0 | 1;
-	event_started_at: string; // Format: date-time
-	event_ended_at: string; // Format: date-time
+	event_started_at: string;
+	event_ended_at: string;
 	price?: number;
 }
 export interface Guest {
@@ -424,6 +553,13 @@ export interface Guest {
 	event: EventSimple
 	chapter: ChapterSimple
 	waiver: WaiverSimple
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface GuestSimple {
 	id: number
@@ -438,6 +574,13 @@ export interface GuestSimple {
 	created_at: string
 	updated_at?: string | null
 	deleted_at?: string | null
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface GuestSuperSimple {
 	id: number
@@ -461,11 +604,11 @@ export interface Issuance {
 	name?: string | null;
 	custom_name?: string | null;
 	rank?: number | null;
-	issued_at: string; // format: date
+	issued_at: string;
 	reason?: string | null;
-	image?: string | null; // format: filename
+	image?: string | null;
 	revoked_by?: number | null;
-	revoked_at?: string | null; // format: date
+	revoked_at?: string | null;
 	revocation?: string | null;
 	created_by: number;
 	createdBy: UserSimple;
@@ -473,15 +616,22 @@ export interface Issuance {
 	updatedBy?: UserSimple;
 	deleted_by?: number;
 	deletedBy?: UserSimple;
-	created_at: string; // format: date-time
-	updated_at?: string; // format: date-time
-	deleted_at?: string | null; // format: date-time
+	created_at: string;
+	updated_at?: string;
+	deleted_at?: string | null;
 	issuable: AwardSimple | TitleSimple;
 	issuer: ChapterSimple | RealmSimple | PersonaSimple | UnitSimple;
 	recipient: PersonaSimple | UnitSimple;
-	revokedBy?: PersonaSimple | null;
+	revoker?: PersonaSimple | null;
 	signator?: PersonaSimple | null;
 	whereable?: EventSimple | LocationSimple | MeetupSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface IssuanceSimple {
 	id: number;
@@ -497,19 +647,26 @@ export interface IssuanceSimple {
 	name?: string | null;
 	custom_name?: string | null;
 	rank?: number | null;
-	issued_at: string; // format: date
+	issued_at: string;
 	reason?: string | null;
-	image?: string | null; // format: filename
+	image?: string | null;
 	revoked_by?: number | null;
-	revoked_at?: string | null; // format: date
+	revoked_at?: string | null;
 	revocation?: string | null;
 	created_by: number;
 	updated_by?: number;
 	deleted_by?: number;
-	created_at: string; // format: date-time
-	updated_at?: string; // format: date-time
-	deleted_at?: string | null; // format: date-time
+	created_at: string;
+	updated_at?: string;
+	deleted_at?: string | null;
 	issuable: AwardSimple | TitleSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface IssuanceSuperSimple {
 	id: number;
@@ -525,11 +682,11 @@ export interface IssuanceSuperSimple {
 	name?: string | null;
 	custom_name?: string | null;
 	rank?: number | null;
-	issued_at: string; // format: date
+	issued_at: string;
 	reason?: string | null;
-	image?: string | null; // format: filename
+	image?: string | null;
 	revoked_by?: number | null;
-	revoked_at?: string | null; // format: date
+	revoked_at?: string | null;
 	revocation?: string | null;
 }
 export interface Location {
@@ -560,6 +717,13 @@ export interface Location {
 	issuances?: IssuanceSimple[];
 	meetups?: MeetupSimple[];
 	waivers?: WaiverSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface LocationSimple {
 	id: number;
@@ -581,6 +745,13 @@ export interface LocationSimple {
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface LocationSuperSimple {
 	id: number;
@@ -619,6 +790,13 @@ export interface Meetup {
 	chapter: ChapterSimple;
 	issuances?: IssuanceSimple[];
 	location?: LocationSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface MeetupSimple {
 	id: number;
@@ -638,6 +816,13 @@ export interface MeetupSimple {
 	created_at: string;
 	updated_at: string | null;
 	deleted_at: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface MeetupSuperSimple {
 	id: number;
@@ -656,8 +841,8 @@ export interface Member {
 	id: number;
 	persona_id: number;
 	unit_id: number;
-	is_head: number;
-	is_voting: number;
+	is_head: 0 | 1;
+	is_voting: 0 | 1;
 	joined_at?: string | null;
 	left_at?: string | null;
 	notes?: string | null;
@@ -672,13 +857,20 @@ export interface Member {
 	deleted_at?: string | null;
 	persona: PersonaSimple;
 	unit: UnitSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface MemberSimple {
 	id: number;
 	persona_id: number;
 	unit_id: number;
-	is_head: number;
-	is_voting: number;
+	is_head: 0 | 1;
+	is_voting: 0 | 1;
 	joined_at?: string | null;
 	left_at?: string | null;
 	notes?: string | null;
@@ -688,13 +880,20 @@ export interface MemberSimple {
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface MemberSuperSimple {
 	id: number;
 	persona_id: number;
 	unit_id: number;
-	is_head: number;
-	is_voting: number;
+	is_head: 0 | 1;
+	is_voting: 0 | 1;
 	joined_at?: string | null;
 	left_at?: string | null;
 	notes?: string | null;
@@ -705,6 +904,8 @@ export interface Office {
 	officeable_id: number;
 	name: string;
 	duration?: number | null;
+	is_forgiven?: 0 | 1;
+	is_midreign?: 0 | 1;
 	order?: number | null;
 	created_by: number;
 	createdBy: UserSimple;
@@ -717,6 +918,13 @@ export interface Office {
 	deleted_at?: string | null;
 	officeable: ChaptertypeSimple | RealmSimple | UnitSimple;
 	officers: OfficerSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface OfficeSimple {
 	id: number;
@@ -724,6 +932,8 @@ export interface OfficeSimple {
 	officeable_id: number;
 	name: string;
 	duration?: number | null;
+	is_forgiven?: 0 | 1;
+	is_midreign?: 0 | 1;
 	order?: number | null;
 	created_by: number;
 	updated_by?: number | null;
@@ -731,6 +941,13 @@ export interface OfficeSimple {
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface OfficeSuperSimple {
 	id: number;
@@ -738,6 +955,8 @@ export interface OfficeSuperSimple {
 	officeable_id: number;
 	name: string;
 	duration?: number | null;
+	is_forgiven?: 0 | 1;
+	is_midreign?: 0 | 1;
 	order?: number | null;
 }
 export interface Officer {
@@ -762,6 +981,13 @@ export interface Officer {
 	office: OfficeSimple;
 	officerable: ReignSimple | UnitSimple;
 	persona: PersonaSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface OfficerSimple {
 	id: number;
@@ -779,6 +1005,13 @@ export interface OfficerSimple {
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface OfficerSuperSimple {
 	id: number;
@@ -801,12 +1034,17 @@ export interface Persona {
 	heraldry: string;
 	image: string;
 	is_active: 0 | 1;
+	is_officer: 0 | 1;
+	is_paid: 0 | 1;
+	is_suspended: 0 | 1;
+	is_waivered: 0 | 1;
 	reeve_qualified_expires_at?: string | null;
 	corpora_qualified_expires_at?: string | null;
 	joined_chapter_at?: string | null;
 	chapter_full_abbreviation: string;
-	attendance_count: number;
-	credit_count: number;
+	awards: AwardsReport;
+	credits: CreditReport;
+	roptitles?: TitleSimple[];
 	score: number;
 	created_by: number;
 	createdBy?: UserSimple;
@@ -819,17 +1057,16 @@ export interface Persona {
 	deleted_at?: string | null;
 	attendances?: AttendanceSimple[];
 	awardIssuances?: IssuanceSimple[];
-	awards?: AwardSimple[];
-	chapter?: ChapterSimple;
+	chapter?: Chapter;
 	crats?: CratSimple[];
 	dues?: DueSimple[];
 	events?: EventSimple[];
-	honorific?: IssuanceSimple[];
+	honorific?: IssuanceSimple;
 	issuances?: IssuanceSimple[];
 	issuanceGivens?: IssuanceSimple[];
 	issuanceRevokeds?: IssuanceSimple[];
 	issuanceSigneds?: IssuanceSimple[];
-	members?: MemberSimple[];
+	memberships?: MemberSimple[];
 	officers?: OfficerSimple[];
 	pronoun?: PronounSimple;
 	recommendations?: RecommendationSimple[];
@@ -840,10 +1077,17 @@ export interface Persona {
 	suspensionIssueds?: SuspensionSimple[];
 	titleIssuances?: IssuanceSimple[];
 	titles?: TitleSimple[];
-	units?: UnitSimple[];
+	units?: Unit[];
 	user?: UserSimple;
 	waivers?: WaiverSimple[];
 	waiverVerifieds?: WaiverSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface PersonaSimple {
 	id: number;
@@ -855,12 +1099,16 @@ export interface PersonaSimple {
 	heraldry: string;
 	image: string;
 	is_active: 0 | 1;
+	is_officer: 0 | 1;
+	is_paid: 0 | 1;
+	is_suspended: 0 | 1;
+	is_waivered: 0 | 1;
 	reeve_qualified_expires_at?: string | null;
 	corpora_qualified_expires_at?: string | null;
 	joined_chapter_at?: string | null;
 	chapter_full_abbreviation: string;
-	attendance_count: number;
-	credit_count: number;
+	awards: AwardsReport;
+	credits: CreditReport;
 	score: number;
 	created_by: number;
 	updated_by?: number | null;
@@ -868,6 +1116,13 @@ export interface PersonaSimple {
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface PersonaSuperSimple {
 	id: number;
@@ -879,13 +1134,36 @@ export interface PersonaSuperSimple {
 	heraldry: string;
 	image: string;
 	is_active: 0 | 1;
+	is_officer: 0 | 1;
+	is_paid: 0 | 1;
+	is_suspended: 0 | 1;
+	is_waivered: 0 | 1;
 	reeve_qualified_expires_at?: string | null;
 	corpora_qualified_expires_at?: string | null;
 	joined_chapter_at?: string | null;
 	chapter_full_abbreviation: string;
-	attendance_count: number;
-	credit_count: number;
+	awards: AwardsReport;
+	credits: CreditReport;
 	score: number;
+}
+export interface ArchetypeCredit {
+  credits: number;
+  level: number;
+}
+export interface ArchetypeCredits {
+  [key: string]: ArchetypeCredit;
+}
+export interface CreditReport {
+  count: number;
+  attendance_count: number;
+  archetypes: ArchetypeCredits;
+}
+export interface AwardInfo {
+  rank: number;
+  issuances: Issuance[];
+}
+export interface AwardsReport {
+  awards: { [awardName: string]: AwardInfo };
 }
 export interface Pronoun {
 	id: number;
@@ -903,6 +1181,13 @@ export interface Pronoun {
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface PronounSimple {
 	id: number;
@@ -917,6 +1202,13 @@ export interface PronounSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface PronounSuperSimple {
 	id: number;
@@ -944,6 +1236,7 @@ export interface Realm {
 	dues_intervals_type?: 'Week' | 'Month' | null;
 	dues_intervals?: number | null;
 	dues_take?: number | null;
+	waiver_duration?: number | null;
 	created_by: number;
 	createdBy: UserSimple;
 	updated_by?: number | null;
@@ -954,18 +1247,27 @@ export interface Realm {
 	updated_at?: string | null;
 	deleted_at?: string | null;
 	accounts?: AccountSimple[];
+	ropawards?: AwardSimple[];
+	roptitles?: TitleSimple[];
 	awards?: AwardSimple[];
 	chapters?: ChapterSimple[];
 	chaptertypes?: ChaptertypeSimple[];
 	events?: EventSimple[];
 	issuances?: IssuanceSimple[];
 	offices?: OfficeSimple[];
-	reign?: ReignSimple[];
+	reign?: ReignSimple;
 	reigns?: ReignSimple[];
 	socials?: SocialSimple[];
 	sponsors?: EventSimple[];
 	suspensions?: SuspensionSimple[];
 	titles?: TitleSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface RealmSimple {
 	id: number;
@@ -985,12 +1287,20 @@ export interface RealmSimple {
 	dues_intervals_type?: 'Week' | 'Month' | null;
 	dues_intervals?: number | null;
 	dues_take?: number | null;
+	waiver_duration?: number | null;
 	created_by: number;
 	updated_by?: number | null;
 	deleted_by?: number | null;
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface RealmSuperSimple {
 	id: number;
@@ -1010,6 +1320,7 @@ export interface RealmSuperSimple {
 	dues_intervals_type?: 'Week' | 'Month' | null;
 	dues_intervals?: number | null;
 	dues_take?: number | null;
+	waiver_duration?: number | null;
 }
 export interface Recommendation {
 	id: number;
@@ -1030,6 +1341,13 @@ export interface Recommendation {
 	deleted_at?: string;
 	persona: PersonaSimple;
 	recommendable: AwardSimple | TitleSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface RecommendationSimple {
 	id: number;
@@ -1045,6 +1363,13 @@ export interface RecommendationSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface RecommendationSuperSimple {
 	id: number;
@@ -1072,6 +1397,13 @@ export interface Reconciliation {
 	deleted_at?: string;
 	archetype: ArchetypeSimple;
 	persona: PersonaSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ReconciliationSimple {
 	id: number;
@@ -1085,6 +1417,13 @@ export interface ReconciliationSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ReconciliationSuperSimple {
 	id: number;
@@ -1112,6 +1451,13 @@ export interface Reign {
 	deleted_at?: string;
 	officers: OfficerSimple[];
 	reignable: ChapterSimple | RealmSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ReignSimple {
 	id: number;
@@ -1127,6 +1473,13 @@ export interface ReignSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface ReignSuperSimple {
 	id: number;
@@ -1154,6 +1507,13 @@ export interface Social {
 	updated_at?: string;
 	deleted_at?: string;
 	sociable: SocialSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface SocialSimple {
 	id: number;
@@ -1168,6 +1528,13 @@ export interface SocialSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface SocialSuperSimple {
 	id: number;
@@ -1195,6 +1562,13 @@ export interface Split {
 	account: AccountSimple;
 	persona: PersonaSimple;
 	transaction: TransactionSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface SplitSimple {
 	id: number;
@@ -1208,6 +1582,13 @@ export interface SplitSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface SplitSuperSimple {
 	id: number;
@@ -1238,6 +1619,13 @@ export interface Suspension {
 	persona: PersonaSimple;
 	realm?: RealmSimple;
 	suspendedBy: PersonaSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface SuspensionSimple {
 	id: number;
@@ -1255,6 +1643,13 @@ export interface SuspensionSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface SuspensionSuperSimple {
 	id: number;
@@ -1273,7 +1668,7 @@ export interface Title {
 	titleable_id: number;
 	name: string;
 	rank?: number;
-	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer' | 'Squire';
+	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer';
 	is_roaming: 0 | 1;
 	is_active: 0 | 1;
 	created_by: number;
@@ -1287,6 +1682,13 @@ export interface Title {
 	deleted_at?: string;
 	issuances: IssuanceSimple[];
 	titleable: ChapterSimple | PersonaSimple | RealmSimple | UnitSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface TitleSimple {
 	id: number;
@@ -1294,7 +1696,7 @@ export interface TitleSimple {
 	titleable_id: number;
 	name: string;
 	rank?: number;
-	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer' | 'Squire';
+	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer';
 	is_roaming: 0 | 1;
 	is_active: 0 | 1;
 	created_by: number;
@@ -1303,6 +1705,13 @@ export interface TitleSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface TitleSuperSimple {
 	id: number;
@@ -1310,7 +1719,7 @@ export interface TitleSuperSimple {
 	titleable_id: number;
 	name: string;
 	rank?: number;
-	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer' | 'Squire';
+	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer';
 	is_roaming: 0 | 1;
 	is_active: 0 | 1;
 }
@@ -1331,6 +1740,13 @@ export interface Tournament {
 	updated_at?: string;
 	deleted_at?: string;
 	tournamentable: ChapterSimple | EventSimple | RealmSimple;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface TournamentSimple {
 	id: number;
@@ -1344,6 +1760,13 @@ export interface TournamentSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface TournamentSuperSimple {
 	id: number;
@@ -1368,6 +1791,13 @@ export interface Transaction {
 	deleted_at?: string;
 	dues: DueSimple[];
 	splits: SplitSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface TransactionSimple {
 	id: number;
@@ -1380,6 +1810,13 @@ export interface TransactionSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface TransactionSuperSimple {
 	id: number;
@@ -1404,8 +1841,8 @@ export interface Unit {
 	updated_at?: string;
 	deleted_at?: string;
 	accounts: AccountSimple[];
-	awards: AwardSimple[];
 	awardIssuances: IssuanceSimple[];
+	awards?: AwardSimple[];
 	events: EventSimple[];
 	issuanceGivens: IssuanceSimple[];
 	issuanceReceived: IssuanceSimple[];
@@ -1415,6 +1852,13 @@ export interface Unit {
 	socials: SocialSimple[];
 	titles: TitleSimple[];
 	titleIssueds: IssuanceSimple[];
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface UnitSimple {
 	id: number;
@@ -1429,6 +1873,13 @@ export interface UnitSimple {
 	created_at: string;
 	updated_at?: string;
 	deleted_at?: string;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface UnitSuperSimple {
 	id: number;
@@ -1446,12 +1897,20 @@ export interface User {
 	password: string;
 	is_restricted: 0 | 1;
 	token?: string | null;
+    jsPermissions?: string | null;
 	created_by: number;
 	updated_by?: number;
 	deleted_by?: number;
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface UserSimple {
 	persona_id: number;
@@ -1466,6 +1925,13 @@ export interface UserSimple {
 	created_at: string;
 	updated_at: string;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface UserSuperSimple {
 	persona_id: number;
@@ -1509,6 +1975,13 @@ export interface Waiver {
 	location?: LocationSimple | null;
 	persona?: PersonaSimple | null;
 	pronoun?: PronounSimple | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface WaiverSimple {
 	id: number;
@@ -1536,6 +2009,13 @@ export interface WaiverSimple {
 	created_at: string;
 	updated_at?: string | null;
 	deleted_at?: string | null;
+	can_list: 0 | 1;
+	can_view: 0 | 1;
+	can_create: 0 | 1;
+	can_update: 0 | 1;
+	can_delete: 0 | 1;
+	can_restore: 0 | 1;
+	can_nuke: 0 | 1;
 }
 export interface WaiverSuperSimple {
 	id: number;

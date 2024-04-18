@@ -3818,162 +3818,211 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => null,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Chief Executive Officer' => [
 								'duration' => 6,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Chief Financial Officer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Kingdom Quartermaster' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Royal Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Outpost' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Clerk' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Shire Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Clerk' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -3981,17 +4030,23 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -3999,23 +4054,31 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Ducal Defender' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
@@ -4023,24 +4086,32 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'General Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Defender' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -4050,158 +4121,209 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative' => [
 								'duration' => 6,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Historian' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Senator' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Elected Director' => [
 								'duration' => 24,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Ex Officio Director' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Barony' => [
@@ -4209,31 +4331,43 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Duchy' => [
@@ -4241,68 +4375,94 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Principality' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [215]
+								'award_ids' => [215],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				]
 		],
@@ -4312,197 +4472,262 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Royal Consort' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Monarch\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Monarch\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Consort\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Bard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Jester' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Shire Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85, 206]
+								'award_ids' => [85, 206],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Consort' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -4512,135 +4737,178 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Captain of the King\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'King\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Protector' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Principal Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Royal Historian' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -4648,30 +4916,40 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Esquire',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master|Mistress',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -4679,30 +4957,40 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master|Mistress',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -4710,30 +4998,40 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
@@ -4741,57 +5039,77 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Lord|Lady',
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [214]
+								'award_ids' => [214],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [215]
+								'award_ids' => [215],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -4801,167 +5119,226 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => null,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => null,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => null,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => null,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Interkingdom Rules Representative' => [
 								'duration' => null,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Circle of Monarchs Representative' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Head of Security' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Security' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Bard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Jester' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Heir Apparent' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -4969,30 +5346,40 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Shire Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Esquire',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Shire Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -5000,30 +5387,40 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -5031,30 +5428,40 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Duchy Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Duchy Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -5064,148 +5471,208 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent|Consort|Prince|Princess' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Captain of the Monarch\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Glass Guildmaster' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Monarch\'s & Consort\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Circle of Steel Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Consort/Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Bard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Jester' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative' => [
 								'duration' => 6,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Shire Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Consort' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -5214,22 +5681,30 @@ $knownRealmChaptertypesOffices = [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Shire Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85, 206]
+								'award_ids' => [85, 206],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -5237,71 +5712,101 @@ $knownRealmChaptertypesOffices = [
 				'Kingdom' => [
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Kingdom Monarch' => [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Kingdom Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Quartermaster' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Kingdom Storyteller' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Quartermaster' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Chairperson' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice Chairperson' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Case Analyst' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -5309,25 +5814,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -5335,25 +5848,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -5361,25 +5882,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
@@ -5387,25 +5916,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master',
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -5413,25 +5950,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -5441,135 +5986,178 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Circle of Monarchs Secretary' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Bard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Jester' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Prime Minister\'s Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -5577,25 +6165,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Esquire',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -5603,25 +6199,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Lord|Lady',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'County' => [
@@ -5629,25 +6233,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Baronet',
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -5655,25 +6267,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
@@ -5681,25 +6301,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -5709,189 +6337,256 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Heir Apparent' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Royal Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Royal Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Smiths' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Garbers' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Engineers' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Circle of Steel Representative' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Liaison Officer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -5899,22 +6594,30 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord/Lady',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -5922,23 +6625,31 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord/Lady',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -5946,24 +6657,32 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -5973,105 +6692,151 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Senator' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative' => [
 								'duration' => 12,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown Bard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown Jester' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Membership Officer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Monarch Alternate' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Prime Minister Alternate' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff|Mayor' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -6079,22 +6844,30 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -6102,46 +6875,62 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -6149,24 +6938,32 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Crown Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Crown Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Crown Seneschal' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -6176,253 +6973,340 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent|Consort' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Captain of the Monarch\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Monarch\'s/Consort\'s Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Circle of Steel Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent/Consort\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Bard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Jester' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative' => [
 								'duration' => null,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85, 206]
+								'award_ids' => [85, 206],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Baronial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Ducal Consort' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Ducal Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prince Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Prince Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Grand Ducal Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -6430,202 +7314,273 @@ $knownRealmChaptertypesOffices = [
 				'Kingdom' => [
 						'Board of Directors Member' => [
 								'duration' => 36,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Trustee' => [
 								'duration' => null,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Trustee Program Liason' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 24,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice-President' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Senator' => [
 								'duration' => 12,
 								'title' => 'Count|Countess',
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative' => [
 								'duration' => null,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Corpora Comittee Chair' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Corpora Comittee Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Masks' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Chronicler' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Royal Commissioner (Recruiting/Retention)' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Royal Commissioner (Diversity/Inclusion)' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Novices' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Kingdom Spotlight' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master|Mistress',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -6633,24 +7588,32 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master|Mistress',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -6658,25 +7621,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
@@ -6684,25 +7655,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -6710,25 +7689,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -6738,179 +7725,244 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guard Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Heir Apparent' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Marshall' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Quartermaster' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Representative to AI' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative to AI' => [
 								'duration' => 6,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Circle of Steel Representative' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Event Committee Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Event Committee Head' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Event Committee Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Fundraiser Committee Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Chairman of the Board' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice-Chairman of the Board' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Liason Officer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -6918,23 +7970,31 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Esquire',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -6942,25 +8002,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -6968,48 +8036,64 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Protector',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -7019,62 +8103,88 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Ambassador of Tal Dagore' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative of Tal Dagore' => [
 								'duration' => 12,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'V9 Representative of Tal Dagore' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Board President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -7082,22 +8192,30 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85, 206]
+								'award_ids' => [85, 206],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -7105,23 +8223,31 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -7129,50 +8255,68 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minster' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				]
 		],
@@ -7182,131 +8326,172 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Rules Representative' => [
 								'duration' => 12,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Chief Herald of the College of Arms' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Speaker of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Food Fight Representative' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -7314,25 +8499,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master|Mistress',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -7340,25 +8533,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master|Mistress',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -7366,47 +8567,63 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -7416,101 +8633,143 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Steward',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Steward',
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Heir Apparent' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Royal Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Royal Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Liason Officer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -7518,22 +8777,30 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -7541,45 +8808,61 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -7587,49 +8870,69 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Steward',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Liason Officer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				]
 		],
@@ -7639,166 +8942,221 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Imperial Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Imperial Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Imperial Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'InterKingdom Rules Committee Representative' => [
 								'duration' => 6,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guard Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Provincial Treasurer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Provincial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -7806,31 +9164,43 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Provincial Treasurer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Provincial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -7838,64 +9208,88 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Provincial Treasurer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Provincial Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Provincial Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
 						'Prince|Princess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Principality Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Principality Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Principality Treasurer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Principality Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Principality Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [215]
+								'award_ids' => [215],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -7905,152 +9299,203 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Apprentice' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Crown Guard Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Principal Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Senator' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Surrogate' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Alternate' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -8058,31 +9503,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Esquire',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master|Mistress',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85, 206]
+								'award_ids' => [85, 206],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Esquire',
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -8090,31 +9545,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master|Mistress',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Esquire',
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -8122,31 +9587,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Master|Mistress',
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
@@ -8154,31 +9629,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Lord|Lady',
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Lord|Lady',
-								'award_ids' => [214]
+								'award_ids' => [214],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -8186,31 +9671,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Supreme Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Lord|Lady',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Lord|Lady',
-								'award_ids' => [215]
+								'award_ids' => [215],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -8220,151 +9715,202 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion of the Realm' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Operations Officer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Financial Officer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 6,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Operations Officer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Assistant Operations Officer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Adjudication Chief' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Quartermaster' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Kingdom Rules Representative' => [
 								'duration' => 6,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Viridian Outlands Corpora Clarification Committee Member' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Viridian Outlands Corpora Clarification Committee Board Member' => [
 								'duration' => null,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -8372,25 +9918,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -8398,25 +9952,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -8424,25 +9986,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet|Baronetess',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Lord|Lady',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -8450,25 +10020,33 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Count|Countess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -8478,112 +10056,156 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Board of Directors Member' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Ex Officio' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 12,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Treasurer' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'The Rules Representative' => [
 								'duration' => 12,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'The Kingdom Senator' => [
 								'duration' => 12,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Outpost' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -8591,27 +10213,37 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -8619,56 +10251,76 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [214]
+								'award_ids' => [214],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -8678,115 +10330,148 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors CEO' => [
 								'duration' => 24,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors CFO' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'The Rules Representative' => [
 								'duration' => 6,
-								'award_ids' => [225]
+								'award_ids' => [225],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -8794,96 +10479,119 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Master|Mistress',
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Esquire',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Esquire',
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Barony' => [
@@ -8891,96 +10599,119 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master|Mistress',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Esquire',
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Esquire',
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Duchy' => [
@@ -8988,96 +10719,119 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Master|Mistress',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Master|Mistress',
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				]
 		],
@@ -9087,143 +10841,195 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion of Art' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion of Wacks' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion of Records' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of Rules' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Burg' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Shire' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70, 198]
+								'award_ids' => [70, 198],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
 						'Monarch' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -9233,276 +11039,375 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet|Barnetess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Kingdom Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Count|Countess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Defender',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Baronet|Barnetess',
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Heir Apparent' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Captain of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Members of the Guard' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regent\'s Defender' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of [A&S]' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Archers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [189]
+								'award_ids' => [189],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Assassins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [190]
+								'award_ids' => [190],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Barbarians' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [191]
+								'award_ids' => [191],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Bards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [192]
+								'award_ids' => [192],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Druids' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [193]
+								'award_ids' => [193],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Healers' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [194]
+								'award_ids' => [194],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monks' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [195]
+								'award_ids' => [195],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Monsters' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [196]
+								'award_ids' => [196],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [197]
+								'award_ids' => [197],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Scouts' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [199]
+								'award_ids' => [199],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Warriors' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [200]
+								'award_ids' => [200],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Wizards' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [201]
+								'award_ids' => [201],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Anti-Paladins' => [
 								'duration' => 6,
-								'award_ids' => null,
-								'award_ids' => [210]
+								'award_ids' => [210],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Scribe' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Court Herald' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Circle of Steel Representative' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Ambassador' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Grand Librarian' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Chief Executive Officer' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Regional Executive Officer' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Administrative Officer' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors President' => [
 								'duration' => 24,
-								'award_ids' => [93]
+								'award_ids' => [93],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Secretary-Treasurer' => [
 								'duration' => 24,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Vice President' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Board Liaison' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
 						'Sheriff' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [77]
+								'award_ids' => [77],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [85]
+								'award_ids' => [85],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [211]
+								'award_ids' => [211],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
 						'Baron|Baroness' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [78]
+								'award_ids' => [78],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [86]
+								'award_ids' => [86],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
 						'Duke|Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Grand Duchy' => [
 						'Grand Duke|Grand Duchess' => [
 								'duration' => 6,
 								'order' => 1,
-								'award_ids' => [75,76]
+								'award_ids' => [75,76],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
-								'award_ids' => [80]
+								'award_ids' => [80],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Chancellor' => [
 								'duration' => 6,
 								'order' => 2,
-								'award_ids' => [84]
+								'award_ids' => [84],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
-								'award_ids' => [88]
+								'award_ids' => [88],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
-								'award_ids' => [214]
+								'award_ids' => [214],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				]
 		],
@@ -9512,43 +11417,59 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Duke|Duchess',
-								'award_ids' => [92]
+								'award_ids' => [92],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [91]
+								'award_ids' => [91],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Kingdom Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Count|Countess',
-								'award_ids' => [202]
+								'award_ids' => [202],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Kingdom Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [90]
+								'award_ids' => [90],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [89]
+								'award_ids' => [89],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Kingdom Ambassador' => [
 								'duration' => 6,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Guildmaster of Knights' => [
 								'duration' => 6,
-								'award_ids' => [188]
+								'award_ids' => [188],
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						],
 						'Board of Directors Member' => [
 								'duration' => 48,
-								'award_ids' => null
+								'award_ids' => null,
+								'is_midreign' => 0,
+								'is_forgiven' => 0
 						]
 				],
 				'Shire' => [
@@ -9556,13 +11477,17 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Lord|Lady',
-								'award_ids' => [70]
+								'award_ids' => [70],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Master|Mistress',
-								'award_ids' => [81]
+								'award_ids' => [81],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Barony' => [
@@ -9570,19 +11495,25 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baronet',
-								'award_ids' => [71,72]
+								'award_ids' => [71,72],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Lord|Lady',
-								'award_ids' => [82]
+								'award_ids' => [82],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Lord|Lady',
-								'award_ids' => [212]
+								'award_ids' => [212],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						]
 				],
 				'Duchy' => [
@@ -9590,31 +11521,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Baron|Baroness',
-								'award_ids' => [73,74]
+								'award_ids' => [73,74],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Baronet',
-								'award_ids' => [83]
+								'award_ids' => [83],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Lord|Lady',
-								'award_ids' => [213]
+								'award_ids' => [213],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Lord|Lady',
-								'award_ids' => [79]
+								'award_ids' => [79],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Lord|Lady',
-								'award_ids' => [87]
+								'award_ids' => [87],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				],
 				'Principality' => [
@@ -9622,31 +11563,41 @@ $knownRealmChaptertypesOffices = [
 								'duration' => 6,
 								'order' => 1,
 								'title' => 'Marquis|Marquess',
-								'award_ids' => [234]
+								'award_ids' => [234],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Prime Minister' => [
 								'duration' => 6,
 								'order' => 2,
 								'title' => 'Count|Countess',
-								'award_ids' => [237]
+								'award_ids' => [237],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Guildmaster of Reeves' => [
 								'duration' => 6,
 								'order' => 5,
 								'title' => 'Viscount|Viscountess',
-								'award_ids' => [215]
+								'award_ids' => [215],
+								'is_midreign' => 1,
+								'is_forgiven' => 1
 						],
 						'Regent' => [
 								'duration' => 6,
 								'order' => 4,
 								'title' => 'Baronet',
-								'award_ids' => [235]
+								'award_ids' => [235],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						],
 						'Champion' => [
 								'duration' => 6,
 								'order' => 3,
 								'title' => 'Baronet',
-								'award_ids' => [236]
+								'award_ids' => [236],
+								'is_midreign' => 0,
+								'is_forgiven' => 1
 						]
 				]
 		]

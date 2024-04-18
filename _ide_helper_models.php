@@ -149,6 +149,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="parent",
  * 		type="object",
  * 		description="The superior Account.",
@@ -284,6 +361,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -511,6 +665,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="attendances",
  * 		description="Attachable & filterable array of Attendances with this Archetype.",
  * 		type="array",
@@ -615,6 +846,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -847,6 +1155,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="attendable",
  * 		type="object",
  * 		description="Attachable object that was attended.",
@@ -986,6 +1371,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -1119,7 +1581,7 @@ namespace App\Models{
  *
  * @OA\Schema (
  * 	schema="Award",
- * 	required={"awarder_type","name","is_ladder"},
+ * 	required={"awarder_type","name","is_ladder","is_active"},
  * 	description="Awards available in a given (or all) Realm(s), Chapter, or Unit.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * awarder (Chapter, Realm, or Unit) (MorphTo): The Realm, Chapter, or Unit that Issues this Award.
  * issuances (Issuance) (MorphMany): Issuances of this Award.
@@ -1164,6 +1626,17 @@ namespace App\Models{
  * 		format="uppercase first letter",
  * 		example="Order of the Rose",
  * 		maxLength=100
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_active",
+ * 		description="Is this Award (default true) still being given out?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=1
  * 	),
  * 	@OA\Property(
  * 		property="is_ladder",
@@ -1244,6 +1717,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="awarder",
  * 		type="object",
  * 		description="Attachable object that Issues the Award.",
@@ -1319,6 +1869,17 @@ namespace App\Models{
  * 		maxLength=100
  * 	),
  * 	@OA\Property(
+ * 		property="is_active",
+ * 		description="Is this Award (default true) still being given out?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
  * 		property="is_ladder",
  * 		description="Is this (default false) a ranked/ladder award?",
  * 		readOnly=false,
@@ -1377,6 +1938,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -1421,6 +2059,17 @@ namespace App\Models{
  * 		maxLength=100
  * 	),
  * 	@OA\Property(
+ * 		property="is_active",
+ * 		description="Is this Award (default true) still being given out?",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
  * 		property="is_ladder",
  * 		description="Is this (default false) a ranked/ladder award?",
  * 		readOnly=false,
@@ -1445,6 +2094,7 @@ namespace App\Models{
  * @property string $awarder_type Who issues the Award; Chapter, Realm, or Unit
  * @property int|null $awarder_id The ID of the award issuer, null for everybody
  * @property string $name The Award label, with options for the label seperated with |
+ * @property bool $is_active Is (default true) this Award still being given out?
  * @property bool $is_ladder Is this (default false) a ranked/ladder award?
  * @property int $created_by
  * @property \Illuminate\Support\Carbon $created_at
@@ -1479,6 +2129,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Award whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Award whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Award whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Award whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Award whereIsLadder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Award whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Award whereUpdatedAt($value)
@@ -1493,11 +2144,12 @@ namespace App\Models{
 /**
  * App\Models\BaseModel
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Audit> $audits
  * @property-read int|null $audits_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel query()
+ * @mixin \Eloquent
  */
 	class BaseModel extends \Eloquent implements \OwenIt\Auditing\Contracts\Auditable {}
 }
@@ -1678,6 +2330,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	),
  * 	@OA\Property(
  * 		property="accounts",
@@ -1979,6 +2708,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -2293,6 +3099,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="chapters",
  * 		description="Attachable & filterable array of Chapters with this Chaptertype.",
  * 		type="array",
@@ -2430,6 +3313,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -2678,6 +3638,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="event",
  * 		type="object",
  * 		description="Attachable Event the Persona cratted for.",
@@ -2791,6 +3828,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -3022,6 +4136,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
  * 		description="Attachable Persona paying Dues.",
@@ -3132,6 +4323,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -3455,6 +4723,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="attendances",
  * 		description="Attachable & filterable array of Attendances for this Event.",
  * 		type="array",
@@ -3715,6 +5060,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -4075,6 +5497,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="event",
  * 		type="object",
  * 		description="Attachable Demo Event they played at.",
@@ -4203,6 +5702,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -4329,7 +5905,7 @@ namespace App\Models{
  * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
  * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
- * revokedBy (User) (BelongsTo): User revoked, who authorized the revocation.
+ * revoker (User) (BelongsTo): User revoked, who authorized the revocation.
  * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
  * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
  * createdBy (User) (BelongsTo): User that created it.
@@ -4614,7 +6190,7 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="revokedBy",
+ * 		property="revoker",
  * 		type="object",
  * 		description="Attachable Persona that revoked the Issuance.",
  * 		ref="#/components/schemas/PersonaSimple",
@@ -5059,7 +6635,7 @@ namespace App\Models{
  * @property int|null $rank For laddered Issuances, the order number, else null
  * @property \Illuminate\Support\Carbon $issued_at When the Issuance was made or is to be made public (if in the future)
  * @property string|null $reason A historical record of what the Issuance was for
- * @property string|null $image An internal link to an image of the Issuance phyrep, if any
+ * @property-read string|null $image An internal link to an image of the Issuance phyrep, if any
  * @property int|null $revoked_by ID of the Persona that revoked the Issuance, if any
  * @property \Illuminate\Support\Carbon|null $revoked_at Date the revocation is effective, if any
  * @property string|null $revocation Cause for the revocation, if any
@@ -5080,7 +6656,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $issuer
  * @property-read mixed $name
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $recipient
- * @property-read \App\Models\Persona|null $revokedBy
+ * @property-read \App\Models\Persona|null $revoker
  * @property-read \App\Models\Persona|null $signator
  * @property-read \App\Models\User|null $updatedBy
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $whereable
@@ -5325,6 +6901,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="chapters",
  * 		description="Attachable & filterable array of Chapters using this Location.",
  * 		type="array",
@@ -5554,6 +7207,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -5943,6 +7673,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="attendances",
  * 		description="Attachable & filterable array of Attendance for the Meetup.",
  * 		type="array",
@@ -6132,6 +7939,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -6462,6 +8346,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
  * 		description="Attachable Persona in the Unit.",
@@ -6601,6 +8562,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -6799,6 +8837,24 @@ namespace App\Models{
  *  		default=6
  * 	),
  * 		@OA\Property(
+ *  		property="is_forgiven",
+ *  		description="Is (default false) the Persona credited Dues while holding this Office?",
+ *  		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 		@OA\Property(
+ *  		property="is_midreign",
+ *  		description="Is (default false) the Office held between midreigns?",
+ *  		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 		@OA\Property(
  * 		property="order",
  * 		description="If the Realm has an order of precedence, the office level where Monarch = 1, else null",
  * 		type="integer",
@@ -6947,6 +9003,24 @@ namespace App\Models{
  *  		default=6
  * 	),
  * 		@OA\Property(
+ *  		property="is_forgiven",
+ *  		description="Is (default false) the Persona credited Dues while holding this Office?",
+ *  		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 		@OA\Property(
+ *  		property="is_midreign",
+ *  		description="Is (default false) the Office held between midreigns?",
+ *  		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 		@OA\Property(
  * 		property="order",
  * 		description="If the Realm has an order of precedence, the office level where Monarch = 1, else null",
  * 		type="integer",
@@ -7055,6 +9129,24 @@ namespace App\Models{
  *  		default=6
  * 	),
  * 		@OA\Property(
+ *  		property="is_forgiven",
+ *  		description="Is (default false) the Persona credited Dues while holding this Office?",
+ *  		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 		@OA\Property(
+ *  		property="is_midreign",
+ *  		description="Is (default false) the Office held between midreigns?",
+ *  		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 		@OA\Property(
  * 		property="order",
  * 		description="If the Realm has an order of precedence, the office level where Monarch = 1, else null",
  * 		type="integer",
@@ -7078,6 +9170,8 @@ namespace App\Models{
  * @property string $name The name of the Office, options delineated with a single |
  * @property int|null $duration Duration, in months, of the office (default 6)
  * @property int|null $order If the Realm has an order of prescidence, the office level where Monarch = 1, else null
+ * @property int $is_forgiven Is (default false) the Persona credited Dues while holding this Office?
+ * @property int $is_midreign Is (default false) the Office held between midreigns?
  * @property int $created_by
  * @property \Illuminate\Support\Carbon $created_at
  * @property int|null $updated_by
@@ -7106,6 +9200,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Office whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Office whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Office whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereIsForgiven($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Office whereIsMidreign($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Office whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Office whereOfficeableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Office whereOfficeableType($value)
@@ -7283,6 +9379,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="office",
  * 		type="object",
  * 		description="Attachable Office held.",
@@ -7442,6 +9615,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -7625,7 +9875,6 @@ namespace App\Models{
  * 	description="Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (HasMany): Attendances for the Persona.
  * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.
- * awards (Award) {hasManyThrough): Awards received by the Persona.
  * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.
  * crats (Crat) (HasMany): Crat positions held by the Persona.
  * dues (Due) (HasMany): Dues paid by the Persona.
@@ -7635,7 +9884,7 @@ namespace App\Models{
  * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
- * members (Member) (HasMany): Memberships in Units the Persona has had.
+ * memberships (Member) (HasMany): Memberships in Units the Persona has had.
  * officers (Officer) (HasMany): Officer positions held by the Persona.
  * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.
  * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.
@@ -7740,6 +9989,42 @@ namespace App\Models{
  * 		default=1
  * 	),
  * 	@OA\Property(
+ * 		property="is_officer",
+ * 		description="Is the Persona an Officer?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_paid",
+ * 		description="Is the Persona Dues paid?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_suspended",
+ * 		description="Is the Persona suspended?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_waivered",
+ * 		description="Is the Persona waivered?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
  * 		property="reeve_qualified_expires_at",
  * 		description="If they are Reeve Qualified, when it expires.",
  * 		readOnly=false,
@@ -7767,6 +10052,13 @@ namespace App\Models{
  * 		example="2020-12-30"
  * 	),
  * 	@OA\Property(
+ * 		property="awards",
+ * 		description="An array of this Persona's Awards with their Issuances.",
+ * 		type="object",
+ * 		ref="#/components/schemas/AwardsReport",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
  * 		property="chapter_full_abbreviation",
  * 		description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
  * 		readOnly=true,
@@ -7776,22 +10068,11 @@ namespace App\Models{
  * 		maxLength=7,
  * 	),
  * 	@OA\Property(
- * 		property="attendance_count",
- * 		description="A count of the Persona's Attendances.",
- * 		readOnly=true,
- * 		nullable=false,
- * 		type="integer",
- * 		format="int32",
- * 		example=42,
- * 	),
- * 	@OA\Property(
- * 		property="credit_count",
+ * 		property="credits",
  * 		description="A count of the Persona's Credits.",
- * 		readOnly=true,
- * 		nullable=false,
- * 		type="integer",
- * 		format="int32",
- * 		example=42,
+ * 		type="object",
+ * 		ref="#/components/schemas/CreditReport",
+ * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="score",
@@ -7892,17 +10173,6 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="awards",
- * 		description="Attachable & filterable array of Awards received by the Persona.",
- * 		type="array",
- * 		@OA\Items(
- * 			title="Award",
- * 			type="object",
- * 			ref="#/components/schemas/AwardSimple"
- * 		),
- * 		readOnly=true
- * 	),
- * 	@OA\Property(
  * 		property="chapter",
  * 		type="object",
  * 		description="Attachable Chapter the Persona calls home.",
@@ -7994,7 +10264,7 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="members",
+ * 		property="memberships",
  * 		description="Attachable & filterable array of Memberships in Units the Persona has had.",
  * 		type="array",
  * 		@OA\Items(
@@ -8242,6 +10512,42 @@ namespace App\Models{
  * 		default=1
  * 	),
  * 	@OA\Property(
+ * 		property="is_officer",
+ * 		description="Is the Persona an Officer?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_paid",
+ * 		description="Is the Persona Dues paid?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_suspended",
+ * 		description="Is the Persona suspended?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_waivered",
+ * 		description="Is the Persona waivered?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
  * 		property="reeve_qualified_expires_at",
  * 		description="If they are Reeve Qualified, when it expires.",
  * 		readOnly=false,
@@ -8269,6 +10575,13 @@ namespace App\Models{
  * 		example="2020-12-30"
  * 	),
  * 	@OA\Property(
+ * 		property="awards",
+ * 		description="An array of this Persona's Awards with their Issuances.",
+ * 		type="object",
+ * 		ref="#/components/schemas/AwardsReport",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
  * 		property="chapter_full_abbreviation",
  * 		description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
  * 		readOnly=true,
@@ -8278,22 +10591,11 @@ namespace App\Models{
  * 		maxLength=7,
  * 	),
  * 	@OA\Property(
- * 		property="attendance_count",
- * 		description="A count of the Persona's Attendances.",
- * 		readOnly=true,
- * 		nullable=false,
- * 		type="integer",
- * 		format="int32",
- * 		example=42,
- * 	),
- * 	@OA\Property(
- * 		property="credit_count",
+ * 		property="credits",
  * 		description="A count of the Persona's Credits.",
- * 		readOnly=true,
- * 		nullable=false,
- * 		type="integer",
- * 		format="int32",
- * 		example=42,
+ * 		type="object",
+ * 		ref="#/components/schemas/CreditReport",
+ * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="score",
@@ -8445,6 +10747,42 @@ namespace App\Models{
  * 		default=1
  * 	),
  * 	@OA\Property(
+ * 		property="is_officer",
+ * 		description="Is the Persona an Officer?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_paid",
+ * 		description="Is the Persona Dues paid?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_suspended",
+ * 		description="Is the Persona suspended?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_waivered",
+ * 		description="Is the Persona waivered?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0
+ * 	),
+ * 	@OA\Property(
  * 		property="reeve_qualified_expires_at",
  * 		description="If they are Reeve Qualified, when it expires.",
  * 		readOnly=false,
@@ -8472,6 +10810,13 @@ namespace App\Models{
  * 		example="2020-12-30"
  * 	),
  * 	@OA\Property(
+ * 		property="awards",
+ * 		description="An array of this Persona's Awards with their Issuances.",
+ * 		type="object",
+ * 		ref="#/components/schemas/AwardsReport",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
  * 		property="chapter_full_abbreviation",
  * 		description="A short abbreviation of the Persona's Chapter name, along with the Realm abbreviation in the format XX/XX.",
  * 		readOnly=true,
@@ -8481,22 +10826,11 @@ namespace App\Models{
  * 		maxLength=7,
  * 	),
  * 	@OA\Property(
- * 		property="attendance_count",
- * 		description="A count of the Persona's Attendances.",
- * 		readOnly=true,
- * 		nullable=false,
- * 		type="integer",
- * 		format="int32",
- * 		example=42,
- * 	),
- * 	@OA\Property(
- * 		property="credit_count",
+ * 		property="credits",
  * 		description="A count of the Persona's Credits.",
- * 		readOnly=true,
- * 		nullable=false,
- * 		type="integer",
- * 		format="int32",
- * 		example=42,
+ * 		type="object",
+ * 		ref="#/components/schemas/CreditReport",
+ * 		readOnly=true
  * 	),
  * 	@OA\Property(
  * 		property="score",
@@ -8506,6 +10840,76 @@ namespace App\Models{
  * 		type="integer",
  * 		format="int32",
  * 		example=42,
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="AwardsReport",
+ * 	title="AwardsReport",
+ * 	description="Awards & Issuances report.",
+ * 	@OA\Property(
+ * 		property="awards",
+ * 		description="List of awards and their issuances.",
+ * 		type="object",
+ * 		additionalProperties={
+ * 			"type": "object",
+ * 			"properties": {
+ * 				"rank": {
+ * 					"description": "Highest rank of Award Issuances.",
+ * 					"type": "integer",
+ * 					"format": "int32",
+ * 					"example": 1
+ * 				},
+ * 				"issuances": {
+ * 					"description": "List of Award Issuances.",
+ * 					"type": "array",
+ * 					"items": {
+ * 						"$ref": "#/components/schemas/Issuance"
+ * 					}
+ * 				}
+ * 			}
+ * 		}
+ * 	)
+ * )
+ * @OA\Schema (
+ * 	schema="CreditReport",
+ * 	title="CreditReport",
+ * 	description="Archetype credit report.",
+ * 	@OA\Property(
+ * 		property="count",
+ * 		description="Total Attendance and Reconciliation credits.",
+ * 		readOnly=true,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="archetypes",
+ * 		description="Array of credits by Archetype.",
+ * 		type="object",
+ * 		readOnly=true,
+ * 		additionalProperties={
+ * 			"title": "Archetype",
+ * 			"type": "object",
+ * 			"properties": {
+ * 				"credits": {
+ * 					"description": "Total Attendance and Reconciliation credits for this Archetype.",
+ * 					"readOnly": true,
+ * 					"nullable": true,
+ * 					"type": "integer",
+ * 					"format": "int32",
+ * 					"example": 42
+ * 				},
+ * 				"level": {
+ * 					"description": "Current level for this Archetype.",
+ * 					"readOnly": true,
+ * 					"nullable": true,
+ * 					"type": "integer",
+ * 					"format": "int32",
+ * 					"example": 42
+ * 				}
+ * 			}
+ * 		}
  * 	)
  * )
  * @OA\RequestBody (
@@ -8535,22 +10939,20 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read mixed $attendance_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $awardIssuances
  * @property-read int|null $award_issuances_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Award> $awards
- * @property-read int|null $awards_count
+ * @property-read mixed $awards
  * @property-read \App\Models\Chapter $chapter
  * @property-read mixed $chapter_full_abbreviation
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Crat> $crats
  * @property-read int|null $crats_count
  * @property-read \App\Models\User $createdBy
  * @property-read \App\Models\User $creator
- * @property-read mixed $credit_count
+ * @property-read mixed $credits
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Due> $dues
@@ -8559,6 +10961,10 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
  * @property-read int|null $events_count
  * @property-read \App\Models\Issuance|null $honorific
+ * @property-read mixed $is_officer
+ * @property-read mixed $is_paid
+ * @property-read mixed $is_suspended
+ * @property-read mixed $is_waivered
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceGivens
  * @property-read int|null $issuance_givens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceRevokeds
@@ -8567,8 +10973,8 @@ namespace App\Models{
  * @property-read int|null $issuance_signeds_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuances
  * @property-read int|null $issuances_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Member> $members
- * @property-read int|null $members_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Member> $memberships
+ * @property-read int|null $memberships_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Officer> $officers
@@ -8578,6 +10984,7 @@ namespace App\Models{
  * @property-read int|null $recommendations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Reconciliation> $reconciliations
  * @property-read int|null $reconciliations_count
+ * @property-read mixed $roptitles
  * @property-read mixed $score
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Social> $socials
  * @property-read int|null $socials_count
@@ -8750,6 +11157,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -8847,6 +11331,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -8988,57 +11549,57 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="parent_id",
  * 		description="If sponsored by another Realm, that Realm ID.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
  * 	),
  *   @OA\Property(
- * 	  property="name",
- * 	  description="The label for the Realm.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
+ * 		property="name",
+ * 		description="The label for the Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
  * 		format="uppercase first letter",
  * 		example="The Republic of Futurama",
  * 		maxLength=100
  *   ),
  *   @OA\Property(
- * 	  property="abbreviation",
- * 	  description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
- * 	  format="uppercase",
- * 	  example="FR",
- * 	  maxLength=4
+ * 		property="abbreviation",
+ * 		description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		example="FR",
+ * 		maxLength=4
  *   ),
  *   @OA\Property(
- * 	  property="color",
- * 	  description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
- * 	  format="hexidecimal",
- * 	  example="000000",
+ * 		property="color",
+ * 		description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="hexidecimal",
+ * 		example="000000",
  *  		default="FACADE"
  *   ),
  *   @OA\Property(
- * 	  property="heraldry",
- * 	  description="An internal link to an image of the Realm heraldry.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="heraldry",
+ * 		description="An internal link to an image of the Realm heraldry.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="filename",
  * 		example="images/realms/42.jpg",
  * 		maxLength=191
  *   ),
  *   @OA\Property(
- * 	  property="is_active",
- * 	  description="Is (default true) the Realm active?",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		property="is_active",
+ * 		description="Is (default true) the Realm active?",
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="enum",
  * 		enum={0, 1},
@@ -9048,8 +11609,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="credit_minimum",
  * 		description="Realm Credit Minimum setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9057,8 +11618,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="credit_maximum",
  * 		description="Realm Credit Maximum setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=32
@@ -9066,8 +11627,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="daily_minimum",
  * 		description="Realm Daily Minimum setting, if any",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9075,17 +11636,17 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="weekly_minimum",
  * 		description="Realm Weekly Minimum setting, if any",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=9
  * 	),
  *   @OA\Property(
- * 	  property="average_period_type",
- * 	  description="Realm Average Period Type setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="average_period_type",
+ * 		description="Realm Average Period Type setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="enum",
  * 		enum={"Week","Month"},
@@ -9094,8 +11655,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="average_period",
  * 		description="Realm Average Period setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
@@ -9103,17 +11664,17 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_amount",
  * 		description="Dues cost per interval for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=12
  * 	),
  *   @OA\Property(
- * 	  property="dues_intervals_type",
- * 	  description="Dues intervals type for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="dues_intervals_type",
+ * 		description="Dues intervals type for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="enum",
  * 		enum={"Week","Month"},
@@ -9122,8 +11683,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_intervals",
  * 		description="Dues intervals count for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9131,11 +11692,20 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_take",
  * 		description="Realm take of Dues paid to Chapters, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=5
+ * 	),
+ * 	@OA\Property(
+ * 		property="waiver_duration",
+ * 		description="Length of time in months a Realm considers a Waiver valid.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -9363,57 +11933,57 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="parent_id",
  * 		description="If sponsored by another Realm, that Realm ID.",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
  * 	),
  *   @OA\Property(
- * 	  property="name",
- * 	  description="The label for the Realm.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
+ * 		property="name",
+ * 		description="The label for the Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
  * 		format="uppercase first letter",
  * 		example="The Republic of Futurama",
  * 		maxLength=100
  *   ),
  *   @OA\Property(
- * 	  property="abbreviation",
- * 	  description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
- * 	  format="uppercase",
- * 	  example="FR",
- * 	  maxLength=4
+ * 		property="abbreviation",
+ * 		description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		example="FR",
+ * 		maxLength=4
  *   ),
  *   @OA\Property(
- * 	  property="color",
- * 	  description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
- * 	  format="hexidecimal",
- * 	  example="000000",
+ * 		property="color",
+ * 		description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="hexidecimal",
+ * 		example="000000",
  *  		default="FACADE"
  *   ),
  *   @OA\Property(
- * 	  property="heraldry",
- * 	  description="An internal link to an image of the Realm heraldry.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="heraldry",
+ * 		description="An internal link to an image of the Realm heraldry.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="filename",
  * 		example="images/realms/42.jpg",
  * 		maxLength=191
  *   ),
  *   @OA\Property(
- * 	  property="is_active",
- * 	  description="Is (default true) the Realm active?",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		property="is_active",
+ * 		description="Is (default true) the Realm active?",
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="enum",
  * 		enum={0, 1},
@@ -9423,8 +11993,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="credit_minimum",
  * 		description="Realm Credit Minimum setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9432,8 +12002,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="credit_maximum",
  * 		description="Realm Credit Maximum setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=32
@@ -9441,8 +12011,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="daily_minimum",
  * 		description="Realm Daily Minimum setting, if any",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9450,17 +12020,17 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="weekly_minimum",
  * 		description="Realm Weekly Minimum setting, if any",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=9
  * 	),
  *   @OA\Property(
- * 	  property="average_period_type",
- * 	  description="Realm Average Period Type setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="average_period_type",
+ * 		description="Realm Average Period Type setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="enum",
  * 		enum={"Week","Month"},
@@ -9469,8 +12039,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="average_period",
  * 		description="Realm Average Period setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
@@ -9478,17 +12048,17 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_amount",
  * 		description="Dues cost per interval for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=12
  * 	),
  *   @OA\Property(
- * 	  property="dues_intervals_type",
- * 	  description="Dues intervals type for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="dues_intervals_type",
+ * 		description="Dues intervals type for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="enum",
  * 		enum={"Week","Month"},
@@ -9497,8 +12067,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_intervals",
  * 		description="Dues intervals count for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9506,11 +12076,20 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_take",
  * 		description="Realm take of Dues paid to Chapters, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=5
+ * 	),
+ * 	@OA\Property(
+ * 		property="waiver_duration",
+ * 		description="Length of time in months a Realm considers a Waiver valid.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -9577,57 +12156,57 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="parent_id",
  * 		description="If sponsored by another Realm, that Realm ID.",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
  * 	),
  *   @OA\Property(
- * 	  property="name",
- * 	  description="The label for the Realm.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
+ * 		property="name",
+ * 		description="The label for the Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
  * 		format="uppercase first letter",
  * 		example="The Republic of Futurama",
  * 		maxLength=100
  *   ),
  *   @OA\Property(
- * 	  property="abbreviation",
- * 	  description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
- * 	  format="uppercase",
- * 	  example="FR",
- * 	  maxLength=4
+ * 		property="abbreviation",
+ * 		description="A simple, unique, usually two letter abbreviation commonly used for the Realm",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase",
+ * 		example="FR",
+ * 		maxLength=4
  *   ),
  *   @OA\Property(
- * 	  property="color",
- * 	  description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
- * 	  readOnly=false,
- * 	  nullable=false,
- * 	  type="string",
- * 	  format="hexidecimal",
- * 	  example="000000",
+ * 		property="color",
+ * 		description="The hexidecimal code (default FACADE) for the color used for the Realm on various UIs.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="hexidecimal",
+ * 		example="000000",
  *  		default="FACADE"
  *   ),
  *   @OA\Property(
- * 	  property="heraldry",
- * 	  description="An internal link to an image of the Realm heraldry.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="heraldry",
+ * 		description="An internal link to an image of the Realm heraldry.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="filename",
  * 		example="images/realms/42.jpg",
  * 		maxLength=191
  *   ),
  *   @OA\Property(
- * 	  property="is_active",
- * 	  description="Is (default true) the Realm active?",
- * 	  readOnly=false,
- * 	  nullable=false,
+ * 		property="is_active",
+ * 		description="Is (default true) the Realm active?",
+ * 		readOnly=false,
+ * 		nullable=false,
  * 		type="integer",
  * 		format="enum",
  * 		enum={0, 1},
@@ -9637,8 +12216,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="credit_minimum",
  * 		description="Realm Credit Minimum setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9646,8 +12225,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="credit_maximum",
  * 		description="Realm Credit Maximum setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=32
@@ -9655,8 +12234,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="daily_minimum",
  * 		description="Realm Daily Minimum setting, if any",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9664,17 +12243,17 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="weekly_minimum",
  * 		description="Realm Weekly Minimum setting, if any",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=9
  * 	),
  *   @OA\Property(
- * 	  property="average_period_type",
- * 	  description="Realm Average Period Type setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="average_period_type",
+ * 		description="Realm Average Period Type setting, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="enum",
  * 		enum={"Week","Month"},
@@ -9683,8 +12262,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="average_period",
  * 		description="Realm Average Period setting, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=42
@@ -9692,17 +12271,17 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_amount",
  * 		description="Dues cost per interval for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=12
  * 	),
  *   @OA\Property(
- * 	  property="dues_intervals_type",
- * 	  description="Dues intervals type for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		property="dues_intervals_type",
+ * 		description="Dues intervals type for the Realm, if any.",
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="string",
  * 		format="enum",
  * 		enum={"Week","Month"},
@@ -9711,8 +12290,8 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_intervals",
  * 		description="Dues intervals count for the Realm, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=6
@@ -9720,11 +12299,20 @@ namespace App\Models{
  * 	@OA\Property(
  * 		property="dues_take",
  * 		description="Realm take of Dues paid to Chapters, if any.",
- * 	  readOnly=false,
- * 	  nullable=true,
+ * 		readOnly=false,
+ * 		nullable=true,
  * 		type="integer",
  * 		format="int32",
  * 		example=5
+ * 	),
+ * 	@OA\Property(
+ * 		property="waiver_duration",
+ * 		description="Length of time in months a Realm considers a Waiver valid.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=12
  * 	)
  * )
  * @OA\RequestBody (
@@ -9753,6 +12341,7 @@ namespace App\Models{
  * @property string|null $dues_intervals_type Dues intervals type for the Realm, if any
  * @property int|null $dues_intervals Dues intervals count for the Realm, if any
  * @property int|null $dues_take Realm take of Dues paid to Chapters, if any
+ * @property int|null $waiver_duration Length of time in months a Realm considers a Waiver valid.
  * @property int $created_by
  * @property \Illuminate\Support\Carbon $created_at
  * @property int|null $updated_by
@@ -9783,6 +12372,8 @@ namespace App\Models{
  * @property-read \App\Models\Reign|null $reign
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Reign> $reigns
  * @property-read int|null $reigns_count
+ * @property-read mixed $ropawards
+ * @property-read mixed $roptitles
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Social> $socials
  * @property-read int|null $socials_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $sponsors
@@ -9819,6 +12410,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Realm whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Realm whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Realm whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Realm whereWaiverDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Realm whereWeeklyMinimum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Realm withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Realm withoutTrashed()
@@ -9973,6 +12565,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
  * 		description="Attachable Persona the Recommendation is for.",
@@ -10108,6 +12777,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -10362,6 +13108,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="archetype",
  * 		type="object",
  * 		description="Attachable Archetype credits being Reconciled.",
@@ -10472,6 +13295,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -10720,6 +13620,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="officers",
  * 		description="Attachable & filterable array of Officers of the Reign.",
  * 		type="array",
@@ -10857,6 +13834,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -11120,6 +14174,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="officers",
  * 		description="Attachable & filterable array of Officers of the Reign.",
  * 		type="array",
@@ -11245,6 +14376,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -11485,6 +14693,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="account",
  * 		type="object",
  * 		description="Attachable Account this Split is for.",
@@ -11602,6 +14887,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -11872,6 +15234,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="persona",
  * 		type="object",
  * 		description="Attachable Persona that has been Suspended.",
@@ -12028,6 +15467,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -12242,12 +15758,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, Retainer, or Squire",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer","Squire"},
+ * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -12416,12 +15932,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, Retainer, or Squire",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer","Squire"},
+ * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -12549,12 +16065,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, Retainer, or Squire",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer","Squire"},
+ * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -12780,6 +16296,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="tournamentable",
  * 		type="object",
  * 		description="Attachable object that sponsored the Tournament.",
@@ -12890,6 +16483,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -13114,6 +16784,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="dues",
  * 		description="Attachable & filterable array of Dues linked to the Transaction.",
  * 		type="array",
@@ -13224,6 +16971,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -13469,6 +17293,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="accounts",
  * 		description="Attachable & filterable array of Accounts held by the Unit.",
  * 		type="array",
@@ -13712,6 +17613,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (
@@ -14198,6 +18176,13 @@ namespace App\Models{
  * 		enum={0, 1},
  * 		example=0,
  * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="jsPermissions",
+ * 		description="JSON encoded Permissions for the User.",
+ * 		type="string",
+ * 		format="json",
+ * 		example="{""roles"":[""player""],""permissions"":[""store events"",""updateOwn events"",""removeOwn events""]}"
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -14827,6 +18812,83 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
  * 		property="ageVerifiedBy",
  * 		type="object",
  * 		description="Attachable Persona the Waiver is for.",
@@ -15088,6 +19150,83 @@ namespace App\Models{
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
  * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
  * 	)
  * )
  * @OA\Schema (

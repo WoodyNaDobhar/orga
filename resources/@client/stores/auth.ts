@@ -73,6 +73,7 @@ export const useAuthStore = defineStore("auth", {
 			localStorage.setItem('user', JSON.stringify(user));
 			_this.token = token;
 			_this.user = JSON.stringify(user);
+			window.Laravel.jsPermissions = JSON.parse(user.jsPermissions)
 		},
 		removeLoggedInUser() {
 			const _this = this;

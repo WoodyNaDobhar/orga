@@ -367,7 +367,7 @@ sail composer dumpautoload
 You'll want to start by creating the migration. The following describes the naming convention you should use, where 'test' is your table, and 'i' is the update iteration (starting with 1)
 
 ```
-php artisan make:migration update_tests_table_i
+sail php artisan make:migration update_tests_table_i
 ```
 
 The contents might be something like:
