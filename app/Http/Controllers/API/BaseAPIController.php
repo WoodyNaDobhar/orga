@@ -22,11 +22,12 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
 use \Illuminate\Validation\ValidationException;
 use WoodyNaDobhar\LaravelStupidPassword\LaravelStupidPassword;
 use App\Notifications\InviteNotification;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Auth\Passwords\PasswordBrokerManager;
 // use NZTim\Mailchimp\Exception\MailchimpBadRequestException;
 // use NZTim\Mailchimp\MailchimpFacade as Mailchimp;
 
@@ -875,21 +876,31 @@ class BaseAPIController extends AppBaseController
 		try {
 			
 			$request->validate([
-					'email' => 'required|email',
-					'device_name' => 'required',
+				'email' => 'required|email',
+				'device_name' => 'required',
 			]);
 			
 			//in order to prevent using this to identify users, the response is always the same from here out
 			$response = "Assuming it's in our system, a password reset link has been sent to the given email address.  Please check your spam folder, and if you like, consider whitelisting amtgard.com!";
 			
 			$user = User::where('email', $request->email)->first();
+			
 			if (!$user) {
 				return $this->sendSuccess($response);
 			}
 			
-			Password::sendResetLink(
-				$request->only('email')
-			);
+			$passwordBrokerManager = app(PasswordBrokerManager::class);
+			$passwordBroker = $passwordBrokerManager->broker();
+			
+			if ($passwordBroker->getRepository()->recentlyCreatedToken($user)) {
+				return static::RESET_THROTTLED;
+			}
+			
+			$token = $passwordBroker->getRepository()->create($user);
+			
+			Notification::route('mail', [
+				$request->email => $user->persona->name,
+			])->notify(new ResetPasswordNotification($user->persona->name, config('app.url') . '/reset/' . $token));
 			
 			return $this->sendSuccess($response);
 		} catch (Throwable $e) {
@@ -993,9 +1004,8 @@ class BaseAPIController extends AppBaseController
 			
 			$user = User::where('email', $request->input('email'))->first();
 			
-			if(Crypt::decryptString($request->input('password_token')) != $request->input('email') || !$user){
-				return $this->sendError('The provided values are invalid.', null, 404);
-			}
+			$passwordBrokerManager = app(PasswordBrokerManager::class);
+			$passwordBroker = $passwordBrokerManager->broker();
 			
 			$stupidPass = new LaravelStupidPassword(40, config('laravelstupidpassword.environmentals'), null, null, config('laravelstupidpassword.options'));
 			if($stupidPass->validate($request->input('password')) === false) {
@@ -1013,14 +1023,21 @@ class BaseAPIController extends AppBaseController
 				}
 			}
 			
-			$user->password = Hash::make($request->input('password'));
-			$user->setRememberToken(Str::random(60));
-			$user->save();
-			event(new PasswordReset($user));
-			PasswordHistory::create([
-				'user_id' => $user->id,
-				'password' => $user->password
-			]);
+			$passwordBroker->reset(
+				// Pass an array containing user and token
+				['email' => $request->input('email'), 'token' => $request->input('password_token'), 'password' => $request->input('password')],
+				// Provide a closure for handling the result of the reset
+				function ($user, $password) use($request){
+					$user->password = Hash::make($request->input('password'));
+					$user->setRememberToken(Str::random(60));
+					$user->save();
+					event(new PasswordReset($user));
+					PasswordHistory::create([
+						'user_id' => $user->id,
+						'password' => $user->password
+					]);
+				}
+			);
 			return $this->login($request);
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];

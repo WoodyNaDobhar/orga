@@ -2144,12 +2144,11 @@ namespace App\Models{
 /**
  * App\Models\BaseModel
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Audit> $audits
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel query()
- * @mixin \Eloquent
  */
 	class BaseModel extends \Eloquent implements \OwenIt\Auditing\Contracts\Auditable {}
 }
