@@ -2889,10 +2889,12 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transChapters = $this->getTrans('chapters');
 						}
+						$newChapter = Chapter::where('id', $transChapters[$oldMeetup->park_id])->get();
 						DB::reconnect("mysqlBak");
 						$meetupId = DB::table('meetups')->insertGetId([
 							'chapter_id' => $transChapters[$oldMeetup->park_id],
 							'location_id' => $locationID,
+							'name' => $newChapter->name . ' ' . $meetupMap[$oldMeetup->purpose],
 							'is_active' => ($oldMeetup->alternate_location == 1 ? 0 : 1),
 							'recurrence' => $meetupMap[$oldMeetup->recurrence],
 							'week_of_month' => ($oldMeetup->week_of_month > 0 ? $oldMeetup->week_of_month : null),
@@ -3347,9 +3349,11 @@ class ImportOrk3 extends Command
 											$meetupId = $meetup->id;
 										}else{
 											//make it
+											$newChapter = Chapter::where('id', $transChapters[$oldAttendance->park_id])->get();
 											$meetupId = DB::table('meetups')->insertGetId([
 												'chapter_id' => $transChapters[$oldAttendance->park_id],
 												'location_id' => $locationID ? $locationID : null,
+												'name' => $newChapter->name . ' ' . $purpose,
 												'is_active' => 0,
 												'recurrence' => 'Weekly',
 												'week_of_month' => null,
@@ -4334,6 +4338,10 @@ class ImportOrk3 extends Command
 					break;
 				case 'Members':
 					$this->info('Importing Members...');
+					DB::table('members')->truncate();
+					DB::table('titles')->where('titleable_type', 'Unit')->delete();
+					DB::table('issuances')->where('issuer_type', 'Unit')->delete();
+					DB::table('crypt')->where('model', 'Member')->delete();
 					$transUnits = $this->getTrans('units');
 					$transPersonas = $this->getTrans('personas');
 					$oldPersonas = $backupConnect->table('ork_mundane')->pluck('mundane_id')->toArray();
@@ -4409,13 +4417,13 @@ class ImportOrk3 extends Command
 							$foundTitle = Title::where('titleable_type', 'Unit')->where('titleable_id', $transUnits[$oldMember->unit_id])->where('name', $cleanTitle)->first();
 							if(!$foundTitle){
 								$titleId = DB::table('titles')->insertGetId([
-										'titleable_type' => 'Unit',
-										'titleable_id' => $transUnits[$oldMember->unit_id],
-										'name' => $cleanTitle,
-										'rank' => null,
-										'peerage' => 'None',
-										'is_roaming' => 0,
-										'is_active' => 1
+									'titleable_type' => 'Unit',
+									'titleable_id' => $transUnits[$oldMember->unit_id],
+									'name' => $cleanTitle,
+									'rank' => null,
+									'peerage' => 'None',
+									'is_roaming' => 0,
+									'is_active' => 1
 								]);
 							}else{
 								$titleId = $foundTitle->id;
@@ -4425,10 +4433,10 @@ class ImportOrk3 extends Command
 								'issuable_id' => $titleId,
 								'issuer_type' => 'Unit',
 								'issuer_id' => $transUnits[$oldMember->unit_id],
-								'signator_id' => null,
 								'recipient_type' => 'Persona',
 								'recipient_id' => $personaId,
-								'issued_at' => date('Y-m-d'),
+								'signator_id' => null,
+								'issued_at' => date('Y-m-d')
 							]);
 						}
 						//check to see if entry exists already, and if so, update
@@ -4440,12 +4448,12 @@ class ImportOrk3 extends Command
 							$memberCheck->save();
 						}else{
 							DB::table('members')->insert([
-									'unit_id' => $transUnits[$oldMember->unit_id],
-									'persona_id' => $personaId,
-									'joined_at' => null,
-									'left_at' => null,
-									'is_head' => $oldMember->role === 'captain' || $oldMember->role === 'lord' ? 1 : 0,
-									'is_voting' => 1
+								'unit_id' => $transUnits[$oldMember->unit_id],
+								'persona_id' => $personaId,
+								'joined_at' => null,
+								'left_at' => null,
+								'is_head' => $oldMember->role === 'captain' || $oldMember->role === 'lord' ? 1 : 0,
+								'is_voting' => 1
 							]);
 						}
 						$bar->advance();
@@ -5227,11 +5235,12 @@ class ImportOrk3 extends Command
 						->pluck('kingdomaward_id')->toArray();
 					$oldOffices = $backupConnect->table('ork_award')->where('officer_role', '!=', 'none')->pluck('award_id')->toArray();
 					//Make a default 'unknown' location
-					$defaultLocation = DB::table('locations')->where('address', 'Lost to the Ages')->first();
+					$defaultLocation = DB::table('locations')->where('name', 'Lost to the Ages')->first();
 					if($defaultLocation){
 						$defaultLocationId = $defaultLocation->id;
 					}else{
 						$defaultLocationId = DB::table('locations')->insertGetId([
+							'name' => 'Lost to the Ages',
 							'address' => 'Lost to the Ages',
 							'country' => null
 						]);
@@ -6618,7 +6627,7 @@ class ImportOrk3 extends Command
 		}
 		if (!$existingLocation) {
 			$newLocationId = DB::table('locations')->insertGetId([
-				'label' => (strlen($this->locationClean($location['description'])) < 50 ? $this->locationClean($location['description']) : null),
+				'name' => (strlen($this->locationClean($location['description'])) < 50 ? $this->locationClean($location['description']) : null),
 				'address' => $this->locationClean($location['address']),
 				'city' => $this->locationClean($location['city']),
 				'province' => $this->locationClean($location['province']),

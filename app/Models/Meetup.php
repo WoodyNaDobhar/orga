@@ -9,7 +9,7 @@ use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
  *		schema="Meetup",
- *		required={"chapter_id","is_active","purpose","recurrence","week_day","occurs_at"},
+ *		required={"chapter_id","name","is_active","purpose","recurrence","week_day","occurs_at"},
  *		description="Regular gatherings for a given Chapter.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (MorphMany): Attendances for the Meetup.
  * chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.
@@ -43,6 +43,16 @@ use App\Traits\ProtectFieldsTrait;
  *			type="integer",
  *			format="int32",
  *			example=42
+ *		),
+ *		@OA\Property(
+ *			property="name",
+ *			description="The name of the Office, options delineated with a single |",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Prime Minister",
+ *			maxLength=100
  *		),
  *		@OA\Property(
  *			property="is_active",
@@ -180,7 +190,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			description="When the entry was softdeleted.Null if not softdeleted.",
  *			type="string",
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
@@ -331,6 +341,16 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42
  *		),
  *		@OA\Property(
+ *			property="name",
+ *			description="The name of the Office, options delineated with a single |",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Prime Minister",
+ *			maxLength=100
+ *		),
+ *		@OA\Property(
  *			property="is_active",
  *			description="Is the Meetup (default true) still occuring?",
  *			readOnly=false,
@@ -448,7 +468,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			description="When the entry was softdeleted.Null if not softdeleted.",
  *			type="string",
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
@@ -563,6 +583,16 @@ use App\Traits\ProtectFieldsTrait;
  *			example=42
  *		),
  *		@OA\Property(
+ *			property="name",
+ *			description="The name of the Office, options delineated with a single |",
+ *			readOnly=false,
+ *			nullable=false,
+ *			type="string",
+ *			format="uppercase first letter",
+ *			example="Prime Minister",
+ *			maxLength=100
+ *		),
+ *		@OA\Property(
  *			property="is_active",
  *			description="Is the Meetup (default true) still occuring?",
  *			readOnly=false,
@@ -660,32 +690,35 @@ class Meetup extends BaseModel
 	public $timestamps = true;
 	
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-	protected $protectedFields = ['chapter_id', 'location_id', 'recurrence', 'week_of_month', 'week_day', 'month_day'];
+	protected $protectedFields = ['chapter_id', 'location_id', 'name', 'recurrence', 'week_of_month', 'week_day', 'month_day'];
 
 	public $fillable = [
-		  'chapter_id',
-		  'location_id',
-		  'is_active',
-		  'purpose',
-		  'recurrence',
-		  'week_of_month',
-		  'week_day',
-		  'month_day',
-		  'occurs_at',
-		  'description'
+		'chapter_id',
+		'location_id',
+		'name',
+		'is_active',
+		'purpose',
+		'recurrence',
+		'week_of_month',
+		'week_day',
+		'month_day',
+		'occurs_at',
+		'description'
 	];
 
 	protected $casts = [
-		  'is_active' => 'boolean',
-		  'purpose' => 'string',
-		  'recurrence' => 'string',
-		  'week_day' => 'string',
-		  'description' => 'string'
+		'name' => 'string',
+		'is_active' => 'boolean',
+		'purpose' => 'string',
+		'recurrence' => 'string',
+		'week_day' => 'string',
+		'description' => 'string'
 	];
 
 	public static array $rules = [
 		'chapter_id' => 'required|exists:chapters,id',
 		'location_id' => 'nullable|exists:locations,id',
+		'name' => 'required|string|max:50',
 		'is_active' => 'required|boolean',
 		'purpose' => 'required|in:Park Day,Fighter Practice,A&S Gathering,Other',
 		'recurrence' => 'required|in:Weekly,Monthly,Week-of-Month',
@@ -710,7 +743,7 @@ class Meetup extends BaseModel
 
 	public function chapter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
+		return $this->belongsTo(\App\Models\Chapter::class, 'chapter_id');
 	}
 	
 	public function issuances(): \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -725,16 +758,16 @@ class Meetup extends BaseModel
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
 
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
 
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }

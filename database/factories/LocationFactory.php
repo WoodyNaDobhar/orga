@@ -30,7 +30,7 @@ class LocationFactory extends Factory
         }
 
         return [
-            'label' => $this->faker->text($this->faker->numberBetween(5, 50)),
+            'name' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'address' => $this->faker->text($this->faker->numberBetween(5, 191)),
             'city' => $this->faker->text($this->faker->numberBetween(5, 50)),
             'province' => $this->faker->text($this->faker->numberBetween(5, 35)),

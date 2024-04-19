@@ -6719,8 +6719,8 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="label",
- * 		description="The Location label, as it might appear on a map.",
+ * 		property="name",
+ * 		description="The Location name, as it might appear on a map.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="string",
@@ -6829,7 +6829,7 @@ namespace App\Models{
  * 		nullable=true,
  * 		type="string",
  * 		format="paragraph",
- * 		example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ * 		example="Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
  * 		maxLength=16777215
  * 	),
  * 	@OA\Property(
@@ -6893,7 +6893,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -7045,8 +7045,8 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="label",
- * 		description="The Location label, as it might appear on a map.",
+ * 		property="name",
+ * 		description="The Location name, as it might appear on a map.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="string",
@@ -7155,7 +7155,7 @@ namespace App\Models{
  * 		nullable=true,
  * 		type="string",
  * 		format="paragraph",
- * 		example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ * 		example="Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
  * 		maxLength=16777215
  * 	),
  * 	@OA\Property(
@@ -7201,7 +7201,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -7298,8 +7298,8 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="label",
- * 		description="The Location label, as it might appear on a map.",
+ * 		property="name",
+ * 		description="The Location name, as it might appear on a map.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="string",
@@ -7408,7 +7408,7 @@ namespace App\Models{
  * 		nullable=true,
  * 		type="string",
  * 		format="paragraph",
- * 		example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ * 		example="Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
  * 		maxLength=16777215
  * 	)
  * )
@@ -7422,7 +7422,7 @@ namespace App\Models{
  * 	)
  * )
  * @property int $id Model ID
- * @property string|null $label The Location label, as it might appear on a map
+ * @property string|null $name The Location label, as it might appear on a map
  * @property string|null $address The street address of the Location, if any
  * @property string|null $city The city of the Location, if any
  * @property string|null $province The state or provice of the Location, if any
@@ -7473,11 +7473,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereDirections($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereGoogleGeocode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Location whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereLatitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereLocation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereLongitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereMapUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereProvince($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereUpdatedAt($value)
@@ -7494,7 +7494,7 @@ namespace App\Models{
  *
  * @OA\Schema (
  * 	schema="Meetup",
- * 	required={"chapter_id","is_active","purpose","recurrence","week_day","occurs_at"},
+ * 	required={"chapter_id","name","is_active","purpose","recurrence","week_day","occurs_at"},
  * 	description="Regular gatherings for a given Chapter.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * attendances (Attendance) (MorphMany): Attendances for the Meetup.
  * chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.
@@ -7528,6 +7528,16 @@ namespace App\Models{
  * 		type="integer",
  * 		format="int32",
  * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="name",
+ * 		description="The name of the Office, options delineated with a single |",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Prime Minister",
+ * 		maxLength=100
  * 	),
  * 	@OA\Property(
  * 		property="is_active",
@@ -7665,7 +7675,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -7816,6 +7826,16 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="name",
+ * 		description="The name of the Office, options delineated with a single |",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Prime Minister",
+ * 		maxLength=100
+ * 	),
+ * 	@OA\Property(
  * 		property="is_active",
  * 		description="Is the Meetup (default true) still occuring?",
  * 		readOnly=false,
@@ -7933,7 +7953,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -8048,6 +8068,16 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
+ * 		property="name",
+ * 		description="The name of the Office, options delineated with a single |",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="uppercase first letter",
+ * 		example="Prime Minister",
+ * 		maxLength=100
+ * 	),
+ * 	@OA\Property(
  * 		property="is_active",
  * 		description="Is the Meetup (default true) still occuring?",
  * 		readOnly=false,
@@ -8135,6 +8165,7 @@ namespace App\Models{
  * @property int $id Model ID
  * @property int $chapter_id The ID of the Chapter hosting the Meetup
  * @property int|null $location_id The ID of the Location the Meetup occurs at
+ * @property string $name Meetup label
  * @property bool $is_active Is (default true) the Meetup still occuring?
  * @property string $purpose The nature of the Meetup; Park Day, Fighter Practice, A&S Gathering, or Other
  * @property string $recurrence The frequency with which this Meetup occurs
@@ -8178,6 +8209,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereLocationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereMonthDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereOccursAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup wherePurpose($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meetup whereRecurrence($value)

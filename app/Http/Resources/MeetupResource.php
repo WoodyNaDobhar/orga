@@ -20,6 +20,7 @@ class MeetupResource extends JsonResource
 			'id' => $this->id,
 			'chapter_id' => $this->chapter_id,
 			'location_id' => $this->location_id,
+			'name' => $this->name,
 			'is_active' => $this->is_active,
 			'purpose' => $this->purpose,
 			'recurrence' => $this->recurrence,

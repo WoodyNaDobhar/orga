@@ -18,7 +18,7 @@ class LocationResource extends JsonResource
 	{
 		$data = [
 			'id' => $this->id,
-			'label' => $this->label,
+			'name' => $this->name,
 			'address' => $this->address,
 			'city' => $this->city,
 			'province' => $this->province,

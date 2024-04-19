@@ -680,9 +680,9 @@ class Unit extends BaseModel
 		return Attribute::make(
 			get: function (?string $value) {
 				if ($value === null) {
-					return null;
+					return "https://ork.amtgard.com/assets/heraldry/unit/00000.jpg";
 				}
-				return 'https://ork.amtgard.com/assets/units/' . $value;
+				return 'https://ork.amtgard.com/assets/heraldry/unit/' . $value;
 			}
 		);
 	}

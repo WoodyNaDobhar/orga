@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
 use Symfony\Component\HttpFoundation\Response;

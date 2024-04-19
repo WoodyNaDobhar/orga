@@ -13,18 +13,16 @@
 	import { Tab as HeadlessTab } from "@headlessui/vue";
 	import { useStateStore } from '@/stores/state';
 	import { useAuthStore } from '@/stores/auth';
-	import { ArchetypeSimple, Persona } from '@/interfaces';
+	import { ArchetypeSimple, AwardsReport, AwardInfo, Persona, Issuance, HonorSelectOption, RecommendFormData } from '@/interfaces';
 	import axios from 'axios';
 	import Table from "@/components/Base/Table";
 	import Tippy from "@/components/Base/Tippy";
 	import { formatDate } from "@/utils/helper";
 	import TomSelect from "@/components/Base/TomSelect";
 	import { showToast } from '@/utils/toast';
-	import Toastify from "toastify-js";
 	import { useVuelidate } from "@vuelidate/core";
 	import {
 		required,
-		integer,
 		helpers
 	} from "@vuelidate/validators";
 	
@@ -81,9 +79,9 @@
 				'chapter.realm',
 				'chapter.realm.awards',
 				'chapter.realm.titles',
-				'units',
-				'units.awards',
-				'units.titles'
+				'memberships',
+				'memberships.unit.awards',
+				'memberships.unit.titles',
 			];
 			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
 			await axios.get("/api/personas/" + id + "?" + withJoin)
@@ -117,51 +115,119 @@
 		expandedIndex.value = expandedIndex.value === index ? null : index;
 	}
 	
-	const awardModal = ref(false);
-	const setAwardModal = (value: boolean) => {
+	const deleteConfirmationModal = ref(false);
+		const setDeleteConfirmationModal = (value: boolean) => {
+		deleteConfirmationModal.value = value;
+	};
+	const deleteButtonRef = ref(null);
+	
+	const awardModal = ref<number | boolean>(false);
+	const setAwardModal = (value: number | boolean) => {
 		awardModal.value = value;
 	};
 	
-	const sortAwardsBy = (attribute: string) => {
-		switch (attribute) {
-			case 'issued_at':
-				var sortedAwards = Object.entries(persona.value.awards).sort(([, a], [, b]) => {
-					// Find the lowest issued_at value for each award
-					var lowestIssuedAtA = Math.min(...a.issuances.map(issuance => new Date(issuance.issued_at).getTime()));
-					var lowestIssuedAtB = Math.min(...b.issuances.map(issuance => new Date(issuance.issued_at).getTime()));
-					// Compare the lowest issued_at values
-					return lowestIssuedAtA - lowestIssuedAtB;
-				});
-				// Reconstruct the persona.value.awards object
-				persona.value.awards = Object.fromEntries(sortedAwards);
-				break;
-			case 'name':
-				var order = Object.keys(persona.value.awards).sort()
-				var sortedObj = {};
-				order.forEach(key => {
-					sortedObj[key] = persona.value.awards[key];
-				});
-				persona.value.awards = sortedObj
-				break;
-			case 'rank':
-				persona.value.awards = Object.fromEntries(Object.entries(persona.value.awards).sort(([, a], [, b]) => {
-					return (b.rank || 0) - (a.rank || 0);
-				}));
-				break;
-			default:
-				// Do nothing if an invalid attribute is provided
-				break;
+	const titleModal = ref<number | boolean>(false);
+	const setTitleModal = (value: number | boolean) => {
+		titleModal.value = value;
+	};
+	
+	const sortHonorsBy = (target: string, attribute: string) => {
+		if(persona?.value) {
+			switch (target) {
+				case 'awards':
+					const targetAwards = persona?.value?.awards as AwardsReport;
+					switch (attribute) {
+						case 'issued_at':
+							var sortedAwards = Object.entries(targetAwards).sort(([, a], [, b]) => {
+								// Find the lowest issued_at value for each award
+								var lowestIssuedAtA = Math.min(...a.issuances.map((issuance: Issuance) => new Date(issuance.issued_at).getTime()));
+								var lowestIssuedAtB = Math.min(...b.issuances.map((issuance: Issuance) => new Date(issuance.issued_at).getTime()));
+								// Compare the lowest issued_at values
+								return lowestIssuedAtA - lowestIssuedAtB;
+							});
+							persona.value.awards = Object.fromEntries(sortedAwards) as AwardsReport
+							break;
+						case 'name':
+							var order = Object.keys(targetAwards).sort()
+							const sortedObj: { [key: string]: AwardInfo } = {};
+							order.forEach(key => {
+								sortedObj[key] = targetAwards[key];
+							});
+							persona.value.awards = sortedObj
+							break;
+						case 'rank':
+							persona.value.awards = Object.fromEntries(Object.entries(targetAwards).sort(([, a], [, b]) => {
+								return (b.rank || 0) - (a.rank || 0);
+							}));
+							break;
+						default:
+							break;
+					}
+					break;
+				case 'titles':
+					const targetTitles = persona?.value?.titleIssuances as Issuance[];
+					switch (attribute) {
+						case 'issued_at':
+							targetTitles.sort((a, b) => {
+								const dateA = new Date(a.issued_at).getTime();
+								const dateB = new Date(b.issued_at).getTime();
+								return dateA - dateB;
+							})
+							break;
+						case 'name':
+							targetTitles.sort((a, b) => {
+								const nameA = (a.name || '').toUpperCase();
+								const nameB = (b.name || '').toUpperCase();
+								if (!nameA && nameB) {
+									return -1;
+								}
+								if (nameA && !nameB) {
+									return 1;
+								}
+								if (nameA < nameB) {
+									return -1;
+								}
+								if (nameA > nameB) {
+									return 1;
+								}
+								return 0;
+							})
+							break;
+						case 'rank':
+							targetTitles.sort((a, b) => {
+								const rankA = (a.issuable && 'rank' in a.issuable) ? (a.issuable.rank || 0) : 0;
+								const rankB = (b.issuable && 'rank' in b.issuable) ? (b.issuable.rank || 0) : 0;
+								return rankB - rankA;
+							});
+							break;
+						default:
+							// Do nothing if an invalid attribute is provided
+							break;
+					}
+				default:
+					// Do nothing if an invalid target is provided
+					break;
+			}
 		}
 	}
 	
 	const recommendModal = ref(false);
 	const setRecommendModal = (value: boolean) => {
+		if(value){
+			recommendFormData.honor = '1'
+			recommendFormData.persona_id = 0
+			recommendFormData.recommendable_type = null
+			recommendFormData.recommendable_id = null
+			recommendFormData.rank = null
+			recommendFormData.reason = null
+			showRank.value = false
+		}
 		recommendModal.value = value;
 	};
 	const showRank = ref(false)
-	const recommendFormData = reactive({
+	const recommendFormData = reactive<RecommendFormData>({
 		honor: '1',
-		persona_id: 0,
+		persona_id: null,
 		recommendable_type: null,
 		recommendable_id: null,
 		rank: null,
@@ -178,8 +244,8 @@
 			required: helpers.withMessage('Let the rest of us know why', required)
 		},
 	};
-	const recommendValidate = useVuelidate(recommendFormRules, toRefs(recommendFormData));
-	const honorSelectOptions = ref([{}]);
+	const recommendValidate = useVuelidate(recommendFormRules, recommendFormData);
+	const honorSelectOptions = ref<HonorSelectOption[]>([]);
 	const setHonorSelectOptions = () => {
 		if (persona.value?.chapter?.realm?.ropawards && persona.value?.chapter.realm.ropawards.length > 0) {
 			honorSelectOptions.value.push({
@@ -214,11 +280,11 @@
 				}))
 			});
 		}
-		(persona.value?.units || []).forEach(unit => {
-			if (unit.awards && unit.awards.length > 0) {
+		(persona.value?.memberships || []).forEach(membership => {
+			if (membership.unit.awards && membership.unit.awards.length > 0) {
 				honorSelectOptions.value.push({
-					label: `${unit.name} Awards`,
-					options: unit.awards.map(honor => ({
+					label: `${membership.unit.name} Awards`,
+					options: membership.unit.awards.map(honor => ({
 						value: honor.id,
 						text: honor.name,
 						type: 'Award',
@@ -234,7 +300,7 @@
 					value: honor.id,
 					text: honor.name,
 					type: 'Title',
-					is_ladder: honor.is_ladder
+					is_ladder: 0
 				}))
 			});
 		}
@@ -260,15 +326,15 @@
 				}))
 			});
 		}
-		(persona.value?.units || []).forEach(unit => {
-			if (unit.titles && unit.titles.length > 0) {
+		(persona.value?.memberships || []).forEach(membership => {
+			if (membership.unit.titles && membership.unit.titles.length > 0) {
 				honorSelectOptions.value.push({
-					label: `${unit.name} Titles`,
-					options: unit.titles.map(honor => ({
+					label: `${membership.unit.name} Titles`,
+					options: membership.unit.titles.map(honor => ({
 						value: honor.id,
 						text: honor.name,
 						type: 'Title',
-						is_ladder: 0
+						is_ladder: honor.is_ladder
 					}))
 				});
 			}
@@ -287,13 +353,12 @@
 							recommendFormData.recommendable_type = option.type
 							if (option.is_ladder) {
 								if (persona?.value?.awards.hasOwnProperty(option.text)) {
-									recommendFormData.rank = persona?.value?.awards[option.text].rank + 1
+									recommendFormData.rank = (persona?.value?.awards[option.text]?.rank ?? null) + 1;
 									showRank.value = true
 								}
 							} else {
 								showRank.value = false
 							}
-							console.log(recommendFormData)
 							break;
 						}
 					}
@@ -326,6 +391,11 @@
 			}
 		}
 	}
+	
+	const companyModal = ref<number | boolean>(false);
+	const setCompanyModal = (value: number | boolean) => {
+		companyModal.value = value;
+	};
 </script>
 
 <template>
@@ -358,7 +428,7 @@
 					</div>
 					<div class="ml-5">
 						<div class="text-lg font-medium truncate sm:whitespace-normal">
-							<template v-for="(peerage, index) in ['Knight', 'Nobility', 'Retainer']">
+							<template v-for="(peerage) in ['Knight', 'Nobility', 'Retainer']">
 								<template v-if="persona?.titleIssuances?.filter(titleIssuance => titleIssuance.issuable.peerage === peerage).length">
 									<span v-for="(title, titleIndex) in persona.titleIssuances.filter(titleIssuance => titleIssuance.issuable.peerage === peerage)" :key="titleIndex">{{ title.name }}&nbsp;</span>
 								</template>
@@ -405,7 +475,7 @@
 					<div
 						class="flex flex-col items-center justify-center mt-4 lg:items-start"
 					>
-						<template v-for="(social, index) in persona?.socials">
+						<template v-for="(social) in persona?.socials">
 							<div class="flex items-center truncate sm:whitespace-normal">
 								<Lucide :icon="social.media" class="w-4 h-4 mr-2" />
 								<a :href="social.link" target="_blank">{{ social.value }}</a>
@@ -584,10 +654,6 @@
 									class="w-40"
 								>
 									<Menu.Item class="w-full" :as="HeadlessTab"> Awards </Menu.Item>
-								</Menu.Items>
-								<Menu.Items 
-									class="w-40"
-								>
 									<Menu.Item class="w-full" :as="HeadlessTab"> Titles </Menu.Item>
 								</Menu.Items>
 							</Menu>
@@ -605,6 +671,7 @@
 						</div>
 						<div class="p-5" style="padding-top: 0px">
 							<Tab.Panels>
+								<!-- Begin: Awards Panel -->
 								<Tab.Panel>
 									<div class="grid grid-cols-12 gap-6 mt-5">
 										<div class="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap justify-between">
@@ -617,104 +684,8 @@
 													setRecommendModal(true);
 												}"
 											>
-												Recommend New Award
+												Recommend New Honor
 											</Button>
-											<!-- BEGIN: Recommend Modal Content -->
-											<Dialog 
-												:open="recommendModal" 
-												@close="() => {
-													setRecommendModal(false);
-												}" 
-												:initialFocus="closeRecommendationRef"
-											>
-												<Dialog.Panel>
-													<form class="validate-form" @submit.prevent="sendRecommendation">
-														<Dialog.Title>
-															<h2 class="mr-auto text-base font-medium">
-																Recommend Honor
-															</h2>
-															<a 
-																@click="(event: MouseEvent) => {
-																	event.preventDefault();
-																	setRecommendModal(false);
-																}" 
-																class="absolute top-0 right-0 mt-2 mr-3" 
-																href="#"
-															>
-																<Lucide icon="X" class="w-8 h-8 text-slate-400" ref="{closeRecommendationRef}" />
-															</a>
-														</Dialog.Title>
-														<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
-															<div class="col-span-12 sm:col-span-12">
-																<FormLabel htmlFor="recommendation-form-honor"> Honor </FormLabel>
-																<TomSelect 
-																	id="recommendation-form-honor"
-																	v-model.trim="recommendValidate.honor.$model"
-																	:options="{
-																		placeholder: 'Select an Honor',
-																	}"
-																	class="w-full"
-																	@update:modelValue="handleHonorSelectChange"
-																>
-																	<optgroup v-for="(type) in honorSelectOptions" :label="type.label">
-																		<option v-for="(option) in type.options" :value="option.type + `|` + option.value + `|` + option.is_ladder">{{ option.text }}</option>
-																	</optgroup>
-																</TomSelect>
-																<template v-if="recommendValidate.honor.$error">
-																	<div
-																		v-for="(error, index) in recommendValidate.honor.$errors"
-																		:key="index"
-																		class="mt-2 text-danger"
-																	>
-																		{{ error.$message }}
-																	</div>
-																</template>
-															</div>
-															<div v-if="showRank" class="col-span-12 sm:col-span-12">
-																<FormLabel htmlFor="recommendation-form-rank"> Rank </FormLabel>
-																<FormInput id="recommendation-form-rank" v-model.trim="recommendValidate.rank.$model" type="text" placeholder="5" />
-																<template v-if="recommendValidate.rank.$error">
-																	<div
-																		v-for="(error, index) in recommendValidate.rank.$errors"
-																		:key="index"
-																		class="mt-2 text-danger"
-																	>
-																		{{ error.$message }}
-																	</div>
-																</template>
-															</div>
-															<div class="col-span-12 sm:col-span-12">
-																<FormLabel htmlFor="recommendation-form-reason"> Reason </FormLabel>
-																<FormInput id="recommendation-form-reason" v-model.trim="recommendValidate.reason.$model" type="text" placeholder="That awesome thing they did" />
-																<template v-if="recommendValidate.reason.$error">
-																	<div
-																		v-for="(error, index) in recommendValidate.reason.$errors"
-																		:key="index"
-																		class="mt-2 text-danger"
-																	>
-																		{{ error.$message }}
-																	</div>
-																</template>
-															</div>
-														</Dialog.Description>
-														<Dialog.Footer>
-															<Button 
-																type="button" 
-																variant="outline-secondary" 
-																@click="() => {
-																	setRecommendModal(false);
-																}" class="w-20 mr-1"
-															>
-																Cancel
-															</Button>
-															<Button variant="primary" type="submit" class="w-20">
-																Send
-															</Button>
-														</Dialog.Footer>
-													</form>
-												</Dialog.Panel>
-											</Dialog>
-											<!-- END: Recommend Modal Content -->
 											<Menu>
 												<Menu.Button :as="Button" class="px-2 !box">
 													<span class="flex items-center justify-center w-5 h-5">
@@ -722,13 +693,13 @@
 													</span>
 												</Menu.Button>
 												<Menu.Items class="w-40">
-													<Menu.Item @click="sortAwardsBy('issued_at')">
+													<Menu.Item @click="sortHonorsBy('awards', 'issued_at')">
 														<Lucide icon="Sunrise" class="w-4 h-4 mr-2" /> First Earned
 													</Menu.Item>
-													<Menu.Item @click="sortAwardsBy('name')">
+													<Menu.Item @click="sortHonorsBy('awards', 'name')">
 														<Lucide icon="Award" class="w-4 h-4 mr-2" /> Award
 													</Menu.Item>
-													<Menu.Item @click="sortAwardsBy('rank')">
+													<Menu.Item @click="sortHonorsBy('awards', 'rank')">
 														<Lucide icon="ChevronsDown" class="w-4 h-4 mr-2" /> Rank
 													</Menu.Item>
 												</Menu.Items>
@@ -791,7 +762,7 @@
 																			<a 
 																				class="flex items-center mr-3" 
 																				href="#"
-																				@click.prevent="toggleContents(name)"
+																				@click.prevent="toggleContents(name.toString())"
 																			>
 																				<Lucide 
 																					icon="Eye" 
@@ -821,7 +792,7 @@
 																							class="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
 																						>
 																							<img
-																								alt="Midone - HTML Admin Template"
+																								:alt="issuance.name"
 																								class="rounded-md"
 																								:src="issuance.image"
 																							/>
@@ -847,7 +818,7 @@
 																								Revoked: {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}
 																							</div>
 																							<div v-if="issuance.revoked_at" class="flex items-center">
-																								Revoked By: {{ issuance.revoker.name }}
+																								Revoked By: {{ issuance.revoker?.name }}
 																							</div>
 																							<div v-if="issuance.revoked_at" class="flex items-center mt-2">
 																								{{ issuance.revocation }}
@@ -911,7 +882,7 @@
 																								<strong>Issued:</strong> {{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}<br>
 																								<strong>Signed By:</strong> {{ issuance.signator?.name }}<br>
 																								<strong>Issued By:</strong> {{ issuance.issuer?.name }}<br>
-																								<strong>Issued At:</strong> {{ issuance.whereable.label }}<br>
+																								<strong>Issued At:</strong> {{ issuance.whereable?.name }}<br>
 																								<strong>Reason:</strong> {{ issuance.reason }}
 																								<span v-if="issuance.revoked_at">
 																									<strong>Revoked By:</strong> {{ issuance.revoker?.name }}<br>
@@ -948,10 +919,370 @@
 										<!-- END: Award List -->
 									</div>
 								</Tab.Panel>
+								<!-- END: Awards Panel -->
+								<!-- BEGIN: Titles Panel -->
+								<Tab.Panel>
+									<div class="grid grid-cols-12 gap-6 mt-5">
+										<div class="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap justify-between">
+											<Button 
+												v-if="auth.isLoggedIn" 
+												variant="primary" 
+												class="mr-2 shadow-md"
+												@click="(event: MouseEvent) => {
+													event.preventDefault();
+													setRecommendModal(true);
+												}"
+											>
+												Recommend New Honor
+											</Button>
+											<Menu>
+												<Menu.Button :as="Button" class="px-2 !box">
+													<span class="flex items-center justify-center w-5 h-5">
+														<Lucide icon="Shuffle" class="w-4 h-4" />
+													</span>
+												</Menu.Button>
+												<Menu.Items class="w-40">
+													<Menu.Item @click="sortHonorsBy('titles', 'issued_at')">
+														<Lucide icon="Sunrise" class="w-4 h-4 mr-2" /> First Earned
+													</Menu.Item>
+													<Menu.Item @click="sortHonorsBy('titles', 'name')">
+														<Lucide icon="Award" class="w-4 h-4 mr-2" /> Title
+													</Menu.Item>
+													<Menu.Item @click="sortHonorsBy('titles', 'rank')">
+														<Lucide icon="ChevronsDown" class="w-4 h-4 mr-2" /> Rank
+													</Menu.Item>
+												</Menu.Items>
+											</Menu>
+										</div>
+										<!-- BEGIN: Titles List -->
+										<div class="col-span-12 overflow-auto intro-y lg:overflow-visible">
+											<!-- BEGIN: Titles Details Layout -->
+											<div class="grid grid-cols-12 gap-6 mt-5">
+												<div
+													v-for="(issuance, index) in persona?.titleIssuances"
+													:key="index"
+													class="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-4"
+												>
+													<div class="box" :class="{ 'bg-danger/20': issuance.revoked_at !== null }">
+														<div class="p-5">
+															<div
+																class="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
+															>
+																<img
+																	:alt="issuance.name"
+																	class="rounded-md"
+																	:src="issuance.image"
+																/>
+																<div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
+																	<a href="" class="block text-base font-medium">
+																		{{ issuance.name }}
+																		<span v-if="issuance.issuer?.full_abbreviation">({{ issuance.issuer?.full_abbreviation }})</span>
+																		<span v-else-if="issuance.issuer?.abbreviation">({{ issuance.issuer?.abbreviation }})</span>
+																		<span v-else>to {{ issuance.issuer?.name }}</span>
+																	</a>
+																	<span class="mt-3 text-xs text-white/90">
+																		{{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}
+																	</span>
+																</div>
+															</div>
+															<div class="mt-5 text-slate-600 dark:text-slate-500">
+																<div v-if="issuance.name != issuance.issuable.name" class="flex items-center mt-2">
+																	{{ issuance.issuable.name }}
+																</div>
+																<div class="flex items-center mt-2">
+																	{{ issuance.reason }}
+																</div>
+																<div class="flex items-center">
+																	Peerage: {{ issuance.issuable.peerage }}
+																</div>
+																<div v-if="issuance.revoked_at" class="flex items-center">
+																	Revoked: {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}
+																</div>
+																<div v-if="issuance.revoked_at" class="flex items-center">
+																	Revoked By: {{ issuance.revoker?.name }}
+																</div>
+																<div v-if="issuance.revoked_at" class="flex items-center mt-2">
+																	{{ issuance.revocation }}
+																</div>
+															</div>
+														</div>
+														<div
+															class="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400"
+														>
+															<a class="flex items-center mr-auto text-primary" href="#" @click="(event: MouseEvent) => {
+																event.preventDefault();
+																setTitleModal(issuance.id);
+															}">
+																<Lucide icon="Eye" class="w-4 h-4 mr-1" />
+															</a>
+															<a v-if="issuance.can_update" class="flex items-center mr-3" href="#">
+																<Lucide icon="CheckSquare" class="w-4 h-4 mr-1" />
+															</a>
+															<a
+																v-if="issuance.can_delete"
+																class="flex items-center text-danger"
+																href="#"
+																@click="
+																	(event) => {
+																		event.preventDefault();
+																		setDeleteConfirmationModal(true);
+																	}
+																"
+															>
+																<Lucide icon="Trash2" class="w-4 h-4 mr-1" />
+															</a>
+														</div>
+													</div>
+													<!-- BEGIN: Modal Content -->
+													<Dialog 
+														size="xl"
+														:open="titleModal === issuance.id" 
+														@close="() => {
+															setTitleModal(false);
+														}"
+														class="relative z-50"
+													>
+														<Dialog.Panel>
+															<Dialog.Title>
+																<h2 class="mr-auto text-base font-medium">
+																	{{ issuance.name }}
+																</h2>
+																<a 
+																	@click="(event: MouseEvent) => {
+																		event.preventDefault();
+																		setTitleModal(false);
+																	}" 
+																	class="absolute top-0 right-0 mt-2 mr-3" 
+																	href="#"
+																>
+																	<Lucide icon="X" class="w-8 h-8 text-slate-400" />
+																</a>
+															</Dialog.Title>
+															<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
+																<div class="col-span-12 sm:col-span-6">
+																	<strong>Issued:</strong> {{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}<br>
+																	<strong>Signed By:</strong> {{ issuance.signator?.name }}<br>
+																	<strong>Issued By:</strong> {{ issuance.issuer?.name }}<br>
+																	<strong>Issued At:</strong> {{ issuance.whereable?.name }}<br>
+																	<strong>Reason:</strong> {{ issuance.reason }}
+																	<span v-if="issuance.revoked_at">
+																		<strong>Revoked By:</strong> {{ issuance.revoker?.name }}<br>
+																		<strong>Revoked At:</strong> {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}<br>
+																		<strong>Reason:</strong> {{ issuance.revocation }}
+																	</span>
+																</div>
+																<div class="col-span-12 sm:col-span-6">
+																	<div>
+																		<img
+																			v-if="!issuance.image.includes('000000.jpg')"
+																			:alt="issuance.name"
+																			class="rounded-md"
+																			:src="issuance.image"
+																			style="width: 100%;"
+																		/>
+																	</div>
+																</div>
+															</Dialog.Description>
+														</Dialog.Panel>
+													</Dialog>
+													<!-- END: Modal Content -->
+												</div>
+											</div>
+											<!-- END: Titles Details Layout -->
+										</div>
+										<!-- END: Titles List -->
+									</div>
+								</Tab.Panel>
 							</Tab.Panels>
 						</div>
 					</Tab.Group>
 					<!-- END: Awards -->
+					<!-- BEGIN: Unit Memberships -->
+					<Tab.Group class="col-span-12 intro-y box lg:col-span-6">
+						<div
+							class="flex items-center px-5 py-5 border-b sm:py-0 border-slate-200/60 dark:border-darkmode-400"
+						>
+							<h2 class="mr-auto text-base font-medium py-5">Unit Memberships</h2>
+							<Menu 
+								class="ml-auto sm:hidden"
+							>
+								<Menu.Button tag="a" class="block w-5 h-5" href="#">
+									<Lucide
+										icon="MoreHorizontal"
+										class="w-5 h-5 text-slate-500"
+									/>
+								</Menu.Button>
+								<Menu.Items 
+									class="w-40"
+								>
+									<Menu.Item class="w-full" :as="HeadlessTab"> Fighting Companies </Menu.Item>
+									<Menu.Item class="w-full" :as="HeadlessTab"> Households </Menu.Item>
+								</Menu.Items>
+							</Menu>
+							<Tab.List
+								variant="link-tabs"
+								class="hidden w-auto ml-auto sm:flex"
+							>
+								<Tab :fullWidth="false">
+									<Tab.Button class="py-5 cursor-pointer"> Fighting Companies </Tab.Button>
+								</Tab>
+								<Tab :fullWidth="false">
+									<Tab.Button class="py-5 cursor-pointer"> Households </Tab.Button>
+								</Tab>
+							</Tab.List>
+						</div>
+						<div class="p-5" style="padding-top: 0px">
+							<Tab.Panels>
+								<!-- BEGIN: Fighting Companies Panel -->
+								<Tab.Panel>
+									<div class="grid grid-cols-12 gap-6 mt-5">
+										<div class="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap justify-between">
+											<span class="relative">&nbsp;</span>
+											<Menu>
+												<Menu.Button :as="Button" class="px-2 !box">
+													<span class="flex items-center justify-center w-5 h-5">
+														<Lucide icon="Shuffle" class="w-4 h-4" />
+													</span>
+												</Menu.Button>
+												<Menu.Items class="w-40">
+													<Menu.Item @click="sortHonorsBy('titles', 'issued_at')">
+														<Lucide icon="Sunrise" class="w-4 h-4 mr-2" /> First Earned
+													</Menu.Item>
+													<Menu.Item @click="sortHonorsBy('titles', 'name')">
+														<Lucide icon="Award" class="w-4 h-4 mr-2" /> Company
+													</Menu.Item>
+													<Menu.Item @click="sortHonorsBy('titles', 'rank')">
+														<Lucide icon="ChevronsDown" class="w-4 h-4 mr-2" /> Rank
+													</Menu.Item>
+												</Menu.Items>
+											</Menu>
+										</div>
+										<!-- BEGIN: Fighting Companies List -->
+										<div class="col-span-12 overflow-auto intro-y lg:overflow-visible">
+											<!-- BEGIN: Fighting Companies Details Layout -->
+											<div class="grid grid-cols-12 gap-6 mt-5">
+												<div
+													v-for="(membership, index) in persona?.memberships?.filter(membership => membership.unit.type === 'Company')"
+													:key="index"
+													class="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-4"
+												>
+													<div class="box" :class="{ 'bg-danger/20': membership.left_at !== null }">
+														<div class="p-5">
+															<div
+																class="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
+															>
+																<img
+																	:alt="membership.unit.name"
+																	class="rounded-md"
+																	:src="membership.unit.heraldry"
+																/>
+																<div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
+																	<a href="" class="block text-base font-medium">
+																		{{ membership.unit.name }}
+																	</a>
+																	<span class="mt-3 text-xs text-white/90">
+																		{{ formatDate(membership.unit.joined_at, 'MMMM DD, YYYY') }}
+																	</span>
+																</div>
+															</div>
+															<div class="mt-5 text-slate-600 dark:text-slate-500">
+																<div class="flex items-center">
+																	Head: {{ membership.is_head }}
+																</div>
+																<div class="flex items-center">
+																	Full Member: {{ membership.is_voting }}
+																</div>
+																<div v-if="membership.unit.left_at" class="flex items-center">
+																	Left: {{ formatDate(membership.revoked_at, 'MMMM DD, YYYY') }}
+																</div>
+																<div class="flex items-center mt-2">
+																	{{ membership.notes }}
+																</div>
+															</div>
+														</div>
+														<div
+															class="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400"
+														>
+															<a class="flex items-center mr-auto text-primary" href="#" @click="(event: MouseEvent) => {
+																event.preventDefault();
+																setCompanyModal(membership.unit.id);
+															}">
+																<Lucide icon="Eye" class="w-4 h-4 mr-1" />
+															</a>
+															<a v-if="membership.unit.can_update" class="flex items-center mr-3" href="#">
+																<Lucide icon="CheckSquare" class="w-4 h-4 mr-1" />
+															</a>
+															<a
+																v-if="membership.unit.can_delete"
+																class="flex items-center text-danger"
+																href="#"
+																@click="
+																	(event) => {
+																		event.preventDefault();
+																		setDeleteConfirmationModal(true);
+																	}
+																"
+															>
+																<Lucide icon="Trash2" class="w-4 h-4 mr-1" />
+															</a>
+														</div>
+													</div>
+													<!-- BEGIN: Modal Content -->
+													<Dialog 
+														size="xl"
+														:open="companyModal === membership.unit.id" 
+														@close="() => {
+															setCompanyModal(false);
+														}"
+														class="relative z-50"
+													>
+														<Dialog.Panel>
+															<Dialog.Title>
+																<h2 class="mr-auto text-base font-medium">
+																	{{ membership.unit.name }}
+																</h2>
+																<a 
+																	@click="(event: MouseEvent) => {
+																		event.preventDefault();
+																		setCompanyModal(false);
+																	}" 
+																	class="absolute top-0 right-0 mt-2 mr-3" 
+																	href="#"
+																>
+																	<Lucide icon="X" class="w-8 h-8 text-slate-400" />
+																</a>
+															</Dialog.Title>
+															<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
+																<div class="col-span-12 sm:col-span-6">
+																	<strong>Joined:</strong> {{ formatDate(membership.unit.joined_at, 'MMMM DD, YYYY') }}<br>
+																	<strong>Notes:</strong> {{ membership.unit.notes }}
+																</div>
+																<div class="col-span-12 sm:col-span-6">
+																	<div>
+																		<img
+																			v-if="!membership.unit.heraldry.includes('000000.jpg')"
+																			:alt="membership.unit.name"
+																			class="rounded-md"
+																			:src="membership.unit.heraldry"
+																			style="width: 100%;"
+																		/>
+																	</div>
+																</div>
+															</Dialog.Description>
+														</Dialog.Panel>
+													</Dialog>
+													<!-- END: Modal Content -->
+												</div>
+											</div>
+											<!-- END: Fighting Companies Details Layout -->
+										</div>
+										<!-- END: Fighting Companies List -->
+									</div>
+								</Tab.Panel>
+							</Tab.Panels>
+						</div>
+					</Tab.Group>
+					<!-- END: Unit Memberships -->
 					<!-- BEGIN: Latest Uploads -->
 					<div class="col-span-12 intro-y box lg:col-span-6">
 						<div
@@ -1419,6 +1750,146 @@
 					</div>
 					<!-- END: New Authors -->
 				</div>
+				<!-- BEGIN: Recommend Modal Content -->
+				<Dialog 
+					:open="recommendModal" 
+					@close="() => {
+						setRecommendModal(false);
+					}" 
+					:initialFocus="closeRecommendationRef"
+				>
+					<Dialog.Panel>
+						<form class="validate-form" @submit.prevent="sendRecommendation">
+							<Dialog.Title>
+								<h2 class="mr-auto text-base font-medium">
+									Recommend Honor
+								</h2>
+								<a 
+									@click="(event: MouseEvent) => {
+										event.preventDefault();
+										setRecommendModal(false);
+									}" 
+									class="absolute top-0 right-0 mt-2 mr-3" 
+									href="#"
+								>
+									<Lucide icon="X" class="w-8 h-8 text-slate-400" ref="{closeRecommendationRef}" />
+								</a>
+							</Dialog.Title>
+							<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
+								<div class="col-span-12 sm:col-span-12">
+									<FormLabel htmlFor="recommendation-form-honor"> Honor </FormLabel>
+									<TomSelect 
+										id="recommendation-form-honor"
+										v-model.trim="recommendValidate.honor.$model"
+										:options="{
+											placeholder: 'Select an Honor',
+										}"
+										class="w-full"
+										@update:modelValue="handleHonorSelectChange"
+									>
+										<optgroup v-for="(type) in honorSelectOptions" :label="type.label">
+											<option v-for="(option) in type.options" :value="option.type + `|` + option.value + `|` + option.is_ladder">{{ option.text }}</option>
+										</optgroup>
+									</TomSelect>
+									<template v-if="recommendValidate.honor.$error">
+										<div
+											v-for="(error, index) in recommendValidate.honor.$errors"
+											:key="index"
+											class="mt-2 text-danger"
+										>
+											{{ error.$message }}
+										</div>
+									</template>
+								</div>
+								<div v-if="showRank" class="col-span-12 sm:col-span-12">
+									<FormLabel htmlFor="recommendation-form-rank"> Rank </FormLabel>
+									<FormInput id="recommendation-form-rank" v-model.trim="recommendValidate.rank.$model" type="text" placeholder="5" />
+									<template v-if="recommendValidate.rank.$error">
+										<div
+											v-for="(error, index) in recommendValidate.rank.$errors"
+											:key="index"
+											class="mt-2 text-danger"
+										>
+											{{ error.$message }}
+										</div>
+									</template>
+								</div>
+								<div class="col-span-12 sm:col-span-12">
+									<FormLabel htmlFor="recommendation-form-reason"> Reason </FormLabel>
+									<FormInput id="recommendation-form-reason" v-model.trim="recommendValidate.reason.$model" type="text" placeholder="That awesome thing they did" />
+									<template v-if="recommendValidate.reason.$error">
+										<div
+											v-for="(error, index) in recommendValidate.reason.$errors"
+											:key="index"
+											class="mt-2 text-danger"
+										>
+											{{ error.$message }}
+										</div>
+									</template>
+								</div>
+							</Dialog.Description>
+							<Dialog.Footer>
+								<Button 
+									type="button" 
+									variant="outline-secondary" 
+									@click="() => {
+										setRecommendModal(false);
+									}" class="w-20 mr-1"
+								>
+									Cancel
+								</Button>
+								<Button variant="primary" type="submit" class="w-20">
+									Send
+								</Button>
+							</Dialog.Footer>
+						</form>
+					</Dialog.Panel>
+				</Dialog>
+				<!-- END: Recommend Modal Content -->
+				<!-- BEGIN: Delete Confirmation Modal -->
+				<Dialog
+					:open="deleteConfirmationModal"
+					@close="
+						() => {
+							setDeleteConfirmationModal(false);
+						}
+					"
+					:initialFocus="deleteButtonRef"
+				>
+					<Dialog.Panel>
+						<div class="p-5 text-center">
+							<Lucide icon="XCircle" class="w-16 h-16 mx-auto mt-3 text-danger" />
+							<div class="mt-5 text-3xl">Are you sure?</div>
+							<div class="mt-2 text-slate-500">
+								Do you really want to delete these records? <br />
+								This process cannot be undone.
+							</div>
+						</div>
+						<div class="px-5 pb-8 text-center">
+							<Button
+								variant="outline-secondary"
+								type="button"
+								@click="
+									() => {
+										setDeleteConfirmationModal(false);
+									}
+								"
+								class="w-24 mr-1"
+							>
+								Cancel
+							</Button>
+							<Button
+								variant="danger"
+								type="button"
+								class="w-24"
+								ref="deleteButtonRef"
+							>
+								Delete
+							</Button>
+						</div>
+					</Dialog.Panel>
+				</Dialog>
+				<!-- END: Delete Confirmation Modal -->
 			</Tab.Panel>
 		</Tab.Panels>
 		<Tab.Panels>

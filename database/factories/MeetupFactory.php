@@ -33,7 +33,8 @@ class MeetupFactory extends Factory
 
         return [
             'chapter_id' => $this->faker->word,
-            'location_id' => $this->faker->word,
+        	'location_id' => $this->faker->word,
+        	'name' => $this->faker->word,
             'is_active' => $this->faker->boolean,
             'purpose' => $this->faker->text($this->faker->numberBetween(5, 4096)),
             'recurrence' => $this->faker->text($this->faker->numberBetween(5, 4096)),

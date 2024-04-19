@@ -7,7 +7,7 @@ use App\Models\Location;
 class LocationRepository extends BaseRepository
 {
 	protected $fieldSearchable = [
-		'label',
+		'name',
 		'address',
 		'city',
 		'province',

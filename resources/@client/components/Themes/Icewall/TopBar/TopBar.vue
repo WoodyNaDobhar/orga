@@ -444,26 +444,6 @@
 				<!-- END: Account Menu -->
 				<!-- Login Link -->
 				<router-link v-if="!auth.isLoggedIn" to="/login" class="text-primary dark:text-slate-300 text-white/90">Login</router-link>
-			<!-- BEGIN: Success Notification Content -->
-			<Notification id="success-notification-content" class="flex hidden">
-				<Lucide icon="CheckCircle" class="text-success" />
-				<div class="ml-4 mr-4">
-					<div class="font-medium">Registration success!</div>
-					<div class="mt-1 text-slate-500">
-						Please check your e-mail for further info!
-					</div>
-				</div>
-			</Notification>
-			<!-- END: Success Notification Content -->
-			<!-- BEGIN: Failed Notification Content -->
-			<Notification id="failed-notification-content" class="flex hidden">
-				<Lucide icon="XCircle" class="text-danger" />
-				<div class="ml-4 mr-4">
-					<div class="font-medium">Error!</div>
-					<div class="mt-1 text-slate-500">Please check the form.</div>
-				</div>
-			</Notification>
-			<!-- END: Failed Notification Content -->
 		</div>
 	</div>
 	<!-- END: Top Bar -->

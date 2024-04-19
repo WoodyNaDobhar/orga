@@ -46,7 +46,10 @@ class IssuanceResource extends JsonResource
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 			'deleted_at' => $this->deleted_at,
-			'issuable' => $this->issuable
+			'issuable' => $this->issuable,
+			'signator' => $this->signator,
+			'issuer' => $this->issuer,
+			'whereable' => $this->whereable
 		];
 		
 		//related

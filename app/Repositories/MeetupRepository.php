@@ -9,6 +9,7 @@ class MeetupRepository extends BaseRepository
 	protected $fieldSearchable = [
 		'chapter_id',
 		'location_id',
+		'name',
 		'is_active',
 		'purpose',
 		'recurrence',

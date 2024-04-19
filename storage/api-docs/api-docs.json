@@ -26159,8 +26159,8 @@
                         "readOnly": true,
                         "example": 42
                     },
-                    "label": {
-                        "description": "The Location label, as it might appear on a map.",
+                    "name": {
+                        "description": "The Location name, as it might appear on a map.",
                         "type": "string",
                         "format": "uppercase first letter",
                         "maxLength": 50,
@@ -26258,7 +26258,7 @@
                         "format": "paragraph",
                         "maxLength": 16777215,
                         "readOnly": false,
-                        "example": "Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+                        "example": "Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
                         "nullable": true
                     },
                     "created_by": {
@@ -26307,7 +26307,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -26458,8 +26458,8 @@
                         "readOnly": true,
                         "example": 42
                     },
-                    "label": {
-                        "description": "The Location label, as it might appear on a map.",
+                    "name": {
+                        "description": "The Location name, as it might appear on a map.",
                         "type": "string",
                         "format": "uppercase first letter",
                         "maxLength": 50,
@@ -26557,7 +26557,7 @@
                         "format": "paragraph",
                         "maxLength": 16777215,
                         "readOnly": false,
-                        "example": "Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+                        "example": "Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
                         "nullable": true
                     },
                     "created_by": {
@@ -26597,7 +26597,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -26708,8 +26708,8 @@
                         "readOnly": true,
                         "example": 42
                     },
-                    "label": {
-                        "description": "The Location label, as it might appear on a map.",
+                    "name": {
+                        "description": "The Location name, as it might appear on a map.",
                         "type": "string",
                         "format": "uppercase first letter",
                         "maxLength": 50,
@@ -26807,7 +26807,7 @@
                         "format": "paragraph",
                         "maxLength": 16777215,
                         "readOnly": false,
-                        "example": "Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+                        "example": "Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
                         "nullable": true
                     }
                 },
@@ -26817,6 +26817,7 @@
                 "description": "Regular gatherings for a given Chapter.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * attendances (Attendance) (MorphMany): Attendances for the Meetup.\r\n * chapter (Chapter) (BelongsTo): Chapter that sponsors the Meetup.\r\n * issuances (Issuance) (MorphMany): Issuances made at the Meetup.\r\n * location (Location) (BelongsTo): Location of the Meetup.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "chapter_id",
+                    "name",
                     "is_active",
                     "purpose",
                     "recurrence",
@@ -26846,6 +26847,15 @@
                         "readOnly": false,
                         "example": 42,
                         "nullable": true
+                    },
+                    "name": {
+                        "description": "The name of the Office, options delineated with a single |",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 100,
+                        "readOnly": false,
+                        "example": "Prime Minister",
+                        "nullable": false
                     },
                     "is_active": {
                         "description": "Is the Meetup (default true) still occuring?",
@@ -26981,7 +26991,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -27130,6 +27140,15 @@
                         "example": 42,
                         "nullable": true
                     },
+                    "name": {
+                        "description": "The name of the Office, options delineated with a single |",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 100,
+                        "readOnly": false,
+                        "example": "Prime Minister",
+                        "nullable": false
+                    },
                     "is_active": {
                         "description": "Is the Meetup (default true) still occuring?",
                         "type": "integer",
@@ -27255,7 +27274,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -27381,6 +27400,15 @@
                         "readOnly": false,
                         "example": 42,
                         "nullable": true
+                    },
+                    "name": {
+                        "description": "The name of the Office, options delineated with a single |",
+                        "type": "string",
+                        "format": "uppercase first letter",
+                        "maxLength": 100,
+                        "readOnly": false,
+                        "example": "Prime Minister",
+                        "nullable": false
                     },
                     "is_active": {
                         "description": "Is the Meetup (default true) still occuring?",

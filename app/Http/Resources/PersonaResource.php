@@ -37,6 +37,7 @@ class PersonaResource extends JsonResource
 			'roptitles' => $this->roptitles,
 			'chapter_full_abbreviation' => $this->chapter_full_abbreviation,
 			'credits' => $this->credits,
+			'memberships' => $this->memberships,
 			'score' => $this->score,
 			'can_list' => 0,
 			'can_view' => 0,

@@ -11,8 +11,6 @@ use App\Traits\ProtectFieldsTrait;
 use Carbon\Carbon;
 use Laravel\Scout\Searchable;
 use App\Policies\IssuancePolicy;
-use App\Repositories\IssuanceRepository;
-use App\Http\Resources\IssuanceResource;
 
 /**
  * @OA\Schema (

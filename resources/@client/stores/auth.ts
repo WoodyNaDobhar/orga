@@ -1,6 +1,18 @@
 import { defineStore } from "pinia";
 import axios from 'axios'
 
+interface User {
+	jsPermissions: string;
+}
+
+interface CustomWindow extends Window {
+	Laravel: {
+		jsPermissions: string;
+	};
+}
+
+declare const window: CustomWindow;
+
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
 		token: localStorage.getItem('token') || null,
@@ -67,7 +79,7 @@ export const useAuthStore = defineStore("auth", {
 				throw error
 			}
 		},
-		storeLoggedInUser(token:string, user:object) {
+		storeLoggedInUser(token:string, user:User) {
 			const _this = this;
 			localStorage.setItem('token', token);
 			localStorage.setItem('user', JSON.stringify(user));

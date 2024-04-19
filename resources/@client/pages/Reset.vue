@@ -93,26 +93,6 @@
 			}
 		};
 	};
-	
-	onMounted(async () => {
-		try {
-			await axios.get('/api/pronouns')
-				.then(response => {
-					pronouns.value = response.data.data
-				})
-				.catch(error => {
-					state.$patch({
-						status: 'error'
-					})
-					console.log('Error fetching pronouns:', error);
-				})
-		} catch (error) {
-			state.$patch({
-				status: 'error'
-			})
-			console.error('Error fetching pronouns:', error);
-		}
-	});
 </script>
 
 <template>

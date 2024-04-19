@@ -28,8 +28,8 @@ use Wildside\Userstamps\Userstamps;
  *			readOnly=true
  *		),
  *		@OA\Property(
- *			property="label",
- *			description="The Location label, as it might appear on a map.",
+ *			property="name",
+ *			description="The Location name, as it might appear on a map.",
  *			readOnly=false,
  *			nullable=true,
  *			type="string",
@@ -138,7 +138,7 @@ use Wildside\Userstamps\Userstamps;
  *			nullable=true,
  *			type="string",
  *			format="paragraph",
- *			example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ *			example="Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
  *			maxLength=16777215
  *		),
  *		@OA\Property(
@@ -202,7 +202,7 @@ use Wildside\Userstamps\Userstamps;
  *		),
  *		@OA\Property(
  *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			description="When the entry was softdeleted.Null if not softdeleted.",
  *			type="string",
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
@@ -354,8 +354,8 @@ use Wildside\Userstamps\Userstamps;
  *			readOnly=true
  *		),
  *		@OA\Property(
- *			property="label",
- *			description="The Location label, as it might appear on a map.",
+ *			property="name",
+ *			description="The Location name, as it might appear on a map.",
  *			readOnly=false,
  *			nullable=true,
  *			type="string",
@@ -464,7 +464,7 @@ use Wildside\Userstamps\Userstamps;
  *			nullable=true,
  *			type="string",
  *			format="paragraph",
- *			example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ *			example="Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
  *			maxLength=16777215
  *		),
  *		@OA\Property(
@@ -510,7 +510,7 @@ use Wildside\Userstamps\Userstamps;
  *		),
  *		@OA\Property(
  *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			description="When the entry was softdeleted.Null if not softdeleted.",
  *			type="string",
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
@@ -607,8 +607,8 @@ use Wildside\Userstamps\Userstamps;
  *			readOnly=true
  *		),
  *		@OA\Property(
- *			property="label",
- *			description="The Location label, as it might appear on a map.",
+ *			property="name",
+ *			description="The Location name, as it might appear on a map.",
  *			readOnly=false,
  *			nullable=true,
  *			type="string",
@@ -717,7 +717,7 @@ use Wildside\Userstamps\Userstamps;
  *			nullable=true,
  *			type="string",
  *			format="paragraph",
- *			example="Take the first right and park next to the abandoned pool.  Go down the path until you see the sign for the designated LARP area.",
+ *			example="Take the first right and park next to the abandoned pool.Go down the path until you see the sign for the designated LARP area.",
  *			maxLength=16777215
  *		)
  *	)
@@ -746,37 +746,37 @@ class Location extends BaseModel
 	protected $protectedFields = [];
 
 	public $fillable = [
-		  'label',
-		  'address',
-		  'city',
-		  'province',
-		  'postal_code',
-		  'country',
-		  'google_geocode',
-		  'latitude',
-		  'longitude',
-		  'location',
-		  'map_url',
-		  'directions'
+		'name',
+		'address',
+		'city',
+		'province',
+		'postal_code',
+		'country',
+		'google_geocode',
+		'latitude',
+		'longitude',
+		'location',
+		'map_url',
+		'directions'
 	];
 
 	protected $casts = [
-		  'label' => 'string',
-		  'address' => 'string',
-		  'city' => 'string',
-		  'province' => 'string',
-		  'postal_code' => 'string',
-		  'country' => 'string',
-		  'google_geocode' => 'string',
-		  'latitude' => 'float',
-		  'longitude' => 'float',
-		  'location' => 'string',
-		  'map_url' => 'string',
-		  'directions' => 'string'
+		'name' => 'string',
+		'address' => 'string',
+		'city' => 'string',
+		'province' => 'string',
+		'postal_code' => 'string',
+		'country' => 'string',
+		'google_geocode' => 'string',
+		'latitude' => 'float',
+		'longitude' => 'float',
+		'location' => 'string',
+		'map_url' => 'string',
+		'directions' => 'string'
 	];
 
 	public static array $rules = [
-		  'label' => 'nullable|string|max:50',
+		'name' => 'nullable|string|max:50',
 		'address' => 'nullable|string|max:191',
 		'city' => 'nullable|string|max:50',
 		'province' => 'nullable|string|max:35',
@@ -825,16 +825,16 @@ class Location extends BaseModel
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
 
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
 
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }
