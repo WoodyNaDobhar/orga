@@ -848,7 +848,7 @@ class ImportOrk3 extends Command
 					
 					//not sure why it's giving me the whole deal here
 					//TODO: when this is running, check it to make sure it's necessary.
-					DB::statement("UPDATE model_has_roles SET model_type = REPLACE(model_type, 'App\\Models\\', '')");
+// 					DB::statement("UPDATE model_has_roles SET model_type = REPLACE(model_type, 'App\\Models\\', '')");
 					
 					app('cache')
 						->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
@@ -2889,7 +2889,7 @@ class ImportOrk3 extends Command
 							sleep(5);
 							$transChapters = $this->getTrans('chapters');
 						}
-						$newChapter = Chapter::where('id', $transChapters[$oldMeetup->park_id])->get();
+						$newChapter = Chapter::where('id', $transChapters[$oldMeetup->park_id])->first();
 						DB::reconnect("mysqlBak");
 						$meetupId = DB::table('meetups')->insertGetId([
 							'chapter_id' => $transChapters[$oldMeetup->park_id],
