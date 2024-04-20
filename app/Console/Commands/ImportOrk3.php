@@ -3349,7 +3349,7 @@ class ImportOrk3 extends Command
 											$meetupId = $meetup->id;
 										}else{
 											//make it
-											$newChapter = Chapter::where('id', $transChapters[$oldAttendance->park_id])->get();
+											$newChapter = Chapter::where('id', $transChapters[$oldAttendance->park_id])->first();
 											$meetupId = DB::table('meetups')->insertGetId([
 												'chapter_id' => $transChapters[$oldAttendance->park_id],
 												'location_id' => $locationID ? $locationID : null,
