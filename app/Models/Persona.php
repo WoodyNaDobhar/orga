@@ -39,7 +39,6 @@ use App\Policies\IssuancePolicy;
  * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
  * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.
  * titles (Title) {hasManyThrough): Titles received by the Persona.
- * units (Unit) (HasManyThrough): Companies and Households the Persona is in.
  * user (User) (BelongsTo): The User for the Persona.
  * waivers (Waiver) (HasMany): The Waivers for the Persona.
  * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.
@@ -521,17 +520,6 @@ use App\Policies\IssuancePolicy;
  * 			title="Title",
  * 			type="object",
  * 			ref="#/components/schemas/TitleSimple"
- * 		),
- * 		readOnly=true
- * 	),
- * 	@OA\Property(
- * 		property="units",
- * 		description="Attachable & filterable array of the Companies and Households the Persona is in.",
- * 		type="array",
- * 		@OA\Items(
- * 			title="Unit",
- * 			type="object",
- * 			ref="#/components/schemas/UnitSimple"
  * 		),
  * 		readOnly=true
  * 	),
@@ -1159,13 +1147,13 @@ class Persona extends BaseModel
 					}
 					$awards[$awardIssuance->issuable->name]['rank'] = ($awards[$awardIssuance->issuable->name]['rank'] < $awardIssuance->rank ? $awardIssuance->rank : $awards[$awardIssuance->issuable->name]['rank']);
 					$issuancePolicy = new IssuancePolicy();
-					$awardIssuance->can_list = $issuancePolicy->viewAny(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
-					$awardIssuance->can_view = $issuancePolicy->delete(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
-					$awardIssuance->can_create = $issuancePolicy->create(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
-					$awardIssuance->can_update = $issuancePolicy->update(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
-					$awardIssuance->can_delete = $issuancePolicy->delete(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
-					$awardIssuance->can_restore = $issuancePolicy->restore(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
-					$awardIssuance->can_nuke = $issuancePolicy->forceDelete(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
+					$awardIssuance->can_list = auth('sanctum')->user() && $issuancePolicy->viewAny(auth('sanctum')->user(), $awardIssuance) ? 1 : 1;
+					$awardIssuance->can_view = auth('sanctum')->user() && $issuancePolicy->view(auth('sanctum')->user(), $awardIssuance) ? 1 : 1;
+					$awardIssuance->can_create = auth('sanctum')->user() && $issuancePolicy->create(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
+					$awardIssuance->can_update = auth('sanctum')->user() && $issuancePolicy->update(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
+					$awardIssuance->can_delete = auth('sanctum')->user() && $issuancePolicy->delete(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
+					$awardIssuance->can_restore = auth('sanctum')->user() && $issuancePolicy->restore(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
+					$awardIssuance->can_nuke = auth('sanctum')->user() && $issuancePolicy->forceDelete(auth('sanctum')->user(), $awardIssuance) ? 1 : 0;
 					$awards[$awardIssuance->issuable->name]['issuances'][] = $awardIssuance;
 				}
 				
@@ -1532,7 +1520,6 @@ class Persona extends BaseModel
 		'suspensionIssueds' => 'HasMany',
 		'titleIssuances' => 'MorphMany',
 		'titles' => 'hasManyThrough',
-		'units' => 'HasManyThrough',
 		'user' => 'HasOne',
 		'waivers' => 'HasMany',
 		'waiverVerifieds' => 'HasMany'
@@ -1646,18 +1633,6 @@ class Persona extends BaseModel
 	public function titles(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
 	{
 		return $this->hasManyThrough(Title::class, Issuance::class, 'recipient_id', 'id', 'id', 'issuable_id')->where('issuable_type', 'Title');
-	}
-	
-	public function units(): \Illuminate\Database\Eloquent\Relations\hasManyThrough
-	{
-		return $this->hasManyThrough(
-			Unit::class,
-			Member::class,
-			'persona_id',
-			'id',
-			'id',
-			'unit_id'
-		);
 	}
 	
 	public function user(): \Illuminate\Database\Eloquent\Relations\HasOne

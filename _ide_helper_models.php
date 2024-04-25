@@ -8370,7 +8370,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -8588,7 +8588,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -9926,7 +9926,6 @@ namespace App\Models{
  * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.
  * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.
  * titles (Title) {hasManyThrough): Titles received by the Persona.
- * units (Unit) (HasManyThrough): Companies and Households the Persona is in.
  * user (User) (BelongsTo): The User for the Persona.
  * waivers (Waiver) (HasMany): The Waivers for the Persona.
  * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.
@@ -10408,17 +10407,6 @@ namespace App\Models{
  * 			title="Title",
  * 			type="object",
  * 			ref="#/components/schemas/TitleSimple"
- * 		),
- * 		readOnly=true
- * 	),
- * 	@OA\Property(
- * 		property="units",
- * 		description="Attachable & filterable array of the Companies and Households the Persona is in.",
- * 		type="array",
- * 		@OA\Items(
- * 			title="Unit",
- * 			type="object",
- * 			ref="#/components/schemas/UnitSimple"
  * 		),
  * 		readOnly=true
  * 	),
@@ -11029,8 +11017,6 @@ namespace App\Models{
  * @property-read int|null $title_issuances_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Title> $titles
  * @property-read int|null $titles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Unit> $units
- * @property-read int|null $units_count
  * @property-read \App\Models\User|null $updatedBy
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Waiver> $waiverVerifieds

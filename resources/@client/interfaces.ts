@@ -225,7 +225,7 @@ export interface Chapter {
 	name: string
 	abbreviation: string
 	full_abbreviation: string
-	heraldry?: string | null
+	heraldry: string
 	is_active: 0 | 1
 	created_by: number
 	createdBy: UserSimple
@@ -268,7 +268,7 @@ export interface ChapterSimple {
 	name: string
 	abbreviation: string
 	full_abbreviation: string
-	heraldry?: string | null
+	heraldry: string
 	is_active: 0 | 1
 	created_by: number
 	updated_by?: number | null
@@ -292,7 +292,7 @@ export interface ChapterSuperSimple {
 	name: string
 	abbreviation: string
 	full_abbreviation: string
-	heraldry?: string | null
+	heraldry: string
 	is_active: 0 | 1
 }
 export interface Chaptertype {
@@ -867,7 +867,7 @@ export interface Member {
 	updated_at?: string | null
 	deleted_at?: string | null
 	persona: PersonaSimple
-	unit: UnitSimple
+	unit: Unit
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -1067,7 +1067,7 @@ export interface Persona {
 	created_at: string
 	updated_at?: string | null
 	deleted_at?: string | null
-	attendances?: AttendanceSimple[]
+	attendances?: Attendance[]
 	awardIssuances?: IssuanceSimple[]
 	chapter?: Chapter
 	crats?: CratSimple[]
@@ -1081,14 +1081,13 @@ export interface Persona {
 	memberships?: Member[]
 	officers?: OfficerSimple[]
 	pronoun?: PronounSimple
-	recommendations?: RecommendationSimple[]
+	recommendations?: Recommendation[]
 	reconciliations?: ReconciliationSimple[]
 	splits?: SplitSimple[]
 	socials?: SocialSimple[]
 	suspensions?: SuspensionSimple[]
 	suspensionIssueds?: SuspensionSimple[]
 	titleIssuances?: Issuance[]
-	units?: Unit[]
 	user?: UserSimple
 	waivers?: WaiverSimple[]
 	waiverVerifieds?: WaiverSimple[]
@@ -1345,7 +1344,7 @@ export interface Recommendation {
 	is_anonymous: 0 | 1
 	reason: string
 	created_by: number
-	createdBy: UserSimple
+	createdBy: UserSimple | null
 	updated_by?: number | null
 	updatedBy?: UserSimple | null
 	deleted_by?: number | null

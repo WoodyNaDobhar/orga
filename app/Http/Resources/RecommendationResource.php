@@ -33,24 +33,31 @@ class RecommendationResource extends JsonResource
 			'can_nuke' => 0,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
-			'deleted_at' => $this->deleted_at
+			'deleted_at' => $this->deleted_at,
 		];
 		
 		//related
+		//TODO: polymorphic relationships
 		foreach (array_keys($this->relationships) as $relationship) {
 			$resourceClass = 'App\\Http\\Resources\\' . AppHelper::instance()->fixEloquentName($relationship) . 'Resource';
 			if ($request->has('with') && class_exists($resourceClass)) {
-				$matches = [];
 				foreach ($request->with as $withItem) {
+					$withItems = explode('.', $withItem);
 					if (
 						$relationship === $withItem || 
 						(
 							(
-								strpos($withItem, $this->table . '.') !== false ||
-								strpos($withItem, substr($this->table, 0, -1) . '.') !== false
+								strpos(\AppHelper::instance()->fixWithName($withItem), $this->table . '.') !== false ||
+								strpos(\AppHelper::instance()->fixWithName($withItem), substr($this->table, 0, -1) . '.') !== false
 							) &&
-							preg_match('/' . substr($this->table, 0, -1) . '\.(.*?)(?:\.|$)/', $withItem, $matches) &&
-							$matches[1] === $relationship
+							(
+								$withItems[0] === \AppHelper::instance()->fixTableName($this->table) ||
+								$withItems[0] . 's' === \AppHelper::instance()->fixTableName($this->table) ||
+								strpos(\AppHelper::instance()->fixTableName($this->table) . '|', $withItems[0]) !== false ||
+								strpos('|' . \AppHelper::instance()->fixTableName($this->table), $withItems[0]) !== false 
+							) &&
+							count($withItems) > 1 &&
+							$withItems[1] === $relationship
 						)
 					) {
 						if (substr($relationship, -1) === 's') {
@@ -66,7 +73,7 @@ class RecommendationResource extends JsonResource
 		if(auth('sanctum')->check()){
 			$recommendationPolicy = new RecommendationPolicy();
 			$data['can_list'] = $recommendationPolicy->viewAny(auth('sanctum')->user(), $this->resource) ? 1 : 0;
-			$data['can_view'] = $recommendationPolicy->delete(auth('sanctum')->user(), $this->resource) ? 1 : 0;
+			$data['can_view'] = $recommendationPolicy->view(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_create'] = $recommendationPolicy->create(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_update'] = $recommendationPolicy->update(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_delete'] = $recommendationPolicy->delete(auth('sanctum')->user(), $this->resource) ? 1 : 0;

@@ -28,6 +28,9 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Helpers\AppHelper;
 use Throwable;
+use function PHPUnit\Framework\stringContains;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class ImportOrk3 extends Command
 {
@@ -255,6 +258,17 @@ class ImportOrk3 extends Command
 						->update(['email' => 'admin@ork.amtgard.com']);
 					$backupConnect->table('ork_mundane')
 						->where('mundane_id', 42079)
+						->update(['email' => '']);
+					
+					//email edge case
+					$backupConnect->table('ork_mundane')
+						->where('email', 'taggchick.yahoo.com')
+						->update(['email' => 'taggchick@yahoo.com']);
+					$backupConnect->table('ork_mundane')
+						->where('email', 'Mat.manbearpig.gibson@gmaiiil.co.')
+						->update(['email' => 'Mat.manbearpig.gibson@gmail.com']);
+					$backupConnect->table('ork_mundane')
+						->where('mundane_id', 150470)
 						->update(['email' => '']);
 
 					if(!Schema::hasTable('completed')){
@@ -1151,13 +1165,26 @@ class ImportOrk3 extends Command
 						if($oldChapter->parktitle_id == 186){//inactive is being removed
 							$lowestChaptertype = Chaptertype::where('realm_id', $transRealms[$oldChapter->kingdom_id])->orderBy('rank', 'ASC')->first();
 						}
+						
+						//import their image from ORK3
+						$heraldry = null;
+						if ($oldChapter->has_heraldry === '1') {
+							$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldChapter->id, 5, '0', STR_PAD_LEFT) . ".jpg";
+							$response = Http::head($url);
+							if ($response->successful()) {
+								$contents = Http::get($url)->body();
+								$filename = uniqid() . '.jpg';
+								Storage::put('public/heraldry/units/' . $filename, $contents);
+								$heraldry = $filename;
+							}
+						}
 						$chapterID = DB::table('chapters')->insertGetId([
 							'realm_id' => $transRealms[$oldChapter->kingdom_id],
 							'chaptertype_id' => $lowestChaptertype ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
 							'location_id' => $locationID,
 							'name' => trim($oldChapter->name),
 							'abbreviation' => $oldChapter->abbreviation === '' ? $this->getAbbreviation(trim($oldChapter->name)) : $oldChapter->abbreviation,
-							'heraldry' => $oldChapter->has_heraldry === '1' ? sprintf('%05d.jpg', $oldChapter->park_id) : null,
+							'heraldry' => $heraldry,
 							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id == 186 ? 0 : 1,
 							'created_at' => $oldChapter->modified,
 							'updated_at' => $oldChapter->modified
@@ -2312,14 +2339,38 @@ class ImportOrk3 extends Command
 								}
 								DB::reconnect("mysqlBak");
 								
+								//import their image from ORK3
+								$heraldry = null;
+								if ($oldUser->has_heraldry === '1') {
+									$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->id, 6, '0', STR_PAD_LEFT) . ".jpg";
+									$response = Http::head($url);
+									if ($response->successful()) {
+										$contents = Http::get($url)->body();
+										$filename = uniqid() . '.jpg';
+										Storage::put('public/heraldry/persona/' . $filename, $contents);
+										$heraldry = $filename;
+									}
+								}
+								$image = null;
+								if ($oldUser->has_image === '1') {
+									$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->id, 6, '0', STR_PAD_LEFT) . ".jpg";
+									$response2 = Http::head($url);
+									if ($response2->successful()) {
+										$contents = Http::get($url2)->body();
+										$filename = uniqid() . '.jpg';
+										Storage::put('public/images/personas/' . $filename, $contents);
+										$image = $filename;
+									}
+								}
+								
 								//persona data
 								$personaId = DB::table('personas')->insertGetId([
 									'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
 									'pronoun_id' => $pronounId,
 									'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
 									'name' => $personaName,
-									'heraldry' => $oldUser->has_heraldry === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
-									'image' => $oldUser->has_image === '1' ? sprintf('%06d.jpg', $oldUser->mundane_id) : null,
+									'heraldry' => $heraldry,
+									'image' => $image,
 									'is_active' => $oldUser->active === '1' ? 1 : 0,
 									'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
 									'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
@@ -2335,11 +2386,11 @@ class ImportOrk3 extends Command
 								$transPersonas[$oldUser->mundane_id] = $personaId;
 								
 								//user data
-								if(filter_var($oldUser->email, FILTER_VALIDATE_EMAIL)){
-									if(!in_array(strtolower($oldUser->email), $usedEmails)){
+								if(filter_var($this->cleanEmail($oldUser->email), FILTER_VALIDATE_EMAIL)){
+									if(!in_array($this->cleanEmail($oldUser->email), $usedEmails)){
 										$userId = DB::table('users')->insertGetId([
 											'persona_id' => $personaId,
-											'email' => strtolower($oldUser->email),
+											'email' => $this->cleanEmail($oldUser->email),
 											'email_verified_at' => null,
 											'password' => bin2hex(openssl_random_pseudo_bytes(4)),
 											'remember_token' => null,
@@ -2347,6 +2398,15 @@ class ImportOrk3 extends Command
 											'created_at' => $oldUser->modified,
 											'updated_at' => $oldUser->modified
 										]);
+										
+										$usedEmails[] = $this->cleanEmail($oldUser->email);
+										DB::table('trans')->insert([
+											'array' => 'users',
+											'oldID' => $oldUser->mundane_id,
+											'newID' => $userId
+										]);
+										$transUsers[$oldUser->mundane_id] = $userId;
+										
 										//assign role
 										$user = User::find($userId);
 										//park_id == 0 && kingdom_id == $oldUser->kingdom_id && mundane_id == $oldUser->mundane_id
@@ -2390,14 +2450,6 @@ class ImportOrk3 extends Command
 										}
 										DB::reconnect("mysqlBak");
 										$user->assignRole('player');
-										
-										$usedEmails[] = strtolower($oldUser->email);
-										DB::table('trans')->insert([
-												'array' => 'users',
-												'oldID' => $oldUser->mundane_id,
-												'newID' => $userId
-										]);
-										$transUsers[$oldUser->mundane_id] = $userId;
 									}else{
 										DB::table('crypt')->insert([
 											'model' 		=> 'User',
@@ -2482,7 +2534,7 @@ class ImportOrk3 extends Command
 									'waiverable_id' => $transRealms[$oldUser->kingdom_id],
 									'file' => $oldUser->waiver_ext != '' ? sprintf('%06d.' . $oldUser->waiver_ext, $oldUser->mundane_id) : null,
 									'player' => $this->cleanMundane($oldUser->given_name . ' ' . $oldUser->surname),
-									'email' => filter_var($oldUser->email, FILTER_VALIDATE_EMAIL) ? strtolower($oldUser->email) : null,
+									'email' => filter_var($this->cleanEmail($oldUser->email), FILTER_VALIDATE_EMAIL) ? $this->cleanEmail($oldUser->email) : null,
 									'phone' => null,
 									'location_id' => null,
 									'dob' => null,
@@ -2612,15 +2664,35 @@ class ImportOrk3 extends Command
 									if($personaMakeCheck){
 										$transPersonas[$oldEvent->mundane_id] = $personaMakeCheck->id;
 									}else{
+										//import their image from ORK3
+										$heraldry = null;
+										$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldEvent->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
+										$response = Http::head($url);
+										if ($response->successful()) {
+											$contents = Http::get($url)->body();
+											$filename = uniqid() . '.jpg';
+											Storage::put('public/heraldry/persona/' . $filename, $contents);
+											$heraldry = $filename;
+										}
+										$image = null;
+										$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldEvent->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
+										$response2 = Http::head($url);
+										if ($response2->successful()) {
+											$contents = Http::get($url2)->body();
+											$filename = uniqid() . '.jpg';
+											Storage::put('public/images/personas/' . $filename, $contents);
+											$image = $filename;
+										}
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $oldEvent->park_id == '0' ? $burningLands->id : $transChapters[$oldEvent->park_id],
 											'pronoun_id' => null,
 											'mundane' => null,
 											'name' => 'Deleted Persona ' . $oldEvent->mundane_id,
-											'heraldry' => null,
-											'image' => null,
+											'heraldry' => $heraldry,
+											'image' => $image,
 											'is_active' => 0
 										]);
+										//TODO: go back and fix the $oldWhatever->id to whatever_id
 										DB::table('trans')->insert([
 											'array' => 'personas',
 											'oldID' => $oldEvent->mundane_id,
@@ -2705,6 +2777,18 @@ class ImportOrk3 extends Command
 								'directions' => null
 							], $countries);
 						}
+						//import their image from ORK3
+						$heraldry = null;
+						if ($oldEvent->has_heraldry === '1') {
+							$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldEvent->id, 5, '0', STR_PAD_LEFT) . ".jpg";
+							$response = Http::head($url);
+							if ($response->successful()) {
+								$contents = Http::get($url)->body();
+								$filename = uniqid() . '.jpg';
+								Storage::put('public/heraldry/event/' . $filename, $contents);
+								$heraldry = $filename;
+							}
+						}
 						$eventId = DB::table('events')->insertGetId([
 							'eventable_type' => $eventable_type,
 							'eventable_id' => $eventable_id,
@@ -2715,7 +2799,7 @@ class ImportOrk3 extends Command
 							'description' => trim($oldEvent->description) != '' ? trim($oldEvent->description) : null,
 							'is_active' => $oldEvent->current,
 							'is_demo' => str_contains(strtolower(trim($oldEvent->name)), 'demo') ? 1 : 0,
-							'image' => $oldEvent->has_heraldry === '1' ? sprintf('%05d.jpg', $oldEvent->event_id) : null,
+							'image' => $heraldry,
 							'event_started_at' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
 							'event_ended_at' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
 							'price' => $oldEvent->price,
@@ -2894,7 +2978,7 @@ class ImportOrk3 extends Command
 						$meetupId = DB::table('meetups')->insertGetId([
 							'chapter_id' => $transChapters[$oldMeetup->park_id],
 							'location_id' => $locationID,
-							'name' => $newChapter->name . ' ' . $meetupMap[$oldMeetup->purpose],
+							'name' => substr($newChapter->name . ' ' . $meetupMap[$oldMeetup->purpose], 0, 50),
 							'is_active' => ($oldMeetup->alternate_location == 1 ? 0 : 1),
 							'recurrence' => $meetupMap[$oldMeetup->recurrence],
 							'week_of_month' => ($oldMeetup->week_of_month > 0 ? $oldMeetup->week_of_month : null),
@@ -3353,7 +3437,7 @@ class ImportOrk3 extends Command
 											$meetupId = DB::table('meetups')->insertGetId([
 												'chapter_id' => $transChapters[$oldAttendance->park_id],
 												'location_id' => $locationID ? $locationID : null,
-												'name' => $newChapter->name . ' ' . $purpose,
+												'name' => substr($newChapter->name . ' ' . $purpose, 0, 50),
 												'is_active' => 0,
 												'recurrence' => 'Weekly',
 												'week_of_month' => null,
@@ -4109,7 +4193,7 @@ class ImportOrk3 extends Command
 						if($oldDue->import_transaction_id == 0 || !array_key_exists($oldDue->import_transaction_id, $oldTransactions)){
 							$persona = Persona::where('id', $transPersonas[$oldDue->mundane_id])->first();
 							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
-							if(!$mundane || $mundane->email === '' || !filter_var($mundane->email, FILTER_VALIDATE_EMAIL)){
+							if(!$mundane || $mundane->email === '' || !filter_var($this->cleanEmail($mundane->email), FILTER_VALIDATE_EMAIL)){
 								$createdBy = null;
 							}else{
 								while(!array_key_exists($mundane->mundane_id, $transUsers)){
@@ -4256,7 +4340,7 @@ class ImportOrk3 extends Command
 							}
 						}else{
 							$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->created_by)->first();
-							if(!$mundane || $mundane->email === '' || !filter_var($mundane->email, FILTER_VALIDATE_EMAIL)){
+							if(!$mundane || $mundane->email === '' || !filter_var($this->cleanEmail($mundane->email), FILTER_VALIDATE_EMAIL)){
 								$createdBy = null;
 							}else{
 								while(!array_key_exists($oldDue->created_by, $transUsers)){
@@ -4309,7 +4393,7 @@ class ImportOrk3 extends Command
 								}
 							}elseif($oldDue->revoked_by){
 								$mundane = $backupConnect->table('ork_mundane')->where('mundane_id', $oldDue->revoked_by)->first();
-								if(!$mundane || $mundane->email === '' || !filter_var($mundane->email, FILTER_VALIDATE_EMAIL)){
+								if(!$mundane || $mundane->email === '' || !filter_var($this->cleanEmail($mundane->email), FILTER_VALIDATE_EMAIL)){
 									$revokedBy = null;
 								}else{
 									while(!array_key_exists($oldDue->revoked_by, $transUsers)){
@@ -4802,8 +4886,8 @@ class ImportOrk3 extends Command
 							$transPersonas = $this->getTrans('personas');
 						}
 						DB::reconnect("mysqlBak");
-						$recommendingUser = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
-						if(!$recommendingUser || $recommendingUser->email === '' || $recommendingUser->email === '~'){
+						$recommendingUserCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
+						if(!$recommendingUserCheck || $recommendingUserCheck->email === '' || !filter_var($this->cleanEmail($recommendingUserCheck->email), FILTER_VALIDATE_EMAIL)){
 							DB::table('crypt')->insert([
 									'model' 		=> 'Recommendation',
 									'cause' 		=> 'NoByUser',
@@ -4813,8 +4897,17 @@ class ImportOrk3 extends Command
 							$bar->advance();
 							continue;
 						}
-						while(!array_key_exists($oldRecommendation->recommended_by_id, $transUsers)){
-							$this->info('waiting for user ' . $oldRecommendation->recommended_by_id);
+
+						$recommendingUserID = $recommendingUserCheck->id;
+						
+						// If multiple entries in ork_mundane have the same email, find the first one with a user
+						if($backupConnect->table('ork_mundane')->where('email', $recommendingUserCheck->email)->count() > 1){
+							$firstRelated = $backupConnect->table('ork_mundane')->where('email', $recommendingUserCheck->email)->first();
+							$recommendingUserID = $firstRelated->id;
+						}
+						
+						while(!array_key_exists($recommendingUserID, $transUsers)){
+							$this->info('waiting for user ' . $recommendingUserID);
 							sleep(5);
 							$transUsers = $this->getTrans('users');
 						}
@@ -5083,7 +5176,7 @@ class ImportOrk3 extends Command
 							'rank' => $oldRecommendation->rank > 0 ? $oldRecommendation->rank : null,
 							'is_anonymous' => $oldRecommendation->mask_giver,
 							'reason' => $oldRecommendation->reason,
-							'created_by' => $transUsers[$oldRecommendation->recommended_by_id],
+							'created_by' => $transUsers[$recommendingUserID],
 							'created_at' => $oldRecommendation->date_recommended
 						]);
 						$bar->advance();
@@ -6613,6 +6706,20 @@ class ImportOrk3 extends Command
 		$mundaneName = trim($mundaneName);
 		$mundaneName = str_ireplace('zzz', '', $mundaneName);
 		return $mundaneName;
+	}
+	
+	private function cleanEmail($email){
+		$email = strtolower($email);
+		if(stringcontains('/')){
+			if(stringContains('/com')){
+				$email = str_replace('/', '.', $email);
+			}else{
+				$emails = explode('/', $email);
+				$email = trim($emails[0]);
+				$email = !stringContains('.com') ? $email . '.com' : $email;
+			}
+		}
+		return trim($email);
 	}
 	
 	private function getOrSetLocation($location, $countries)

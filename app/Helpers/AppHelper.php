@@ -79,8 +79,82 @@ class AppHelper
 				return 'User';
 			case 'waiverVerifieds':
 				return 'Waiver';
+			case 'memberships' :
+				return 'Member';
+			case 'recommendable':
+				return 'Recommendation';
 			default:
 				return ucfirst(Str::singular($related));
+		}
+	}
+	
+	public function fixWithName($withItem){
+		if(str_starts_with($withItem, 'parent')){
+			return 'accounts.';
+		} else if(str_starts_with($withItem, 'nearbyGuests')){
+			return 'guests.';
+		} else if(
+			str_starts_with($withItem, 'honorific') ||
+			str_starts_with($withItem, 'awardIssuances') ||
+			str_starts_with($withItem, 'issuanceGivens') ||
+			str_starts_with($withItem, 'issuanceReceiveds') ||
+			str_starts_with($withItem, 'issuanceRevokeds') ||
+			str_starts_with($withItem, 'issuanceSigneds') ||
+			str_starts_with($withItem, 'titleIssuances'))
+		{
+			return 'issuances.';
+		} else if(str_starts_with($withItem, 'passwordHistories')){
+			return 'password_histories.';
+		} else if(
+			str_starts_with($withItem, 'ageVerifiedBy') ||
+			str_starts_with($withItem, 'revoker') ||
+			str_starts_with($withItem, 'signator') ||
+			str_starts_with($withItem, 'suspendedBy'))
+		{
+			return 'personas.';
+		} else if(str_starts_with($withItem, 'suspensionIssueds')){
+			return 'suspensions.';
+		} else if(
+			str_starts_with($withItem, 'createdBy') ||
+			str_starts_with($withItem, 'updatedBy') ||
+			str_starts_with($withItem, 'deletedBy'))
+		{
+			return 'users.';
+		} else if(str_starts_with($withItem, 'waiverVerifieds')){
+			return 'waivers.';
+		} else if(str_starts_with($withItem, 'memberships')){
+			return 'members.';
+		} else if(str_starts_with($withItem, 'recommendable')){
+			return 'recommendations.';
+		} else {
+			return $withItem;
+		}
+	}
+	
+	public function fixTableName($tableName){
+		switch($tableName){
+			case 'accounts':
+				return 'accounts|parents';
+			case 'guests':
+				return 'nearbyGuests|guests';
+			case 'issuances':
+				return 'issuances|honorific|awardIssuances|issuanceGivens|issuanceReceiveds|issuanceRevokeds|issuanceSigneds|titleIssuances';
+			case 'password_histories':
+				return 'password_histories|passwordHistories';
+			case 'personas':
+				return 'personas|ageVerifiedBy|revoker|signator|suspendedBy';
+			case 'suspensions':
+				return 'suspensions|suspensionIssueds';
+			case 'users':
+				return 'users|createdBy|updatedBy|deletedBy';
+			case 'waivers':
+				return 'waivers|waiverVerifieds';
+			case 'members':
+				return 'memberships|members';
+			case 'recommendations':
+				return 'recommendations';
+			default:
+				return $tableName;
 		}
 	}
 	

@@ -150,7 +150,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			description="When the entry was softdeleted.Null if not softdeleted.",
  *			type="string",
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
@@ -368,7 +368,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="deleted_at",
- *			description="When the entry was softdeleted.  Null if not softdeleted.",
+ *			description="When the entry was softdeleted.Null if not softdeleted.",
  *			type="string",
  *			format="date-time",
  *			example="2020-12-30 23:59:59",
@@ -555,21 +555,21 @@ class Member extends BaseModel
 	protected $protectedFields = ['unit_id', 'persona_id'];
 
 	public $fillable = [
-		  'unit_id',
-		  'persona_id',
-		  'is_head',
-		  'is_voting',
-		  'joined_at',
-		  'left_at',
-		  'notes'
+		'unit_id',
+		'persona_id',
+		'is_head',
+		'is_voting',
+		'joined_at',
+		'left_at',
+		'notes'
 	];
 
 	protected $casts = [
-		  'is_head' => 'boolean',
-		  'is_voting' => 'boolean',
-		  'joined_at' => 'date',
-		  'left_at' => 'date',
-		  'notes' => 'string'
+		'is_head' => 'boolean',
+		'is_voting' => 'boolean',
+		'joined_at' => 'date',
+		'left_at' => 'date',
+		'notes' => 'string'
 	];
 
 	public static array $rules = [
@@ -599,16 +599,16 @@ class Member extends BaseModel
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+		return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
 
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+		return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
 
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+		return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }

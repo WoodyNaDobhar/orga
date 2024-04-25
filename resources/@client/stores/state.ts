@@ -11,17 +11,18 @@ interface Breadcrumb {
 export const useStateStore = defineStore('state', {
 	state: () => {
 		return {
-			status: localStorage.getItem('status') || '',
-			message: localStorage.getItem('message') || '',
-			breadcrumb: JSON.parse(localStorage.getItem('breadcrumb') || '{"depth": 0, "crumbs": [{"label": "ORKv4 Dashboard", "link": "/"}]}') as Breadcrumb
+			status: 'Ready',
+			message: 'ORKv4 is ready',
+			breadcrumb: {"depth": 0, "crumbs": [{"label": "ORKv4 Dashboard", "link": "/"}]} as Breadcrumb
 		};
 	},
 	actions: {
 		storeState(status: string, message: string) {
+			const _this = this;
 			localStorage.setItem('status', status);
 			localStorage.setItem('message', message);
-			this.status = status;
-			this.message = message;
+			_this.status = status;
+			_this.message = message;
 		},
 		storeBreadcrumb(depth: number, label: string, link: string) {
 			const newCrumb = {

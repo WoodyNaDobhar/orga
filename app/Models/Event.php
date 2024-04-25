@@ -875,7 +875,7 @@ class Event extends BaseModel
 				if ($value === null) {
 					return null;
 				}
-				return 'https://ork.amtgard.com/assets/players/' . $value;
+				return 'https://ork.amtgard.com/assets/heraldry/event/' . $value;
 			}
 		);
 	}

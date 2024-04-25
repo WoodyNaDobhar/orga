@@ -39,17 +39,23 @@ class AccountResource extends JsonResource
 		foreach (array_keys($this->relationships) as $relationship) {
 			$resourceClass = 'App\\Http\\Resources\\' . AppHelper::instance()->fixEloquentName($relationship) . 'Resource';
 			if ($request->has('with') && class_exists($resourceClass)) {
-				$matches = [];
 				foreach ($request->with as $withItem) {
+					$withItems = explode('.', $withItem);
 					if (
 						$relationship === $withItem || 
 						(
 							(
-								strpos($withItem, $this->table . '.') !== false ||
-								strpos($withItem, substr($this->table, 0, -1) . '.') !== false
+								strpos(\AppHelper::instance()->fixWithName($withItem), $this->table . '.') !== false ||
+								strpos(\AppHelper::instance()->fixWithName($withItem), substr($this->table, 0, -1) . '.') !== false
 							) &&
-							preg_match('/' . substr($this->table, 0, -1) . '\.(.*?)(?:\.|$)/', $withItem, $matches) &&
-							$matches[1] === $relationship
+							(
+								$withItems[0] === \AppHelper::instance()->fixTableName($this->table) ||
+								$withItems[0] . 's' === \AppHelper::instance()->fixTableName($this->table) ||
+								strpos(\AppHelper::instance()->fixTableName($this->table) . '|', $withItems[0]) !== false ||
+								strpos('|' . \AppHelper::instance()->fixTableName($this->table), $withItems[0]) !== false 
+							) &&
+							count($withItems) > 1 &&
+							$withItems[1] === $relationship
 						)
 					) {
 						if (substr($relationship, -1) === 's') {
@@ -65,7 +71,7 @@ class AccountResource extends JsonResource
 		if(auth('sanctum')->check()){
 			$accountPolicy = new AccountPolicy();
 			$data['can_list'] = $accountPolicy->viewAny(auth('sanctum')->user(), $this->resource) ? 1 : 0;
-			$data['can_view'] = $accountPolicy->delete(auth('sanctum')->user(), $this->resource) ? 1 : 0;
+			$data['can_view'] = $accountPolicy->view(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_create'] = $accountPolicy->create(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_update'] = $accountPolicy->update(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_delete'] = $accountPolicy->delete(auth('sanctum')->user(), $this->resource) ? 1 : 0;
