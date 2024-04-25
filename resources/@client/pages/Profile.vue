@@ -1,7 +1,7 @@
 <script setup lang="ts">
-	import _, { toNumber } from "lodash";
+	import { toNumber } from "lodash";
 	import { ref, reactive } from "vue";
-	import { useRoute } from 'vue-router';
+	import { useRoute } from "vue-router";
 	import { Tab } from "@/components/Base/Headless";
 	import { useAuthStore } from '@/stores/auth';
 	import ClassCredits from "@/components/Profile/ClassCredits";
@@ -10,7 +10,7 @@
 	import Recommendations from "@/components/Profile/Recommendations";
 	import Attendances from "@/components/Profile/Attendances";
 	import ProfileHead from "@/components/Profile/ProfileHead";
-	import { Breakpoint, GridLayout, GridItem, Layout } from 'grid-layout-plus'
+	import { Breakpoint, GridLayout, GridItem, Layout } from "grid-layout-plus";
 
 	const auth = useAuthStore()
 	const user = auth.getUser
@@ -89,43 +89,43 @@
 	}
 	
 
-function moveEvent(i: string, newX: number, newY: number) {
-	const msg = 'MOVE i=' + i + ', X=' + newX + ', Y=' + newY
-	console.info(msg)
-}
-
-function movedEvent(i: string, newX: number, newY: number) {
-	const msg = 'MOVED i=' + i + ', X=' + newX + ', Y=' + newY
-	console.info(msg)
-}
-
-function resizeEvent(i: string, newH: number, newW: number, newHPx: number, newWPx: number) {
-	const msg =
-	'RESIZE i=' + i + ', H=' + newH + ', W=' + newW + ', H(px)=' + newHPx + ', W(px)=' + newWPx
-	console.info(msg)
-}
-
-function resizedEvent(i: string, newX: number, newY: number, newHPx: number, newWPx: number) {
-	const msg =
-	'RESIZED i=' + i + ', X=' + newX + ', Y=' + newY + ', H(px)=' + newHPx + ', W(px)=' + newWPx
-	console.info(msg)
-}
-
-function layoutBeforeMountEvent(newLayout: Layout) {
-	console.info('beforeMount layout: ', newLayout)
-}
-
-function layoutMountedEvent(newLayout: Layout) {
-	console.info('Mounted layout: ', newLayout)
-}
-
-function layoutReadyEvent(newLayout: Layout) {
-	console.info('Ready layout: ', newLayout)
-}
-
-function layoutUpdatedEvent(newLayout: Layout) {
-	console.info('Updated layout: ', newLayout)
-}
+	function moveEvent(i: string, newX: number, newY: number) {
+		const msg = 'MOVE i=' + i + ', X=' + newX + ', Y=' + newY
+		console.info(msg)
+	}
+	
+	function movedEvent(i: string, newX: number, newY: number) {
+		const msg = 'MOVED i=' + i + ', X=' + newX + ', Y=' + newY
+		console.info(msg)
+	}
+	
+	function resizeEvent(i: string, newH: number, newW: number, newHPx: number, newWPx: number) {
+		const msg =
+		'RESIZE i=' + i + ', H=' + newH + ', W=' + newW + ', H(px)=' + newHPx + ', W(px)=' + newWPx
+		console.info(msg)
+	}
+	
+	function resizedEvent(i: string, newX: number, newY: number, newHPx: number, newWPx: number) {
+		const msg =
+		'RESIZED i=' + i + ', X=' + newX + ', Y=' + newY + ', H(px)=' + newHPx + ', W(px)=' + newWPx
+		console.info(msg)
+	}
+	
+	function layoutBeforeMountEvent(newLayout: Layout) {
+		console.info('beforeMount layout: ', newLayout)
+	}
+	
+	function layoutMountedEvent(newLayout: Layout) {
+		console.info('Mounted layout: ', newLayout)
+	}
+	
+	function layoutReadyEvent(newLayout: Layout) {
+		console.info('Ready layout: ', newLayout)
+	}
+	
+	function layoutUpdatedEvent(newLayout: Layout) {
+		console.info('Updated layout: ', newLayout)
+	}
 </script>
 
 <template>

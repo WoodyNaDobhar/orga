@@ -16,7 +16,7 @@ class SuspensionResource extends JsonResource
 	 */
 	public function toArray($request)
 	{
-		return [
+		$data = [
 			'id' => $this->id,
 			'persona_id' => $this->persona_id,
 			'suspendable_type' => $this->suspendable_type,
@@ -86,5 +86,7 @@ class SuspensionResource extends JsonResource
 			$data['can_restore'] = $suspensionPolicy->restore(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 			$data['can_nuke'] = $suspensionPolicy->forceDelete(auth('sanctum')->user(), $this->resource) ? 1 : 0;
 		}
+		
+		return $data;
 	}
 }
