@@ -52,31 +52,36 @@ class PersonaResource extends JsonResource
 		
 		//related
 		foreach (array_keys($this->relationships) as $relationship) {
+			$attachName = $relationship;
+			if (array_key_exists($relationship . '_type', $data)) {
+				$plural = substr($relationship, -1) === 's' ? true : false;
+				$relationship = strtolower($data[$relationship . '_type']) . ($plural ? 's' : '');
+			}
 			$resourceClass = 'App\\Http\\Resources\\' . AppHelper::instance()->fixEloquentName($relationship) . 'Resource';
 			if ($request->has('with') && class_exists($resourceClass)) {
 				foreach ($request->with as $withItem) {
 					$withItems = explode('.', $withItem);
 					if (
-						$relationship === $withItem || 
+						$relationship === $withItem ||
 						(
 							(
-								strpos(\AppHelper::instance()->fixWithName($withItem), $this->table . '.') !== false ||
-								strpos(\AppHelper::instance()->fixWithName($withItem), substr($this->table, 0, -1) . '.') !== false
+								strpos(AppHelper::instance()->fixWithName($withItem), $this->table . '.') !== false ||
+								strpos(AppHelper::instance()->fixWithName($withItem), substr($this->table, 0, -1) . '.') !== false
 							) &&
 							(
-								$withItems[0] === \AppHelper::instance()->fixTableName($this->table) ||
-								$withItems[0] . 's' === \AppHelper::instance()->fixTableName($this->table) ||
+								$withItems[0] === AppHelper::instance()->fixTableName($this->table) ||
+								$withItems[0] . 's' === AppHelper::instance()->fixTableName($this->table) ||
 								strpos(\AppHelper::instance()->fixTableName($this->table) . '|', $withItems[0]) !== false ||
-								strpos('|' . \AppHelper::instance()->fixTableName($this->table), $withItems[0]) !== false 
+								strpos('|' . AppHelper::instance()->fixTableName($this->table), $withItems[0]) !== false
 							) &&
 							count($withItems) > 1 &&
-							$withItems[1] === $relationship
+							$withItems[1] === $attachName
 						)
 					) {
 						if (substr($relationship, -1) === 's') {
-							$data[$relationship] = $resourceClass::collection($this->whenLoaded($relationship));
+							$data[$attachName] = $resourceClass::collection($this->whenLoaded($attachName));
 						} else {
-							$data[$relationship] = $resourceClass::make($this->whenLoaded($relationship));
+							$data[$attachName] = $resourceClass::make($this->whenLoaded($attachName));
 						}
 					}
 				}
