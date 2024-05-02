@@ -1370,7 +1370,7 @@ class Persona extends BaseModel
 				
 				// Attendances
 				//attendances:								count
-				$score += $this->attendances->count();
+				$score += $this->attendances ? $this->attendances->count() : 0;
 				
 				// Offices
 				//offices:chapter w/order					chaptertype->rank/10 + 5 - order + 1
@@ -1426,13 +1426,13 @@ class Persona extends BaseModel
 						if($member->unit->type === 'Company' && !$didCompany){
 							$didCompany = true;
 							if($member->is_head){
-								$score += $member->unit->memberships->count();
+								$score += $member->unit->memberships ? $member->unit->memberships->count() : 0;
 							}elseif($member->is_voting){
 								$score += Carbon::now()->diffInYears($member->joined_at) * 10;
 							}
 						}elseif($member->unit->type !== 'Company'){
 							if($member->is_head){
-								$score += $member->unit->memberships->count();
+								$score += $member->unit->memberships ? $member->unit->memberships->count() : 0;
 							}elseif($member->is_voting){
 								$score += Carbon::now()->diffInYears($member->joined_at) * 5;
 							}
@@ -1442,7 +1442,7 @@ class Persona extends BaseModel
 				
 				// Recommendations
 				//recommendations:							count
-				$score += $this->recommendations->count();
+				$score += $this->recommendations ? $this->recommendations->count() : 0;
 				
 				// Suspensions
 				//suspensions:								- months * 8.333333

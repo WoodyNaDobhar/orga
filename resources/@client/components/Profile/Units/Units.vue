@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, onMounted } from "vue";
+	import { ref } from "vue";
 	import { Tab, Menu, Dialog } from "@/components/Base/Headless";
 	import { Tab as HeadlessTab } from "@headlessui/vue";
 	import Button from "@/components/Base/Button";
@@ -9,42 +9,11 @@
 	} from '@/interfaces';
 	import { formatDate } from "@/utils/helper";
 	import Lucide from "@/components/Base/Lucide";
-	import { useStateStore } from '@/stores/state';
-	import axios from 'axios';
 	import Loader from "@/components/Base/Loader";
 	
-	const state = useStateStore()
 	const props = defineProps<{
-		persona_id: number
+		persona: Persona | undefined
 	}>()
-	const persona = ref<Persona>()
-	const isLoading = ref<boolean>(false)
-	
-	onMounted(() => {
-		fetchPersonaData()
-	})
-	
-	const fetchPersonaData = async () => {
-		try {
-			isLoading.value = true
-			let withArray = [
-				'memberships',
-				'memberships.unit',
-				'memberships.unit.awards',
-				'memberships.unit.titles',
-			];
-			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
-			await axios.get("/api/personas/" + props.persona_id + "?" + withJoin)
-				.then(response => {
-					isLoading.value = false
-					persona.value = response.data.data;
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
-		}
-	};
 	
 	const companyModal = ref<number | boolean>(false);
 	const setCompanyModal = (value: number | boolean) => {
@@ -57,8 +26,8 @@
 	};
 	
 	const sortUnitsBy = (attribute: string) => {
-		if(persona.value) {
-			const targetMemberships = persona.value.memberships as Member[];
+		if(props.persona) {
+			const targetMemberships = props.persona.memberships as Member[];
 			switch (attribute) {
 				case 'joined_at':
 					targetMemberships.sort((a, b) => {
@@ -101,10 +70,6 @@
 
 <template>
 					<Tab.Group class="col-span-12 intro-y box lg:col-span-6" style="height: 100%; overflow-y: scroll;">
-						<Loader 
-							:active="isLoading"
-							message="Loading Unit Data"
-						/>
 						<div
 							class="flex items-center px-5 py-5 border-b sm:py-0 border-slate-200/60 dark:border-darkmode-400"
 						>

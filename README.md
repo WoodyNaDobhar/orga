@@ -65,10 +65,10 @@ sail php artisan migrate
 ```
 
 Poplulate DB.  If you don't know 'with what', then you can't be doing this.
-Start up yarn
+Start up npm
 
 ```
-sail yarn run dev
+sail npm run dev
 ```
 
 ## Search

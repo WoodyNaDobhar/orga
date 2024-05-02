@@ -23,11 +23,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use \Illuminate\Validation\ValidationException;
 use WoodyNaDobhar\LaravelStupidPassword\LaravelStupidPassword;
 use App\Notifications\InviteNotification;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Auth\Passwords\PasswordBrokerManager;
+use App\Repositories\ChapterRepository;
+use App\Repositories\EventRepository;
+use App\Repositories\PersonaRepository;
+use App\Repositories\RealmRepository;
 // use NZTim\Mailchimp\Exception\MailchimpBadRequestException;
 // use NZTim\Mailchimp\MailchimpFacade as Mailchimp;
 
@@ -40,6 +45,17 @@ class BaseAPIController extends AppBaseController
 {
 
 	use RegisterTrait;
+	
+	/** @var  PersonaRepository */
+	private $personaRepository;
+	
+	public function __construct(PersonaRepository $personaRepo, RealmRepository $realmRepo, ChapterRepository $chapterRepo, EventRepository $eventRepo)
+	{
+		$this->personaRepository = $personaRepo;
+		$this->realmRepository = $realmRepo;
+		$this->chapterRepository = $chapterRepo;
+		$this->eventRepository = $eventRepo;
+	}
 
 	/**
 	 * @param Request $request
@@ -133,6 +149,140 @@ class BaseAPIController extends AppBaseController
 			$imagesArray = AppHelper::instance()->getImages();
 			$images = array_keys($imagesArray);
 			return $this->sendResponse((object) $images, 'Images retrieved successfully.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
+	
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/image",
+	 *		summary="Post an image to a public folder.",
+	 *		tags={"Base"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+	 *		requestBody={"$ref": "#/components/requestBodies/imageUpload"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="string",
+	 *							example="yR1234D5gqZlgmiR1234.jpg"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Image upload successful."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function image(Request $request)
+	{
+		try {
+			if(!Auth::check()){
+				return $this->sendResponse(false, 'You must be logged in to load images.');
+			}
+			$input = $request->all();
+			$request->validate(
+				[
+					'context' => 'required|in:chapter,realm,heraldry,personas,event',
+					'target' => 'required',
+					'file' => 'required|mimes:jpeg,png,jpg,gif,svg',
+				], 
+				['Please include all required data.']
+			);
+			if($request->hasFile('file')) {
+				switch($input['context']){
+					case 'chapter':
+						$target = "chapters/" . $input['target'] . '/';
+						$model = $this->chapterRepository->find($input['target']);
+						break;
+					case 'realm':
+						$target = "realms/" . $input['target'] . '/';
+						$model = $this->realmRepository->find($input['target']);
+						break;
+					case 'heraldry':
+						$target = "heraldry/" . $input['target'] . '/';
+						$model = $this->personaRepository->find($input['target']);
+						break;
+					case 'personas':
+						$target = "personas/" . $input['target'] . '/';
+						$model = $this->personaRepository->find($input['target']);
+						break;
+					case 'event':
+						$target = "events/" . $input['target'] . '/';
+						$model = $this->eventRepository->find($input['target']);
+				}
+				$this->authorize('update', $model);
+				$filename = uniqid() . '.' . AppHelper::instance()->fixFilename($request->file('file')->getClientOriginalName());
+				$path = $request->file('file')->store(
+					$target . $filename, 'public'
+				);
+				return $this->sendResponse($path, 'Image upload successful.');
+			}
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());

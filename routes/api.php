@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 	
 	Route::post('sendInvite', 'BaseAPIController@sendInvite');
 	Route::post('logout', 'BaseAPIController@logout');
+	Route::post('image', 'BaseAPIController@image');
 	
 	Route::get('accounts', 'AccountAPIController@index');
 	Route::post('accounts', 'AccountAPIController@store');

@@ -2595,6 +2595,85 @@
                 }
             }
         },
+        "/image": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Post an image to a public folder.",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+                "operationId": "1152aaf4998e48eab69a845a48cccf2b",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/imageUpload"
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "yR1234D5gqZlgmiR1234.jpg"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Image upload successful."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/sendInvite": {
             "post": {
                 "tags": [
@@ -28942,7 +29021,7 @@
                 "type": "object"
             },
             "Persona": {
-                "description": "Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:\n * attendances (Attendance) (HasMany): Attendances for the Persona.\n * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.\n * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.\n * crats (Crat) (HasMany): Crat positions held by the Persona.\n * dues (Due) (HasMany): Dues paid by the Persona.\n * events (Event) (MorphMany): Events sponsored by the Persona.\n * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\n * issuances (Issuance) {MorphMany): All Issuances received by the Persona.\n * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.\n * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.\n * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.\n * memberships (Member) (HasMany): Memberships in Units the Persona has had.\n * officers (Officer) (HasMany): Officer positions held by the Persona.\n * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.\n * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.\n * reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.\n * socials (Social) (MorphMany): Socials for the Persona.\n * splits (Split) (HasMany): Splits this Persona took part in.\n * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.\n * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.\n * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.\n * titles (Title) {hasManyThrough): Titles received by the Persona.\n * user (User) (BelongsTo): The User for the Persona.\n * waivers (Waiver) (HasMany): The Waivers for the Persona.\n * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.\n * createdBy (User) (BelongsTo): User that created it.\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * attendances (Attendance) (HasMany): Attendances for the Persona.\r\n * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.\r\n * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.\r\n * crats (Crat) (HasMany): Crat positions held by the Persona.\r\n * dues (Due) (HasMany): Dues paid by the Persona.\r\n * events (Event) (MorphMany): Events sponsored by the Persona.\r\n * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n * issuances (Issuance) {MorphMany): All Issuances received by the Persona.\r\n * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.\r\n * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.\r\n * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.\r\n * memberships (Member) (HasMany): Memberships in Units the Persona has had.\r\n * officers (Officer) (HasMany): Officer positions held by the Persona.\r\n * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.\r\n * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.\r\n * reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.\r\n * socials (Social) (MorphMany): Socials for the Persona.\r\n * splits (Split) (HasMany): Splits this Persona took part in.\r\n * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.\r\n * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.\r\n * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.\r\n * titles (Title) {hasManyThrough): Titles received by the Persona.\r\n * user (User) (BelongsTo): The User for the Persona.\r\n * waivers (Waiver) (HasMany): The Waivers for the Persona.\r\n * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "chapter_id",
                     "name",
@@ -37029,6 +37108,49 @@
             }
         },
         "requestBodies": {
+            "imageUpload": {
+                "description": "Upload image.",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "context",
+                                "target",
+                                "image"
+                            ],
+                            "properties": {
+                                "context": {
+                                    "description": "What the image is for.",
+                                    "type": "string",
+                                    "format": "enum",
+                                    "enum": [
+                                        "chapter",
+                                        "realm",
+                                        "heraldry",
+                                        "personas",
+                                        "event"
+                                    ],
+                                    "example": "heraldry"
+                                },
+                                "target": {
+                                    "description": "ID of the context model.",
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "example": 42
+                                },
+                                "image": {
+                                    "description": "The image file to upload.",
+                                    "type": "string",
+                                    "format": "binary",
+                                    "example": "example_image.jpg"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "login": {
                 "description": "Login data.",
                 "required": true,

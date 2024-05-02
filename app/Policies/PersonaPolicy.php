@@ -73,18 +73,6 @@ class PersonaPolicy
 	 */
 	public function update(User $user, Persona $persona)
 	{
-// 		$user->givePermissionTo('updateRelated personas');
-// 		$user->assignRole('officer');
-// 		dd(
-// 				array(
-// 						$user->persona->id,
-// 						$user->persona->chapter->reign->officers->toArray(),
-// 						$user->persona->chapter->reign->officers->contains(function ($item) use ($user) {
-// 							return $item->persona_id === $user->persona->id;
-// 						})
-// 				)
-// 		);
-
 		if (
 				$user->can('update personas') ||
 				(

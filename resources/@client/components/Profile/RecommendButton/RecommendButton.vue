@@ -19,6 +19,9 @@
 	import TomSelect from "@/components/Base/TomSelect";
 	import { FormInput, FormLabel } from "@/components/Base/Form";
 	import Lucide from "@/components/Base/Lucide";
+	import Tippy from "@/components/Base/Tippy";
+	import { RecommendationRules } from "@/rules";
+	import { RecommendationTips } from "@/tips";
 	
 	const auth = useAuthStore()
 	const state = useStateStore()
@@ -34,18 +37,8 @@
 		rank: null,
 		reason: null,
 	});
-	const recommendFormRules = {
-		honor: {
-			required: helpers.withMessage('Please select an honor', required)
-		},
-		rank: {
-			integer: helpers.withMessage('Rank must be an integer', required)
-		},
-		reason: {
-			required: helpers.withMessage('Let the rest of us know why', required)
-		},
-	};
-	const recommendValidate = useVuelidate(recommendFormRules, recommendFormData);
+	
+	const recommendValidate = useVuelidate(RecommendationRules, recommendFormData);
 	const recommendModal = ref(false);
 	const setRecommendModal = (value: boolean) => {
 		if(value){
@@ -210,7 +203,7 @@
 		}
 	}
 	
-	const closeRecommendationRef = ref([]);
+	const closeRecommendationRef = ref<HTMLElement | null>(null);
 
 </script>
 
@@ -253,7 +246,15 @@
 							</Dialog.Title>
 							<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
 								<div class="col-span-12 sm:col-span-12">
-									<FormLabel htmlFor="recommendation-form-honor"> Honor </FormLabel>
+									<FormLabel htmlFor="recommendation-form-honor"> 
+										Honor 
+										<Tippy
+											:content="RecommendationTips.honor"
+											class="inline-block"
+										>
+											<Lucide icon="HelpCircle" class="w-4 h-4" />
+										</Tippy>
+									</FormLabel>
 									<TomSelect 
 										id="recommendation-form-honor"
 										v-model.trim="recommendValidate.honor.$model"
@@ -278,7 +279,15 @@
 									</template>
 								</div>
 								<div v-if="showRank" class="col-span-12 sm:col-span-12">
-									<FormLabel htmlFor="recommendation-form-rank"> Rank </FormLabel>
+									<FormLabel htmlFor="recommendation-form-rank">
+										 Rank 
+										<Tippy
+											:content="RecommendationTips.rank"
+											class="inline-block"
+										>
+											<Lucide icon="HelpCircle" class="w-4 h-4" />
+										</Tippy>
+									</FormLabel>
 									<FormInput id="recommendation-form-rank" v-model.trim="recommendValidate.rank.$model" type="text" placeholder="5" />
 									<template v-if="recommendValidate.rank.$error">
 										<div
@@ -291,7 +300,15 @@
 									</template>
 								</div>
 								<div class="col-span-12 sm:col-span-12">
-									<FormLabel htmlFor="recommendation-form-reason"> Reason </FormLabel>
+									<FormLabel htmlFor="recommendation-form-reason">
+										 Reason 
+										<Tippy
+											:content="RecommendationTips.reason"
+											class="inline-block"
+										>
+											<Lucide icon="HelpCircle" class="w-4 h-4" />
+										</Tippy>
+									</FormLabel>
 									<FormInput id="recommendation-form-reason" v-model.trim="recommendValidate.reason.$model" type="text" placeholder="That awesome thing they did" />
 									<template v-if="recommendValidate.reason.$error">
 										<div

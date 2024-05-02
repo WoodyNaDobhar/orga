@@ -1,12 +1,12 @@
 <script setup lang="ts">
-	import { useRouter } from 'vue-router';
-	import Lucide from "@/components/Base/Lucide";
-	import Notification from "@/components/Base/Notification";
-	import { useAuthStore } from '@/stores/auth';
-	import { useStateStore } from './stores/state';
-	import { ref, onMounted } from 'vue';
-	import 'vue-loading-overlay/dist/css/index.css';
-	import axios from 'axios';
+import { useRouter } from 'vue-router';
+import Lucide from "@/components/Base/Lucide";
+import Notification from "@/components/Base/Notification";
+import { useAuthStore } from '@/stores/auth';
+import { useStateStore } from './stores/state';
+import { ref, onMounted } from 'vue';
+import 'vue-loading-overlay/dist/css/index.css';
+import axios from 'axios';
 	
 	const router = useRouter()
 	const auth = useAuthStore()

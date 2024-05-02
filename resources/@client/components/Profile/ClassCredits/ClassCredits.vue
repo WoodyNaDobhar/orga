@@ -1,72 +1,22 @@
 <script setup lang="ts">
-	import { ref, onMounted, VNodeRef } from "vue";
+	import { ref, VNodeRef } from "vue";
 	import { Menu, Tab } from "@/components/Base/Headless";
 	import { Tab as HeadlessTab } from "@headlessui/vue";
 	import { ArchetypeSimple, Persona } from "@/interfaces";
 	import Progress from "@/components/Base/Progress";
-	import { useStateStore } from '@/stores/state';
-	import axios from 'axios';
 	import Lucide from "@/components/Base/Lucide";
-	import Loader from "@/components/Base/Loader";
 	import { Layout } from 'grid-layout-plus'
 	
-	const state = useStateStore()
 	const props = defineProps<{
-		persona_id: number,
-		layout: Layout
+		archetypes: ArchetypeSimple[] | undefined,
+		persona: Persona | undefined,
+		layout: Layout | undefined
 	}>()
-	const persona = ref<Persona>()
-	const archetypes = ref<ArchetypeSimple[]>([])
-	const isLoading = ref<boolean>(false)
-	const emit = defineEmits(['height-change'])
 	const content = ref<VNodeRef|null>(null);
-	
-	onMounted(() => {
-		fetchPersonaData()
-	})
-	
-	const fetchPersonaData = async () => {
-		try {
-			isLoading.value = true
-			await axios.get("/api/personas/" + props.persona_id)
-				.then(response => {
-					fetchArchetypesData()
-					persona.value = response.data.data;
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
-		}
-	};
-	
-	const fetchArchetypesData = async () => {
-		try {
-			await axios.get("/api/archetypes?")
-				.then(response => {
-					isLoading.value = false
-					archetypes.value = response.data.data;
-					archetypes.value.sort((a, b) => a.name.localeCompare(b.name))
-					const contentHeight = content.value?.getBoundingClientRect().height;
-					console.log(content.value)
-					console.log(content.value?.getBoundingClientRect())
-					console.log(contentHeight)
-      				emit('height-change', contentHeight);
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
-		}
-	};
 </script>
 
 <template>
 					<Tab.Group class="col-span-12 intro-y box lg:col-span-6" style="height: 100%; overflow-y: scroll;">
-						<Loader 
-							:active="isLoading"
-							message="Loading Class Data"
-						/>
 						<div
 							:ref="content"
 							class="flex items-center px-5 py-5 border-b sm:py-0 border-slate-200/60 dark:border-darkmode-400"
@@ -157,14 +107,6 @@
 											</Progress>
 										</div>
 									</div>
-<!--									<Button-->
-<!--										as="a"-->
-<!--										variant="secondary"-->
-<!--										href=""-->
-<!--										class="block w-40 mx-auto mt-5"-->
-<!--									>-->
-<!--										View More Details-->
-<!--									</Button>-->
 								</Tab.Panel>
 							</Tab.Panels>
 						</div>

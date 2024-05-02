@@ -21,6 +21,8 @@
 	import { useAuthStore } from '@/stores/auth';
     import GoogleReCaptchaV3 from '@/components/Base/googlerecaptchav3/GoogleReCaptchaV3.vue';
 	import { showToast } from '@/utils/toast';
+	import { PronounSuperSimple } from "@/interfaces";
+	import { Register } from "@/rules";
 
 	const route = useRoute()
 	const router = useRouter()
@@ -30,13 +32,8 @@
 	const state = useStateStore()
 	const auth = useAuthStore()
 	var gRecaptchaResponse = ref()
-	
-	interface Pronoun {
-		id: number;
-		subject: string;
-		object: string;
-	}
-	const pronouns = ref<Pronoun[]>([]);
+
+	const pronouns = ref<PronounSuperSimple[]>([]);
 
 	const formData = reactive({
 		email: userEmail.value,
@@ -48,39 +45,7 @@
 		is_agreed: 0
 	});
 	
-	const rules = {
-		email: {
-			required,
-			email,
-			minLength: minLength(5),
-			maxLength: maxLength(191),
-		},
-		invite_token: {
-			required,
-		},
-		device_name: {
-			required,
-		},
-		pronoun_id: {
-			required,
-			integer,
-			minValue: minValue(1),
-		},
-		password: {
-			required,
-			minLength: minLength(6),
-		},
-		password_confirm: {
-			required,
-			minLength: minLength(6),
-			maxLength: maxLength(191),
-		},
-		is_agreed: {
-			sameAs: sameAs(true)
-		},
-	};
-	
-	const validate = useVuelidate(rules, toRefs(formData));
+	const validate = useVuelidate(Register, toRefs(formData));
 	
 	const onSubmit = () => {
 		validate.value.$touch();

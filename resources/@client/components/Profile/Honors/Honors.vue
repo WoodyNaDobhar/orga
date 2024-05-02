@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { Tab, Menu, Dialog } from "@/components/Base/Headless";
 	import { Tab as HeadlessTab } from "@headlessui/vue";
-	import { onMounted, ref } from "vue";
+	import { ref } from "vue";
 	import { 
 		AwardInfo,
 		AwardsReport,
@@ -13,51 +13,17 @@
 	import Button from "@/components/Base/Button";
 	import Lucide from "@/components/Base/Lucide";
 	import Table from "@/components/Base/Table";
-	import { useStateStore } from '@/stores/state';
 	import RecommendButton from "@/components/Profile/RecommendButton";
-	import axios from 'axios';
-	import Loader from "@/components/Base/Loader";
 	
-	const state = useStateStore()
 	const props = defineProps<{
-		persona_id: number
+		persona: Persona | undefined
 	}>()
-	const persona = ref<Persona>()
-	const isLoading = ref<boolean>(false)
-	
-	onMounted(() => {
-		fetchPersonaData()
-	})
-	
-	const fetchPersonaData = async () => {
-		try {
-			isLoading.value = true
-			let withArray = [
-				'chapter',
-				'chapter.realm',
-				'chapter.realm.awards',
-				'chapter.realm.titles',
-				'titleIssuances',
-				'titleIssuances.createdBy'
-			];
-			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
-			await axios.get("/api/personas/" + props.persona_id + "?" + withJoin)
-				.then(response => {
-					isLoading.value = false
-					persona.value = response.data.data;
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
-		}
-	};
 	
 	const sortHonorsBy = (target: string, attribute: string) => {
-		if(persona.value) {
+		if(props.persona) {
 			switch (target) {
 				case 'awards':
-					const targetAwards = persona.value?.awards as AwardsReport;
+					const targetAwards = props.persona.awards as AwardsReport;
 					switch (attribute) {
 						case 'issued_at':
 							var sortedAwards = Object.entries(targetAwards).sort(([, a], [, b]) => {
@@ -67,7 +33,7 @@
 								// Compare the lowest issued_at values
 								return lowestIssuedAtA - lowestIssuedAtB;
 							});
-							persona.value.awards = Object.fromEntries(sortedAwards) as AwardsReport
+							props.persona.awards = Object.fromEntries(sortedAwards) as AwardsReport
 							break;
 						case 'name':
 							var order = Object.keys(targetAwards).sort()
@@ -75,10 +41,10 @@
 							order.forEach(key => {
 								sortedObj[key] = targetAwards[key];
 							});
-							persona.value.awards = sortedObj
+							props.persona.awards = sortedObj
 							break;
 						case 'rank':
-							persona.value.awards = Object.fromEntries(Object.entries(targetAwards).sort(([, a], [, b]) => {
+							props.persona.awards = Object.fromEntries(Object.entries(targetAwards).sort(([, a], [, b]) => {
 								return (b.rank || 0) - (a.rank || 0);
 							}));
 							break;
@@ -87,7 +53,7 @@
 					}
 					break;
 				case 'titles':
-					const targetTitles = persona.value?.titleIssuances as Issuance[];
+					const targetTitles = props.persona?.titleIssuances as Issuance[];
 					switch (attribute) {
 						case 'issued_at':
 							targetTitles.sort((a, b) => {
@@ -156,10 +122,6 @@
 
 <template>
 					<Tab.Group class="col-span-12 intro-y box lg:col-span-6" style="height: 100%; overflow: scroll;">
-						<Loader 
-							:active="isLoading"
-							message="Loading Honors Data"
-						/>
 						<div
 							class="flex items-center px-5 py-5 border-b sm:py-0 border-slate-200/60 dark:border-darkmode-400"
 						>

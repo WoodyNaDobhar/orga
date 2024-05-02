@@ -197,6 +197,39 @@ use Illuminate\Support\Facades\Response;
  *		required=false
  *	),
  *	@OA\RequestBody(
+ *		request="imageUpload",
+ *		description="Upload image.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(
+ *				required={"context","target","image"},
+ *				@OA\Property(
+ *					property="context",
+ *					description="What the image is for.",
+ *					type="string",
+ *					format="enum",
+ *					enum={"chapter","realm","heraldry","personas","event"},
+ *					example="heraldry"
+ *				),
+ *				@OA\Property(
+ *					property="target",
+ *					description="ID of the context model.",
+ *					type="integer",
+ *					format="int32",
+ *					example=42
+ *				),
+ *				@OA\Property(
+ *					property="image",
+ *					description="The image file to upload.",
+ *					type="string",
+ *					format="binary",
+ *					example="example_image.jpg"
+ *				)
+ *			)
+ *		)
+ *	),
+ *	@OA\RequestBody(
  *		request="login",
  *		description="Login data.",
  *		required=true,

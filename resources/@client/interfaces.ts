@@ -1139,43 +1139,35 @@ export interface PersonaSimple {
 export interface PersonaSuperSimple {
 	id: number
 	chapter_id: number
-	honorific_id?: number | null
-	pronoun_id?: number | null
-	mundane?: string | null
+	honorific_id: number | null
+	pronoun_id: number | null
+	mundane: string | null
 	name: string
 	heraldry: string
 	image: string
 	is_active: 0 | 1
-	is_officer: 0 | 1
-	is_paid: 0 | 1
-	is_suspended: 0 | 1
-	is_waivered: 0 | 1
-	reeve_qualified_expires_at?: string | null
-	corpora_qualified_expires_at?: string | null
-	joined_chapter_at?: string | null
-	chapter_full_abbreviation: string
-	awards: AwardsReport
-	credits: CreditReport
-	score: number
+	reeve_qualified_expires_at: string | null
+	corpora_qualified_expires_at: string | null
+	joined_chapter_at: string | null
 }
 export interface ArchetypeCredit {
-  credits: number
-  level: number
+	credits: number
+	level: number
 }
 export interface ArchetypeCredits {
-  [key: string]: ArchetypeCredit
+	[key: string]: ArchetypeCredit
 }
 export interface CreditReport {
-  count: number
-  attendance_count: number
-  archetypes: ArchetypeCredits
+	count: number
+	attendance_count: number
+	archetypes: ArchetypeCredits
 }
 export interface AwardInfo {
-  rank: number
-  issuances: Issuance[]
+	rank: number
+	issuances: Issuance[]
 }
 export interface AwardsReport {
-  [awardName: string]: AwardInfo
+	[awardName: string]: AwardInfo
 }
 export interface Pronoun {
 	id: number
@@ -1912,7 +1904,7 @@ export interface User {
 	password: string
 	is_restricted: 0 | 1
 	token?: string | null
-    jsPermissions?: string | null
+		jsPermissions?: string | null
 	created_by: number
 	createdBy: UserSimple
 	updated_by?: number | null
@@ -2066,10 +2058,10 @@ export interface HonorSelectOption {
 	}[]
 }
 export interface RecommendFormData {
-    honor: string
-    persona_id: number | null
-    recommendable_type: string | null
-    recommendable_id: number | null
-    rank: number | null
-    reason: string | null
+	honor: string
+	persona_id: number | null
+	recommendable_type: string | null
+	recommendable_id: number | null
+	rank: number | null
+	reason: string | null
 }

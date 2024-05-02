@@ -1,21 +1,88 @@
 <script setup lang="ts">
 	import { toNumber } from "lodash";
-	import { ref, reactive } from "vue";
+	import { ref, reactive, onMounted } from "vue";
 	import { useRoute } from "vue-router";
 	import { Tab } from "@/components/Base/Headless";
 	import { useAuthStore } from '@/stores/auth';
+	import { useStateStore } from '@/stores/state';
 	import ClassCredits from "@/components/Profile/ClassCredits";
 	import Honors from "@/components/Profile/Honors";
 	import Units from "@/components/Profile/Units";
 	import Recommendations from "@/components/Profile/Recommendations";
 	import Attendances from "@/components/Profile/Attendances";
 	import ProfileHead from "@/components/Profile/ProfileHead";
+	import ProfileAccount from "@/components/Profile/ProfileAccount";
 	import { Breakpoint, GridLayout, GridItem, Layout } from "grid-layout-plus";
+	import axios from 'axios';
+	import { ArchetypeSimple, Persona } from "@/interfaces";
+	import Loader from "@/components/Base/Loader";
 
 	const auth = useAuthStore()
+	const state = useStateStore()
 	const user = auth.getUser
 	const route = useRoute()
+	const isLoading = ref<boolean>(false)
 	const persona_id = ref(route.params.persona_id ? route.params.persona_id : (auth.isLoggedIn ? user.persona.id : 1))
+	const persona = ref<Persona>()
+	const archetypes = ref<ArchetypeSimple[]>([])
+	
+	onMounted(() => {
+		fetchPersonaData()
+		fetchArchetypesData()
+	})
+	
+	const fetchPersonaData = async () => {
+		try {
+			isLoading.value = true
+			let withArray = [
+				'attendances',
+				'attendances.attendable',
+				'chapter',
+				'chapter.realm',
+				'chapter.realm.awards',
+				'chapter.realm.titles',
+				'honorific',
+				'memberships',
+				'memberships.unit',
+				'memberships.unit.awards',
+				'memberships.unit.titles',
+				'pronoun',
+				'recommendations',
+				'recommendations.recommendable',
+				'socials',
+				'titleIssuances',
+				'titleIssuances.createdBy',
+				'user'
+			];
+			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
+			await axios.get("/api/personas/" + persona_id.value + "?" + withJoin)
+				.then(response => {
+					isLoading.value = false
+					persona.value = response.data.data;
+					state.storeBreadcrumb(1, (response.data.data.name), '/profile')
+				});
+		} catch (error: any) {
+			isLoading.value = false
+			state.storeState('error', error)
+			console.error('Error fetching user data:', error);
+		}
+	};
+	
+	const fetchArchetypesData = async () => {
+		try {
+			await axios.get("/api/archetypes?")
+				.then(response => {
+					isLoading.value = false
+					archetypes.value = response.data.data;
+					archetypes.value.sort((a, b) => a.name.localeCompare(b.name))
+				});
+		} catch (error: any) {
+			isLoading.value = false
+			state.storeState('error', error)
+			console.error('Error fetching user data:', error);
+		}
+	};
+
 	const components = [
 		{ component: ClassCredits },
 		{ component: Honors },
@@ -129,9 +196,13 @@
 </script>
 
 <template>
+	<Loader 
+		:active="isLoading"
+		message="Loading Persona Data"
+	/>
 	<Tab.Group>
 		<!-- BEGIN: Profile Info -->
-		<ProfileHead :persona_id="persona_id" />
+		<ProfileHead :persona="persona" />
 		<!-- END: Profile Info -->
 		<Tab.Panels class="mt-5">
 			<Tab.Panel>
@@ -158,7 +229,7 @@
 						@layout-updated="layoutUpdatedEvent"
 					>
 						<template v-if="toNumber(item.i) < components.length">
-							<component :is="components[toNumber(item.i)].component" :persona_id="persona_id" :layout="layout" />
+							<component :is="components[toNumber(item.i)].component" :persona="persona" :archetypes="archetypes" :layout="layout" />
 						</template>
 					</GridItem>
 				</GridLayout>
@@ -166,7 +237,7 @@
 		</Tab.Panels>
 		<Tab.Panels>
 			<Tab.Panel>
-				Account
+				<ProfileAccount :persona="persona" />
 			</Tab.Panel>
 		</Tab.Panels>
 		<Tab.Panels>

@@ -16,39 +16,11 @@
 	import { type ChartData } from "chart.js/auto";
 	import { useStateStore } from '@/stores/state';
 	import axios from 'axios';
-	import Loader from "@/components/Base/Loader";
 	
 	const state = useStateStore()
 	const props = defineProps<{
-		persona_id: number
+		persona: Persona | undefined
 	}>()
-	const persona = ref<Persona>()
-	const isLoading = ref<boolean>(false)
-	
-	onMounted(() => {
-		fetchPersonaData()
-	})
-	
-	const fetchPersonaData = async () => {
-		try {
-			isLoading.value = true
-			let withArray = [
-				'attendances',
-				'attendances.attendable'
-			];
-			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
-			await axios.get("/api/personas/" + props.persona_id + "?" + withJoin)
-				.then(response => {
-					isLoading.value = false
-					persona.value = response.data.data;
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
-		}
-	};
-
 	const currentDate = new Date();
 	const oneYearAgo = new Date(currentDate.getTime() - (365 * 24 * 60 * 60 * 1000));
 	const colorScheme = computed(() => useColorSchemeStore().colorScheme);
@@ -65,8 +37,8 @@
 	const yearGroupedAttendances = ref<{ [year: number]: Attendance[] }>({});
 	const getYearGroupedAttendances = () => {
 		const grouped: { [year: number]: Attendance[] } = {};
-		if(persona.value?.attendances){
-			for (const attendance of persona.value.attendances as Attendance[]) {
+		if(props.persona?.attendances){
+			for (const attendance of props.persona.attendances as Attendance[]) {
 				const year = new Date(attendance.attended_at).getFullYear()
 				if (!grouped[year]) {
 					grouped[year] = []
@@ -78,7 +50,7 @@
 	}
 	
 	const sortAttendancesBy = (attribute: string) => {
-		if(persona.value?.attendances) {
+		if(props.persona?.attendances) {
 			const targetAttendances = { ...yearGroupedAttendances.value };
 			switch (attribute) {
 				case 'attended_at':
@@ -139,8 +111,8 @@
 	const uniqueYears = ref<number[]>([]);
 	const getUniqueYears = () => {
 		const years = new Set<number>()
-		if(persona.value?.attendances){
-			for (const attendance of persona.value.attendances) {
+		if(props.persona?.attendances){
+			for (const attendance of props.persona.attendances) {
 				const year = new Date(attendance.attended_at).getFullYear()
 				years.add(year)
 			};
@@ -155,8 +127,8 @@
 		if (!isNaN(Number(year))) {
 			const startDate = new Date(Number(year), 0, 1);
 			const endDate = new Date(Number(year), 11, 31);
-			if (persona.value?.attendances) {
-				const attendancesForYear = persona.value.attendances.filter(attendance => {
+			if (props.persona?.attendances) {
+				const attendancesForYear = props.persona.attendances.filter(attendance => {
 					const attendedDate = new Date(attendance.attended_at);
 					return attendedDate >= startDate && attendedDate <= endDate;
 				});
@@ -186,12 +158,12 @@
 			const yearCount = uniqueYears.value.length
 			for (let i = 0; i < yearCount; i++) {
 			    const tYear = uniqueYears.value[i];
-				if (persona.value?.attendances) {
+				if (props.persona?.attendances) {
 					const hue = (i / yearCount) * 255
 				    const borderColor = `${hslToHex(hue, 50, 50)}`
 					const startDate = new Date(tYear, 0, 1)
 					const endDate = new Date(tYear, 11, 31)
-					const attendancesForYear = persona.value.attendances.filter(attendance => {
+					const attendancesForYear = props.persona.attendances.filter(attendance => {
 						const attendedDate = new Date(attendance.attended_at);
 						return attendedDate >= startDate && attendedDate <= endDate;
 					});
@@ -221,8 +193,8 @@
 
 	const attendanceYearData = ref<ChartData>()
 	const getAttendanceYearData = () => {
-		if(persona.value?.attendances) {
-			const recentAttendances = persona.value.attendances.filter(attendance => {
+		if(props.persona?.attendances) {
+			const recentAttendances = props.persona.attendances.filter(attendance => {
 				const attendedDate = new Date(attendance.attended_at);
 				return attendedDate >= oneYearAgo && attendedDate <= currentDate;
 			});
@@ -258,7 +230,7 @@
 	};
 	
 	watchEffect(() => {
-	    if (props.persona_id) {
+	    if (props.persona) {
 			getUniqueYears()
 			getYearGroupedAttendances()
 			selectShowYear(currentDate.getFullYear())
@@ -269,10 +241,6 @@
 
 <template>
 					<Tab.Group class="col-span-12 intro-y box lg:col-span-6" style="height: 100%; overflow-y: scroll;">
-						<Loader 
-							:active="isLoading"
-							message="Loading Attendance Data"
-						/>
 						<div
 							class="flex items-center px-5 py-5 border-b sm:py-0 border-slate-200/60 dark:border-darkmode-400"
 						>

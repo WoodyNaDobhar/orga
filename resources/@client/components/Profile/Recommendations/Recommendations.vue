@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, onMounted } from "vue";
+	import { ref } from "vue";
 	import { Tab, Menu, Dialog } from "@/components/Base/Headless";
 	import { Tab as HeadlessTab } from "@headlessui/vue";
 	import Button from "@/components/Base/Button";
@@ -10,43 +10,13 @@
 	import { formatDate } from "@/utils/helper";
 	import Lucide from "@/components/Base/Lucide";
 	import Table from "@/components/Base/Table";
-	import { useStateStore } from '@/stores/state';
-	import axios from 'axios';
 	import Loader from "@/components/Base/Loader";
 	
-	const state = useStateStore()
 	const props = defineProps<{
-		persona_id: number
+		persona: Persona | undefined
 	}>()
-	const persona = ref<Persona>()
 	const isLoading = ref<boolean>(false)
 	const thisWindow = window
-	
-	onMounted(() => {
-		fetchPersonaData()
-	})
-	
-	const fetchPersonaData = async () => {
-		try {
-			isLoading.value = true
-			let withArray = [
-				'recommendations',
-				'recommendations.recommendable',
-				'chapter.awards',
-				'chapter.titles'
-			];
-			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
-			await axios.get("/api/personas/" + props.persona_id + "?" + withJoin)
-				.then(response => {
-					isLoading.value = false
-					persona.value = response.data.data;
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
-		}
-	};
 	
 	const deleteConfirmationModal = ref(false)
 	const setDeleteConfirmationModal = (value: boolean) => {
@@ -59,8 +29,8 @@
 	};
 	
 	const sortRecommendationsBy = (attribute: string) => {
-		if(persona.value) {
-			const targetRecommendations = persona.value.recommendations as Recommendation[];
+		if(props.persona) {
+			const targetRecommendations = props.persona.recommendations as Recommendation[];
 			switch (attribute) {
 				case 'created_at':
 					targetRecommendations.sort((a, b) => {

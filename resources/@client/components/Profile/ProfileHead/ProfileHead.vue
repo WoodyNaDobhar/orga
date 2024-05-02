@@ -4,7 +4,6 @@
 	import { 
 		Persona,
 	} from '@/interfaces';
-	import { formatDate } from "@/utils/helper";
 	import Lucide from "@/components/Base/Lucide";
 	import { useAuthStore } from '@/stores/auth';
 	import { useStateStore } from '@/stores/state';
@@ -13,39 +12,19 @@
 	
 	const auth = useAuthStore()
 	const state = useStateStore()
+	const user = auth.getUser
 	const props = defineProps<{
-		persona_id: number
+		persona: Persona | undefined
 	}>()
-	const persona = ref<Persona>()
 	const isLoading = ref<boolean>(false)
-	
-	onMounted(() => {
-		fetchPersonaData()
-	})
-	
-	const fetchPersonaData = async () => {
-		try {
-			isLoading.value = true
-			let withArray = [
-				'chapter',
-				'chapter.realm',
-				'honorific',
-				'pronoun',
-				'socials',
-				'titleIssuances',
-				'user'
-			];
-			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
-			await axios.get("/api/personas/" + props.persona_id + "?" + withJoin)
-				.then(response => {
-					isLoading.value = false
-					persona.value = response.data.data;
-					state.storeBreadcrumb(1, (props.persona_id ? response.data.data.name : user?.persona.name), '/profile')
-				});
-		} catch (error: any) {
-			isLoading.value = false
-			state.storeState('error', error)
-			console.error('Error fetching user data:', error);
+
+	import * as lucideIcons from "lucide-vue-next";
+	const getIcon = (media: string): keyof typeof lucideIcons => {
+		switch (media) {
+			case "Discord":
+				return "HardDrive";
+			default:
+				return media as keyof typeof lucideIcons;
 		}
 	};
 </script>
@@ -204,7 +183,7 @@
 					>
 						<template v-for="(social) in persona?.socials">
 							<div class="flex items-center truncate sm:whitespace-normal">
-								<Lucide :icon="social.media" class="w-4 h-4 mr-2" />
+								<Lucide :icon="getIcon(social.media)" class="w-4 h-4 mr-2" />
 								<a :href="social.link" target="_blank">{{ social.value }}</a>
 							</div>
 						</template>
