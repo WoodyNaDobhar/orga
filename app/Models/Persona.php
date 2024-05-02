@@ -1190,14 +1190,18 @@ class Persona extends BaseModel
 					];
 				}
 				foreach ($this->attendances as $attendance) {
-					$archetypeId = $attendance->archetype->name;
-					$credits[$archetypeId]['credits'] += $attendance->credits;
-					$credits[$archetypeId]['level'] = $this->calculateLevel($credits[$archetypeId]['credits']);
+					if($attendance->archetype){
+						$archetypeId = $attendance->archetype->name;
+						$credits[$archetypeId]['credits'] += $attendance->credits;
+						$credits[$archetypeId]['level'] = $this->calculateLevel($credits[$archetypeId]['credits']);
+					}
 				}
 				foreach ($this->reconciliations as $reconciliation) {
-					$archetypeId = $reconciliation->archetype->name;
-					$credits[$archetypeId]['credits'] += $reconciliation->credits;
-					$credits[$archetypeId]['level'] = $this->calculateLevel($credits[$archetypeId]['credits']);
+					if($reconciliation->archetype){
+						$archetypeId = $reconciliation->archetype->name;
+						$credits[$archetypeId]['credits'] += $reconciliation->credits;
+						$credits[$archetypeId]['level'] = $this->calculateLevel($credits[$archetypeId]['credits']);
+					}
 				}
 				return [
 					'attendance_count' => $attendanceCount,
