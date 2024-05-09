@@ -399,10 +399,10 @@ class PersonaAPIController extends AppBaseController
 	 *			name="id",
 	 *			description="ID of Persona, or the Persona slug",
 	 *			@OA\Schema(
-	 *				oneOf=[
+	 *				oneOf={
 	 *					@OA\Schema(type="integer"),
 	 *					@OA\Schema(type="string")
-	 *				]
+	 *				}
 	 *			),
 	 *			required=true,
 	 *			example=42
