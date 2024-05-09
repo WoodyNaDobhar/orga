@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, onMounted, watch } from "vue";
+	import { ref } from "vue";
 	import { Tab } from "@/components/Base/Headless";
 	import { 
 		Persona,
@@ -23,35 +23,6 @@
 				return media as keyof typeof lucideIcons;
 		}
 	};
-
-	onMounted(()=>{
-		console.log(auth.isLoggedIn)
-		console.log(auth.getUser.persona_id)
-		console.log(props.persona?.id)
-		console.log(auth.getUser.persona_id === props.persona?.id)
-		console.log(auth.isLoggedIn && (auth.getUser.persona_id === props.persona?.id))
-		console.log(props.persona)
-
-		const unwatch = watch(() => props.persona, (newValue, oldValue) => {
-			console.log('Persona changed:', newValue);
-			if (newValue) {
-				
-		console.log(auth.isLoggedIn)
-		console.log(auth.getUser.persona_id)
-		console.log(props.persona?.id)
-		console.log(auth.getUser.persona_id === props.persona?.id)
-		console.log(auth.isLoggedIn && (auth.getUser.persona_id === props.persona?.id))
-		console.log(props.persona)
-				// If props.persona is no longer undefined, do something
-				console.log('Persona is now defined:', newValue);
-				// Perform any actions that depend on props.persona being defined
-				// For example, trigger the rendering of the tab list
-				//renderTabList();
-				// Stop watching once the value is no longer needed
-				unwatch();
-			}
-		});
-	});
 </script>
 <template>
 		<Loader 
@@ -216,7 +187,7 @@
 				</div>
 			</div>
 			<Tab.List
-				v-if="auth.isLoggedIn && (auth.getUser.persona_id === persona?.id)"
+				v-if="auth.isLoggedIn && (auth.getUser.persona_id.toString() === persona?.id)"
 				variant="link-tabs"
 				class="flex-col justify-center text-center sm:flex-row lg:justify-start"
 			>
