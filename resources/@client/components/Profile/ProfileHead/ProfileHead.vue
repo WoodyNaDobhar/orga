@@ -6,14 +6,10 @@
 	} from '@/interfaces';
 	import Lucide from "@/components/Base/Lucide";
 	import { useAuthStore } from '@/stores/auth';
-	import { useStateStore } from '@/stores/state';
-	import axios from 'axios';
 	import Loader from "@/components/Base/Loader";
 	import * as lucideIcons from "lucide-vue-next";
 	
 	const auth = useAuthStore()
-	const state = useStateStore()
-	const user = auth.getUser
 	const props = defineProps<{
 		persona: Persona | undefined
 	}>()
@@ -27,6 +23,14 @@
 				return media as keyof typeof lucideIcons;
 		}
 	};
+
+	onMounted(()=>{
+		console.log(auth.isLoggedIn)
+		console.log(auth.getUser.persona_id)
+		console.log(props.persona?.id)
+		console.log(auth.getUser.persona_id === props.persona?.id)
+		console.log(auth.isLoggedIn && (auth.getUser.persona_id === props.persona?.id))
+	});
 </script>
 <template>
 		<Loader 
