@@ -13,3 +13,4 @@
 /.gitignore.bak
 /.settings
 /public/hot
+/public/storage

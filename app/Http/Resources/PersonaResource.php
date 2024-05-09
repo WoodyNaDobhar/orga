@@ -23,6 +23,7 @@ class PersonaResource extends JsonResource
 			'pronoun_id' => $this->pronoun_id,
 			'mundane' => $this->mundane,
 			'name' => $this->name,
+			'slug' => $this->slug,
 			'heraldry' => $this->heraldry,
 			'image' => $this->image,
 			'is_active' => $this->is_active,

@@ -3119,6 +3119,84 @@
                 }
             }
         },
+        "/checkpass": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Check if the logged in user knows their password (for extra security).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+                "operationId": "f15e8d5a1e18df732be330f99ab078c1",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/checkpass"
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "data": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "checkpass Successful."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/forgot": {
             "post": {
                 "tags": [
@@ -3229,6 +3307,150 @@
                                                 "type": "string",
                                                 "example": "yR1234D5gqZlgmiR1234YM01KDRJG1234KRHjA12"
                                             }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "A password reset link has been sent to the given email address."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resend": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "Resend the user's email verification link.  May only be accessed once every five minutes.",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+                "operationId": "68f7d23d6d443b5c2511a0acf6163d53",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "A password reset link has been sent to the given email address."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unsuccessful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exception"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/verify": {
+            "post": {
+                "tags": [
+                    "Base"
+                ],
+                "summary": "verify the user's email verification link.  May only be accessed once every five minutes.",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+                "operationId": "4e0303b6a9efd582609a72713f868d3a",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "default": "true"
                                         },
                                         "message": {
                                             "type": "string",
@@ -10905,7 +11127,7 @@
                     "Persona"
                 ],
                 "summary": "Get a listing of the Personas.",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\thonorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmemberships (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\thonorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n\t\t\tretainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmemberships (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "871cc1b3dad20fab9eb18bb254753234",
                 "parameters": [
                     {
@@ -11144,7 +11366,7 @@
                     "Persona"
                 ],
                 "summary": "Display the specified Persona",
-                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\thonorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n\t\t\tissuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmemberships (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Preferred selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: full<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tattendances (Attendance) (HasMany): Attendances for the Persona.<br>\r\n\t\t\tawards (Issuance) {MorphMany): Awards received by the Persona.<br>\r\n\t\t\tchapter (Chapter) (BelongsTo): Chapter the Persona calls home.<br>\r\n\t\t\tcrats (Crat) (HasMany): Crat positions held by the Persona.<br>\r\n\t\t\tdues (Due) (HasMany): Dues paid by the Persona.<br>\r\n\t\t\tevents (Event) (MorphMany): Events sponsored by the Persona.<br>\r\n\t\t\thonorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n\t\t\tretainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>\r\n\t\t\tissuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>\r\n\t\t\tissuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>\r\n\t\t\tmemberships (Member) (HasMany): Memberships in Units the Persona has had.<br>\r\n\t\t\tofficers (Officer) (HasMany): Officer positions held by the Persona.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Preferred selected pronouns for the Persona.<br>\r\n\t\t\trecommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.<br>\r\n\t\t\treconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.<br>\r\n\t\t\tsocials (Social) (MorphMany): Socials for the Persona.<br>\r\n\t\t\tsplits (Split) (HasMany): Splits this Persona took part in.<br>\r\n\t\t\tsuspensions (Suspension) (HasMany): Suspensions the Persona has undergone.<br>\r\n\t\t\tsuspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.<br>\r\n\t\t\ttitles (Issuance) {MorphMany): Titles received by the Persona.<br>\r\n\t\t\ttitleIssuables (Title) (MorphMany): Titles the Persona can Issue.<br>\r\n\t\t\tunits (Unit) (HasManyThrough): Companies and Households the Persona is in.<br>\r\n\t\t\tuser (User) (BelongsTo): The User for the Persona.<br>\r\n\t\t\twaivers (Waiver) (HasMany): The Waivers for the Persona.<br>\r\n\t\t\twaiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "90d8456d0ffc4bbc7bcb4855290cacc3",
                 "parameters": [
                     {
@@ -19655,7 +19877,7 @@
                     "Waiver"
                 ],
                 "summary": "Get a listing of the Waivers.",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: full<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\twaiverable (Realm or Event) (MorphTo): <br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "ffdecfbce492c5ed40fe3ca27e65f1e4",
                 "parameters": [
                     {
@@ -19894,7 +20116,7 @@
                     "Waiver"
                 ],
                 "summary": "Display the specified Waiver",
-                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "<b>Access</b>:<br>Visitors: none<br>Users: own<br>Unit Officers: none<br>Crats: related<br>Officers: related<br>Admins: full<br>The following relationships can be attached, and in the case of plural relations, searched:<br>\r\n\t\t\tageVerifiedBy (User) (BelongsTo): User Persona that verified the Waiver signer age, if it has been.<br>\r\n\t\t\tguests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>\r\n\t\t\tlocation (Location) (BelongsTo): The Waiver address fields values.<br>\r\n\t\t\tpersona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>\r\n\t\t\twaiverable (Realm or Event) (MorphTo): <br>\r\n\t\t\tpronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>\r\n\t\t\tcreatedBy (User) (BelongsTo): User that created it.<br>\r\n\t\t\tupdatedBy (User) (BelongsTo): User that last updated it (if any).<br>\r\n\t\t\tdeletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "operationId": "5d4edc7532bf8d696d77aadbd99e5baf",
                 "parameters": [
                     {
@@ -25528,7 +25750,7 @@
                 "type": "object"
             },
             "Issuance": {
-                "description": "Issuances of Awards or Titles.<br>The following relationships can be attached, and in the case of plural relations, searched:\n * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.\n * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.\n * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.\n * revoker (User) (BelongsTo): User revoked, who authorized the revocation.\n * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.\n * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.\n * createdBy (User) (BelongsTo): User that created it.\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "Issuances of Awards or Titles.<br>The following relationships can be attached, and in the case of plural relations, searched:\n * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.\n * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.\n * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.\n * revoker (User) (BelongsTo): User revoked, who authorized the revocation.\n * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.\tLeave null when Issuer is Persona.\n * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.\n * createdBy (User) (BelongsTo): User that created it.\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "issuable_type",
                     "issuable_id",
@@ -25663,6 +25885,14 @@
                         "example": 1,
                         "nullable": true
                     },
+                    "parent_id": {
+                        "description": "For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": false,
+                        "example": 42,
+                        "nullable": true
+                    },
                     "issued_at": {
                         "description": "When the Issuance was made or is to be made public (if in the future)",
                         "type": "string",
@@ -25760,7 +25990,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.\tNull if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -25955,6 +26185,14 @@
                         "example": 1,
                         "nullable": true
                     },
+                    "parent_id": {
+                        "description": "For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": false,
+                        "example": 42,
+                        "nullable": true
+                    },
                     "issued_at": {
                         "description": "When the Issuance was made or is to be made public (if in the future)",
                         "type": "string",
@@ -26043,7 +26281,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.\tNull if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -26169,6 +26407,14 @@
                         "format": "int32",
                         "readOnly": false,
                         "example": 1,
+                        "nullable": true
+                    },
+                    "parent_id": {
+                        "description": "For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": false,
+                        "example": 42,
                         "nullable": true
                     },
                     "issued_at": {
@@ -29021,7 +29267,7 @@
                 "type": "object"
             },
             "Persona": {
-                "description": "Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * attendances (Attendance) (HasMany): Attendances for the Persona.\r\n * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.\r\n * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.\r\n * crats (Crat) (HasMany): Crat positions held by the Persona.\r\n * dues (Due) (HasMany): Dues paid by the Persona.\r\n * events (Event) (MorphMany): Events sponsored by the Persona.\r\n * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n * issuances (Issuance) {MorphMany): All Issuances received by the Persona.\r\n * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.\r\n * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.\r\n * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.\r\n * memberships (Member) (HasMany): Memberships in Units the Persona has had.\r\n * officers (Officer) (HasMany): Officer positions held by the Persona.\r\n * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.\r\n * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.\r\n * reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.\r\n * socials (Social) (MorphMany): Socials for the Persona.\r\n * splits (Split) (HasMany): Splits this Persona took part in.\r\n * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.\r\n * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.\r\n * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.\r\n * titles (Title) {hasManyThrough): Titles received by the Persona.\r\n * user (User) (BelongsTo): The User for the Persona.\r\n * waivers (Waiver) (HasMany): The Waivers for the Persona.\r\n * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
+                "description": "Members of Amtgard.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * attendances (Attendance) (HasMany): Attendances for the Persona.\r\n * awardIssuances (Issuance) {MorphMany): Award Issuances received by the Persona.\r\n * chapter (Chapter) (BelongsTo): Chapter the Persona calls home.\r\n * crats (Crat) (HasMany): Crat positions held by the Persona.\r\n * dues (Due) (HasMany): Dues paid by the Persona.\r\n * events (Event) (MorphMany): Events sponsored by the Persona.\r\n * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>\r\n * issuances (Issuance) {MorphMany): All Issuances received by the Persona.\r\n * retainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.\r\n * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.\r\n * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.\r\n * memberships (Member) (HasMany): Memberships in Units the Persona has had.\r\n * officers (Officer) (HasMany): Officer positions held by the Persona.\r\n * pronoun (Pronoun) (BelongsTo): Prefered selected pronouns for the Persona.\r\n * recommendations (Recommendation) (HasMany): Issuance Recommendations made for this Persona.\r\n * reconciliations (Reconciliation) (HasMany): Credit reconciliations for this Persona.\r\n * socials (Social) (MorphMany): Socials for the Persona.\r\n * splits (Split) (HasMany): Splits this Persona took part in.\r\n * suspensions (Suspension) (HasMany): Suspensions the Persona has undergone.\r\n * suspensionIssueds (Suspension) (HasMany): Suspensions the Persona has issued.\r\n * titleIssuances (Issuance) {MorphMany): Title Issuances received by the Persona.\r\n * titles (Title) {hasManyThrough): Titles received by the Persona.\r\n * user (User) (BelongsTo): The User for the Persona.\r\n * waivers (Waiver) (HasMany): The Waivers for the Persona.\r\n * waiverVerifieds (Waiver) (HasMany): Waivers age verified by the Persona.\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "chapter_id",
                     "name",
@@ -29076,6 +29322,15 @@
                         "readOnly": false,
                         "example": "Color Animal",
                         "nullable": false
+                    },
+                    "slug": {
+                        "description": "A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+                        "type": "string",
+                        "format": "url",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "coloranimal",
+                        "nullable": true
                     },
                     "heraldry": {
                         "description": "An internal link to an image of the Persona heraldry.",
@@ -29304,7 +29559,7 @@
                         },
                         "readOnly": true
                     },
-                    "issuanceGivens": {
+                    "retainers": {
                         "description": "Attachable & filterable array of Issuances made by the Persona, typically retainer and squire Titles.",
                         "type": "array",
                         "items": {
@@ -29485,6 +29740,15 @@
                         "readOnly": false,
                         "example": "Color Animal",
                         "nullable": false
+                    },
+                    "slug": {
+                        "description": "A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+                        "type": "string",
+                        "format": "url",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "coloranimal",
+                        "nullable": true
                     },
                     "heraldry": {
                         "description": "An internal link to an image of the Persona heraldry.",
@@ -29705,6 +29969,15 @@
                         "readOnly": false,
                         "example": "Color Animal",
                         "nullable": false
+                    },
+                    "slug": {
+                        "description": "A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+                        "type": "string",
+                        "format": "url",
+                        "maxLength": 191,
+                        "readOnly": false,
+                        "example": "coloranimal",
+                        "nullable": true
                     },
                     "heraldry": {
                         "description": "An internal link to an image of the Persona heraldry.",
@@ -34007,13 +34280,14 @@
                         "nullable": true
                     },
                     "peerage": {
-                        "description": "The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+                        "description": "The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
                         "type": "string",
                         "format": "enum",
                         "default": "None",
                         "enum": [
                             "Gentry",
                             "Knight",
+                            "Squire",
                             "Master",
                             "Nobility",
                             "None",
@@ -34183,13 +34457,14 @@
                         "nullable": true
                     },
                     "peerage": {
-                        "description": "The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+                        "description": "The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
                         "type": "string",
                         "format": "enum",
                         "default": "None",
                         "enum": [
                             "Gentry",
                             "Knight",
+                            "Squire",
                             "Master",
                             "Nobility",
                             "None",
@@ -34323,13 +34598,14 @@
                         "nullable": true
                     },
                     "peerage": {
-                        "description": "The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+                        "description": "The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
                         "type": "string",
                         "format": "enum",
                         "default": "None",
                         "enum": [
                             "Gentry",
                             "Knight",
+                            "Squire",
                             "Master",
                             "Nobility",
                             "None",
@@ -36305,7 +36581,7 @@
                         "nullable": false
                     },
                     "file": {
-                        "description": "An internal link to an image of the original physical Waiver.",
+                        "description": "An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
                         "type": "string",
                         "format": "filename",
                         "maxLength": 191,
@@ -36402,6 +36678,24 @@
                         "readOnly": false,
                         "example": "2020-12-30",
                         "nullable": false
+                    },
+                    "is_current": {
+                        "description": "Is the waiver considered current for the Waiverable?",
+                        "type": "integer",
+                        "format": "enum",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "expires_at": {
+                        "description": "When the Waiver expires, or null.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
                     },
                     "created_by": {
                         "description": "The User that created this record.",
@@ -36628,7 +36922,7 @@
                         "nullable": false
                     },
                     "file": {
-                        "description": "An internal link to an image of the original physical Waiver.",
+                        "description": "An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
                         "type": "string",
                         "format": "filename",
                         "maxLength": 191,
@@ -36725,6 +37019,24 @@
                         "readOnly": false,
                         "example": "2020-12-30",
                         "nullable": false
+                    },
+                    "is_current": {
+                        "description": "Is the waiver considered current for the Waiverable?",
+                        "type": "integer",
+                        "format": "enum",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "expires_at": {
+                        "description": "When the Waiver expires, or null.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
                     },
                     "created_by": {
                         "description": "The User that created this record.",
@@ -36927,7 +37239,7 @@
                         "nullable": false
                     },
                     "file": {
-                        "description": "An internal link to an image of the original physical Waiver.",
+                        "description": "An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
                         "type": "string",
                         "format": "filename",
                         "maxLength": 191,
@@ -37024,6 +37336,24 @@
                         "readOnly": false,
                         "example": "2020-12-30",
                         "nullable": false
+                    },
+                    "is_current": {
+                        "description": "Is the waiver considered current for the Waiverable?",
+                        "type": "integer",
+                        "format": "enum",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "expires_at": {
+                        "description": "When the Waiver expires, or null.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
                     }
                 },
                 "type": "object"
@@ -37245,7 +37575,7 @@
                                     "example": "nobody@nowhere.net"
                                 },
                                 "password_token": {
-                                    "description": "Password reset token generated by the system and sent to the User.",
+                                    "description": "Password reset token generated by the system and sent to the User.  Not required if logged in.",
                                     "type": "string",
                                     "maxLength": 191,
                                     "example": "fjwqp938rnjgp0q98rngqie3wrnfmpgq9enrgfpqi9me3rwfgpqienrgjp9qeunrgpqoeimrg0qe"
@@ -37404,6 +37734,41 @@
                                 },
                                 "device_name": {
                                     "description": "Login device information.",
+                                    "type": "string",
+                                    "example": "Bob'sS22"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "checkpass": {
+                "description": "Security check.",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "password",
+                                "password_confirm",
+                                "device_name"
+                            ],
+                            "properties": {
+                                "password": {
+                                    "description": "Login password.",
+                                    "type": "string",
+                                    "format": "8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+                                    "maxLength": 40
+                                },
+                                "password_confirm": {
+                                    "description": "Login password, confirmed.",
+                                    "type": "string",
+                                    "format": "8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+                                    "maxLength": 40
+                                },
+                                "device_name": {
+                                    "description": "Device information.",
                                     "type": "string",
                                     "example": "Bob'sS22"
                                 }

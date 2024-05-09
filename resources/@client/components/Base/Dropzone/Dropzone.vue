@@ -42,9 +42,6 @@ const vFileUploadDirective = {
 onMounted(() => {
 	if (fileUploadRef.value) {
 		bindInstance(fileUploadRef.value)
-		fileUploadRef.value.dropzone.on("addedfile", file => {
-			console.log(file);
-		})
 		fileUploadRef.value.dropzone.on("complete", (file: any) => {
 			emit("completed", file);
 		})

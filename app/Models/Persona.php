@@ -25,7 +25,7 @@ use App\Policies\IssuancePolicy;
  * events (Event) (MorphMany): Events sponsored by the Persona.
  * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
  * issuances (Issuance) {MorphMany): All Issuances received by the Persona.
- * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
+ * retainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
  * memberships (Member) (HasMany): Memberships in Units the Persona has had.
@@ -98,6 +98,16 @@ use App\Policies\IssuancePolicy;
  * 		type="string",
  * 		format="uppercase first letter",
  * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="slug",
+ * 		description="A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="url",
+ * 		example="coloranimal",
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
@@ -374,7 +384,7 @@ use App\Policies\IssuancePolicy;
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="issuanceGivens",
+ * 		property="retainers",
  * 		description="Attachable & filterable array of Issuances made by the Persona, typically retainer and squire Titles.",
  * 		type="array",
  * 		@OA\Items(
@@ -613,6 +623,16 @@ use App\Policies\IssuancePolicy;
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
+ * 		property="slug",
+ * 		description="A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="url",
+ * 		example="coloranimal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Persona heraldry.",
  * 		readOnly=false,
@@ -848,6 +868,16 @@ use App\Policies\IssuancePolicy;
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
+ * 		property="slug",
+ * 		description="A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="url",
+ * 		example="coloranimal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Persona heraldry.",
  * 		readOnly=false,
@@ -1077,6 +1107,7 @@ class Persona extends BaseModel
 		'honorific_id',
 		'mundane',
 		'name',
+		'slug',
 		'heraldry',
 		'image',
 		'is_active',
@@ -1091,6 +1122,7 @@ class Persona extends BaseModel
 		'honorific_id' => 'integer',
 		'mundane' => 'string',
 		'name' => 'string',
+		'slug' => 'string',
 		'heraldry' => 'string',
 		'image' => 'string',
 		'is_active' => 'boolean',
@@ -1104,7 +1136,8 @@ class Persona extends BaseModel
 		return [
 			'id' => (int) $this->id,
 			'name' => $this->name,
-			'mundane' => $this->mundane
+			'mundane' => $this->mundane,
+			'slug' => $this->slug
 		];
 	}
 	
@@ -1114,6 +1147,7 @@ class Persona extends BaseModel
 		'honorific_id' => 'nullable|exists:issuances,id',
 		'mundane' => 'nullable|string|max:191',
 		'name' => 'required|string|max:191',
+		'slug' => 'nullable|sometimes|unique:personas|string|max:25|regex:/^(?=.*[a-zA-Z]).+$',
 		'heraldry' => 'nullable|string|max:191',
 		'image' => 'nullable|string|max:191',
 		'is_active' => 'required|boolean',
@@ -1314,10 +1348,29 @@ class Persona extends BaseModel
 	protected function roptitles(): Attribute
 	{
 		return Attribute::make(
-				get: function () {
-					//TODO: restrict this list to those they can give.  if Nobility || Knight, page & at-arms, if Paragon, apprentice, and if Knight, squire
-					$titles = Title::where('titleable_type', 'Persona')->whereNull('titleable_id')->where('is_active', 1)->get();
-					return $titles;
+			get: function () {
+				$titlesArray = [];
+				foreach ($this->titles as $title) {
+					if (in_array($title->peerage, ['Knight', 'Squire', 'Nobility'])) {
+						$titlesArray = array_merge($titlesArray, ['Page', 'At-Arms|Man-at-Arms|Woman-at-Arms|Comrade-at-Arms|Sword-at-Arms|Shieldmaiden|Shield Brother']);
+						if ($title->peerage === 'Knight') {
+							$titlesArray[] = 'Squire';
+						}
+					}
+					if ($title->peerage === 'Paragon') {
+						$titlesArray[] = 'Apprentice';
+					}
+				}
+				if (!empty($titlesArray)) {
+					$titlesArray = array_unique($titlesArray);
+					return Title::where('titleable_type', 'Persona')
+						->whereNull('titleable_id')
+						->where('is_active', 1)
+						->whereIn('name', $titlesArray)
+						->get();
+				} else {
+					return null;
+				}
 			}
 		);
 	}
@@ -1356,11 +1409,12 @@ class Persona extends BaseModel
 							case 'Nobility':
 								$score += $titleIssuance->issuable->rank;
 								break;
-							case 'Retainers':
+							case 'Squire':
+							case 'Retainer':
 								$score += max($titleIssuance->issuable->rank * 5, 1);
 								break;
-							case 'Masters':
-							case 'Paragons':
+							case 'Master':
+							case 'Paragon':
 								$score += $titleIssuance->issuable->rank * 5;
 								break;
 							case 'Gentry':
@@ -1484,7 +1538,7 @@ class Persona extends BaseModel
 				if ($value === null) {
 					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
 				}
-				return 'https://ork.amtgard.com/assets/players/heraldry/' . $value;
+				return $value;
 			}
 		);
 	}
@@ -1496,7 +1550,7 @@ class Persona extends BaseModel
 				if ($value === null) {
 					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
 				}
-				return 'https://ork.amtgard.com/assets/players/' . $value;
+				return $value;
 			}
 		);
 	}
@@ -1510,7 +1564,7 @@ class Persona extends BaseModel
 		'events' => 'MorphMany',
 		'honorific' => 'BelongsTo',
 		'issuances' => 'MorphMany',
-		'issuanceGivens' => 'MorphMany',
+		'retainers' => 'MorphMany',
 		'issuanceRevokeds' => 'HasMany',
 		'issuanceSigneds' => 'HasMany',
 		'memberships' => 'HasMany',
@@ -1569,7 +1623,7 @@ class Persona extends BaseModel
 		return $this->morphMany(Issuance::class, 'recipient');
 	}
 	
-	public function issuanceGivens(): \Illuminate\Database\Eloquent\Relations\MorphMany
+	public function retainers(): \Illuminate\Database\Eloquent\Relations\MorphMany
 	{
 		return $this->morphMany(Issuance::class, 'issuer');
 	}

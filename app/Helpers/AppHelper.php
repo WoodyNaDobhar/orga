@@ -57,11 +57,14 @@ class AppHelper
 			case 'honorific':
 			case 'awardIssuances':
 			case 'issuanceGivens':
+			case 'retainers':
 			case 'issuanceReceiveds':
 			case 'issuanceRevokeds':
 			case 'issuanceSigneds':
 			case 'titleIssuances':
 				return 'Issuance';
+			case 'memberships' :
+				return 'Member';
 			case 'passwordHistories':
 				return 'PasswordHistory';
 			case 'ageVerifiedBy':
@@ -69,6 +72,8 @@ class AppHelper
 			case 'signator':
 			case 'suspendedBy':
 				return 'Persona';
+			case 'recommendable':
+				return 'Recommendation';
 			case 'suspensionIssueds':
 				return 'Suspension';
 			case 'portalteams':
@@ -78,11 +83,8 @@ class AppHelper
 			case 'deletedBy' :
 				return 'User';
 			case 'waiverVerifieds':
+			case 'waiverable':
 				return 'Waiver';
-			case 'memberships' :
-				return 'Member';
-			case 'recommendable':
-				return 'Recommendation';
 			default:
 				return ucfirst(Str::singular($related));
 		}
@@ -120,7 +122,10 @@ class AppHelper
 			str_starts_with($withItem, 'deletedBy'))
 		{
 			return 'users.';
-		} else if(str_starts_with($withItem, 'waiverVerifieds')){
+		} else if(
+			str_starts_with($withItem, 'waiverable') ||
+			str_starts_with($withItem, 'waiverVerifieds')
+		){
 			return 'waivers.';
 		} else if(str_starts_with($withItem, 'memberships')){
 			return 'members.';

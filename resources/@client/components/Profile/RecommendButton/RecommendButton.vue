@@ -219,124 +219,124 @@
 											>
 												Recommend New Honor
 											</Button>
-				<!-- BEGIN: Recommend Modal Content -->
-				<Dialog 
-					:open="recommendModal" 
-					@close="() => {
-						setRecommendModal(false);
-					}" 
-					:initialFocus="closeRecommendationRef"
-				>
-					<Dialog.Panel>
-						<form class="validate-form" @submit.prevent="sendRecommendation">
-							<Dialog.Title>
-								<h2 class="mr-auto text-base font-medium">
-									Recommend Honor
-								</h2>
-								<a 
-									@click="(event: MouseEvent) => {
-										event.preventDefault();
-										setRecommendModal(false);
-									}" 
-									class="absolute top-0 right-0 mt-2 mr-3" 
-									href="#"
-								>
-									<Lucide icon="X" class="w-8 h-8 text-slate-400" ref="{closeRecommendationRef}" />
-								</a>
-							</Dialog.Title>
-							<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
-								<div class="col-span-12 sm:col-span-12">
-									<FormLabel htmlFor="recommendation-form-honor"> 
-										Honor 
-										<Tippy
-											:content="RecommendationTips.honor"
-											class="inline-block"
-										>
-											<Lucide icon="HelpCircle" class="w-4 h-4" />
-										</Tippy>
-									</FormLabel>
-									<TomSelect 
-										id="recommendation-form-honor"
-										v-model.trim="recommendValidate.honor.$model"
-										:options="{
-											placeholder: 'Select an Honor',
-										}"
-										class="w-full"
-										@update:modelValue="handleHonorSelectChange"
-									>
-										<optgroup v-for="(type) in honorSelectOptions" :label="type.label">
-											<option v-for="(option) in type.options" :value="option.type + `|` + option.value + `|` + option.is_ladder">{{ option.text }}</option>
-										</optgroup>
-									</TomSelect>
-									<template v-if="recommendValidate.honor.$error">
-										<div
-											v-for="(error, index) in recommendValidate.honor.$errors"
-											:key="index"
-											class="mt-2 text-danger"
-										>
-											{{ error.$message }}
-										</div>
-									</template>
-								</div>
-								<div v-if="showRank" class="col-span-12 sm:col-span-12">
-									<FormLabel htmlFor="recommendation-form-rank">
-										 Rank 
-										<Tippy
-											:content="RecommendationTips.rank"
-											class="inline-block"
-										>
-											<Lucide icon="HelpCircle" class="w-4 h-4" />
-										</Tippy>
-									</FormLabel>
-									<FormInput id="recommendation-form-rank" v-model.trim="recommendValidate.rank.$model" type="text" placeholder="5" />
-									<template v-if="recommendValidate.rank.$error">
-										<div
-											v-for="(error, index) in recommendValidate.rank.$errors"
-											:key="index"
-											class="mt-2 text-danger"
-										>
-											{{ error.$message }}
-										</div>
-									</template>
-								</div>
-								<div class="col-span-12 sm:col-span-12">
-									<FormLabel htmlFor="recommendation-form-reason">
-										 Reason 
-										<Tippy
-											:content="RecommendationTips.reason"
-											class="inline-block"
-										>
-											<Lucide icon="HelpCircle" class="w-4 h-4" />
-										</Tippy>
-									</FormLabel>
-									<FormInput id="recommendation-form-reason" v-model.trim="recommendValidate.reason.$model" type="text" placeholder="That awesome thing they did" />
-									<template v-if="recommendValidate.reason.$error">
-										<div
-											v-for="(error, index) in recommendValidate.reason.$errors"
-											:key="index"
-											class="mt-2 text-danger"
-										>
-											{{ error.$message }}
-										</div>
-									</template>
-								</div>
-							</Dialog.Description>
-							<Dialog.Footer>
-								<Button 
-									type="button" 
-									variant="outline-secondary" 
-									@click="() => {
-										setRecommendModal(false);
-									}" class="w-20 mr-1"
-								>
-									Cancel
-								</Button>
-								<Button variant="primary" type="submit" class="w-20">
-									Send
-								</Button>
-							</Dialog.Footer>
-						</form>
-					</Dialog.Panel>
-				</Dialog>
-				<!-- END: Recommend Modal Content -->
+											<!-- BEGIN: Recommend Modal Content -->
+											<Dialog 
+												:open="recommendModal" 
+												@close="() => {
+													setRecommendModal(false);
+												}" 
+												:initialFocus="closeRecommendationRef"
+											>
+												<Dialog.Panel>
+													<form class="validate-form" @submit.prevent="sendRecommendation">
+														<Dialog.Title>
+															<h2 class="mr-auto text-base font-medium">
+																Recommend Honor
+															</h2>
+															<a 
+																@click="(event: MouseEvent) => {
+																	event.preventDefault();
+																	setRecommendModal(false);
+																}" 
+																class="absolute top-0 right-0 mt-2 mr-3" 
+																href="#"
+															>
+																<Lucide icon="X" class="w-8 h-8 text-slate-400" ref="{closeRecommendationRef}" />
+															</a>
+														</Dialog.Title>
+														<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
+															<div class="col-span-12 sm:col-span-12">
+																<FormLabel htmlFor="recommendation-form-honor"> 
+																	Honor 
+																	<Tippy
+																		:content="RecommendationTips.honor"
+																		class="inline-block"
+																	>
+																		<Lucide icon="HelpCircle" class="w-4 h-4" />
+																	</Tippy>
+																</FormLabel>
+																<TomSelect 
+																	id="recommendation-form-honor"
+																	v-model.trim="recommendValidate.honor.$model"
+																	:options="{
+																		placeholder: 'Select an Honor',
+																	}"
+																	class="w-full"
+																	@update:modelValue="handleHonorSelectChange"
+																>
+																	<optgroup v-for="(type) in honorSelectOptions" :label="type.label">
+																		<option v-for="(option) in type.options" :value="option.type + `|` + option.value + `|` + option.is_ladder">{{ option.text }}</option>
+																	</optgroup>
+																</TomSelect>
+																<template v-if="recommendValidate.honor.$error">
+																	<div
+																		v-for="(error, index) in recommendValidate.honor.$errors"
+																		:key="index"
+																		class="mt-2 text-danger"
+																	>
+																		{{ error.$message }}
+																	</div>
+																</template>
+															</div>
+															<div v-if="showRank" class="col-span-12 sm:col-span-12">
+																<FormLabel htmlFor="recommendation-form-rank">
+																	Rank 
+																	<Tippy
+																		:content="RecommendationTips.rank"
+																		class="inline-block"
+																	>
+																		<Lucide icon="HelpCircle" class="w-4 h-4" />
+																	</Tippy>
+																</FormLabel>
+																<FormInput id="recommendation-form-rank" v-model.trim="recommendValidate.rank.$model" type="text" placeholder="5" />
+																<template v-if="recommendValidate.rank.$error">
+																	<div
+																		v-for="(error, index) in recommendValidate.rank.$errors"
+																		:key="index"
+																		class="mt-2 text-danger"
+																	>
+																		{{ error.$message }}
+																	</div>
+																</template>
+															</div>
+															<div class="col-span-12 sm:col-span-12">
+																<FormLabel htmlFor="recommendation-form-reason">
+																	Reason 
+																	<Tippy
+																		:content="RecommendationTips.reason"
+																		class="inline-block"
+																	>
+																		<Lucide icon="HelpCircle" class="w-4 h-4" />
+																	</Tippy>
+																</FormLabel>
+																<FormInput id="recommendation-form-reason" v-model.trim="recommendValidate.reason.$model" type="text" placeholder="That awesome thing they did" />
+																<template v-if="recommendValidate.reason.$error">
+																	<div
+																		v-for="(error, index) in recommendValidate.reason.$errors"
+																		:key="index"
+																		class="mt-2 text-danger"
+																	>
+																		{{ error.$message }}
+																	</div>
+																</template>
+															</div>
+														</Dialog.Description>
+														<Dialog.Footer>
+															<Button 
+																type="button" 
+																variant="outline-secondary" 
+																@click="() => {
+																	setRecommendModal(false);
+																}" class="w-20 mr-1"
+															>
+																Cancel
+															</Button>
+															<Button variant="primary" type="submit" class="w-20">
+																Send
+															</Button>
+														</Dialog.Footer>
+													</form>
+												</Dialog.Panel>
+											</Dialog>
+											<!-- END: Recommend Modal Content -->
 </template>

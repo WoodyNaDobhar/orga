@@ -375,6 +375,16 @@ const router = createRouter({
 			name: "reset",
 			component: () => import("../pages/Reset.vue"),
 		},
+		{
+			path: "/verify",
+			name: "verifyWarn",
+			component: () => import("../pages/VerifyWarn.vue"),
+		},
+		{
+			path: "/email/verify/:id/:hash",
+			name: "verification.verify",
+			component: () => import("../pages/Verify.vue"),
+		},
 //		{
 //			path: "/unsubscribe",
 //			name: "unsubscribe",

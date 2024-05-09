@@ -682,7 +682,7 @@ class Unit extends BaseModel
 				if ($value === null) {
 					return "https://ork.amtgard.com/assets/heraldry/unit/00000.jpg";
 				}
-				return 'https://ork.amtgard.com/assets/heraldry/unit/' . $value;
+				return $value;
 			}
 		);
 	}

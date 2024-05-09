@@ -2,7 +2,7 @@
 	import { ref, reactive, toRefs } from 'vue';
 	import ThemeSwitcher from "@/components/ThemeSwitcher";
 	import logoUrl from "@/assets/images/logo.png";
-	import { FormInput, FormCheck } from "@/components/Base/Form";
+	import { FormInput } from "@/components/Base/Form";
 	import Button from "@/components/Base/Button";
 	import {
 		required,
@@ -11,7 +11,6 @@
 		email,
 	} from "@vuelidate/validators";
 	import { useVuelidate } from "@vuelidate/core";
-	import Toastify from "toastify-js";
 	import axios from 'axios';
 	import { useStateStore } from '@/stores/state';
 	import { useAuthStore } from '@/stores/auth';
@@ -61,7 +60,11 @@
 						const token = response.data.data.token
 						const user = response.data.data
 						auth.storeLoggedInUser(token, user)
-						router.push('/')
+						if(!user.email_verified_at){
+							router.push('/verify')
+						}else{
+							router.push('/')
+						}
 					})
 					.catch(error => {
 						state.storeState('error', error.response.data.message)

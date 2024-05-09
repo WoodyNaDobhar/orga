@@ -902,7 +902,7 @@ class Realm extends BaseModel
 				if ($value === null) {
 					'https://ork.amtgard.com/assets/realms/00000.jpg';
 				}
-				return 'https://ork.amtgard.com/assets/realms/' . $value;
+				return $value;
 			}
 		);
 	}

@@ -823,9 +823,18 @@ class Chapter extends BaseModel
 		return Attribute::make(
 			get: function (?string $value) {
 				if ($value === null) {
-					return null;
+					return 'https://ork.amtgard.com/assets/chapters/00000.jpg';
 				}
-				return 'https://ork.amtgard.com/assets/chapters/' . $value;
+				return $value;
+			}
+		);
+	}
+	
+	protected function roptitles(): Attribute
+	{
+		return Attribute::make(
+			get: function () {
+				//TODO: restrict this list to those they can give by level
 			}
 		);
 	}

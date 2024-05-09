@@ -12,6 +12,7 @@ class PersonaRepository extends BaseRepository
 		'pronoun_id',
 		'mundane',
 		'name',
+		'slug',
 		'heraldry',
 		'image',
 		'is_active',

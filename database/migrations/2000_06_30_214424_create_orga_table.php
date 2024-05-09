@@ -471,7 +471,7 @@ return new class extends Migration
 			$table->unsignedBigInteger('titleable_id')->nullable()->index('titleable_id')->comment('The ID of the Title issuer');
 			$table->string('name', 100)->comment('The Title name with options seperated by a single |');
 			$table->unsignedSmallInteger('rank')->nullable()->comment('For Realm Titles or where appropriate, their order of prescidence in that Realm expressed (usually) in multiples of 10, where Lord|Lady are typically 30');
-			$table->enum('peerage', ['Gentry', 'Knight', 'Master', 'Nobility', 'None', 'Paragon', 'Retainer'])->default('None')->comment('The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer');
+			$table->enum('peerage', ['Gentry', 'Knight', 'Squire', 'Master', 'Nobility', 'None', 'Paragon', 'Retainer'])->default('None')->comment('The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer');
 			$table->boolean('is_roaming')->default(false)->comment('Is (default false) the Title roaming, such as Dragonmaster?');
 			$table->boolean('is_active')->default(true)->comment('Is (default true) this Title still being given out?');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');

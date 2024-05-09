@@ -374,7 +374,7 @@ The contents might be something like:
 
 ```
 Schema::table('tests', static function (Blueprint $table) {
-	$table->unsignedInteger('x_id')->nullable()->after('label');
+	$table->unsignedInteger('x_id')->nullable()->after('label')->comment('What they need to know.');
 });
 ```
 
@@ -568,7 +568,7 @@ public function test()
 'x',
 ```
 
-5. App\Resources\TestResource
+5. App\Http\Resources\TestResource
     - toArray
 
 ```
@@ -597,9 +597,25 @@ $tests = App\Models\Test::all()->pluck('id');
     x_id: number;
 ```
 
-8. Add any required inputs or displays for the new data
+8. resources/@client/rules.ts
+    - add relevant field to relevant rule
 
-9. If everything is good, you can then update the schema et al
+```
+    x_id: {
+        integer,
+    },
+```
+
+9. resources/@client/tips.ts
+    - add relevant comment/tip to relevant model rules
+
+```
+    x_id: "What they need to know",
+```
+
+10. Add any required inputs or displays for the new data
+
+11. If everything is good, you can then update the schema et al
 
 ```
 sail php artisan make:schema Test

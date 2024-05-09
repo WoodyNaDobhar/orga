@@ -43,6 +43,7 @@ class WaiverResource extends JsonResource
 			'can_delete' => 0,
 			'can_restore' => 0,
 			'can_nuke' => 0,
+			'expires_at' => $this->expires_at,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 			'deleted_at' => $this->deleted_at

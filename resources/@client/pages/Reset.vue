@@ -31,11 +31,10 @@
 
 	const formData = reactive({
 		email: "",
-		password_token: resetCode.value,
+		password_token: null,
 		device_name: deviceName,
 		password: "",
-		password_confirm: "",
-		is_agreed: 0
+		password_confirm: ""
 	});
 	
 	const rules = {
@@ -46,7 +45,6 @@
 			maxLength: maxLength(191),
 		},
 		password_token: {
-			required,
 		},
 		device_name: {
 			required,
@@ -54,15 +52,13 @@
 		password: {
 			required,
 			minLength: minLength(6),
+			maxLength: maxLength(191),
 		},
 		password_confirm: {
 			required,
 			minLength: minLength(6),
 			maxLength: maxLength(191),
-		},
-		is_agreed: {
-			sameAs: sameAs(true)
-		},
+		}
 	};
 	
 	const validate = useVuelidate(rules, toRefs(formData));

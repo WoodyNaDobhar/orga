@@ -20,3 +20,7 @@ Route::get('phpmyinfo', function () {
 Route::get('/{any}', function () {
 	return view('index');
 })->where('any', '.*');
+
+Route::get('/email/verify/{id}/{hash}', function () {
+	return view('index');
+})->name('verification.verify');

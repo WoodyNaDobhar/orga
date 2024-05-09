@@ -43,7 +43,7 @@ export const useAuthStore = defineStore("auth", {
 	actions: {
 		async check(request:any) {
 			try {
-				const response = await axios.post('api/check', request)
+				const response = await axios.post('/api/check', request)
 					.catch(error => {
 						console.error(error);
 						return {data: {data: true}};
@@ -69,7 +69,7 @@ export const useAuthStore = defineStore("auth", {
 		},
 		async logout() {
 			try {
-				await axios.post('api/logout', null, this.getHeaders)
+				await axios.get('api/logout', this.getHeaders)
 					.then(response => {
 						this.removeLoggedInUser()
 						return response

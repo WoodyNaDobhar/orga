@@ -26,13 +26,13 @@ class WaiverAPIController extends AppBaseController
 	
 	use AuthorizesRequests;
 	
-    /** @var  WaiverRepository */
-    private $waiverRepository;
+	/** @var  WaiverRepository */
+	private $waiverRepository;
 
-    public function __construct(WaiverRepository $waiverRepo)
-    {
-        $this->waiverRepository = $waiverRepo;
-    }
+	public function __construct(WaiverRepository $waiverRepo)
+	{
+		$this->waiverRepository = $waiverRepo;
+	}
 
 	/**
 	 * @param Request $request
@@ -48,6 +48,7 @@ class WaiverAPIController extends AppBaseController
 			guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>
 			location (Location) (BelongsTo): The Waiver address fields values.<br>
 			persona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>
+			waiverable (Realm or Event) (MorphTo): <br>
 			pronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>
@@ -344,6 +345,7 @@ class WaiverAPIController extends AppBaseController
 			guests (Guest) (BelongsTo): The Guest this Waiver is for, if any.<br>
 			location (Location) (BelongsTo): The Waiver address fields values.<br>
 			persona (Persona) (BelongsTo): Persona this Waiver is for, if any.<br>
+			waiverable (Realm or Event) (MorphTo): <br>
 			pronoun (Pronoun) (BelongsTo): Pronoun for the individual being Waivered, if known.<br>
 			createdBy (User) (BelongsTo): User that created it.<br>
 			updatedBy (User) (BelongsTo): User that last updated it (if any).<br>

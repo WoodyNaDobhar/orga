@@ -465,6 +465,39 @@ use Illuminate\Support\Facades\Response;
  *				)
  *			)
  *		)
+ *	),
+ *	@OA\RequestBody(
+ *		request="checkpass",
+ *		description="Security check.",
+ *		required=true,
+ *		@OA\MediaType(
+ *			mediaType="multipart/form-data",
+ *			@OA\Schema(
+ *				required={"password","password_confirm","device_name"},
+ *				@OA\Property(
+ *					property="password",
+ *					description="Login password.",
+ *					type="string",
+ *					format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ *					maxLength=8,
+ *					maxLength=40
+ *				),
+ *				@OA\Property(
+ *					property="password_confirm",
+ *					description="Login password, confirmed.",
+ *					type="string",
+ *					format="8-40 characters, at least 1 uppercase, at least 1 lowercase, both letters and numbers, not common",
+ *					maxLength=8,
+ *					maxLength=40
+ *				),
+ *				@OA\Property(
+ *					property="device_name",
+ *					description="Device information.",
+ *					type="string",
+ *					example="Bob'sS22"
+ *				)
+ *			)
+ *		)
  *	)
  * Class AppBaseController
  */

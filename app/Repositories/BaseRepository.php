@@ -182,6 +182,7 @@ abstract class BaseRepository
 	 *
 	 * @param  int  $id
 	 * @param array $columns
+	 * @param array $with
 	 *
 	 * @return Builder|Builder[]|Collection|Model|null
 	 */
@@ -200,6 +201,32 @@ abstract class BaseRepository
 		}
 		
 		return $query->find($id, $columns);
+	}
+	
+	/**
+	 * Find model record for given other unique column value.
+	 *
+	 * @param  string  $column
+	 * @param  int  $id
+	 * @param array $columns
+	 * @param array $with
+	 *
+	 * @return Builder|Builder[]|Collection|Model|null
+	 */
+	public function firstWhere($column, $id, $columns = ['*'], $with = null)
+	{
+		$query = $this->model->newQuery();
+		
+		if($with){
+			if(is_array($with)){
+				foreach($with as $w){
+					$query->with($w);
+				}
+			}else{
+				$query->with($with);
+			}
+		}
+		return $query->where($column, $id)->first($columns);
 	}
 	
 	/**

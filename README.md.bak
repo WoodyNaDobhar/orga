@@ -65,10 +65,10 @@ sail php artisan migrate
 ```
 
 Poplulate DB.  If you don't know 'with what', then you can't be doing this.
-Start up yarn
+Start up npm
 
 ```
-sail yarn run dev
+sail npm run dev
 ```
 
 ## Search
@@ -374,7 +374,7 @@ The contents might be something like:
 
 ```
 Schema::table('tests', static function (Blueprint $table) {
-	$table->unsignedInteger('x_id')->nullable()->after('label');
+	$table->unsignedInteger('x_id')->nullable()->after('label')->comment('What they need to know.');
 });
 ```
 
@@ -568,7 +568,7 @@ public function test()
 'x',
 ```
 
-5. App\Resources\TestResource
+5. App\Http\Resources\TestResource
     - toArray
 
 ```
@@ -595,6 +595,15 @@ $tests = App\Models\Test::all()->pluck('id');
 
 ```
     x_id: number;
+```
+
+8. resources/@client/rules.ts
+    - add relevant field to relevant rule
+
+```
+    x_id: {
+        integer,
+    },
 ```
 
 8. Add any required inputs or displays for the new data

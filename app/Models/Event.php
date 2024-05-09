@@ -873,9 +873,9 @@ class Event extends BaseModel
 		return Attribute::make(
 			get: function (?string $value) {
 				if ($value === null) {
-					return null;
+					return 'https://ork.amtgard.com/assets/heraldry/event/00000.jpg';
 				}
-				return 'https://ork.amtgard.com/assets/heraldry/event/' . $value;
+				return $value;
 			}
 		);
 	}

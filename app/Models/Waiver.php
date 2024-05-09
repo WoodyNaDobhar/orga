@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
@@ -84,7 +85,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="file",
- *			description="An internal link to an image of the original physical Waiver.",
+ *			description="An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
  *			readOnly=false,
  *			nullable=true,
  *			type="string",
@@ -192,6 +193,14 @@ use App\Traits\ProtectFieldsTrait;
  *			type="string",
  *			format="date",
  *			example="2020-12-30"
+ *		),
+ *		@OA\Property(
+ *			property="expires_at",
+ *			description="When the Waiver expires, or null.",
+ *			readOnly=true,
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
  *		),
  *		@OA\Property(
  *			property="created_by",
@@ -442,7 +451,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="file",
- *			description="An internal link to an image of the original physical Waiver.",
+ *			description="An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
  *			readOnly=false,
  *			nullable=true,
  *			type="string",
@@ -550,6 +559,14 @@ use App\Traits\ProtectFieldsTrait;
  *			type="string",
  *			format="date",
  *			example="2020-12-30"
+ *		),
+ *		@OA\Property(
+ *			property="expires_at",
+ *			description="When the Waiver expires, or null.",
+ *			readOnly=true,
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
  *		),
  *		@OA\Property(
  *			property="created_by",
@@ -747,7 +764,7 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="file",
- *			description="An internal link to an image of the original physical Waiver.",
+ *			description="An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
  *			readOnly=false,
  *			nullable=true,
  *			type="string",
@@ -855,7 +872,15 @@ use App\Traits\ProtectFieldsTrait;
  *			type="string",
  *			format="date",
  *			example="2020-12-30"
- *		)
+ *		),
+ *		@OA\Property(
+ *			property="expires_at",
+ *			description="When the Waiver expires, or null.",
+ *			readOnly=true,
+ *			type="string",
+ *			format="date-time",
+ *			example="2020-12-30 23:59:59",
+ *		),
  *	)
  *	@OA\RequestBody(
  *		request="Waiver",
@@ -936,12 +961,42 @@ class Waiver extends BaseModel
 		'signed_at' => 'required|date'
 	];
 	
+	protected function expiresAt(): Attribute
+	{
+		return Attribute::make(
+				get: function () {
+				if($this->waiverable_type === 'Event'){
+					return null;
+				}else{
+					if ($this->waiverable->waiver_duration) {
+						return $this->signed_at->addMonths($this->waiverable->waiver_duration);
+					}else{
+						return null;
+					}
+				}
+			}
+		);
+	}
+	
+	protected function file(): Attribute
+	{
+		return Attribute::make(
+			get: function (?string $value) {
+				if ($value === null) {
+					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
+				}
+				return $value;
+			}
+		);
+	}
+	
 	public $relationships = [
 		'ageVerifiedBy' => 'BelongsTo',
 		'guest' => 'BelongsTo',
 		'location' => 'BelongsTo',
 		'persona' => 'BelongsTo',
-		'pronoun' => 'BelongsTo'
+		'pronoun' => 'BelongsTo',
+		'waiverable' => 'MorphTo'
 	];
 
 	public function ageVerifiedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -967,6 +1022,11 @@ class Waiver extends BaseModel
 	public function pronoun(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
 		  return $this->belongsTo(\App\Models\Pronoun::class, 'pronoun_id');
+	}
+	
+	public function waiverable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+	{
+		return $this->morphTo();
 	}
 	
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo

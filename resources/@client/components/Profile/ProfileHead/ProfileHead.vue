@@ -9,6 +9,7 @@
 	import { useStateStore } from '@/stores/state';
 	import axios from 'axios';
 	import Loader from "@/components/Base/Loader";
+	import * as lucideIcons from "lucide-vue-next";
 	
 	const auth = useAuthStore()
 	const state = useStateStore()
@@ -18,7 +19,6 @@
 	}>()
 	const isLoading = ref<boolean>(false)
 
-	import * as lucideIcons from "lucide-vue-next";
 	const getIcon = (media: string): keyof typeof lucideIcons => {
 		switch (media) {
 			case "Discord":
@@ -202,7 +202,7 @@
 				</Tab>
 				<Tab :fullWidth="false">
 					<Tab.Button class="flex items-center py-4 cursor-pointer">
-						<Lucide icon="Shield" class="w-4 h-4 mr-2" /> Account
+						<Lucide icon="Shield" class="w-4 h-4 mr-2" /> Manage
 					</Tab.Button>
 				</Tab>
 				<Tab :fullWidth="false">

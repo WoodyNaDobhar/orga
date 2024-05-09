@@ -18,6 +18,7 @@
 	import { PersonaTips } from "@/tips";
 	import Dropzone from "@/components/Base/Dropzone";
 	import { showToast } from "@/utils/toast";
+	import Loader from "@/components/Base/Loader";
 
 	const auth = useAuthStore()
 	const state = useStateStore()
@@ -27,12 +28,21 @@
 	const pronouns = ref<PronounSuperSimple[]>([]);
 	const defaultHeraldry = 'https://ork.amtgard.com/assets/heraldry/player/000000.jpg'
 	const defaultImage = 'https://ork.amtgard.com/assets/image/player/000000.jpg'
+	const isLoading = ref<boolean>(false)
+	const loadingMessage = ref<string>('')
+
+	interface AccountPersonaEmit {
+		(e: "updated", value: PersonaSuperSimple): void;
+	}
+
+	const emit = defineEmits<AccountPersonaEmit>();
 	
 	const personaFormData = reactive<PersonaSuperSimple>({
 		id: props.persona?.id || 0,
 		chapter_id: props.persona?.chapter_id || 0,
 		name: props.persona?.name || '',
 		mundane: props.persona?.mundane || '',
+		slug: props.persona?.slug || '',
 		pronoun_id: props.persona?.pronoun_id || 0,
 		honorific_id: props.persona?.honorific_id || 0,
 		heraldry: props.persona?.heraldry || '',
@@ -72,8 +82,8 @@
 	};
 
 	const updateHeraldry = (file: any) => {
-		let response = JSON.parse(file.xhr.response)
-		if (response.success) {
+		let response = file.xhr ? JSON.parse(file.xhr.response) : null
+		if (response && response.success) {
 			personaFormData.heraldry = response.data
 			showToast(true, 'Heraldry uploaded.')
 			console.log(personaFormData)
@@ -86,8 +96,8 @@
 	};
 
 	const updateImage = (file: any) => {
-		let response = JSON.parse(file.xhr.response)
-		if (response.success) {
+		let response = file.xhr ? JSON.parse(file.xhr.response) : null
+		if (response && response.success) {
 			personaFormData.image = response.data
 			showToast(true, 'Image uploaded.')
 			saveAccount()
@@ -99,6 +109,8 @@
 	};
 
 	const saveAccount = async () => {
+		isLoading.value = true
+		loadingMessage.value = 'Saving...'
 		validate.value.$touch();
 		if (validate.value.$invalid) {
 			showToast(false, "Please check the form.")
@@ -106,14 +118,21 @@
 			try {
 				await axios.put('/api/personas/' + props.persona?.id, personaFormData)
 					.then(response => {
+						isLoading.value = false
+						loadingMessage.value = ''
 						showToast(true, response.data.message)
+						emit("updated", personaFormData);
 					})
 					.catch(error => {
+						isLoading.value = false
+						loadingMessage.value = ''
 						state.storeState('error', error.response.data.message)
 						console.log('Error saving persona:', error)
 						showToast(false, error.response.data.message) 
 					});
 			} catch (error: any) {
+				isLoading.value = false
+				loadingMessage.value = ''
 				state.storeState('error', error)
 				console.log('Error saving persona:', error)
 				showToast(false, error)
@@ -131,6 +150,10 @@
 			</div>
 			<div class="p-5">
 				<div class="flex flex-col xl:flex-row">
+					<Loader 
+						:active="isLoading"
+						:message="loadingMessage"
+					/>
 					<form class="validate-form" enctype="multipart/form-data" @submit.prevent="saveAccount">
 						<div class="flex-1 mt-6 xl:mt-0">
 							<div class="grid grid-cols-12 gap-x-5">
@@ -194,6 +217,36 @@
 											</option>
 										</FormSelect>
 									</div>
+									<div class="mt-3">
+										<FormLabel htmlFor="slug">
+											Profile Slug
+											<Tippy
+												:content="PersonaTips.slug"
+												class="inline-block"
+											>
+												<Lucide icon="HelpCircle" class="w-4 h-4" />
+											</Tippy>
+										</FormLabel>
+										<FormInput
+											id="slug"
+											name="slug"
+											v-model.trim="validate.slug.$model"
+											type="text"
+											:placeholder="PersonaTips.slug"
+											:class="{
+												'border-danger': validate.slug.$error,
+											}"
+										/>
+										<template v-if="validate.slug.$error">
+											<div
+												v-for="(error, index) in validate.slug.$errors"
+												:key="index"
+												class="mt-2 text-danger"
+											>
+												{{ error.$message }}
+											</div>
+										</template>
+									</div>
 								</div>
 								<div class="col-span-12 2xl:col-span-6">
 									<div class="mt-3 2xl:mt-0">
@@ -246,129 +299,138 @@
 											</option>
 										</FormSelect>
 									</div>
+									<div class="mt-3">
+										<div class="flex-1 mt-6 xl:mt-0">
+											<div class="grid grid-cols-12 gap-x-5">
+												<div class="col-span-12 2xl:col-span-6">
+													<div class="mt-3 mx-auto w-52 xl:mr-0 ml-0">
+														<FormLabel htmlFor="persona-honorifics">
+															Image
+															<Tippy
+																:content="PersonaTips.image"
+																class="inline-block"
+															>
+																<Lucide icon="HelpCircle" class="w-4 h-4" />
+															</Tippy>
+														</FormLabel>
+														<div
+															class="p-5 border-2 border-dashed rounded-md shadow-sm border-slate-200/60 dark:border-darkmode-400"
+														>
+															<span v-if="personaFormData.image && !personaFormData.image?.includes('000000.jpg')">
+																<div
+																	class="relative h-40 mx-auto cursor-pointer image-fit zoom-in"
+																>
+																	<img
+																		class="rounded-md"
+																		:alt="persona?.name"
+																		:src="personaFormData?.image || defaultImage"
+																	/>
+																	<Tippy
+																		as="div"
+																		@click="removeImage"
+																		content="Remove this image?"
+																		class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
+																	>
+																		<Lucide icon="X" class="w-4 h-4" />
+																	</Tippy>
+																</div>
+															</span>
+															<span v-else>
+																<Dropzone 
+																	refKey="dropzoneImageRef" 
+																	:options="{
+																		url: 'http://orga.localhost/api/image',
+																		thumbnailWidth: 150,
+																		maxFilesize: 1,
+																		maxFiles: 1,
+																		params: () => ({
+																			context: 'persona',
+																			target: persona?.id
+																		}),
+																		headers: { 
+																			Authorization: `Bearer ${auth.token}`
+																		}
+																	}"
+																	@completed="updateImage"
+																	class="dropzone"
+																>
+																	<div class="text-lg font-medium">
+																		drop or click
+																	</div>
+																</Dropzone>
+															</span>
+														</div>
+													</div>
+												</div>
+												<div class="col-span-12 2xl:col-span-6">
+													<div class="mt-3 mx-auto w-52 xl:mr-0 ml-0">
+														<FormLabel htmlFor="persona-honorifics">
+															Heraldry
+															<Tippy
+																:content="PersonaTips.heraldry"
+																class="inline-block"
+															>
+																<Lucide icon="HelpCircle" class="w-4 h-4" />
+															</Tippy>
+														</FormLabel>
+														<div
+															class="p-5 border-2 border-dashed rounded-md shadow-sm border-slate-200/60 dark:border-darkmode-400"
+														>
+															<span v-if="personaFormData.heraldry && !personaFormData.heraldry?.includes('000000.jpg')">
+																<div
+																	class="relative h-40 mx-auto cursor-pointer image-fit zoom-in"
+																>
+																	<img
+																		class="rounded-md"
+																		:alt="persona?.name"
+																		:src="personaFormData?.heraldry || defaultHeraldry"
+																	/>
+																	<Tippy
+																		as="div"
+																		@click="removeHeraldry"
+																		content="Remove this heraldry?"
+																		class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
+																	>
+																		<Lucide icon="X" class="w-4 h-4" />
+																	</Tippy>
+																</div>
+															</span>
+															<span v-else>
+																<Dropzone 
+																	refKey="dropzoneHeraldryRef" 
+																	:options="{
+																		url: 'http://orga.localhost/api/image',
+																		thumbnailWidth: 150,
+																		maxFilesize: 1,
+																		maxFiles: 1,
+																		params: () => ({
+																			context: 'heraldry',
+																			target: persona?.id
+																		}),
+																		headers: { 
+																			Authorization: `Bearer ${auth.token}`
+																		}
+																	}"
+																	@completed="updateHeraldry"
+																	class="dropzone"
+																>
+																	<div class="text-lg font-medium">
+																		drop or click
+																	</div>
+																</Dropzone>
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
+							<div class="w-full mt-5 border-t border-slate-200/60 dark:border-darkmode-400"></div>
 							<Button variant="primary" type="submit" class="w-20 mt-3">
 								Save
 							</Button>
-						</div>
-						<div class="mx-auto w-52 xl:mr-0 xl:ml-6">
-							<div
-								class="p-5 border-2 border-dashed rounded-md shadow-sm border-slate-200/60 dark:border-darkmode-400"
-							>
-								<span v-if="personaFormData.image && !personaFormData.image?.includes('000000.jpg')">
-									<div
-										class="relative h-40 mx-auto cursor-pointer image-fit zoom-in"
-									>
-										<img
-											class="rounded-md"
-											:alt="persona?.name"
-											:src="personaFormData?.image || defaultImage"
-										/>
-										<Tippy
-											as="div"
-											@click="removeImage"
-											content="Remove this image?"
-											class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
-										>
-											<Lucide icon="X" class="w-4 h-4" />
-										</Tippy>
-									</div>
-									<div class="relative mx-auto mt-5 cursor-pointer">
-										<Button variant="primary" type="button" class="w-full">
-											Change Image
-										</Button>
-										<FormInput
-											id="image"
-											name="image"
-											type="file"
-											class="absolute top-0 left-0 w-full h-full opacity-0"
-										/>
-									</div>
-								</span>
-								<span v-else>
-									<Dropzone 
-										refKey="dropzoneImageRef" 
-										:options="{
-											url: 'http://orga.localhost/api/image',
-											thumbnailWidth: 150,
-											maxFilesize: 1,
-											maxFiles: 1,
-											params: () => ({
-												context: 'image',
-												target: persona?.id
-											}),
-											headers: { 
-												Authorization: `Bearer ${auth.token}`
-											}
-										}"
-										@completed="updateImage"
-										class="dropzone"
-									>
-										<div class="text-lg font-medium">
-											Drop image here or click to upload.
-										</div>
-									</Dropzone>
-								</span>
-							</div>
-							<div
-								class="p-5 border-2 border-dashed rounded-md shadow-sm border-slate-200/60 dark:border-darkmode-400"
-							>
-								<span v-if="personaFormData.heraldry && !personaFormData.heraldry?.includes('000000.jpg')">
-									<div
-										class="relative h-40 mx-auto cursor-pointer image-fit zoom-in"
-									>
-										<img
-											class="rounded-md"
-											:alt="persona?.name"
-											:src="personaFormData?.heraldry || defaultHeraldry"
-										/>
-										<Tippy
-											as="div"
-											@click="removeHeraldry"
-											content="Remove this heraldry?"
-											class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
-										>
-											<Lucide icon="X" class="w-4 h-4" />
-										</Tippy>
-									</div>
-									<div class="relative mx-auto mt-5 cursor-pointer">
-										<Button variant="primary" type="button" class="w-full">
-											Change Heraldry
-										</Button>
-										<FormInput
-											id="heraldry"
-											name="heraldry"
-											type="file"
-											class="absolute top-0 left-0 w-full h-full opacity-0"
-										/>
-									</div>
-								</span>
-								<span v-else>
-									<Dropzone 
-										refKey="dropzoneHeraldryRef" 
-										:options="{
-											url: 'http://orga.localhost/api/image',
-											thumbnailWidth: 150,
-											maxFilesize: 1,
-											maxFiles: 1,
-											params: () => ({
-												context: 'heraldry',
-												target: persona?.id
-											}),
-											headers: { 
-												Authorization: `Bearer ${auth.token}`
-											}
-										}"
-										@completed="updateHeraldry"
-										class="dropzone"
-									>
-										<div class="text-lg font-medium">
-											Drop heraldry here or click to upload.
-										</div>
-									</Dropzone>
-								</span>
-							</div>
 						</div>
 					</form>
 				</div>

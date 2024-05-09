@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { toNumber } from "lodash";
 	import { ref, reactive, onMounted } from "vue";
-	import { useRoute } from "vue-router";
+	import { useRoute, useRouter } from "vue-router";
 	import { Tab } from "@/components/Base/Headless";
 	import { useAuthStore } from '@/stores/auth';
 	import { useStateStore } from '@/stores/state';
@@ -14,15 +14,15 @@
 	import ProfileAccount from "@/components/Profile/ProfileAccount";
 	import { Breakpoint, GridLayout, GridItem, Layout } from "grid-layout-plus";
 	import axios from 'axios';
-	import { ArchetypeSimple, Persona } from "@/interfaces";
+	import { ArchetypeSimple, Persona, PersonaSuperSimple } from "@/interfaces";
 	import Loader from "@/components/Base/Loader";
 
+	const router = useRouter()
 	const auth = useAuthStore()
 	const state = useStateStore()
-	const user = auth.getUser
 	const route = useRoute()
 	const isLoading = ref<boolean>(false)
-	const persona_id = ref(route.params.persona_id ? route.params.persona_id : (auth.isLoggedIn ? user.persona.id : 1))
+	const persona_id = ref(route.params.persona_id ? route.params.persona_id : (auth.isLoggedIn ? auth.getUser.persona_id : null))
 	const persona = ref<Persona>()
 	const archetypes = ref<ArchetypeSimple[]>([])
 	
@@ -32,6 +32,9 @@
 	})
 	
 	const fetchPersonaData = async () => {
+		if(!persona_id.value){
+			router.push('/')
+		}
 		try {
 			isLoading.value = true
 			let withArray = [
@@ -49,10 +52,13 @@
 				'pronoun',
 				'recommendations',
 				'recommendations.recommendable',
+				'retainers',
 				'socials',
 				'titleIssuances',
 				'titleIssuances.createdBy',
-				'user'
+				'user',
+				'waivers',
+				'waivers.waiverable'
 			];
 			let withJoin = withArray.map(item => `with[]=${item}`).join('&');
 			await axios.get("/api/personas/" + persona_id.value + "?" + withJoin)
@@ -72,12 +78,10 @@
 		try {
 			await axios.get("/api/archetypes?")
 				.then(response => {
-					isLoading.value = false
 					archetypes.value = response.data.data;
 					archetypes.value.sort((a, b) => a.name.localeCompare(b.name))
 				});
 		} catch (error: any) {
-			isLoading.value = false
 			state.storeState('error', error)
 			console.error('Error fetching user data:', error);
 		}
@@ -193,6 +197,22 @@
 	function layoutUpdatedEvent(newLayout: Layout) {
 		console.info('Updated layout: ', newLayout)
 	}
+
+	const updatePersona = (updatedPersona: PersonaSuperSimple) => {
+		if(persona && persona.value){
+			persona.value.chapter_id = updatedPersona.chapter_id
+			persona.value.honorific_id = updatedPersona.honorific_id
+			persona.value.pronoun_id = updatedPersona.pronoun_id
+			persona.value.mundane = updatedPersona.mundane
+			persona.value.name = updatedPersona.name
+			persona.value.heraldry = updatedPersona.heraldry
+			persona.value.image = updatedPersona.image
+			persona.value.is_active = updatedPersona.is_active
+			persona.value.reeve_qualified_expires_at = updatedPersona.reeve_qualified_expires_at
+			persona.value.corpora_qualified_expires_at = updatedPersona.corpora_qualified_expires_at
+			persona.value.joined_chapter_at = updatedPersona.joined_chapter_at
+		}
+	};
 </script>
 
 <template>
@@ -237,7 +257,7 @@
 		</Tab.Panels>
 		<Tab.Panels>
 			<Tab.Panel>
-				<ProfileAccount :persona="persona" />
+				<ProfileAccount @updated="updatePersona" :persona="persona" />
 			</Tab.Panel>
 		</Tab.Panels>
 		<Tab.Panels>

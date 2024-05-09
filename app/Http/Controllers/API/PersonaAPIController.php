@@ -51,7 +51,7 @@ class PersonaAPIController extends AppBaseController
 			dues (Due) (HasMany): Dues paid by the Persona.<br>
 			events (Event) (MorphMany): Events sponsored by the Persona.<br>
 			honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
-			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
+			retainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
 			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
 			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
 			memberships (Member) (HasMany): Memberships in Units the Persona has had.<br>
@@ -367,7 +367,7 @@ class PersonaAPIController extends AppBaseController
 			dues (Due) (HasMany): Dues paid by the Persona.<br>
 			events (Event) (MorphMany): Events sponsored by the Persona.<br>
 			honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
-			issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
+			retainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.<br>
 			issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.<br>
 			issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.<br>
 			memberships (Member) (HasMany): Memberships in Units the Persona has had.<br>
@@ -397,9 +397,12 @@ class PersonaAPIController extends AppBaseController
 	 *		@OA\Parameter(
 	 *			in="path",
 	 *			name="id",
-	 *			description="ID of Persona",
+	 *			description="ID of Persona, or the Persona slug",
 	 *			@OA\Schema(
-	 *				type="integer"
+	 *				oneOf=[
+	 *					@OA\Schema(type="integer"),
+	 *					@OA\Schema(type="string")
+	 *				]
 	 *			),
 	 *			required=true,
 	 *			example=42
@@ -513,11 +516,20 @@ class PersonaAPIController extends AppBaseController
 		try {
 			
 			/** @var Persona $Persona */
-			$persona = $this->personaRepository->find(
-				$id,
-				$request->has('columns') ? $request->get('columns') : ['*'],
-				$request->has('with') ? $request->get('with') : null
-			);
+			if(ctype_digit($id)){
+				$persona = $this->personaRepository->find(
+					$id,
+					$request->has('columns') ? $request->get('columns') : ['*'],
+					$request->has('with') ? $request->get('with') : null
+				);
+			}else{
+				$persona = $this->personaRepository->firstWhere(
+					'slug', 
+					$id,
+					$request->has('columns') ? $request->get('columns') : ['*'],
+					$request->has('with') ? $request->get('with') : null
+				);
+			}
 			
 			if (empty($persona)) {
 				return $this->sendError('Persona (' . $id . ') not found.', ['id' => $id] + $request->all(), 404);

@@ -1,12 +1,39 @@
+export const IssuanceTips = {
+	issuable_type: "The Issuance type; Award or Title.",
+	issuable_id: "The Issuance.",
+	whereable_type: "Where it was Issued, if known; Event, Location, or Meetup.",
+	whereable_id: "Where it was Issued.",
+	issuer_type: "Issuing authority; Chapter, Persona, Realm, or Unit.",
+	issuer_id: "The Issuing authority.",
+	recipient_type: "Who recieved the Issuance; Persona or Unit.",
+	recipient_id: "The Issuance recipient.",
+	signator_id: "Persona signing the Issuance, if any.",
+	custom_name: "Where label options are avaiable, or customization allowed, the chosen label, else empty.",
+	rank: "For laddered Issuances, the order number, else empty.",
+	parent_id: "For Persona Issuances, The ID of the Title Issuance from which this Issuance was given.",
+	issued_at: "When the Issuance was made or is to be made public (if in the future).",
+	reason: "A historical record of what the Issuance was for.",
+	image: "An image of the Issuance phyrep, if any.",
+	revoked_by: "ID of the Persona that revoked the Issuance, if any.",
+	revoked_at: "Date the revocation is effective, if any.",
+	revocation: "Cause for the revocation, if any."
+}
+
 export const PersonaTips = {
-    name: "Your full persona name, free of corpora or RoP titles",
-    mundane: "The name or alias you use to sign in with",
-    pronoun_id: "The pronouns you prefer to use",
-    honorific_id: "The title you prefer to be refered with"
+	name: "Your full persona name, free of corpora or RoP titles",
+	mundane: "The name or alias you use to sign in with",
+	slug: "A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed",
+	pronoun_id: "The pronouns you prefer to use",
+	honorific_id: "The title you prefer to be refered with",
+	image: "An image or artwork of the player or persona",
+	heraldry: "An image or artwork of the persona's personal heraldry",
+	email: "Changes to your access email will require validation",
+	password: "Passwords must be between 6 and 191 characters, must include at least one of each: regular character, number, special character, and uppercase letter, and you cannot use a recently used password",
+	password_confirm: "Make sure it matches the other one"
 }
 
 export const RecommendationTips = {
-    honor: "Select the Award or Title you think they should receive",
-    rank: "What rank you feel they've earned.  Their next rank will be autofilled.",
-    reason: "What they did to deserve the selected honor"
+	honor: "Select the Award or Title you think they should receive",
+	rank: "What rank you feel they've earned.  Their next rank will be autofilled.",
+	reason: "What they did to deserve the selected honor"
 }

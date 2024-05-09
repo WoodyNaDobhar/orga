@@ -2926,6 +2926,7 @@ namespace App\Models{
  * @property-read \App\Models\Reign|null $reign
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Reign> $reigns
  * @property-read int|null $reigns_count
+ * @property-read mixed $roptitles
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Social> $socials
  * @property-read int|null $socials_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $sponsors
@@ -5905,7 +5906,7 @@ namespace App\Models{
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
  * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
  * revoker (User) (BelongsTo): User revoked, who authorized the revocation.
- * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
+ * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.	Leave null when Issuer is Persona.
  * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -6033,6 +6034,15 @@ namespace App\Models{
  * 		example=1
  * 	),
  * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="issued_at",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
@@ -6150,7 +6160,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.	Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -6331,6 +6341,15 @@ namespace App\Models{
  * 		example=1
  * 	),
  * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="issued_at",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
@@ -6430,7 +6449,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.	Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -6554,6 +6573,15 @@ namespace App\Models{
  * 		example=1
  * 	),
  * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="issued_at",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
@@ -6632,6 +6660,7 @@ namespace App\Models{
  * @property int|null $signator_id Persona signing the Issuance, if any
  * @property string|null $custom_name Where label options are avaiable, or customization allowed, the chosen label, else null
  * @property int|null $rank For laddered Issuances, the order number, else null
+ * @property int|null $parent_id For Persona Issuances, The ID of the Title Issuance from which this Issuance was given.
  * @property \Illuminate\Support\Carbon $issued_at When the Issuance was made or is to be made public (if in the future)
  * @property string|null $reason A historical record of what the Issuance was for
  * @property-read string|null $image An internal link to an image of the Issuance phyrep, if any
@@ -6654,6 +6683,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $issuable
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $issuer
  * @property-read mixed $name
+ * @property-read Issuance|null $parent
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $recipient
  * @property-read \App\Models\Persona|null $revoker
  * @property-read \App\Models\Persona|null $signator
@@ -6676,6 +6706,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRank($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRecipientId($value)
@@ -9912,7 +9943,7 @@ namespace App\Models{
  * events (Event) (MorphMany): Events sponsored by the Persona.
  * honorific (Issuance) {BelongsTo): The ID of the Title Issuance the Persona considers primary of the Titles they have.<br>
  * issuances (Issuance) {MorphMany): All Issuances received by the Persona.
- * issuanceGivens (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
+ * retainers (Issuance) {MorphMany): Issuances made by the Persona, typically retainer and squire Titles.
  * issuanceRevokeds (Issuance) {MorphMany): Issuances revoked by the Persona.
  * issuanceSigneds (Issuance) {MorphMany): Issuances signed by the Persona.
  * memberships (Member) (HasMany): Memberships in Units the Persona has had.
@@ -9985,6 +10016,16 @@ namespace App\Models{
  * 		type="string",
  * 		format="uppercase first letter",
  * 		example="Color Animal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
+ * 		property="slug",
+ * 		description="A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="url",
+ * 		example="coloranimal",
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
@@ -10261,7 +10302,7 @@ namespace App\Models{
  * 		readOnly=true
  * 	),
  * 	@OA\Property(
- * 		property="issuanceGivens",
+ * 		property="retainers",
  * 		description="Attachable & filterable array of Issuances made by the Persona, typically retainer and squire Titles.",
  * 		type="array",
  * 		@OA\Items(
@@ -10500,6 +10541,16 @@ namespace App\Models{
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
+ * 		property="slug",
+ * 		description="A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="url",
+ * 		example="coloranimal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Persona heraldry.",
  * 		readOnly=false,
@@ -10735,6 +10786,16 @@ namespace App\Models{
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
+ * 		property="slug",
+ * 		description="A unique URL appropriate string used to access the profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="string",
+ * 		format="url",
+ * 		example="coloranimal",
+ * 		maxLength=191
+ * 	),
+ * 	@OA\Property(
  * 		property="heraldry",
  * 		description="An internal link to an image of the Persona heraldry.",
  * 		readOnly=false,
@@ -10946,6 +11007,7 @@ namespace App\Models{
  * @property int|null $honorific_id The ID of the Title Issuance the Persona considers primary of the Titles they have
  * @property string|null $mundane What the Persona typically enters into the Mundane field of the sign-in
  * @property string $name The Persona name, without titles or honors, but otherwise in full
+ * @property string|null $slug A unique URL appropriate string used to access your profile.  These are first-come first serve.  Honorifics are fine here.  Communitiy standards and the terms of use for the site are to be followed.
  * @property-read string|null $heraldry An internal link to an image of the Persona heraldry
  * @property-read string|null $image An internal link to an image of the Persona
  * @property bool $is_active Is (default true) the Persona still active?
@@ -10984,8 +11046,6 @@ namespace App\Models{
  * @property-read mixed $is_paid
  * @property-read mixed $is_suspended
  * @property-read mixed $is_waivered
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceGivens
- * @property-read int|null $issuance_givens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceRevokeds
  * @property-read int|null $issuance_revokeds_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $issuanceSigneds
@@ -11003,6 +11063,8 @@ namespace App\Models{
  * @property-read int|null $recommendations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Reconciliation> $reconciliations
  * @property-read int|null $reconciliations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Issuance> $retainers
+ * @property-read int|null $retainers_count
  * @property-read mixed $roptitles
  * @property-read mixed $score
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Social> $socials
@@ -11044,6 +11106,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona wherePronounId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereReeveQualifiedExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Persona whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Persona withTrashed()
@@ -15775,12 +15838,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
+ * 		enum={"Gentry","Knight","Squire","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -15949,12 +16012,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
+ * 		enum={"Gentry","Knight","Squire","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -16082,12 +16145,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
+ * 		enum={"Gentry","Knight","Squire","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -18652,7 +18715,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="file",
- * 		description="An internal link to an image of the original physical Waiver.",
+ * 		description="An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="string",
@@ -18760,6 +18823,23 @@ namespace App\Models{
  * 		type="string",
  * 		format="date",
  * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_current",
+ * 		description="Is the waiver considered current for the Waiverable?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="expires_at",
+ * 		description="When the Waiver expires, or null.",
+ * 		readOnly=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -19010,7 +19090,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="file",
- * 		description="An internal link to an image of the original physical Waiver.",
+ * 		description="An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="string",
@@ -19118,6 +19198,23 @@ namespace App\Models{
  * 		type="string",
  * 		format="date",
  * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_current",
+ * 		description="Is the waiver considered current for the Waiverable?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="expires_at",
+ * 		description="When the Waiver expires, or null.",
+ * 		readOnly=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -19315,7 +19412,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="file",
- * 		description="An internal link to an image of the original physical Waiver.",
+ * 		description="An internal link to an image of the original physical Waiver or pdf of a digital waiver.",
  * 		readOnly=false,
  * 		nullable=true,
  * 		type="string",
@@ -19423,7 +19520,24 @@ namespace App\Models{
  * 		type="string",
  * 		format="date",
  * 		example="2020-12-30"
- * 	)
+ * 	),
+ * 	@OA\Property(
+ * 		property="is_current",
+ * 		description="Is the waiver considered current for the Waiverable?",
+ * 		readOnly=true,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="expires_at",
+ * 		description="When the Waiver expires, or null.",
+ * 		readOnly=true,
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 	),
  * )
  * @OA\RequestBody (
  * 	request="Waiver",
@@ -19441,7 +19555,7 @@ namespace App\Models{
  * @property int|null $persona_id The ID of the Persona this Waiver is for, if any
  * @property string $waiverable_type The type of entity accepting the Waiver; Realm or Event
  * @property int $waiverable_id The ID of the entity accepting the Waiver
- * @property string|null $file An internal link to an image of the original physical Waiver
+ * @property-read string|null $file An internal link to an image of the original physical Waiver
  * @property string $player The Waiver Mundane name field value
  * @property string|null $email The Waiver email field value, if any
  * @property string|null $phone The Waiver phone field value, if any
@@ -19467,11 +19581,14 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
+ * @property-read mixed $expires_at
  * @property-read \App\Models\Guest|null $guest
+ * @property-read mixed $is_current
  * @property-read \App\Models\Location|null $location
  * @property-read \App\Models\Persona|null $persona
  * @property-read \App\Models\Pronoun|null $pronoun
  * @property-read \App\Models\User|null $updatedBy
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $waiverable
  * @method static \Database\Factories\WaiverFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Waiver newQuery()

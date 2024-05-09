@@ -29,6 +29,7 @@ class IssuanceResource extends JsonResource
 			'signator_id' => $this->signator_id,
 			'custom_name' => $this->custom_name,
 			'rank' => $this->rank,
+			'parent_id' => $this->parent_id,
 			'issued_at' => $this->issued_at,
 			'reason' => $this->reason,
 			'image' => $this->image,

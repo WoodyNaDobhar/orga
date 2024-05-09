@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Traits\RegisterTrait;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 use \Illuminate\Validation\ValidationException;
 use WoodyNaDobhar\LaravelStupidPassword\LaravelStupidPassword;
 use App\Notifications\InviteNotification;
@@ -33,6 +33,7 @@ use App\Repositories\ChapterRepository;
 use App\Repositories\EventRepository;
 use App\Repositories\PersonaRepository;
 use App\Repositories\RealmRepository;
+use App\Repositories\UnitRepository;
 // use NZTim\Mailchimp\Exception\MailchimpBadRequestException;
 // use NZTim\Mailchimp\MailchimpFacade as Mailchimp;
 
@@ -48,13 +49,18 @@ class BaseAPIController extends AppBaseController
 	
 	/** @var  PersonaRepository */
 	private $personaRepository;
+	private $realmRepository;
+	private $chapterRepository;
+	private $eventRepository;
+	private $unitRepository;
 	
-	public function __construct(PersonaRepository $personaRepo, RealmRepository $realmRepo, ChapterRepository $chapterRepo, EventRepository $eventRepo)
+	public function __construct(PersonaRepository $personaRepo, RealmRepository $realmRepo, ChapterRepository $chapterRepo, EventRepository $eventRepo, UnitRepository $unitRepo)
 	{
 		$this->personaRepository = $personaRepo;
 		$this->realmRepository = $realmRepo;
 		$this->chapterRepository = $chapterRepo;
 		$this->eventRepository = $eventRepo;
+		$this->unitRepository = $unitRepo;
 	}
 
 	/**
@@ -248,7 +254,7 @@ class BaseAPIController extends AppBaseController
 			$input = $request->all();
 			$request->validate(
 				[
-					'context' => 'required|in:chapter,realm,heraldry,personas,event',
+					'context' => 'required|in:chapter,realm,heraldry,persona,event',
 					'target' => 'required',
 					'file' => 'required|mimes:jpeg,png,jpg,gif,svg',
 				], 
@@ -257,31 +263,31 @@ class BaseAPIController extends AppBaseController
 			if($request->hasFile('file')) {
 				switch($input['context']){
 					case 'chapter':
-						$target = "chapters/" . $input['target'] . '/';
+						$target = "chapters/" . $input['target'];
 						$model = $this->chapterRepository->find($input['target']);
 						break;
 					case 'realm':
-						$target = "realms/" . $input['target'] . '/';
+						$target = "realms/" . $input['target'];
 						$model = $this->realmRepository->find($input['target']);
 						break;
 					case 'heraldry':
-						$target = "heraldry/" . $input['target'] . '/';
-						$model = $this->personaRepository->find($input['target']);
-						break;
-					case 'personas':
-						$target = "personas/" . $input['target'] . '/';
+					case 'persona':
+						$target = "personas/" . $input['target'];
 						$model = $this->personaRepository->find($input['target']);
 						break;
 					case 'event':
-						$target = "events/" . $input['target'] . '/';
+						$target = "events/" . $input['target'];
 						$model = $this->eventRepository->find($input['target']);
+					case 'unit':
+						$target = "units/" . $input['target'];
+						$model = $this->unitRepository->find($input['target']);
 				}
 				$this->authorize('update', $model);
 				$filename = uniqid() . '.' . AppHelper::instance()->fixFilename($request->file('file')->getClientOriginalName());
-				$path = $request->file('file')->store(
-					$target . $filename, 'public'
+				$path = $request->file('file')->storeAs(
+					$target, $filename, 'public'
 				);
-				return $this->sendResponse($path, 'Image upload successful.');
+				return $this->sendResponse('/storage/' . $path, 'Image upload successful.');
 			}
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
@@ -940,6 +946,118 @@ class BaseAPIController extends AppBaseController
 	 * @return Response
 	 *
 	 * @OA\Post(
+	 *		path="/checkpass",
+	 *		summary="Check if the logged in user knows their password (for extra security).",
+	 *		tags={"Base"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+	 *		requestBody={"$ref": "#/components/requestBodies/checkpass"},
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="data",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="checkpass Successful."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function checkpass(Request $request)
+	{
+		try {
+			
+			if (!Auth::check()) {
+				return $this->sendError('checkpass failed.');
+			}
+			
+			$request->validate([
+				'password' => 'min:6|required_with:password_confirm|same:password_confirm',
+				'password_confirm' => 'min:6',
+				'device_name' => 'required'
+			]);
+			
+			$user = Auth::user();
+			
+			if (! $user || ! Hash::check($request->password, $user->password)) {
+				throw ValidationException::withMessages([
+					'email' => ['The provided credentials are incorrect.'],
+				]);
+			}
+			
+			return $this->sendResponse(true, 'checkpass successful.');
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
+	
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Post(
 	 *		path="/forgot",
 	 *		summary="Send reset password email to user.  May only be accessed once every five minutes.",
 	 *		tags={"Base"},
@@ -1189,6 +1307,207 @@ class BaseAPIController extends AppBaseController
 				}
 			);
 			return $this->login($request);
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
+	
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/resend",
+	 *		summary="Resend the user's email verification link.  May only be accessed once every five minutes.",
+	 *		tags={"Base"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="A password reset link has been sent to the given email address."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function resend(Request $request)
+	{
+		try {
+			
+			$user = Auth::user();
+			
+			if (! $user ) {
+				throw ValidationException::withMessages([
+					'auth' => ['You are not logged in.'],
+				]);
+			}
+			
+			$request->user()->sendEmailVerificationNotification();
+			
+			return $this->sendSuccess("Your email verification link has been resent.  Please check your spam folder and give it five minutes before trying again.");
+		} catch (Throwable $e) {
+			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
+			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());
+			return $this->sendError($e->getMessage(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? null : $request->all(), $e instanceof \Illuminate\Auth\Access\AuthorizationException ? 403 : 400);
+		}
+	}
+	
+	/**
+	 * @param Request $request
+	 * @return Response
+	 *
+	 * @OA\Post(
+	 *		path="/verify",
+	 *		summary="verify the user's email verification link.  May only be accessed once every five minutes.",
+	 *		tags={"Base"},
+	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: full<br>Unit Officers: full<br>Crats: full<br>Officers: full<br>Admins: full",
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="successful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="true",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="A password reset link has been sent to the given email address."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="unsuccessful operation",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="Exception"
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="unauthorized",
+	 *			content={
+	 *				@OA\MediaType(
+	 *					mediaType="application/json",
+	 *					@OA\Schema(
+	 *						type="object",
+	 *						@OA\Property(
+	 *							property="success",
+	 *							default="false",
+	 *							type="boolean"
+	 *						),
+	 *						@OA\Property(
+	 *							property="message",
+	 *							type="string",
+	 *							example="This action is unauthorized."
+	 *						)
+	 *					)
+	 *				)
+	 *			}
+	 *		)
+	 *	)
+	 */
+	public function verify(Request $request)
+	{
+		try {
+			
+			$user = Auth::user();
+			
+			if (! $user ) {
+				throw ValidationException::withMessages([
+					'auth' => ['You are not logged in.'],
+				]);
+			}
+			
+			if (!$user->hasVerifiedEmail()) {
+				$user->markEmailAsVerified();
+				event(new Verified($user()));
+			}
+			
+			return $this->sendSuccess("Your email has been verified.");
 		} catch (Throwable $e) {
 			$trace = $e->getTrace()[AppHelper::instance()->search_multi_array(__FILE__, 'file', $e->getTrace())];
 			Log::error($e->getMessage() . " (" . $trace['file'] . ":" . $trace['line'] . ")\r\n" . '[stacktrace]' . "\r\n" . $e->getTraceAsString());

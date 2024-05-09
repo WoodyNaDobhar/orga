@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -151,13 +153,25 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 	Route::get('waivers/{id}', 'WaiverAPIController@show');
 	Route::put('waivers/{id}', 'WaiverAPIController@update');
 	Route::delete('waivers/{id}', 'WaiverAPIController@destroy');
+	
+	Route::middleware(['throttle:1,5'])->group(function () {
+		Route::post('checkpass', 'BaseAPIController@checkpass');
+	});
 });
 	
+Route::group(['middleware' => ['auth:sanctum']], function () {
+	Route::get('/email/verify/{id}/{hash}', 'BaseAPIController@verify');
+	Route::middleware(['throttle:1,5'])->group(function () {
+		Route::post('resend', 'BaseAPIController@resend');
+	});
+});
+
 Route::get('images', 'BaseAPIController@images');
 Route::post('login', 'BaseAPIController@login');
 Route::middleware(['throttle:1,5'])->group(function () {
 	Route::post('forgot', 'BaseAPIController@forgot');
 });
+
 Route::middleware(['throttle:1,1'])->group(function () {
 	Route::post('check', 'BaseAPIController@check');
 });

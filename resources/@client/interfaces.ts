@@ -48,7 +48,7 @@ export interface AccountSimple {
 }
 export interface AccountSuperSimple {
 	id: number
-	parent_id?: number | null
+	parent_id: number | null
 	accountable_type: "Realm" | "Chapter" | "Unit"
 	accountable_id: number
 	name: string
@@ -189,16 +189,16 @@ export interface Award {
 export interface AwardSimple {
 	id: number
 	awarder_type: "Realm" | "Chapter" | "Unit"
-	awarder_id?: number | null
+	awarder_id: number | null
 	name: string
 	is_active: 0 | 1
 	is_ladder: 0 | 1
 	created_by: number
-	updated_by?: number | null
-	deleted_by?: number | null
+	updated_by: number | null
+	deleted_by: number | null
 	created_at: string
-	updated_at?: string | null
-	deleted_at?: string | null
+	updated_at: string | null
+	deleted_at: string | null
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -206,13 +206,13 @@ export interface AwardSimple {
 	can_delete: 0 | 1
 	can_restore: 0 | 1
 	can_nuke: 0 | 1
-	rank?: null
-	peerage?: null
+	rank: null
+	peerage: null
 }
 export interface AwardSuperSimple {
 	id: number
 	awarder_type: "Realm" | "Chapter" | "Unit"
-	awarder_id?: number | null
+	awarder_id: number | null
 	name: string
 	is_active: 0 | 1
 	is_ladder: 0 | 1
@@ -347,7 +347,7 @@ export interface ChaptertypeSuperSimple {
 	id: number
 	realm_id: number
 	name: string
-	rank?: number | null
+	rank: number | null
 	minimumattendance: number
 	minimumcutoff?: number | null
 }
@@ -453,7 +453,7 @@ export interface DueSuperSimple {
 	persona_id: number
 	transaction_id: number
 	dues_on: string
-	intervals?: number | null
+	intervals: number | null
 }
 export interface Event {
 	id: number
@@ -527,17 +527,17 @@ export interface EventSuperSimple {
 	id: number
 	eventable_type: 'Realm' | 'Chapter' | 'Unit' | 'Persona'
 	eventable_id: number
-	sponsorable_type?: 'Chapter' | 'Realm'
-	sponsorable_id?: number
-	location_id?: number
+	sponsorable_type: 'Chapter' | 'Realm' | null
+	sponsorable_id: number
+	location_id: number | null
 	name: string
-	description?: string
-	image?: string
+	description: string | null
+	image: string | null
 	is_active: 0 | 1
 	is_demo: 0 | 1
 	event_started_at: string
 	event_ended_at: string
-	price?: number
+	price: number | null
 }
 export interface Guest {
 	id: number
@@ -590,25 +590,26 @@ export interface GuestSimple {
 export interface GuestSuperSimple {
 	id: number
 	event_id: number
-	chapter_id?: number | null
+	chapter_id: number | null
 	waiver_id: number
 	is_followedup: 0 | 1
-	notes?: string | null
+	notes: string | null
 }
 export interface Issuance {
 	id: number
 	issuable_type: 'Award' | 'Title'
 	issuable_id: number
-	whereable_type?: 'Event' | 'Meetup' | 'Location'
-	whereable_id?: number
+	whereable_type?: 'Event' | 'Meetup' | 'Location' | null
+	whereable_id?: number | null
 	issuer_type: 'Chapter' | 'Realm' | 'Persona' | 'Unit'
 	issuer_id: number
 	recipient_type: 'Persona' | 'Unit'
 	recipient_id: number
-	signator_id?: number
+	signator_id?: number | null
 	name: string
 	custom_name?: string | null
 	rank?: number | null
+	parent_id: number | null
 	issued_at: string
 	reason?: string | null
 	image: string
@@ -642,16 +643,17 @@ export interface IssuanceSimple {
 	id: number
 	issuable_type: 'Award' | 'Title'
 	issuable_id: number
-	whereable_type?: 'Event' | 'Meetup' | 'Location'
-	whereable_id?: number
+	whereable_type?: 'Event' | 'Meetup' | 'Location' | null
+	whereable_id?: number | null
 	issuer_type: 'Chapter' | 'Realm' | 'Persona' | 'Unit'
 	issuer_id: number
 	recipient_type: 'Persona' | 'Unit'
 	recipient_id: number
-	signator_id?: number
+	signator_id?: number | null
 	name: string
 	custom_name?: string | null
 	rank?: number | null
+	parent_id: number | null
 	issued_at: string
 	reason?: string | null
 	image: string
@@ -677,22 +679,22 @@ export interface IssuanceSuperSimple {
 	id: number
 	issuable_type: 'Award' | 'Title'
 	issuable_id: number
-	whereable_type?: 'Event' | 'Meetup' | 'Location'
-	whereable_id?: number
+	whereable_type: 'Event' | 'Meetup' | 'Location' | null
+	whereable_id: number | null
 	issuer_type: 'Chapter' | 'Realm' | 'Persona' | 'Unit'
 	issuer_id: number
 	recipient_type: 'Persona' | 'Unit'
 	recipient_id: number
-	signator_id?: number
-	name: string
-	custom_name?: string | null
-	rank?: number | null
+	signator_id: number | null
+	custom_name: string | null
+	rank: number | null
+	parent_id: number | null
 	issued_at: string
-	reason?: string | null
+	reason: string | null
 	image: string
-	revoked_by?: number | null
-	revoked_at?: string | null
-	revocation?: string | null
+	revoked_by: number | null
+	revoked_at: string | null
+	revocation: string | null
 }
 export interface Location {
 	id: number
@@ -760,18 +762,18 @@ export interface LocationSimple {
 }
 export interface LocationSuperSimple {
 	id: number
-	name?: string | null
-	address?: string | null
-	city?: string | null
-	province?: string | null
-	postal_code?: string | null
-	country?: string | null
-	google_geocode?: string | null
-	latitude?: number | null
-	longitude?: number | null
-	location?: string | null
-	map_url?: string | null
-	directions?: string | null
+	name: string | null
+	address: string | null
+	city: string | null
+	province: string | null
+	postal_code: string | null
+	country: string | null
+	google_geocode: string | null
+	latitude: number | null
+	longitude: number | null
+	location: string | null
+	map_url: string | null
+	directions: string | null
 }
 export interface Meetup {
 	id: number
@@ -837,16 +839,16 @@ export interface MeetupSimple {
 export interface MeetupSuperSimple {
 	id: number
 	chapter_id: number
-	location_id?: number | null
+	location_id: number | null
 	name: string
 	is_active: 0 | 1
 	purpose: 'Park Day' | 'Fighter Practice' | 'A&S Gathering' | 'Other'
 	recurrence: 'Weekly' | 'Monthly' | 'Week-of-Month'
-	week_of_month?: number | null
+	week_of_month: number | null
 	week_day: 'None' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
-	month_day?: number | null
+	month_day: number | null
 	occurs_at: string
-	description?: string | null
+	description: string | null
 }
 export interface Member {
 	id: number
@@ -905,9 +907,9 @@ export interface MemberSuperSimple {
 	unit_id: number
 	is_head: 0 | 1
 	is_voting: 0 | 1
-	joined_at?: string | null
-	left_at?: string | null
-	notes?: string | null
+	joined_at: string | null
+	left_at: string | null
+	notes: string | null
 }
 export interface Office {
 	id: number
@@ -965,10 +967,10 @@ export interface OfficeSuperSimple {
 	officeable_type: "Chaptertype" | "Realm" | "Unit"
 	officeable_id: number
 	name: string
-	duration?: number | null
-	is_forgiven?: 0 | 1
-	is_midreign?: 0 | 1
-	order?: number | null
+	duration: number | null
+	is_forgiven: 0 | 1 | null
+	is_midreign: 0 | 1 | null
+	order: number | null
 }
 export interface Officer {
 	id: number
@@ -1030,10 +1032,10 @@ export interface OfficerSuperSimple {
 	officerable_id: number
 	office_id: number
 	persona_id: number
-	label?: string | null
-	starts_on?: string | null
-	ends_on?: string | null
-	notes?: string | null
+	label: string | null
+	starts_on: string | null
+	ends_on: string | null
+	notes: string | null
 }
 export interface Persona {
 	id: number
@@ -1042,6 +1044,7 @@ export interface Persona {
 	pronoun_id?: number | null
 	mundane?: string | null
 	name: string
+	slug?: string | null
 	heraldry: string
 	image: string
 	is_active: 0 | 1
@@ -1075,7 +1078,7 @@ export interface Persona {
 	events?: EventSimple[]
 	honorific?: IssuanceSimple
 	issuances?: IssuanceSimple[]
-	issuanceGivens?: IssuanceSimple[]
+	retainers?: Issuance[]
 	issuanceRevokeds?: IssuanceSimple[]
 	issuanceSigneds?: IssuanceSimple[]
 	memberships?: Member[]
@@ -1083,13 +1086,14 @@ export interface Persona {
 	pronoun?: PronounSimple
 	recommendations?: Recommendation[]
 	reconciliations?: ReconciliationSimple[]
+	ropawards?: TitleSimple[]
 	splits?: SplitSimple[]
 	socials?: SocialSimple[]
 	suspensions?: SuspensionSimple[]
 	suspensionIssueds?: SuspensionSimple[]
 	titleIssuances?: Issuance[]
 	user?: UserSimple
-	waivers?: WaiverSimple[]
+	waivers?: Waiver[]
 	waiverVerifieds?: WaiverSimple[]
 	can_list: 0 | 1
 	can_view: 0 | 1
@@ -1106,6 +1110,7 @@ export interface PersonaSimple {
 	pronoun_id?: number | null
 	mundane?: string | null
 	name: string
+	slug?: string | null
 	heraldry: string
 	image: string
 	is_active: 0 | 1
@@ -1143,6 +1148,7 @@ export interface PersonaSuperSimple {
 	pronoun_id: number | null
 	mundane: string | null
 	name: string
+	slug: string | null
 	heraldry: string
 	image: string
 	is_active: 0 | 1
@@ -1315,17 +1321,17 @@ export interface RealmSuperSimple {
 	color: string
 	heraldry: string
 	is_active: 0 | 1
-	credit_minimum?: number | null
-	credit_maximum?: number | null
-	daily_minimum?: number | null
-	weekly_minimum?: number | null
-	average_period_type?: 'Week' | 'Month' | null
-	average_period?: number | null
-	dues_amount?: number | null
-	dues_intervals_type?: 'Week' | 'Month' | null
-	dues_intervals?: number | null
-	dues_take?: number | null
-	waiver_duration?: number | null
+	credit_minimum: number | null
+	credit_maximum: number | null
+	daily_minimum: number | null
+	weekly_minimum: number | null
+	average_period_type: 'Week' | 'Month' | null
+	average_period: number | null
+	dues_amount: number | null
+	dues_intervals_type: 'Week' | 'Month' | null
+	dues_intervals: number | null
+	dues_take: number | null
+	waiver_duration: number | null
 }
 export interface Recommendation {
 	id: number
@@ -1381,9 +1387,17 @@ export interface RecommendationSuperSimple {
 	persona_id: number
 	recommendable_type: 'Award' | 'Title'
 	recommendable_id: number
-	rank?: number | null
+	rank: number | null
 	is_anonymous: 0 | 1
 	reason: string
+}
+export interface RecommendFormData {
+	honor: string
+	persona_id: number | null
+	recommendable_type: string | null
+	recommendable_id: number | null
+	rank: number | null
+	reason: string | null
 }
 export interface Reconciliation {
 	id: number
@@ -1435,7 +1449,7 @@ export interface ReconciliationSuperSimple {
 	archetype_id: number
 	persona_id: number
 	credits: number
-	notes?: string | null
+	notes: string | null
 }
 export interface Reign {
 	id: number
@@ -1490,7 +1504,7 @@ export interface ReignSuperSimple {
 	id: number
 	reignable_type: "Chapter" | "Realm"
 	reignable_id: number
-	name?: string | null
+	name: string | null
 	starts_on: string
 	midreign_on: string
 	ends_on: string
@@ -1498,7 +1512,7 @@ export interface ReignSuperSimple {
 export interface Social {
 	id: number
 	sociable_type: "Chapter" | "Event" | "Persona" | "Realm" | "Unit"
-	sociable_id?: number
+	sociable_id: number
 	media: "Discord" | "Facebook" | "Instagram" | "TicToc" | "YouTube" | "Web"
 	value: string
 	link: string
@@ -1523,7 +1537,7 @@ export interface Social {
 export interface SocialSimple {
 	id: number
 	sociable_type: "Chapter" | "Event" | "Persona" | "Realm" | "Unit"
-	sociable_id?: number
+	sociable_id: number
 	media: "Discord" | "Facebook" | "Instagram" | "TicToc" | "YouTube" | "Web"
 	value: string
 	link: string
@@ -1544,7 +1558,7 @@ export interface SocialSimple {
 export interface SocialSuperSimple {
 	id: number
 	sociable_type: "Chapter" | "Event" | "Persona" | "Realm" | "Unit"
-	sociable_id?: number
+	sociable_id: number
 	media: "Discord" | "Facebook" | "Instagram" | "TicToc" | "YouTube" | "Web"
 	value: string
 	link: string
@@ -1662,8 +1676,8 @@ export interface SuspensionSuperSimple {
 	suspendable_type: 'Chapter' | 'Realm' | 'Persona' | 'Unit'
 	suspendable_id: number
 	suspended_by: number
-	suspended_at?: string
-	expires_at?: string
+	suspended_at: string
+	expires_at: string
 	cause: string
 	is_propogating: 0 | 1
 }
@@ -1700,16 +1714,16 @@ export interface TitleSimple {
 	titleable_type: 'Chapter' | 'Persona' | 'Realm' | 'Unit'
 	titleable_id: number
 	name: string
-	rank?: number
+	rank: number | null
 	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer'
 	is_roaming: 0 | 1
 	is_active: 0 | 1
 	created_by: number
-	updated_by?: number | null
-	deleted_by?: number | null
+	updated_by: number | null
+	deleted_by: number | null
 	created_at: string
-	updated_at?: string | null
-	deleted_at?: string | null
+	updated_at: string | null
+	deleted_at: string | null
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -1723,10 +1737,17 @@ export interface TitleSuperSimple {
 	titleable_type: 'Chapter' | 'Persona' | 'Realm' | 'Unit'
 	titleable_id: number
 	name: string
-	rank?: number
+	rank: number
 	peerage: 'Gentry' | 'Knight' | 'Master' | 'Nobility' | 'None' | 'Paragon' | 'Retainer'
 	is_roaming: 0 | 1
 	is_active: 0 | 1
+}
+export interface TitleSelectOption {
+	label: string
+	options?: { 
+		value: number 
+		text: string 
+	}[]
 }
 export interface Tournament {
 	id: number
@@ -1826,7 +1847,7 @@ export interface TransactionSimple {
 export interface TransactionSuperSimple {
 	id: number
 	description: string
-	memo?: string
+	memo: string
 	transaction_at: string
 }
 export interface Unit {
@@ -1849,7 +1870,7 @@ export interface Unit {
 	awardIssuances: IssuanceSimple[]
 	awards?: AwardSimple[]
 	events: EventSimple[]
-	issuanceGivens: IssuanceSimple[]
+	retainers: IssuanceSimple[]
 	issuanceReceived: IssuanceSimple[]
 	members: MemberSimple[]
 	officers: OfficerSimple[]
@@ -1893,10 +1914,11 @@ export interface UnitSuperSimple {
 	type: "Company" | "Event" | "Household"
 	name: string
 	heraldry: string
-	description?: string | null
-	history?: string | null
+	description: string | null
+	history: string | null
 }
 export interface User {
+	id: number
 	persona_id: number
 	name?: string | null
 	email: string
@@ -1923,6 +1945,7 @@ export interface User {
 	can_nuke: 0 | 1
 }
 export interface UserSimple {
+	id: number
 	persona_id: number
 	name?: string | null
 	email: string
@@ -1944,11 +1967,10 @@ export interface UserSimple {
 	can_nuke: 0 | 1
 }
 export interface UserSuperSimple {
+	id: number
 	persona_id: number
-	name?: string | null
 	email: string
-	email_verified_at?: string | null
-	password: string
+	email_verified_at: string | null
 	is_restricted: 0 | 1
 }
 export interface Waiver {
@@ -1959,7 +1981,7 @@ export interface Waiver {
 	persona_id?: number | null
 	waiverable_type: 'Realm' | 'Event'
 	waiverable_id: number
-	file?: string | null
+	file: string
 	player: string
 	email?: string | null
 	phone?: string | null
@@ -1971,6 +1993,7 @@ export interface Waiver {
 	emergency_relationship?: string | null
 	emergency_phone?: string | null
 	signed_at: string
+	expires_at: string | null
 	created_by: number
 	createdBy: UserSimple
 	updated_by?: number | null
@@ -1985,6 +2008,7 @@ export interface Waiver {
 	location?: LocationSimple | null
 	persona?: PersonaSimple | null
 	pronoun?: PronounSimple | null
+	waiverable: RealmSimple | EventSimple
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -2001,7 +2025,7 @@ export interface WaiverSimple {
 	persona_id?: number | null
 	waiverable_type: 'Realm' | 'Event'
 	waiverable_id: number
-	file?: string | null
+	file: string
 	player: string
 	email?: string | null
 	phone?: string | null
@@ -2013,6 +2037,7 @@ export interface WaiverSimple {
 	emergency_relationship?: string | null
 	emergency_phone?: string | null
 	signed_at: string
+	expires_at: string | null
 	created_by: number
 	updated_by?: number | null
 	deleted_by?: number | null
@@ -2029,24 +2054,25 @@ export interface WaiverSimple {
 }
 export interface WaiverSuperSimple {
 	id: number
-	guest_id?: number | null
-	location_id?: number | null
-	pronoun_id?: number | null
-	persona_id?: number | null
+	guest_id: number | null
+	location_id: number | null
+	pronoun_id: number | null
+	persona_id: number | null
 	waiverable_type: 'Realm' | 'Event'
 	waiverable_id: number
-	file?: string | null
+	file: string
 	player: string
-	email?: string | null
-	phone?: string | null
-	dob?: string | null
-	age_verified_at?: string | null
-	age_verified_by?: number | null
-	guardian?: string | null
-	emergency_name?: string | null
-	emergency_relationship?: string | null
-	emergency_phone?: string | null
+	email: string | null
+	phone: string | null
+	dob: string | null
+	age_verified_at: string | null
+	age_verified_by: number | null
+	guardian: string | null
+	emergency_name: string | null
+	emergency_relationship: string | null
+	emergency_phone: string | null
 	signed_at: string
+	expires_at: string | null
 }
 export interface HonorSelectOption {
 	label: string
@@ -2056,12 +2082,4 @@ export interface HonorSelectOption {
 		type: string 
 		is_ladder: number 
 	}[]
-}
-export interface RecommendFormData {
-	honor: string
-	persona_id: number | null
-	recommendable_type: string | null
-	recommendable_id: number | null
-	rank: number | null
-	reason: string | null
 }

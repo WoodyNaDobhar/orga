@@ -18,6 +18,7 @@ class IssuanceRepository extends BaseRepository
 		'signator_id',
 		'custom_name',
 		'rank',
+		'parent_id',
 		'issued_at',
 		'reason',
 		'image',

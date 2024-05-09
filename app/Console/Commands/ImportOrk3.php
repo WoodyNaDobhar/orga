@@ -7,6 +7,7 @@ use App\Models\Archetype;
 use App\Models\Award;
 use App\Models\Chapter;
 use App\Models\Chaptertype;
+use App\Models\Issuance;
 use App\Models\Location;
 use App\Models\Meetup;
 use App\Models\Member;
@@ -907,20 +908,11 @@ class ImportOrk3 extends Command
 							continue;
 						}
 						
-						//import their image from ORK3
-						$heraldry = null;
-						$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-						$response = Http::head($url);
-						if ($response->successful()) {
-							$contents = Http::get($url)->body();
-							$heraldry = str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-						}
-						
 						$realmId = DB::table('realms')->insertGetId([
 							'parent_id' => $oldRealm->parent_kingdom_id == 0 ? null : $transRealms[$oldRealm->parent_kingdom_id],
 							'name' => $oldRealm->name,
 							'abbreviation' => $oldRealm->abbreviation,
-							'heraldry' => $heraldry,
+							'heraldry' => null,
 							'is_active' => $oldRealm->active === 'Active' ? 1 : 0,
 							'created_at' => $oldRealm->modified,
 							'updated_at' => $oldRealm->modified
@@ -934,7 +926,18 @@ class ImportOrk3 extends Command
 						if($oldRealm->name === 'The Freeholds of Amtgard'){
 							$freeholdId = $realmId;
 						}
-						Storage::put('public/realms/' . $realmId . '/' . $heraldry, $contents);
+						
+						//import their image from ORK3
+						$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
+						$response = Http::head($url);
+						if ($response->successful()) {
+							Http::get($url)->body()->storeAs(
+								"realms/" . $realmId, str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
+							);
+						}
+						DB::table('realms')->where('id', $realmId)->update([
+							'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
+						]);
 						
 						//make the reign
 						DB::table('reigns')->insert([
@@ -968,18 +971,11 @@ class ImportOrk3 extends Command
 									$transRealms[$oldChaptertype->kingdom_id] = $realmMakeCheck->id;
 								}else{
 									if($oldChaptertype->kingdom_id != '0'){
-										$heraldry = null;
-										$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url);
-										if ($response->successful()) {
-											$contents = Http::get($url)->body();
-											$heraldry = str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-										}
 										$realmId = DB::table('realms')->insertGetId([
 												'parent_id' => null,
 												'name' => 'Deleted Realm ' . $oldChaptertype->kingdom_id,
 												'abbreviation' => 'DR' . $oldChaptertype->kingdom_id,
-												'heraldry' => $heraldry,
+												'heraldry' => null,
 												'is_active' => 0
 										]);
 										DB::table('trans')->insert([
@@ -988,7 +984,19 @@ class ImportOrk3 extends Command
 												'newID' => $realmId
 										]);
 										$transRealms[$oldChaptertype->kingdom_id] = $realmId;
-										Storage::put('public/realms/' . $realmId . '/' . $heraldry, $contents);
+										
+										//import their image from ORK3
+										$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
+										$response = Http::head($url);
+										if ($response->successful()) {
+											Http::get($url)->body()->storeAs(
+												"realms/" . $realmId, str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
+											);
+										}
+										DB::table('realms')->where('id', $realmId)->update([
+											'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
+										]);
+										
 										$this->addRealmAccounts($transRealms[$oldChaptertype->kingdom_id]);
 										DB::table('reigns')->insert([
 											'reignable_type' => 'Realm',
@@ -1128,18 +1136,11 @@ class ImportOrk3 extends Command
 							//check for it first
 							$transRealms = $this->getTrans('realms');
 							if(!array_key_exists($oldChapter->kingdom_id, $transRealms)){
-								$heraldry = null;
-								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									$contents = Http::get($url)->body();
-									$heraldry = str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-								}
 								$realmId = DB::table('realms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Realm ' . $oldChapter->kingdom_id,
 									'abbreviation' => 'DR' . $oldChapter->kingdom_id,
-									'heraldry' => $heraldry,
+									'heraldry' => null,
 									'is_active' => 0
 								]);
 								DB::table('trans')->insert([
@@ -1148,7 +1149,19 @@ class ImportOrk3 extends Command
 									'newID' => $realmId
 								]);
 								$transRealms[$oldChapter->kingdom_id] = $realmId;
-								Storage::put('public/realms/' . $realmId . '/' . $heraldry, $contents);
+								
+								//import their image from ORK3
+								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									Http::get($url)->body()->storeAs(
+										"realms/" . $realmId, str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
+									);
+								}
+								DB::table('realms')->where('id', $realmId)->update([
+									'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
+								]);
+								
 								$this->addRealmAccounts($transRealms[$oldChapter->kingdom_id]);
 								DB::table('reigns')->insert([
 									'reignable_type' => 'Realm',
@@ -1192,23 +1205,13 @@ class ImportOrk3 extends Command
 							$lowestChaptertype = Chaptertype::where('realm_id', $transRealms[$oldChapter->kingdom_id])->orderBy('rank', 'ASC')->first();
 						}
 						
-						//import their image from ORK3
-						$heraldry = null;
-						if ($oldChapter->has_heraldry === '1') {
-							$url = "https://ork.amtgard.com/assets/heraldry/park/" . str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-							$response = Http::head($url);
-							if ($response->successful()) {
-								$contents = Http::get($url)->body();
-								$heraldry = str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-							}
-						}
 						$chapterID = DB::table('chapters')->insertGetId([
 							'realm_id' => $transRealms[$oldChapter->kingdom_id],
 							'chaptertype_id' => $lowestChaptertype ? $lowestChaptertype->id : $transChaptertypes[$oldChapter->parktitle_id],
 							'location_id' => $locationID,
 							'name' => trim($oldChapter->name),
 							'abbreviation' => $oldChapter->abbreviation === '' ? $this->getAbbreviation(trim($oldChapter->name)) : $oldChapter->abbreviation,
-							'heraldry' => $heraldry,
+							'heraldry' => null,
 							'is_active' => $oldChapter->active != 'Active' || $oldChapter->parktitle_id == 186 ? 0 : 1,
 							'created_at' => $oldChapter->modified,
 							'updated_at' => $oldChapter->modified
@@ -1219,7 +1222,19 @@ class ImportOrk3 extends Command
 							'newID' => $chapterID
 						]);
 						$transChapters[$oldChapter->park_id] = $chapterID;
-						Storage::put('public/chapters/' . $chapterID . '/' . $heraldry, $contents);
+						
+						//import their image from ORK3
+						$url = "https://ork.amtgard.com/assets/heraldry/park/" . str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg";
+						$response = Http::head($url);
+						if ($response->successful()) {
+							Http::get($url)->body()->storeAs(
+								"chapters/" . $chapterID, str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
+							);
+						}
+						DB::table('chapters')->where('id', $chapterID)->update([
+							'heraldry' => "/storage/chapters/" . $chapterID . "/" . str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg",
+						]);
+						
 						$url = $this->cleanURL($oldChapter->url);
 						if($url){
 							DB::table('socials')->insert([
@@ -1280,12 +1295,25 @@ class ImportOrk3 extends Command
 						$unitId = DB::table('units')->insertGetId([
 							'type' => ($oldUnit->type != '' ? $oldUnit->type : 'Household'),
 							'name' => ($oldUnit->name != '' ? trim($oldUnit->name) : 'Unknown ' . $oldUnit->type),
-							'heraldry' => ($oldUnit->has_heraldry === '1' ? sprintf('%05d.jpg', $oldUnit->unit_id) : null),
+							'heraldry' => null,
 							'description' => (trim($oldUnit->description) != '' ? trim($oldUnit->description) : null),
 							'history' => (trim($oldUnit->history) != '' ? trim($oldUnit->history) : null),
 							'created_at' => $oldUnit->modified,
 							'updated_at' => $oldUnit->modified
 						]);
+						
+						//import their image from ORK3
+						$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldUnit->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg";
+						$response = Http::head($url);
+						if ($response->successful()) {
+							Http::get($url)->body()->storeAs(
+								"units/" . $unitId, str_pad($oldUnit->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
+							);
+						}
+						DB::table('units')->where('id', $unitId)->update([
+							'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldUnit->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg",
+						]);
+						
 						$url = $this->cleanURL($oldUnit->url);
 						if($url){
 							DB::table('socials')->insert([
@@ -1309,7 +1337,7 @@ class ImportOrk3 extends Command
 					DB::table('awards')->truncate();
 					DB::table('trans')->where('array', 'LIKE', '%awards')->delete();
 					DB::table('crypt')->where('model', 'Award')->delete();
-					$transRealms = $this->getTrans('realms');
+					$transmundane_ids = $this->getTrans('realms');
 					//Common awards first
 					$oldAwards = $backupConnect->table('ork_award')->where('is_ladder', 1)->get()->toArray();
 					$bar = $this->output->createProgressBar(216);
@@ -1532,7 +1560,6 @@ class ImportOrk3 extends Command
 									if(strpos($cleanName, 'Master ') > -1){
 										$peerage = 'Master';
 									}else if($cleanName === 'Apprentice'){
-										//TOOD: make sure Apprentice gets the Persona type
 										$titleableType = 'Persona';
 										$peerage = 'Retainer';
 									}else{
@@ -1544,7 +1571,7 @@ class ImportOrk3 extends Command
 								case 'Page':
 								case 'Squire':
 									$titleableType = 'Persona';
-									$peerage = 'Retainer';
+									$peerage = 'Squire';
 									break;
 								default:
 									$peerage = $oldTitle->peerage;
@@ -2364,30 +2391,14 @@ class ImportOrk3 extends Command
 								}
 								DB::reconnect("mysqlBak");
 								
-								//import their image from ORK3
-								$heraldry = null;
-								$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									$contents = Http::get($url)->body();
-									$heraldry = str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-								}
-								$image = null;
-								$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-								$response2 = Http::head($url2);
-								if ($response2->successful()) {
-									$contents = Http::get($url2)->body();
-									$image = str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . 'image' . ".jpg";
-								}
-								
 								//persona data
 								$personaId = DB::table('personas')->insertGetId([
 									'chapter_id' => $oldUser->park_id == 0 ? $transChapters[$burningLands->park_id] : $transChapters[$oldUser->park_id],
 									'pronoun_id' => $pronounId,
 									'mundane' => trim($oldUser->given_name) != '' || trim($oldUser->surname) != '' ? str_ireplace('zzz', '', trim($oldUser->given_name)) . ' ' . str_ireplace('zzz', '', trim($oldUser->surname)) : null,
 									'name' => $personaName,
-									'heraldry' => $heraldry,
-									'image' => $image,
+									'heraldry' => null,
+									'image' => null,
 									'is_active' => $oldUser->active === '1' ? 1 : 0,
 									'reeve_qualified_expires_at' => $oldUser->reeve_qualified != 1 ? null : ($oldUser->reeve_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->reeve_qualified_until),
 									'corpora_qualified_expires_at' => $oldUser->corpora_qualified != 1 ? null : ($oldUser->corpora_qualified_until === '0000-00-00' ? date('Y-m-d', strtotime('+20 years')) : $oldUser->corpora_qualified_until),
@@ -2402,9 +2413,27 @@ class ImportOrk3 extends Command
 								]);
 								$transPersonas[$oldUser->mundane_id] = $personaId;
 								
-								//images
-								Storage::put('public/personas/' . $personaId . '/' . $heraldry, $contents);
-								Storage::put('public/personas/' . $personaId . '/' . $image, $contents);
+								//import their images from ORK3
+								$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									Http::get($url)->body()->storeAs(
+										"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
+									);
+								}
+								DB::table('personas')->where('id', $personaId)->update([
+									'heraldry' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
+								]);
+								$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url2);
+								if ($response->successful()) {
+									Http::get($url2)->body()->storeAs(
+										"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
+									);
+								}
+								DB::table('personas')->where('id', $personaId)->update([
+									'image' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
+								]);
 								
 								//user data
 								if(filter_var($this->cleanEmail($oldUser->email), FILTER_VALIDATE_EMAIL)){
@@ -2498,6 +2527,18 @@ class ImportOrk3 extends Command
 													'newID' => $unitId
 												]);
 												$transUnits[$oldUser->company_id] = $unitId;
+												
+												//import their image from ORK3
+												$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldUser->company_id, 5, '0', STR_PAD_LEFT) . ".jpg";
+												$response = Http::head($url);
+												if ($response->successful()) {
+													Http::get($url)->body()->storeAs(
+															"units/" . $unitId, str_pad($oldUser->company_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
+															);
+												}
+												DB::table('units')->where('id', $unitId)->update([
+													'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldUser->company_id, 5, '0', STR_PAD_LEFT) . ".jpg",
+												]);
 											}
 										}
 									}else{
@@ -2634,18 +2675,11 @@ class ImportOrk3 extends Command
 							if($realmMakeCheck){
 								$transRealms[$oldEvent->kingdom_id] = $realmMakeCheck->id;
 							}else{
-								$heraldry = null;
-								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									$contents = Http::get($url)->body();
-									$heraldry = str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-								}
 								$realmId = DB::table('realms')->insertGetId([
 									'parent_id' => null,
 									'name' => 'Deleted Realm ' . $oldEvent->kingdom_id,
 									'abbreviation' => 'DR' . $oldEvent->kingdom_id,
-									'heraldry' => $heraldry,
+									'heraldry' => null,
 									'is_active' => 0
 								]);
 								DB::table('trans')->insert([
@@ -2654,7 +2688,19 @@ class ImportOrk3 extends Command
 									'newID' => $realmId
 								]);
 								$transRealms[$oldEvent->kingdom_id] = $realmId;
-								Storage::put('public/realms/' . $realmId . '/' . $heraldry, $contents);
+								
+								//import their image from ORK3
+								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									Http::get($url)->body()->storeAs(
+										"realms/" . $realmId, str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
+									);
+								}
+								DB::table('realms')->where('id', $realmId)->update([
+									'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
+								]);
+								
 								$this->addRealmAccounts($transRealms[$oldEvent->kingdom_id]);
 								DB::table('reigns')->insert([
 									'reignable_type' => 'Realm',
@@ -2693,28 +2739,13 @@ class ImportOrk3 extends Command
 									if($personaMakeCheck){
 										$transPersonas[$oldEvent->mundane_id] = $personaMakeCheck->id;
 									}else{
-										//import their image from ORK3
-										$heraldry = null;
-										$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url);
-										if ($response->successful()) {
-											$contents = Http::get($url)->body();
-											$heraldry = str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-										}
-										$image = null;
-										$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-										$response2 = Http::head($url2);
-										if ($response2->successful()) {
-											$contents = Http::get($url2)->body();
-											$image = str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . 'image' . ".jpg";
-										}
 										$personaId = DB::table('personas')->insertGetId([
 											'chapter_id' => $oldEvent->park_id == '0' ? $burningLands->id : $transChapters[$oldEvent->park_id],
 											'pronoun_id' => null,
 											'mundane' => null,
 											'name' => 'Deleted Persona ' . $oldEvent->mundane_id,
-											'heraldry' => $heraldry,
-											'image' => $image,
+											'heraldry' => null,
+											'image' => null,
 											'is_active' => 0
 										]);
 										//TODO: go back and fix the $oldWhatever->id to whatever_id
@@ -2725,9 +2756,27 @@ class ImportOrk3 extends Command
 										]);
 										$transPersonas[$oldEvent->mundane_id] = $personaId;
 										
-										//images
-										Storage::put('public/personas/' . $personaId . '/' . $heraldry, $contents);
-										Storage::put('public/personas/' . $personaId . '/' . $image, $contents);
+										//import their images from ORK3
+										$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
+										$response = Http::head($url);
+										if ($response->successful()) {
+											Http::get($url)->body()->storeAs(
+												"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
+											);
+										}
+										DB::table('personas')->where('id', $personaId)->update([
+											'heraldry' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
+										]);
+										$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
+										$response = Http::head($url2);
+										if ($response->successful()) {
+											Http::get($url2)->body()->storeAs(
+												"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
+											);
+										}
+										DB::table('personas')->where('id', $personaId)->update([
+											'image' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
+										]);
 									}
 								}
 							}
@@ -2806,16 +2855,6 @@ class ImportOrk3 extends Command
 								'directions' => null
 							], $countries);
 						}
-						//import their image from ORK3
-						$heraldry = null;
-						if ($oldEvent->has_heraldry === '1') {
-							$url = "https://ork.amtgard.com/assets/heraldry/event/" . str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-							$response = Http::head($url);
-							if ($response->successful()) {
-								$contents = Http::get($url)->body();
-								$heraldry = str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-							}
-						}
 						$eventId = DB::table('events')->insertGetId([
 							'eventable_type' => $eventable_type,
 							'eventable_id' => $eventable_id,
@@ -2842,7 +2881,19 @@ class ImportOrk3 extends Command
 								'value' => $url
 							]);
 						}
-						Storage::put('public/events/' . $eventId . '/' . $heraldry, $contents);
+						
+						//import their image from ORK3
+						$url = "https://ork.amtgard.com/assets/heraldry/event/" . str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg";
+						$response = Http::head($url);
+						if ($response->successful()) {
+							Http::get($url)->body()->storeAs(
+								"events/" . $eventId, str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
+							);
+						}
+						DB::table('events')->where('id', $eventId)->update([
+							'image' => "/storage/events/" . $eventId . "/" . str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg",
+						]);
+						
 						if($oldEvent->mundane_id != '0'){
 							//make the crat
 							while(!array_key_exists($oldEvent->mundane_id, $transPersonas)){
@@ -4486,15 +4537,27 @@ class ImportOrk3 extends Command
 								$unitId = $unitMakeCheck->id;
 							}else{
 								$unitId = DB::table('units')->insertGetId([
-										'type' => 'Household',
-										'name' => 'Deleted Unit ' . $oldMember->unit_id
+									'type' => 'Household',
+									'name' => 'Deleted Unit ' . $oldMember->unit_id
 								]);
 								DB::table('trans')->insert([
-										'array' => 'units',
-										'oldID' => $oldMember->unit_id,
-										'newID' => $unitId
+									'array' => 'units',
+									'oldID' => $oldMember->unit_id,
+									'newID' => $unitId
 								]);
 								$transUnits[$oldMember->unit_id] = $unitId;
+								
+								//import their image from ORK3
+								$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldMember->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									Http::get($url)->body()->storeAs(
+										"units/" . $unitId, str_pad($oldMember->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
+									);
+								}
+								DB::table('units')->where('id', $unitId)->update([
+									'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldMember->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg",
+								]);
 							}
 						}
 						if(in_array($oldMember->mundane_id, $oldPersonas)){
@@ -4671,27 +4734,32 @@ class ImportOrk3 extends Command
 									$realmId = $realmMakeCheck->id;
 								}else{
 									if($oldOfficer->kingdom_id != '0'){
-										$heraldry = null;
+										$realmId = DB::table('realms')->insertGetId([
+											'parent_id' => null,
+											'name' => 'Deleted Realm ' . $oldOfficer->kingdom_id,
+											'abbreviation' => 'DR' . $oldOfficer->kingdom_id,
+											'heraldry' => null,
+											'is_active' => 0
+										]);
+										DB::table('trans')->insert([
+											'array' => 'realms',
+											'oldID' => $oldOfficer->kingdom_id,
+											'newID' => $realmId
+										]);
+										$transRealms[$oldOfficer->kingdom_id] = $realmId;
+										
+										//import their image from ORK3
 										$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
 										$response = Http::head($url);
 										if ($response->successful()) {
-											$contents = Http::get($url)->body();
-											$heraldry = str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
+											Http::get($url)->body()->storeAs(
+												"realms/" . $realmId, str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
+											);
 										}
-										$realmId = DB::table('realms')->insertGetId([
-												'parent_id' => null,
-												'name' => 'Deleted Realm ' . $oldOfficer->kingdom_id,
-												'abbreviation' => 'DR' . $oldOfficer->kingdom_id,
-												'heraldry' => $heraldry,
-												'is_active' => 0
+										DB::table('realms')->where('id', $realmId)->update([
+											'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
 										]);
-										DB::table('trans')->insert([
-												'array' => 'realms',
-												'oldID' => $oldOfficer->kingdom_id,
-												'newID' => $realmId
-										]);
-										$transRealms[$oldOfficer->kingdom_id] = $realmId;
-										Storage::put('public/realms/' . $realmId . '/' . $heraldry, $contents);
+										
 										$this->addRealmAccounts($transRealms[$oldOfficer->kingdom_id]);
 										DB::table('reigns')->insert([
 											'reignable_type' => 'Realm',
@@ -5384,6 +5452,7 @@ class ImportOrk3 extends Command
 							$authority_id = null;
 							$recipient_type = null;
 							$recipient_id = null;
+							$parent_id = null;
 							$rank = null;
 							$reason = null;
 							$issueDate = $oldIssuance->date != '0000-00-00' ? str_replace('-00-', '-01-', str_replace('-00', '-01', $oldIssuance->date)) : '0000-00-00';
@@ -5419,6 +5488,18 @@ class ImportOrk3 extends Command
 											'newID' => $unitId
 										]);
 										$transUnits[$oldIssuance->unit_id] = $unitId;
+										
+										//import their image from ORK3
+										$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldIssuance->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg";
+										$response = Http::head($url);
+										if ($response->successful()) {
+											Http::get($url)->body()->storeAs(
+												"units/" . $unitId, str_pad($oldIssuance->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
+											);
+										}
+										DB::table('units')->where('id', $unitId)->update([
+											'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldIssuance->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg",
+										]);
 									}
 								}else{
 									while(!array_key_exists($oldIssuance->unit_id, $transUnits)){
@@ -6032,12 +6113,44 @@ class ImportOrk3 extends Command
 													$transPersonas = $this->getTrans('personas');
 												}
 												$authority_id = $transPersonas[$oldIssuance->given_by_id];
+												
+												//TODO: check me
+												//parent issuance
+												$parentChecks = Issuance::where('issuable_type', 'Title')
+													->where('recipient_type', 'Persona')
+													->where('recipient_id', $transPersonas[$oldIssuance->given_by_id])
+													->with('issuable')
+													->get()
+													->toArray();
+												foreach ($parentChecks as $parentCheck) {
+													switch ($oldIssuance->award_id) {
+														case 14: // At-Arms
+														case 15: // Page
+															if (in_array($parentCheck->issuable->peerage, ["Noble", "Knight", "Squire"])) {
+																$parent_id = $parentCheck['id'];
+																break 2;
+															}
+															break;
+														case 16: // Squire
+															if ($parentCheck->issuable->peerage === "Knight") {
+																$parent_id = $parentCheck['id'];
+																break 2;
+															}
+															break;
+														case 203: // Apprentice
+															if ($parentCheck->issuable->peerage === "Paragon") {
+																$parent_id = $parentCheck['id'];
+																break 2;
+															}
+															break;
+													}
+												}
 											}else{
 												DB::table('crypt')->insert([
-														'model' 		=> 'Issuance',
-														'cause' 		=> 'PersonaTitleNoFrom',
-														'model_id'		=> $oldIssuance->awards_id,
-														'model_value'	=> json_encode($oldIssuance)
+													'model' 		=> 'Issuance',
+													'cause' 		=> 'PersonaTitleNoFrom',
+													'model_id'		=> $oldIssuance->awards_id,
+													'model_value'	=> json_encode($oldIssuance)
 												]);
 												$bar->advance();
 												continue;
@@ -6318,7 +6431,8 @@ class ImportOrk3 extends Command
 							if($recipient_type === 'Persona' && $issuable_type === 'Title'){
 								$title = Title::where('id', $issuable_id)->first();
 								$persona = Persona::where('id', $recipient_id)->first();
-								if(!$title->peerage === 'Knight'){
+								//TODO: check the knight names
+								if($title->peerage === 'Knight'){
 									if($persona->pronoun_id === 2){
 										$customNameFin = 'Sir';
 									}elseif($persona->pronoun_id === 4){
@@ -6405,6 +6519,7 @@ class ImportOrk3 extends Command
 								'signator_id' => $oldIssuance->given_by_id != '0' && in_array($oldIssuance->given_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->given_by_id] : null,
 								'custom_name' => $customNameFin,
 								'rank' => $rank > 0 ? $rank : null,
+								'parent_id' => $parent_id,
 								'issued_at' => $issueDate != '0000-00-00' && $issueDate != '0000-00-00 00:00:00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' && $oldIssuance->entered_at != '0000-00-00 00:00:00' ? $oldIssuance->entered_at : date('Y-m-d')),
 								'reason' => $reason,
 								'image' => null,

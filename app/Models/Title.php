@@ -66,12 +66,12 @@ use App\Traits\ProtectFieldsTrait;
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
+ * 		enum={"Gentry","Knight","Squire","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -240,12 +240,12 @@ use App\Traits\ProtectFieldsTrait;
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
+ * 		enum={"Gentry","Knight","Squire","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -373,12 +373,12 @@ use App\Traits\ProtectFieldsTrait;
  * 	),
  * 	@OA\Property(
  * 		property="peerage",
- * 		description="The peerage (default None) of the Title; Gentry, Knight, Master, Nobility, None, Paragon, or Retainer",
+ * 		description="The peerage (default None) of the Title; Gentry, Knight, Squire, Master, Nobility, None, Paragon, or Retainer",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Gentry","Knight","Master","Nobility","None","Paragon","Retainer"},
+ * 		enum={"Gentry","Knight","Squire","Master","Nobility","None","Paragon","Retainer"},
  * 		example=1,
  * 		default="None"
  * 	),
@@ -452,7 +452,7 @@ class Title extends BaseModel
 		'titleable_id' => 'nullable',
 		'name' => 'required|string|max:100',
 		'rank' => 'nullable|integer',
-		'peerage' => 'required|in:Gentry,Knight,Master,Nobility,None,Paragon,Retainer',
+		'peerage' => 'required|in:Gentry,Knight,Squire,Master,Nobility,None,Paragon,Retainer',
 		'is_roaming' => 'boolean',
 		'is_active' => 'boolean'
 	];

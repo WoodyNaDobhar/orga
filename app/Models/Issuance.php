@@ -16,7 +16,7 @@ use Wildside\Userstamps\Userstamps;
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
  * recipient (Persona or Unit) (MorphTo): Who recieved the Issuance; Persona or Unit.
  * revoker (User) (BelongsTo): User revoked, who authorized the revocation.
- * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.  Leave null when Issuer is Persona.
+ * signator (Persona) (BelongsTo): Persona signing the Issuance, if any.	Leave null when Issuer is Persona.
  * whereable (Event, Location, or Meetup) (MorphTo): Where it was Issued, if known; Event, Location, or Meetup.
  * createdBy (User) (BelongsTo): User that created it.
  * updatedBy (User) (BelongsTo): User that last updated it (if any).
@@ -144,6 +144,15 @@ use Wildside\Userstamps\Userstamps;
  * 		example=1
  * 	),
  * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="issued_at",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
@@ -261,7 +270,7 @@ use Wildside\Userstamps\Userstamps;
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.	Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -442,6 +451,15 @@ use Wildside\Userstamps\Userstamps;
  * 		example=1
  * 	),
  * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="issued_at",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
@@ -541,7 +559,7 @@ use Wildside\Userstamps\Userstamps;
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.	Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -665,6 +683,15 @@ use Wildside\Userstamps\Userstamps;
  * 		example=1
  * 	),
  * 	@OA\Property(
+ * 		property="parent_id",
+ * 		description="For Persona Title Issuances, The ID of the Title Issuance from which this Issuance was given.",
+ * 		readOnly=false,
+ * 		nullable=true,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
  * 		property="issued_at",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
@@ -747,36 +774,37 @@ class Issuance extends BaseModel
 	protected $protectedFields = [];
 
 	public $fillable = [
-		  'issuable_type',
-		  'issuable_id',
-		  'whereable_type',
-		  'whereable_id',
-		  'authority_type',
-		  'authority_id',
-		  'recipient_type',
-		  'recipient_id',
-		  'signator_id',
-		  'custom_name',
-		  'rank',
-		  'issued_at',
-		  'reason',
-		  'image',
-		  'revoked_by',
-		  'revoked_at',
-		  'revocation'
+		'issuable_type',
+		'issuable_id',
+		'whereable_type',
+		'whereable_id',
+		'authority_type',
+		'authority_id',
+		'recipient_type',
+		'recipient_id',
+		'signator_id',
+		'custom_name',
+		'rank',
+		'parent_id',
+		'issued_at',
+		'reason',
+		'image',
+		'revoked_by',
+		'revoked_at',
+		'revocation'
 	];
 
 	protected $casts = [
-		  'issuable_type' => 'string',
-		  'whereable_type' => 'string',
-		  'authority_type' => 'string',
-		  'recipient_type' => 'string',
-		  'custom_name' => 'string',
-		  'issued_at' => 'date',
-		  'reason' => 'string',
-		  'image' => 'string',
-		  'revoked_at' => 'date',
-		  'revocation' => 'string'
+		'issuable_type' => 'string',
+		'whereable_type' => 'string',
+		'authority_type' => 'string',
+		'recipient_type' => 'string',
+		'custom_name' => 'string',
+		'issued_at' => 'date',
+		'reason' => 'string',
+		'image' => 'string',
+		'revoked_at' => 'date',
+		'revocation' => 'string'
 	];
 
 	public static array $rules = [
@@ -791,6 +819,7 @@ class Issuance extends BaseModel
 		'signator_id' => 'nullable',//TODO: require null where issuer_type == Persona
 		'custom_name' => 'nullable|string|max:64',
 		'rank' => 'nullable|integer',
+		'parent_id' => 'nullable',
 		'issued_at' => 'required|date',
 		'reason' => 'nullable|string|max:400',
 		'image' => 'nullable|string|max:255',
@@ -816,9 +845,9 @@ class Issuance extends BaseModel
 		return Attribute::make(
 			get: function (?string $value) {
 				if ($value === null) {
-					return "https://ork.amtgard.com/assets/heraldry/player/000000.jpg";
+					return null;
 				}
-				return 'https://ork.amtgard.com/assets/players/awards/' . $value;
+				return $value;
 			}
 		);
 	}
@@ -826,6 +855,7 @@ class Issuance extends BaseModel
 	public $relationships = [
 		'issuable' => 'MorphTo',
 		'issuer' => 'MorphTo',
+		'parent' => 'BelongsTo',
 		'recipient' => 'MorphTo',
 		'revoker' => 'BelongsTo',
 		'signator' => 'BelongsTo',
@@ -840,6 +870,11 @@ class Issuance extends BaseModel
 	public function issuer(): \Illuminate\Database\Eloquent\Relations\MorphTo
 	{
 		return $this->morphTo();
+	}
+	
+	public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+	{
+		return $this->belongsTo(\App\Models\Issuance::class, 'parent_id');
 	}
 	
 	public function recipient(): \Illuminate\Database\Eloquent\Relations\MorphTo
@@ -864,16 +899,16 @@ class Issuance extends BaseModel
 
 	public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'created_by');
+			return $this->belongsTo(\App\Models\User::class, 'created_by');
 	}
 
 	public function deletedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+			return $this->belongsTo(\App\Models\User::class, 'deleted_by');
 	}
 
 	public function updatedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		  return $this->belongsTo(\App\Models\User::class, 'updated_by');
+			return $this->belongsTo(\App\Models\User::class, 'updated_by');
 	}
 }
