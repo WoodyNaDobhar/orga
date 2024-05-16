@@ -89,6 +89,12 @@ You'll also need to import the existing records:
 sail php artisan scout:sync-index-settings
 ```
 
+If you add Searchable to a model (as per the documentation), you'll need to run this to index stuff:
+
+```
+sail php artisan scout:import "App\Models\Modelname"
+```
+
 Production environments require you to have the workers running all the time. queue:work command itself can fail due to many reasons, such as exceeding the maximum timeout. Checking the server manually to make sure if the queue worker is up is not an option. Instead, you’ll use Supervisor, a process monitor for Linux environments.
 
 After installing the Supervisor on the server, you need to give it a configuration file to interact with Laravel’s queue workers. Let’s create a laravel-worker.conf file that handles the queue:work process.

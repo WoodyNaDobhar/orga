@@ -18,24 +18,30 @@ class IssuanceResource extends JsonResource
 	{
 		$data = [
 			'id' => $this->id,
+			'issuable' => $this->issuable,
 			'issuable_type' => $this->issuable_type,
 			'issuable_id' => $this->issuable_id,
+			'whereable' => $this->whereable,
 			'whereable_type' => $this->whereable_type,
 			'whereable_id' => $this->whereable_id,
+			'issuer' => $this->issuer,
 			'issuer_type' => $this->issuer_type,
 			'issuer_id' => $this->issuer_id,
+			'recipient' => $this->recipient,
 			'recipient_type' => $this->recipient_type,
 			'recipient_id' => $this->recipient_id,
+			'signator' => $this->signator,
 			'signator_id' => $this->signator_id,
 			'custom_name' => $this->custom_name,
 			'rank' => $this->rank,
+			'parent' => $this->parent,
 			'parent_id' => $this->parent_id,
-			'issued_at' => $this->issued_at,
+			'issued_on' => $this->issued_on,
 			'reason' => $this->reason,
 			'image' => $this->image,
 			'name' => $this->name,
 			'revoked_by' => $this->revoked_by,
-			'revoked_at' => $this->revoked_at,
+			'revoked_on' => $this->revoked_on,
 			'revocation' => $this->revocation,
 			'can_list' => 0,
 			'can_view' => 0,
@@ -46,11 +52,7 @@ class IssuanceResource extends JsonResource
 			'can_nuke' => 0,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
-			'deleted_at' => $this->deleted_at,
-			'issuable' => $this->issuable,
-			'signator' => $this->signator,
-			'issuer' => $this->issuer,
-			'whereable' => $this->whereable
+			'deleted_at' => $this->deleted_at
 		];
 		
 		//related

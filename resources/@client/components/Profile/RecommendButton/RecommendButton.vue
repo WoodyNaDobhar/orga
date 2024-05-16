@@ -11,10 +11,6 @@
 		Persona,
 		RecommendFormData
 	} from '@/interfaces';
-	import {
-		required,
-		helpers
-	} from "@vuelidate/validators";
 	import { useVuelidate } from "@vuelidate/core";
 	import TomSelect from "@/components/Base/TomSelect";
 	import { FormInput, FormLabel } from "@/components/Base/Form";

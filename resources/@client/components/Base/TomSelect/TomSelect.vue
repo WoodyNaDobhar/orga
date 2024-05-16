@@ -13,6 +13,7 @@ import {
   onMounted,
   inject,
   ref,
+  InputHTMLAttributes,
 } from "vue";
 
 export interface TomSelectElement extends HTMLSelectElement {
@@ -20,9 +21,11 @@ export interface TomSelectElement extends HTMLSelectElement {
 }
 
 export interface TomSelectProps extends /* @vue-ignore */ SelectHTMLAttributes {
-  modelValue: string | string[];
+  value?: InputHTMLAttributes["value"] | InputHTMLAttributes["value"][];
+  modelValue?: InputHTMLAttributes["value"] | InputHTMLAttributes["value"][];
   options?: RecursivePartial<TomSettings>;
   refKey?: string;
+  searchModels?: string[];
 }
 
 export interface TomSelectEmit {
@@ -117,17 +120,31 @@ onMounted(() => {
     bindInstance(tomSelectRef.value);
   }
 });
+
+const localValue = computed({
+  get() {
+    if (props.modelValue === undefined && props.value === undefined) {
+      const firstOption = tomSelectRef.value?.querySelectorAll("option")[0];
+      return (
+        firstOption !== undefined &&
+        (firstOption.getAttribute("value") !== null
+          ? firstOption.getAttribute("value")
+          : firstOption.text)
+      );
+    }
+
+    return props.modelValue === undefined ? props.value : props.modelValue;
+  },
+  set(newValue) {
+    emit("update:modelValue", newValue);
+  },
+});
 </script>
 
 <template>
   <select
     ref="tomSelectRef"
-    :value="props.modelValue"
-    @change="
-      (event) => {
-        emit('update:modelValue', (event.target as HTMLSelectElement).value);
-      }
-    "
+    v-model="localValue"
     v-select-directive
     class="tom-select"
   >

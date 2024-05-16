@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wildside\Userstamps\Userstamps;
 use App\Traits\ProtectFieldsTrait;
+use Laravel\Scout\Searchable;
 /**
  * @OA\Schema(
  *		schema="Meetup",
@@ -685,6 +686,7 @@ class Meetup extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Searchable;
 
 	public $table = 'meetups';
 	public $timestamps = true;
@@ -714,6 +716,14 @@ class Meetup extends BaseModel
 		'week_day' => 'string',
 		'description' => 'string'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => (int) $this->id,
+			'name' => $this->name
+		];
+	}
 
 	public static array $rules = [
 		'chapter_id' => 'required|exists:chapters,id',

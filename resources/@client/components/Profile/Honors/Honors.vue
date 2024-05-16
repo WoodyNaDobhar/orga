@@ -25,12 +25,12 @@
 				case 'awards':
 					const targetAwards = props.persona.awards as AwardsReport;
 					switch (attribute) {
-						case 'issued_at':
+						case 'issued_on':
 							var sortedAwards = Object.entries(targetAwards).sort(([, a], [, b]) => {
-								// Find the lowest issued_at value for each award
-								var lowestIssuedAtA = Math.min(...a.issuances.map((issuance: Issuance) => new Date(issuance.issued_at).getTime()));
-								var lowestIssuedAtB = Math.min(...b.issuances.map((issuance: Issuance) => new Date(issuance.issued_at).getTime()));
-								// Compare the lowest issued_at values
+								// Find the lowest issued_on value for each award
+								var lowestIssuedAtA = Math.min(...a.issuances.map((issuance: Issuance) => new Date(issuance.issued_on).getTime()));
+								var lowestIssuedAtB = Math.min(...b.issuances.map((issuance: Issuance) => new Date(issuance.issued_on).getTime()));
+								// Compare the lowest issued_on values
 								return lowestIssuedAtA - lowestIssuedAtB;
 							});
 							props.persona.awards = Object.fromEntries(sortedAwards) as AwardsReport
@@ -55,10 +55,10 @@
 				case 'titles':
 					const targetTitles = props.persona?.titleIssuances as Issuance[];
 					switch (attribute) {
-						case 'issued_at':
+						case 'issued_on':
 							targetTitles.sort((a, b) => {
-								const dateA = new Date(a.issued_at).getTime();
-								const dateB = new Date(b.issued_at).getTime();
+								const dateA = new Date(a.issued_on).getTime();
+								const dateB = new Date(b.issued_on).getTime();
 								return dateA - dateB;
 							})
 							break;
@@ -168,7 +168,7 @@
 													</span>
 												</Menu.Button>
 												<Menu.Items class="w-40">
-													<Menu.Item @click="sortHonorsBy('awards', 'issued_at')">
+													<Menu.Item @click="sortHonorsBy('awards', 'issued_on')">
 														<Lucide icon="Sunrise" class="w-4 h-4 mr-2" /> First Earned
 													</Menu.Item>
 													<Menu.Item @click="sortHonorsBy('awards', 'name')">
@@ -209,7 +209,7 @@
 																						:alt="issuance.name"
 																						class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0pxx_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
 																						:src="issuance.image"
-																						:content="`Issued At: ` + formatDate(issuance.issued_at, 'MMMM DD, YYYY') + (issuance.revoked_at ? ` Revoked: ` + formatDate(issuance.revoked_at, 'MMMM DD, YYYY') : ``)"
+																						:content="`Issued At: ` + formatDate(issuance.issued_on, 'MMMM DD, YYYY') + (issuance.revoked_on ? ` Revoked: ` + formatDate(issuance.revoked_on, 'MMMM DD, YYYY') : ``)"
 																					/>
 																				</div>
 																			</div>
@@ -261,7 +261,7 @@
 																				:key="index"
 																				class="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-4"
 																			>
-																				<div class="box" :class="{ 'bg-danger/20': issuance.revoked_at !== null }">
+																				<div class="box" :class="{ 'bg-danger/20': issuance.revoked_on !== null }">
 																					<div class="p-5">
 																						<div
 																							class="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
@@ -274,11 +274,11 @@
 																							<div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
 																								<a href="" class="block text-base font-medium">
 																									{{ issuance.signator?.name }}
-																									<span v-if="issuance.issuer?.full_abbreviation">{{ issuance.issuer?.full_abbreviation }}</span>
-																									<span v-else>{{ issuance.issuer?.abbreviation }}</span>
+																									<span v-if="issuance.issuer.full_abbreviation">{{ issuance.issuer.full_abbreviation }}</span>
+																									<span v-else>{{ issuance.issuer.abbreviation }}</span>
 																								</a>
 																								<span class="mt-3 text-xs text-white/90">
-																									{{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}
+																									{{ formatDate(issuance.issued_on, 'MMMM DD, YYYY') }}
 																								</span>
 																							</div>
 																						</div>
@@ -289,13 +289,13 @@
 																							<div class="flex items-center mt-2">
 																								{{ issuance.reason }}
 																							</div>
-																							<div v-if="issuance.revoked_at" class="flex items-center">
-																								Revoked: {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}
+																							<div v-if="issuance.revoked_on" class="flex items-center">
+																								Revoked: {{ formatDate(issuance.revoked_on, 'MMMM DD, YYYY') }}
 																							</div>
-																							<div v-if="issuance.revoked_at" class="flex items-center">
+																							<div v-if="issuance.revoked_on" class="flex items-center">
 																								Revoked By: {{ issuance.revoker?.name }}
 																							</div>
-																							<div v-if="issuance.revoked_at" class="flex items-center mt-2">
+																							<div v-if="issuance.revoked_on" class="flex items-center mt-2">
 																								{{ issuance.revocation }}
 																							</div>
 																						</div>
@@ -354,21 +354,21 @@
 																						</Dialog.Title>
 																						<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
 																							<div class="col-span-12 sm:col-span-6">
-																								<strong>Issued:</strong> {{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}<br>
+																								<strong>Issued:</strong> {{ formatDate(issuance.issued_on, 'MMMM DD, YYYY') }}<br>
 																								<strong>Signed By:</strong> {{ issuance.signator?.name }}<br>
-																								<strong>Issued By:</strong> {{ issuance.issuer?.name }}<br>
+																								<strong>Issued By:</strong> {{ issuance.issuer.name }}<br>
 																								<strong>Issued At:</strong> {{ issuance.whereable?.name }}<br>
 																								<strong>Reason:</strong> {{ issuance.reason }}
-																								<span v-if="issuance.revoked_at">
+																								<span v-if="issuance.revoked_on">
 																									<strong>Revoked By:</strong> {{ issuance.revoker?.name }}<br>
-																									<strong>Revoked At:</strong> {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}<br>
+																									<strong>Revoked At:</strong> {{ formatDate(issuance.revoked_on, 'MMMM DD, YYYY') }}<br>
 																									<strong>Reason:</strong> {{ issuance.revocation }}
 																								</span>
 																							</div>
 																							<div class="col-span-12 sm:col-span-6">
 																								<div>
 																									<img
-																										v-if="!issuance.image.includes('000000.jpg')"
+																										v-if="!issuance.image"
 																										:alt="issuance.name"
 																										class="rounded-md"
 																										:src="issuance.image"
@@ -407,7 +407,7 @@
 													</span>
 												</Menu.Button>
 												<Menu.Items class="w-40">
-													<Menu.Item @click="sortHonorsBy('titles', 'issued_at')">
+													<Menu.Item @click="sortHonorsBy('titles', 'issued_on')">
 														<Lucide icon="Sunrise" class="w-4 h-4 mr-2" /> First Earned
 													</Menu.Item>
 													<Menu.Item @click="sortHonorsBy('titles', 'name')">
@@ -428,7 +428,7 @@
 													:key="index"
 													class="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-4"
 												>
-													<div class="box" :class="{ 'bg-danger/20': issuance.revoked_at !== null }">
+													<div class="box" :class="{ 'bg-danger/20': issuance.revoked_on !== null }">
 														<div class="p-5">
 															<div
 																class="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
@@ -441,12 +441,12 @@
 																<div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
 																	<a href="" class="block text-base font-medium">
 																		{{ issuance.name }}
-																		<span v-if="issuance.issuer?.full_abbreviation">({{ issuance.issuer?.full_abbreviation }})</span>
-																		<span v-else-if="issuance.issuer?.abbreviation">({{ issuance.issuer?.abbreviation }})</span>
-																		<span v-else>to {{ issuance.issuer?.name }}</span>
+																		<span v-if="issuance.issuer.full_abbreviation">({{ issuance.issuer.full_abbreviation }})</span>
+																		<span v-else-if="issuance.issuer.abbreviation">({{ issuance.issuer.abbreviation }})</span>
+																		<span v-else>to {{ issuance.issuer.name }}</span>
 																	</a>
 																	<span class="mt-3 text-xs text-white/90">
-																		{{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}
+																		{{ formatDate(issuance.issued_on, 'MMMM DD, YYYY') }}
 																	</span>
 																</div>
 															</div>
@@ -460,13 +460,13 @@
 																<div class="flex items-center">
 																	Peerage: {{ issuance.issuable.peerage }}
 																</div>
-																<div v-if="issuance.revoked_at" class="flex items-center">
-																	Revoked: {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}
+																<div v-if="issuance.revoked_on" class="flex items-center">
+																	Revoked: {{ formatDate(issuance.revoked_on, 'MMMM DD, YYYY') }}
 																</div>
-																<div v-if="issuance.revoked_at" class="flex items-center">
+																<div v-if="issuance.revoked_on" class="flex items-center">
 																	Revoked By: {{ issuance.revoker?.name }}
 																</div>
-																<div v-if="issuance.revoked_at" class="flex items-center mt-2">
+																<div v-if="issuance.revoked_on" class="flex items-center mt-2">
 																	{{ issuance.revocation }}
 																</div>
 															</div>
@@ -525,21 +525,21 @@
 															</Dialog.Title>
 															<Dialog.Description class="grid grid-cols-12 gap-4 gap-y-3">
 																<div class="col-span-12 sm:col-span-6">
-																	<strong>Issued:</strong> {{ formatDate(issuance.issued_at, 'MMMM DD, YYYY') }}<br>
+																	<strong>Issued:</strong> {{ formatDate(issuance.issued_on, 'MMMM DD, YYYY') }}<br>
 																	<strong>Signed By:</strong> {{ issuance.signator?.name }}<br>
-																	<strong>Issued By:</strong> {{ issuance.issuer?.name }}<br>
+																	<strong>Issued By:</strong> {{ issuance.issuer.name }}<br>
 																	<strong>Issued At:</strong> {{ issuance.whereable?.name }}<br>
 																	<strong>Reason:</strong> {{ issuance.reason }}
-																	<span v-if="issuance.revoked_at">
+																	<span v-if="issuance.revoked_on">
 																		<strong>Revoked By:</strong> {{ issuance.revoker?.name }}<br>
-																		<strong>Revoked At:</strong> {{ formatDate(issuance.revoked_at, 'MMMM DD, YYYY') }}<br>
+																		<strong>Revoked At:</strong> {{ formatDate(issuance.revoked_on, 'MMMM DD, YYYY') }}<br>
 																		<strong>Reason:</strong> {{ issuance.revocation }}
 																	</span>
 																</div>
 																<div class="col-span-12 sm:col-span-6">
 																	<div>
 																		<img
-																			v-if="!issuance.image.includes('000000.jpg')"
+																			v-if="!issuance.image"
 																			:alt="issuance.name"
 																			class="rounded-md"
 																			:src="issuance.image"

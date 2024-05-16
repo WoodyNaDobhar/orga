@@ -40,6 +40,8 @@
 	interface SearchResult {
 		id: number;
 		name: string;
+		address: string;
+		week_day: string;
 		heraldry?: string;
 		abbreviation?: string;
 		full_abbreviation?: string;
@@ -60,6 +62,8 @@
 	const searchData = ref({
 		Chapters: [] as ChapterSearchResult[],
 		Events: [] as SearchResult[],
+		Locations: [] as SearchResult[],
+		Meetups: [] as SearchResult[],
 		Personas: [] as SearchResult[],
 		Realms: [] as SearchResult[],
 		Users: [] as SearchResult[],
@@ -215,6 +219,64 @@
 											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
 										>
 											{{ dayjs(event.event_started_at).format('MMM DD, YYYY') }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Locations.length > 0">
+								<div class="mb-2 font-medium">Locations</div>
+								<div class="mb-5" v-for="location in searchData.Locations" :key="location.id">
+									<a
+										:href="`/locations/${location.id}`"
+										class="flex items-center mt-2"
+									>
+										<div class="w-8 h-8 image-fit" v-if="location.image">
+											<img
+												alt="location.name"
+												class="rounded-full"
+												:src="location.image"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-dark dark:bg-dark text-warning"
+											v-else
+										>
+											<Lucide icon="Calendar" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ location.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ location.address }}
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-if="searchData.Meetups.length > 0">
+								<div class="mb-2 font-medium">Meetups</div>
+								<div class="mb-5" v-for="meetup in searchData.Meetups" :key="meetup.id">
+									<a
+										:href="`/meetups/${meetup.id}`"
+										class="flex items-center mt-2"
+									>
+										<div class="w-8 h-8 image-fit" v-if="meetup.image">
+											<img
+												alt="meetup.name"
+												class="rounded-full"
+												:src="meetup.image"
+											/>
+										</div>
+										<div
+											class="flex items-center justify-center w-8 h-8 rounded-full bg-dark dark:bg-dark text-warning"
+											v-else
+										>
+											<Lucide icon="Calendar" class="w-4 h-4" />
+										</div>
+										<div class="ml-3">{{ meetup.name }}</div>
+										<div
+											class="w-48 ml-auto text-xs text-right truncate text-slate-500"
+										>
+											{{ meetup.week_day }}
 										</div>
 									</a>
 								</div>

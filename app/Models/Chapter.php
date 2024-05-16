@@ -814,7 +814,7 @@ class Chapter extends BaseModel
 	protected function fullAbbreviation(): Attribute
 	{
 		return Attribute::make(
-			get: fn () => $this->abbreviation . '/' . $this->realm->abbreviation,
+			get: fn () => $this->realm->abbreviation . '/' . $this->abbreviation,
 		);
 	}
 	

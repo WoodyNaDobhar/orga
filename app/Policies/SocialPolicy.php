@@ -77,7 +77,8 @@ class SocialPolicy
 				$user->can('update socials') ||
 				(
 						$user->can('updateOwn socials') &&
-						$social->id === $user->id
+						$social->sociable_type === 'Persona' && 
+						$social->sociable_id === $user->persona->id
 				) ||
 				(
 						$user->can('updateRelated socials') &&
@@ -139,7 +140,8 @@ class SocialPolicy
 				$user->can('remove socials') ||
 				(
 						$user->can('removeOwn socials') &&
-						$social->id === $user->id
+						$social->sociable_type === 'Persona' &&
+						$social->sociable_id === $user->persona->id
 				) ||
 				(
 						$user->can('removeRelated socials') &&

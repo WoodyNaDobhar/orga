@@ -4,7 +4,7 @@ type LitepickerConfig = Partial<ILPConfiguration>;
 
 <script setup lang="ts">
 import "@/assets/css/vendors/litepicker.css";
-import { type InputHTMLAttributes, onMounted, ref, inject } from "vue";
+import { type InputHTMLAttributes, onMounted, ref, inject, computed } from "vue";
 import { setValue, init, reInit } from "./litepicker";
 import LitepickerJs from "litepicker";
 import { FormInput } from "@/components/Base/Form";
@@ -19,10 +19,11 @@ export interface LitepickerEmit {
 }
 
 export interface LitepickerProps extends /* @vue-ignore */ InputHTMLAttributes {
+  value?: InputHTMLAttributes["value"];
+  modelValue?: InputHTMLAttributes["value"];
   options: {
     format?: string | undefined;
   } & LitepickerConfig;
-  modelValue: string;
   refKey?: string;
 }
 
@@ -62,16 +63,22 @@ onMounted(() => {
     bindInstance(litepickerRef.value);
   }
 });
+
+const localValue = computed({
+  get() {
+    return props.modelValue === undefined ? props.value : props.modelValue;
+  },
+  set(newValue) {
+    emit("update:modelValue", newValue);
+  },
+});
 </script>
 
 <template>
   <FormInput
     ref="litepickerRef"
+    v-model="localValue"
     type="text"
-    :value="props.modelValue"
-    @change="(event: Event) => {
-      emit('update:modelValue', (event.target as HTMLInputElement).value);
-    }"
     v-litepicker-directive
   />
 </template>

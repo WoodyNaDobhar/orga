@@ -68,13 +68,13 @@ import { email, maxLength, minLength, required } from "@vuelidate/validators";
 	const validatePass = useVuelidate(passRules, toRefs(passwordFormData));
 
 	const saveSettings = async () => {
-		setOpenConfirm(false);
-		isLoading.value = true
-		loadingMessage.value = 'Saving...'
 		validatePass.value.$touch();
 		if (validatePass.value.$invalid) {
 			showToast(false, "Please check the form.")
 		} else {
+			setOpenConfirm(false);
+			isLoading.value = true
+			loadingMessage.value = 'Saving...'
 			try {
 				await axios.post('/api/checkpass/', passwordFormData)
 					.then(async response => {

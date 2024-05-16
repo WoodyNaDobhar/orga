@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { parseColor } from "tailwindcss/lib/util/color";
+import * as lucideIcons from "lucide-vue-next";
+import { showToast } from "./toast";
 
 dayjs.extend(duration);
 
@@ -228,6 +230,40 @@ const slideDown = (
 	}, duration);
 };
 
+const getSocialIcon = (media: string): keyof typeof lucideIcons => {
+	switch (media) {
+		case "Discord":
+			return "HardDrive";
+		case "TikTok":
+			return "Music";
+		case "YouTube":
+			return "Youtube";
+		case "Web":
+			return "ExternalLink";
+		default:
+			return media as keyof typeof lucideIcons;
+	}
+};
+
+const getSocialPlatforms = ['Discord','Facebook','Instagram','TikTok','Youtube','Web']
+
+const copyLink = (link: string) => {
+	try{
+		const input = document.createElement('input');
+		input.style.position = 'fixed';
+		input.style.opacity = '0';
+		input.value = link;
+		document.body.appendChild(input);
+		input.select();
+		input.setSelectionRange(0, 99999); // For mobile devices
+		document.execCommand('copy');
+		document.body.removeChild(input);
+		showToast(true, 'Link copied to clipboard!');
+	}catch{
+		showToast(false, 'Copy failed.');
+	}
+}
+
 export {
 	cutText,
 	formatDate,
@@ -244,4 +280,7 @@ export {
 	stringToHTML,
 	slideUp,
 	slideDown,
+	getSocialIcon,
+	getSocialPlatforms,
+	copyLink
 };

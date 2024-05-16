@@ -60,12 +60,12 @@
 	});
 
 	const saveAccount = async () => {
-		isLoading.value = true
-		loadingMessage.value = 'Saving...'
 		validate.value.$touch();
 		if (validate.value.$invalid) {
 			showToast(false, "Please check the form.")
 		} else {
+			isLoading.value = true
+			loadingMessage.value = 'Saving...'
 			try {
 				await axios.put('/api/personas/' + props.persona?.id, personaFormData)
 					.then(response => {

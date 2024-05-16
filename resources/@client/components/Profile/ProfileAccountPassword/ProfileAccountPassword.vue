@@ -40,12 +40,12 @@
 	const validate = useVuelidate(rules, toRefs(formData));
 	
 	const sendPassword = () => {
-		isLoading.value = true
-		loadingMessage.value = 'Sending...'
 		validate.value.$touch();
 		if (validate.value.$invalid) {
 			showToast(false, "Please check the form.")
 		} else {
+			isLoading.value = true
+			loadingMessage.value = 'Sending...'
 			try {
 				axios.post('/api/forgot', formData)
 					.then(response => {

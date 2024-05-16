@@ -198,7 +198,7 @@
 		console.info('Updated layout: ', newLayout)
 	}
 
-	const updatePersona = (updatedPersona: PersonaSuperSimple) => {
+	const updatePersona = (updatedPersona: Persona) => {
 		if(persona && persona.value){
 			persona.value.chapter_id = updatedPersona.chapter_id
 			persona.value.honorific_id = updatedPersona.honorific_id

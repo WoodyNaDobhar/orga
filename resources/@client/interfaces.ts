@@ -599,23 +599,24 @@ export interface Issuance {
 	id: number
 	issuable_type: 'Award' | 'Title'
 	issuable_id: number
-	whereable_type?: 'Event' | 'Meetup' | 'Location' | null
-	whereable_id?: number | null
+	whereable_type: 'Event' | 'Meetup' | 'Location' | null
+	whereable_id: number | null
 	issuer_type: 'Chapter' | 'Realm' | 'Persona' | 'Unit'
 	issuer_id: number
 	recipient_type: 'Persona' | 'Unit'
 	recipient_id: number
-	signator_id?: number | null
+	signator_id: number | null
 	name: string
-	custom_name?: string | null
-	rank?: number | null
+	custom_name: string | null
+	rank: number | null
+	parent: IssuanceSimple
 	parent_id: number | null
-	issued_at: string
-	reason?: string | null
+	issued_on: string
+	reason: string | null
 	image: string
-	revoked_by?: number | null
-	revoked_at?: string | null
-	revocation?: string | null
+	revoked_by: number | null
+	revoked_on: string | null
+	revocation: string | null
 	created_by: number
 	createdBy: UserSimple
 	updated_by?: number | null
@@ -641,10 +642,11 @@ export interface Issuance {
 }
 export interface IssuanceSimple {
 	id: number
+	issuable: AwardSimple | TitleSimple
 	issuable_type: 'Award' | 'Title'
 	issuable_id: number
-	whereable_type?: 'Event' | 'Meetup' | 'Location' | null
-	whereable_id?: number | null
+	whereable_type: 'Event' | 'Meetup' | 'Location' | null
+	whereable_id: number | null
 	issuer_type: 'Chapter' | 'Realm' | 'Persona' | 'Unit'
 	issuer_id: number
 	recipient_type: 'Persona' | 'Unit'
@@ -654,11 +656,11 @@ export interface IssuanceSimple {
 	custom_name?: string | null
 	rank?: number | null
 	parent_id: number | null
-	issued_at: string
+	issued_on: string
 	reason?: string | null
 	image: string
 	revoked_by?: number | null
-	revoked_at?: string | null
+	revoked_on?: string | null
 	revocation?: string | null
 	created_by: number
 	updated_by?: number | null
@@ -666,7 +668,6 @@ export interface IssuanceSimple {
 	created_at: string
 	updated_at?: string | null
 	deleted_at?: string | null
-	issuable: AwardSimple | TitleSimple
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -689,11 +690,11 @@ export interface IssuanceSuperSimple {
 	custom_name: string | null
 	rank: number | null
 	parent_id: number | null
-	issued_at: string
+	issued_on: string
 	reason: string | null
 	image: string
 	revoked_by: number | null
-	revoked_at: string | null
+	revoked_on: string | null
 	revocation: string | null
 }
 export interface Location {
@@ -774,6 +775,14 @@ export interface LocationSuperSimple {
 	location: string | null
 	map_url: string | null
 	directions: string | null
+}
+export interface LocationSelectOption {
+	label: "Event" | "Meetup" | "Location"
+	options?: { 
+		type: "Event" | "Meetup" | "Location"
+		value: number 
+		text: string 
+	}[]
 }
 export interface Meetup {
 	id: number
@@ -1513,7 +1522,7 @@ export interface Social {
 	id: number
 	sociable_type: "Chapter" | "Event" | "Persona" | "Realm" | "Unit"
 	sociable_id: number
-	media: "Discord" | "Facebook" | "Instagram" | "TicToc" | "YouTube" | "Web"
+	media: "Discord" | "Facebook" | "Instagram" | "TikTok" | "YouTube" | "Web"
 	value: string
 	link: string
 	created_by: number
@@ -1538,7 +1547,7 @@ export interface SocialSimple {
 	id: number
 	sociable_type: "Chapter" | "Event" | "Persona" | "Realm" | "Unit"
 	sociable_id: number
-	media: "Discord" | "Facebook" | "Instagram" | "TicToc" | "YouTube" | "Web"
+	media: "Discord" | "Facebook" | "Instagram" | "TikTok" | "YouTube" | "Web"
 	value: string
 	link: string
 	created_by: number
@@ -1559,9 +1568,8 @@ export interface SocialSuperSimple {
 	id: number
 	sociable_type: "Chapter" | "Event" | "Persona" | "Realm" | "Unit"
 	sociable_id: number
-	media: "Discord" | "Facebook" | "Instagram" | "TicToc" | "YouTube" | "Web"
+	media: "Discord" | "Facebook" | "Instagram" | "TikTok" | "YouTube" | "Web"
 	value: string
-	link: string
 }
 export interface Split {
 	id: number
@@ -1743,7 +1751,6 @@ export interface TitleSuperSimple {
 	is_active: 0 | 1
 }
 export interface TitleSelectOption {
-	label: string
 	options?: { 
 		value: number 
 		text: string 

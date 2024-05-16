@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, onMounted, watch } from "vue";
+	import { ref } from "vue";
 	import { Tab } from "@/components/Base/Headless";
 	import { 
 		Persona,
@@ -7,53 +7,13 @@
 	import Lucide from "@/components/Base/Lucide";
 	import { useAuthStore } from '@/stores/auth';
 	import Loader from "@/components/Base/Loader";
-	import * as lucideIcons from "lucide-vue-next";
+	import { getSocialIcon } from "@/utils/helper";
 	
 	const auth = useAuthStore()
 	const props = defineProps<{
 		persona: Persona | undefined
 	}>()
 	const isLoading = ref<boolean>(false)
-
-	const getIcon = (media: string): keyof typeof lucideIcons => {
-		switch (media) {
-			case "Discord":
-				return "HardDrive";
-			default:
-				return media as keyof typeof lucideIcons;
-		}
-	};
-
-onMounted(()=>{
-	console.log(auth.isLoggedIn)
-	console.log(auth.getUser.persona_id)
-	console.log(props.persona?.id)
-	console.log(auth.getUser.persona_id === props.persona?.id)
-	console.log(auth.isLoggedIn && (auth.getUser.persona_id === props.persona?.id))
-	console.log(props.persona)
-
-	const unwatch = watch(() => props.persona, (newValue, oldValue) => {
-		console.log('Persona changed:', newValue);
-		if (newValue) {
-			
-	console.log(auth.isLoggedIn)
-	console.log(auth.getUser.persona_id)
-	console.log(props.persona?.id)
-	console.log(auth.getUser.persona_id == props.persona?.id)
-	console.log(auth.getUser.persona_id === props.persona?.id)
-	console.log(auth.getUser.persona_id.toString() === props.persona?.id.toString())
-	console.log(auth.isLoggedIn && (auth.getUser.persona_id === props.persona?.id))
-	console.log(props.persona)
-			// If props.persona is no longer undefined, do something
-			console.log('Persona is now defined:', newValue);
-			// Perform any actions that depend on props.persona being defined
-			// For example, trigger the rendering of the tab list
-			//renderTabList();
-			// Stop watching once the value is no longer needed
-			unwatch();
-		}
-	});
-});
 </script>
 <template>
 		<Loader 
@@ -210,7 +170,7 @@ onMounted(()=>{
 					>
 						<template v-for="(social) in persona?.socials">
 							<div class="flex items-center truncate sm:whitespace-normal">
-								<Lucide :icon="getIcon(social.media)" class="w-4 h-4 mr-2" />
+								<Lucide :icon="getSocialIcon(social.media)" class="w-4 h-4 mr-2" />
 								<a :href="social.link" target="_blank">{{ social.value }}</a>
 							</div>
 						</template>

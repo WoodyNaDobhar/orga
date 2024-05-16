@@ -78,7 +78,7 @@ class IssuancePolicy
 				(
 						$user->can('updateOwn issuances') &&
 						$issuance->issuer_type === 'Persona' &&
-						$issuance->issuer_id === $user->id
+						$issuance->issuer_id === $user->persona->id
 				) ||
 				(
 						$user->can('updateRelated issuances') &&
@@ -137,7 +137,7 @@ class IssuancePolicy
 				(
 						$user->can('removeOwn issuances') &&
 						$issuance->issuer_type === 'Persona' &&
-						$issuance->issuer_id === $user->id
+						$issuance->issuer_id === $user->persona->id
 				) ||
 				(
 						$user->can('removeRelated issuances') &&

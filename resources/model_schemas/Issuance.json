@@ -156,7 +156,7 @@
         "inView": true
     },
     {
-        "name": "issued_at",
+        "name": "issued_on",
         "dbType": "date",
         "htmlType": "date",
         "validations": "",
@@ -204,7 +204,7 @@
         "inView": true
     },
     {
-        "name": "revoked_at",
+        "name": "revoked_on",
         "dbType": "date",
         "htmlType": "date",
         "validations": "",

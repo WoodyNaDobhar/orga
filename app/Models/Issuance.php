@@ -10,7 +10,7 @@ use Wildside\Userstamps\Userstamps;
 /**
  * @OA\Schema (
  * 	schema="Issuance",
- * 	required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_at"},
+ * 	required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_on"},
  * 	description="Issuances of Awards or Titles.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
@@ -153,7 +153,7 @@ use Wildside\Userstamps\Userstamps;
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="issued_at",
+ * 		property="issued_on",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
  * 		nullable=false,
@@ -191,7 +191,7 @@ use Wildside\Userstamps\Userstamps;
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="revoked_at",
+ * 		property="revoked_on",
  * 		description="Date the revocation is effective, if any.",
  * 		readOnly=false,
  * 		nullable=true,
@@ -460,7 +460,7 @@ use Wildside\Userstamps\Userstamps;
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="issued_at",
+ * 		property="issued_on",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
  * 		nullable=false,
@@ -498,7 +498,7 @@ use Wildside\Userstamps\Userstamps;
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="revoked_at",
+ * 		property="revoked_on",
  * 		description="Date the revocation is effective, if any.",
  * 		readOnly=false,
  * 		nullable=true,
@@ -692,7 +692,7 @@ use Wildside\Userstamps\Userstamps;
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="issued_at",
+ * 		property="issued_on",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
  * 		nullable=false,
@@ -730,7 +730,7 @@ use Wildside\Userstamps\Userstamps;
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="revoked_at",
+ * 		property="revoked_on",
  * 		description="Date the revocation is effective, if any.",
  * 		readOnly=false,
  * 		nullable=true,
@@ -770,7 +770,7 @@ class Issuance extends BaseModel
 	public $table = 'issuances';
 	public $timestamps = true;
 	
-	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $dates = ['issued_on', 'created_at', 'updated_at', 'deleted_at'];
 	protected $protectedFields = [];
 
 	public $fillable = [
@@ -780,17 +780,19 @@ class Issuance extends BaseModel
 		'whereable_id',
 		'authority_type',
 		'authority_id',
+		'issuer_type',
+		'issuer_id',
 		'recipient_type',
 		'recipient_id',
 		'signator_id',
 		'custom_name',
 		'rank',
 		'parent_id',
-		'issued_at',
+		'issued_on',
 		'reason',
 		'image',
 		'revoked_by',
-		'revoked_at',
+		'revoked_on',
 		'revocation'
 	];
 
@@ -798,12 +800,13 @@ class Issuance extends BaseModel
 		'issuable_type' => 'string',
 		'whereable_type' => 'string',
 		'authority_type' => 'string',
+		'issuer_type' => 'string',
 		'recipient_type' => 'string',
 		'custom_name' => 'string',
-		'issued_at' => 'date',
+		'issued_on' => 'date',
 		'reason' => 'string',
 		'image' => 'string',
-		'revoked_at' => 'date',
+		'revoked_on' => 'date',
 		'revocation' => 'string'
 	];
 
@@ -820,12 +823,11 @@ class Issuance extends BaseModel
 		'custom_name' => 'nullable|string|max:64',
 		'rank' => 'nullable|integer',
 		'parent_id' => 'nullable',
-		'issued_at' => 'required|date',
+		'issued_on' => 'required|date',
 		'reason' => 'nullable|string|max:400',
 		'image' => 'nullable|string|max:255',
 		'revoked_by' => 'nullable',
-		'revoked_at' => 'nullable|date',
-		'created_by' => 'required',
+		'revoked_on' => 'nullable|date',
 		'revocation' => 'nullable|string|max:50'
 	];
 	

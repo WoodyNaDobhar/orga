@@ -23,12 +23,12 @@
     };
 
 	interface AccountEmit {
-		(e: "updated", value: PersonaSuperSimple): void;
+		(e: "updated", value: Persona): void;
 	}
 
 	const emit = defineEmits<AccountEmit>();
 
-	const updatePersona = (updatedPersona: PersonaSuperSimple) => {
+	const updatePersona = (updatedPersona: Persona) => {
 		emit("updated", updatedPersona);
 	};
 </script>
@@ -51,7 +51,7 @@
 					<a class="flex items-center mt-5" :class="{ 'text-primary font-medium': isActive === 'socials' }" href="#" @click.prevent="setActive('socials')">
 						<Lucide icon="Lock" class="w-4 h-4 mr-2" /> Social Networks
 					</a>
-					<a v-if="persona?.id === auth.getUser.persona.id" class="flex items-center mt-5" :class="{ 'text-primary font-medium': isActive === 'settings' }" href="#" @click.prevent="setActive('settings')">
+					<a v-if="persona && persona?.id === auth.getUser.persona.id" class="flex items-center mt-5" :class="{ 'text-primary font-medium': isActive === 'settings' }" href="#" @click.prevent="setActive('settings')">
 						<Lucide icon="Box" class="w-4 h-4 mr-2" /> Account Settings
 					</a>
 					<a v-if="persona?.id === auth.getUser.persona.id" class="flex items-center mt-5" :class="{ 'text-primary font-medium': isActive === 'password' }" href="#" @click.prevent="setActive('password')">

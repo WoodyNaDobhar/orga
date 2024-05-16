@@ -191,11 +191,11 @@ return new class extends Migration
 			$table->unsignedBigInteger('signator_id')->nullable()->index('signator_id')->comment('Persona signing the Issuance, if any');
 			$table->string('custom_name', 64)->nullable()->comment('Where label options are avaiable, or customization allowed, the chosen label, else null');
 			$table->unsignedInteger('rank')->nullable()->comment('For laddered Issuances, the order number, else null');
-			$table->date('issued_at')->comment('When the Issuance was made or is to be made public (if in the future)');
+			$table->date('issued_on')->comment('When the Issuance was made or is to be made public (if in the future)');
 			$table->string('reason', 400)->nullable()->comment('A historical record of what the Issuance was for');
 			$table->string('image', 255)->nullable()->comment('An internal link to an image of the Issuance phyrep, if any');
 			$table->unsignedBigInteger('revoked_by')->nullable()->index('revoked_by')->comment('ID of the Persona that revoked the Issuance, if any');
-			$table->date('revoked_at')->nullable()->comment("Date the revocation is effective, if any");
+			$table->date('revoked_on')->nullable()->comment("Date the revocation is effective, if any");
 			$table->string('revocation', 50)->nullable()->comment("Cause for the revocation, if any");
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
 			$table->timestamp('created_at')->useCurrent();
@@ -420,7 +420,7 @@ return new class extends Migration
 			$table->bigIncrements('id')->comment('Model ID');
 			$table->enum('sociable_type', ['Chapter', 'Event', 'Persona', 'Realm', 'Unit'])->comment('The Model for which the Social is for; Chapter, Event, Persona, Realm, or Unit');
 			$table->unsignedBigInteger('sociable_id')->index('sociable_id')->comment('The ID of the entry with this Social');
-			$table->enum('media', ['Discord', 'Facebook', 'Instagram', 'TicToc', 'YouTube', 'Web'])->comment('The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web');
+			$table->enum('media', ['Discord', 'Facebook', 'Instagram', 'TikTok', 'YouTube', 'Web'])->comment('The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web');
 			$table->string('value', 255)->comment('The link, username, or other identifier for the given media');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
 			$table->timestamp('created_at')->useCurrent();

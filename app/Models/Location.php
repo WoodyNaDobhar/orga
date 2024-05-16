@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use App\Traits\ProtectFieldsTrait;
 use Wildside\Userstamps\Userstamps;
 /**
@@ -738,6 +739,7 @@ class Location extends BaseModel
 	use HasFactory;
 	use Userstamps;
 	use ProtectFieldsTrait;
+	use Searchable;
 
 	public $table = 'locations';
 	public $timestamps = true;
@@ -774,6 +776,17 @@ class Location extends BaseModel
 		'map_url' => 'string',
 		'directions' => 'string'
 	];
+	
+	public function toSearchableArray(): array
+	{
+		return [
+			'id' => (int) $this->id,
+			'name' => $this->name,
+			'address' => $this->address,
+			'city' => $this->city,
+			'province' => $this->province
+		];
+	}
 
 	public static array $rules = [
 		'name' => 'nullable|string|max:50',

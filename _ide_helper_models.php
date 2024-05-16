@@ -5900,7 +5900,7 @@ namespace App\Models{
  *
  * @OA\Schema (
  * 	schema="Issuance",
- * 	required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_at"},
+ * 	required={"issuable_type","issuable_id","authority_type","authority_id","recipient_type","recipient_id","issued_on"},
  * 	description="Issuances of Awards or Titles.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * issuable (Award or Title) (MorphTo): The Issuance type; Award or Title.
  * issuer (Chapter, Realm, Persona, or Unit) (MorphTo): Issuing authority; Chapter, Realm, Persona, or Unit.
@@ -6043,7 +6043,7 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="issued_at",
+ * 		property="issued_on",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
  * 		nullable=false,
@@ -6081,7 +6081,7 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="revoked_at",
+ * 		property="revoked_on",
  * 		description="Date the revocation is effective, if any.",
  * 		readOnly=false,
  * 		nullable=true,
@@ -6350,7 +6350,7 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="issued_at",
+ * 		property="issued_on",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
  * 		nullable=false,
@@ -6388,7 +6388,7 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="revoked_at",
+ * 		property="revoked_on",
  * 		description="Date the revocation is effective, if any.",
  * 		readOnly=false,
  * 		nullable=true,
@@ -6582,7 +6582,7 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="issued_at",
+ * 		property="issued_on",
  * 		description="When the Issuance was made or is to be made public (if in the future)",
  * 		readOnly=false,
  * 		nullable=false,
@@ -6620,7 +6620,7 @@ namespace App\Models{
  * 		example=42
  * 	),
  * 	@OA\Property(
- * 		property="revoked_at",
+ * 		property="revoked_on",
  * 		description="Date the revocation is effective, if any.",
  * 		readOnly=false,
  * 		nullable=true,
@@ -6661,11 +6661,11 @@ namespace App\Models{
  * @property string|null $custom_name Where label options are avaiable, or customization allowed, the chosen label, else null
  * @property int|null $rank For laddered Issuances, the order number, else null
  * @property int|null $parent_id For Persona Issuances, The ID of the Title Issuance from which this Issuance was given.
- * @property \Illuminate\Support\Carbon $issued_at When the Issuance was made or is to be made public (if in the future)
+ * @property \Illuminate\Support\Carbon $issued_on When the Issuance was made or is to be made public (if in the future)
  * @property string|null $reason A historical record of what the Issuance was for
  * @property-read string|null $image An internal link to an image of the Issuance phyrep, if any
  * @property int|null $revoked_by ID of the Persona that revoked the Issuance, if any
- * @property \Illuminate\Support\Carbon|null $revoked_at Date the revocation is effective, if any
+ * @property \Illuminate\Support\Carbon|null $revoked_on Date the revocation is effective, if any
  * @property string|null $revocation Cause for the revocation, if any
  * @property int $created_by
  * @property \Illuminate\Support\Carbon $created_at
@@ -6703,7 +6703,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuedOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereIssuerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereParentId($value)
@@ -6712,8 +6712,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRecipientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRecipientType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevocation($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereRevokedOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereSignatorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Issuance whereUpdatedBy($value)
@@ -14160,12 +14160,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="media",
- * 		description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ * 		description="The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ * 		enum={"Discord","Facebook","Instagram","TikTok","YouTube","Web"},
  * 		example="Web"
  * 	),
  * 	@OA\Property(
@@ -14382,12 +14382,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="media",
- * 		description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ * 		description="The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ * 		enum={"Discord","Facebook","Instagram","TikTok","YouTube","Web"},
  * 		example="Web"
  * 	),
  * 	@OA\Property(
@@ -14568,12 +14568,12 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="media",
- * 		description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ * 		description="The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
  * 		readOnly=false,
  * 		nullable=false,
  * 		type="string",
  * 		format="enum",
- * 		enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ * 		enum={"Discord","Facebook","Instagram","TikTok","YouTube","Web"},
  * 		example="Web"
  * 	),
  * 	@OA\Property(
@@ -18825,15 +18825,6 @@ namespace App\Models{
  * 		example="2020-12-30"
  * 	),
  * 	@OA\Property(
- * 		property="is_current",
- * 		description="Is the waiver considered current for the Waiverable?",
- * 		readOnly=true,
- * 		type="integer",
- * 		format="enum",
- * 		enum={0, 1},
- * 		example=1
- * 	),
- * 	@OA\Property(
  * 		property="expires_at",
  * 		description="When the Waiver expires, or null.",
  * 		readOnly=true,
@@ -19200,15 +19191,6 @@ namespace App\Models{
  * 		example="2020-12-30"
  * 	),
  * 	@OA\Property(
- * 		property="is_current",
- * 		description="Is the waiver considered current for the Waiverable?",
- * 		readOnly=true,
- * 		type="integer",
- * 		format="enum",
- * 		enum={0, 1},
- * 		example=1
- * 	),
- * 	@OA\Property(
  * 		property="expires_at",
  * 		description="When the Waiver expires, or null.",
  * 		readOnly=true,
@@ -19522,15 +19504,6 @@ namespace App\Models{
  * 		example="2020-12-30"
  * 	),
  * 	@OA\Property(
- * 		property="is_current",
- * 		description="Is the waiver considered current for the Waiverable?",
- * 		readOnly=true,
- * 		type="integer",
- * 		format="enum",
- * 		enum={0, 1},
- * 		example=1
- * 	),
- * 	@OA\Property(
  * 		property="expires_at",
  * 		description="When the Waiver expires, or null.",
  * 		readOnly=true,
@@ -19583,7 +19556,6 @@ namespace App\Models{
  * @property-read \App\Models\User|null $editor
  * @property-read mixed $expires_at
  * @property-read \App\Models\Guest|null $guest
- * @property-read mixed $is_current
  * @property-read \App\Models\Location|null $location
  * @property-read \App\Models\Persona|null $persona
  * @property-read \App\Models\Pronoun|null $pronoun

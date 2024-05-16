@@ -45,12 +45,12 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="media",
- *			description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ *			description="The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
  *			readOnly=false,
  *			nullable=false,
  *			type="string",
  *			format="enum",
- *			enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ *			enum={"Discord","Facebook","Instagram","TikTok","YouTube","Web"},
  *			example="Web"
  *		),
  *		@OA\Property(
@@ -267,12 +267,12 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="media",
- *			description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ *			description="The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
  *			readOnly=false,
  *			nullable=false,
  *			type="string",
  *			format="enum",
- *			enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ *			enum={"Discord","Facebook","Instagram","TikTok","YouTube","Web"},
  *			example="Web"
  *		),
  *		@OA\Property(
@@ -453,12 +453,12 @@ use App\Traits\ProtectFieldsTrait;
  *		),
  *		@OA\Property(
  *			property="media",
- *			description="The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+ *			description="The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
  *			readOnly=false,
  *			nullable=false,
  *			type="string",
  *			format="enum",
- *			enum={"Discord","Facebook","Instagram","TicToc","YouTube","Web"},
+ *			enum={"Discord","Facebook","Instagram","TikTok","YouTube","Web"},
  *			example="Web"
  *		),
  *		@OA\Property(
@@ -520,7 +520,7 @@ class Social extends BaseModel
 	public static array $rules = [
 		'sociable_type' => 'required|in:Realm,Chapter,Event,Unit,Persona',
 		'sociable_id' => 'nullable',
-		'media' => 'required|in:Web,Facebook,Discord,Instagram,YouTube,TicToc',
+		'media' => 'required|in:Web,Facebook,Discord,Instagram,YouTube,TikTok',
 		'value' => 'required|string|max:255'
 	];
 	
@@ -541,7 +541,7 @@ class Social extends BaseModel
 						return 'https://www.instagram.com/' . $this->value;
 					case 'YouTube':
 						return 'https://www.youtube.com/' . $this->value;
-					case 'TicToc':
+					case 'TikTok':
 						return 'https://www.tiktok.com/@' . $this->value;
 					default:
 						return $this->value;

@@ -1,21 +1,27 @@
 export const IssuanceTips = {
+	issuable: "Issuance (Award or Title) that is being given out.",
 	issuable_type: "The Issuance type; Award or Title.",
 	issuable_id: "The Issuance.",
+	whereable: "Where the Issuance was given out.",
 	whereable_type: "Where it was Issued, if known; Event, Location, or Meetup.",
 	whereable_id: "Where it was Issued.",
+	issuer: "The authority (Chapter, Realm, Unit, Persona) Issuing the honor.",
 	issuer_type: "Issuing authority; Chapter, Persona, Realm, or Unit.",
 	issuer_id: "The Issuing authority.",
-	recipient_type: "Who recieved the Issuance; Persona or Unit.",
+	recipient: "Persona or Unit receiving the Issuance",
+	recipient_type: "The nature of the Issuance recipient; Persona or Unit.",
 	recipient_id: "The Issuance recipient.",
+	signator: "For Issuances not from Personas, the Persona that authorized the Issuance.",
 	signator_id: "Persona signing the Issuance, if any.",
 	custom_name: "Where label options are avaiable, or customization allowed, the chosen label, else empty.",
 	rank: "For laddered Issuances, the order number, else empty.",
+	parent: "For Persona Issuances, the Issuer's authorizing Title linked to this Issuance; this describes a belted line.",
 	parent_id: "For Persona Issuances, The ID of the Title Issuance from which this Issuance was given.",
-	issued_at: "When the Issuance was made or is to be made public (if in the future).",
+	issued_on: "When the Issuance was made or is to be made public (if in the future).",
 	reason: "A historical record of what the Issuance was for.",
 	image: "An image of the Issuance phyrep, if any.",
 	revoked_by: "ID of the Persona that revoked the Issuance, if any.",
-	revoked_at: "Date the revocation is effective, if any.",
+	revoked_on: "Date the revocation is effective, if any.",
 	revocation: "Cause for the revocation, if any."
 }
 
@@ -30,6 +36,13 @@ export const PersonaTips = {
 	email: "Changes to your access email will require validation",
 	password: "Passwords must be between 6 and 191 characters, must include at least one of each: regular character, number, special character, and uppercase letter, and you cannot use a recently used password",
 	password_confirm: "Make sure it matches the other one"
+}
+
+export const SocialTips = {
+	sociable_type: "Whom the Social is for; Chapter ,Event, Persona, Realm, or Unit",
+	sociable_id: "ID of Social owner",
+	media: "The social media platform; Discord, Facebook, Instagram, TiTok, Youtube, or Web",
+	value: "The properly formatted username for the platform, or a link (for Web)"
 }
 
 export const RecommendationTips = {

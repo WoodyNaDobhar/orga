@@ -60,7 +60,7 @@ const computedClass = computed(() =>
     leave="ease-in-out duration-[400ms]"
     leaveFrom="opacity-100 mt-16"
     leaveTo="opacity-0 -mt-16"
-    class="fixed inset-0"
+    class="fixed inset-0 overflow-y-auto"
   >
     <HeadlessDialogPanel as="template">
       <component

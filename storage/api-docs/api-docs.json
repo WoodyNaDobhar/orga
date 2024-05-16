@@ -3541,6 +3541,18 @@
                                                         "$ref": "#/components/schemas/EventSimple"
                                                     }
                                                 },
+                                                "Locations": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/LocationSimple"
+                                                    }
+                                                },
+                                                "Meetups": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/MeetupSimple"
+                                                    }
+                                                },
                                                 "Personas": {
                                                     "type": "array",
                                                     "items": {
@@ -25765,7 +25777,7 @@
                     "authority_id",
                     "recipient_type",
                     "recipient_id",
-                    "issued_at"
+                    "issued_on"
                 ],
                 "properties": {
                     "id": {
@@ -25900,7 +25912,7 @@
                         "example": 42,
                         "nullable": true
                     },
-                    "issued_at": {
+                    "issued_on": {
                         "description": "When the Issuance was made or is to be made public (if in the future)",
                         "type": "string",
                         "format": "date",
@@ -25934,7 +25946,7 @@
                         "example": 42,
                         "nullable": true
                     },
-                    "revoked_at": {
+                    "revoked_on": {
                         "description": "Date the revocation is effective, if any.",
                         "type": "string",
                         "format": "date",
@@ -26200,7 +26212,7 @@
                         "example": 42,
                         "nullable": true
                     },
-                    "issued_at": {
+                    "issued_on": {
                         "description": "When the Issuance was made or is to be made public (if in the future)",
                         "type": "string",
                         "format": "date",
@@ -26234,7 +26246,7 @@
                         "example": 42,
                         "nullable": true
                     },
-                    "revoked_at": {
+                    "revoked_on": {
                         "description": "Date the revocation is effective, if any.",
                         "type": "string",
                         "format": "date",
@@ -26424,7 +26436,7 @@
                         "example": 42,
                         "nullable": true
                     },
-                    "issued_at": {
+                    "issued_on": {
                         "description": "When the Issuance was made or is to be made public (if in the future)",
                         "type": "string",
                         "format": "date",
@@ -26458,7 +26470,7 @@
                         "example": 42,
                         "nullable": true
                     },
-                    "revoked_at": {
+                    "revoked_on": {
                         "description": "Date the revocation is effective, if any.",
                         "type": "string",
                         "format": "date",
@@ -32782,14 +32794,14 @@
                         "nullable": true
                     },
                     "media": {
-                        "description": "The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+                        "description": "The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
                         "type": "string",
                         "format": "enum",
                         "enum": [
                             "Discord",
                             "Facebook",
                             "Instagram",
-                            "TicToc",
+                            "TikTok",
                             "YouTube",
                             "Web"
                         ],
@@ -33005,14 +33017,14 @@
                         "nullable": true
                     },
                     "media": {
-                        "description": "The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+                        "description": "The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
                         "type": "string",
                         "format": "enum",
                         "enum": [
                             "Discord",
                             "Facebook",
                             "Instagram",
-                            "TicToc",
+                            "TikTok",
                             "YouTube",
                             "Web"
                         ],
@@ -33208,14 +33220,14 @@
                         "nullable": true
                     },
                     "media": {
-                        "description": "The type of Social; Discord, Facebook, Instagram, TicToc, YouTube, or Web",
+                        "description": "The type of Social; Discord, Facebook, Instagram, TikTok, YouTube, or Web",
                         "type": "string",
                         "format": "enum",
                         "enum": [
                             "Discord",
                             "Facebook",
                             "Instagram",
-                            "TicToc",
+                            "TikTok",
                             "YouTube",
                             "Web"
                         ],

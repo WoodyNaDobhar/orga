@@ -1147,7 +1147,14 @@ class Persona extends BaseModel
 		'honorific_id' => 'nullable|exists:issuances,id',
 		'mundane' => 'nullable|string|max:191',
 		'name' => 'required|string|max:191',
-		'slug' => 'nullable|sometimes|unique:personas|string|max:25|regex:/^(?=.*[a-zA-Z]).+$',
+		'slug' => [
+			'nullable',
+			'sometimes',
+			'unique:personas,slug',
+			'string',
+			'max:25',
+			'regex:/^(?=.*[a-zA-Z]).+$/i'
+		],
 		'heraldry' => 'nullable|string|max:191',
 		'image' => 'nullable|string|max:191',
 		'is_active' => 'required|boolean',
@@ -1155,6 +1162,7 @@ class Persona extends BaseModel
 		'corpora_qualified_expires_at' => 'nullable|date',
 		'joined_chapter_at' => 'nullable|date'
 	];
+	//NOTE: Update rules are overwritten in the UpdatePersonaAPIRequest.php file to extend unique to exclude self
 	
 	protected $appends = [
 // 		'awards',
@@ -1193,7 +1201,7 @@ class Persona extends BaseModel
 				
 				foreach ($awards as &$award) {
 					usort($award['issuances'], function ($a, $b) {
-						return $a->issued_at <=> $b->issued_at;
+						return $a->issued_on <=> $b->issued_on;
 					});
 				}
 				

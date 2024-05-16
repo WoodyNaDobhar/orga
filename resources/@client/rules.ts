@@ -11,7 +11,10 @@ import {
 } from "@vuelidate/validators";
 import { IssuanceSuperSimple } from "./interfaces";
 
-const slugValidator = helpers.regex(/^[A-Za-z0-9_-]*$/)
+const slugValidator = helpers.withMessage(
+	'The slug must contain only letters, numbers, underscores, and hyphens.',
+	helpers.regex(/^[A-Za-z0-9_-]*$/)
+);
 
 export const IssuanceRules = {
 	id: {
@@ -57,11 +60,8 @@ export const IssuanceRules = {
 	rank: {
 	},
 	parent_id: {
-		requiredIf: (value: number, parent: IssuanceSuperSimple) => {
-			return parent.issuer_type === "Persona";
-		}
 	},
-	issued_at: {
+	issued_on: {
 		required,
 	},
 	reason: {
@@ -70,7 +70,7 @@ export const IssuanceRules = {
 	},
 	revoked_by: {
 	},
-	revoked_at: {
+	revoked_on: {
 	},
 	revocation: {
 	},
@@ -154,6 +154,23 @@ export const Register = {
 	},
 	is_agreed: {
 		sameAs: sameAs(true)
+	},
+};
+
+export const SocialRules = {
+	id: {
+	},
+	sociable_type: {
+		required,
+	},
+	sociable_id: {
+		required,
+	},
+	media: {
+		required,
+	},
+	value: {
+		required
 	},
 };
 

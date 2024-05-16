@@ -32,7 +32,7 @@
 	const loadingMessage = ref<string>('')
 
 	interface AccountPersonaEmit {
-		(e: "updated", value: PersonaSuperSimple): void;
+		(e: "updated", value: Persona): void;
 	}
 
 	const emit = defineEmits<AccountPersonaEmit>();
@@ -109,26 +109,33 @@
 	};
 
 	const saveAccount = async () => {
-		isLoading.value = true
-		loadingMessage.value = 'Saving...'
 		validate.value.$touch();
 		if (validate.value.$invalid) {
 			showToast(false, "Please check the form.")
 		} else {
+			isLoading.value = true
+			loadingMessage.value = 'Saving...'
 			try {
 				await axios.put('/api/personas/' + props.persona?.id, personaFormData)
 					.then(response => {
-						isLoading.value = false
-						loadingMessage.value = ''
-						showToast(true, response.data.message)
-						emit("updated", personaFormData);
+						isLoading.value = false;
+						loadingMessage.value = '';
+						showToast(true, response.data.message);
+						if (props.persona) {
+							Object.keys(personaFormData).forEach((key) => {
+								if (props.persona) {
+									props.persona[key as keyof PersonaSuperSimple] = response.data.data[key as keyof PersonaSuperSimple] as never;
+								}
+							});
+							emit("updated", props.persona);
+						}
 					})
 					.catch(error => {
-						isLoading.value = false
-						loadingMessage.value = ''
-						state.storeState('error', error.response.data.message)
-						console.log('Error saving persona:', error)
-						showToast(false, error.response.data.message) 
+						isLoading.value = false;
+						loadingMessage.value = '';
+						state.storeState('error', error.response.data.message);
+						console.log('Error saving persona:', error);
+						showToast(false, error.response.data.message);
 					});
 			} catch (error: any) {
 				isLoading.value = false
@@ -269,6 +276,15 @@
 												'border-danger': validate.mundane.$error,
 											}"
 										/>
+										<template v-if="validate.mundane.$error">
+											<div
+												v-for="(error, index) in validate.mundane.$errors"
+												:key="index"
+												class="mt-2 text-danger"
+											>
+												{{ error.$message }}
+											</div>
+										</template>
 									</div>
 									<div class="mt-3">
 										<FormLabel htmlFor="persona-honorifics">
@@ -298,6 +314,15 @@
 												{{ title.name }}
 											</option>
 										</FormSelect>
+										<template v-if="validate.honorific_id.$error">
+											<div
+												v-for="(error, index) in validate.honorific_id.$errors"
+												:key="index"
+												class="mt-2 text-danger"
+											>
+												{{ error.$message }}
+											</div>
+										</template>
 									</div>
 									<div class="mt-3">
 										<div class="flex-1 mt-6 xl:mt-0">

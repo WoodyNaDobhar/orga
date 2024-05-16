@@ -4611,7 +4611,7 @@ class ImportOrk3 extends Command
 								'recipient_type' => 'Persona',
 								'recipient_id' => $personaId,
 								'signator_id' => null,
-								'issued_at' => date('Y-m-d')
+								'issued_on' => date('Y-m-d')
 							]);
 						}
 						//check to see if entry exists already, and if so, update
@@ -6520,12 +6520,12 @@ class ImportOrk3 extends Command
 								'custom_name' => $customNameFin,
 								'rank' => $rank > 0 ? $rank : null,
 								'parent_id' => $parent_id,
-								'issued_at' => $issueDate != '0000-00-00' && $issueDate != '0000-00-00 00:00:00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' && $oldIssuance->entered_at != '0000-00-00 00:00:00' ? $oldIssuance->entered_at : date('Y-m-d')),
+								'issued_on' => $issueDate != '0000-00-00' && $issueDate != '0000-00-00 00:00:00' ? $issueDate : ($oldIssuance->entered_at != '0000-00-00' && $oldIssuance->entered_at != '0000-00-00 00:00:00' ? $oldIssuance->entered_at : date('Y-m-d')),
 								'reason' => $reason,
 								'image' => null,
 								'revocation' => trim($oldIssuance->revocation) != '' ? trim($oldIssuance->revocation) : null,
 								'revoked_by' => $oldIssuance->revoked_by_id != '0' && in_array($oldIssuance->revoked_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->revoked_by_id] : null,
-								'revoked_at' => $oldIssuance->revoked_at != '0000-00-00' ? $oldIssuance->revoked_at : null
+								'revoked_on' => $oldIssuance->revoked_on != '0000-00-00' ? $oldIssuance->revoked_on : null
 							]);
 							
 							$bar->advance();

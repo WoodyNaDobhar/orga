@@ -395,6 +395,8 @@ abstract class BaseRepository
 					 $thisModel->save();
 				}
 			}
+		}else{
+			$parent->save();
 		}
 	}
 	

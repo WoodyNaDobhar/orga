@@ -23,6 +23,7 @@
 @import "./components/base/_box.css";
 @import "./components/base/_global.css";
 @import "./components/base/_image-fit.css";
+@import "./components/base/_multiselect.css";
 @import "./components/base/_scrollbar-hidden.css";
 @import "./components/base/_typing-dots.css";
 @import "./components/base/_zoom-in.css";

@@ -19,11 +19,11 @@ class IssuanceRepository extends BaseRepository
 		'custom_name',
 		'rank',
 		'parent_id',
-		'issued_at',
+		'issued_on',
 		'reason',
 		'image',
 		'revoked_by',
-		'revoked_at',
+		'revoked_on',
 		'revocation'
 	];
 

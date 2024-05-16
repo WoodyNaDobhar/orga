@@ -34,6 +34,8 @@ use App\Repositories\EventRepository;
 use App\Repositories\PersonaRepository;
 use App\Repositories\RealmRepository;
 use App\Repositories\UnitRepository;
+use App\Models\Location;
+use App\Models\Meetup;
 // use NZTim\Mailchimp\Exception\MailchimpBadRequestException;
 // use NZTim\Mailchimp\MailchimpFacade as Mailchimp;
 
@@ -1552,6 +1554,16 @@ class BaseAPIController extends AppBaseController
 	 *								@OA\Items(ref="#/components/schemas/EventSimple")
 	 *							),
 	 *							@OA\Property(
+	 *								property="Locations",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/LocationSimple")
+	 *							),
+	 *							@OA\Property(
+	 *								property="Meetups",
+	 *								type="array",
+	 *								@OA\Items(ref="#/components/schemas/MeetupSimple")
+	 *							),
+	 *							@OA\Property(
 	 *								property="Personas",
 	 *								type="array",
 	 *								@OA\Items(ref="#/components/schemas/PersonaSimple")
@@ -1633,7 +1645,11 @@ class BaseAPIController extends AppBaseController
 
 			$chapters = Chapter::search($request->search)->get();
 			$events = Event::search($request->search)->get();
-			$personas = Persona::search($request->search)->get();
+			$locations = Location::search($request->search)->get();
+			$meetups = Meetup::search($request->search)->get();
+			$personas = Persona::search($request->search)->query(function ($builder) {
+				$builder->with('chapter');
+			})->get();
 			$realms = Realm::search($request->search)->get();
 			$users = User::search($request->search)->get();
 			$units = Unit::search($request->search)->get();
@@ -1641,6 +1657,8 @@ class BaseAPIController extends AppBaseController
 			$response = [
 				'Chapters' => $chapters,
 				'Events' => $events,
+				'Locations' => $locations,
+				'Meetups' => $meetups,
 				'Personas' => $personas,
 				'Realms' => $realms,
 				'Users' => $users,
