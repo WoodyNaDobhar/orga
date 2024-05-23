@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, computed, watchEffect, onMounted } from "vue";
+	import { ref, computed, watchEffect } from "vue";
 	import { Tab, Menu } from "@/components/Base/Headless";
 	import { Tab as HeadlessTab } from "@headlessui/vue";
 	import Button from "@/components/Base/Button";
@@ -15,7 +15,6 @@
 	import { getColor } from "@/utils/colors";
 	import { type ChartData } from "chart.js/auto";
 	import { useStateStore } from '@/stores/state';
-	import axios from 'axios';
 	
 	const state = useStateStore()
 	const props = defineProps<{

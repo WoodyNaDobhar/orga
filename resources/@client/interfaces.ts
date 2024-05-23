@@ -408,7 +408,9 @@ export interface Due {
 	persona_id: number
 	transaction_id: number
 	dues_on: string
-	intervals?: number | null
+	intervals: number
+	amount: number
+	memo: string | null
 	created_by: number
 	createdBy: UserSimple
 	updated_by?: number | null
@@ -431,9 +433,12 @@ export interface Due {
 export interface DueSimple {
 	id: number
 	persona_id: number
+	transaction: TransactionSimple
 	transaction_id: number
 	dues_on: string
-	intervals?: number | null
+	intervals: number
+	amount: number
+	memo: string | null
 	created_by: number
 	updated_by?: number | null
 	deleted_by?: number | null
@@ -453,7 +458,19 @@ export interface DueSuperSimple {
 	persona_id: number
 	transaction_id: number
 	dues_on: string
-	intervals: number | null
+	intervals: number
+	amount: number
+	memo: string | null
+}
+export interface DueFormData {
+	id: number | null
+	persona_id: number
+	recipient_type: 'Realm' | 'Chapter' | 'Unit'
+	recipient_id: number | null
+	dues_on: string
+	amount: number | null
+	type: string
+	memo: string | null
 }
 export interface Event {
 	id: number
@@ -1811,8 +1828,8 @@ export interface TournamentSuperSimple {
 export interface Transaction {
 	id: number
 	description: string
-	memo?: string
-	transaction_at: string
+	memo: string | null
+	transaction_on: string
 	created_by: number
 	createdBy: UserSimple
 	updated_by?: number | null
@@ -1823,7 +1840,7 @@ export interface Transaction {
 	updated_at?: string | null
 	deleted_at?: string | null
 	dues: DueSimple[]
-	splits: SplitSimple[]
+	splits: Split[]
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -1835,14 +1852,15 @@ export interface Transaction {
 export interface TransactionSimple {
 	id: number
 	description: string
-	memo?: string
-	transaction_at: string
+	memo: string | null
+	transaction_on: string
 	created_by: number
 	updated_by?: number | null
 	deleted_by?: number | null
 	created_at: string
 	updated_at?: string | null
 	deleted_at?: string | null
+	splits: Split[]
 	can_list: 0 | 1
 	can_view: 0 | 1
 	can_create: 0 | 1
@@ -1854,8 +1872,8 @@ export interface TransactionSimple {
 export interface TransactionSuperSimple {
 	id: number
 	description: string
-	memo: string
-	transaction_at: string
+	memo: string | null
+	transaction_on: string
 }
 export interface Unit {
 	id: number

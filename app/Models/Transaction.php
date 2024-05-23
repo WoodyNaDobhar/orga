@@ -9,7 +9,7 @@ use App\Traits\ProtectFieldsTrait;
 /**
  * @OA\Schema(
  *		schema="Transaction",
- *		required={"description","transaction_at"},
+ *		required={"description","transaction_on"},
  *		description="Accounting Transactions.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * dues (Due) (HasMany): Dues linked to the Transaction
  * splits (Split) (HasMany): Splits for the Transaction
@@ -44,7 +44,7 @@ use App\Traits\ProtectFieldsTrait;
  *			maxLength=191
  *		),
  *		@OA\Property(
- *			property="transaction_at",
+ *			property="transaction_on",
  *			description="Date the Transaction occured.",
  *			readOnly=false,
  *			nullable=false,
@@ -251,7 +251,7 @@ use App\Traits\ProtectFieldsTrait;
  *			maxLength=191
  *		),
  *		@OA\Property(
- *			property="transaction_at",
+ *			property="transaction_on",
  *			description="Date the Transaction occured.",
  *			readOnly=false,
  *			nullable=false,
@@ -418,7 +418,7 @@ use App\Traits\ProtectFieldsTrait;
  *			maxLength=191
  *		),
  *		@OA\Property(
- *			property="transaction_at",
+ *			property="transaction_on",
  *			description="Date the Transaction occured.",
  *			readOnly=false,
  *			nullable=false,
@@ -454,19 +454,19 @@ class Transaction extends BaseModel
 	public $fillable = [
 		  'description',
 		  'memo',
-		  'transaction_at'
+		  'transaction_on'
 	];
 
 	protected $casts = [
 		  'description' => 'string',
 		  'memo' => 'string',
-		  'transaction_at' => 'date'
+		  'transaction_on' => 'date'
 	];
 
 	public static array $rules = [
 		'description' => 'required|string|max:191',
 		'memo' => 'nullable|string|max:16777215',
-		'transaction_at' => 'required|date'
+		'transaction_on' => 'required|date'
 	];
 	
 	public $relationships = [

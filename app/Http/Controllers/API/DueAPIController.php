@@ -200,11 +200,11 @@ class DueAPIController extends AppBaseController
 	 *
 	 * @OA\Post(
 	 *		path="/dues",
-	 *		summary="Store a newly created Due in storage",
+	 *		summary="Store a newly created Due payent in storage",
 	 *		security={{"bearer_token":{}}},
 	 *		tags={"Due"},
 	 *		description="<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
-	 *		requestBody={"$ref": "#/components/requestBodies/Due"},
+	 *		requestBody={"$ref": "#/components/requestBodies/DueCreate"},
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="successful operation",

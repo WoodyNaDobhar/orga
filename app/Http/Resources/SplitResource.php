@@ -31,7 +31,8 @@ class SplitResource extends JsonResource
 			'can_nuke' => 0,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
-			'deleted_at' => $this->deleted_at
+			'deleted_at' => $this->deleted_at,
+			'account' => $this->account
 		];
 		
 		//related

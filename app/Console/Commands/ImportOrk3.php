@@ -927,18 +927,6 @@ class ImportOrk3 extends Command
 							$freeholdId = $realmId;
 						}
 						
-						//import their image from ORK3
-						$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-						$response = Http::head($url);
-						if ($response->successful()) {
-							Http::get($url)->body()->storeAs(
-								"realms/" . $realmId, str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
-							);
-						}
-						DB::table('realms')->where('id', $realmId)->update([
-							'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldRealm->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
-						]);
-						
 						//make the reign
 						DB::table('reigns')->insert([
 							'reignable_type' => 'Realm',
@@ -984,20 +972,7 @@ class ImportOrk3 extends Command
 												'newID' => $realmId
 										]);
 										$transRealms[$oldChaptertype->kingdom_id] = $realmId;
-										
-										//import their image from ORK3
-										$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url);
-										if ($response->successful()) {
-											Http::get($url)->body()->storeAs(
-												"realms/" . $realmId, str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
-											);
-										}
-										DB::table('realms')->where('id', $realmId)->update([
-											'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldChaptertype->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
-										]);
-										
-										$this->addRealmAccounts($transRealms[$oldChaptertype->kingdom_id]);
+										$this->addRealmAccounts($realmId);
 										DB::table('reigns')->insert([
 											'reignable_type' => 'Realm',
 											'reignable_id' => $transRealms[$oldChaptertype->kingdom_id],
@@ -1120,13 +1095,6 @@ class ImportOrk3 extends Command
 					$transChaptertypes = $this->getTrans('chaptertypes');
 					$oldRealms = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->get()->toArray();
-					$chaptersWithoutAccount = $backupConnect->table('ork_park')
-						->leftJoin('ork_account', function ($join) {
-							$join->on('ork_account.park_id', 'ork_park.park_id');
-						})
-						->whereNull('ork_account.account_id')
-						->pluck('ork_park.park_id')
-						->toArray();
 					$bar = $this->output->createProgressBar(count($oldChapters));
 					$bar->start();
 					foreach ($oldChapters as $oldChapter) {
@@ -1149,20 +1117,7 @@ class ImportOrk3 extends Command
 									'newID' => $realmId
 								]);
 								$transRealms[$oldChapter->kingdom_id] = $realmId;
-								
-								//import their image from ORK3
-								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									Http::get($url)->body()->storeAs(
-										"realms/" . $realmId, str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
-									);
-								}
-								DB::table('realms')->where('id', $realmId)->update([
-									'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldChapter->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
-								]);
-								
-								$this->addRealmAccounts($transRealms[$oldChapter->kingdom_id]);
+								$this->addRealmAccounts($realmId);
 								DB::table('reigns')->insert([
 									'reignable_type' => 'Realm',
 									'reignable_id' => $transRealms[$oldChapter->kingdom_id],
@@ -1200,8 +1155,7 @@ class ImportOrk3 extends Command
 								$transChaptertypes = $this->getTrans('chaptertypes');
 							}
 							DB::reconnect("mysqlBak");
-						}
-						if($oldChapter->parktitle_id == 186){//inactive is being removed
+						}else{
 							$lowestChaptertype = Chaptertype::where('realm_id', $transRealms[$oldChapter->kingdom_id])->orderBy('rank', 'ASC')->first();
 						}
 						
@@ -1223,18 +1177,6 @@ class ImportOrk3 extends Command
 						]);
 						$transChapters[$oldChapter->park_id] = $chapterID;
 						
-						//import their image from ORK3
-						$url = "https://ork.amtgard.com/assets/heraldry/park/" . str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-						$response = Http::head($url);
-						if ($response->successful()) {
-							Http::get($url)->body()->storeAs(
-								"chapters/" . $chapterID, str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
-							);
-						}
-						DB::table('chapters')->where('id', $chapterID)->update([
-							'heraldry' => "/storage/chapters/" . $chapterID . "/" . str_pad($oldChapter->park_id, 5, '0', STR_PAD_LEFT) . ".jpg",
-						]);
-						
 						$url = $this->cleanURL($oldChapter->url);
 						if($url){
 							DB::table('socials')->insert([
@@ -1243,9 +1185,6 @@ class ImportOrk3 extends Command
 								'media' => 'Web',
 								'value' => $url
 							]);
-						}
-						if(in_array($oldChapter->park_id, $chaptersWithoutAccount)){
-							$this->addChapterAccounts($chapterID);
 						}
 						
 						//make them reigns, based off of attendance records dates
@@ -1301,19 +1240,6 @@ class ImportOrk3 extends Command
 							'created_at' => $oldUnit->modified,
 							'updated_at' => $oldUnit->modified
 						]);
-						
-						//import their image from ORK3
-						$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldUnit->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-						$response = Http::head($url);
-						if ($response->successful()) {
-							Http::get($url)->body()->storeAs(
-								"units/" . $unitId, str_pad($oldUnit->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
-							);
-						}
-						DB::table('units')->where('id', $unitId)->update([
-							'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldUnit->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg",
-						]);
-						
 						$url = $this->cleanURL($oldUnit->url);
 						if($url){
 							DB::table('socials')->insert([
@@ -1337,7 +1263,7 @@ class ImportOrk3 extends Command
 					DB::table('awards')->truncate();
 					DB::table('trans')->where('array', 'LIKE', '%awards')->delete();
 					DB::table('crypt')->where('model', 'Award')->delete();
-					$transmundane_ids = $this->getTrans('realms');
+					$transRealms = $this->getTrans('realms');
 					//Common awards first
 					$oldAwards = $backupConnect->table('ork_award')->where('is_ladder', 1)->get()->toArray();
 					$bar = $this->output->createProgressBar(216);
@@ -2413,28 +2339,6 @@ class ImportOrk3 extends Command
 								]);
 								$transPersonas[$oldUser->mundane_id] = $personaId;
 								
-								//import their images from ORK3
-								$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									Http::get($url)->body()->storeAs(
-										"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
-									);
-								}
-								DB::table('personas')->where('id', $personaId)->update([
-									'heraldry' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
-								]);
-								$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url2);
-								if ($response->successful()) {
-									Http::get($url2)->body()->storeAs(
-										"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
-									);
-								}
-								DB::table('personas')->where('id', $personaId)->update([
-									'image' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
-								]);
-								
 								//user data
 								if(filter_var($this->cleanEmail($oldUser->email), FILTER_VALIDATE_EMAIL)){
 									if(!in_array($this->cleanEmail($oldUser->email), $usedEmails)){
@@ -2527,18 +2431,7 @@ class ImportOrk3 extends Command
 													'newID' => $unitId
 												]);
 												$transUnits[$oldUser->company_id] = $unitId;
-												
-												//import their image from ORK3
-												$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldUser->company_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-												$response = Http::head($url);
-												if ($response->successful()) {
-													Http::get($url)->body()->storeAs(
-															"units/" . $unitId, str_pad($oldUser->company_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
-															);
-												}
-												DB::table('units')->where('id', $unitId)->update([
-													'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldUser->company_id, 5, '0', STR_PAD_LEFT) . ".jpg",
-												]);
+												$this->addUnitAccounts($unitId);
 											}
 										}
 									}else{
@@ -2688,20 +2581,7 @@ class ImportOrk3 extends Command
 									'newID' => $realmId
 								]);
 								$transRealms[$oldEvent->kingdom_id] = $realmId;
-								
-								//import their image from ORK3
-								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									Http::get($url)->body()->storeAs(
-										"realms/" . $realmId, str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
-									);
-								}
-								DB::table('realms')->where('id', $realmId)->update([
-									'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldEvent->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
-								]);
-								
-								$this->addRealmAccounts($transRealms[$oldEvent->kingdom_id]);
+								$this->addRealmAccounts($realmId);
 								DB::table('reigns')->insert([
 									'reignable_type' => 'Realm',
 									'reignable_id' => $transRealms[$oldEvent->kingdom_id],
@@ -2755,28 +2635,6 @@ class ImportOrk3 extends Command
 											'newID' => $personaId
 										]);
 										$transPersonas[$oldEvent->mundane_id] = $personaId;
-										
-										//import their images from ORK3
-										$url = "https://ork.amtgard.com/assets/heraldry/player/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url);
-										if ($response->successful()) {
-											Http::get($url)->body()->storeAs(
-												"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
-											);
-										}
-										DB::table('personas')->where('id', $personaId)->update([
-											'heraldry' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
-										]);
-										$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url2);
-										if ($response->successful()) {
-											Http::get($url2)->body()->storeAs(
-												"personas/" . $personaId, uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg", 'public'
-											);
-										}
-										DB::table('personas')->where('id', $personaId)->update([
-											'image' => "/storage/personas/" . $personaId . "/" . uniqid() . str_pad($oldUser->mundane_id, 6, '0', STR_PAD_LEFT) . ".jpg",
-										]);
 									}
 								}
 							}
@@ -2865,7 +2723,6 @@ class ImportOrk3 extends Command
 							'description' => trim($oldEvent->description) != '' ? trim($oldEvent->description) : null,
 							'is_active' => $oldEvent->current,
 							'is_demo' => str_contains(strtolower(trim($oldEvent->name)), 'demo') ? 1 : 0,
-							'image' => $heraldry,
 							'event_started_at' => $oldEvent->event_start > '0001-01-01 00:00:01' ? $oldEvent->event_start : min($oldEvent->modified_1, $oldEvent->modified_2),
 							'event_ended_at' => $oldEvent->event_end > '0001-01-01 00:00:01' ? $oldEvent->event_end : max($oldEvent->modified_1, $oldEvent->modified_2),
 							'price' => $oldEvent->price,
@@ -2881,18 +2738,6 @@ class ImportOrk3 extends Command
 								'value' => $url
 							]);
 						}
-						
-						//import their image from ORK3
-						$url = "https://ork.amtgard.com/assets/heraldry/event/" . str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-						$response = Http::head($url);
-						if ($response->successful()) {
-							Http::get($url)->body()->storeAs(
-								"events/" . $eventId, str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
-							);
-						}
-						DB::table('events')->where('id', $eventId)->update([
-							'image' => "/storage/events/" . $eventId . "/" . str_pad($oldEvent->event_id, 5, '0', STR_PAD_LEFT) . ".jpg",
-						]);
 						
 						if($oldEvent->mundane_id != '0'){
 							//make the crat
@@ -2924,96 +2769,105 @@ class ImportOrk3 extends Command
 					$transRealms = $this->getTrans('realms');
 					$transChapters = $this->getTrans('chapters');
 					$transUnits = $this->getTrans('units');
+					$transEventDetails = $this->getTrans('eventdetails');
 					$oldAccounts = $backupConnect->table('ork_account')->orderBy('account_id')->get()->toArray();
 					$oldRealms = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
-					$realmsDone = [];
-					$bar = $this->output->createProgressBar(count($oldAccounts));
+					$oldChapters = $backupConnect->table('ork_park')->pluck('park_id')->toArray();
+					$oldEvents = $backupConnect->table('ork_event_calendardetail')->pluck('calendardetail_id')->toArray();
+					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->toArray();
+					$bar = $this->output->createProgressBar(count($oldRealms) + count($oldChapters) + count($oldEvents) + count($oldUnits) + count($oldAccounts));
 					$bar->start();
-					foreach ($oldAccounts as $oldAccount) {
-						$accountable_type = $oldAccount->unit_id > 0 ? 'Unit' : ($oldAccount->event_id > 0 ? 'Event' : ($oldAccount->park_id > 0 ? 'Chapter' : 'Realm'));
-						switch($accountable_type){
-							case 'Unit':
-								while(!array_key_exists($oldAccount->unit_id, $transUnits)){
-									$this->info('waiting for unit ' . $oldAccount->unit_id);
-									sleep(5);
-									$transUnits = $this->getTrans('units');
-								}
-								DB::reconnect("mysqlBak");
-								$accountable_id = $transUnits[$oldAccount->unit_id];
-								break;
-							case 'Event':
-								DB::table('crypt')->insert([
-									'model' 		=> 'Accounts',
-									'cause' 		=> 'Events',
-									'model_id'		=> $oldAccount->account_id,
-									'model_value'	=> json_encode($oldAccount)
-								]);
-								$bar->advance();
-								continue 2;
-							case 'Chapter':
-								while(!array_key_exists($oldAccount->park_id, $transChapters)){
-									$this->info('waiting for chapter ' . $oldAccount->park_id);
-									sleep(5);
-									$transChapters = $this->getTrans('chapters');
-								}
-								DB::reconnect("mysqlBak");
-								$accountable_id = $transChapters[$oldAccount->park_id];
-								break;
-							case 'Realm':
-								while(!array_key_exists($oldAccount->kingdom_id, $transRealms)){
-									$this->info('waiting for realm ' . $oldAccount->kingdom_id);
-									sleep(5);
-									$transRealms = $this->getTrans('realms');
-								}
-								DB::reconnect("mysqlBak");
-								$accountable_id = $transRealms[$oldAccount->kingdom_id];
-								break;
-							default:
-								$accountable_id = null;
-								break;
+					foreach ($oldChapters as $oldChapter) {
+						while (!array_key_exists($oldChapter, $transChapters)) {
+							$this->info('Waiting for chapter ' . $oldChapter);
+							sleep(5);
+							$transChapters = $this->getTrans('chapters');
 						}
-						//since realm has possible dupes in the trans (combined realms), check for existence
-						if($accountable_type === 'Realm'){
-							$foundAccount = Account::where('accountable_type', $accountable_type)
-								->where('accountable_id', $accountable_id)
-								->where('name', trim($oldAccount->name))
-								->where('type', $oldAccount->type)
-								->first();
-							if($foundAccount){
+						DB::reconnect("mysqlBak");
+						$newAccountMappings = $this->addChapterAccounts($transChapters[$oldChapter], $oldAccounts);
+						if ($newAccountMappings !== true) {
+							foreach ($newAccountMappings as $mapping) {
 								DB::table('trans')->insert([
 									'array' => 'accounts',
-									'oldID' => $oldAccount->account_id,
-									'newID' => $foundAccount->id
+									'oldID' => $mapping['oldID'],
+									'newID' => $mapping['newID']
 								]);
-								$transAccounts[$oldAccount->account_id] = $foundAccount->id;
-								$bar->advance();
-								continue;
+								$transAccounts[$mapping['oldID']] = $mapping['newID'];
 							}
-						}
-						$accountId = DB::table('accounts')->insertGetId([
-							'parent_id' => $oldAccount->parent_id > 0 ? $transAccounts[$oldAccount->parent_id] : null,
-							'accountable_type' => $accountable_type,
-							'accountable_id' => $accountable_id,
-							'name' => trim($oldAccount->name) === 'Kingdom Take' ? 'Realm Take' : trim($oldAccount->name),
-							'type' => $oldAccount->type
-						]);
-						DB::table('trans')->insert([
-							'array' => 'accounts',
-							'oldID' => $oldAccount->account_id,
-							'newID' => $accountId
-						]);
-						$transAccounts[$oldAccount->account_id] = $accountId;
-						if($accountable_type === 'Realm'){
-							$realmsDone[] = $oldAccount->kingdom_id;
 						}
 						$bar->advance();
 					}
-					//fill in missing realm data
-					$this->info('Adding missing Realm Accounts...');
-					foreach($oldRealms as $oldRealm){
-						if(!in_array($oldRealm, $realmsDone)){
-							$this->addRealmAccounts($transRealms[$oldRealm]);
+					foreach ($oldRealms as $oldRealm) {
+						while (!array_key_exists($oldRealm, $transRealms)) {
+							$this->info('Waiting for realm ' . $oldRealm);
+							sleep(5);
+							$transRealms = $this->getTrans('realms');
 						}
+						DB::reconnect("mysqlBak");
+						$newAccountMappings = $this->addRealmAccounts($transRealms[$oldRealm], $oldAccounts);
+						if ($newAccountMappings !== true) {
+							foreach ($newAccountMappings as $mapping) {
+								DB::table('trans')->insert([
+									'array' => 'accounts',
+									'oldID' => $mapping['oldID'],
+									'newID' => $mapping['newID']
+								]);
+								$transAccounts[$mapping['oldID']] = $mapping['newID'];
+							}
+						}
+						$bar->advance();
+					}
+					foreach ($oldEvents as $oldEvent) {
+						while (!array_key_exists($oldEvent, $transEventDetails)) {
+							$this->info('Waiting for event ' . $oldEvent);
+							sleep(5);
+							$transEventDetails = $this->getTrans('eventdetails');
+						}
+						DB::reconnect("mysqlBak");
+						$newAccountMappings = $this->addEventAccounts($transEventDetails[$oldEvent], $oldAccounts);
+						if ($newAccountMappings !== true) {
+							foreach ($newAccountMappings as $mapping) {
+								DB::table('trans')->insert([
+									'array' => 'accounts',
+									'oldID' => $mapping['oldID'],
+									'newID' => $mapping['newID']
+								]);
+								$transAccounts[$mapping['oldID']] = $mapping['newID'];
+							}
+						}
+						$bar->advance();
+					}
+					foreach ($oldUnits as $oldUnit) {
+						while (!array_key_exists($oldUnit, $transUnits)) {
+							$this->info('Waiting for unit ' . $oldUnit);
+							sleep(5);
+							$transUnits = $this->getTrans('units');
+						}
+						DB::reconnect("mysqlBak");
+						$newAccountMappings = $this->addUnitAccounts($transUnits[$oldUnit], $oldAccounts);
+						if ($newAccountMappings !== true) {
+							foreach ($newAccountMappings as $mapping) {
+								DB::table('trans')->insert([
+									'array' => 'accounts',
+									'oldID' => $mapping['oldID'],
+									'newID' => $mapping['newID']
+								]);
+								$transAccounts[$mapping['oldID']] = $mapping['newID'];
+							}
+						}
+						$bar->advance();
+					}
+					$this->info('Updating Crypt...');
+					foreach ($oldAccounts as $oldAccount) {
+						if (!array_key_exists($oldAccount->account_id, $transAccounts)) {
+							DB::table('crypt')->insert([
+								'model'         => 'Account',
+								'cause'         => 'OriginalOwnerDeleted',
+								'model_id'      => $oldAccount->account_id,
+								'model_value'   => json_encode($oldAccount)
+							]);
+						}
+						$bar->advance();
 					}
 					break;
 				case 'Meetups':
@@ -3607,6 +3461,7 @@ class ImportOrk3 extends Command
 														'newID' => $eventId
 												]);
 												$transEventDetails[$oldAttendance->event_calendardetail_id] = $eventId;
+												$this->addEventAccounts($eventId);
 											}
 										}else{
 											//deadrecords it since there's no event data
@@ -3980,7 +3835,7 @@ class ImportOrk3 extends Command
 						$transactionId = DB::table('transactions')->insertGetId([
 							'description' => $oldTransaction->description,
 							'memo' => ($oldTransaction->memo !== $oldTransaction->description ? $oldTransaction->memo : null),
-							'transaction_at' => $oldTransaction->transaction_date <= '1969-12-31' ? $oldTransaction->date_created : $oldTransaction->transaction_date,
+							'transaction_on' => $oldTransaction->transaction_date <= '1969-12-31' ? $oldTransaction->date_created : $oldTransaction->transaction_date,
 							'created_by' => $oldTransaction->recorded_by != 0 && array_key_exists($oldTransaction->recorded_by, $transUsers)? $transUsers[$oldTransaction->recorded_by] : 1,
 							'created_at' => $oldTransaction->date_created
 						]);
@@ -4299,7 +4154,7 @@ class ImportOrk3 extends Command
 								$transactionId = $transTransactions[$oldTransaction->transaction_id];
 							}else{
 								$transactionMakeCheck = Transaction::where('description', 'Dues Paid for ' . $persona->mundane)
-									->where('transaction_at', $dueCreatedOn)
+									->where('transaction_on', $dueCreatedOn)
 									->where('created_by', $createdBy ? $createdBy : 1)
 									->where('created_at', $dueCreatedOn)
 									->first();
@@ -4307,7 +4162,7 @@ class ImportOrk3 extends Command
 									$transactionId = DB::table('transactions')->insertGetId([
 										'description' => 'Dues Paid for ' . $persona->mundane,
 										'memo' => 'This transaction has been generated.  Please check.',
-										'transaction_at' => $dueCreatedOn,
+										'transaction_on' => $dueCreatedOn,
 										'created_by' => $createdBy ? $createdBy : 1,
 										'created_at' => $dueCreatedOn
 									]);
@@ -4326,10 +4181,6 @@ class ImportOrk3 extends Command
 										$paidAccount = $accounts->filter(function($account) {
 											return $account['name'] === 'Dues Paid';
 										})->first();
-										$takeAccount = Account::where('accountable_type', 'Realm')->where('accountable_id', $transRealms[$oldDue->kingdom_id])->where('name', 'Realm Take')->first();
-										$owedAccount = $accounts->filter(function($account) {
-											return $account['name'] === 'Dues Owed';
-										})->first();
 										DB::table('splits')->insert([
 											'account_id' => $cashAccount->id,
 											'transaction_id' => $transactionId,
@@ -4342,20 +4193,33 @@ class ImportOrk3 extends Command
 											'persona_id' => $persona->id,
 											'amount' => $realm->dues_amount * $intervals
 										]);
-										if($takeAccount){
+										if($realm->dues_take && $realm->dues_take > 0){
+											$takeIncomeAccount = Account::where('accountable_type', 'Realm')->where('accountable_id', $transRealms[$realm->id])->where('name', 'Park Dues')->first();
+											$takeAccount = $accounts->filter(function($account) {
+												return $account['name'] === 'Realm Take';
+											})->first();
+											$owedAccount = $accounts->filter(function($account) {
+												return $account['name'] === 'Dues Owed';
+											})->first();
+											DB::table('splits')->insert([
+												'account_id' => $takeIncomeAccount->id,
+												'transaction_id' => $transactionId,
+												'persona_id' => $persona->id,
+												'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
+											]);
 											DB::table('splits')->insert([
 												'account_id' => $takeAccount->id,
 												'transaction_id' => $transactionId,
 												'persona_id' => $persona->id,
 												'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
 											]);
+											DB::table('splits')->insert([
+												'account_id' => $owedAccount->id,
+												'transaction_id' => $transactionId,
+												'persona_id' => $persona->id,
+												'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
+											]);
 										}
-										DB::table('splits')->insert([
-											'account_id' => $owedAccount->id,
-											'transaction_id' => $transactionId,
-											'persona_id' => $persona->id,
-											'amount' => $realm->dues_amount * $intervals * ($realm->dues_take/$realm->dues_amount)
-										]);
 									}
 								}else{
 									$transactionId = $transactionMakeCheck->id;
@@ -4546,18 +4410,7 @@ class ImportOrk3 extends Command
 									'newID' => $unitId
 								]);
 								$transUnits[$oldMember->unit_id] = $unitId;
-								
-								//import their image from ORK3
-								$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldMember->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-								$response = Http::head($url);
-								if ($response->successful()) {
-									Http::get($url)->body()->storeAs(
-										"units/" . $unitId, str_pad($oldMember->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
-									);
-								}
-								DB::table('units')->where('id', $unitId)->update([
-									'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldMember->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg",
-								]);
+								$this->addUnitAccounts($unitId);
 							}
 						}
 						if(in_array($oldMember->mundane_id, $oldPersonas)){
@@ -4747,20 +4600,7 @@ class ImportOrk3 extends Command
 											'newID' => $realmId
 										]);
 										$transRealms[$oldOfficer->kingdom_id] = $realmId;
-										
-										//import their image from ORK3
-										$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url);
-										if ($response->successful()) {
-											Http::get($url)->body()->storeAs(
-												"realms/" . $realmId, str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg", 'public'
-											);
-										}
-										DB::table('realms')->where('id', $realmId)->update([
-											'heraldry' => "/storage/realms/" . $realmId . "/" . str_pad($oldOfficer->kingdom_id, 4, '0', STR_PAD_LEFT) . ".jpg",
-										]);
-										
-										$this->addRealmAccounts($transRealms[$oldOfficer->kingdom_id]);
+										$this->addRealmAccounts($realmId);
 										DB::table('reigns')->insert([
 											'reignable_type' => 'Realm',
 											'reignable_id' => $transRealms[$oldOfficer->kingdom_id],
@@ -5002,12 +4842,12 @@ class ImportOrk3 extends Command
 							continue;
 						}
 
-						$recommendingUserID = $recommendingUserCheck->id;
+						$recommendingUserID = $recommendingUserCheck->mundane_id;
 						
 						// If multiple entries in ork_mundane have the same email, find the first one with a user
 						if($backupConnect->table('ork_mundane')->where('email', $recommendingUserCheck->email)->count() > 1){
 							$firstRelated = $backupConnect->table('ork_mundane')->where('email', $recommendingUserCheck->email)->first();
-							$recommendingUserID = $firstRelated->id;
+							$recommendingUserID = $firstRelated->mundane_id;
 						}
 						
 						while(!array_key_exists($recommendingUserID, $transUsers)){
@@ -5488,18 +5328,7 @@ class ImportOrk3 extends Command
 											'newID' => $unitId
 										]);
 										$transUnits[$oldIssuance->unit_id] = $unitId;
-										
-										//import their image from ORK3
-										$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldIssuance->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg";
-										$response = Http::head($url);
-										if ($response->successful()) {
-											Http::get($url)->body()->storeAs(
-												"units/" . $unitId, str_pad($oldIssuance->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg", 'public'
-											);
-										}
-										DB::table('units')->where('id', $unitId)->update([
-											'heraldry' => "/storage/units/" . $unitId . "/" . str_pad($oldIssuance->unit_id, 5, '0', STR_PAD_LEFT) . ".jpg",
-										]);
+										$this->addUnitAccounts($unitId);
 									}
 								}else{
 									while(!array_key_exists($oldIssuance->unit_id, $transUnits)){
@@ -6120,8 +5949,7 @@ class ImportOrk3 extends Command
 													->where('recipient_type', 'Persona')
 													->where('recipient_id', $transPersonas[$oldIssuance->given_by_id])
 													->with('issuable')
-													->get()
-													->toArray();
+													->get();
 												foreach ($parentChecks as $parentCheck) {
 													switch ($oldIssuance->award_id) {
 														case 14: // At-Arms
@@ -6525,7 +6353,7 @@ class ImportOrk3 extends Command
 								'image' => null,
 								'revocation' => trim($oldIssuance->revocation) != '' ? trim($oldIssuance->revocation) : null,
 								'revoked_by' => $oldIssuance->revoked_by_id != '0' && in_array($oldIssuance->revoked_by_id, $oldPersonas) ? $transPersonas[$oldIssuance->revoked_by_id] : null,
-								'revoked_on' => $oldIssuance->revoked_on != '0000-00-00' ? $oldIssuance->revoked_on : null
+								'revoked_on' => $oldIssuance->revoked_at != '0000-00-00' ? $oldIssuance->revoked_at : null
 							]);
 							
 							$bar->advance();
@@ -6594,6 +6422,170 @@ class ImportOrk3 extends Command
 					$bar->finish();
 					dd($unfound);
 					break;
+				case 'Images':
+					$this->info('Importing Images...');
+					$transChapters = $this->getTrans('chapters');
+					$transEventDetails = $this->getTrans('eventdetails');
+					$transPersonas = $this->getTrans('personas');
+					$transRealms = $this->getTrans('realms');
+					$transUnits = $this->getTrans('units');
+					$oldChapters = $backupConnect->table('ork_park')->count();
+					$oldEvents = $backupConnect->table('ork_event_calendardetail')->count();
+					$oldPersonas = $backupConnect->table('ork_mundane')->count();
+					$oldRealms = $backupConnect->table('ork_kingdom')->count();
+					$oldUnits = $backupConnect->table('ork_unit')->count();
+					$bar = $this->output->createProgressBar($oldChapters + $oldEvents + $oldPersonas + $oldRealms + $oldUnits);
+					$bar->start();
+					$processedChapters = [];
+					$processedEvents = [];
+					$processedPersonas = [];
+					$processedRealms = [];
+					$processedUnits = [];
+					$lastUpdateChapters = time();
+					$lastUpdateEvents = time();
+					$lastUpdatePersonas = time();
+					$lastUpdateRealms = time();
+					$lastUpdateUnits = time();
+					while (true) {
+						DB::reconnect("mysql");
+						$newEntriesFound = false;
+						$transChapters = $this->getTrans('chapters');
+						$transEventDetails = $this->getTrans('eventdetails');
+						$transPersonas = $this->getTrans('personas');
+						$transRealms = $this->getTrans('realms');
+						$transUnits = $this->getTrans('units');
+						
+						// Process chapters
+						foreach ($transChapters as $oldChapterId => $newChapterId) {
+							if (!in_array($oldChapterId, $processedChapters)) {
+								$url = "https://ork.amtgard.com/assets/heraldry/park/" . str_pad($oldChapterId, 5, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									DB::reconnect("mysql");
+									$imageContent = Http::get($url)->body();
+									$fileName = str_pad($oldChapterId, 5, '0', STR_PAD_LEFT) . ".jpg";
+									Storage::disk('public')->put("chapters/" . $newChapterId . "/" . $fileName, $imageContent);
+									DB::table('chapters')->where('id', $newChapterId)->update([
+										'heraldry' => "/storage/chapters/" . $newChapterId . "/" . $fileName,
+									]);
+								}
+								$processedChapters[] = $oldChapterId;
+								$lastUpdateChapters = time();
+								$newEntriesFound = true;
+								$bar->advance();
+							}
+						}
+						
+						// Process events
+						foreach ($transEventDetails as $oldEventId => $newEventId) {
+							if (!in_array($oldEventId, $processedEvents)) {
+								$url = "https://ork.amtgard.com/assets/heraldry/event/" . str_pad($oldEventId, 5, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									DB::reconnect("mysql");
+									$imageContent = Http::get($url)->body();
+									$fileName = str_pad($oldEventId, 5, '0', STR_PAD_LEFT) . ".jpg";
+									Storage::disk('public')->put("events/" . $newEventId . "/" . $fileName, $imageContent);
+									DB::table('events')->where('id', $newEventId)->update([
+										'image' => "/storage/events/" . $newEventId . "/" . $fileName,
+									]);
+								}
+								$processedEvents[] = $oldEventId;
+								$lastUpdateEvents = time();
+								$newEntriesFound = true;
+								$bar->advance();
+							}
+						}
+						
+						// Process personas
+						foreach ($transPersonas as $oldPersonaId => $newPersonaId) {
+							if (!in_array($oldPersonaId, $processedPersonas)) {
+								$url = "https://ork.amtgard.com/assets/heraldry/persona/" . str_pad($oldPersonaId, 6, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									DB::reconnect("mysql");
+									$imageContent = Http::get($url)->body();
+									$fileName = uniqid() . str_pad($oldPersonaId, 6, '0', STR_PAD_LEFT) . ".jpg";
+									Storage::disk('public')->put("personas/" . $newPersonaId . "/" . $fileName, $imageContent);
+									DB::table('personas')->where('id', $newPersonaId)->update([
+										'heraldry' => "/storage/personas/" . $newPersonaId . "/" . $fileName,
+									]);
+								}
+								$url2 = "https://ork.amtgard.com/assets/players/" . str_pad($oldPersonaId, 6, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url2);
+								if ($response->successful()) {
+									DB::reconnect("mysql");
+									$imageContent = Http::get($url2)->body();
+									$fileName = uniqid() . str_pad($oldPersonaId, 6, '0', STR_PAD_LEFT) . ".jpg";
+									Storage::disk('public')->put("personas/" . $newPersonaId . "/" . $fileName, $imageContent);
+									DB::table('personas')->where('id', $newPersonaId)->update([
+										'image' => "/storage/personas/" . $newPersonaId . "/" . $fileName,
+									]);
+								}
+								$processedPersonas[] = $oldPersonaId;
+								$lastUpdatePersonas = time();
+								$newEntriesFound = true;
+								$bar->advance();
+							}
+						}
+						
+						// Process realms
+						foreach ($transRealms as $oldRealmId => $newRealmId) {
+							if (!in_array($oldRealmId, $processedRealms)) {
+								$url = "https://ork.amtgard.com/assets/heraldry/kingdom/" . str_pad($oldRealmId, 4, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									DB::reconnect("mysql");
+									$imageContent = Http::get($url)->body();
+									$fileName = str_pad($oldRealmId, 5, '0', STR_PAD_LEFT) . ".jpg";
+									Storage::disk('public')->put("realms/" . $newRealmId . "/" . $fileName, $imageContent);
+									DB::table('realms')->where('id', $newRealmId)->update([
+										'heraldry' => "/storage/realms/" . $newRealmId . "/" . $fileName,
+									]);
+								}
+								$processedRealms[] = $oldRealmId;
+								$lastUpdateRealms = time();
+								$newEntriesFound = true;
+								$bar->advance();
+							}
+						}
+						
+						// Process units
+						foreach ($transUnits as $oldUnitId => $newUnitId) {
+							if (!in_array($oldUnitId, $processedUnits)) {
+								$url = "https://ork.amtgard.com/assets/heraldry/unit/" . str_pad($oldUnitId, 5, '0', STR_PAD_LEFT) . ".jpg";
+								$response = Http::head($url);
+								if ($response->successful()) {
+									DB::reconnect("mysql");
+									$imageContent = Http::get($url)->body();
+									$fileName = str_pad($oldUnitId, 5, '0', STR_PAD_LEFT) . ".jpg";
+									Storage::disk('public')->put("units/" . $newUnitId . "/" . $fileName, $imageContent);
+									DB::table('units')->where('id', $newUnitId)->update([
+										'heraldry' => "/storage/units/" . $newUnitId . "/" . $fileName,
+									]);
+								}
+								$processedUnits[] = $oldUnitId;
+								$lastUpdateUnits = time();
+								$newEntriesFound = true;
+								$bar->advance();
+							}
+						}
+						
+						// Check for inactivity (20 minutes = 1200 seconds)
+						$currentTime = time();
+						if (!$newEntriesFound && (
+							($currentTime - $lastUpdateChapters > 1200) &&
+							($currentTime - $lastUpdateEvents > 1200) &&
+							($currentTime - $lastUpdatePersonas > 1200) &&
+							($currentTime - $lastUpdateRealms > 1200) &&
+							($currentTime - $lastUpdateUnits > 1200)
+						)) {
+							$this->info('No new entries detected for 20 minutes. Stopping the image import.');
+							break;
+						}
+						sleep(10);
+					}
+					break;
 				case 'Default':
 					$bar = $this->output->createProgressBar(1);
 					$bar->start();
@@ -6607,7 +6599,7 @@ class ImportOrk3 extends Command
 			Schema::enableForeignKeyConstraints();
 			
 			$this->info('All done!');
-			Log::info($step . ' is complete.');
+			Log::info($step . ' are complete.');
 		} catch (Throwable $e) {
 			if($step === 'Attendances'){
 				DB::reconnect("mysql");
@@ -7170,251 +7162,682 @@ class ImportOrk3 extends Command
 		return substr(implode("", $abbreviatedName[0]), 0, 3);
 	}
 	
-	private function addChapterAccounts($chapterID){
-		//check for it
-		DB::table('accounts')->insert([
-			'parent_id' => null,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Imbalance',
-			'type' => 'Imbalance'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => null,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Equity',
-			'type' => 'Equity'
-		]);
-		$assetId = DB::table('accounts')->insertGetId([
-			'parent_id' => null,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Assets',
-			'type' => 'Asset'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $assetId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Cash',
-			'type' => 'Asset'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $assetId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Checking',
-			'type' => 'Asset'
-		]);
-		$incomeId = DB::table('accounts')->insertGetId([
-			'parent_id' => null,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Income',
-			'type' => 'Income'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $incomeId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Dues Paid',
-			'type' => 'Income'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $incomeId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Donations',
-			'type' => 'Income'
-		]);
-		$expensesId = DB::table('accounts')->insertGetId([
-			'parent_id' => null,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Expenses',
-			'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $expensesId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Supplies',
-			'type' => 'Expense'
-		]);
-		$eventId = DB::table('accounts')->insert([
-			'parent_id' => $expensesId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Events',
-			'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $eventId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Food',
-			'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $eventId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Site',
-			'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $eventId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Miscellaneous',
-			'type' => 'Expense'
-		]);
-		$liabilityId = DB::table('accounts')->insertGetId([
-			'parent_id' => null,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Liability',
-			'type' => 'Liability'
-		]);
-		DB::table('accounts')->insert([
-			'parent_id' => $liabilityId,
-			'accountable_type' => 'Chapter',
-			'accountable_id' => $chapterID,
-			'name' => 'Dues Owed',
-			'type' => 'Liability'
-		]);
+	private function addChapterAccounts($chapterID, $oldAccounts = null) {
+		$accountData = [
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Imbalance',
+				'type' => 'Imbalance'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Equity',
+				'type' => 'Equity'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Assets',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Cash',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Checking',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Equipment',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Income',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Dues Paid',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Donations',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Expenses',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Supplies',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Realm Take',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Events',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Food',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Site',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Supplies',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Miscellaneous',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Liability',
+				'type' => 'Liability'
+			],
+			[
+				'parent_id' => 'Liability',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Dues Owed',
+				'type' => 'Liability'
+			],
+			[
+				'parent_id' => 'Liability',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Miscellaneous',
+				'type' => 'Liability'
+			]
+		];
+		
+		return $this->accountInsertUpdate($accountData, $oldAccounts, 'park_id');
 	}
 	
-	private function addRealmAccounts($realmID){
-		DB::table('accounts')->insert([
+	private function addRealmAccounts($realmID, $oldAccounts = null) {
+		$accountData = [
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Imbalance',
 				'type' => 'Imbalance'
-		]);
-		$assetId = DB::table('accounts')->insertGetId([
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Assets',
 				'type' => 'Asset'
-		]);
-		DB::table('accounts')->insert([
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Equity',
 				'type' => 'Equity'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $assetId,
+			],
+			[
+				'parent_id' => 'Assets',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Cash',
 				'type' => 'Asset'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $assetId,
+			],
+			[
+				'parent_id' => 'Assets',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Checking',
 				'type' => 'Asset'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $assetId,
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Equipment',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Park Dues',
 				'type' => 'Asset'
-		]);
-		$incomeId = DB::table('accounts')->insertGetId([
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Income',
 				'type' => 'Income'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $incomeId,
+			],
+			[
+				'parent_id' => 'Income',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Dues Paid',
 				'type' => 'Income'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $incomeId,
+			],
+			[
+				'parent_id' => 'Income',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Donations',
 				'type' => 'Income'
-		]);
-		$expensesId = DB::table('accounts')->insertGetId([
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Expenses',
 				'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
+			],
+			[
+				'parent_id' => 'Expenses',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Supplies',
 				'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Parent Realm Take',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Realm Take',
 				'type' => 'Expense'
-		]);
-		$eventId = DB::table('accounts')->insert([
-				'parent_id' => $expensesId,
+			],
+			[
+				'parent_id' => 'Expenses',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Events',
 				'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $eventId,
+			],
+			[
+				'parent_id' => 'Events',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Food',
 				'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $eventId,
+			],
+			[
+				'parent_id' => 'Events',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Site',
 				'type' => 'Expense'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $eventId,
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Supplies',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Miscellaneous',
 				'type' => 'Expense'
-		]);
-		$liabilityId = DB::table('accounts')->insertGetId([
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Liability',
 				'type' => 'Liability'
-		]);
-		DB::table('accounts')->insert([
-				'parent_id' => $liabilityId,
+			],
+			[
+				'parent_id' => 'Liability',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
 				'name' => 'Dues Owed',
 				'type' => 'Liability'
-		]);
+			],
+			[
+				'parent_id' => 'Liability',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Miscellaneous',
+				'type' => 'Liability'
+			]
+		];
+		
+		return $this->accountInsertUpdate($accountData, $oldAccounts, 'kingdom_id');
 	}
 	
+	private function addEventAccounts($eventID, $oldAccounts = null) {
+		$accountData = [
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Imbalance',
+				'type' => 'Imbalance'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Assets',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Equity',
+				'type' => 'Equity'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Cash',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Checking',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Equipment',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Income',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Donations',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Gate',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Expenses',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Supplies',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Food',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Site',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Miscellaneous',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Liability',
+				'type' => 'Liability'
+			],
+			[
+				'parent_id' => 'Liability',
+				'accountable_type' => 'Event',
+				'accountable_id' => $eventID,
+				'name' => 'Miscellaneous',
+				'type' => 'Liability'
+			]
+		];
+		
+		return $this->accountInsertUpdate($accountData, $oldAccounts, 'event_id');
+	}
+	
+	private function addUnitAccounts($unitID, $oldAccounts = null) {
+		$accountData = [
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Imbalance',
+				'type' => 'Imbalance'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Assets',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Equity',
+				'type' => 'Equity'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Cash',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Checking',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Equipment',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => 'Assets',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Park Dues',
+				'type' => 'Asset'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Income',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Dues Paid',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Donations',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Expenses',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Supplies',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Parent Unit Take',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Expenses',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Events',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Food',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Site',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Supplies',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Equipment',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => 'Events',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Miscellaneous',
+				'type' => 'Expense'
+			],
+			[
+				'parent_id' => null,
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Liability',
+				'type' => 'Liability'
+			],
+			[
+				'parent_id' => 'Liability',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Parent Unit Dues Owed',
+				'type' => 'Liability'
+			],
+			[
+				'parent_id' => 'Liability',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Miscellaneous',
+				'type' => 'Liability'
+			]
+		];
+		
+		return $this->accountInsertUpdate($accountData, $oldAccounts, 'unit_id');
+	}
+	
+	private function accountInsertUpdate($accountData, $oldAccounts, $comparisonKey){
+		
+		$newAccountIds = [];
+		$parentIds = [];
+		
+		foreach ($accountData as &$account) {
+			$parentKey = $account['parent_id'];
+			if (in_array($parentKey, ['Assets', 'Income', 'Expenses', 'Events', 'Liability'])) {
+				$account['parent_id'] = $parentIds[$parentKey];
+			} else {
+				$account['parent_id'] = null;
+			}
+			
+			$newId = DB::table('accounts')->insertGetId($account);
+			$account['id'] = $newId;
+			
+			if (in_array($parentKey, ['Assets', 'Income', 'Expenses', 'Events', 'Liability'])) {
+				$parentIds[$parentKey] = $newId;
+			}
+			
+			$newAccountIds[] = $newId;
+		}
+		
+		if ($oldAccounts) {
+			$results = [];
+			foreach ($newAccountIds as $newId) {
+				$newAccount = array_filter($accountData, fn($acc) => $acc['id'] === $newId)[0];
+				foreach ($oldAccounts as $oldAccount) {
+					if (
+						$oldAccount->type === $newAccount['type'] &&
+						$oldAccount->name === $newAccount['name'] &&
+						$oldAccount->$comparisonKey === $newAccount['accountable_id']
+					) {
+						$results[] = [
+							'oldID' => $oldAccount->account_id,
+							'newID' => $newId
+						];
+					}
+				}
+			}
+			return $results;
+		} else {
+			return true;
+		}
+	}
+		
 	private function getTrans($array){
 		$hasTable = Schema::hasTable('trans');
 		while(!$hasTable){

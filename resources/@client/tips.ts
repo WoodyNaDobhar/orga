@@ -1,3 +1,13 @@
+export const DueTips = {
+	persona_id: "ID of the Dues payer",
+	recipient_type: "Type of who recieved the payment, Chapter or Realm",
+	recipient_id: "ID of the entity that accepted this payment",
+	dues_on: "When the dues were paid",
+	amount: "Amount paid in USD",
+	type: "How the dues were paid, in Cash (including digital), Assets, or Checking (ACH transfers or checks)",
+	memo: "Any additional unusual notes about the Transaction",
+}
+
 export const IssuanceTips = {
 	issuable: "Issuance (Award or Title) that is being given out.",
 	issuable_type: "The Issuance type; Award or Title.",
@@ -38,6 +48,12 @@ export const PersonaTips = {
 	password_confirm: "Make sure it matches the other one"
 }
 
+export const RecommendationTips = {
+	honor: "Select the Award or Title you think they should receive",
+	rank: "What rank you feel they've earned.  Their next rank will be autofilled.",
+	reason: "What they did to deserve the selected honor"
+}
+
 export const SocialTips = {
 	sociable_type: "Whom the Social is for; Chapter ,Event, Persona, Realm, or Unit",
 	sociable_id: "ID of Social owner",
@@ -45,8 +61,8 @@ export const SocialTips = {
 	value: "The properly formatted username for the platform, or a link (for Web)"
 }
 
-export const RecommendationTips = {
-	honor: "Select the Award or Title you think they should receive",
-	rank: "What rank you feel they've earned.  Their next rank will be autofilled.",
-	reason: "What they did to deserve the selected honor"
+export const TransactionTips = {
+	description: "Description of the sort of transaction and for whom (ex: Dues Paid for xyz)",
+	memo: "If necessary, notes about the Transaction",
+	transaction_on: "When the Transaction occured",
 }

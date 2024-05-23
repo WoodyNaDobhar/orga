@@ -1,12 +1,10 @@
 <script setup lang="ts">
-	import { Issuance, Persona, PersonaSimple, PersonaSuperSimple, PronounSuperSimple } from "@/interfaces";
+	import { Issuance, Persona, PersonaSimple } from "@/interfaces";
 	import _ from "lodash";
-	import { ref, onMounted, reactive, toRefs } from "vue";
+	import { ref } from "vue";
 	import Lucide from "@/components/Base/Lucide";
 	import { useStateStore } from '@/stores/state';
 	import axios from 'axios';
-	import { useVuelidate } from "@vuelidate/core";
-	import { PersonaRules } from "@/rules";
 	import { showToast } from "@/utils/toast";
 	import Loader from "@/components/Base/Loader";
 	import { Dialog } from "@/components/Base/Headless";
@@ -18,7 +16,6 @@
 	const props = defineProps<{
 		persona: Persona | undefined
 	}>()
-	const pronouns = ref<PronounSuperSimple[]>([]);
 	const isLoading = ref<boolean>(false)
 	const loadingMessage = ref<string>('')
 
@@ -27,41 +24,6 @@
 	}
 	const emit = defineEmits<RetainersPersonaEmit>();
 	
-	const personaFormData = reactive<PersonaSuperSimple>({
-		id: props.persona?.id || 0,
-		chapter_id: props.persona?.chapter_id || 0,
-		name: props.persona?.name || '',
-		mundane: props.persona?.mundane || '',
-		slug: props.persona?.slug || '',
-		pronoun_id: props.persona?.pronoun_id || 0,
-		honorific_id: props.persona?.honorific_id || 0,
-		heraldry: props.persona?.heraldry || '',
-		image: props.persona?.image || '',
-		is_active: props.persona?.is_active || 1,
-		reeve_qualified_expires_at: props.persona?.reeve_qualified_expires_at || '',
-		corpora_qualified_expires_at: props.persona?.corpora_qualified_expires_at || '',
-		joined_chapter_at: props.persona?.joined_chapter_at || ''
-	});
-	
-	const validate = useVuelidate(PersonaRules, toRefs(personaFormData));
-	
-	onMounted(async () => {
-		try {
-			await axios.get('/api/pronouns')
-				.then(response => {
-					pronouns.value = response.data.data
-				})
-				.catch(error => {
-					state.storeState('error', error)
-					showToast(false, 'Error fetching pronouns: ' + error)
-					console.log('Error fetching pronouns:', error);
-				})
-		} catch (error) {
-			state.storeState('error', 'Error fetching pronouns: ' + error)
-			showToast(false, 'Error fetching pronouns: ' + error)
-			console.error('Error fetching pronouns:', error);
-		}
-	});
 	const issuanceModal = ref(false);
 	const setIssueModal = (value: boolean) => {
 		issuanceModal.value = value;
@@ -232,7 +194,7 @@
 											<div class="col-span-12 sm:col-span-6">
 												<strong>Issued:</strong> {{ formatDate(retainer.issued_on, 'MMMM DD, YYYY') }}<br>
 												<strong>Issued By:</strong> {{ retainer.issuer.name }}<br>
-												<strong>Under:</strong> {{ retainer.parent.name }}<br>
+												<strong>Succession:</strong> {{ retainer.parent.name }}<br>
 												<strong>Issued At:</strong> {{ retainer.whereable?.name }}<br>
 												<strong>Reason:</strong> {{ retainer.reason }}
 												<span v-if="retainer.revoked_on">

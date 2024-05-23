@@ -4017,7 +4017,7 @@ namespace App\Models{
  *
  * @OA\Schema (
  * 	schema="Due",
- * 	required={"persona_id","transaction_id","dues_on"},
+ * 	required={"persona_id","transaction_id","dues_on","amount"},
  * 	description="Membership Dues.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * persona (Persona) (BelongsTo): Persona paying Dues.
  * transaction (Transaction) (BelongsTo): Transaction recording the payment.
@@ -4067,6 +4067,25 @@ namespace App\Models{
  *  		type="number",
  *  		format="float",
  *  		example=1
+ * 	),
+ * 	@OA\Property(
+ *  		property="amount",
+ *  		description="Amount paid by the Persona.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ *  		type="number",
+ *  		format="double",
+ *  		maximum=9999999.9999,
+ *  		minimum=-9999999.9999,
+ * 	),
+ * 	@OA\Property(
+ *  		property="memo",
+ *  		description="Any special information about the Due Transaction.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ * 		type="string",
+ * 		format="sentence",
+ * 		example="They paid in equipment."
  * 	),
  * 	@OA\Property(
  * 		property="created_by",
@@ -4129,7 +4148,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -4228,6 +4247,204 @@ namespace App\Models{
  * 	)
  * )
  * @OA\Schema (
+ * 	schema="DueCreate",
+ * 	title="DueCreate",
+ * 	required={"persona_id","recipient_type","recipient_id","dues_on","amount","type"},
+ * 	description="Due Creation.",
+ * 	@OA\Property(
+ * 		property="persona_id",
+ * 		description="ID of the Persona paying Dues.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_type",
+ * 		description="Who is receiving the payment, Chapter or Realm.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Realm","Chapter"},
+ * 		example="Realm"
+ * 	),
+ * 	@OA\Property(
+ * 		property="recipient_id",
+ * 		description="ID of the Chapter or Realm accepting payment.",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42
+ * 	),
+ * 	@OA\Property(
+ * 		property="dues_on",
+ * 		description="The date the dues period begins, not the date paid",
+ * 		readOnly=false,
+ * 		nullable=false,
+ * 		type="string",
+ * 		format="date",
+ * 		example="2020-12-30"
+ * 	),
+ * 	@OA\Property(
+ *  		property="amount",
+ *  		description="Amount paid by the Persona.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ *  		type="number",
+ *  		format="double",
+ *  		maximum=9999999.9999,
+ *  		minimum=-9999999.9999,
+ * 	),
+ * 	@OA\Property(
+ *  		property="type",
+ *  		description="How the Due payment was made, Asset (physical donation), Cash (including digital), or Checking (ACH transfer).",
+ *  		readOnly=true,
+ *  		nullable=false,
+ * 		type="string",
+ * 		format="enum",
+ * 		enum={"Assets","Cash","Checking"},
+ * 		example="Cash"
+ * 	),
+ * 	@OA\Property(
+ *  		property="memo",
+ *  		description="Any special information about the Due Transaction.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ * 		type="string",
+ * 		format="sentence",
+ * 		example="They paid with a new banner."
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_by",
+ * 		description="The User that created this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true,
+ * 		default=1
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_by",
+ * 		description="The last User to update this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_by",
+ * 		description="The User that softdeleted this record.",
+ * 		type="integer",
+ * 		format="int32",
+ * 		example=42,
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="created_at",
+ * 		description="When the entry was created.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="updated_at",
+ * 		description="When the entry was last updated.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="deleted_at",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
+ * 		type="string",
+ * 		format="date-time",
+ * 		example="2020-12-30 23:59:59",
+ * 		readOnly=true
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_list",
+ * 		description="Can the User (default false) perform list actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_view",
+ * 		description="Can the User (default false) perform view actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_create",
+ * 		description="Can the User (default false) perform create actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_update",
+ * 		description="Can the User (default false) perform update actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_delete",
+ * 		description="Can the User (default false) perform soft delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_restore",
+ * 		description="Can the User (default false) perform restore actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	),
+ * 	@OA\Property(
+ * 		property="can_nuke",
+ * 		description="Can the User (default false) perform hard delete actions with the entry model?",
+ * 		readOnly=true,
+ * 		nullable=false,
+ * 		type="integer",
+ * 		format="enum",
+ * 		enum={0, 1},
+ * 		example=0,
+ * 		default=0
+ * 	)
+ * )
+ * @OA\Schema (
  * 	schema="DueSimple",
  * 	title="DueSimple",
  * 	description="Attachable Due object with no attachments.",
@@ -4276,6 +4493,25 @@ namespace App\Models{
  *  		example=1
  * 	),
  * 	@OA\Property(
+ *  		property="amount",
+ *  		description="Amount paid by the Persona.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ *  		type="number",
+ *  		format="double",
+ *  		maximum=9999999.9999,
+ *  		minimum=-9999999.9999,
+ * 	),
+ * 	@OA\Property(
+ *  		property="memo",
+ *  		description="Any special information about the Due Transaction.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ * 		type="string",
+ * 		format="sentence",
+ * 		example="They paid in equipment."
+ * 	),
+ * 	@OA\Property(
  * 		property="created_by",
  * 		description="The User that created this record.",
  * 		type="integer",
@@ -4318,7 +4554,7 @@ namespace App\Models{
  * 	),
  * 	@OA\Property(
  * 		property="deleted_at",
- * 		description="When the entry was softdeleted.  Null if not softdeleted.",
+ * 		description="When the entry was softdeleted.Null if not softdeleted.",
  * 		type="string",
  * 		format="date-time",
  * 		example="2020-12-30 23:59:59",
@@ -4449,6 +4685,25 @@ namespace App\Models{
  *  		type="number",
  *  		format="float",
  *  		example=1
+ * 	),
+ * 	@OA\Property(
+ *  		property="amount",
+ *  		description="Amount paid by the Persona.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ *  		type="number",
+ *  		format="double",
+ *  		maximum=9999999.9999,
+ *  		minimum=-9999999.9999,
+ * 	),
+ * 	@OA\Property(
+ *  		property="memo",
+ *  		description="Any special information about the Due Transaction.",
+ *  		readOnly=true,
+ *  		nullable=false,
+ * 		type="string",
+ * 		format="sentence",
+ * 		example="They paid in equipment."
  * 	)
  * )
  * @OA\RequestBody (
@@ -4471,6 +4726,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $amount
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \App\Models\User $createdBy
@@ -4478,6 +4734,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletedBy
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
+ * @property-read mixed $memo
  * @property-read \App\Models\Persona $persona
  * @property-read \App\Models\Transaction $transaction
  * @property-read \App\Models\User|null $updatedBy
@@ -16753,7 +17010,7 @@ namespace App\Models{
  *
  * @OA\Schema (
  * 	schema="Transaction",
- * 	required={"description","transaction_at"},
+ * 	required={"description","transaction_on"},
  * 	description="Accounting Transactions.<br>The following relationships can be attached, and in the case of plural relations, searched:
  * dues (Due) (HasMany): Dues linked to the Transaction
  * splits (Split) (HasMany): Splits for the Transaction
@@ -16788,7 +17045,7 @@ namespace App\Models{
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
- * 		property="transaction_at",
+ * 		property="transaction_on",
  * 		description="Date the Transaction occured.",
  * 		readOnly=false,
  * 		nullable=false,
@@ -16995,7 +17252,7 @@ namespace App\Models{
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
- * 		property="transaction_at",
+ * 		property="transaction_on",
  * 		description="Date the Transaction occured.",
  * 		readOnly=false,
  * 		nullable=false,
@@ -17162,7 +17419,7 @@ namespace App\Models{
  * 		maxLength=191
  * 	),
  * 	@OA\Property(
- * 		property="transaction_at",
+ * 		property="transaction_on",
  * 		description="Date the Transaction occured.",
  * 		readOnly=false,
  * 		nullable=false,
@@ -17183,7 +17440,7 @@ namespace App\Models{
  * @property int $id Model ID
  * @property string $description A description of the Transaction
  * @property string|null $memo A memo for the Transaction, if any
- * @property \Illuminate\Support\Carbon $transaction_at Date the Transaction occured
+ * @property \Illuminate\Support\Carbon $transaction_on Date the Transaction occured
  * @property int $created_by
  * @property \Illuminate\Support\Carbon $created_at
  * @property int|null $updated_by
@@ -17214,7 +17471,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereMemo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereTransactionAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereTransactionOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction withTrashed()

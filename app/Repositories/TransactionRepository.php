@@ -9,7 +9,7 @@ class TransactionRepository extends BaseRepository
 	protected $fieldSearchable = [
 		'description',
 		'memo',
-		'transaction_at'
+		'transaction_on'
 	];
 
 	public function getFieldsSearchable(): array

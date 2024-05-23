@@ -5640,11 +5640,11 @@
                 "tags": [
                     "Due"
                 ],
-                "summary": "Store a newly created Due in storage",
+                "summary": "Store a newly created Due payent in storage",
                 "description": "<b>Access</b>:<br>Visitors: none<br>Users: none<br>Unit Officers: none<br>Crats: none<br>Officers: none<br>Admins: full",
                 "operationId": "4ade84c3be2e833fff782a6443d2c1cf",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/Due"
+                    "$ref": "#/components/requestBodies/DueCreate"
                 },
                 "responses": {
                     "200": {
@@ -24112,7 +24112,8 @@
                 "required": [
                     "persona_id",
                     "transaction_id",
-                    "dues_on"
+                    "dues_on",
+                    "amount"
                 ],
                 "properties": {
                     "id": {
@@ -24153,6 +24154,23 @@
                         "readOnly": false,
                         "example": 1,
                         "nullable": true
+                    },
+                    "amount": {
+                        "description": "Amount paid by the Persona.",
+                        "type": "number",
+                        "format": "double",
+                        "maximum": 9999999.9999,
+                        "minimum": -9999999.9999,
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "memo": {
+                        "description": "Any special information about the Due Transaction.",
+                        "type": "string",
+                        "format": "sentence",
+                        "readOnly": true,
+                        "example": "They paid in equipment.",
+                        "nullable": false
                     },
                     "created_by": {
                         "description": "The User that created this record.",
@@ -24200,7 +24218,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -24306,6 +24324,221 @@
                 },
                 "type": "object"
             },
+            "DueCreate": {
+                "title": "DueCreate",
+                "description": "Due Creation.",
+                "required": [
+                    "persona_id",
+                    "recipient_type",
+                    "recipient_id",
+                    "dues_on",
+                    "amount",
+                    "type"
+                ],
+                "properties": {
+                    "persona_id": {
+                        "description": "ID of the Persona paying Dues.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": false,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "recipient_type": {
+                        "description": "Who is receiving the payment, Chapter or Realm.",
+                        "type": "string",
+                        "format": "enum",
+                        "enum": [
+                            "Realm",
+                            "Chapter"
+                        ],
+                        "readOnly": false,
+                        "example": "Realm",
+                        "nullable": false
+                    },
+                    "recipient_id": {
+                        "description": "ID of the Chapter or Realm accepting payment.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": false,
+                        "example": 42,
+                        "nullable": false
+                    },
+                    "dues_on": {
+                        "description": "The date the dues period begins, not the date paid",
+                        "type": "string",
+                        "format": "date",
+                        "readOnly": false,
+                        "example": "2020-12-30",
+                        "nullable": false
+                    },
+                    "amount": {
+                        "description": "Amount paid by the Persona.",
+                        "type": "number",
+                        "format": "double",
+                        "maximum": 9999999.9999,
+                        "minimum": -9999999.9999,
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "type": {
+                        "description": "How the Due payment was made, Asset (physical donation), Cash (including digital), or Checking (ACH transfer).",
+                        "type": "string",
+                        "format": "enum",
+                        "enum": [
+                            "Assets",
+                            "Cash",
+                            "Checking"
+                        ],
+                        "readOnly": true,
+                        "example": "Cash",
+                        "nullable": false
+                    },
+                    "memo": {
+                        "description": "Any special information about the Due Transaction.",
+                        "type": "string",
+                        "format": "sentence",
+                        "readOnly": true,
+                        "example": "They paid with a new banner.",
+                        "nullable": false
+                    },
+                    "created_by": {
+                        "description": "The User that created this record.",
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 1,
+                        "readOnly": true,
+                        "example": 42
+                    },
+                    "updated_by": {
+                        "description": "The last User to update this record.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42
+                    },
+                    "deleted_by": {
+                        "description": "The User that softdeleted this record.",
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 42
+                    },
+                    "created_at": {
+                        "description": "When the entry was created.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
+                    },
+                    "updated_at": {
+                        "description": "When the entry was last updated.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
+                    },
+                    "deleted_at": {
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2020-12-30 23:59:59"
+                    },
+                    "can_list": {
+                        "description": "Can the User (default false) perform list actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "can_view": {
+                        "description": "Can the User (default false) perform view actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "can_create": {
+                        "description": "Can the User (default false) perform create actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "can_update": {
+                        "description": "Can the User (default false) perform update actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "can_delete": {
+                        "description": "Can the User (default false) perform soft delete actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "can_restore": {
+                        "description": "Can the User (default false) perform restore actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "can_nuke": {
+                        "description": "Can the User (default false) perform hard delete actions with the entry model?",
+                        "type": "integer",
+                        "format": "enum",
+                        "default": 0,
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "readOnly": true,
+                        "example": 0,
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
             "DueSimple": {
                 "title": "DueSimple",
                 "description": "Attachable Due object with no attachments.",
@@ -24349,6 +24582,23 @@
                         "example": 1,
                         "nullable": true
                     },
+                    "amount": {
+                        "description": "Amount paid by the Persona.",
+                        "type": "number",
+                        "format": "double",
+                        "maximum": 9999999.9999,
+                        "minimum": -9999999.9999,
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "memo": {
+                        "description": "Any special information about the Due Transaction.",
+                        "type": "string",
+                        "format": "sentence",
+                        "readOnly": true,
+                        "example": "They paid in equipment.",
+                        "nullable": false
+                    },
                     "created_by": {
                         "description": "The User that created this record.",
                         "type": "integer",
@@ -24386,7 +24636,7 @@
                         "example": "2020-12-30 23:59:59"
                     },
                     "deleted_at": {
-                        "description": "When the entry was softdeleted.  Null if not softdeleted.",
+                        "description": "When the entry was softdeleted.Null if not softdeleted.",
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true,
@@ -24528,6 +24778,23 @@
                         "readOnly": false,
                         "example": 1,
                         "nullable": true
+                    },
+                    "amount": {
+                        "description": "Amount paid by the Persona.",
+                        "type": "number",
+                        "format": "double",
+                        "maximum": 9999999.9999,
+                        "minimum": -9999999.9999,
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "memo": {
+                        "description": "Any special information about the Due Transaction.",
+                        "type": "string",
+                        "format": "sentence",
+                        "readOnly": true,
+                        "example": "They paid in equipment.",
+                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -35134,7 +35401,7 @@
                 "description": "Accounting Transactions.<br>The following relationships can be attached, and in the case of plural relations, searched:\r\n * dues (Due) (HasMany): Dues linked to the Transaction\r\n * splits (Split) (HasMany): Splits for the Transaction\r\n * createdBy (User) (BelongsTo): User that created it.\r\n * updatedBy (User) (BelongsTo): User that last updated it (if any).\r\n * deletedBy (User) (BelongsTo): User that deleted it (if any).",
                 "required": [
                     "description",
-                    "transaction_at"
+                    "transaction_on"
                 ],
                 "properties": {
                     "id": {
@@ -35161,7 +35428,7 @@
                         "example": "Paid in $2 bills.",
                         "nullable": true
                     },
-                    "transaction_at": {
+                    "transaction_on": {
                         "description": "Date the Transaction occured.",
                         "type": "string",
                         "format": "date",
@@ -35359,7 +35626,7 @@
                         "example": "Paid in $2 bills.",
                         "nullable": true
                     },
-                    "transaction_at": {
+                    "transaction_on": {
                         "description": "Date the Transaction occured.",
                         "type": "string",
                         "format": "date",
@@ -35532,7 +35799,7 @@
                         "example": "Paid in $2 bills.",
                         "nullable": true
                     },
-                    "transaction_at": {
+                    "transaction_on": {
                         "description": "Date the Transaction occured.",
                         "type": "string",
                         "format": "date",

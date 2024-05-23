@@ -20,7 +20,7 @@ class TransactionResource extends JsonResource
 			'id' => $this->id,
 			'description' => $this->description,
 			'memo' => $this->memo,
-			'transaction_at' => $this->transaction_at,
+			'transaction_on' => $this->transaction_on,
 			'can_list' => 0,
 			'can_view' => 0,
 			'can_create' => 0,
@@ -30,7 +30,8 @@ class TransactionResource extends JsonResource
 			'can_nuke' => 0,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
-			'deleted_at' => $this->deleted_at
+			'deleted_at' => $this->deleted_at,
+			'splits' => $this->splits
 		];
 		
 		//related

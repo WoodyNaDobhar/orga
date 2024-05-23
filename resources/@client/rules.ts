@@ -16,6 +16,31 @@ const slugValidator = helpers.withMessage(
 	helpers.regex(/^[A-Za-z0-9_-]*$/)
 );
 
+export const DueRules = {
+	id: {
+	},
+	persona_id: {
+		required,
+	},
+	recipient_type: {
+		required,
+	},
+	recipient_id: {
+		required,
+	},
+	dues_on:{
+		required,
+	},
+	amount: {
+		required,
+	},
+	type: {
+		required,
+	},
+	memo: {
+	}
+}
+
 export const IssuanceRules = {
 	id: {
 	},
@@ -172,6 +197,20 @@ export const SocialRules = {
 	value: {
 		required
 	},
+};
+
+export const TransactionRules = {
+	id: {
+	},
+	description: {
+		required,
+		maxLength: maxLength(191),
+	},
+	memo: {
+		maxLength: maxLength(191),
+	},
+	transaction_on: {
+	}
 };
 
 export const UserRules = {

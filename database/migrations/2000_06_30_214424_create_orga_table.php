@@ -503,7 +503,7 @@ return new class extends Migration
 			$table->bigIncrements('id')->comment('Model ID');
 			$table->string('description')->comment('A description of the Transaction');
 			$table->mediumText('memo')->nullable()->comment('A memo for the Transaction, if any');
-			$table->date('transaction_at')->comment('Date the Transaction occured');
+			$table->date('transaction_on')->comment('Date the Transaction occured');
 			$table->unsignedBigInteger('created_by')->default(1)->index('created_by');
 			$table->timestamp('created_at')->useCurrent();
 			$table->unsignedBigInteger('updated_by')->nullable()->index('updated_by');

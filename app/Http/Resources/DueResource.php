@@ -22,6 +22,7 @@ class DueResource extends JsonResource
 			'transaction_id' => $this->transaction_id,
 			'dues_on' => $this->dues_on,
 			'intervals' => $this->intervals,
+			'amount' => $this->amount,
 			'can_list' => 0,
 			'can_view' => 0,
 			'can_create' => 0,

@@ -53,7 +53,7 @@ class OfficerRepository extends BaseRepository
 			$persona = Persona::where('id', $input['persona_id'])->first();
 			$transactionID = Transaction::create([
 				'description' => 'Officer Dues Credit for ' . $persona->name,
-				'transaction_at' => $this->starts_on ? $this->starts_on : $reign->starts_on,
+				'transaction_on' => $this->starts_on ? $this->starts_on : $reign->starts_on,
 				'created_by' => Auth::user()->id
 			]);
 			Due::create([
