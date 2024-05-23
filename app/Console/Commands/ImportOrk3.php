@@ -7753,8 +7753,8 @@ class ImportOrk3 extends Command
 		if ($oldAccounts) {
 			$results = [];
 			foreach ($newAccountIds as $newId) {
-				print_r(array_filter($accountData, fn($acc) => $acc['id'] === $newId));
-				$newAccount = array_filter($accountData, fn($acc) => $acc['id'] === $newId)[0];
+				$filteredAccounts = array_filter($accountData, fn($acc) => $acc['id'] === $newId);
+				$newAccount = array_values($filteredAccounts)[0];
 				foreach ($oldAccounts as $oldAccount) {
 					if (
 						$oldAccount->type === $newAccount['type'] &&
