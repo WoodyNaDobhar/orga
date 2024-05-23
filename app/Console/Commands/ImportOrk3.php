@@ -7298,6 +7298,27 @@ class ImportOrk3 extends Command
 				'type' => 'Expense'
 			],
 			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Event Income',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Event Income',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Gate',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Event Income',
+				'accountable_type' => 'Chapter',
+				'accountable_id' => $chapterID,
+				'name' => 'Donations',
+				'type' => 'Income'
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Chapter',
 				'accountable_id' => $chapterID,
@@ -7315,7 +7336,7 @@ class ImportOrk3 extends Command
 				'parent_id' => 'Liability',
 				'accountable_type' => 'Chapter',
 				'accountable_id' => $chapterID,
-				'name' => 'Miscellaneous',
+				'name' => 'Miscellaneous Debt',
 				'type' => 'Liability'
 			]
 		];
@@ -7473,6 +7494,27 @@ class ImportOrk3 extends Command
 				'type' => 'Expense'
 			],
 			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Event Income',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Event Income',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Gate',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Event Income',
+				'accountable_type' => 'Realm',
+				'accountable_id' => $realmID,
+				'name' => 'Donations',
+				'type' => 'Income'
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
@@ -7490,7 +7532,7 @@ class ImportOrk3 extends Command
 				'parent_id' => 'Liability',
 				'accountable_type' => 'Realm',
 				'accountable_id' => $realmID,
-				'name' => 'Miscellaneous',
+				'name' => 'Miscellaneous Debt',
 				'type' => 'Liability'
 			]
 		];
@@ -7616,7 +7658,7 @@ class ImportOrk3 extends Command
 				'parent_id' => 'Liability',
 				'accountable_type' => 'Event',
 				'accountable_id' => $eventID,
-				'name' => 'Miscellaneous',
+				'name' => 'Miscellaneous Debt',
 				'type' => 'Liability'
 			]
 		];
@@ -7767,6 +7809,27 @@ class ImportOrk3 extends Command
 				'type' => 'Expense'
 			],
 			[
+				'parent_id' => 'Income',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Event Income',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Event Income',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Gate',
+				'type' => 'Income'
+			],
+			[
+				'parent_id' => 'Event Income',
+				'accountable_type' => 'Unit',
+				'accountable_id' => $unitID,
+				'name' => 'Donations',
+				'type' => 'Income'
+			],
+			[
 				'parent_id' => null,
 				'accountable_type' => 'Unit',
 				'accountable_id' => $unitID,
@@ -7784,7 +7847,7 @@ class ImportOrk3 extends Command
 				'parent_id' => 'Liability',
 				'accountable_type' => 'Unit',
 				'accountable_id' => $unitID,
-				'name' => 'Miscellaneous',
+				'name' => 'Miscellaneous Debt',
 				'type' => 'Liability'
 			]
 		];
@@ -7808,7 +7871,7 @@ class ImportOrk3 extends Command
 			$newId = DB::table('accounts')->insertGetId($account);
 			$account['id'] = $newId;
 			
-			if (!$parentKey) {
+			if(!array_key_exists($account['name'], $parentIds)){
 				$parentIds[$account['name']] = $newId;
 			}
 			
