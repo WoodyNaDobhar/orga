@@ -2824,7 +2824,6 @@ class ImportOrk3 extends Command
 							$transEventDetails = $this->getTrans('eventdetails');
 						}
 						DB::reconnect("mysqlBak");
-						$newAccountMappings = $this->addEventAccounts($transEventDetails[$oldEvent], $oldAccounts);
 						if ($newAccountMappings !== true) {
 							foreach ($newAccountMappings as $mapping) {
 								DB::table('trans')->insert([
@@ -3461,7 +3460,6 @@ class ImportOrk3 extends Command
 														'newID' => $eventId
 												]);
 												$transEventDetails[$oldAttendance->event_calendardetail_id] = $eventId;
-												$this->addEventAccounts($eventId);
 											}
 										}else{
 											//deadrecords it since there's no event data
@@ -7540,132 +7538,6 @@ class ImportOrk3 extends Command
 		return $this->accountInsertUpdate($accountData, $oldAccounts, 'kingdom_id');
 	}
 	
-	private function addEventAccounts($eventID, $oldAccounts = null) {
-		$accountData = [
-			[
-				'parent_id' => null,
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Imbalance',
-				'type' => 'Imbalance'
-			],
-			[
-				'parent_id' => null,
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Assets',
-				'type' => 'Asset'
-			],
-			[
-				'parent_id' => null,
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Equity',
-				'type' => 'Equity'
-			],
-			[
-				'parent_id' => 'Assets',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Cash',
-				'type' => 'Asset'
-			],
-			[
-				'parent_id' => 'Assets',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Checking',
-				'type' => 'Asset'
-			],
-			[
-				'parent_id' => 'Assets',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Equipment',
-				'type' => 'Asset'
-			],
-			[
-				'parent_id' => null,
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Income',
-				'type' => 'Income'
-			],
-			[
-				'parent_id' => 'Income',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Donations',
-				'type' => 'Income'
-			],
-			[
-				'parent_id' => 'Income',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Gate',
-				'type' => 'Income'
-			],
-			[
-				'parent_id' => null,
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Expenses',
-				'type' => 'Expense'
-			],
-			[
-				'parent_id' => 'Expenses',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Supplies',
-				'type' => 'Expense'
-			],
-			[
-				'parent_id' => 'Expenses',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Equipment',
-				'type' => 'Expense'
-			],
-			[
-				'parent_id' => 'Expenses',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Food',
-				'type' => 'Expense'
-			],
-			[
-				'parent_id' => 'Expenses',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Site',
-				'type' => 'Expense'
-			],
-			[
-				'parent_id' => 'Expenses',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Miscellaneous',
-				'type' => 'Expense'
-			],
-			[
-				'parent_id' => null,
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Liability',
-				'type' => 'Liability'
-			],
-			[
-				'parent_id' => 'Liability',
-				'accountable_type' => 'Event',
-				'accountable_id' => $eventID,
-				'name' => 'Miscellaneous Debt',
-				'type' => 'Liability'
-			]
-		];
-		
-		return $this->accountInsertUpdate($accountData, $oldAccounts, 'event_id');
-	}
-	
 	private function addUnitAccounts($unitID, $oldAccounts = null) {
 		$accountData = [
 			[
@@ -7881,6 +7753,7 @@ class ImportOrk3 extends Command
 		if ($oldAccounts) {
 			$results = [];
 			foreach ($newAccountIds as $newId) {
+				print_r(array_filter($accountData, fn($acc) => $acc['id'] === $newId));
 				$newAccount = array_filter($accountData, fn($acc) => $acc['id'] === $newId)[0];
 				foreach ($oldAccounts as $oldAccount) {
 					if (
