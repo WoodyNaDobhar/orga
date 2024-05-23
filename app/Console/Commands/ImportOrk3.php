@@ -982,12 +982,7 @@ class ImportOrk3 extends Command
 											'ends_on' => $knownCurrentReigns[7]['ends']
 										]);
 									}else{
-										DB::table('crypt')->insert([
-												'model' 		=> 'Officer',
-												'cause' 		=> 'NullRealm',
-												'model_id'		=> $oldChaptertype->officer_id,
-												'model_value'	=> json_encode($oldChaptertype)
-										]);
+										$this->addToCrypt('Officer', 'NullRealm', $oldChaptertype->officer_id, $oldChaptertype);
 										$bar->advance();
 										continue;
 									}
@@ -1035,12 +1030,7 @@ class ImportOrk3 extends Command
 										break;
 									default:
 								}
-								DB::table('crypt')->insert([
-										'model' 		=> 'Chaptertype',
-										'cause' 		=> 'NotInCorpora',
-										'model_id'		=> $oldChaptertype->parktitle_id,
-										'model_value'	=> json_encode($oldChaptertype)
-								]);
+								$this->addToCrypt('Chaptertype', 'NotInCorpora', $oldChaptertype->parktitle_id, $oldChaptertype);
 								$bar->advance();
 								continue;
 							}else{
@@ -2296,12 +2286,7 @@ class ImportOrk3 extends Command
 								if($cleanPersonaName != $personaName){
 									$titles = explode(' ', trim(str_replace($personaName, '', $this->cleanPersona($oldUser->persona, trim($oldUser->given_name) . ' ' . trim($oldUser->surname)))));
 									foreach($titles as $title){
-										DB::table('crypt')->insert([
-											'model' 		=> 'Title',
-											'cause' 		=> 'JustInName',
-											'model_id'		=> $oldUser->mundane_id,
-											'model_value'	=> json_encode($title)
-										]);
+										$this->addToCrypt('Title', 'JustInName', $oldUser->mundane_id, $title);
 									}
 								}
 								
@@ -2405,12 +2390,7 @@ class ImportOrk3 extends Command
 										DB::reconnect("mysqlBak");
 										$user->assignRole('player');
 									}else{
-										DB::table('crypt')->insert([
-											'model' 		=> 'User',
-											'cause' 		=> 'DuplicateEmail',
-											'model_id'		=> $oldUser->mundane_id,
-											'model_value'	=> json_encode($oldUser)
-										]);
+										$this->addToCrypt('User', 'DuplicateEmail', $oldUser->mundane_id, $oldUser);
 									}
 								}
 								
@@ -2472,12 +2452,7 @@ class ImportOrk3 extends Command
 									}
 								}
 							}else{
-								DB::table('crypt')->insert([
-									'model' 		=> 'Persona',
-									'cause' 		=> 'Demo',
-									'model_id'		=> $oldUser->mundane_id,
-									'model_value'	=> json_encode($oldUser)
-								]);
+								$this->addToCrypt('Persona', 'Demo', $oldUser->mundane_id, $oldUser);
 							}
 							
 							//waiver data
@@ -2779,6 +2754,14 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldChapters as $oldChapter) {
 						while (!array_key_exists($oldChapter, $transChapters)) {
+							$cryptEntry = DB::table('crypt')->where('model', 'Chapter')->where('model_id', $oldChapter)->first();
+							if ($cryptEntry) {
+								$filteredAccounts = array_filter($oldAccounts, fn($account) => $account->park_id == $oldChapter);
+								foreach ($filteredAccounts as $account) {
+									$this->addToCrypt('Account', 'NoModel', $account->account_id, $account);
+								}
+								break;
+							}
 							$this->info('Waiting for chapter ' . $oldChapter);
 							sleep(5);
 							$transChapters = $this->getTrans('chapters');
@@ -2799,6 +2782,14 @@ class ImportOrk3 extends Command
 					}
 					foreach ($oldRealms as $oldRealm) {
 						while (!array_key_exists($oldRealm, $transRealms)) {
+							$cryptEntry = DB::table('crypt')->where('model', 'Realm')->where('model_id', $oldRealm)->first();
+							if ($cryptEntry) {
+								$filteredAccounts = array_filter($oldAccounts, fn($account) => $account->kingdom_id == $oldRealm);
+								foreach ($filteredAccounts as $account) {
+									$this->addToCrypt('Account', 'NoModel', $account->account_id, $account);
+								}
+								break;
+							}
 							$this->info('Waiting for realm ' . $oldRealm);
 							sleep(5);
 							$transRealms = $this->getTrans('realms');
@@ -2817,27 +2808,16 @@ class ImportOrk3 extends Command
 						}
 						$bar->advance();
 					}
-					foreach ($oldEvents as $oldEvent) {
-						while (!array_key_exists($oldEvent, $transEventDetails)) {
-							$this->info('Waiting for event ' . $oldEvent);
-							sleep(5);
-							$transEventDetails = $this->getTrans('eventdetails');
-						}
-						DB::reconnect("mysqlBak");
-						if ($newAccountMappings !== true) {
-							foreach ($newAccountMappings as $mapping) {
-								DB::table('trans')->insert([
-									'array' => 'accounts',
-									'oldID' => $mapping['oldID'],
-									'newID' => $mapping['newID']
-								]);
-								$transAccounts[$mapping['oldID']] = $mapping['newID'];
-							}
-						}
-						$bar->advance();
-					}
 					foreach ($oldUnits as $oldUnit) {
 						while (!array_key_exists($oldUnit, $transUnits)) {
+							$cryptEntry = DB::table('crypt')->where('model', 'Unit')->where('model_id', $oldUnit)->first();
+							if ($cryptEntry) {
+								$filteredAccounts = array_filter($oldAccounts, fn($account) => $account->unit_id == $oldUnit);
+								foreach ($filteredAccounts as $account) {
+									$this->addToCrypt('Account', 'NoModel', $account->account_id, $account);
+								}
+								break;
+							}
 							$this->info('Waiting for unit ' . $oldUnit);
 							sleep(5);
 							$transUnits = $this->getTrans('units');
@@ -2859,12 +2839,7 @@ class ImportOrk3 extends Command
 					$this->info('Updating Crypt...');
 					foreach ($oldAccounts as $oldAccount) {
 						if (!array_key_exists($oldAccount->account_id, $transAccounts)) {
-							DB::table('crypt')->insert([
-								'model'         => 'Account',
-								'cause'         => 'OriginalOwnerDeleted',
-								'model_id'      => $oldAccount->account_id,
-								'model_value'   => json_encode($oldAccount)
-							]);
+							$this->addToCrypt('Account', 'OriginalOwnerDeleted', $oldAccount->account_id, $oldAccount);
 						}
 						$bar->advance();
 					}
@@ -2986,12 +2961,7 @@ class ImportOrk3 extends Command
 								$noteChapter = null;
 								//those that just won't happen
 								if($oldAttendance->persona === '' || $oldAttendance->flavor === '' && ($oldAttendance->note === '' || $oldAttendance->note === 'unknown' || $oldAttendance->note === '**' || $oldAttendance->note === '-' || $oldAttendance->note === '--' || $oldAttendance->note === '---' || $oldAttendance->note === '----' || $oldAttendance->note === '?' || $oldAttendance->note === '??' || $oldAttendance->note === '?? ??' || $oldAttendance->note === '??-??' || $oldAttendance->note === '??-???' || $oldAttendance->note === '???' || $oldAttendance->note === '????' || $oldAttendance->note === '-?' || $oldAttendance->note === 'Undeclaired' || $oldAttendance->note === 'Unk' || $oldAttendance->note === 'unknown' || $oldAttendance->note === 'unkwn' || $oldAttendance->note === 'visitor')){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Attendance',
-										'cause' 		=> 'NoPersonaData',
-										'model_id'		=> $oldAttendance->attendance_id,
-										'model_value'	=> json_encode($oldAttendance)
-									]);
+									$this->addToCrypt('Attendance', 'NoPersonaData', $oldAttendance->attendance_id, $oldAttendance);
 									$bar->advance();
 									continue;
 								}else{
@@ -3068,12 +3038,7 @@ class ImportOrk3 extends Command
 											str_contains($persona->persona, 'zzsc')
 										){
 											//this is a demo person...they don't get attendance credit
-											DB::table('crypt')->insert([
-													'model' 		=> 'Attendance',
-													'cause' 		=> 'DemoPersona',
-													'model_id'		=> $oldAttendance->attendance_id,
-													'model_value'	=> json_encode($oldAttendance)
-											]);
+											$this->addToCrypt('Attendance', 'DemoPersona', $oldAttendance->attendance_id, $oldAttendance);
 											$bar->advance();
 											continue;
 										};
@@ -3103,12 +3068,7 @@ class ImportOrk3 extends Command
 											str_contains($personaNamesCheck[$key]->persona, 'zzsc')
 									){
 										//this is a demo person...they don't get attendance credit
-										DB::table('crypt')->insert([
-											'model' 		=> 'Attendance',
-											'cause' 		=> 'DemoPersona',
-											'model_id'		=> $oldAttendance->attendance_id,
-											'model_value'	=> json_encode($oldAttendance)
-										]);
+										$this->addToCrypt('Attendance', 'DemoPersona', $oldAttendance->attendance_id, $oldAttendance);
 										$bar->advance();
 										continue;
 									};
@@ -3146,12 +3106,7 @@ class ImportOrk3 extends Command
 										}
 									}
 									if(!$chapterID){
-										DB::table('crypt')->insert([
-											'model' 		=> 'Attendance',
-											'cause' 		=> 'NoPersonaChapter',
-											'model_id'		=> $oldAttendance->attendance_id,
-											'model_value'	=> json_encode($oldAttendance)
-										]);
+										$this->addToCrypt('Attendance', 'NoPersonaChapter', $oldAttendance->attendance_id, $oldAttendance);
 										$bar->advance();
 										continue;
 									}
@@ -3189,12 +3144,7 @@ class ImportOrk3 extends Command
 							}
 							
 							if(!$personaID){
-								DB::table('crypt')->insert([
-									'model' 		=> 'Attendance',
-									'cause' 		=> 'NoPersonaFound',
-									'model_id'		=> $oldAttendance->attendance_id,
-									'model_value'	=> json_encode($oldAttendance)
-								]);
+								$this->addToCrypt('Attendance', 'NoPersonaFound', $oldAttendance->attendance_id, $oldAttendance);
 								$bar->advance();
 								continue;
 							}
@@ -3307,12 +3257,7 @@ class ImportOrk3 extends Command
 									}else{
 										$transChapters = $this->getTrans('chapters');
 										if(!in_array($oldAttendance->park_id, $oldChaptersCheck)){
-											DB::table('crypt')->insert([
-												'model' 		=> 'Attendance',
-												'cause' 		=> 'NoMeetupChapter',
-												'model_id'		=> $oldAttendance->attendance_id,
-												'model_value'	=> json_encode($oldAttendance)
-											]);
+											$this->addToCrypt('Attendance', 'NoMeetupChapter', $oldAttendance->attendance_id, $oldAttendance);
 											$bar->advance();
 											continue;
 										}else{
@@ -3463,12 +3408,7 @@ class ImportOrk3 extends Command
 											}
 										}else{
 											//deadrecords it since there's no event data
-											DB::table('crypt')->insert([
-												'model' 		=> 'Attendance',
-												'cause' 		=> 'NoEvent',
-												'model_id'		=> $oldAttendance->attendance_id,
-												'model_value'	=> json_encode($oldAttendance)
-											]);
+											$this->addToCrypt('Attendance', 'NoEvent', $oldAttendance->attendance_id, $oldAttendance);
 											$bar->advance();
 											continue;
 										}
@@ -3553,12 +3493,7 @@ class ImportOrk3 extends Command
 									}
 								}
 								if(!$personaID){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Attendance',
-										'cause' 		=> 'NoFinalPersona',
-										'model_id'		=> $oldAttendance->attendance_id,
-										'model_value'	=> json_encode($oldAttendance)
-									]);
+									$this->addToCrypt('Attendance', 'NoFinalPersona', $oldAttendance->attendance_id, $oldAttendance);
 									$bar->advance();
 									continue;
 								}
@@ -3604,12 +3539,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldTournaments as $oldTournament) {
 						if($oldTournament->kingdom_id == 0 && $oldTournament->park_id == 0 && $oldTournament->event_calendardetail_id == 0 && $oldTournament->event_id == 0){
-							DB::table('crypt')->insert([
-								'model' 		=> 'Tournament',
-								'cause' 		=> 'NoHost',
-								'model_id'		=> $oldTournament->tournament_id,
-								'model_value'	=> json_encode($oldTournament)
-							]);
+							$this->addToCrypt('Tournament', 'NoHost', $oldTournament->tournament_id, $oldTournament);
 							$bar->advance();
 							continue;
 						}
@@ -3633,12 +3563,7 @@ class ImportOrk3 extends Command
 						}else{
 							if($oldTournament->event_calendardetail_id > 0){
 								if(!in_array($oldTournament->event_calendardetail_id, $oldEventDetails)){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Tournament',
-										'cause' 		=> 'GoneEvent',
-										'model_id'		=> $oldTournament->tournament_id,
-										'model_value'	=> json_encode($oldTournament)
-									]);
+									$this->addToCrypt('Tournament', 'GoneEvent', $oldTournament->tournament_id, $oldTournament);
 									$bar->advance();
 									continue;
 								}else{
@@ -3652,12 +3577,7 @@ class ImportOrk3 extends Command
 								}
 							}else{
 								//these are all garbage, so goodby
-								DB::table('crypt')->insert([
-									'model' 		=> 'Tournament',
-									'cause' 		=> 'NoEvent',
-									'model_id'		=> $oldTournament->tournament_id,
-									'model_value'	=> json_encode($oldTournament)
-								]);
+								$this->addToCrypt('Tournament', 'NoEvent', $oldTournament->tournament_id, $oldTournament);
 								$bar->advance();
 								continue;
 							}
@@ -3860,38 +3780,28 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldSplits as $oldSplit) {
 						if($oldSplit->account_id === '0'){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Split',
-									'cause' 		=> 'NoAccount',
-									'model_id'		=> $oldSplit->split_id,
-									'model_value'	=> json_encode($oldSplit)
-							]);
+							$this->addToCrypt('Split', 'NoAccount', $oldSplit->split_id, $oldSplit);
 							$bar->advance();
 							continue;
 						}
-						//account was deleted...sigh.  Not sure there's enough of these to justify the time it'd take me to make the script rebuild it, and I'm not sure I even could.
+						//account was deleted
 						if(!in_array($oldSplit->account_id, $oldAccounts)){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Split',
-									'cause' 		=> 'GoneAccount',
-									'model_id'		=> $oldSplit->split_id,
-									'model_value'	=> json_encode($oldSplit)
-							]);
+							$this->addToCrypt('Split', 'GoneAccount', $oldSplit->split_id, $oldSplit);
 							$bar->advance();
 							continue;
 						}
 						//transaction was deleted
 						if(!in_array($oldSplit->transaction_id, $oldTransactions)){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Split',
-									'cause' 		=> 'GoneTransaction',
-									'model_id'		=> $oldSplit->split_id,
-									'model_value'	=> json_encode($oldSplit)
-							]);
+							$this->addToCrypt('Split', 'GoneTransaction', $oldSplit->split_id, $oldSplit);
 							$bar->advance();
 							continue;
 						}
 						while(!array_key_exists($oldSplit->account_id, $transAccounts)){
+							$cryptEntry = DB::table('crypt')->where('model', 'Account')->where('model_id', $oldSplit->account_id)->first();
+							if ($cryptEntry) {
+								$this->addToCrypt('Split', 'GoneAccount', $oldSplit->split_id, $oldSplit);
+								break;
+							}
 							$this->info('waiting for account ' . $oldSplit->account_id);
 							sleep(5);
 							$transAccounts = $this->getTrans('accounts');
@@ -3933,22 +3843,12 @@ class ImportOrk3 extends Command
 										]);
 										$transPersonas[$oldSplit->src_mundane_id] = $personaId;
 									}else{
-										DB::table('crypt')->insert([
-												'model' 		=> 'Split',
-												'cause' 		=> 'GonePersonaNoPark',
-												'model_id'		=> $oldSplit->split_id,
-												'model_value'	=> json_encode($oldSplit)
-										]);
+										$this->addToCrypt('Split', 'GonePersonaNoPark', $oldSplit->split_id, $oldSplit);
 										$bar->advance();
 										continue;
 									}
 								}else{
-									DB::table('crypt')->insert([
-										'model' 		=> 'Split',
-										'cause' 		=> 'GonePersonaNoAccount',
-										'model_id'		=> $oldSplit->split_id,
-										'model_value'	=> json_encode($oldSplit)
-									]);
+									$this->addToCrypt('Split', 'GonePersonaNoAccount', $oldSplit->split_id, $oldSplit);
 									$bar->advance();
 									continue;
 								}
@@ -3988,12 +3888,7 @@ class ImportOrk3 extends Command
 						$thisTransaction = null;
 						$duesFrom = null;
 						if($oldDue->kingdom_id == 0){
-							DB::table('crypt')->insert([
-								'model' 		=> 'Due',
-								'cause' 		=> 'NoKingdom',
-								'model_id'		=> $oldDue->dues_id,
-								'model_value'	=> json_encode($oldDue)
-							]);
+							$this->addToCrypt('Due', 'NoKingdom', $oldDue->dues_id, $oldDue);
 							$bar->advance();
 							continue;
 						}else{
@@ -4031,12 +3926,7 @@ class ImportOrk3 extends Command
 										]);
 										$transPersonas[$oldDue->mundane_id] = $personaId;
 									}else{
-										DB::table('crypt')->insert([
-											'model' 		=> 'Due',
-											'cause' 		=> 'PersonaGone',
-											'model_id'		=> $oldDue->dues_id,
-											'model_value'	=> json_encode($oldDue)
-										]);
+										$this->addToCrypt('Due', 'PersonaGone', $oldDue->dues_id, $oldDue);
 										$bar->advance();
 										continue;
 									}
@@ -4051,12 +3941,7 @@ class ImportOrk3 extends Command
 						DB::reconnect("mysqlBak");
 						if($oldDue->created_on > date('Y-m-d hh:mm:ss', strtotime('tomorrow'))){
 							//it's just bad data, not much I can do
-							DB::table('crypt')->insert([
-									'model' 		=> 'Due',
-									'cause' 		=> 'BadDate',
-									'model_id'		=> $oldDue->dues_id,
-									'model_value'	=> json_encode($oldDue)
-							]);
+							$this->addToCrypt('Due', 'BadDate', $oldDue->dues_id, $oldDue);
 							$bar->advance();
 							continue;
 						}
@@ -4074,12 +3959,7 @@ class ImportOrk3 extends Command
 										$thisSplit = $backupConnect->table('ork_split')->where('transaction_id', $oldDue->import_transaction_id)->where('is_dues', 1)->first();
 										if(!$thisSplit){
 											//damn.  Guess this one is toast.
-											DB::table('crypt')->insert([
-													'model' 		=> 'Due',
-													'cause' 		=> 'SplitGone',
-													'model_id'		=> $oldDue->dues_id,
-													'model_value'	=> json_encode($oldDue)
-											]);
+											$this->addToCrypt('Due', 'SplitGone', $oldDue->dues_id, $oldDue);
 											$bar->advance();
 											continue;
 										}
@@ -4376,12 +4256,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldMembers as $oldMember) {
 						if($oldMember->mundane_id == '0'){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Member',
-									'cause' 		=> 'NullPersona',
-									'model_id'		=> $oldMember->unit_id,
-									'model_value'	=> json_encode($oldMember)
-							]);
+							$this->addToCrypt('Member', 'NullPersona', $oldMember->unit_id, $oldMember);
 							$bar->advance();
 							continue;
 						}
@@ -4426,12 +4301,7 @@ class ImportOrk3 extends Command
 								if($personaMakeCheck){
 									$personaId = $personaMakeCheck->id;
 								}else{
-									DB::table('crypt')->insert([
-										'model' 		=> 'Member',
-										'cause' 		=> 'PersonaGone',
-										'model_id'		=> $oldMember->unit_id,
-										'model_value'	=> json_encode($oldMember)
-									]);
+									$this->addToCrypt('Member', 'PersonaGone', $oldMember->unit_id, $oldMember);
 									$bar->advance();
 									continue;
 								}
@@ -4502,12 +4372,7 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldOfficers as $oldOfficer) {
 						if($oldOfficer->mundane_id == '0'){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Officer',
-									'cause' 		=> 'NullPersona',
-									'model_id'		=> $oldOfficer->officer_id,
-									'model_value'	=> json_encode($oldOfficer)
-							]);
+							$this->addToCrypt('Officer', 'NullPersona', $oldOfficer->officer_id, $oldOfficer);
 							$bar->advance();
 							continue;
 						}
@@ -4559,12 +4424,7 @@ class ImportOrk3 extends Command
 											]);
 											$transPersonas[$oldOfficer->mundane_id] = $personaId;
 										}else{
-											DB::table('crypt')->insert([
-												'model' 		=> 'Officer',
-												'cause' 		=> 'PersonaGone',
-												'model_id'		=> $oldOfficer->officer_id,
-												'model_value'	=> json_encode($oldOfficer)
-											]);
+											$this->addToCrypt('Officer', 'PersonaGone', $oldOfficer->officer_id, $oldOfficer);
 											$bar->advance();
 											continue;
 										}
@@ -4608,12 +4468,7 @@ class ImportOrk3 extends Command
 											'ends_on' => $knownCurrentReigns[7]['ends']
 										]);
 									}else{
-										DB::table('crypt')->insert([
-											'model' 		=> 'Officer',
-											'cause' 		=> 'NullRealm',
-											'model_id'		=> $oldOfficer->officer_id,
-											'model_value'	=> json_encode($oldOfficer)
-										]);
+										$this->addToCrypt('Officer', 'NullRealm', $oldOfficer->officer_id, $oldOfficer);
 										$bar->advance();
 										continue;
 									}
@@ -4639,12 +4494,7 @@ class ImportOrk3 extends Command
 								$chapter = Chapter::where('id', $transChapters[$oldOfficer->park_id])->first();
 								$oldChapter = $backupConnect->table('ork_park')->where('park_id', $oldOfficer->park_id)->first();
 								if(!array_key_exists($oldChapter->kingdom_id, $knownRealmChaptertypesOffices)){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Officer',
-										'cause' 		=> 'NoRealmCorpora',
-										'model_id'		=> $oldOfficer->officer_id,
-										'model_value'	=> json_encode($oldOfficer)
-									]);
+									$this->addToCrypt('Officer', 'NoRealmCorpora', $oldOfficer->officer_id, $oldOfficer);
 									$bar->advance();
 									continue;
 								}
@@ -4658,32 +4508,17 @@ class ImportOrk3 extends Command
 								DB::reconnect("mysqlBak");
 								//oddly, we have officers for offices and chaptertypes that don't actually exist...like champion for WL shires, which don't have them.  Kill those.
 								if(!array_key_exists($chapter->chaptertype->name, $knownRealmChaptertypesOffices[$oldChapter->kingdom_id])){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Officer',
-										'cause' 		=> 'NoCorporaChaptertype',
-										'model_id'		=> $oldOfficer->officer_id,
-										'model_value'	=> json_encode($oldOfficer)
-									]);
+									$this->addToCrypt('Officer', 'NoCorporaChaptertype', $oldOfficer->officer_id, $oldOfficer);
 									$bar->advance();
 									continue;
 								}
 								if(array_search($order, array_column($knownRealmChaptertypesOffices[$oldChapter->kingdom_id][$chapter->chaptertype->name], 'order')) === FALSE){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Officer',
-										'cause' 		=> 'NoCorporaOffice',
-										'model_id'		=> $oldOfficer->officer_id,
-										'model_value'	=> json_encode($oldOfficer)
-									]);
+									$this->addToCrypt('Officer', 'NoCorporaOffice', $oldOfficer->officer_id, $oldOfficer);
 									$bar->advance();
 									continue;
 								}
 								if(!array_key_exists($oldChapter->kingdom_id, $knownCurrentReigns)){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Officer',
-										'cause' 		=> 'NoChapterRealmReign',
-										'model_id'		=> $oldOfficer->officer_id,
-										'model_value'	=> json_encode($oldOfficer)
-									]);
+									$this->addToCrypt('Officer', 'NoChapterRealmReign', $oldOfficer->officer_id, $oldOfficer);
 									$bar->advance();
 									continue;
 								}
@@ -4713,22 +4548,12 @@ class ImportOrk3 extends Command
 							//no park
 							}else{
 								if(!array_key_exists($oldOfficer->kingdom_id, $knownRealmChaptertypesOffices)){
-									DB::table('crypt')->insert([
-											'model' 		=> 'Officer',
-											'cause' 		=> 'NoRealmCorpora',
-											'model_id'		=> $oldOfficer->officer_id,
-											'model_value'	=> json_encode($oldOfficer)
-									]);
+									$this->addToCrypt('Officer', 'NoRealmCorpora', $oldOfficer->officer_id, $oldOfficer);
 									$bar->advance();
 									continue;
 								}
 								if(!array_key_exists($oldOfficer->kingdom_id, $knownCurrentReigns)){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Officer',
-										'cause' 		=> 'NoRealmReign',
-										'model_id'		=> $oldOfficer->officer_id,
-										'model_value'	=> json_encode($oldOfficer)
-									]);
+									$this->addToCrypt('Officer', 'NoRealmReign', $oldOfficer->officer_id, $oldOfficer);
 									$bar->advance();
 									continue;
 								}
@@ -4752,12 +4577,7 @@ class ImportOrk3 extends Command
 								}
 							}
 						}else{
-							DB::table('crypt')->insert([
-								'model' 		=> 'Officer',
-								'cause' 		=> 'NoOrderFound',
-								'model_id'		=> $oldOfficer->officer_id,
-								'model_value'	=> json_encode($oldOfficer)
-							]);
+							$this->addToCrypt('Officer', 'NoOrderFound', $oldOfficer->officer_id, $oldOfficer);
 							$bar->advance();
 							continue;
 						}
@@ -4813,12 +4633,7 @@ class ImportOrk3 extends Command
 						//work out the kingdomaward_id (get persona, search realmawards by persona realm && award)
 						$persona = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->mundane_id)->first();
 						if(!$persona){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Recommendation',
-									'cause' 		=> 'NoTargetPersona',
-									'model_id'		=> $oldRecommendation->recommendations_id,
-									'model_value'	=> json_encode($oldRecommendation)
-							]);
+							$this->addToCrypt('Recommendation', 'NoTargetPersona', $oldRecommendation->recommendations_id, $oldRecommendation);
 							$bar->advance();
 							continue;
 						}
@@ -4830,12 +4645,7 @@ class ImportOrk3 extends Command
 						DB::reconnect("mysqlBak");
 						$recommendingUserCheck = $backupConnect->table('ork_mundane')->where('mundane_id', $oldRecommendation->recommended_by_id)->first();
 						if(!$recommendingUserCheck || $recommendingUserCheck->email === '' || !filter_var($this->cleanEmail($recommendingUserCheck->email), FILTER_VALIDATE_EMAIL)){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Recommendation',
-									'cause' 		=> 'NoByUser',
-									'model_id'		=> $oldRecommendation->recommendations_id,
-									'model_value'	=> json_encode($oldRecommendation)
-							]);
+							$this->addToCrypt('Recommendation', 'NoByUser', $oldRecommendation->recommendations_id, $oldRecommendation);
 							$bar->advance();
 							continue;
 						}
@@ -4867,22 +4677,12 @@ class ImportOrk3 extends Command
 							$realmaward = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldRecommendation->kingdomaward_id)->first();
 							//eliminate garbage
 							if(!$realmaward){
-								DB::table('crypt')->insert([
-										'model' 		=> 'Recommendation',
-										'cause' 		=> 'CustomRealmAwardGone',
-										'model_id'		=> $oldRecommendation->recommendations_id,
-										'model_value'	=> json_encode($oldRecommendation)
-								]);
+								$this->addToCrypt('Recommendation', 'CustomRealmAwardGone', $oldRecommendation->recommendations_id, $oldRecommendation);
 								$bar->advance();
 								continue;
 							}
 							if($realmaward->name === 'Custom Award' || $realmaward->name === ''){
-								DB::table('crypt')->insert([
-										'model' 		=> 'Recommendation',
-										'cause' 		=> 'CustomAwardBlank',
-										'model_id'		=> $oldRecommendation->recommendations_id,
-										'model_value'	=> json_encode($oldRecommendation)
-								]);
+								$this->addToCrypt('Recommendation', 'CustomAwardBlank', $oldRecommendation->recommendations_id, $oldRecommendation);
 								$bar->advance();
 								continue;
 							}
@@ -4933,12 +4733,7 @@ class ImportOrk3 extends Command
 							}
 							//check awards
 							if(!in_array($oldRecommendation->kingdomaward_id, $oldCustomAwards)) {
-								DB::table('crypt')->insert([
-										'model' 		=> 'Recommendation',
-										'cause' 		=> 'CustomAwardGone',
-										'model_id'		=> $oldRecommendation->recommendations_id,
-										'model_value'	=> json_encode($oldRecommendation)
-								]);
+								$this->addToCrypt('Recommendation', 'CustomAwardGone', $oldRecommendation->recommendations_id, $oldRecommendation);
 								$bar->advance();
 								continue;
 							}else{
@@ -4953,12 +4748,7 @@ class ImportOrk3 extends Command
 							$realmawards = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $persona->kingdom_id)->where('award_id', $oldRecommendation->award_id)->get()->toArray();
 							//eliminate garbage
 							if(!$realmawards){
-								DB::table('crypt')->insert([
-										'model' 		=> 'Recommendation',
-										'cause' 		=> 'NoRealmaward1',
-										'model_id'		=> $oldRecommendation->recommendations_id,
-										'model_value'	=> json_encode($oldRecommendation)
-								]);
+								$this->addToCrypt('Recommendation', 'NoRealmaward1', $oldRecommendation->recommendations_id, $oldRecommendation);
 								$bar->advance();
 								continue;
 							}
@@ -5016,12 +4806,7 @@ class ImportOrk3 extends Command
 											DB::reconnect("mysqlBak");
 										}else{
 											//This realm doesn't have this award
-											DB::table('crypt')->insert([
-													'model' 		=> 'Recommendation',
-													'cause' 		=> 'NoRealmTitle',
-													'model_id'		=> $oldRecommendation->recommendations_id,
-													'model_value'	=> json_encode($oldRecommendation)
-											]);
+											$this->addToCrypt('Recommendation', 'NoRealmTitle', $oldRecommendation->recommendations_id, $oldRecommendation);
 											$bar->advance();
 											continue 2;
 										}
@@ -5029,43 +4814,23 @@ class ImportOrk3 extends Command
 									$titleAwardId = $oldRecommendation->award_id;
 								}else{
 									if(!in_array($oldRecommendation->kingdomaward_id, $oldKingdomawards)) {
-										DB::table('crypt')->insert([
-												'model' 		=> 'Recommendation',
-												'cause' 		=> 'NoRealmaward2',
-												'model_id'		=> $oldRecommendation->recommendations_id,
-												'model_value'	=> json_encode($oldRecommendation)
-										]);
+										$this->addToCrypt('Recommendation', 'NoRealmaward2', $oldRecommendation->recommendations_id, $oldRecommendation);
 										$bar->advance();
 										continue 2;
 									}else{
 										//check for 'office'
 										if($oldRecommendation->award_id == '0'){
-											DB::table('crypt')->insert([
-													'model' 		=> 'Recommendation',
-													'cause' 		=> 'NullAward',
-													'model_id'		=> $oldRecommendation->recommendations_id,
-													'model_value'	=> json_encode($oldRecommendation)
-											]);
+											$this->addToCrypt('Recommendation', 'NullAward', $oldRecommendation->recommendations_id, $oldRecommendation);
 											$bar->advance();
 											continue 2;
 										}else{
 											$oldAward = $backupConnect->table('ork_award')->where('award_id', $oldRecommendation->award_id)->first();
 											if(!$oldAward){
-												DB::table('crypt')->insert([
-														'model' 		=> 'Recommendation',
-														'cause' 		=> 'AwardGone',
-														'model_id'		=> $oldRecommendation->recommendations_id,
-														'model_value'	=> json_encode($oldRecommendation)
-												]);
+												$this->addToCrypt('Recommendation', 'AwardGone', $oldRecommendation->recommendations_id, $oldRecommendation);
 												$bar->advance();
 												continue 2;
 											}elseif($oldAward->officer_role != 'none'){
-												DB::table('crypt')->insert([
-														'model' 		=> 'Recommendation',
-														'cause' 		=> 'IsOfficer',
-														'model_id'		=> $oldRecommendation->recommendations_id,
-														'model_value'	=> json_encode($oldRecommendation)
-												]);
+												$this->addToCrypt('Recommendation', 'IsOfficer', $oldRecommendation->recommendations_id, $oldRecommendation);
 												$bar->advance();
 												continue 2;
 											}
@@ -5089,12 +4854,7 @@ class ImportOrk3 extends Command
 											DB::reconnect("mysqlBak");
 										}else{
 											//This realm doesn't have this award
-											DB::table('crypt')->insert([
-													'model' 		=> 'Recommendation',
-													'cause' 		=> 'NoAwardForRealm',
-													'model_id'		=> $oldRecommendation->recommendations_id,
-													'model_value'	=> json_encode($oldRecommendation)
-											]);
+											$this->addToCrypt('Recommendation', 'NoAwardForRealm', $oldRecommendation->recommendations_id, $oldRecommendation);
 											$bar->advance();
 											continue 2;
 										}
@@ -5138,23 +4898,13 @@ class ImportOrk3 extends Command
 					$bar->start();
 					foreach ($oldReconciliations as $oldReconciliation) {
 						if($oldReconciliation->reconciled == 0){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Reconciliation',
-									'cause' 		=> 'NullValue',
-									'model_id'		=> $oldReconciliation->class_reconciliation_id,
-									'model_value'	=> json_encode($oldReconciliation)
-							]);
+							$this->addToCrypt('Reconciliation', 'NullValue', $oldReconciliation->class_reconciliation_id, $oldReconciliation);
 							$bar->advance();
 							continue;
 						}
 						
 						if(!in_array($oldReconciliation->class_id, $oldArchetypes)){
-							DB::table('crypt')->insert([
-									'model' 		=> 'Reconciliation',
-									'cause' 		=> 'ArchetypeGone',
-									'model_id'		=> $oldReconciliation->class_reconciliation_id,
-									'model_value'	=> json_encode($oldReconciliation)
-							]);
+							$this->addToCrypt('Reconciliation', 'ArchetypeGone', $oldReconciliation->class_reconciliation_id, $oldReconciliation);
 							$bar->advance();
 							continue;
 						}
@@ -5180,12 +4930,7 @@ class ImportOrk3 extends Command
 								if($personaMakeCheck){
 									$personaId = $personaMakeCheck->id;
 								}else{
-									DB::table('crypt')->insert([
-										'model' 		=> 'Reconciliation',
-										'cause' 		=> 'PersonaGone',
-										'model_id'		=> $oldReconciliation->class_reconciliation_id,
-										'model_value'	=> json_encode($oldReconciliation)
-									]);
+									$this->addToCrypt('Reconciliation', 'PersonaGone', $oldReconciliation->class_reconciliation_id, $oldReconciliation);
 									$bar->advance();
 									continue;
 								}
@@ -5298,12 +5043,7 @@ class ImportOrk3 extends Command
 							//can't work these out
 							if($oldIssuance->kingdomaward_id == 0 && $oldIssuance->custom_name === ''){
 								//leave them and let humans do the work.  There's only about 30 of them.
-								DB::table('crypt')->insert([
-										'model' 		=> 'Issuance',
-										'cause' 		=> 'NoAward',
-										'model_id'		=> $oldIssuance->awards_id,
-										'model_value'	=> json_encode($oldIssuance)
-								]);
+								$this->addToCrypt('Issuance', 'NoAward', $oldIssuance->awards_id, $oldIssuance);
 								$bar->advance();
 								continue;
 							}
@@ -5371,12 +5111,7 @@ class ImportOrk3 extends Command
 												]);
 												$transPersonas[$oldIssuance->mundane_id] = $personaId;
 											}else{
-												DB::table('crypt')->insert([
-													'model' 		=> 'Issuance',
-													'cause' 		=> 'PersonaGone',
-													'model_id'		=> $oldIssuance->awards_id,
-													'model_value'	=> json_encode($oldIssuance)
-												]);
+												$this->addToCrypt('Issuance', 'PersonaGone', $oldIssuance->awards_id, $oldIssuance);
 												$bar->advance();
 												continue;
 											}
@@ -5386,12 +5121,7 @@ class ImportOrk3 extends Command
 								$recipient_id = $transPersonas[$oldIssuance->mundane_id];
 							}else{
 								//nope this bitch
-								DB::table('crypt')->insert([
-										'model' 		=> 'Issuance',
-										'cause' 		=> 'NoRecipient',
-										'model_id'		=> $oldIssuance->awards_id,
-										'model_value'	=> json_encode($oldIssuance)
-								]);
+								$this->addToCrypt('Issuance', 'NoRecipient', $oldIssuance->awards_id, $oldIssuance);
 								$bar->advance();
 								continue;
 							}
@@ -5411,32 +5141,17 @@ class ImportOrk3 extends Command
 													->orWhere('name', 'Custom Award');
 											})->first();
 										if(!$oldKingdomaward){
-											DB::table('crypt')->insert([
-												'model' 		=> 'Issuance',
-												'cause' 		=> 'NoPersonaRealmaward',
-												'model_id'		=> $oldIssuance->awards_id,
-												'model_value'	=> json_encode($oldIssuance)
-											]);
+											$this->addToCrypt('Issuance', 'NoPersonaRealmaward', $oldIssuance->awards_id, $oldIssuance);
 											$bar->advance();
 											continue;
 										};
 									}else{
-										DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoAwardPersonaGone',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'NoAwardPersonaGone', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
 								}else{
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoUnitRealmaward',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'NoUnitRealmaward', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -5445,12 +5160,7 @@ class ImportOrk3 extends Command
 								$oldKingdomID = 7;
 								$oldKingdomaward = $backupConnect->table('ork_kingdomaward')->where('kingdom_id', $oldKingdomID)->where('award_id', $oldIssuance->award_id)->first();
 								if(!$oldKingdomaward){
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoYeOldeRealmaward',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'NoYeOldeRealmaward', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -5467,12 +5177,7 @@ class ImportOrk3 extends Command
 									DB::reconnect("mysqlBak");
 								}else{
 									//nope this bitch
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoGivingPersona',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'NoGivingPersona', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -5487,12 +5192,7 @@ class ImportOrk3 extends Command
 									DB::reconnect("mysqlBak");
 								}else{
 									//nope this bitch
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoRevokingPersona',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'NoRevokingPersona', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -5594,12 +5294,7 @@ class ImportOrk3 extends Command
 								}elseif($oldKingdomaward->kingdomaward_id == 6036){
 									//make sure it's going to exist
 									if($oldIssuance->note == '' || $oldParkID == '0'){
-										DB::table('crypt')->insert([
-												'model' 		=> 'Issuance',
-												'cause' 		=> 'NoNonNobleTitleData',
-												'model_id'		=> $oldIssuance->awards_id,
-												'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'NoNonNobleTitleData', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
@@ -5636,12 +5331,7 @@ class ImportOrk3 extends Command
 													}
 													$authority_id = $transPersonas[$oldIssuance->given_by_id];
 												}else{
-													DB::table('crypt')->insert([
-															'model' 		=> 'Issuance',
-															'cause' 		=> 'CustomAwardNoFrom',
-															'model_id'		=> $oldIssuance->awards_id,
-															'model_value'	=> json_encode($oldIssuance)
-													]);
+													$this->addToCrypt('Issuance', 'CustomAwardNoFrom', $oldIssuance->awards_id, $oldIssuance);
 													$bar->advance();
 													continue;
 												}
@@ -5832,32 +5522,17 @@ class ImportOrk3 extends Command
 											$authority_id = $awardCheck->titleable_id;
 										//else crypt
 										}else{
-											DB::table('crypt')->insert([
-													'model' 		=> 'Issuance',
-													'cause' 		=> 'CustomAwardUnworkable',
-													'model_id'		=> $oldIssuance->awards_id,
-													'model_value'	=> json_encode($oldIssuance)
-											]);
+											$this->addToCrypt('Issuance', 'CustomAwardUnworkable', $oldIssuance->awards_id, $oldIssuance);
 											$bar->advance();
 											continue;
 										}
 									}else{
-										DB::table('crypt')->insert([
-												'model' 		=> 'Issuance',
-												'cause' 		=> 'CustomAwardBlank',
-												'model_id'		=> $oldIssuance->awards_id,
-												'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'CustomAwardBlank', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
 								}else{
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoCustomAward',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'NoCustomAward', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -5884,12 +5559,7 @@ class ImportOrk3 extends Command
 									$issuable_id = $transRealmawards[(int)$oldKingdomaward->kingdomaward_id];
 									$rank = $oldIssuance->rank != '' ? $oldIssuance->rank : null;
 								}else{
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'RealmNoAward',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'RealmNoAward', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -5924,12 +5594,7 @@ class ImportOrk3 extends Command
 									if($oldIssuance->award_id == 203 || $oldIssuance->award_id == 14 || $oldIssuance->award_id == 15 || $oldIssuance->award_id == 16){
 										$authority_type = 'Persona';
 										if($oldIssuance->given_by_id == 0){
-											DB::table('crypt')->insert([
-													'model' 		=> 'Issuance',
-													'cause' 		=> 'PersonaTitleNoGivenBy',
-													'model_id'		=> $oldIssuance->awards_id,
-													'model_value'	=> json_encode($oldIssuance)
-											]);
+											$this->addToCrypt('Issuance', 'PersonaTitleNoGivenBy', $oldIssuance->awards_id, $oldIssuance);
 											$bar->advance();
 											continue;
 										}else{
@@ -5972,12 +5637,7 @@ class ImportOrk3 extends Command
 													}
 												}
 											}else{
-												DB::table('crypt')->insert([
-													'model' 		=> 'Issuance',
-													'cause' 		=> 'PersonaTitleNoFrom',
-													'model_id'		=> $oldIssuance->awards_id,
-													'model_value'	=> json_encode($oldIssuance)
-												]);
+												$this->addToCrypt('Issuance', 'PersonaTitleNoFrom', $oldIssuance->awards_id, $oldIssuance);
 												$bar->advance();
 												continue;
 											}
@@ -6027,12 +5687,7 @@ class ImportOrk3 extends Command
 										$issuable_id = $transTitles[$oldKingdomID][$oldIssuance->award_id];
 									}else{
 										//they don't have that, toss it
-										DB::table('crypt')->insert([
-												'model' 		=> 'Issuance',
-												'cause' 		=> 'NoRealmTitle',
-												'model_id'		=> $oldIssuance->awards_id,
-												'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'NoRealmTitle', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
@@ -6041,12 +5696,7 @@ class ImportOrk3 extends Command
 							//this one isn't an issuance, it's an office held.  Consider it isolated from here on.
 							else if(in_array($oldIssuance->award_id, $oldOffices)){
 								if($oldIssuance->mundane_id == '0'){
-									DB::table('crypt')->insert([
-										'model' 		=> 'Issuance',
-										'cause' 		=> 'OfficerNullPersona',
-										'model_id'		=> $oldIssuance->awards_id,
-										'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'OfficerNullPersona', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -6067,12 +5717,7 @@ class ImportOrk3 extends Command
 									if($earliestDate){
 										$date = date('Y-m-d', strtotime($earliestDate->toDateString()));
 									}else{
-										DB::table('crypt')->insert([
-												'model' 		=> 'Issuance',
-												'cause' 		=> 'OfficerBadDate',
-												'model_id'		=> $oldIssuance->awards_id,
-												'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'OfficerBadDate', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
@@ -6087,12 +5732,7 @@ class ImportOrk3 extends Command
 								}
 								$officeCheck = $backupConnect->table('ork_kingdomaward')->where('kingdomaward_id', $oldIssuance->kingdomaward_id)->first();
 								if(!$officeCheck){
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'OfficerNoRealmAward',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'OfficerNoRealmAward', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -6106,24 +5746,14 @@ class ImportOrk3 extends Command
 										if($officeAwardCheck->officer_role === 'park' && $oldPersona->park_id != 0){
 											$oldParkID = $oldPersona->park_id;
 										}else{
-											DB::table('crypt')->insert([
-													'model' 		=> 'Issuance',
-													'cause' 		=> 'OfficerNoReignInfo',
-													'model_id'		=> $oldIssuance->awards_id,
-													'model_value'	=> json_encode($oldIssuance)
-											]);
+											$this->addToCrypt('Issuance', 'OfficerNoReignInfo', $oldIssuance->awards_id, $oldIssuance);
 											$bar->advance();
 											continue;
 										}
 									}
 								}else{
 									if((int)$oldKingdomID !== (int)$officeCheck->kingdom_id){
-										DB::table('crypt')->insert([
-												'model' 		=> 'Issuance',
-												'cause' 		=> 'OfficerRealmMismatch',
-												'model_id'		=> $oldIssuance->awards_id,
-												'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'OfficerRealmMismatch', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
@@ -6141,12 +5771,7 @@ class ImportOrk3 extends Command
 									}
 								}
 								if(!$knownCheck){
-									DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'NoRealmOffice',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-									]);
+									$this->addToCrypt('Issuance', 'NoRealmOffice', $oldIssuance->awards_id, $oldIssuance);
 									$bar->advance();
 									continue;
 								}
@@ -6171,12 +5796,7 @@ class ImportOrk3 extends Command
 										}
 										DB::reconnect("mysqlBak");
 									}else{
-										DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'OfficerChapterGone',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'OfficerChapterGone', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
@@ -6190,12 +5810,7 @@ class ImportOrk3 extends Command
 										}
 										DB::reconnect("mysqlBak");
 									}else{
-										DB::table('crypt')->insert([
-											'model' 		=> 'Issuance',
-											'cause' 		=> 'OfficerRealmGone',
-											'model_id'		=> $oldIssuance->awards_id,
-											'model_value'	=> json_encode($oldIssuance)
-										]);
+										$this->addToCrypt('Issuance', 'OfficerRealmGone', $oldIssuance->awards_id, $oldIssuance);
 										$bar->advance();
 										continue;
 									}
@@ -6238,12 +5853,7 @@ class ImportOrk3 extends Command
 								$bar->advance();
 								continue;
 							}else{
-								DB::table('crypt')->insert([
-									'model' 		=> 'Issuance',
-									'cause' 		=> 'UnknownType',
-									'model_id'		=> $oldIssuance->awards_id,
-									'model_value'	=> json_encode($oldIssuance)
-								]);
+								$this->addToCrypt('Issuance', 'UnknownType', $oldIssuance->awards_id, $oldIssuance);
 								$bar->advance();
 								continue;
 							}
@@ -7753,8 +7363,8 @@ class ImportOrk3 extends Command
 		if ($oldAccounts) {
 			$results = [];
 			foreach ($newAccountIds as $newId) {
-				print_r(array_filter($accountData, fn($acc) => $acc['id'] === $newId));
-				$newAccount = array_filter($accountData, fn($acc) => $acc['id'] === $newId)[0];
+				$filteredAccounts = array_filter($accountData, fn($acc) => $acc['id'] === $newId);
+				$newAccount = array_values($filteredAccounts)[0];
 				foreach ($oldAccounts as $oldAccount) {
 					if (
 						$oldAccount->type === $newAccount['type'] &&
@@ -7802,5 +7412,14 @@ class ImportOrk3 extends Command
 			}
 		}
 		return false;
+	}
+	
+	private function addToCrypt($label, $cause, $id, $model) {
+		DB::table('crypt')->insert([
+			'model'         => $label,
+			'cause'         => $cause,
+			'model_id'      => $id,
+			'model_value'   => json_encode($model)
+		]);
 	}
 }
