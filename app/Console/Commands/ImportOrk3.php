@@ -2773,7 +2773,7 @@ class ImportOrk3 extends Command
 					$oldAccounts = $backupConnect->table('ork_account')->orderBy('account_id')->get()->toArray();
 					$oldRealms = $backupConnect->table('ork_kingdom')->pluck('kingdom_id')->toArray();
 					$oldChapters = $backupConnect->table('ork_park')->pluck('park_id')->toArray();
-					$oldEvents = $backupConnect->table('ork_event_calendardetail')->pluck('calendardetail_id')->toArray();
+					$oldEvents = $backupConnect->table('ork_event_calendardetail')->pluck('event_calendardetail_id')->toArray();
 					$oldUnits = $backupConnect->table('ork_unit')->pluck('unit_id')->toArray();
 					$bar = $this->output->createProgressBar(count($oldRealms) + count($oldChapters) + count($oldEvents) + count($oldUnits) + count($oldAccounts));
 					$bar->start();

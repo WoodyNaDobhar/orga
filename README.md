@@ -627,8 +627,8 @@ $tests = App\Models\Test::all()->pluck('id');
 sail php artisan make:schema Test
 sail php artisan l5-swagger:generate
 sail php artisan ide-helper:generate
-sail php artisan ide-helper:models (no)
 sail php artisan ide-helper:meta
+sail php artisan ide-helper:models (no)
 sail php artisan optimize
 sail composer dumpautoload
 ```
@@ -646,9 +646,11 @@ phpunit tests
 After any major update, you'll probably want to update the IDE helpers thusly
 
 ```
-php artisan ide-helper:generate
-php artisan ide-helper:models (no)
-php artisan ide-helper:meta
+sail php artisan l5-swagger:generate
+sail php artisan ide-helper:generate
+sail php artisan ide-helper:meta
+sail php artisan ide-helper:models
+(Tell it 'no')
 ```
 
 ## Deployment
