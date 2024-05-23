@@ -7809,7 +7809,7 @@ class ImportOrk3 extends Command
 			$account['id'] = $newId;
 			
 			if (!$parentKey) {
-				$parentIds[$account->name] = $newId;
+				$parentIds[$account['name']] = $newId;
 			}
 			
 			$newAccountIds[] = $newId;
