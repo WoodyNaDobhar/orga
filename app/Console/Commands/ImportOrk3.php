@@ -7808,8 +7808,8 @@ class ImportOrk3 extends Command
 			$newId = DB::table('accounts')->insertGetId($account);
 			$account['id'] = $newId;
 			
-			if (in_array($parentKey, ['Assets', 'Income', 'Expenses', 'Events', 'Liability'])) {
-				$parentIds[$parentKey] = $newId;
+			if (!$parentKey) {
+				$parentIds[$account->name] = $newId;
 			}
 			
 			$newAccountIds[] = $newId;
