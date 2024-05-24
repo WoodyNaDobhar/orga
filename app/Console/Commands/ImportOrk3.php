@@ -3799,7 +3799,7 @@ class ImportOrk3 extends Command
 						while(!array_key_exists($oldSplit->account_id, $transAccounts)){
 							$cryptEntry = DB::table('crypt')->where('model', 'Account')->where('model_id', $oldSplit->account_id)->first();
 							if ($cryptEntry) {
-								$this->addToCrypt('Split', 'GoneAccount', $oldSplit->split_id, $oldSplit);
+								$this->addToCrypt('Split', 'CryptAccount', $oldSplit->split_id, $oldSplit);
 								continue 2;
 							}
 							$this->info('waiting for account ' . $oldSplit->account_id);
@@ -6949,7 +6949,7 @@ class ImportOrk3 extends Command
 			]
 		];
 		
-		return $this->accountInsertUpdate($accountData, $oldAccounts, 'park_id');
+		return $this->accountInsertUpdate($accountData, $oldAccounts);
 	}
 	
 	private function addRealmAccounts($realmID, $oldAccounts = null) {
@@ -7145,7 +7145,7 @@ class ImportOrk3 extends Command
 			]
 		];
 		
-		return $this->accountInsertUpdate($accountData, $oldAccounts, 'kingdom_id');
+		return $this->accountInsertUpdate($accountData, $oldAccounts);
 	}
 	
 	private function addUnitAccounts($unitID, $oldAccounts = null) {
@@ -7334,13 +7334,15 @@ class ImportOrk3 extends Command
 			]
 		];
 		
-		return $this->accountInsertUpdate($accountData, $oldAccounts, 'unit_id');
+		return $this->accountInsertUpdate($accountData, $oldAccounts);
 	}
 	
-	private function accountInsertUpdate($accountData, $oldAccounts, $comparisonKey){
+	private function accountInsertUpdate($accountData, $oldAccounts){
 		
 		$newAccountIds = [];
 		$parentIds = [];
+		$transRealms = $this->getTrans('realms');
+		$transChapters = $this->getTrans('chapters');
 		
 		foreach ($accountData as &$account) {
 			$parentKey = $account['parent_id'];
@@ -7363,19 +7365,42 @@ class ImportOrk3 extends Command
 		if ($oldAccounts) {
 			$results = [];
 			foreach ($newAccountIds as $newId) {
-				$filteredAccounts = array_filter($accountData, fn($acc) => $acc['id'] === $newId);
-				$newAccount = array_values($filteredAccounts)[0];
-				foreach ($oldAccounts as $oldAccount) {
-					if (
-						$oldAccount->type === $newAccount['type'] &&
-						$oldAccount->name === $newAccount['name'] &&
-						$oldAccount->$comparisonKey === $newAccount['accountable_id']
-					) {
-						$results[] = [
-							'oldID' => $oldAccount->account_id,
-							'newID' => $newId
-						];
-					}
+				$newAccount = array_values(array_filter($accountData, fn($acc) => $acc['id'] === $newId))[0];
+				$comparisonKey = null;
+				$oldAccountSearch = null;
+				switch ($newAccount['accountable_type']) {
+					case 'Realm':
+						while(!array_search($newAccount['accountable_id'], $transRealms)){
+							$this->info('waiting for new realm ' . $newAccount['accountable_id']);
+							sleep(5);
+							$transRealms = $this->getTrans('realms');
+						}
+						DB::reconnect("mysqlBak");
+						$comparisonKey = 'kingdom_id';
+						$oldOwnerID = array_search($newAccount['accountable_id'], $transRealms);
+						break;
+					case 'Chapter':
+						while(!array_search($newAccount['accountable_id'], $transChapters)){
+							$this->info('waiting for new chapter ' . $newAccount['accountable_id']);
+							sleep(5);
+							$transChapters = $this->getTrans('chapters');
+						}
+						DB::reconnect("mysqlBak");
+						$comparisonKey = 'park_id';
+						$oldOwnerID = array_search($newAccount['accountable_id'], $transChapters);
+						break;
+				}
+				$oldAccountSearch = array_filter($oldAccounts, function($acc) use ($comparisonKey, $oldOwnerID, $newAccount) {
+					return $acc->$comparisonKey == $oldOwnerID &&
+					$acc->type === $newAccount['type'] &&
+					$acc->name === $newAccount['name'];
+				});
+				if (count($oldAccountSearch) > 0) {
+					$relevantAccount = array_values($oldAccountSearch)[0];
+					$results[] = [
+						'oldID' => $relevantAccount->account_id,
+						'newID' => $newId
+					];
 				}
 			}
 			return $results;
