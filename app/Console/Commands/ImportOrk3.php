@@ -2760,7 +2760,7 @@ class ImportOrk3 extends Command
 								foreach ($filteredAccounts as $account) {
 									$this->addToCrypt('Account', 'NoModel', $account->account_id, $account);
 								}
-								break;
+								continue 2;
 							}
 							$this->info('Waiting for chapter ' . $oldChapter);
 							sleep(5);
@@ -2788,7 +2788,7 @@ class ImportOrk3 extends Command
 								foreach ($filteredAccounts as $account) {
 									$this->addToCrypt('Account', 'NoModel', $account->account_id, $account);
 								}
-								break;
+								continue 2;
 							}
 							$this->info('Waiting for realm ' . $oldRealm);
 							sleep(5);
@@ -2816,7 +2816,7 @@ class ImportOrk3 extends Command
 								foreach ($filteredAccounts as $account) {
 									$this->addToCrypt('Account', 'NoModel', $account->account_id, $account);
 								}
-								break;
+								continue 2;
 							}
 							$this->info('Waiting for unit ' . $oldUnit);
 							sleep(5);
@@ -3800,7 +3800,7 @@ class ImportOrk3 extends Command
 							$cryptEntry = DB::table('crypt')->where('model', 'Account')->where('model_id', $oldSplit->account_id)->first();
 							if ($cryptEntry) {
 								$this->addToCrypt('Split', 'GoneAccount', $oldSplit->split_id, $oldSplit);
-								break;
+								continue 2;
 							}
 							$this->info('waiting for account ' . $oldSplit->account_id);
 							sleep(5);
